@@ -2,7 +2,7 @@
 MAKRO is an economic model built to provide a good description of the Danish economy in both the short and the long run.
 In addition, the model is used to analyze how economic policy initiatives affect the economy including the gradual transition to a long run path.
 
-The model is developed by the MAKRO model group at [DREAM (Danish Research Institute for Economic Analysis and Modelling )](https://dreamgruppen.dk/) for use by the Danish Ministry of Finance.
+The model is developed by the MAKRO model group at [DREAM (Danish Research Institute for Economic Analysis and Modelling)](https://dreamgruppen.dk/) for use by the Danish Ministry of Finance.
 
 The model parameters, equations, and data as a whole have been selected such that the short and long run properties are as empirically and theoretically well-founded as possible. Any changes to parameters, equations, or data are solely the user's responsibility and we request that any changes are explicitly presented in any publication making use of MAKRO.
 
