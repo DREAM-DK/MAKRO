@@ -1,0 +1,4949 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Analyse af stød til pensionsindbetalinger med fokus på fortrængningseffekter
+\end_layout
+
+\begin_layout Standard
+I dette papir analyseres effekterne af at øge pensionsindbetalingerne i
+ MAKRO.
+ Fokus er på fortrængningseffekter: Hvor meget mindskes anden formue, når
+ tvungen pensionsopsparing øges med 1 kr.? Den grundlæggende antagelse er,
+ at lønnen inkl.
+ pension i udgangspunktet er uændret, således at lønnen ekskl.
+ pension mindskes med 1 kr.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_intro"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen over tid for et stød til pensionsindbetalingerne fra
+ 2026 og frem i henholdsvis den fulde udgave af MAKRO og i en partiel udgave
+ af MAKRO uden generelle ligevægtseffekter, hvor løn og priser holdes konstant.
+\end_layout
+
+\begin_layout Standard
+I en partiel model med fremadskuende rationelle husholdninger 
+\series bold
+og
+\series default
+ perfekte kreditmarkeder, vil øget tvungen pensionsopsparing blot give sig
+ udslag i mindre fri opsparing 1-1, og der vil være fuld fortrængning og
+ ingen effekt af indgrebet.
+ I MAKRO er ikke alle husholdninger fremadskuende, og der er ikke perfekte
+ kreditmarkeder, hvilket resulterer i mindre end fuld fortrængning.
+ Fortrængningseffekten er (især på sigt) beskeden, hvilket er i overensstemmelse
+ med nyere empiriske studier, jf.
+ nedenfor.
+ Den beskedne fortrængning i MAKRO skyldes to mekanismer: Kreditrationerede
+ hånd-til-mund-husholdninger (HtM-husholdninger) og nytte af formue og arv.
+ HtM-husholdningerne mindsker umiddelbart deres udgifter til forbrug inkl.
+ bolig 1-1 med nedgangen i den disponible indkomst.
+ Lavere disponibel indkomst betyder altså lavere boligefterspørgsel og hermed
+ boligformue, hvilket giver fortrængning også for denne gruppe
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Ejede HtM-husholdningerne ikke bolig, så ville deres formue ekskl.
+ pension og hermed deres fortrængning være 0.
+ Nu hvor de ejer bolig, så vil lavere indkomst betyde lavere boligforbrug,
+ hvilket mindsker deres boligformue.
+ Hermed kommer en (omend beskeden) fortrængningseffekt fra HtM-husholdninger.
+\end_layout
+
+\end_inset
+
+.
+ Nytte af formue betyder, at de fremadskuende husholdninger med adgang til
+ kreditmarkederne får et nyttetab ved at have en mindre real formue ekskl.
+ pension.
+ Dette giver en blød kreditrestriktion, så heller ikke de fremadskuende
+ husholdninger har fuld fortrængning.
+\end_layout
+
+\begin_layout Standard
+På helt kort sigt er fortrængningseffekten meget tæt på 1 - MPC, hvor MPC
+ er den marginale forbrugstilbøjelighed.
+ Denne kobling mellem MPC og fortrængning er svær at komme uden om.
+ MPC varierer, alt efter om stødet er midlertidigt eller permanent, og alt
+ efter hvad der stødes til.
+ MPC er ved et midlertidigt stød til indkomsten i rimelig overensstemmelse
+ med empirien [Kronborg, Bonde og Stephensen (2021): 
+\begin_inset Quotes eld
+\end_inset
+
+Marginal propensity to consume
+\begin_inset Quotes erd
+\end_inset
+
+].
+ For 30-55-årige er MPC mellem 0,35 og 0,65 ved dette permanente stød til
+ pensionsindbetalinger, som vist i figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_intro"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ er den i stødåret fx knap 0,5 for 40-årige og knap 0,7 for 60-årige.
+ 
+\end_layout
+
+\begin_layout Standard
+Over tid falder fortrængningseffekten i takt med, at pensionsformuen modnes.
+ Når pensionsformuen er fuldt modnet, er der en nogenlunde stabil fortrængningse
+ffekt fra 25 år og frem til pensionsalderen på mellem 0,1 og 0,3, hvilket
+ betyder, at for hver ekstra krone der spares op i pension, spares der 10
+ - 30 øre mindre op i anden opsparing inkl.
+ friværdi i bolig, som vist i figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_intro"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ er den langsigtede fortrængning fx godt 0,1 for 40-årige og knap 0,2 for
+ 60-årige.
+ Fortrængningseffekterne efter pensionsalderen er sværere at forholde sig
+ til.
+ Her udbetales pensionsformuen til aldersgrupper med relativ lav forbrugstilbøje
+lighed, hvilket betyder, at de på sigt vil have en større formue ekskl.
+ pension end før indgrebet, hvilket indebærer en negativ fortrængningseffekt
+ for disse aldersgrupper.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængningseffekter i MAKRO
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_intro"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_intro.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+I MAKRO er de generelle ligevægtseffekter betydelige.
+ Større tvungen pension giver et mindre umiddelbart forbrug, hvilket sænker
+ efterspørgslen.
+ Den lavere efterspørgsel giver faldende boligpriser og skaber en periode
+ med højere ufrivillig ledighed og mindre lønstigninger.
+ De faldende boligpriser påvirker direkte den reale formue i periode 1,
+ mens pensionsformuen kun opbygges gradvist via de øgede pensionsindbetalinger.
+ Resultatet er, at den reale formue inkl.
+ pension på kort sigt falder med mere end pensionsindbetalingerne øges,
+ hvilket giver en fortrængningseffekt på kort sigt større end 1.
+ Generelt set skal man på grund af dette være varsom med at analysere fortrængni
+ngseffekter i modeller med generelle ligevægtseffekter på kort sigt.
+ På længere sigt spiller de generelle ligevægtsmekanismer en mindre markant
+ rolle, og effekterne fra den fulde og den partielle model ligger tæt på
+ hinanden her.
+\end_layout
+
+\begin_layout Standard
+Det er oplagt at benytte en partiel udgave af MAKRO til at analysere den
+ helt kortsigtede fortrængning.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Den partielle model for husholdningernes forbrugs- og opsparingsadfærd består
+ af den delmængde af ligningerne i MAKRO, der direkte vedrører disse beslutninge
+r.
+ Ligninger, der vedrører øvrige dele af MAKRO (fx produktionssektoren, den
+ offentlige sektor og udenrigshandelen) og som mere indirekte (via generelle
+ ligevægtseffekter) påvirker disse beslutninger indgår ikke.
+ De endogene variable, som bestemmes i disse dele af MAKRO, er således eksogenis
+eret i den partielle model.
+ Helt centralt i den partielle model er husholdningernes forbrugs- og opsparings
+adfærd, og for begge typer af husholdninger er forbrug (ekskl.
+ bolig), mængden af bolig og formuen endogene i den partielle model.
+ Husholdningernes referenceforbrug er ligeledes endogeniseret for at bevare
+ træghed i forbrugsresponsen.
+ For husholdningerne er navnlig indkomsten eksogeniseret fsva.
+ løn, beskæftigelse, offentlige overførsler og kapitaloverførsler, og yderligere
+ eksogeniserede variable med direkte betydning for husholdningernes valg
+ omfatter bolig- og forbrugerpriserne.
+ Den samme partielle model benyttes til vurdering af marginal forbrugstilbøjelig
+hed.
+\end_layout
+
+\end_inset
+
+ For det første er det konsistent med, at vi i MAKRO analyserer kortsigtet
+ MPC på en partiel model.
+ For det andet harmonerer det i bedre med de empiriske studier, hvor kontrolgrup
+pen og den behandlede gruppe bør være udsat for samme prisstød på grund
+ af ændrede regler.
+ Forstået på den måde, at ingen af de to grupper i en partiel model påvirkes
+ af ændrede priser.
+ I den fulde MAKRO model vil husholdningerne i stødforløbet påvirkes af
+ både ændrede pensionsindbetalinger og ændrede boligpriser, mens husholdningerne
+ i grundforløbet hverken vil være påvirket af ændrede pensionsindbetalinger
+ eller ændrede boligpriser og andre generelle ligevægtseffekter.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_intro"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser dog også fortrængningen i den fulde udgave af MAKRO - undtagen de
+ første år, hvor fortrængningen pga.
+ de faldende boligpriser er over 1.
+ På langt sigt er fortrængningen i den fulde model mindre end i den partielle
+ model, da boligefterspørgslen på langt sigt pga.
+ den øgede opsparing i økonomien er større og fortrængningseffekten for
+ fx en 60-årig er ca.
+ 0,2.
+ I den fulde model kan man måle en aggregeret fortrængning, som er et gennemsnit
+ for alle aldersgrupper.
+ Denne bliver på sigt endnu lavere, da pensionisterne har negativ fortrængning
+ - jo ældre jo lavere, og da de ældste vægter mere og mere i grundforløbet.
+ Aggregeret fortrængning er dog ikke et begreb, man normalt arbejder med,
+ og det bør tages alene som udtryk for den negative effekt på husholdningernes
+ aggregerede formue ekskl.
+ pension.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige aldre
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_&vHhx_a-1"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_&vHhx_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vi sammenholder i figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_&vHhx_a-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ resultaterne i MAKRO med nogle resultater fra nyere empirisk litteratur
+ på dansk data.
+ Chetty m.fl (2014) og Arnberg og Barslund (2012) måler den kortsigtede fortrængn
+ing.
+ Begge studier finder en fortrængning mellem 0,0 og 0,3 for beskæftigede
+ (i Arnberg og Barslund for personer mellem 30 og 55 år) på formuen 
+\series bold
+ekskl.
+
+\series default
+ bolig og realkreditgæld.
+ I den partielle model fås, at højere pensionsformue giver lavere boligefterspør
+gsel og lavere friværdi målt som boligformue fratrukket realkreditgæld.
+ Fortrængningen på formuen ekskl.
+ bolig og realkredit er hermed mindre end den inkl.
+ bolig og realkredit.
+ I MAKRO er fortrængningen på formuen ekskl.
+ bolig og realkredit mellem 0,35 og 0,55 for 30-55-årige år 1 og mellem
+ 0,10 og 0,35 år 10.
+ Fortrængningen er altså både i litteraturen og i MAKRO relativt begrænset,
+ jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_&vHhx_a-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Resten af dette papir gennemgår de centrale hovedresultater i forhold til
+ fortrængning i MAKRO.
+ I første delafsnit gennemgås de centrale mekanismer vedrørende husholdningernes
+ opsparingsreaktion i en partiel udgave af MAKRO, hvor indkomsten og priserne
+ holdes uændret.
+ De samme mekanismer er på spil i den fulde model, men bliver mudret til
+ af de generelle ligevægtseffekter.
+ Analysen er komprimeret og understøttes af nogle få figurer.
+ I det andet delafsnit gennemgås meget kort resultaterne fra tre relevante
+ empiriske studier, og deres resultater holdes op mod tilsvarende resultater
+ fra MAKRO.
+ Der en tæt sammenhæng mellem marginal forbrugstilbøjelighed (MPC) og fortrængni
+ng på helt på kort sigt.
+ Derfor kan vi alene være i overensstemmelse med empiriske studier af marginal
+ forbrugstilbøjelighed og fortrængning, hvis disse er i overensstemmelse
+ med hinanden.
+ Det tredje afsnit i dette kapitel forklarer hvorfor.
+ Kortsigtede udsving i boligprisen gør fortrængning i den fulde model ufortolkel
+ig på kort sigt.
+ Man kan dog sagtens kigge på og analysere formueeffekter i den fulde model,
+ hvilket bliver gjort kort i delafsnit 4.
+\end_layout
+
+\begin_layout Standard
+Bilag A og B giver uddybende analyser af henholdsvis stød til pensionsindbetalin
+ger i den partielle og den fulde model.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Husholdningernes opsparingsreaktion: Centrale mekanismer
+\end_layout
+
+\begin_layout Standard
+I dette afsnit gennemgås de centrale mekanismer vedrørende opsparing og
+ fortrængning i MAKRO.
+ Effekterne analyseres i dette delafsnit i en partiel udgave af MAKRO, hvor
+ husholdningernes indkomst (bortset fra afkast og nettopensionsbidrag) er
+ eksogen.
+ Endvidere er også alle priser i den partielle model - herunder særligt
+ vigtigt boligprisen - eksogene.
+ 
+\end_layout
+
+\begin_layout Standard
+Indbetalingsraten til alle pensioner øges permanent med 1 pct.
+ af lønindkomsten uden annonceringstid i 2026 for alle aldersgrupper.
+ For eksempel går de 30-årige fra at indbetale 7,0 pct.
+ af deres løn i 2026 til at indbetale 8,0 pct.
+ Året 2026 er valgt, da konjunkturerne på dette tidspunkt i fremskrivningen
+ er stabiliseret.
+ Umiddelbart mindsker stødet alle aldersgruppers disponible indkomst - jo
+ større tilknytning til arbejdsmarkedet og jo større produktivitet en aldersgrup
+pe har, jo mere mindskes dens disponible indkomst.
+ På lidt længere sigt øges pensionsudbetalingerne, hvilket efter nogle år
+ gradvist vil hæve den disponible indkomst for de ældre via pensionsudbetalinger
+ne.
+ HtM-husholdningerne reagerer alene på indkomstnedgangen, sænker forbruget
+ og påvirkes ikke i stødåret (år 1) af den fremtidige indkomststigning.
+ De fremadskuende husholdninger erkender, at de som pensionister med tiden
+ vil få udbetalt pengene med renter og renters rente, hvilket gør, at de
+ i et vist omfang modgår de øgede pensionsindbetalinger ved lavere opsparing.
+ De ønsker dog ikke en 1-1 fortrængning, da de får direkte nytte af formuen
+ ekskl.
+ pension, hvilket giver en blød kreditrestriktion.
+ 
+\end_layout
+
+\begin_layout Standard
+Fortrængning måles for den enkelte agent som: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Fortrængning = }1-\frac{\Delta\text{Formue}}{\Delta\text{Pensionsformue}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Formuen er nettoformuen inkl.
+ pension efter skat og inkl.
+ værdien af ens bolig.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+En udfordring er, at vi har en eksakt opgørelse af pensionsformuen målt
+ primært før skat, mens den resterende formue er opgjort efter skat.
+ Pensionsformuen er opdelt i 3: Kapitalpension, alderspension og øvrig pension.
+ Kapitalpension beskattes med 40 pct., alderspension er efter skat og øvrig
+ pension betaler man indkomstskat af på udbetalingstidspunktet.
+ Til fortrængningsmålet benytter vi i nævneren en efter-skat pensionsformue,
+ hvor det antages, at der skal betales 40 pct.
+ i skat, hvilket er approksimativt ok i forhold til indkomstbeskatningen
+ på udbetalingstidspunktet.
+ Dette svarer til, hvad der gøres i Andersen, Hansen og Kuchler (2021),
+ som er det eneste af de empiriske studier, hvor pensionsformuen eksplicit
+ beregnes.
+ Det er relevant at nævne, at der med denne opgørelse ikke er taget højde
+ for indkomstaftrapning af offentlige pensionsydelser, hvilket er konsistent
+ med, at disse mekansimer ikke er modelleret i MAKRO.
+ Det kan dog potentielt påvirke fortrængningsresultaterne.
+ Formuen i tælleren er husholdningernes nettoopsparing i bankindeståender
+ og værdipapirer inkl.
+ pensionsformuen (efter skat) plus deres boligformue.
+\end_layout
+
+\end_inset
+
+ Hvis formuen ændres 1-1 med pensionsformuen, er der ingen fortrængning,
+ hvis formuen er uændret på trods af ændret pensionsformue, er der fuld
+ fortrængning.
+ 
+\end_layout
+
+\begin_layout Standard
+HtM-husholdningerne ejer bolig.
+ De sparer ikke op og kan alene låne i realkredit med huset som pant.
+ Deres nettoformue ekskl.
+ pension er dermed lig deres friværdi.
+ Øgede pensionsindbetalinger får boligefterspørgslen til at falde, hvilket
+ udløser boligsalg, som - alt andet lige - gør HtM-husholdningerne mere
+ likvide, hvilket mindsker den kortsigtede nedgang i forbruget.
+ Den faldende boligmængde får friværdien til at mindskes, hvilket betyder,
+ at nettoformuen ekskl.
+ pension falder, hvilket giver en fortrængning for HtM-husholdningerne større
+ end 0 på kort sigt.
+ På kort sigt påvirkes alene personer under pensionsalderen.
+ Over tid bliver pensionsformuen modnet, og der udbetales pension med renter
+ og renters rente.
+ Ved pensionsalderen stiger indkomsten og boligmængden forøges, hvilket
+ betyder, at fortrængningen ændrer fortegn og bliver negativ for pensionisterne.
+ På sigt kommer de samlede udbetalinger til at overstige de samlede indbetalinge
+r, og den samlede effekt på formuen er større end effekten fra pensionsformuen.
+ 
+\end_layout
+
+\begin_layout Standard
+Fremadskuende husholdninger får direkte nytte baseret på den fri formue
+ - dvs.
+ den samlede formue ekskl.
+ kollektiv pensionsformue - både direkte og gennem arvemotivet.
+ Det betyder, at de fremadskuende husholdninger mister nytte ved fuld fortrængni
+ng, hvor de mindsker deres fri formue 1-1 med stigningen i pensionsformuen.
+ Derfor vil der kun være delvis fortrængning.
+ Både år 1, hvor MPC vil være større end 0, og på sigt vil fortrængningen
+ være mindre end 1.
+ Det betyder, at den samlede formue vil være betydelig højere ved pensionsaldere
+n.
+ Omkring pensionsalderen begynder dødssandsynligheden at stige, og nytte
+ af arv baseret på den fri formue begynder at spille en væsentlig og stigende
+ rolle, hvilket forstærker vægten på den samlede formuenytte.
+ Det har stor betydning for, hvad der sker med pensionsformuen, når den
+ begynder at blive udbetalt.
+ Den samlede formue falder ikke i takt med pensionsformuen, da det vil indebære
+ et meget højt forbrug for de ældre, som vil ønske at efterlade en del som
+ arv i stedet.
+ Det betyder, at fortrængningen for de ældre falder, og den ender med at
+ blive negativ.
+ 
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_årgange_HtM&R"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningseffekter for hhv.
+ de rationelle husholdninger og de fremadskuende husholdninger for årgang
+ 2000 sammen med årgang 1980 (20 år tidligere) og årgang 2020 (20 år efter),
+ således at 2020 på 2.
+ aksen henviser til der hvor alle årgange er 20 år gamle.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige årgange
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_årgange_HtM&R"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_årgange_HtM&R.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+MAKRO adskiller sig fra en simpel model ved at HtM-husholdninger har en
+ fortrængning større end 0 og fremadskuende husholdninger har en lavere
+ end 1 - så den samlede fortrængning er ikke blot andelen af fremadskuende
+ husholdninger.
+ Boligejerskab for HtM-husholdninger trækker isoleret set i retning af lavere
+ MPC og større fortrængning, mens arvenytte og direkte nytte af formue ekskl.
+ pension for de fremadskuende husholdninger trækker i retning af højere
+ MPC og mindre fortrængning.
+ Endvidere vil fortræningseffekterne for begge grupper falde i takt med
+ pensionsformuen modnes.
+ 
+\end_layout
+
+\begin_layout Standard
+HtM-husholdninger har rent mekanisk en faldende fortrængning over tid.
+ Både pga.
+ faldende fortrængning over livet for den enkelte kohorte (årgang) og pga.
+ mindre fortrængning for senere årgange.
+ Den lavere indkomst giver dem et negativt niveau-skift i forbruget.
+ Det indebærer et niveau-fald i boligmængden og friværdien i bolig.
+ Omend niveau-faldet i boligformuen og friværdien blødes lidt op af, at
+ husholdningernes indkomst (frem til omkring de 50 år) stiger i grundforløbet
+ og af vaneforbug, så er dette niveau-skift i formuen ekskl.
+ pension mere voldsomt end den gradvise opbygning af pensionsformuen.
+ Faldet over livet for HtM-husholdningerne skyldes altså, at boligefterspørgsel
+ og boligformue afhænger af indkomsten efter pensionsindbetalinger, mens
+ pensionsformuen afhænger af de akkumulerede pensionsindbetalinger.
+ 
+\end_layout
+
+\begin_layout Standard
+Fortrængningen er mindre for de yngre HtM-årgange - fx har HtM-årgang 1980
+ en større fortrængning for en given alder end HtM-årgang 2000 og 2020.
+ Baggrunden er, at årgang 1980 rammes af stødet som 46-årige.
+ Her er deres pensionsopsparing stort set uændret ift.
+ grundforløbet og deres mindre nedgang i boligværdien er relativt større
+ ift.
+ ændringen i pensionsformuen.
+ Årgang 2000 har fx som 46-årige øget deres pensionsformue de sidste 20
+ år - så selv om de har skåret mere ned i boligmængden er det mindre relativt
+ til, hvor meget deres pensionsformue er øget.
+\end_layout
+
+\begin_layout Standard
+Den enkelte fremadskuende årgang skal udglatte forbruget over livet, men
+ under hensyntagen til at marginalnytten af formuen ikke giver sig for meget
+ ift.
+ marginalnytten af forbrug.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Betydningen for nytte i formuen er kalibreret for at ramme observeret aldersvari
+ation i formuen.
+\end_layout
+
+\end_inset
+
+ De yngste årgange har en høj, men faldende fortrængning.
+ Det skyldes, at deres pensionsformue er påvirket fra de var 15 år, men
+ deres forbrug og opsparing er først påvirket fra de er 18 år.
+ Fortrængningseffekten er nogenlunde stabil fra midt 20'erne og frem til
+ pensionsalderen.
+ Omend den er svagt faldende fra midt i 20'erne til midt i 40'erne
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Den faldende effekt frem til midt 40'erne skyldes, at effekten på pensionsformue
+n er kraftig i denne periode, men husholdningernes formue i grundforløbet
+ er ikke så stor, at de for alvor kan skære ned i den uden at det kan mærkes.
+\end_layout
+
+\end_inset
+
+ og herfra svagt stigende til omkring pensionsalderen
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Fra midt i 40'erne og frem stiger husholdningernes formue i grundforløbet.
+ De kan hermed bedre skrue op på forbruget og ned for formuen uden at blive
+ straffet hårdt via formuenytten.
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Fortrængningseffekten er også for de fremadskuende husholdninger markant
+ større for årgang 1980 sammenlignet med årgang 2000 og 2020 for en tilsvarende
+ alder.
+ Årgang 1980 blev først ramt af stødet som 46-årige.
+ Herved har de som 60-årige tæret på deres formue ekskl.
+ pension i færre år end årgang 2000, som har tæret på den siden de var 26
+ år.
+ Husholdningerne sammenholder forbrug og formue - og en permanent lavere
+ forbrugsnedgang giver en accelererende nedgang i formuen.
+ Man bliver altså via formuen straffet hårdere for at øge forbruget, jo
+ tidligere man gør det.
+ Dette trækker i retning af lavere fortræning både over tid og alder.
+ For aldersdimensionen trækker stigende formue over alder i grundforløbet
+ det dog modsat, men for tidsdimensionen er det entydigt, at de yngre kohorter,
+ hvis livstidsindkomst påvirkes kraftigere har mindre fortrængning.
+ 
+\end_layout
+
+\begin_layout Standard
+Ens for alle årgange HtM og fremadskuende husholdninger er, at fortrængningseffe
+kten aftager efter pensionsalderen.
+ For HtM-husholdningerne betyder den højere disponible indkomst en umiddelbar
+ stigning i boligforbruget og boligformuen ved pensionsalderen.
+ Efter pensionsalderen har de fremadskuende husholdninger en betydeligt
+ større indkomst og vil have et markant større forbrug.
+ Denne forbrugsstigning ønsker de at glatte ud.
+ Derfor stiger forbruget op til pensionsalderen, hvilket giver sig udslag
+ i en stigende fortrængning frem mod pensionsalderen.
+ Efter pensionsalderen stiger forbruget støt, men nytte af arv og faldende
+ nytte af forbrug gør, at det ikke følger med indkomststigningen, hvilket
+ betyder, at den fri formue stiger.
+ Da pensionsformuen falder efter pensionsalderen betyder dette, at fortrængninge
+n falder markant efter pensionsalderen og ender med at være negativ, da
+ den fri formue ender med at være større end i udgangspunktet for de ældste.
+ Det giver simpelthen ikke mening for dem at forbruge hele den ekstra indkomst,
+ da det ville drive marginalnytten af forbrug langt under marginalnytten
+ af at efterlade arv.
+ De forbruger således lidt mere, men primært opbygger de en større formue,
+ så de har mere at efterlade i arv.
+ 
+\end_layout
+
+\begin_layout Standard
+Man kan beregne en aggregeret fortrængning - dvs.
+ hvor meget indkomsten ekskl.
+ pension har ændret sig aggregeret i økonomien.
+ Den initiale effekt er alene et resultat af højere pensionsindbetalinger.
+ Efterhånden som pensionsformuen modnes bliver det dog også et resultat
+ af pensionsudbetalingerne.
+ Når pensionsformuen er fuldt modnet er pensionsudbetalingerne pga.
+ rente og renters rente større end pensionsindbetalingerne.
+ Endvidere indbetales til pension for husholdninger med en stor forbrugstilbøjel
+ighed, mens der udbetales til husholdninger med en noget mindre forbrugstilbøjel
+ighed (ikke mindst pga.
+ arvemotivet for de ældre).
+ Tilsammen gør dette, at den aggregerede fortrængning vil blive negativ
+ på sigt.
+ Det giver dog ikke mening at måle den aggregerede fortrængning i den partielle
+ model, da man for at kunne sammenligne med de empiriske studier ikke har
+ arv med fra tidligere generationer, hvilket aggregeret set giver et hul
+ i indkomstkredsløbet.
+ De empiriske studier benytter også et gennemsnit for stikprøven og ikke
+ et aggregeret gennemsnit for økonomien.
+ Spørgsmålet er, om et aggregeret mål er interessant i en partiel analyse.
+ Det siger noget om den samlede opsparing i økonomien, men typisk er man
+ mere interesseret i omfanget af opsparing, en husholdning har, når den
+ når pensionsalderen.
+ Effekten på den samlede opsparing i økonomien betragtes i afsnittet om
+ formueeffekter og fortrængning i den fulde model.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_årgange-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for personer født i år 2000 sammen med årgang 1980
+ (20 år tidligere) og årgang 2020 (20 år efter).
+ 2020 på 2.
+ aksen henviser altså til der, hvor alle årgange er 20 år gamle.
+ Normalt er man interesseret i fortrængning i forbindelse med om husholdningerne
+s opsparing, når de går på pension, er større eller mindre.
+ En negativ fortrængning 10 år efter pensionsalderen, som følge af at de
+ ældre har en lavere forbrugstilbøjelighed er sværere at forholde sig til.
+ Typisk vil man være mest interesseret i den strukturelle fortrængningseffekt.
+ Altså den fortrængning der gælder for husholdninger, som har været påvirket
+ af indgrebet hele livet.
+ For årgang 2020 er pensionsreformen relevant gennem hele deres liv.
+ Fortrængningseffekten for denne årgang vil være en fortrængningseffekt
+ for en fuldt indfaset reform.
+ For denne årgang er fortrængningen størst for de helt unge og negativ for
+ de helt gamle og for husholdningerne fra 25 år og til pensionsalderen er
+ fortrængningen på mellem 0,1 og 0,25.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige årgange
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_årgange-1"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_årgange.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_alder"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen fordelt på alder et givent år i stedet for fordelt
+ på årgange.
+ Dette er altså et tværsnit i et givent år.
+ Fortrængningseffekten er faldende over tid, da det er yngre og yngre årgange
+ med lavere fortrængning, som har den givne alder.
+ I takt med, at de nye årganges pensionsformue modnes stabiliseres fortrængninge
+n.
+ På langt sigt er den som for årgangene mellem 0,1 og 0,25.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige aldre
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_alder"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_alder.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bilag A gennemgår fortrængningseffekterne i den partielle model i meget
+ større detalje.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Empiriske studier om fortrængning
+\end_layout
+
+\begin_layout Standard
+Vi ønsker at sammenholde vores resultater med empiriske studier på området.
+ Der er en begrænset litteratur i forhold til nyere danske studier.
+ Vi sammenholder direkte med Chetty et al (2014) og Arnberg og Barslund
+ (2012).
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Chetty et al (2014): 
+\begin_inset Quotes eld
+\end_inset
+
+Active vs.
+ Passive Decisions and Crowdout in Retirement Savings Accounts: Evidence
+ from Denmark
+\begin_inset Quotes eld
+\end_inset
+
+, Arnberg og Barslund (2012): 
+\begin_inset Quotes eld
+\end_inset
+
+The Crowding-Out Effect of Mandatory Labour Market Pension Schemes on Private
+ Savings: Evidence from Renters in Denmark
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Som tidligere nævnt sammenligner alle studierne formueeffekter for personer,
+ der påvirkes af ændret arbejdsgiveradministreret pensionsopsparing (kaldet
+ mandatory eller på dansk tvungen pensionsopsparing) med personer, der ikke
+ påvirkes.
+ Derfor sammenlignes med resultaterne fra en partiel model uden løn- og
+ priseffekter.
+ Effekten målt i studierne er et tværsnit.
+ 
+\end_layout
+
+\begin_layout Standard
+I Chetty et al (2014) måles effekten samme år som et skift i tvungne pensionsind
+betalinger som følge af et skift til en virksomhed med højere tvungen pensionsin
+dbetalingsrate i forhold til året før.
+ Den samlede formue ekskl.
+ bolig og realkredit stiger med ca.
+ 82 øre pr.
+ krones mere pensionsindbetaling svarende til en fortrængningseffekt på
+ 0,18.
+ Dette er en tværsnitseffekt for personer i samplet, som alle er beskæftigede
+ mellem 18 og 60 år.
+ En interessant bemærkning i forhold til dette studie er, at obligatorisk
+ pension også kun i beskedent omfang fortrænger frivillig pension.
+ For rationelle fremadskuende agenter burde, der her være fuld fortrængning.
+ Noget tyder på, at husholdninger - i hvert fald ikke samme år som jobskiftet
+ finder sted - er opmærksomme på skiftet i pensionsindbetalingen og handler
+ rationelt på det.
+ Resultatet fra Chetty et al (2014) skal sammenholdes med fortrængningen
+ i formuen ekskl.
+ bolig, realkredit og pension år 1 i den partielle model.
+ 
+\end_layout
+
+\begin_layout Standard
+Effekterne i Arnberg og Barslund (2012) er på niveau med dem fra Chetty
+ et al (2014).
+ De finder, at øget obligatorisk pensionsopsparing har en fortrængning mellem
+ 0 og 30 pct.
+ for 30-55 årige.
+ Effekten er for de 30-55-årige stigende i alder mellem 0 og 15 pct.
+ for de 30-39-årige og omkring 30 pct.
+ for de 50-55-årige.
+ Igen er fortrængningseffekten målt på formuen ekskl.
+ bolig, realkredit og pension.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Der beregnes ikke direkte en akkumuleret ændring i pensionsformuen.
+ Der korrigeres for denne manglende variabel via instrumenter og en fixed
+ effect antagelse.
+\end_layout
+
+\end_inset
+
+ Effekten fra øgede pensionsindbetalinger er dog ikke alene målt som en
+ år 1 effekt, men som en effekt med og uden i en periode over 10 år.
+ En antagelse om tidsuafhængighed i estimatet af effekten gør den til et
+ gennemsnit, hvilket betyder, at den skal sammenholdes med effekten i MAKRO
+ et sted mellem år 1 og år 10.
+\end_layout
+
+\begin_layout Standard
+Der er en meget tæt sammenhæng mellem den marginale forbrugstilbøjelighed
+ og fortrængning i år 1, hvilket vil blive forklaret i et nedenstående delafsnit.
+ Derfor vil vi i en konsistent model have svært ved at være overensstemmende
+ med en moderat MPC og en meget svag fortrængning i år 1 for formuen 
+\series bold
+inkl.
+
+\series default
+ boligværdi og realkreditlån.
+ I Chetty et al (2014) og Arnberg og Barslund (2012) er den målte effekt
+ dog uden boligværdi og realkreditlån.
+ I MAKRO vil større pensionsindbetalinger og mindre disponibel indkomst
+ betyde mindre boligefterspørgsel.
+ Dette vil mindske boligformuen.
+ Realkreditbelåningen er eksogent bundet til boligformuen og uafhængigt
+ af øvrig formue, så samlet set vil friværdien (boligformuen fratrukket
+ realkreditgælden) falde proportionalt med boligformuen.
+ Herved er fortrængningen mindre, når vi måler på formuen ekskl.
+ friværdi.
+ 
+\end_layout
+
+\begin_layout Standard
+For at kunne sammenligne MAKRO med de empiriske studier skal vi kigge på
+ tværsnitsdata og ikke årgangsdata som ovenfor.
+ Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_&vHhx_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for forskellige aldersgrupper i år 1 (stødåret) og
+ i år 10 for formuen ekskl.
+ boligværdi og realkreditgæld.
+ Resultaterne fra Chetty et al (2014) kan sammenholdes med fortrængningen
+ år 1 i partiel MAKRO for formuen ekskl.
+ friværdi.
+ De finder en fortrængning for beskæftigede i samplet (vægtet gns.
+ for 18-60-årige) på 0,18.
+ Den målte effekt i den partielle udgave af MAKRO er mellem 0,2 og 0,6 alt
+ afhængigt af alder.
+ Fortrængningseffekten er altså større i MAKRO.
+ I Arnberg og Barslund (2012) er tværsnittet målt over 10 år, så her er
+ det et sted mellem fortrængning hhv.
+ år 1 og år 10 i formue ekskl.
+ friværdi i MAKRO, som vi skal sammenligne med.
+ Igen er fortrængningseffekter i den partielle udgave af MAKRO større.
+ Den flugter nogenlunde med den øvre grænse for estimatet.
+ Den stigende fortrængning over alder i dette interval er konsistent med
+ studiet.
+ Det vil være interessant at se den langsigtede/strukturelle fortrængningseffekt
+ i MAKRO.
+ På tværsnit kan dette ses, når pensionsformuen er modnet - dvs.
+ efter 60 år.
+ Denne er også vist i figuren.
+ Den er på ca.
+ 0,1, hvilket er lidt mindre end fortrængningen for formuen inkl.
+ friværdi og lidt lavere end de mere kortsigtede fortrængningseffekter målt
+ i Chetty et al (2014) og Arnberg og Barslund (2012).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige aldre
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_&vHhx_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_&vHhx_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Det kan tænkes, at husholdningerne øger deres realkreditsbelåningsgrad,
+ når de oplever nedgang i deres samlede formue ekskl.
+ pension.
+ Et cross-country studie fra ECB Addio et al (2020) tyder på en sådan sammenhæng
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Anna d’Addio, Muriel Roger, Frédérique Savignac (2020): 
+\begin_inset Quotes eld
+\end_inset
+
+Pensions and household savings: cross-country heterogeneity in Europe
+\begin_inset Quotes erd
+\end_inset
+
+, ECB Working Paper Series.
+\end_layout
+
+\end_inset
+
+.
+ Dette sker ikke i MAKRO, hvor de alene sælger aktier og obligationer og
+ låner i banken.
+ Inkluderes denne kanal vil formuen ekskl.
+ realkredit falde mindre, når formuen ekskl.
+ pension falder, da realkreditgælden vil have taget en del af faldet.
+ Hermed vil fortrængningen i formuen ekskl.
+ boligværdi og realkredit være mindre - og i bedre overensstemmelse med
+ resultaterne fra Chetty et al (2014) og Arnberg og Barslund (2012).
+ Det vurderes at være hensigtsmæssigt at indbygge en sådan mekanisme i MAKRO
+ på et tidspunkt.
+ Det vil dog ikke være essentielt for modellens samlede egenskaber.
+ Fortrængningen i formuen inkl.
+ boligværdi og realkredit vil være uændret.
+ Det er alene et spørgsmål om, at effekten på husholdningernes realkreditgæld
+ vil være større, mens effekten på aktier, obligationer og anden gæld vil
+ være mindre.
+\end_layout
+
+\begin_layout Standard
+Et nyere studie om pensionsindbetalinger og formueeffekter er Andersen,
+ Hansen og Kuchler (2020/2021)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Andersen, Hansen og Kuchler (2020/2021): 
+\begin_inset Quotes eld
+\end_inset
+
+Mandatory Pension Savings and Long-run Debt Accumulation: Evidence from
+ Danish Register Data
+\begin_inset Quotes erd
+\end_inset
+
+ fra 2020 og 
+\begin_inset Quotes eld
+\end_inset
+
+Mandatory Pension Savings and Long-run Debt Accumulation: Evidence from
+ Danish Low-wage Earners
+\begin_inset Quotes erd
+\end_inset
+
+ en opdateret version af samme papir fra 2021.
+\end_layout
+
+\end_inset
+
+.
+ Her måles fortrængningen af øget pensionsformue på anden formue og gæld
+ i år 2015 for personer, der har været beskæftiget i mindst 5 år i periode
+ 1995-2015 og mindst et år i både den private og offentlige sektor.
+ Her er altså ikke tale om umiddelbare effekter (år 1) som i Chetty et al
+ (2014), men om et tværsnit af effekter fordelt over perioden på 5-20 år.
+ I 2020-udgaven af papiret er alene fortrængning i finansielle aktiver og
+ passiver inkl.
+ realkredit medtaget.
+ I 2021-udgaven er også fortrængning i bolig medtaget.
+ Når pensionsformuen i 2015 er 1 kr.
+ større, så estimeres, at realkreditgælden er 21 øre større i 2020-udgaven
+ og 42 øre større i 2021-udgaven, mens effekten på fortrængning af anden
+ gæld er på 5 øre og på andre aktiver er den lille og insignifikant.
+ I 2021-udgaven finder de det overraskende resultat, at 1 kr.
+ mere pensionsopsparing leder til 51 øre 
+\series bold
+større
+\series default
+ boligformue.
+ Dette resultat er overraskende, da man normalt ville tænke at større pensionsop
+sparing leder til mindre disponibel indkomst og hermed mindre forbrug -
+ også af boligydelser.
+ I MAKRO falder boligformuen (med mellem 5 og 15 øre pr.
+ kr.
+ afhængigt af alder - dog positiv effekt efter pensionsalder), når tvungen
+ pensionsopsparing øges.
+ Dette er også, hvad man a priori ville forvente.
+ Lavere disponibel indkomst giver lavere boligefterspørgsel.
+ Effekten på realkreditgælden er også meget forskellig, men da realkreditgælden,
+ og boligformuen hænger nøje sammen, er det muligvis en naturlig konsekvens
+ af den meget forskellige effekt på boligformuen.
+ Vi har været i korrespondance med forfatterne - og de mener, at der er
+ en række forhold, som vanskeliggør en sammenligning med MAKRO og de tidligere
+ studier på danske data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+MPC og fortrængning
+\end_layout
+
+\begin_layout Standard
+Der er en tæt sammenhæng mellem fortrængning og MPC i stødåret.
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+MPC
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ måles som: 
+\begin_inset Formula $\frac{\Delta\text{Forbrug}}{\Delta\text{Indkomst}}$
+\end_inset
+
+.
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ Vi definerer forbruget på samme måde som i Nationalregnskabet.
+ Det indeholder boligforbruget opgjort som lejeværdien af boligmængden.
+ 
+\end_layout
+
+\begin_layout Standard
+Pensionsformuen stiger (approksimativt) i år 1 med det samme indkomsten
+ falder med, som følge af øgede pensionsindbetalinger:
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\begin_inset Formula $\Delta\text{Indkomst}\approx-\Delta\text{Pensionsformue}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
+ Husholdningernes budgetrestriktion giver en relation for formuen inkl.
+ efter-skat-værdien af pension og boligværdien:
+\end_layout
+
+\begin_layout Standard
+
+\lang danish
+\begin_inset Formula 
+\begin{gather*}
+\begin{array}{ccc}
+\Delta\text{Formue} & = & \Delta\text{Pensionsformue}+\Delta\text{Indkomst}-\Delta\text{Forbrug}\\
+ &  & -\left(\Delta\text{Boligudgift }-\Delta\text{Boligforbrug }\right)+\Delta\text{Friværdi }
+\end{array}
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+For ikke-bolig-ejere er boligudgiften lig boligforbruget, og de har ingen
+ friværdi.
+ Hermed går de sidste to led ud, og man får, at formuen inkl.
+ bolig ændrer sig 1-1 med forbruget, hvilket giver: 
+\begin_inset Formula $\text{Fortrængning}\approx1-\text{MPC}$
+\end_inset
+
+.
+ Boligudgifterne dækker både over boligkøb og brugsomkostninger i forhold
+ til boligen.
+ I et perfekt marked vil boligforbruget og boligomkostningerne være på niveau
+ og forskellen er nettoudgifter ved huskøb/hussalg.
+ I fravær af boligprisændringer er dette lig ændringen i friværdien, så
+ for personer, der ikke køber/sælger/renoverer hus gælder også, at i år
+ 1 er 
+\begin_inset Formula $\text{Fortrængning}\approx1-\text{MPC}$
+\end_inset
+
+, hvis der ses bort fra eventuelle generelle ligevægtseffekter på indkomst
+ og boligpriser.
+ 
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "MPC&fortrængning_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser sammenhængen mellem MPC og fortrængning i den partielle udgave af
+ MAKRO, hvor der betinges på indkomst og priser.
+ Det ses, at der er en tæt sammenhæng mellem fortrængning og MPC i den partielle
+ model år 1.
+ Figuren viser også 1-MPC for hhv.
+ et midlertidigt og et permanent stød til indkomsten.
+ MPC i MAKRO er for et midlertidigt indkomststød på niveau med det fra den
+ empiriske litteratur på dette områder, jf.
+ Kronborg, Bonde og Stephensen (2021)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Anders Kronborg, Martin Bonde og Peter Stephensen: 
+\begin_inset Quotes eld
+\end_inset
+
+Marginal propensity to consume
+\begin_inset Quotes erd
+\end_inset
+
+, Bestyrelsesnotat, juni 2021.
+ Det bør nævnes, at MPC i dette papir er for given boligbeholdning og derfor
+ adskiller sig en smule fra MPC målt her.
+\end_layout
+
+\end_inset
+
+.
+ MPC for de fremadskuende husholdninger er større for de yngre husholdninger
+ i MAKRO, da der ikke er perfekte kreditmarkeder, og da de står over for
+ en lang periode med lavere indkomst frem mod pensionsalderen.
+ MPC vil dog stige, når man nærmer sig pensionsalderen, hvor indkomsten
+ forventes at stige, og man vil altid have en lavere MPC end ved et permanent
+ indkomststød.
+ At skulle have rimelige MPC'er for både midlertidige og permanente indkomststød
+ giver således en spændetrøje i forhold til at skulle matche fortrængningen
+ ved et pensionsindbetalingsstød.
+ Helt konkret vil man forvente, at MPC ved pensionsstødet overordnet set
+ er lavere (og 1-MPC højere) end ved det permanente indkomststød.
+ For de kreditbegrænsede er stødene ens.
+ For de ikke-kreditbegrænsede er nedgangen i indkomsten som følge af højere
+ pensionsindbetalinger permanent (og MPC er umiddelbart højere end ved det
+ midlertidige stød).
+ For pensionsindbetalingsstødet forventes dog større indkomst som pensionist,
+ hvilket dæmper forbrugsnedgangen og MPC.
+ Det gælder dog ikke for de unge under 25 år, hvilket kan skyldes, at pensionsst
+ødet følger indkomsten, som stiger fra 20 til 40 år, mens størrelsen af
+ det permanente indkomststød er ens for alle aldre.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MPC og fortrængning for forskellige aldre
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "MPC&fortrængning_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/MPC&fortrængning_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Endogen realkreditvækst
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Vi har prøvet at lave en ad hoc korrektion i realkreditbelåningen som følge
+ af øgede pensionsindbetalinger.
+ I MAKRO har vi, at realkreditbelåningsgraden er eksogen.
+ Det er rimeligt, at endogene valg for afbetaling ikke påvirker usercost
+ for boliger.
+ Den eksogene realkreditbelåningsgrad er i dag aldersafhængig og kalibreret
+ for at matche de faktiske belåningsgrader.
+ I en fremtidig version af MAKRO kunne man overveje at have en fast realkreditbe
+låningsgrad fx 80 pct.
+ og have at afbetaling på realkreditlån er en del af ens nettoformue ekskl.
+ bolig og eksogen (maksimal mulig) realkreditbelåning.
+ Afbetaling af realkreditlån og investering i øvrige obligationer ændres
+ med 1 øre, når nettoformuen ekskl.
+ bolig og maksimal realkreditbelångsgrad ændres med 1 kr.
+ I den nuværende modelversion inkluderer denne effekt alene investeringer
+ i øvrige obligationer.
+ Vi prøver at udvide denne til at inkludere afbetaling på realkreditgæld
+ og være på være på 40 pct., og ser hvordan det påvirker modellens egenskaber.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+De 40 pct.
+ er arbitrært sat ud fra en visuel vurdering af, hvor meget realkreditgældskvote
+n aftager, når formuen ekskl.
+ pension og friværdi vokser.
+ Dette vil blive mere præcist vurderet i forbindelse med en modeludvidelse.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_årgange_p&pr"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+ viser, at dette kun har en beskeden effekt på de samlede fortrængningseffekter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige årgange
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_årgange_p&pr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_årgange_p&pr.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nu, hvor 40 pct.
+ af fortrængningseffekten i formuen ekskl.
+ bolig og friværdi sker via mindre afbetaling af realkreditgæld, er denne
+ i bedre overensstemmelse med litteraturen, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_&vHhx_a_pr"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ Tilsvarende fås, at realkreditbelåningen øges for given boligmængden.
+ Den samlede realkreditbelåning stiger i dette tilfælde, når pensionsindbetaling
+erne øges.
+ Effekten er dog lille, da den består af en negativ effekt fra faldende
+ boligmængde og boligværdi og en positiv effekt fra øget belåningsgrad.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning ift.
+ litteratur
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_&vHhx_a_pr"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_&vHhx_a_pr.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Formueeffekter og fortrængning i den fulde model
+\end_layout
+
+\begin_layout Standard
+Øgede pensionsindbetalinger betyder, at husholdningernes forbrug af både
+ bolig og andet forbrug mindskes på kort sigt.
+ I den fulde udgave af MAKRO inkluderes generelle ligevægtseffekter.
+ Det betyder, at boligprisen reagerer på den lavere efterspørgsel på kort
+ sigt, hvilket får den til at falde.
+ Faldet i boligprisen er markant og giver et initialt fald i boligformuen,
+ som langt overstiger stigningen i pensionsformuen.
+ Faldet i boligformuen tvinger husholdningerne til gradvist at nedbringe
+ deres realkreditgæld for at opnå en given langsigtet loan-to-value-ratio.
+ For HtM-husholdningerne betyder dette endnu lavere reelt rådighedsbeløb
+ og hermed forbrug, mens det for de fremadskuende husholdninger betyder
+ lavere fri formue, hvilket de ønsker at modvirke via øget opsparing og
+ mindre forbrug.
+ Virksomhedernes efterspørgsel falder, hvilket betyder et fald i beskæftigelsen
+ og hermed et yderligere fald i husholdningernes disponible indkomst.
+ På mellemlang sigt genoprettes beskæftigelsen via eksporten, der stiger
+ som følge af den faldende løn - og på langt sigt mere end genoprettes forbrugse
+fterspørgslen, når de opsparede pensioner er fuldt modnede og udbetalingerne
+ med rente og renters rente overstiger indbetalingerne.
+ En analyse af effekterne af øgede pensionsindbetalinger i den fulde model
+ er givet i bilag B.
+ Det bør nævnes, at det analyserede stød er for givne skattesatser og offentligt
+ forbrug.
+ På kort sigt forværres de offentlige indtægter og på langt sigt forbedres
+ de, hvilket samlet set giver en øget HBI.
+ For uændret HBI kunne bundskatten sænkes permanent.
+ Denne effekt er ikke medtaget i analysen.
+\end_layout
+
+\begin_layout Standard
+Fortrængning måles for den enkelte agent som: 
+\begin_inset Formula $1-\frac{\Delta\text{Formue}}{\Delta\text{Pensionsformue}}$
+\end_inset
+
+.
+ Idet boligformuen på kort sigt falder mere end pensionsformuen stiger,
+ så er fortrængningen år 1 langt over 1.
+ Effekten på boligprisen slår dog igennem i løbet af få år, mens pensionsformuen
+ opbygges gradvist.
+ Selve fortolkningen af fortrængning er på samme måde som fortolkningen
+ af marginal forbrugstilbøjelighed (MPC) ikke særlig oplagt i et set up
+ med generelle ligevægtseffekter.
+ Man kan dog stadig være meget interesseret i, hvorledes husholdningernes
+ formue både generelt set og omkring pensionstidspunktet opfører sig.
+ Pensionsalderen stiger fra 68 år i 2026 til 76 år i 2100.
+ 
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Formue_70_MAKRO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på 70-åriges formue af indgrebet.
+ De første ca.
+ 10 år er effekten på deres formue negativ på grund af det midlertidige
+ fald i boligpriserne, men på sigt stiger deres formue.
+ Ved en pensionsalder på 75 år er pensionsformuen fuldt modnet efter 60
+ år.
+ De 15-25-årige har dog en lavere beskæftigelsesfrekvens og løn end de 25-75-åri
+ge, så de sidste 10 år er stigningen i pensionsformuen mindre.
+ Efter 60 år er pensionsformuen gns.
+ steget med ca.
+ 120.000 kr.
+ (vækst og inflationskorrigeret), mens deres samlede formue er steget med
+ ca.
+ 90.000 kr.
+ Dette giver en langsigtet fortrængningseffekt på ca.
+ 0,25 for de 70-årige.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Formueeffekter for 70-årige i den fulde model
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Formue_70_MAKRO"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Formue_70_MAKRO.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Formue_MAKRO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på husholdningernes samlede formue af indgrebet.
+ Igen er effekten de første godt 5 år negativ på grund af det midlertidige
+ fald i boligpriserne.
+ Den samlede pensionsformue modnes ikke fuldt ud.
+ Årsagen er sammensætningseffekter.
+ Der sker markante skift i overlevelses- og erhvervsfrekvenser især for
+ personer over 70 år.
+ De stigende erhvervsfrekvenser får effekten på pensionsformuen til fortsat
+ at vokse.
+ Det samme gør stigende overlevelsesfrekvenser, da de ældre har en større
+ pensionsopsparing ift.
+ de yngre.
+ Spændet mellem effekten på pensionsformuen og den samlede formue mindskes.
+ Det skyldes, at ældste over 80 år vejer mere, da deres overlevelsesfrekvenser
+ stiger relativt mest.
+ Pensionisterne får udbetalt størstedelen af deres pensionsopsparing på
+ et tidspunkt i livet, hvor den nytte de får ud af ekstra forbrug er begrænset
+ - og de vil hellere spare op til arv.
+ De ældste har kun små pensionsformuer tilbage, men har beholdt hovedparten
+ af det i privat opsparing.
+ Flere af de ældste over 80 år trækker derfor gns.
+ formue op ift.
+ pensionsformuen.
+ I 2085, hvor pensionsformuen er fuldt modnet er den (vækst og inflationskorrige
+ret) steget med ca.
+ 320 mia.
+ kr, mens den samlede formue er steget med ca.
+ 280 mia.
+ kr.
+ Svarende til en fortrængning på godt 0,1.
+ En yderligere fremskrivning og fortsættelse af den stigende erhvervs- og
+ overlevelsesfrekvenser ville give fortsatte stigninger og efter nogle år
+ ville effekten på formuen overgå den på pensionsformuen.
+ På grund af de stigende erhvervs- og overlevelsesfrekvenser findes der
+ ikke en nogenlunde stabil langsigtet aggregeret fortrængningseffekt.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Aggregerede formueeffekter i den fulde model
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Formue_MAKRO"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Formue_MAKRO.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_alder_MAKRO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen fordelt på alder et givent år.
+ Dette er altså et tværsnit i et givent år.
+ De første år er fortrængningseffekten pga.
+ generelle ligevægtseffekter meget høj og vises ikke her.
+ De viste effekter er efter 10 år og frem.
+ Fortrængningen er, som i den partielle model, faldende over tid.
+ Den langsigtede fortrængningseffekt er mellem 0,1 og 0,25 for de 30-70-årige.
+ Den aggregerede effekt stabiliserer sig dog ikke, hvilket skyldes negativ
+ fortrængning og aldersforskydninger, jf.
+ forklaring ovenfor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskellige aldre
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_alder_MAKRO"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_alder_MAKRO.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bilag B gennemgår fortrængningseffekterne i den fulde model i meget større
+ detalje.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Bilag A: Analyse af øgede pensionsindbetalinger i en partiel model
+\end_layout
+
+\begin_layout Standard
+Vi kigger i dette kapitel på effekterne i en partiel model, hvor husholdningerne
+s indkomst (bortset fra afkast og nettopensionsbidrag) er eksogen.
+ Endvidere er også alle priser i den partielle model - herunder særligt
+ vigtigt boligprisen - eksogene.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "vHHInd_årgange"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på indkomsten for personer født i år 2000 sammen med årgang
+ 1980 (20 år tidligere) og årgang 2020 (20 år efter), således at 2020 på
+ 2.
+ aksen henviser til der, hvor alle årgange er 20 år gamle.
+ Årgang 1980 først rammes af stødet som 46-årige.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Det kan bemærkes, at det positive areal under den grønne kurve efter pensionsald
+eren ser markant større ud end det negative areal før.
+ Her skal man være opmærksom på, at grafen er pr.
+ person og ikke vægtet med aldersgruppernes størrelser.
+ Arealet er dog lidt større pga.
+ rente og renters rente.
+\end_layout
+
+\end_inset
+
+ For de enkelte årgange falder indkomsten i de år, hvor der betales ind
+ til pension, og den stiger efter pensionsalderen, hvor pengene udbetales.
+ Gennemsnittet er stigende over tid, da der alene indbetales i starten,
+ mens der til sidst udbetales mere, end der indbetales, da udbetalingerne
+ har renter og renters rente.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Indkomsteffekt over tid i den partielle model
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "vHHInd_årgange"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/vHhInd_årgange.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "vHHInd_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på indkomsten for husholdningerne i stødåret (2026) og i
+ 2085.
+ Lønindkomsten er uændret.
+ Indkomsteffekten er stort set ens før pensionsalderen i hhv.
+ stødåret og 2085.
+ Forskellen er primært pensionsudbetalingerne.
+ Der er en enorm forskel efter pensionsalderen i 2085, men allerede inden
+ da ses en tydelig forskel, hvilket skyldes arv, da pensionsudbetalingsandelene
+ er kalibreret, hvor arv inkluderes.
+ Den positive effekt på indkomsten fra den øgede pensionsformue er fuldt
+ ud til stede i 2085, mens den ikke er til stede i stødåret, hvor primo-pensions
+formuen er uændret.
+ Den negative effekt fra øgede pensionsindbetalinger er i udgangspunktet
+ størst for de 40-60-årige, som er dem, der har den største indkomst og
+ hermed betaler mest ind til arbejdsmarkedspensioner.
+ I 2085 er effekten dog størst for 35-40-årige, da pensionsudbetalingerne
+ stiger for 40-60-årige, da de inkluderer udbetalinger i forbindelse med
+ arv, som påvirker denne aldersgruppe.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Indkomsteffekt over alder i den partielle model
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "vHHInd_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/vHhInd_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Marginal forbrugstilbøjelighed i en partiel model
+\end_layout
+
+\begin_layout Standard
+Den marginale forbrugstilbøjelighed (MPC) beregnes for stødåret, som 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\frac{\Delta\text{Forbrug}}{\Delta\text{Indkomst}}$
+\end_inset
+
+, hvor forbruget er opgjort som i nationalregnskabet.
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på indkomsten og forbruget i stødåret for henholdsvis HtM-hushol
+dninger og fremadskuende husholdninger.
+ Endvidere vises, hvad effekten havde været for fremadskuende husholdninger
+ med konstant marginalnytte af formue, hvilket svarer til ikke at have en
+ modelleret nytte af formue.
+ I dette tilfælde ville de fremadskuende husholdningernes forbrug have været
+ stort set uændret af tvungen opsparing.
+ Indkomsteffekten er den samme for HtM-husholdninger og fremadskuende husholdnin
+ger i stødåret, og består alene af øgede indbetalinger til pension.
+ Fremadskuende husholdninger reagerer alene på tvungen opsparing på baggrund
+ af, at deres marginalnytte af fri formue stiger, når den fri formue falder.
+ De forsøger i denne situation at udglatte både formue og forbrug, hvilket
+ indebærer, at deres forbrug falder - dog noget mindre end indkomsten.
+ HtM-husholdningerne forbruger hele deres indkomst, men noget af den bruger
+ de på bolig.
+ Denne del tæller ikke fuldt ud med som forbrug i året, men er en investering,
+ hvis forbrugseffekt spredes ud over en længere periode.
+ Herved falder deres forbrug umiddelbart mindre end indkomsten.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Realindkomst og forbrug over alder i den partielle model i stødåret
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Forbrug_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Forbrug_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "MPC_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser den marginale forbrugstilbøjelighed (MPC) i stødåret for HtM-husholdninge
+rne, de fremadskuende husholdninger og en gennemsnitlig husholdning samt
+ et aggregeret MPC.
+ Den marginale forbrugstilbøjelighed ligger 0,8 og 0,9 for HtM-husholdningerne
+ frem til ca.
+ 55 år.
+ Den er faldende fra ca.
+ 35 år, da deres relative boligforbrug er voksende.
+ Større relativt boligforbrug betyder, at de benytter en større andel af
+ indkomststigningen på boligforbrug.
+ Indkomst brugt til at øge boligbeholdningen øger MPC mindre end indkomst
+ til andet forbrug.
+ Det skyldes, at boligforbruget er opgjort ud fra boligbeholdningen og ikke
+ ud fra den umiddelbare udgift til bolig det pågældende år (ellers havde
+ MPC pr.
+ definition været 1 for HtM-husholdninger).
+ 
+\end_layout
+
+\begin_layout Standard
+For de fremadskuende husholdninger er MPC 0,3-0,4 for de 20-35 årige, hvorefter
+ den er støt faldende frem mod pensionsalderen, hvor den er ca.
+ 0.
+ Den marginale nytte af direkte formue er mere afhængig af ændringer i formuen
+ for de yngre aldersgrupper, som herved i høj grad skal balancere mellem
+ at udglatte formuen og forbruget.
+ Fra 40 år og opefter opbygger husholdningerne fri formue, og de bliver
+ mindre følsomme over for ændringer i formuen.
+ Dette trækker i retning af faldende MPC over alder.
+ Efter pensionsalderen stiger MPC gradvist.
+ Dette skal dog tages med et vist gran salt, da pensionsindbetalingerne
+ fra personer over pensionsalderen er meget begrænsede.
+ Den gennemsnitlige aggregerede MPC for dette stød er mellem 0,4 og 0,5.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MPC over alder i den partielle model i stødåret
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "MPC_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/MPC_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+HtM-husholdningerne i en partiel model
+\end_layout
+
+\begin_layout Standard
+I det meget rene tilfælde, hvor HtM-husholdningerne ikke ejer bolig har
+ de en MPC på 1.
+ Deres nettoformue ekskl.
+ pension (som er 0!) påvirkes ikke af øgede pensionsindbetalinger, og deres
+ nettoformue inkl.
+ pension er lig pensionsformuen - og stiger således 1-1 med denne.
+ Ejede HtM-husholdningerne ikke bolig ville deres fortrængning være 0.
+ Boligejerskab ændrer dog ved dette.
+ Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ForbrugHtM_26_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på indkomst, forbrug ekskl.
+ bolig, boligmængde og fri formue for en HtM-husholdning født i år 2000.
+ Forbruget ekskl.
+ bolig følger den reale indkomst forholdsvist tæt.
+ Grafen viser absolutte ændringer i mio.
+ kr., som på sigt er størst for boligmængden, men relativt falder boligmængden
+ initialt mindre end forbruget ekskl.
+ bolig.
+ Friværdien falder i takt med boligmængden - og faldet forstærkes og fortsætter.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Belåningsgraden for bolig falder i alderen efter slutningen af 30''erne.
+ Det gør, at et givent fald i boligmængden i stigende grad slår igennem
+ på friværdien over tid for årgang 2000.
+\end_layout
+
+\end_inset
+
+ Efter pensionsalderen stiger indkomsten, og det samme gør forbruget, boligmængd
+en og den fri formue.
+ I relative termer er boligmængden træg i forhold til forbrug ekskl.
+ bolig, men i absolutte termer - som vist i figuren - stiger boligmængden
+ kraftigt i disse år, hvilket betyder, at forbruget ekskl.
+ bolig stiger mindre kraftigt end realindkomsten i de år, hvor boligformuen
+ opbygges.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Effekt på indkomst, formue og forbrug for en HtM-husholdning født i 2000
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "ForbrugHtM_26_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/ForbrugHtM_26_p.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FormueHtM_26_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser indkomst, pensionsformue, fri formue og samlet formue for en HtM-husholdn
+ing født i 2000.
+ Den fri formue følger boligmængden, som trægt bevæger sig sammen med indkomsten.
+ Dette giver et gradvist niveau-skift nedad i perioden før pensionsalderen.
+ Effekten på pensionsformuen er derimod ikke et niveauskift, men akkumulerer.
+ En afledt effekt heraf er, at fortrængningen stille og roligt mindskes
+ frem mod pensionsalderen.
+ Efter pensionsalderen øges boligformuen med de stigende udbetalinger, hvilket
+ trækker formuen opad.
+ Dette giver en negativ fortrængning - som forstærkes af, at pensionsformuen
+ falder.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Effekt på indkomst og formue for en HtM-husholdning født i 2000
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FormueHtM_26_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FormueHtM_26_p.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FortrængningHtM_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for personer født i år 2000 sammen med årgang 1980
+ (20 år tidligere) og årgang 2020 (20 år efter), således at 2020 på 2.
+ aksen henviser til der, hvor alle årgange er 20 år gamle.
+ Årgang 1980 først rammes af stødet som 46-årige.
+ De udviser et nogenlunde ens mønster, som forklaret ovenfor.
+ For de enkelte kohorter falder fortrængningseffekten over tid.
+ Der sker et kraftigt fald omkring pensionsalderen, hvor fortrængningen
+ bliver negativ.
+ Dette skyldes (som forklaret ovenfor), at de store pensionsudbetalinger
+ giver en større boligmængde, hvilket forstærkes af, at pensionsformuen
+ udbetales og mindskes.
+ Det generelle fald over tid afspejler, at friværdien hvert år falder mindre
+ end stigningen i pensionsformuen.
+ Stigningen i pensionsformuen accelererer lidt frem mod pensionsalderen
+ primært pga.
+ stigende afkast, mens faldet i friværdien afspejler faldet i boligmængden,
+ som er stærkest initialt.
+ Faldet i boligmængden er stærkest initialt, da det afspejler en ønsket
+ nedgang i en beholdning.
+ Havde der ikke været vaneforbrug og havde boligbeholdningen i grundforløbet
+ været konstant over alder, så ville hele faldet i boligmængden være foretaget
+ i udgangspunktet (dvs.
+ som 26-årig hvor stødet forekommer).
+ Faldet afspejler altså, at boligmængden ændres i forhold til forbruget,
+ som ændres i forhold til ændringen i indkomsten, mens 
+\series bold
+stigningen
+\series default
+ i pensionsformuen ændres i forhold til ændringen i indkomsten.
+ Faldet er dog glat og gradvist pga.
+ vaneforbrug og stigende boligforbrug over alder.
+ Figuren viser også, at for den enkelte aldersgruppe på tværs af kohorter
+ er fortrængningen faldende over tid.
+ Det skyldes, at årgang 1980 som 46-årige i 2026 (når stødet rammer) har
+ en større boligbeholdning end årgang 2000 som 46-årige i 2046, som allerede
+ har skåret ned i boligmængden siden de var 26 år, som igen har en lidt
+ større boligformue end årgang 2020 som 46-årige i 2066, som hele perioden
+ igennem har haft en lavere boligformue, da de har været påvirket af stødet
+ siden de først efterspurgte bolig, som 18-årige.
+ Større initial boligbeholdning giver pga.
+ vaneforbrug også større boligbeholdning året efter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for HtM-husholdninger: Gennemsnit og for personer født i 2020,
+ 2000 og 1980
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FortrængningHtM_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FortrængningHtM_p_årgange.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Indtil videre har vi kigget på årgange, hvilket er naturligt for at forstå
+ dynamikken i en overlappende generationsmodel på årgange.
+ I sammenligning med empiriske studier mv.
+ er det dog mere naturligt at kigge på tværsnit.
+ Hvad er fortrængningen i år 1 fordelt på alder, og hvad sker der over tid?
+ For at forstå fortrængningseffekterne deler vi dem igen op på en effekt
+ på pensionsformuen (nævneren) og en effekt på formuen ekskl.
+ pension (tælleren).
+ Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "vHhPensHtM_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser ændringen i pensionsformuen for HtM-husholdningerne fordelt på alder
+ i år 1, 20, 40 og 60.
+ Pensionsformuen er stort set uændret i år 1, da den kun afspejler 1 års
+ ekstra indbetalinger for alle aldre.
+ Effekten på de 35-åriges pensionsformue er stort set ens år 20, 40 og 60
+ - da den i alle år afspejler øgede pensionsindbetalinger fra 15 år og frem
+ til de 35 år.
+ Effekten for de 55-årige afspejler i år 20 en øget opsparing fra 35-55
+ år, mens den i år 40 og år 60 afspejler en øget opsparing fra 15 år og
+ frem.
+ Hermed er der en betydelig forskel på de 55-åriges pensionsopsparing i
+ år 20 og år 40.
+ Den mindre forskel mellem år 40 og år 60 for 55-årige afspejler forskelle
+ i grundforløbet.
+ En stigende vækst og inflationskorrigeret løn i grundforløbet giver en
+ lidt større stigning i år 60 ift.
+ år 40.
+ Efter de 55 år bøjer væksten i pensionsformuen af i år 40, mens den fortsætter
+ frem til efterlønsalderen i år 60.
+ Pensionsformuen er meget højere for de 80-årige i år 60 ift.
+ år 40 og meget større i år 40 ift.
+ år 20.
+ For det første har de 80-årige i år 20 kun indbetalt fra 60 år og til pensionsa
+lderen, mens de 80-årige i år 40 har indbetalt fra 40 år og til pensionsalderen
+ osv.
+ For det andet er pensionsalderen steget, så der indbetales længere tid.
+ For det tredje er udbetalingsraterne faldet både pga.
+ senere pensionsalder og pga.
+ længere forventet levealder, hvilket udhuler pensionsudbetalingerne for
+ alderspensioner for de overlevende.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pensionsformue for HtM-husholdninger i år 1, 20, 40 og 60 (år 1 =stødår
+ = 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "vHhPensHtM_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/vHhPensHtM_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FriværdiHtM_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser ændringen i friværdien for HtM-husholdninger fordelt på alder i år
+ 1, 20, 40 og 60.
+ I den nuværende modelversion er realkreditbelåningen tæt knyttet til boligværdi
+en, så friværdien udvikler sig i store træk proportionalt med boligværdien,
+ hvilket i den partielle model udvikler sig proportionalt med boligmængden.
+ Boligefterspørgslen er meget træg, hvorfor friværdien stort set ikke rykker
+ sig i år 1.
+ Ses bort fra trægheden er det indkomsten, der bestemmer boligefterspørgslen.
+ Effekten på indkomsten er stort set identisk frem til efterlønsalderen.
+ I pensionsformuen kunne man se de akkumulerede forskelle på baggrund af
+ lønstigningen i grundforløbet, men de absolutte forskelle er små.
+ Derfor er boligefterspørgslen, friværdien og formuen ekskl.
+ pension stort set identisk frem til pensionsalderen.
+ Boligefterspørgslen vokser, når pensionerne udbetales.
+ I år 40 udbetales pensionerne tidligere end i år 60, hvilket giver en hurtigere
+ stigning i friværdien.
+ Træghed i boligforbruget gør, at det først er for de 79-årige, at friværdien
+ i år 60 overstiger den i år 40.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Friværdi for HtM-husholdninger i år 1, 20, 40 og 60 (år 1 =stødår = 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FriværdiHtM_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FrivaerdiHtM_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FortrængningHtM_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for HtM-husholdningerne fordelt på alder i hhv.
+ år 1, 20, 40 og 60 (dvs.
+ i år 2026, 2045, 2065 og 2085).
+ År 1 fortrængningen afspejler alene den initiale reaktion i den marginale
+ forbrugstilbøjelighed ved den initiale indkomstnedgang.
+ Den er høj for de ældre, som har en lav MPC pga.
+ en meget høj boligandel i forbruget.
+ Generelt set afspejler fortrængningen blot ændringen i friværdien ift.
+ ændringen i pensionsformuen.
+ Indkomsten, boligefterspørgslen og friværdien var den samme over tid for
+ de 20-70-årige i år 20, 40 og 60, så fortrængningen falder i takt med,
+ at pensionsformuen for den enkelte aldersgruppe stiger.
+ Ved pensionsalderen falder fortrængningen markant, da indkomsten, boligefterspø
+rgslen, friværdien og hermed formuen ekskl.
+ pension stiger på trods af pensionsformuen er steget.
+ For konstante pensionsudbetalingsrater ville man forestille sig, at fortrængnin
+gen ville følges nogenlunde ad, da ændringen i indkomsten og hermed boligeftersp
+ørgslen og friværdien ville følge ændringen i pensionsformuen.
+ Udbetalingsraterne er dog fra år 40 til år 60 forskudt med ændringen i
+ pensionsalderen, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rPensUdb_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+, så op til 87 år er udbetalingsraten mindre i år 60.
+ Træghed i boligforbruget betyder, at det først er som 90-årige, at fortrængning
+en er mindre i år 60.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for HtM-husholdninger i år 1, 20, 40 og 60 (år 1 =stødår =
+ 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FortrængningHtM_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FortrængningHtM_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for HtM-husholdninger i år 1, 20, 40 og 60 (år 1 =stødår =
+ 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "rPensUdb_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/rPensUdb_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Fremadskuende husholdninger i en partiel model
+\end_layout
+
+\begin_layout Standard
+To forhold i MAKRO gør, at de fremadskuende husholdninger ændrer deres adfærd
+ som følge af øget pensionsopsparing: Forskelligt afkast på pensionsformue
+ og anden formue og nytte af formue ekskl.
+ pension.
+ Uden disse to forhold ville de fremadskuende husholdningers optimeringsproblem
+ være uændret: De ville have uændret forbrug og 1-1 låne til at betale de
+ øgede pensionsindbetalinger.
+ Hermed ville deres formue inkl.
+ pension være uændret, og der ville være fuld crowding out og en fortrængning
+ på 1.
+ Afkast efter skat afhænger dog af porteføljesammensætning og skatteregler.
+ Endvidere får husholdningerne nytte af arv og direkte nytte af disponibel
+ formue, hvilket i begge tilfælde ikke inkluderer pensionsformuen.
+ Nytte af formue ekskl.
+ pension betyder, at de fremadskuende husholdninger ved øget tvungen pensionsops
+paring mindsker deres forbrug for at mindske nedgangen i formuen ekskl.
+ pension.
+ Nedgangen i forbruget vil dog være mindre end den for HtM-husholdningerne,
+ da de fremadskuende husholdninger stadig ønsker at forbrugsudjævne.
+ De vil substituere lidt over fra andet forbrug til boligforbrug, da dette
+ bidrager til formuen, der indgår i den direkte nytte og arv.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ForbrugR_26_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser ændringer i forbrug, bolig og formue til nytte for en fremadskuende
+ person, der var født i år 2000.
+ Personen er 26 år, da stødet indtræffer.
+ Udgangspunktet for fremadskuende husholdninger er at holde et relativt
+ stabilt forbrug - især i en partiel model, hvor priserne holdes uændret.
+ Dog betyder direkte nytte af formue ekskl.
+ pension, at det er ønskværdigt ikke at skære for voldsomt i formuen ekskl.
+ pension, hvorfor der skæres i forbruget som ung.
+ Efter de 45 år begynder formuen fra grundforløbet af blive større og nytten
+ af den påvirkes i mindre grad af marginale ændringer, hvilket betyder,
+ at forbruget gradvist øges.
+ I denne periode øges forbruget mere end indkomsten og formuen ekskl.
+ pension falder.
+ Ved efterløns- og pensionsalderen stiger indkomsten markant, mens forbruget
+ udvikler sig stabilt.
+ Dette giver en betydelig stigning i opsparingen.
+ Arvemotivet gør, at husholdningerne kommer til at have en betydelig højere
+ opsparing som pensionister og dø med en betydelig større formue inkl.
+ pension.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ændring i bolig, forbrug og fri formue for en person fra årgang 2000
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "ForbrugR_26_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/ForbrugR_26_p.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FormueR_26_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser udviklingen i formue for en person født i år 2000, hvis forbrug mv.
+ er beskrevet ovenfor.
+ Friværdien følger boligmængden, men bevæger sig noget mindre end boligværdien,
+ da der til boligen er knyttet en høj grad af realkreditbelåning.
+ Den samlede formue afspejler således primært forskellen mellem stigningen
+ i pensionsformuen og faldet i den frie formue.
+ Frem til omkring pensionsalderen stiger pensionsformuen og den fri formue
+ falder.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ændring i formuer for en fremadskuende person fra årgang 2000
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FormueR_26_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FormueR_26_p.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FortrængningR_p"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for personer født i år 2000 sammen med årgang 1980
+ (20 år tidligere) og årgang 2020 (20 år efter), således at 2020 på 2.
+ aksen henviser til der, hvor alle årgange er 20 år gamle.
+ Årgang 1980 først rammes af stødet som 46-årige.
+ De yngste årgange har en høj, men faldende fortrængning.
+ Det skyldes, at deres pensionsformue er påvirket fra de var 15 år, men
+ deres forbrug og opsparing er først påvirket fra de er 18 år.
+ Fortrængningseffekten er nogenlunde stabil fra midt 20'erne og frem til
+ pensionsalderen.
+ Omend den er svagt faldende fra midt i 20'erne til midt i 40'erne
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Den faldende effekt frem til midt 40'erne skyldes, at effekten på pensionsformue
+n er kraftig i denne periode, men husholdningernes formue i grundforløbet
+ er ikke så stor, at de for alvor kan skære ned i den uden at det kan mærkes.
+\end_layout
+
+\end_inset
+
+ og herfra svagt stigende til omkring pensionsalderen
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Fra midt i 40'erne og frem stiger husholdningernes formue i grundforløbet.
+ De kan hermed bedre skrue op på forbruget og ned for formuen uden at blive
+ straffet hårdt via formuenytten.
+ 
+\end_layout
+
+\end_inset
+
+.
+ Efter pensionsalderen falder fortrængningseffekten markant, da arvemotivet
+ - som forklaret ovenfor - betyder, at den fri formue begynder at stige
+ samtidig med at pensionsformuen bliver udbetalt og hermed falder.
+ Fortrængningseffekten er markant større for årgang 1980 sammenlignet med
+ årgang 2000 og 2020 for en tilsvarende alder.
+ Årgang 1980 blev først ramt af stødet som 46-årige.
+ Herved har de som 60-årige tæret på deres formue ekskl.
+ pension i færre år end årgang 2000, som har tæret på den siden de var 26
+ år.
+ Husholdningerne sammenholder forbrug og formue - og en permanent lavere
+ forbrugsnedgang giver en accelererende nedgang i formuen.
+ Man bliver altså via formuen straffet hårdere for at øge forbruget, jo
+ tidligere man gør det.
+ Dette trækker i retning af lavere fortræning både over tid og alder.
+ For aldersdimensionen trækker stigende formue over alder i grundforløbet
+ det dog modsat, men for tidsdimensionen er det entydigt, at de yngre kohorter,
+ hvis livstidsindkomst påvirkes kraftigere har mindre fortrængning.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for fremadskuende husholdninger i en partiel model
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FortrængningR_p"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FortrængningR_p_årgange.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vi skal også for de fremadskuende husholdninger kigge på tværsnit.
+ For at forstå fortrængningseffekterne for de fremadskuende husholdningerne
+ deler vi dem op på en effekt på pensionsformuen (nævneren) og en effekt
+ på formuen ekskl.
+ pension (tælleren).
+ Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "vHhPensR_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser ændringen i pensionsformuen for HtM-husholdningerne fordelt på alder
+ i år 1, 20, 40 og 60.
+ De er magen til effekterne for HtM-husholdningerne og for en forklaring
+ henvises til dette afsnit ovenfor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pensionsformue for fremadskuende husholdninger i år 1, 20, 40 og 60 (år
+ 1 =stødår = 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "vHhPensR_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/vHhPensR_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "vHhFormuexR_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser ændringen i formuen ekskl.
+ pension for fremadskuende husholdninger fordelt på alder i år 1, 20, 40
+ og 60.
+ I år 1 er effekten lille, hvilket primært skyldes træghed i forbruget herunder
+ særligt i boligforbruget.
+ Effekten for de 20-40-årige er nærmest identisk efter år 20, hvilket skyldes,
+ at husholdningerne her er ramt af samme stød, som har påvirket dem siden
+ de var 20 år (effekterne for de 15-20 årige er meget små).
+ For de 40-60-årige år er effekten på formuen større i år 40 og 60 end i
+ år 20, da dem i denne aldersgruppe i år 20 alene har været ramt af ændringen
+ de sidste 20 år, mens de i år 40 og 60 har været ramt siden de var højst
+ 20 år.
+ Ud fra denne intuition ville vi gerne have de 40-60-årige til at følges
+ helt tæt ad for år 40 og 60 og ikke helt så tæt for de 60-70-årige.
+ Disse mindre forskelle kan dog skyldes forskelle i grundforløbet.
+ Ved pensionsalderen dæmpes nedgangen i formuen.
+ At formuen ikke er faldet mere frem til pensionsalderen skyldes, at husholdning
+erne via formuenytten har været underlagt en blød kreditrestriktion.
+ Denne lempes nu, og de vil skrue op for deres forbrug.
+ Vaneforbrug og faldende marginalnytte af forbrug sammen med et arvefokus,
+ der øges med alderen, gør dog, at de ikke øger forbruget i samme grad som
+ deres indkomst stiger og deres bløde kreditrestriktion lempes, hvilket
+ gør, at formuen ekskl.
+ pension stiger.
+ Fra år 40 og frem er formuen for dem over 80 år rent faktisk steget.
+ Det ses først fra år 40, da de 80-årige i år 20 først trådte i kraft da
+ de var 60 år, hvilket ikke har haft den store betydning ift.
+ deres samlede pensionsopsparing.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Formue ekskl.
+ pension for fremadskuende husholdninger i år 1, 20, 40 og 60 (år 1 =stødår
+ = 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "vHhFormuexR_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/vHhFormuexR_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FortrængningR_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for de fremadskuende husholdninger fordelt på alder
+ i hhv.
+ år 1, 20, 40 og 60 (dvs.
+ i år 2026, 2045, 2065 og 2085).
+ År 1 fortrængningen afspejler alene den initiale reaktion i den marginale
+ forbrugstilbøjelighed ved den initiale indkomstnedgang.
+ Den er høj for de ældre, som har en lav MPC.
+ Generelt set afspejler fortrængningen blot ændringen i formuen ekskl.
+ pension ift.
+ ændringen i pensionsformuen.
+ Bortset fra de aller-ældste er fortrængningsmønstret næsten ens år 40 og
+ år 60.
+ Fortrængningseffekten er nogenlunde stabil frem til pensionsalderen, hvor
+ den falder markant.
+ Det markante fald skyldes, at formuen ekskl.
+ pension stiger, mens pensionsformuen falder.
+ Baggrunden for dette er forklaret ovenfor.
+ Efter midt i 40'erne ses en stigning i fortrængningen, som dog mindskes
+ over tid.
+ At den findes i år 20 skyldes, at formuen i grundforløbet er stigende over
+ alder, hvilket gør, at det alt andet lige er lettere for 60-årige at skære
+ i formuen ekskl.
+ pension end det er for 40-årige.
+ At fortrængningseffekten mindskes over tid skyldes, at fx de 60-årige i
+ år 40 har skullet tære på deres formue siden de var 20 år, mens de 60-årige
+ i år 20 kun har skulle tære på den siden de var 40 år.
+ Hermed er den marginale omkostning ved at tære på formuen og have en højere
+ fortrængning mindre for de 60-årige i år 20 ift.
+ år 40.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for HtM-husholdninger i år 1, 20, 40 og 60 (år 1 =stødår =
+ 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FortrængningR_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/FortrængningR_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for en gennemsnitlig husholdning fordelt på alder
+ i hhv.
+ år 1, 20, 40 og 60 (dvs.
+ i år 2026, 2045, 2065 og 2085).
+ År 1 fortrængningen afspejler alene den initiale reaktion i den marginale
+ forbrugstilbøjelighed ved den initiale indkomstnedgang.
+ Den er høj for de ældre, som har en lav MPC.
+ Fortrængningseffekten er faldende over tid, hvilket primært skyldes de
+ fremadskuende husholdninger, hvor mekanismen er forklaret ovenfor.
+ Vi har skåret grafen af for de ældste.
+ Typisk er man interesseret i fortrængning i forbindelse med om husholdningernes
+ opsparing, når de går på pension er større eller mindre.
+ En negativ fortrængning 10 år efter pensionsalderen, som følge af at de
+ ældre har en lavere forbrugstilbøjelighed er sværere at forholde sig til.
+ Typisk vil man være mest interesseret i fortrængningseffekten, når pensionsform
+uen er modnet, hvilket vil sige år 60.
+ I år 60 er fortrængningseffekten endda nogenlunde stabil over tid.
+ Fra 25 år og frem til pensionsalderen ligger den mellem 0,2 og 0,3.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning i år 1, 20, 40 og 60 (år 1 =stødår = 2026)
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_a"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_a.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fortrængning_årgange"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser fortrængningen for personer født i år 2000 sammen med årgang 1980
+ (20 år tidligere) og årgang 2020 (20 år efter), således at 2020 på 2.
+ aksen henviser til der, hvor alle årgange er 20 år gamle.
+ Årgang 2020 bliver påvirket af stødet gennem hele livet.
+ Denne årgang er sammenlignelig med tværsnittet for år 60, hvor pensionsformuen
+ er modnet.
+ Fortrængningen for denne årgang ligger meget tæt på aldersfordelingen i
+ år 60.
+ I begge tilfælde er fortrængningen størst for de helt unge og negativ for
+ de helt gamle og for personer mellem 25 år og pensionsalderen er fortrængningen
+ på mellem knap 0,2 og 0,3.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fortrængning for forskelle årgange
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fortrængning_årgange"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Fortrængning_årgange.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Bilag B: Analyse af stød til pensionsindbetalingerne i den fulde model
+\end_layout
+
+\begin_layout Standard
+I dette kapitel gives en fuld analyse af et stød til pensionsindbetalingerne
+ i den fulde version af MAKRO.
+ 
+\end_layout
+
+\begin_layout Standard
+Indbetalingsraten til arbejdsmarkedspensioner permanent med 1 procentpoint
+ uden annonceringstid.
+ For eksempel går de 30-årige fra at indbetale ca.
+ 7,0 pct.
+ af deres løn i 2026 til at indbetale 8,0 pct.
+ Det får husholdningernes disponible indkomst efter nettobidrag til pension
+ til at falde på kort sigt.
+ De to typer husholdninger i MAKRO reagerer forskelligt.
+ HtM-husholdningerne mindsker umiddelbart deres udgifter til forbrug inkl.
+ bolig 1-1 med nedgangen i den disponible indkomst, mens de fremadskuende
+ husholdninger reoptimerer over livet givet deres nye højere pensionsindbetaling
+er.
+ På kort sigt kommer alene en negativ effekt på indkomsten inkl.
+ nettopensionsbidrag, da de obligatoriske indbetalinger øges.
+ På sigt øges pensionsudbetalingerne gradvist og de akkumulerede indbetalinger
+ bliver udbetalt med renter og renters rente, hvilket betyder, at den isolerede
+ effekt på sigt øger indkomsten inkl.
+ nettopensionsbidrag.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser mængdevæksten i BNP og dens komponenter angivet ift.
+ BNP i baseline.
+ Den lavere indkomst efter pensionsbidrag får privatforbruget og boliginvesterin
+gerne til at falde.
+ Lavere efterspørgsel giver et fald i beskæftigelsen, hvilket får omkostningerne
+ til at hyre arbejdskraft til at falde, hvilket på sigt får priserne og
+ lønnen til at falde.
+ Faldet i efterspørgslen får BNP til at falde på kort sigt.
+ I takt med at de lavere priser får eksporten til at stige dæmpes den negative
+ effekt på BNP.
+ Den er der dog stadig negativ på mellemlangt sigt, hvor beskæftigelsen
+ er tilbage på niveau, hvilket delvist skyldes, en lavere boligmængde (som
+ trækker opad i BVT pr.
+ beskæftiget), og at eksport har færre afgifter, som indgår i BNP.
+ Over tid begynder de øgede pensionsindbetalinger at kunne ses i udbetalingerne,
+ og forbruget og boliginvesteringerne stiger, hvilket får lønninger og priser
+ til at stige og eksporten til at falde.
+ På langt sigt er forbruget højere end i udgangspunktet og eksporten lavere.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Den offentlige sektor
+\end_layout
+
+\begin_layout Standard
+På langt sigt, når pensionen er modnet vil de større pensionsind- og udbetalinge
+r medføre et overskud på den offentlige primære saldo.
+ På kort sigt virker de øgede indbetalinger kontraktivt, hvilket giver en
+ del år med underskud på den offentlige primære saldo, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "OffentligtBudget"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ Kigges alene på holdbarheden kunne man allerede i 2026 sænke bundskatten,
+ men dette vil på kort sigt give endnu større underskud og sløre de negative
+ virkninger ved en isoleret stigning pensionsopsparingsraten.
+ I denne analyse er finanspolitikken overholdbar, og man kan give en skattelette
+lse.
+ Dette vil øge det private forbrug og mindske eksporten, og samlet set have
+ en positiv effekt på BNP og lønninger på sigt.
+ Hvis man kunne give skattelettelserne år 1, så ville det kunne fjerne de
+ negative efterspørgselseffekter.
+ Det ville dog give en meget lang periode med markante underskud på den
+ offentlige saldo.
+ På langt sigt ville effekterne fra den lavere bundskat dominere effekterne
+ på efterspørgselskomponenterne.
+ Det er derfor valgt at analysere et stød uden en offentlig reaktion på
+ skatter og forbrug.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Centrale størrelser for den offentlige sektor
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "OffentligtBudget"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/OffentligtBudget.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Husholdningerne
+\end_layout
+
+\begin_layout Standard
+For uændret løn og beskæftigelse falder indkomsten efter skat og nettopensionsbi
+drag.
+ Den lavere efterspørgsel som følge af dette munder ud i lavere beskæftigelse
+ og løn, hvilket mindsker lønindkomsten før skat, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Indkomst"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ På kort sigt modsvarer overførselsindkomsten delvist dette, da der ved
+ mindre beskæftigelse er flere personer på overførselsindkomst.
+ I takt med at pensionsformuen stiger, så stiger også pensionsudbetalingerne.
+ På sigt overstiger de løbende pensionsudbetalingerne de løbende pensionsindbeta
+linger, da HtM-husholdningerne har fået en større tvunget opsparing, hvor
+ afkastet gør, at de over livet får en større indkomst.
+ Der går dog omkring 40 år før dette dominerer.
+ Indtil da er indkomsten mindre grundet de større indbetalinger.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Husholdningernes indkomst ekskl.
+ kapitalafkast
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Indkomst"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Indkomst.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug_R&HtM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser realindkomst og forbrug ekskl.
+ bolig for de rationelle og HtM-husholdningerne.
+ Den højere pensionsindbetaling giver lavere disponibel indkomst på kort
+ sigt og større disponibel indkomst på langt sigt.
+ På den ene side ønsker de rationelle husholdninger at forbrugsudjævne og
+ ved, at de på sigt vil få deres forrentede pensionsindbetalinger udbetalt.
+ På den anden side har de ikke adgang til deres pensionsformue, og den gives
+ ikke direkte videre i arv.
+ Der kommer således delvis, men ikke fuld fortrængning.
+ De rationelle husholdningers forbrug falder, men betydeligt mindre end
+ deres indkomst.
+ Dette øger den samlede formue og hermed deres afkast, indkomst og forbrug
+ på langt sigt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bolig og forbrug ekskl.
+ bolig
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Forbrug_R&HtM"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Indkomst&forbrug_R&HtM.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+Den initialt lavere disponible indkomst får efterspørgslen efter både boliger
+ og andet forbrug til at falde.
+ Mindre boligefterspørgsel får boliginvesteringerne til at falde og boligprisern
+e til at falde og gør, at boligmængden kun stiger gradvist, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug&bolig"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ HtM-husholdningernes forbrug ligger markant lavere på kort sigt.
+ Det skyldes, at de ved lavere boligpriser skal afbetale på deres realkreditlån,
+ så de på sigt kan opnå en given loan-to-value for boligmængden.
+ På sigt betyder forrentningen af den øgede opsparing, at HtM-husholdningernes
+ forbrug stiger.
+ Dog mindre end indkomsten, da boliger - som er et komplimentært gode i
+ forhold til øvrig forbrug - er blevet dyrere.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bolig og forbrug ekskl.
+ bolig
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Forbrug&bolig"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Forbrug&bolig.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "HhFormue_mia"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser den relative stigning i husholdningernes nettoformue ekskl.
+ bolig, realkredit og pension, pensionsformuen og nettoformuen inkl.
+ bolig, realkredit og pension i samme graf.
+ De rationelle agenter ejer hele formuen ekskl.
+ bolig, realkredit og pension.
+ Denne nedbringes initialt, så de rationelle husholdninger kan forbrugsudjævne
+ på kort sigt, hvorefter den holder sig på et lavere niveau.
+ Nettoformuen inkl.
+ bolig og pension falder initialt, da boligprisen falder.
+ På sigt bidrager boligprisen positivt, men det store bidrag kommer fra
+ pensionsformuen, som gradvist opbygges over hele perioden.
+ Komponenten fra friværdi afhænger primært af boligefterspørgslen og bidrager
+ positivt på langt sigt, da efterspørgslen efter bolig og andet forbrug
+ er steget.
+ Der sker en vis fortrængning i formuen ekskl.
+ bolig, men det er meget småt sammenlignet med stigningen i pensionsformuen.
+ Faldet i den offentlige formue kompenserer for lavere offentlige indtægter
+ og uændret offentligt forbrug i den periode, hvor husholdningerne sparer
+ mere op.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Husholdningernes og offentlig formue i mia.
+ kr.
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "HhFormue_mia"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/HhFormue_mia.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Virksomhederne
+\end_layout
+
+\begin_layout Standard
+Den øgede efterspørgsel fra husholdningerne trækker på virksomhedernes produktio
+n.
+ Privat forbrug trækker kraftigst på tjenestebranchen, som er den branche,
+ der på kort sigt oplever det største fald i efterspørgslen.
+ Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BVT"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser effekten på BVT i de forskellige brancher.
+ BVT i fremstilling følger udviklingen i eksporten, da eksporten trækker
+ relativt meget på fremstillingsbranchen.
+ BVT i boligbranchen følger boligmængden.
+ Der er stort set ingen ansatte i boligbranchen, så udviklingen påvirker
+ i høj grad BVT for given beskæftigelse.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Boligbranchen er en syntetisk branche, som producerer boligydelser.
+ Den består både af privatejede bolig og lejeboliger.
+ Den er syntetisk i den forstand, at privatejede boliger indgår.
+ Hermed opgøres produktionsværdien som husejerens lejeværdi af egen bolig
+ - opgjort til værdi for tilsvarende lejeboliger (på et reguleret marked).
+ Stigningen i BNP består altså af, at husholdningerne køber flere huse -
+ og at disse huse leverer en produktion til husholdningerne i form af boligydels
+e.
+ Havde bolig i Nationalregnskabet ikke været opgjort som et varigt gode,
+ så havde der ikke været nogen produktionsværdi, og BNP-effekten havde været
+ 0.
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Produktion fordelt på brancher
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BVT"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BVT.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Pris_Tje&fre"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser, at enhedsomkostningerne på kort sigt falder markant især i tjenestebranc
+hen, men også i fremstillingsbranchen.
+ Efter nogle år følger outputpriserne med ned.
+ I takt med at arbejdsmarkedet er normaliseret er enhedsomkostningerne dog
+ samtidig delvist normaliseret.
+ De følger her lønnen, som ligger underdrejet i årene med lav efterspørgsel
+ fra husholdningerne.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Outputpriser og marginale enhedsomkostninger
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Pris_Tje&fre"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Pris_tje&fre.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Investeringer"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+ viser, at erhvervsinvesteringerne er stort set uændret, mens boliginvesteringer
+ne falder markant på kort sigt, som forklaret ovenfor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Investeringer
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Investeringer"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Investeringer.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Udenrigshandel
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Eksport ekskl.
+ import til reeksport
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Eksport"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Eksport.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Den forbedrede konkurrenceevne får eksporten til at stige, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Eksport"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ Både vareeksporten, som er den største komponent, og tjenesteeksporten,
+ som er mindre men mere prisfølsom pga.
+ større leverancer af løntunge tjenester, stiger mærkbart.
+ Turisme bidrager mindre, da det er en mindre eksportgruppe, mens eksport
+ af søfart bidrager meget lidt, da den leverende søfarts-branche - pga.
+ højt importindhold - ikke er så prisfølsom.
+ Energieksporten er eksogen.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Sammenhænge mellem output- og eksportpriser ses på figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Eksportpriser"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Priser på output og eksport
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Eksportpriser"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Eksportpriser.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Importen af varer og tjenester falder umiddelbart på grund af faldet i henholdsv
+is privatforbrug og produktionen, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Import"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Import dekomponeret ift.
+ efterspørgselskomponenter
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Import"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Import.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Arbejdsmarkedet
+\end_layout
+
+\begin_layout Standard
+Den lavere efterspørgsel får virksomhedernes arbejdskraftsefterspørgsel
+ til at falde.
+ De hyrer færre ansatte og slår færre job op.
+ Jo færre job, der bliver slået op ift.
+ antallet af jobsøgende, jo lettere er det at få et match ved et jobopslag.
+ De marginale omkostninger ved at hyre falder for virksomhederne.
+ Til gengæld bliver det sværere for de jobsøgende at få et match.
+ De marginale omkostninger ved at søge et job stiger, hvilket får husholdningern
+e til at mindske deres jobsøgningsindsats og hermed søgebasen
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Søgenbasen dækker over antallet af personer, der beholder deres arbejde
+ plus antallet af personer, der aktivt søger nyt job.
+\end_layout
+
+\end_inset
+
+, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Arbejdsmarked"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ Søgebasen er en model-variabel, mens arbejdsstyrken er en optælling af
+ personer i visse socio-økonomiske grupper afhængig af jobsituation og overførse
+lsindkomst, og ledigheden er forskellen på arbejdsstyrken og beskæftigelsen.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og ledighed
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Arbejdsmarked"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Arbejdsmarked.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+Lavere efterspørgsel får virksomhedernes marginal produkt på arbejdskraft
+ til at falde, og virksomhederne skærer ned på arbejdskraften, indtil de
+ marginale omkostninger er faldet tilsvarende.
+ Lønnen følger trægt marginalproduktet på arbejdskraft og falder på kort
+ sigt.
+ En profil med stigende efterspørgsel gør, at marginalomkostningen efter
+ et par år ligger lidt over i en længere periode, jf.
+ figur 
+\lang danish
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Loen"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\lang english
+.
+ Både produktreallønnen og forbrugerreallønnen falder markant på kort sigt.
+ Tjenestebranchens direkte og indirekte importindhold bidrager til, at dens
+ pris reagerer mindre end lønnen.
+ Forbruget har et yderligere direkte importindhold, hvilket gør forbrugerprisen
+ reagerer endnu mindre.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og løn
+\end_layout
+
+\end_inset
+
+
+\lang danish
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Loen"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Loen.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

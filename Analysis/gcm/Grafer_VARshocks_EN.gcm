@@ -1,0 +1,30 @@
+// Figurer som benyttes i stød-papir
+// PLOT <2025 %EndYear n ytitle='Increase in unemployment rate relative to baseline'> rLedig - @rLedig  'Unemployment response in MAKRO', median['log(UNEMP)',%shock_name] 'Unemployment response in SVAR', upper['log(UNEMP)',%shock_name] 'Upper confidence bound', lower['log(UNEMP)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_rLedig_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in Unemployment Gap relative to baseline'> ((rLedig - srLedig) - (@rLedig - @srLedig))*100  'Unemployment response in MAKRO', median['MarkovUGap',%shock_name]*100 'Unemployment response in SVAR', upper['MarkovUGap',%shock_name]*100 'Upper confidence bound', lower['MarkovUGap',%shock_name]*100 'Lower confidence bound'  file=%shock_dir + 'SVAR_UGap_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase log(Consumption) relative to baseline'> log(qC[ctot]) - log(@qC[ctot]) 'Private consumption response in MAKRO', median['log(C)',%shock_name] 'C response in SVAR', upper['log(C)',%shock_name] 'Upper confidence bound', lower['log(C)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_C_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(X) relative to baseline'> log(qX[xtot]) - log(@qX[xtot]) 'Export respons in MAKRO', median['log(X)',%shock_name] 'X response i SVAR', upper['log(X)',%shock_name] 'Upper confidence bound', lower['log(X)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_X_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(GDP) relative to baseline'> log(qBNP) - log(@qBNP) 'GDP response in MAKRO', median['log(GDP)',%shock_name] 'GDP response in SVAR', upper['log(GDP)',%shock_name] 'Upper confidence bound', lower['log(GDP)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_BNP_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(IBx) relative to baseline'> log(qI['iB']) - log(@qI['iB']) 'Building investment response in MAKRO', median['log(IBx)',%shock_name] 'Building investment response in SVAR', upper['log(IBx)',%shock_name] 'Upper confidence bound', lower['log(IBx)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_IBx_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase log(Machinery capital) relative to baseline'> log(qI['iM']) - log(@qI['iM']) 'Machine investment response in MAKRO', median['log(IM)',%shock_name] 'IM response in SVAR', upper['log(IM)',%shock_name] 'Upper confidence bound', lower['log(IM)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_IM_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(IBol) relative to baseline'> log(qIBolig) - log(@qIBolig) 'Housing investment response in MAKRO', median['log(Ibol)',%shock_name] 'Housing investment response in SVAR', upper['log(IBol)',%shock_name] 'Upper confidence bound', lower['log(IBol)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_IBol_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(Pbol) relative to baseline'> log(pBolig) - log(@pBolig)  'House price response in MAKRO', median['log(Pbol)',%shock_name] 'Pbol response in SVAR', upper['log(Pbol)',%shock_name] 'Upper confidence bound', lower['log(Pbol)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_Pbol_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(PC) relative to baseline'> log(pC[cTot]) - log(@pC[cTot]) 'Consumer price response in MAKRO', median['log(PC)',%shock_name] 'PC response in SVAR', upper['log(PC)',%shock_name] 'Upper confidence bound', lower['log(PC)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_PC_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(PX) relative to baseline'> log(pX[xTot]) - log(@pX[xTot]) 'Export price response in MAKRO', median['log(PX)',%shock_name] 'PX response in SVAR', upper['log(PX)',%shock_name] 'Upper confidence bound', lower['log(PX)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_PX_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(PY) relative to baseline'> log(pY[sTot]) - log(@pY[sTot]) 'Output price response in MAKRO', median['log(PY)',%shock_name] 'PY respons in SVAR', upper['log(PY)',%shock_name] 'Upper confidence bound', lower['log(PY)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_PY_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase in log(W) relative to baseline'> log(vWHh[Tot]/nLHh[Tot]) - log(@vWHh[Tot]/@nLHh[Tot])  'Wage response in MAKRO', median['log(W)',%shock_name] 'Wage response in i SVAR', upper['log(W)',%shock_name] 'Upper confidence bound', lower['log(W)',%shock_name] 'Lower confidence bound'  file=%shock_dir + 'SVAR_W_EN.svg';
+
+PLOT <2025 %EndYear n ytitle='Increase relative to baseline'> rRente['Obl'] - @rRente['Obl']  'Foreign interest rate', log(pXudl[xTot]) - log(@pXudl[xTot]) 'Foreign prices', log(qXMarked[xVar]) - log(@qXMarked[xVar]) 'Export market' file=%shock_dir + 'SVAR_ForeignShocks_EN.svg';  
+
+PLOT <2025 %EndYear n ytitle='Increase relative to baseline'> rRente['Obl'] - @rRente['Obl']  'Foreign interest rate', log(pXudl[xTot]) - log(@pXudl[xTot]) 'Foreign prices', log(qXMarked[xVar]) - log(@qXMarked[xVar]) 'Export market', log(pOlie) - log(@pOlie) 'Oil Price' file=%shock_dir + 'SVAR_ForeignShocks_Olie_EN.svg';

@@ -1,0 +1,603 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language danish
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style danish
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author 1341235101 "B031990"
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent stød til arbejdsudbuddet
+\end_layout
+
+\begin_layout Standard
+I dette afsnit analyseres et permanent stød til arbejdsudbuddet.
+ Arbejdsudbuddet ledsages af en finanspolitisk lempelse, så så det offentliges
+ intertemporale budgetbetingelse er overholdt.
+ Hovedresultatet er, at beskæftigelsen er 90 pct.
+ tilpasset til sit nye strukturelle niveau efter 4-5 år.
+\end_layout
+
+\begin_layout Standard
+Stødet sker via øget arbejdsmarkedsdeltagelse, idet den strukturelle beskæftigel
+se øges med 1 pct.
+ for alle aldersgrupper på arbejdsmarkedet
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Tiltaget har altså størst effekt for de aldersgrupper, som allerede i høj
+ grad er i beskæftigelse.
+ Stigningen i den strukturelle beskæftigelse sker gennem en endogenisering
+ af disnytte ved at deltage på arbejdsmarkedet.
+ 
+\end_layout
+
+\end_inset
+
+.
+ Offentlig forbrug og beskæftigelse antages uændret, og det højere arbejdsudbud
+ genererer derfor stigende offentlige indtægter.
+ Dette modsvares i et gradvist fald i bundskatten de første 5 år, hvorefter
+ bundskatten ligger fast på et permanent lavere niveau.
+ Bundskatten sænkes så meget, at det offentliges intertemporale budgetbetingelse
+ er overholdt.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser de overordnede makroøkonomiske konsekvenser af stødet i relative
+ ændringer.
+ I en lukket økonomi med en simpel 1-branche produktionsfunktion med konstant
+ skalaafkast forventes BNP, privat forbrug og investeringer at stige proportiona
+lt med arbejdsudbuddet på sigt.
+ Det fremgår af figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, at den langsigtede procentvise ændring i BNP og særligt privat forbrug
+ er større end 1.
+ Det skyldes, at offentlig forbrug, beskæftigelse og investeringer er uændret
+ i absolutte termer.
+ Hermed kan bundskatten sænkes og det private forbrug stiger mere end 1
+ pct., mens det offentlige forbrug er uændret.
+ At dette giver sig udslag i højere BNP skyldes primært, at offentlig produktion
+ har lavere produktivitet og produktivitetsvækst
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Offentlig produktion er output-baseret, hvilket betyder, at offentlig beskæftige
+lse i modsætning til privat ikke oplever produktivitetsfremgang, til at
+ give en øget BNP-effekt.
+\end_layout
+
+\end_inset
+
+ end det private.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Endvidere kommer en mindre effekt fra øget kapitalintensitet pga.
+ forbedret bytteforhold.
+\end_layout
+
+\end_inset
+
+ Eksporten stiger med mindre end 1 pct.
+ på sigt, hvilket primært skyldes, at en stor andel er import til reeksport,
+ som er upåvirket af stødet.
+ Investeringer af både bolig- og erhvervskapital med mere end 1 pct., hvilket
+ skyldes primært, at en større del af efterspørgslen tilfredsstilles af
+ produktion fra private brancher, som har højere kapitalintensitet end den
+ offentlige branche.
+ Importen stiger med mindre end 1 pct., hvilket også skyldes den upåvirkede
+ import til reeksport.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP_q_Arbejdsudbud"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP2.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP-komponent deflatorer og løn
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP_p_Arbejdsudbud"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP_priser.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_p_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser, at løn og priser på lang sigt vokser en smule (man skal her lægge
+ mærke til, at skalaen på figuren er mange gange mindre end figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Der er dog to undtagelser: Deflatoren for BNP og privat forbrug som begge
+ falder.
+ I begge tilfælde skyldes det, at andelen af offentlige producerede input
+ falder.
+ Fravær af produktivitetsændringer i offentlig produktion betyder, at outputpris
+en på offentlig produktion og offentligt forbrug vokser mere end alle andre
+ priser.
+ Da offentlig forbrug er konstant mindskes andelen af offentligt forbrug
+ i BNP-deflatoren, hvormed BNP-deflatoren falder.
+ Input fra offentlig produktion til private tjenester, hvilket bl.a.
+ er private bidrag til børnehaver mv.
+ følger offentlig forbrug.
+ Hermed falder input fra den offentlige branche til private tjenester, hvilket
+ trækker deflatoren på privat forbrug ned.
+ Disse input er begrænsede og kan kun dominere, da effekten som sagt kvantitativ
+t er lille.
+ Årsagen til den beskedne reallønsstigning og det forbedrede bytteforhold
+ er, at skalaeffekten er baseret på privat beskæftigelse, og da offentlig
+ beskæftigelse er uændret, stiger privat beskæftigelse og hermed trækket
+ fra udlandet med mere end 1 pct.
+\end_layout
+
+\begin_layout Standard
+På kort sigt vil søge-arbejdsmarkedet spille en central rolle.
+ Dette beskrives nærmere i afsnit 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Arbejdsmarkedet"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Det fremgår af figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_p_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, at lønnen reagerer med en vis forsinkelse (større effekt år 2 end år 1).
+ Træge priser og voksende efterspørgsel forklarer, at priserne ikke følger
+ løn-faldet.
+ De første 2-3 år ses en blød pukkel-formet udvikling i priserne.
+ Denne udvikling skyldes, at virksomhederne oplever tilpasningsomkostninger
+ i forbindelse med stødet: Installationsomkostningerne i kapitalakkumulationen,
+ er specificeret således at investeringerne har en pukkel-formet respons
+ (se figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Som følge af dette er der en tilsvarende pukkel-formet udvikling i usercost
+ på kapital, hvilket afspejles i priserne.
+ På kort sigt er kapitalapparatet givet og beskæftigelsen ændres kun trægt.
+ Dermed er efterspørgslen øget i forhold til produktionskapaciteten (ved
+ uændret kapacitetsudnyttelse), og det får virksomhederne til at øge deres
+ mark-up.
+ Dermed er priserne en anelse højere de første år (reelt dog ca.
+ uændrede), selv om lønnen stiger mindre i de første år.
+\end_layout
+
+\begin_layout Standard
+I Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses de relative ændringer i mængderne.
+ Investeringerne er den variabel, der reagerer kraftigst på stødet.
+ Det kræver relativt store ændringer i investeringerne at sikre tilpasning
+ i det store kapitalapparat (4-5 gange større end BNP).
+ Som nævnt ovenfor er investerings-responsen pukkelformet, så den største
+ effekt først ses efter 3 år.
+ Eksporten er i følge figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_q_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ den variabel, der tilpasser sig langsommest.
+ Dette skyldes både den betydelige træghed i den ovenfor nævnte skala-effekt,
+ men også de kortsigtstrægheder der er lagt ind i modellen.
+ Det private forbrug vokser relativt kraftigt allerede det første år.
+ Det skyldes, at de fremadskuende husholdninger oplever permanent højere
+ fremtidige indkomst på grund af den højere beskæftigelse og stigende formue
+ på grund af højere aktiekurser.
+ De kreditrationerede husholdninger (HtM-husholdninger) oplever især de
+ første 5 år hastigt voksende disponibel indkomst på grund af den højere
+ beskæftigelse (løn i stedet for understøttelse) og den faldende bundskat.
+\end_layout
+
+\begin_layout Subsection
+Offentlig Sektor
+\end_layout
+
+\begin_layout Standard
+Stødet er som nævnt finansieret.
+ Bundskatten sikrer, at det offentliges intertemporale budgetbetingelse
+ er overholdt.
+ Det større arbejdsudbud forbedrer isoleret set de offentlige finanser primært
+ gennem øgede skatteindtægter og sekundært ved at reducere antallet på overførsl
+er, så bundskatten kan sænkes.
+ Det fremgår af figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Offentlig_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, at den offentlige saldo vokser på kort sigt.
+ Det skyldes, at den positive effekt fra det øgede arbejdsudbud træder i
+ kraft hurtigere end de faldene indtægter fra bundskatten.
+ Fra 2030 og frem er det er muligt at have en lidt lavere primær saldo på
+ grund af renteindtægterne fra de første års overskud.
+ Finanspolitisk holdbarhed indebærer, at den offentlige nettoformue udgør
+ en fast andel af BNP på lang sigt.
+ Det fremgår af figuren, at denne tilpasning sker over mange år, og således
+ ikke er helt konvergeret i 2060.
+ Den offentlige formue vil på lang sigt udgøre en lavere andel af BNP.
+
+\change_deleted 1341235101 1638540843
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Centrale størrelser for den offentlige sektor
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Offentlig_Arbejdsudbud"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/OffentligtBudget.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Arbejdsmarkedet
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Arbejdsmarkedet"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Stigningen i arbejdsmarkedsdeltagelsen øger antallet af jobsøgende.
+ Som nævnt i indledningen, vil det i et søge-arbejdsmarked gælde, at en
+ stigning i beskæftigelsen enten kan ske via en stigning i antallet af jobsøgend
+e eller ved en stigning i antallet af udbudte jobs.
+ Begge dele forøger sandsynligheden for, at en søge-proces vil føre til
+ en nyansættelse.
+ Dette beskrives ved at antage, at antallet af ny-beskæftigede er en funktion
+ af antallet af jobsøgende 
+\shape italic
+og
+\shape default
+ antallet at nyopslåede jobs (en såkaldt matching-funktion).
+ Når flere kommer i ansættelse betyder det for den enkelte, at indkomsten
+ vokser fra understøttelse til løn-indkomst.
+ Dette genererer mere efterspørgsel, og derfor en stigning i jobopslag.
+ Dette skaber en multiplikator-proces der fortsætter til den langsigtede
+ strukturelle ledighedsandel er genoprettet.
+\end_layout
+
+\begin_layout Standard
+I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Besk&soeg_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses bevægelserne på arbejdsmarkedet.
+ Det ses, at antallet af jobsøgende vokser med det samme.
+ Virksomhederne registrerer, at der er flere jobsøgende, og at antallet
+ af ansættelser pr.
+ jobopslag derfor er øget.
+ Dette gør, at virksomhederne kan slå færre jobs op for at få en given mængde
+ arbejdskraft.
+ Dette forklarer det initiale fald i antallet af jobopslag.
+ Herefter dominerer førnævnte efterspørgselseffekt.
+\end_layout
+
+\begin_layout Standard
+Det antages, at en tilfældig andel af de indgåede lønkontrakter genforhandles
+ hvert år (en såkaldt Calvo-antagelse).
+ Dette giver en nominel træghed i løndannelsen, og er med til at forklare
+ den pukkelformede lønreaktion, jf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_p_Arbejdsudbud"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Der forhandles over marginalgevinsten ved at hyre en ny medarbejder.
+ Det initiale lønfald skyldes, at marginalproduktet af arbejdskraft som
+ følge af bl.a.
+ mindre kapitalintensiteten er faldet.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og jobopslag
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Besk&soeg_Arbejdsudbud"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Besk&soeg.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

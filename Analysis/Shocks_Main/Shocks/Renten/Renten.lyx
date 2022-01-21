@@ -1,0 +1,677 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes true
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author 1341235101 "B031990"
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent stød til obligationsrenten
+\end_layout
+
+\begin_layout Standard
+I dette afsnit analyseres et stød, hvor obligationsrenten falder med 0,1
+ procentpoint.
+ Stødet er udført som "ufinansieret" for at undgå virkninger af en konkret
+ finansieringskilde på kort sigt og mellemlangt sigt (sammenlignet med langvarig
+ gældsfinansiering, jf.
+ ovenfor).
+ Det skal ses i sammenhæng med, en ændring af renten indebærer ændringer
+ i diskonteringen af fremtidige primære over- og underskud i det offentliges
+ intertemporale budgetbegrænsning, hvorved den nødvendige finansiering i
+ høj grad vil afhænge af saldoprofilen i modellens grundforløb.
+ På betaversionens stiliserede grundforløb ville en konkret finansieringskilde
+ derudover have et omfang, som indebærer, at effekterne heraf på kort og
+ mellemlangt sigt dominerer (og således skygger for) effekten af en højere
+ rente på husholdningernes og virksomhedernes adfærd.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Renter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Renter"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Renter.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Et rentefald påvirker alle modellens agenter.
+ Virksomhedernes forrentningskrav formindskes, hvilket medfører substitution
+ mod kapital.
+ Husholdningernes user-cost ved boligkøb formindskes, hvilket medfører en
+ stigning i boligefterspørgslen og højere boligpriser.
+ Husholdningernes formue forrentes mindre og fremtidige pensioner falder.
+ De fremadskuende husholdninger opsparer mindre således at formuen falder
+ på lang sigt.
+ 
+\end_layout
+
+\begin_layout Standard
+I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Renter"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses de centrale rentestørrelser.
+ Husholdningerne og pensionskasserne oplever initialt et hop i forrentningen,
+ der skyldes højere aktier og boligpriser.
+ Som vi vil se nedenfor stiger efterspørgslen initialt.
+ Dette forøger indtjeningsmulighederne i virksomhederne, hvilket på kort
+ sigt genererer et fald virksomhedernes forrentningskrav.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser de mængdemæssige ændringer i BNP-komponenterne.
+ Rentefaldet påvirker husholdningernes boligefterspørgsel og opsparingsadfærd.
+ Husholdningerne forøger initialt forbruget på grund af lavere opsparing,
+ højerer indkomst og højere værdi af boliger.
+ På lang sigt er reaktionen noget mere afdæmpet.
+ Investeringerne vokser på kort sigt på grund af højere efterspørgsel (via
+ den finansielle accelerator), substitution over mod kapital på grund af
+ den lavere rente og højere boliginvesteringer.
+\end_layout
+
+\begin_layout Standard
+Eksporten reagerer modsat de andre efterspørgseskomponenter via udenrigshandelse
+ffekter i priserne.
+ I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_priser"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses udviklingen i lønnen og priserne.
+ Det ses, at den initiale efterspørgselsstigning på kort sigt presser løn
+ og priser op.
+ Dette medfører, at eksporten (trægt) falder.
+ Trægheden i eksporten medfører, at de andre efterspørgsels-komponenter
+ reagerer voldsommere på kort sigt, og at pris-effekterne i figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_priser"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ bliver mindre (på kort sigt).
+ På lang sigt er det et noget mere broget billede.
+ Lønnen er entydigt steget.
+ Prisen på offentligt forbrug er steget, da den er meget løntung.
+ Usercost på kapital er dog faldet, hvilket betyder, at kapitaltunge branchers
+ pris er faldet.
+ Eksportprisen er også faldet, da der her er store leverancer fra kapitaltunge
+ brancher som fx søfart.
+ De fleste priser er dog omtrent uændret.Den initiale stigning i efterspørgslen
+ påvirker arbejdsmarkedet på kort sigt.
+ Dette fremgår af figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Arbejdsmarked"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter - Priser
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP_priser"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP_priser.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og ledighed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Arbejdsmarked"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Arbejdsmarked.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Husholdninger
+\end_layout
+
+\begin_layout Standard
+Husholdningernes forbrug er vist i figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug&bolig"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Det private forbrug vokser med det samme.
+ Det skyldes for det første, at de fremadskuende husholdning ændrer opsparingsad
+færd.
+ Den lave rente betyder, at husholdningerne initialt hæver forbruget som
+ udtryk for lavere opsparing.
+ Husholdningernes fremrykning af forbrug samt det lavere afkast af formuen
+ betyder, at formuen er lavere på længere sigt.
+ For det andet hæver de kreditrationerede husholdninger forbruget på grund
+ af stigende indkomst fra beskæftigelse, og fordi deres boliger bliver mere
+ værd.
+\end_layout
+
+\begin_layout Standard
+Det ses i figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug&bolig"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, at boligprisen vokser kraftigt første år.
+ Dette skyldes, at der er betydelige trægheder på boligmarkedet på udbudssiden.
+ Boliginvesteringerne vokser betydeligt efter et par år.
+ De nævnte trægheder forklarer pukkel-formen.
+\end_layout
+
+\begin_layout Standard
+I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "HhFormue"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses husholdningerne formue.
+ På kort sigt set et hop på grund af stigende aktier og boligpris.
+ På lang sigt ses et fald på grund af den ændrede opsparingsadfærd.
+ Det ses, at den lavere rente også indebærer et fald i pensionsformuen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bolig og forbrug ekskl.
+ bolig
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Forbrug&bolig"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Forbrug&bolig.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Husholdningernes reale formue
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "HhFormue"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/HhFormue.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Virksomhederne
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BVT"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ dekomponerer stigningen i BVT-væksten ved at vise, hvor mange procentpoint
+ væksten i de enkelte brancher udgør af BVT i baseline.
+ Det private forbrug ekskl.
+ bolig trækker primært på tjenestebranchen (og import), investeringer i
+ bolig og erhvervsbygninger trækker primært på byggebrancen (under øvrig
+ produktion i figuren), mens maskininvesteringer primært trækker på tjenestebran
+chen (og import).
+ Boligbranchen afspejler udviklingen i husholdningernes boligbeholdning,
+ og oplever derfor på lang sigt et fald.
+ Fremstilling vokser på lang sigt fordi den i høj grad leverer til eksport.
+
+\change_deleted 1341235101 1638540666
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Produktion fordelt på brancher
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "BVT"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BVT.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "KLBRTjenester"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser BVT, kapital og beskæftigelse i tjenestebranchen.
+ Tendensen til substitution over mod kapital er meget tydelig.
+ Der sker signifikate stigninger i både maskin- og bygningskapital.
+ Antal beskæftigelse vokser på kort sigt (på grund af øget efterspørgsel),
+ og er på grund af substitution (både mod kapital inden for branchen og
+ væk fra branchen, da den er mindre kapitalintensiv end fx fremstilling)
+ falder den på lang sigt på trods af BVT også her er øget lidt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Produktion, kapital og beskæftigelseforprivatetjenester
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "KLBRTjenester"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/KLBRTjenester.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

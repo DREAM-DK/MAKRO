@@ -1,0 +1,2310 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch Sensitivity
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Marginal propensity to consume
+\end_layout
+
+\begin_layout Author
+Anders Kronborg, Martin Bonde og Peter Stephensen
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This note describes how the beta bersion of MAKRO is calibrated to provide
+ empirically substantiated levels of private consumption by age.
+ In addition, it is examined how households' marginal propensity to consume
+ (MPC) varies by age.
+ An important goal is to get a MPC that corresponds to Danish empirical
+ results, both at the aggregate level, but also over the life cycle.
+\end_layout
+
+\begin_layout Standard
+In MAKRO, private consumption is not determined by one representative agent,
+ but instead by a series of cohorts via an overlapping generations (OLG)
+ structure.
+ The model thus takes into account the very large differences in wealth
+ and consumption over the life cycle that are observed empirically (see,
+ e.g.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:baseline_wealth_2017"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Each generation consists partly of forward-looking agents and partly of
+ hand-to-mouth households (HtM).
+\end_layout
+
+\begin_layout Standard
+In the work with MAKRO, we have included the financial part of the national
+ accounts, so that there is full agreement between the overall model and
+ the national accounts at a relatively detailed level.
+ It has been assessed that empirically sound age profiles of household income,
+ wealth, and private consumption are a central element in the empirical
+ properties of MAKRO.
+ Thus, the cohort structure of the model is fully exploited, e.g.
+ when used to make a baseline forecast.
+ In addition to ensuring that age profiles match the 
+\emph on
+levels 
+\emph default
+in the data it is also necessary that households in MAKRO have empirically
+ reasonable marginal propensities to consume out of an income shock.
+\end_layout
+
+\begin_layout Standard
+In conclusion:
+\end_layout
+
+\begin_layout Itemize
+The age profiles in MAKRO are calibrated so that the levels fit the data.
+ As a first principle, this is done by calibrating age dependent discount
+ factors so that the correct consumption profiles are obtained.
+\end_layout
+
+\begin_layout Itemize
+Due to the youngest and oldest age groups, it is not possible to fit the
+ age profiles for consumption and wealth to the data via the discount rate
+ alone if this is restricted to be positive.
+ We solve this by including utility of wealth and bequests for the respective
+ age groups.
+\end_layout
+
+\begin_layout Itemize
+To compare the MPC by age in MAKRO to the microeconometric literature, we
+ construct a partial equilibrium version of MAKRO.
+ The status of this work is that MAKRO - for the most central cohorts -
+ is able to replicate the declining profile seen in Danish data.
+\end_layout
+
+\begin_layout Itemize
+The aggregate MPC in MAKRO depends greatly on the type and persistence of
+ a shock.
+ In the partial equilibrium model, first-year aggregate MPC ranges from
+ 
+\series bold
+0.44
+\series default
+ for a temporary income shock
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The temporary shock has a persistence of 1.5 years.
+ The result is robust to giving the same weight to all households (age 18
+ or above) or having the weights or the shock itself proportional to income.
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+to 0.58
+\series default
+ for a permanent income shock
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In the permanent shock, we apply a proportional shock to the income of the
+ household in each period.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Model
+\end_layout
+
+\begin_layout Standard
+The consumer in MAKRO is modeled with a so-called OLG structure, i.e.
+ an actual modeling of each generation.
+ It is assumed that a proportion of households are HtM, so that they spend
+ their entire current income in each period.
+ The rest are assumed to be rational forward-looking agents.
+ A mix of forward-looking and constrained households is essential in order
+ to fit the empirical MPC at the aggregate level.
+\end_layout
+
+\begin_layout Standard
+This section describes the forward-looking household.
+ The model is simplified to emphasize the most important elements, e.g.
+ time is suppressed.
+ The discounted expected utility 
+\begin_inset Formula $U_{a}$
+\end_inset
+
+ for an 
+\begin_inset Formula $a$
+\end_inset
+
+-year-old is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+U_{a}=u_{a}+\sum_{x=a+1}^{100}\left[s_{x}\left(u_{x}+W_{x-1}\right)+\left(1-s_{x}\right)W_{x-1}^{\text{beq}}\right]V_{x}S_{x-1},\label{eq:Ua}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $u_{x}$
+\end_inset
+
+ is instantaneous utility from consumption experienced at age 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ Households have the probability 
+\begin_inset Formula $s_{x}$
+\end_inset
+
+ to survive age 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ As can be seen from (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Ua"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), the household has three sources of utility.
+ If the household survives the age 
+\begin_inset Formula $x$
+\end_inset
+
+ (this happens as mentioned with the probability 
+\begin_inset Formula $s_{x}$
+\end_inset
+
+) utility is obtained partly from the usual channel 
+\begin_inset Formula $u_{x}$
+\end_inset
+
+ (instantaneous utility from consumption) and from utility from keeping
+ wealth where 
+\begin_inset Formula $W_{x-1}$
+\end_inset
+
+ indicates the relevant concept of wealth in utility.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The wealth in utility are net assets incl.
+ housing, mortgages and limited pension instruments (capital and retirement
+ pensions) for forward-looking households.
+ Retirement and capital pensions are included, as these are arrangements
+ that people themselves have paid in addition to their labor market pensions,
+ and to some extend can choose when to pay out following retirement.
+ Therefore, in this context, they are seen as close substitutes to free
+ savings.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utility of wealth is typically explained by the status associated with being
+ wealthy.
+ Another explanation that is more relevant in our case is that wealth guards
+ one against uncertainty.
+ Utility of wealth can therefore be seen as a precautionary motive and leads
+ to behavior in households that is very similar to credit rationing.
+ The third source of utility is bequests.
+ If the household dies (which happens with the probability 
+\begin_inset Formula $1-s_{x}$
+\end_inset
+
+) the utility 
+\begin_inset Formula $W_{x-1}^{\text{beq}}$
+\end_inset
+
+ is obtained.
+ The reason for including all these sources of utility is the desire to
+ fit data.
+ The bequest motive is included to describe the behavior of older households.
+ Utility of wealth is included to have a realistic behavior for households
+ early and in the middle of life.
+\end_layout
+
+\begin_layout Standard
+The instantaneous utility of consumption is given by a so-called CRRA utility
+ function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+u_{x}=\frac{\tilde{u}_{x}^{1-\eta}}{1-\eta},\label{eq:ux}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is the parameter for relative risk aversion.
+ 
+\begin_inset Formula $1/\eta$
+\end_inset
+
+ can be interpreted as the intertemporal elasticity of substitution.
+ This parameter therefore determines how much households smooth their consumptio
+n over time.
+ The utility 
+\begin_inset Formula $\tilde{u}_{x}$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\[
+\tilde{u}_{x}=\left[\left(1-\vartheta_{x}\right)^{\frac{1}{E}}\left(C_{x}-\chi^{C}C_{x-1}\right)^{\frac{E-1}{E}}+\vartheta_{x}^{\frac{1}{E}}\left(D_{x}-\chi^{D}D_{x-1}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $C_{x}$
+\end_inset
+
+ is consumption of goods and services and 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ is housing stock.
+ The parameters 
+\begin_inset Formula $\chi^{C}$
+\end_inset
+
+ and 
+\begin_inset Formula $\chi^{D}$
+\end_inset
+
+ determine the degree of habit formation in consumption.
+\end_layout
+
+\begin_layout Standard
+The utility of bequest is given by:
+\begin_inset Formula 
+\begin{equation}
+W_{x-1}^{\text{beq}}=\xi^{\text{beq}}\frac{\left(X_{x-1}^{\text{beq}}-\kappa^{\text{beq}}\right)^{\text{1-\eta}}}{1-\eta},\label{eq:W_beq}
+\end{equation}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\[
+X_{x-1}^{\text{beq}}\equiv\left(1-\tau^{\text{beq}}\right)\left[\left(1+r_{x}\right)B_{x-1}^{\text{beq}}+p^{D}\left(1-\mu_{x}\right)D_{x-1}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $B_{x-1}^{\text{beq}}$
+\end_inset
+
+ is the relevant concept of non-housing wealth in relation to bequests
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The bequest wealth is total non-housing wealth including only the part of
+ the pension wealth that is paid out in case of death.
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Formula $p^{D}$
+\end_inset
+
+ is the house price and 
+\begin_inset Formula $\mu_{x}$
+\end_inset
+
+ is the share of mortgage in the house.
+\end_layout
+
+\begin_layout Standard
+The utility of wealth is given by:
+\begin_inset Formula 
+\begin{equation}
+W_{x-1}=\xi\frac{\left(X_{x-1}-\kappa\right)^{\text{1-\eta}}}{1-\eta^{\text{}}},\label{eq:W}
+\end{equation}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\[
+X_{x-1}\equiv\left(1+r_{x}\right)B_{x-1}+p^{D}\left(1-\mu_{x}\right)D_{x-1},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $X_{x-1}$
+\end_inset
+
+ is the total realizable net wealth, with 
+\begin_inset Formula $B_{x-1}$
+\end_inset
+
+ being the realizable non-housing wealth.
+\end_layout
+
+\begin_layout Standard
+The discount factor 
+\begin_inset Formula $V_{x}$
+\end_inset
+
+ is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V_{x}\equiv\prod_{v=a+1}^{x}\beta_{v},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\beta_{v}$
+\end_inset
+
+ is the household's subjective discount rate.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S_{x-1}$
+\end_inset
+
+ measures the probability of surviving from age 
+\begin_inset Formula $a$
+\end_inset
+
+ to the beginning of age 
+\begin_inset Formula $x$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+S_{x-1}\equiv\prod_{v=a+1}^{x-1}s_{v}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Age profiles: Data and model
+\end_layout
+
+\begin_layout Standard
+As no administrative data exists for private consumption at the individual
+ level, the age profile of consumption in MAKRO is imputed based on age-distribu
+ted profiles for after-tax income, wealth, and interests (Browning & Leth-Peters
+en 2003).
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:baseline_consumption_2017"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the age profile of non-housing consumption imputed from 2017 administrati
+ve data as well as the distribution of income and home ownership.
+ Consumption closely tracks income over the life-cycle, underlining the
+ need for HtM households and/or a soft credit constraint in order to fit
+ the data.
+ However, consumption is also significantly smoother than income as is the
+ case for the forward-looking households in MAKRO.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Age distribution of income, consumption and housing in 2017.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:baseline_consumption_2017"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/baseline_consumption_2017.svg
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/baseline_housing_2017.svg
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:baseline_wealth_2017"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the age profile of net wealth from 2017 administrative data along
+ with the wealth and bequest objects in the utility function defined in
+ the previous section.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Age distribution of wealth in 2017.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:baseline_wealth_2017"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/baseline_wealth_2017.svg
+	lyxscale 30
+	width 100line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As a first principle, the age-distributed discount rate 
+\begin_inset Formula $\beta_{x}$
+\end_inset
+
+ is calibrated to match the consumption profiles in the data.
+ However, this approach is problematic for certain age groups when the calibrati
+on is based on the simplest version of the utility function in MAKRO:
+\end_layout
+
+\begin_layout Standard
+First, without altruistic preferences, any positive discount rate results
+ in the older cohorts (from about 80 years) saving too much (consuming too
+ little of the wealth) compared to the data - this result is well known
+ from the literature.
+ As a result, calibrating the model to match the consumption of old cohorts
+ - in the absence of a bequest motive - results in negative discount factors,
+ which are neither realistic or meaningful.
+ This is solved by including an age-dependent 
+\emph on
+warm glow
+\emph default
+ motive via two bequest parameters in the utility function, 
+\begin_inset Formula $\xi_{x}^{beq}$
+\end_inset
+
+ and 
+\begin_inset Formula $\eta_{x}^{beq}$
+\end_inset
+
+, while keeping the discount factor constant when the cohorts reach a certain
+ age.
+\end_layout
+
+\begin_layout Standard
+Secondly, there seems to be some degree of credit rationing for households
+ in the beginning and middle of working life.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+It should be noted that children have been taken into account in relation
+ to the utility function of households, so this is not the reason for the
+ low discount rates.
+ The habit adjusted consumption is calculated as 
+\begin_inset Formula $C_{a}/\left(1+0.5\times\text{children}_{x}\right)-\chi^{C}C_{a-1}/\left(1+0.5\times\text{children}_{a-1}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\text{children}_{a}$
+\end_inset
+
+ is the number of children of an average a year old individual.
+\end_layout
+
+\end_inset
+
+ Indications of such a “soft” credit rationing are reflected in a consumption
+ profile that is steadily rising for these age groups as the income of the
+ cohorts also increases gradually.
+ Credit restrictions, including those that arise as a result of uncertainty,
+ will also tend to reduce the calibrated discount rate.
+ The problem of low discount rates for young households is solved by introducing
+ an age-dependent parameter for utility of wealth, 
+\begin_inset Formula $\xi_{x}$
+\end_inset
+
+, which increases the calibrated discount rate all other things being equal.
+ The discount factor is kept constant up to a certain age (prior to smoothing
+ the parameter).
+ Note that the level of the entire profile could be calibrated to be positive
+ in the middle of life (by changing the weight on bequests), but only with
+ wealth in the utility function do we moderate the sharp
+\emph on
+ 
+\emph default
+increase
+\emph on
+ 
+\emph default
+in discount rates from 20 to 40 years of age.
+ The parameter for utility of wealth may reflect several factors: For example,
+ precautionary savings due to unmodeled uncertainty will result in lower
+ consumption and thus lower discount factors than those one would get if
+ uncertainty explicitly influenced consumers' decisions.
+\end_layout
+
+\begin_layout Standard
+Third, in the absence of wealth in the utility function, there are negative
+ discount rates for the youngest adults, i.e.
+ age groups between 18 and 25 years or age.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Consumption of individuals younger than 18 years are placed with their parents.
+\end_layout
+
+\end_inset
+
+ Here, on the other hand, there is probably to some extent a data problem:
+ the imputed consumption is unrealistically low for people under 25 years
+ of age.
+ This is probably due to unregistered transfers from parents (support for
+ current consumption and housing costs).
+ The problem is also solved by including wealth in the utility function
+ as described above.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Calibrated discount rates after smoothing.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Diskonteringsrate."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/rDisk.svg
+	lyxscale 30
+	width 100line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Note: The figure displays results from the ultimo june 2021 version of MAKRO.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In summary, MAKRO replicates the imputed age profile of private consumption,
+ for a large part of the cohorts, primarily by means of calibrated discount
+ rates, but for the oldest and the youngest it is necessary to include utility
+ of bequests and wealth to get reasonable (positive) discount rates.
+ Note that the age profiles based on administrative data are scaled such
+ that, for example, the sum of the individuals' private consumption corresponds
+ with the national accounts.
+ This is necessary as these are different data sources that are not completely
+ matched, cf.
+ Hoeck and Bonde (2021).
+ Finally, the discount rate and other age varying parameters are smoothed
+ before forecasting to prevent overfitting the data.
+\end_layout
+
+\begin_layout Section
+Marginal propensity to consume
+\end_layout
+
+\begin_layout Standard
+As described in the section above, the model is calibrated to replicate
+ empirical age profiles in a base year.
+ This ensures that the 
+\emph on
+level 
+\emph default
+of private consumption is reasonable across cohorts.
+ In addition, it is crucial that household behavior in marginal experiments
+ is also reasonable.
+ Here, one is typically interested in the MPC out of changes in households'
+ income.
+ However, the measure of MPC depends critically on how housing consumption
+ and capital gains are treated.
+ In general equilibrium, an increase in the income of all households can
+ lead to increases in housing prices that substantially affect the size
+ of the income change when capital gains are included in the measure of
+ income.
+ National accounts use a concept of housing consumption calculated as the
+ rental value of the housing stock, which means that HtM households have
+ MPCs below 1 as their immediate cost of housing investments are not counted
+ as consumption.
+ The national accounting thereby understates the changes consumption 
+\emph on
+expenditure
+\emph default
+ compared to a definition of imputed consumption expenditure that includes
+ housing investments.
+ In the microeconometric literature, these issues can be mostly avoided
+ by excluding households with real-estate transactions within a certain
+ period from the sample.
+\end_layout
+
+\begin_layout Standard
+At the most aggregate level, MPC describes the model's overall consumption
+ response to shocks.
+ Aggregate MPC is not directly calibrated, but is implicitly determined
+ through matching to aggregate empirical impulse response functions (IRFs)
+ from estimated SVAR models.
+ Due to the forward-looking agents in the model, the MPC varies significantly
+ depending on the whether the income shock is temporary or permanent.
+ In the full general equilibrium model, the MPC also varies depending on
+ the nature of the shock.
+ However, the resulting MPCs of income shocks presented in the following
+ are roughly equivalent to the short-term MPC found in other Danish models,
+ such as ADAM and SMEC, where the first-year response of consumption to
+ changes in income is around 0.4-0.5.
+ In addition, there is a relatively extensive empirical literature that
+ has examined the average propensity to consume using Danish microdata.
+ Here, the average MPC is also typically estimated to be around 0.5.
+\end_layout
+
+\begin_layout Standard
+Due to MAKRO's OLG structure, we can also study the households' MPC by age.
+ In the literature, only few studies have examined the age profile of MPC
+ on Danish data.
+ In summary, there is agreement that the profile is declining over life:
+ Crawley & Kuchler (2018) find a MPC of approx.
+ 0.7 for 20-30-year-olds, which is declining to around 0.6 at the end of working
+ life, after which it falls relatively sharply.
+ Kreiner et al (2019) include age as a control variable in their analysis
+ and find that MPC decreases by 2 percentage points when household age increases
+ by 10 years.
+ Hvid & Kuchler (2017) report an age profile on the marginal propensity
+ to consume out of changes in housing wealth.
+ This too has a generally declining profile for different periods - at least
+ when the very youngest homeowners are disregarded.
+ Thus, although there is agreement that the age profile of MPC is declining
+ over life, there is less agreement on the order of magnitude.
+ For several of the studies, the age profiles are also a small part of a
+ larger analysis, just as the income and consumption concepts used may vary
+ and differ from those we use in MAKRO.
+ A possible future project could therefore be that the MAKRO group itself
+ estimated the MPC distribution over life, based on Danish microdata and
+ which can subsequently be held up against the model.
+\end_layout
+
+\begin_layout Standard
+To most closely match the measures of MPC used in the microeconometric literatur
+e we construct a partial equilibrium version of MAKRO, which consists of
+ Euler equations, income definitions, and budget constraints.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The partial model of household consumption and savings behavior consists
+ of the subset of the equations in MAKRO that directly relates to these
+ decisions.
+ Equations that relate to other parts of MAKRO (eg the production sector,
+ the public sector and foreign trade) and which more indirectly (via general
+ equilibrium effects) affect these decisions are not included.
+ The endogenous variables determined in these parts of MAKRO are thus exogenized
+ in the partial model.
+ Central to the partial model is the consumption and saving behavior of
+ households, and for both types of households, consumption (excluding housing),
+ the amount of housing and wealth are endogenous in the partial model.
+ Household reference consumption is also endogenised to maintain inertia
+ in the consumption response.
+ For households in particular, income is exogenised in terms of wages, employmen
+t, government transfers and capital transfers, and further exogenised variables
+ with a direct impact on household choices include housing and consumer
+ prices.
+ The same partial model is used to assess marginal propensity and crowding
+ out of pension savings.
+\end_layout
+
+\end_inset
+
+ In this model we can analyze what happens when we shock a single or few
+ households without affecting aggregate market conditions.
+ To abstract from the issue of housing consumption, we exogenize the housing
+ investments of the household in the first year of the shock, in line with
+ microeconometric studies that exclude households with real-estate transactions
+ from their sample.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the MPC by age in the first year of an income shock in a partial
+ equilibrium version of MAKRO, for a temporary and permanent income shock
+ respectively.
+ In the temporary shock, income increases for two periods, with the effect
+ being halved in the second period.
+ This level of persistence is chosen to roughly match the persistence in
+ the microeconomics studies that we compare to.
+ It can be seen that for a temporary shock, the profile is declining in
+ age: From 0.5 for the 19-year-olds to 0.41 for 80-year-olds.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The sharp spike in MPC for 18-year olds is a result of them having a different
+ specification of habit consumption.
+ While 19-year olds have previous 18-year olds as their reference group,
+ 18-year olds have themselves as their reference.
+ This implies that 18-year olds and 19-year olds have the same reference
+ group albeit 19-year olds have greater income and thus a smaller share
+ of their consumption is habit consumption.
+ This result in 18-year olds having a significantly higher MPC than all
+ other age-groups.
+\end_layout
+
+\end_inset
+
+ In a permanent income shock we increase households' incomes proportionally
+ in all periods, so that all households have the same relative increase
+ in remaining lifetime income.
+ Here, MPC increases with age up to 0.65 at the age of 40 and then declines
+ afterwards.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ also shows that the persistence of the shock is important for the order
+ of magnitude of the MPC: In the case of permanent shocks, the consumption
+ response is much greater for all age groups.
+ This illustrates an important property of MAKRO: Some consumers optimize
+ under forward-looking expectations, which means that permanent shocks generally
+ have greater effects than temporary shocks, even in the first year.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MPC in the first year by age.
+ Temporary and permanent shocks.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:MPC"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/MPC.svg
+	lyxscale 30
+	width 100line%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+MPC in MAKRO generally declines with age as suggested by the literature.
+ In the partial model, aggregate first-year MPC ranges from 0.44 for a temporary
+ income shock to 0.58 for a permanent shock.
+ For temporary shocks, we generally find MPCs that are close to or slightly
+ smaller than the microeconometric studies that we compare the model against.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC_H2MvsR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the first-year MPCs of HtM and forward-looking consumers for the
+ temporary and permanent shock to the partial model.
+ With exogenous housing investments in the first period, all HtM households
+ have an MPC of exactly 1.
+ As such, the age profiles of the average household discussed above only
+ reflect the age-dependent behavior of the forward-looking households.
+ It is clearly straight forward to increase the overall MPC, by simply increasin
+g the share of HtM consumers.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+First-year MPC by age and household type.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:MPC_H2MvsR"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Temporary shock
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/MPC_H2MvsR.svg
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+Permanent shock
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphics/MPC_H2MvsR_permanent.svg
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In conclusion, in the beta version of the model it is possible for MAKRO
+ to generate reasonable age-variant MPCs (i.e.
+ at the micro level) and at the same time give reasonable MPCs in face of
+ aggregate shocks.
+ These good marginal properties of the model is obtained while fitting the
+ age distribution of the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textit{level}
+\end_layout
+
+\end_inset
+
+ of consumption by age imputed from register data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch Sensitivity
+inverted 0
+status collapsed
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sensitivity analysis, other parameter values.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Sensitivitetsanalyse,-andre-para"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MAKRO variable name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Baseline
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+II
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+III
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+IV
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+V
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\xi$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uFormue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-\kappa$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cFormue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\xi^{\text{beq}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uArv
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+21.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+29.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+152.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-\kappa^{\text{beq}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cArv
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\eta$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eHh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rHtM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.44
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, we perform a series of sensitivity analyzes: First, we examine
+ what it means for the MPC profiles when we vary the parameters used to
+ fit the level of the age profiles, i.e.
+ the parameters for determining the utility of bequest and wealth.
+ The alternative values as well as the baseline values are shown in Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Sensitivitetsanalyse,-andre-para"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The uFormue parameter corresponds to 
+\begin_inset Formula $\xi$
+\end_inset
+
+ in equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ The cFormue parameter corresponds to 
+\begin_inset Formula $-\kappa$
+\end_inset
+
+.
+ Similarly, the parameters uArv and cArv correspond to 
+\begin_inset Formula $\xi^{\text{beq}}$
+\end_inset
+
+ and 
+\begin_inset Formula $-\kappa^{\text{beq}}$
+\end_inset
+
+ i (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W_beq"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ The parameter eHh corresponds to the risk aversion parameter 
+\begin_inset Formula $\eta$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ux"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W_beq"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the age-distributed MPCs when the parameters from Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Sensitivitetsanalyse,-andre-para"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ are used.
+ The biggest differences are found for the age groups under 40 years - and
+ even here MPC is typically not affected by more than 0.05.
+ This indicates that the chosen method (described in sections 2 and 3) to
+ fit the levels of the age profiles has limited impact on household margins
+ in the event of shocks.
+ The greatest effect is obtained in the resulting endogenous discount rate,
+ which required to calibrate the model, when alternately switching off the
+ utility of bequest and wealth.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Diskonteringsrate."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ illustrates why calibration is problematic for certain age groups when
+ these mechanisms are not included in MAKRO.
+\end_layout
+
+\begin_layout Standard
+It appears from Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ that an increase in cFormue from 0.5 to 1.0 gives a significant decrease
+ in MPC in the young ages, cf.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Sensitivitetsanalyse,-andre-para"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ This is equivalent to changing 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:W"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) from -0.5 to -1.0.
+ Having 
+\begin_inset Formula $\kappa=-0.5$
+\end_inset
+
+ means that in the optimum it will always apply that 
+\begin_inset Formula $X_{x-1}>\kappa=-0.5$
+\end_inset
+
+.
+ This means that the realizable net wealth (incl.
+ housing) will always be more than -0.5 million.
+ This can be interpreted as a credit restriction introduced via the utility
+ function.
+ If we change 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ to -1.0, it is equivalent to loosening the credit restriction (you can now
+ afford to have a debt of DKK 1 million).
+ And according to Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ this means that MPC falls, which makes very good sense.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Midlertidig-højere-indkomst-i-2025"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows that the MPC profile is both qualitatively and quantitatively relatively
+ unaffected by whether consumption is defined with or without housing consumptio
+n when housing consumption is defined as in national accounts.
+ This is because housing consumption is defined as the rental value of the
+ housing quantity, and both the rental value and the housing quantity are
+ relatively sluggish variables.
+ Had one chosen to calculate the consumption based on a cash-flow consideration,
+ as consumption excl.
+ housing plus housing investments, the short-term MPC would be significantly
+ higher, cf.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC-med-boliginvesteringer-Midlertidig-højere-indkomst-i-2025."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Here, too, a declining age profile is seen, which is, however, less steep
+ than when housing investments are not included.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+References
+\end_layout
+
+\begin_layout Description
+- Browning & Leth-Petersen (The Economic Journal, 2003): Imputing consumption
+ from income and wealth information
+\end_layout
+
+\begin_layout Description
+- Crawley & Kuchler (WP, 2018): Consumption Heterogeneity: Micro Drivers
+ and Macro Implications
+\end_layout
+
+\begin_layout Description
+- Hoeck & Bonde (DREAM Model Documentation, 2021): The Creation of Lifecycle
+ Profiles for Households in MAKRO
+\end_layout
+
+\begin_layout Description
+- Hviid & Kuchler (WP, 2017): Consumption and savings in a low interest-rate
+ environment
+\end_layout
+
+\begin_layout Description
+- Jørgensen & Kuchler (WP, 2017): Non-Parametric Estimation of Marginal
+ Propensities to Consume: The Case of Regression Splines
+\end_layout
+
+\begin_layout Description
+- Kreiner et al (American Economic Journal: Economic Policy, 2019): Liquidity
+ Constraint Tightness and Consumer Responses to Fiscal Stimulus Policy
+\end_layout
+
+\end_body
+\end_document

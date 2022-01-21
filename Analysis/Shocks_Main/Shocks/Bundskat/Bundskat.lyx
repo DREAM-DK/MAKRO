@@ -1,0 +1,893 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language danish
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style danish
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent stød til bundskatten
+\end_layout
+
+\begin_layout Standard
+Det første stød, vi kigger på, er et "ufinansieret" stød til bundskatten.
+ Det "ufinansierede" stød til bundskatten tjener som illustration af den
+ selvstændige betydning af det instrument, som i de fleste af de øvrige
+ stød benyttes som finansieringskilde til overholdelse af det offentliges
+ intertemporale budgetbetingelse, set relativt til en situation med langvarig
+ gældsfinansiering, jf.
+ diskussion i indledningen.
+ Som nævnt her bliver dette stød derfor særligt grundigt gennemgået, og
+ kan ses som gennemgang af modellens mange effekter og egenskaber.
+ I det efterfølgende antages det specifikt, at der sker en en permanent
+ sænkelse af bundskatten svarende til et direkte provenu-tab på 0,1 pct.
+ af BNP i stød-året.
+\end_layout
+
+\begin_layout Standard
+Lavere indkomstskat øger husholdningernes disponible indkomst, hvilket stimulere
+r privatforbruget.
+ Dermed har vi at gøre med et klassisk efterspørgselsstød, som beskrevet
+ i indledningen.
+ Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser væksten i BNP og dens komponenter angivet ift.
+ BNP i baseline.
+ Skattelettelsen medfører en permanent stigning i privatforbruget - det
+ gælder både boligforbrug og øvrigt forbrug.
+ Førstnævnte medfører, at både boligpriserne og boliginvesteringerne stiger
+ kraftigt på kort sigt, men ligeledes ligger højere på lang sigt.
+ Den permanent højere indenlandske efterspørgsel presser priserne op (se
+ figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_p_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), hvilket medfører at eksporten falder på lang sigt.
+ Det fremgår af figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BNP_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, at den højere indenlandske efterspørgsel på lang sigt giver udslag i en
+ mindre stigning i BNP og et betydeligt fald i eksporten.
+ Som beskrevet i indledningen betyder de højere priser, at real-usercost
+ på kapital falder.
+ Dette forbedrer virksomhedernes reale indtjening således at reallønnen
+ vokser.
+ Dette medfører en substitution over mod kapital.
+ Dette forklarer - sammen med husholdningernes højere boliginvesteringer
+ - at investeringerne vokser permanent.
+ Kombineret med en sammensætningseffekt er dette årsagen til, at BNP er
+ permanent højere.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Sammensætningseffekten skyldes, at privat forbrug har højere nettoafgifter
+ end eksport, og priserne er normeret inkl.
+ nettoafgifter, hvilket betyder, at en overgang fra eksport til privat forbrug
+ vil give højere realt BNP selv for uændret produktion.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+BNP og underkomponenter - priser
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BNP_p_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BNP_priser.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+På kort sigt medfører efterspørgselsstigningen højere beskæftigelse og kapacitet
+sudnyttelse på arbejdskraft.
+ Dette forklarer den betydelige stigning i BNP, selvom beskæftigelsen stiger
+ mere trægt.
+ Bemærk, at eksporten falder langsommere end eksporpriserne, hvilket skyldes
+ at fortrængningen fra stigende indenlandske priser indeholder en træghed.
+ Priserne stiger trægt pga.
+ træghed i løn og priser.
+ Uden trægheder i hverken løn, priser eller eksport ville eksporten falde
+ øjeblikkeligt og stigningen i BNP ville være markant mindre.
+ Importen stiger umiddelbart på grund af stigningen i produktionen og på
+ sigt også pga.
+ højere indenlandske priser.
+\end_layout
+
+\begin_layout Standard
+Som nævnt stiger investeringerne på langt sigt bl.a.
+ på grund af boliginvesteringer.
+ Boliginvesteringerne er permanent højere, da husholdningerne har fået permanent
+ højere efterspørgsel.
+ Kapitaltrægheder i form af vaneforbrug på bolig, kvadratiske installationsomkos
+tninger og gradvis frigivelse af land til boliginvesteringer giver en træg
+ tilpasning af kapitalapparatet, hvilket gør, at boliginvesteringerne ikke
+ blot hopper op år 1, men er over det langsigtede niveau i adskillige år.
+ Kapitalapparatet, der anvendes til produktion i de forskellige brancher,
+ har også trægheder grundet kvadratiske installationsomkostninger og kapacitetsu
+dnyttelse, så også her sker tilpasningen af kapitalapparatet gradvist og
+ over tid.
+\end_layout
+
+\begin_layout Subsection
+Arbejdsmarkedet
+\end_layout
+
+\begin_layout Standard
+For at kunne øge beskæftigelsen skal virksomhederne slå flere job op og
+ hyre flere ansatte.
+ Jo flere job, der bliver slået op ift.
+ antallet af jobsøgende, jo sværere er det for virksomhederne at få et match
+ ved et jobopslag.
+ Virksomhedernes marginale omkostninger ved at hyre stiger derfor.
+ Omvendt bliver det lettere for de jobsøgende at få et match, hvilket medfører,
+ at de marginale omkostninger ved at søge et job falder.
+ De lavere søgeomkostninger får husholdningerne til at øge deres jobsøgningsinds
+ats.
+ I MAKRO er defineret en variabel som dækker over antallet af personer,
+ der beholder deres arbejde plus antallet af personer, der aktivt søger
+ efter nyt job.
+ Vi kalder i dette papir denne variabel for søgebasen.
+ Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Arbejdsmarked_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser reaktionen i beskæftigelsen, søgebasen, arbejdsstyrken og nettoledigheden.
+ Arbejdsstyrken er en bogholderimæssig konstruktion defineret ud fra socio-økono
+miske grupper, som konjunkturelt bliver bestemt på baggrund af beskæftigelsesniv
+eauet.
+ Søgebasen er baseret på søgeintensiteten og er udbudssiden af beskæftigelsen.
+ Søgeintensiteten er en teoretisk konstruktion og afhænger som nævnt af,
+ hvor let det er at finde et job.
+ Nettoledigheden er defineret som forskellen på beskæftigelsen og arbejdsstyrken
+, hvilket også gør dette til en bogholderimæssig konstruktion.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og ledighed
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Arbejdsmarked_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Arbejdsmarked.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+På kort sigt betyder den højere efterspørgsel efter varer og tjenester,
+ at det er en god forretning for virksomhederne at ansætte nye medarbejdere.
+ I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Loen"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses det, at den umiddelbare reaktion i lønnen er mindre end for marginalprodukt
+et på arbejdskraft (eksemplificeret ved tjenestebranchen).
+ Det skyldes, at kun en andel af lønkontrakterne der genforhandles hvert
+ år.
+ Omvendt gælder det, at marginalproduktet på arbejdskraft springer op allerede
+ initialt som følge af stødet.
+ Det sker, fordi reale trægheder i beskæftigelsen (men også investeringerne)
+ samt begrænsninger i muligheden for at forøge kapacitetsudnyttelsen forhindrer
+ virksomhederne i - med det samme - at tilpasse beskæftigelsen til det ønskede
+ højere niveau.
+ På mellemlang og lang sigt, hvor disse trægheder har mindre betydning virksomhe
+dernes beslutninger, bringes stigningen i løn og marginalprodukt gradvist
+ tættere på hinanden og er til sidst identiske.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Beskæftigelse, arbejdsudbud og løn
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Loen"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Loen.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Husholdningerne
+\end_layout
+
+\begin_layout Standard
+Skattelettelsen går direkte ind og øger husholdningernes disponible indkomst.
+ Herudover giver den øgede beskæftigelse en kortsigtet stigning i lønindkomsten.
+ På lang sigt giver den højere løn anledning til stigning i lønindkomst
+ og overførselsindkomster (via satsreguleringen), efter at overførslerne
+ til husholdningerne har ligget lavere som følge af beskæftigelsesfremgangen,
+ jf.
+ figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Indkomst_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Den primære effekt på både kort og lang sigt er dog gennem de lavere skatter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Husholdningernes indkomst ekskl.
+ kapitalafkast
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Indkomst_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Indkomst.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bolig og forbrug ekskl.
+ bolig
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Forbrug&bolig_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/Forbrug&bolig.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Den højere indkomst får efterspørgslen efter både boliger og andet forbrug
+ til at stige, jf.
+ figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug&bolig_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Øget boligefterspørgsel får boliginvesteringerne til at stige.
+ Kvadratiske installationsomkostninger og begrænset mængder land til rådighed
+ gør, at det er ret omkostningsfyldt at ændre boligmængden for meget på
+ kort sigt.
+ Det får boligpriserne til at stige og gør, at boligmængden kun stiger gradvist.
+\end_layout
+
+\begin_layout Standard
+Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "HhFormue_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser den relative stigning i fire forskellige formue-begreber.
+ Lønstigningen giver en lille langsigtet stigning i pensionsformuen.
+ Formue inkl.
+ bolig mm.
+ hopper initialt på grund af det betydelige hop i boligprisen (se figur
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Forbrug&bolig_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Det ses, at den samlede formue vokser nogenlunde lige så meget som indkomsten
+ på lang sigt.
+ Formuen ekskl.
+ pension mm.
+ vokser mere end den samlede formue for at kompensere for den begrænsede
+ stigning i pensionsformuen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Husholdningernes reale formue
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "HhFormue_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/HhFormue.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Virksomhederne
+\end_layout
+
+\begin_layout Standard
+Den øgede efterspørgsel fra husholdningerne trækker på virksomhedernes produktio
+n.
+ Privat forbrug trækker kraftigst på tjenestebranchen, som er den branche,
+ der oplever den største stigning i efterspørgslen.
+ Figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BVT_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ viser effekten på BVT i de forskellige brancher.
+ BVT i fremstilling falder over tid i takt med den forværrede konkurrenceevne,
+ da eksporten trækker relativt meget på fremstillingsbranchen.
+ Den øgede efterspørgsel efter boliger får BVT i byggeriet til at stige
+ via boliginvesteringerne.
+ Over tid får den øgede mængde boligkapital BVT i boligbranchen til at stige.
+ På grund af det relativt lave antal beskæftigede i boligbranchen, medfører
+ denne stigning en markant stigning i BVT på sigt.
+ Uden bidraget fra boligbranchen
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Boligbranchen er en syntetisk branche, som producerer boligydelser.
+ Den består både af privatejede bolig og lejeboliger.
+ Den er syntetisk i den forstand, at privatejede boliger indgår.
+ Hermed opgøres produktionsværdien som husejerens lejeværdi af egen bolig
+ - opgjort til værdi for tilsvarende lejeboliger (på et reguleret marked).
+ Stigningen i BVT består altså af, at husholdningerne køber flere huse -
+ og at disse huse leverer en produktion til husholdningerne i form af boligydels
+e.
+ Havde bolig i Nationalregnskabet ikke været opgjort som et varigt gode,
+ så havde der ikke været nogen produktionsværdi, og BVT-effekten havde været
+ 0.
+\end_layout
+
+\end_inset
+
+ ville den langsigtede effekt på samlet BVT være stort set nul.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Vær opmærksom på at BVT-effekten er mindre end BNP-effekten, da BNP inkluderer
+ afgifter - og derfor også stiger på baggrund af sammensætningseffekter,
+ jf.
+ tidligere fodnote.
+\end_layout
+
+\end_inset
+
+ Tjenestebranchens BVT stiger markant på kort sigt, hvilket særligt skyldes,
+ at forbrug ekskl.
+ bolig - som stiger kraftigt - primært trækker på tjenestebranchen.
+ I takt med forværret konkurrenceevne falder efterspørgslen fra tjenestebranchen
+ dog.
+ Denne effekt dels, at den direkte eksport falder og an importandele for
+ tjenester stiger, dels at der er faldende produktion i fremstillingsbranchen,
+ som efterspørger tjenester.
+ Øvrig produktion stiger permanent og mest i starten.
+ Dette er drevet af byggebranchen primært pga.
+ den øgede boligefterspørgsel, men også pga.
+ øget kapitalintensitet for erhvervsbygninger.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Produktion fordelt på brancher
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BVT_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/BVT.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+I det følgende beskrives effekterne af lavere bundskat på tjenestebranchen,
+ som er den klart største branche (ca.
+ halvdelen af den samlede beskæftigelse): Tjenestebranchen forøger sine
+ materialeinput fra andre brancher mere end proportionalt med brutto-produktione
+n
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Bruttoproduktionen også kaldet KLBR-aggregatet er lig output plus installlations
+omkostninger.
+\end_layout
+
+\end_inset
+
+, da materialer er blevet relativt billigere.
+ Input fra udlandet sikrer, at omkostningerne og materialeprisen stiger
+ relativt mindre end lønnen.
+ Denne effekt forstærkes af pristrægheden, som betyder, at prisen stiger
+ mindre end omkostningerne på kort sigt.
+ Virksomhederne benytter primo-kapital til produktionen, hvilket ikke kan
+ øges indeværende periode, ligesom arbejdskraften også kun øges gradvist
+ og betydeligt mindre end produktionen initialt.
+ Hermed produceres på kort sigt med relativt mindre kapital, jf.
+ figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "KLBTjenester_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Til gengæld stiger kapacitetsudnyttelser for arbejdskraft og begge typer
+ af kapital.
+ På sigt betyder den højere løn, at der substitueres over mod kapital såvel
+ som materialer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Produktion, kapital og beskæftigelse for private tjenester
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "KLBTjenester_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/KLBRTjenester.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I figur 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LTjenester_Bundskat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ses det, hvorledes kapacitetsudnyttelse understøtter stigningen i tjenestebranc
+hens BVT det første år.
+ I det første år er bidraget fra kapacitetsudnyttelse til effektiv arbejdskaft
+ langt større end bidraget fra beskæftigelsen i hoveder.
+ En mindre del af stigningen i den effektive arbejdskraft går til ansættelsesomk
+ostninger, hvorfor beskæftigelse til produktion stiger mindre end den faktiske
+ beskæftigelse.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Effektiv arbejdskraft dekomponeret for private tjenester
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LTjenester_Bundskat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Grafik/LTjenester.svg
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

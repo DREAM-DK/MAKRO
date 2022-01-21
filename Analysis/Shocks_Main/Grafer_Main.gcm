@@ -1,0 +1,96 @@
+// =====================================================================================================================
+// Gekko-analyse af permanente stød til MAKRO
+// =====================================================================================================================
+
+// run Analysis\Shocks_Main\Grafer_Main;
+
+// SETTINGS
+RESTART;
+time 2025 2099;
+read <gdx> Model\gdx\stiliseret_grundforloeb.gdx;
+
+// Skal defineres, da vi ellers får fejl ved IF-statement
+@%shock_name1='';@%shock_name2='';@%shock_name3='';@%shock_name4='';@%shock_name5='';@%shock_name6='';@%shock_name7='';
+@%shock_name8='';@%shock_name9='';
+
+//*** Udkommenter de stød der ikke skal køres *** 
+@%shock_name1='Bundskat';
+@%shock_name2='Renten';
+@%shock_name3='Arbejdsudbud';
+@%shock_name4='ForeignDemand';
+@%shock_name5='GovSpending';
+@%shock_name6='IntRate';
+@%shock_name7='OilPrice';
+@%shock_name8='Prisneutralitet';
+@%shock_name9='Befolkning';
+
+IF(@%shock_name1=='Bundskat'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name1 + '_pshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\'+@%shock_name1+'\Grafik\';
+  %EndYear = 2060;
+  run Analysis\gcm\Grafer_pshocks;
+END;
+
+IF(@%shock_name2=='Renten'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name2 + '_pshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\'+@%shock_name2+'\Grafik\';
+  %EndYear = 2090;
+  run Analysis\gcm\Grafer_pshocks;
+END;
+
+IF(@%shock_name3=='Arbejdsudbud'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name3 + '_pshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\'+@%shock_name3+'\Grafik\';
+  %EndYear = 2060;
+  run Analysis\gcm\Grafer_pshocks;
+END;
+
+IF(@%shock_name4=='ForeignDemand'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name4 + '_VARshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\Eksportmarked_SVAR\Grafik\';
+  %EndYear = 2040;
+  run Analysis\gcm\Grafer_pshocks;
+  %shock_name = @%shock_name4;
+  run Analysis\gcm\Grafer_VARshocks;
+END;
+
+IF(@%shock_name5=='GovSpending'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name5 + '_VARshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\Offentlige_Udgifter_SVAR\Grafik\';
+  %EndYear = 2040;
+  run Analysis\gcm\Grafer_pshocks;
+  %shock_name = @%shock_name5;
+  run Analysis\gcm\Grafer_VARshocks;
+END;
+
+IF(@%shock_name6=='IntRate'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name6 + '_VARshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\Rente_SVAR\Grafik\';
+  %EndYear = 2040;
+  run Analysis\gcm\Grafer_pshocks;
+  %shock_name = @%shock_name6;
+  run Analysis\gcm\Grafer_VARshocks;
+END;
+
+IF(@%shock_name7=='OilPrice'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name7 + '_VARshock.gdx';
+  %shock_dir = '\Analysis\Shocks_Main\Shocks\Oliepris_SVAR\Grafik\';
+  %EndYear = 2040;
+  run Analysis\gcm\Grafer_pshocks;
+  %shock_name = @%shock_name7;
+  run Analysis\gcm\Grafer_VARshocks;
+END;
+
+IF(@%shock_name8=='Prisneutralitet'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name8 + '_homo.gdx';
+  %shock_dir = 'Analysis\Shocks_Main\Shocks\Homogenitet\Grafik\' + @%shock_name8 + '\';
+  %EndYear = 2080;
+  run Analysis\gcm\Grafer_homogenitet;
+END;
+
+IF(@%shock_name9=='Befolkning'); 
+  read <gdx first> 'Analysis\Shocks_Main\gdx\' + @%shock_name9 + '_homo.gdx';;
+  %shock_dir = 'Analysis\Shocks_Main\Shocks\Homogenitet\Grafik\' + @%shock_name9 + '\';
+  %EndYear = 2080;
+  run Analysis\gcm\Grafer_homogenitet;
+END;

@@ -1,0 +1,30 @@
+// Figurer som benyttes i stød-papir
+// PLOT <2025 %EndYear n ytitle='Stigning rLedig ift. baseline'> rLedig - @rLedig  'Ledigheds-respons i MAKRO', median['log(UNEMP)',%shock_name] 'Ledigheds-respons i SVAR', upper['log(UNEMP)',%shock_name] 'Øvre konfindensbånd', lower['log(UNEMP)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_rLedig.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning LedighedsGap ift. baseline'> ((rLedig - srLedig) - (@rLedig - @srLedig))*100 'Ledigheds-respons i MAKRO', median['MarkovUGap',%shock_name]*100 'Ledigheds-respons i SVAR', upper['MarkovUGap',%shock_name]*100 'Øvre konfindensbånd', lower['MarkovUGap',%shock_name]*100 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_UGap.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(C) ift. baseline'> log(qC[ctot]) - log(@qC[ctot]) 'Privatforbrug-respons i MAKRO', median['log(C)',%shock_name] 'C-respons i SVAR', upper['log(C)',%shock_name] 'Øvre konfindensbånd', lower['log(C)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_C.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(X) ift. baseline'> log(qX[xtot]) - log(@qX[xtot]) 'Eksport-respons i MAKRO', median['log(X)',%shock_name] 'X-respons i SVAR', upper['log(X)',%shock_name] 'Øvre konfindensbånd', lower['log(X)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_X.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(BNP) ift. baseline'> log(qBNP) - log(@qBNP) 'BNP-respons i MAKRO', median['log(GDP)',%shock_name] 'BNP-respons i SVAR', upper['log(GDP)',%shock_name] 'Øvre konfindensbånd', lower['log(GDP)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_BNP.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(IBx) ift. baseline'> log(qI['iB']) - log(@qI['iB']) 'Bygningsinvesterings-respons i MAKRO', median['log(IBx)',%shock_name] 'IBx-respons i SVAR', upper['log(IBx)',%shock_name] 'Øvre konfindensbånd', lower['log(IBx)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_IBx.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(IM) ift. baseline'> log(qI['iM']) - log(@qI['iM']) 'Maskininvesterings-respons i MAKRO', median['log(IM)',%shock_name] 'IM-respons i SVAR', upper['log(IM)',%shock_name] 'Øvre konfindensbånd', lower['log(IM)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_IM.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(Ibol) ift. baseline'> log(qIBolig) - log(@qIBolig) 'Boliginvesterings-respons i MAKRO', median['log(Ibol)',%shock_name] 'IBol-respons i SVAR', upper['log(IBol)',%shock_name] 'Øvre konfindensbånd', lower['log(IBol)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_IBol.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(Pbol) ift. baseline'> log(pBolig) - log(@pBolig)  'Boligpris-respons i MAKRO', median['log(Pbol)',%shock_name] 'Pbol-respons i SVAR', upper['log(Pbol)',%shock_name] 'Øvre konfindensbånd', lower['log(Pbol)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_Pbol.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(PC) ift. baseline'> log(pC[cTot]) - log(@pC[cTot]) 'Forbrugerpris-respons i MAKRO', median['log(PC)',%shock_name] 'PC-respons i SVAR', upper['log(PC)',%shock_name] 'Øvre konfindensbånd', lower['log(PC)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_PC.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(PX) ift. baseline'> log(pX[xTot]) - log(@pX[xTot]) 'Eksportpris-respons i MAKRO', median['log(PX)',%shock_name] 'PX-respons i SVAR', upper['log(PX)',%shock_name] 'Øvre konfindensbånd', lower['log(PX)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_PX.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(PY) ift. baseline'> log(pY[sTot]) - log(@pY[sTot]) 'Outputpris-respons i MAKRO', median['log(PY)',%shock_name] 'PY-respons i SVAR', upper['log(PY)',%shock_name] 'Øvre konfindensbånd', lower['log(PY)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_PY.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning log(W) ift. baseline'> log(vWHh[Tot]/nLHh[Tot]) - log(@vWHh[Tot]/@nLHh[Tot])  'Løn-respons i MAKRO', median['log(W)',%shock_name] 'W-respons i SVAR', upper['log(W)',%shock_name] 'Øvre konfindensbånd', lower['log(W)',%shock_name] 'Nedre konfindensbånd'  file=%shock_dir + 'SVAR_W.svg';
+
+PLOT <2025 %EndYear n ytitle='Stigning ift. baseline'> rRente['Obl'] - @rRente['Obl']  'Udenlandsk rente', log(pXudl[xTot]) - log(@pXudl[xTot]) 'Udenlandske priser', log(qXMarked[xVar]) - log(@qXMarked[xVar]) 'Eksportmarked' file=%shock_dir + 'SVAR_ForeignShocks.svg'; 
+
+PLOT <2025 %EndYear n ytitle='Stigning ift. baseline'> rRente['Obl'] - @rRente['Obl']  'Udenlandsk rente', log(pXudl[xTot]) - log(@pXudl[xTot]) 'Udenlandske priser', log(qXMarked[xVar]) - log(@qXMarked[xVar]) 'Eksportmarked', log(pOlie) - log(@pOlie) 'Oliepris' file=%shock_dir + 'SVAR_ForeignShocks_Olie.svg';  

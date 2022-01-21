@@ -1,0 +1,60 @@
+
+<gekkoplot>
+
+<palette>
+  #1f78b4,
+  #1f78b4,
+  #1f78b4,
+
+  #33a02c,
+  #33a02c,
+  #33a02c,
+
+  #e31a1c,
+  #e31a1c,
+  #e31a1c,
+
+  #ff7f00,
+  #ff7f00,
+  #ff7f00,
+
+  #6a3d9a,
+  #6a3d9a,
+  #6a3d9a,
+
+  #b15928,
+  #b15928,
+  #b15928,
+
+
+</palette>
+
+<linewidth>3</linewidth>
+<pointsize>0.3</pointsize>
+
+<lines>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+ <line><dashtype>1</dashtype></line>
+ <line><dashtype>2</dashtype></line>
+ <line><dashtype>3</dashtype></line>
+</lines>
+
+
+<!-- <ymirror>1</ymirror>1</ymirror>
+ --><!-- <ytitle>Pct.\nÆndring ift. grundforløb</ytitle> -->
+
+</gekkoplot>
