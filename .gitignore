@@ -6,7 +6,7 @@
 *.sublime-workspace
 *.pyc
 *.dat
-*gdx
+*.gdx
 
 !Model/Gdx/stiliseret_grundforloeb.gdx
 !Model/Gdx/stiliseret_grundforloeb_nominal.gdx
