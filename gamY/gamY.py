@@ -136,6 +136,7 @@ import pickle
 import re
 from math import ceil, floor
 from heapq import heappush
+from timeit import default_timer as timer
 
 import itertools # Useful in FOR loops in MAKRO
 
