@@ -1,0 +1,17 @@
+  # See https://www.gams.com/latest/docs/S_CONOPT4.html
+  # for available solver options
+
+  #  Keep searching for a solution even if a bound is hit (due to non linearities)
+  lmmxsf = 1
+
+  # Time limit in seconds
+  reslim = 172000
+
+  # Multithreading
+  Threads=7
+  THREADF=7
+  #  THREAD2D=4
+  #  THREADC=4
+
+  #  # Relative accuracy of the objective function.
+  #  Tol_Obj_Acc=3.0e-9
