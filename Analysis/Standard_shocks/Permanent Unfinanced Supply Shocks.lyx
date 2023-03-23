@@ -1,0 +1,616 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{colortbl}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\renewcommand{\maketitle}{
+	\bgroup\setlength{\parindent}{0pt}
+	\begin{flushleft}
+		\textbf{\huge\@title}
+
+		\vspace{20pt}
+
+		\textbf{\normalsize\@author}
+
+		\textbf{Working paper}\newline\@date
+
+		www.dreamgruppen.dk
+	\end{flushleft}\egroup
+}
+
+\fancyhead[L]{
+	\small
+	\textcolor{MAKRO}{
+		\textbf{\@title}
+		\linebreak
+		\leftmark
+	}
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM · \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\usepackage{amsmath}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\usepackage{amsmath}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent unfinanced supply shocks
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Permanent unfinanced supply shocks"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this chapter, we look at unfinanced labor supply and productivity shocks.
+ Both shocks induce lower unit costs.
+ The labor supply shock reduces wages and increases the vacancy filling
+ rate, both of which reduce labor costs.
+ The productivity shock reduces the quantity of inputs needed to produce
+ a unit of output.
+ These are all supply shocks as described in the introduction.
+ With the following mechanisms:
+\end_layout
+
+\begin_layout Itemize
+Increased supply decreases prices for given demand
+\end_layout
+
+\begin_layout Itemize
+Increased supply leads to lower unit costs
+\end_layout
+
+\begin_layout Itemize
+Lower unit costs leads to lower output prices
+\end_layout
+
+\begin_layout Itemize
+Lower output prices lead to lower demand prices
+\end_layout
+
+\begin_layout Itemize
+Lower prices increase demand over time
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Increased demand leads to increased sectoral production
+\end_layout
+
+\begin_layout Itemize
+Increased sectoral production leads to higher demand for inputs
+\end_layout
+
+\begin_layout Itemize
+Increased intermediate input demand leads to increased imports and domestic
+ sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased capital demand leads to increased investmens from imports and
+ domestic sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased labor demand leads to increased wages, employment and labor supply
+\end_layout
+
+\begin_layout Itemize
+Increased employment and wages leads to higher household income and increased
+ demand for private consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing demand leads to increased housing prices and investments
+ in housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing prices leads to increased liquidity and demand for private
+ consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased production leads to higher output prices
+\end_layout
+
+\begin_layout Itemize
+Higher output prices leads to higher demand prices
+\end_layout
+
+\begin_layout Itemize
+Increased prices dampens demand over time
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Full crowding out in the unemployment rate
+\end_layout
+
+\begin_layout Itemize
+Increased supply will over time cause scale effects in exports
+\end_layout
+
+\begin_layout Standard
+These mechanisms are all described in further detail in the introduction.
+ Note that all shocks are unfinanced - see 'The reaction of the public sector'
+ in the introduction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Labor productivity
+\end_layout
+
+\begin_layout Standard
+Labor productivity in all private sectors increases by 1 percent relative
+ to the baseline.
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Shock is to domestic labor productivity only - i.e.
+ foreign demand market growth, foreign prices and interest rate unchanged
+\end_layout
+
+\begin_layout Itemize
+Wages per hour worked increase and real wages increase more as prices decrease
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Positive effect on income, private consumption and housing investments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Only very small net effects on employment
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In the short run less employment for given production and increased production
+ keeps employment relative stable
+\end_layout
+
+\begin_layout Itemize
+In the long run employment is unchanged
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Productivity in public sector is unchanged - so government production and
+ consumption is unchanged
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Private GVA increase close to 1 percent, but total GVA and GDP less
+\end_layout
+
+\begin_layout Itemize
+Government production deflator grows as public sector wages follow private
+ sector wages 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Scale effects in exports follow private GVA
+\end_layout
+
+\begin_layout Itemize
+Positive effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/ArbejdsProd/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Labor supply through participation
+\end_layout
+
+\begin_layout Standard
+Labor supply is increased through participation untill each age group has
+ its structural employment increased by 1 percentage point relative to the
+ baseline.
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Compared to shock to labor productivity
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There is a negative effect from less unemployment compensation on wages,
+ government budget etc.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This gives an extra effect that works like a negative demand shock via household
+ income
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+It is a larger shock to effective labor supply as public sector employment
+ is unchanged and private sector employment increase by more than 1 percent
+ in the long run
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Shock is 'unfinanced' and labor supply increases more than labor demand
+ for given prices and the wage and real wage will fall
+\end_layout
+
+\begin_layout Itemize
+Small effect on income, private consumption and housing investments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Employment increase more than real wages decrease - positive effect
+\end_layout
+
+\begin_layout Itemize
+Lower unemployment and unemployment compensation decrease income
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Small effect on investments as production increases, but lower real wages
+ gives substitution away from capital
+\end_layout
+
+\begin_layout Itemize
+GVA and GDP increase close to proportional with labor supply 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Lower capital output ratio in the sectors dampens GVA and GDP growth relative
+ to labor supply
+\end_layout
+
+\begin_layout Itemize
+Workers finds employment in the private sector with higher GVA per worker
+ than the public sector
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Scale effect in exports increase more than 1 percent as private employment
+ and GVA increase more than 1 percent for given public employment and production
+\end_layout
+
+\begin_layout Itemize
+Large positive effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Arbejdsudbud/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Capital productivity 
+\end_layout
+
+\begin_layout Standard
+Capital productivity in all private sectors increases by 1 percent relative
+ to the baseline.
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Shock is to domestic capital productivity only - i.e.
+ foreign demand market growth, foreign prices and interest rate unchanged
+\end_layout
+
+\begin_layout Itemize
+Compared to labor productivity shock:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Smaller long run effects on GVA as the non-reproducible input (effective
+ labor) is unchanged and significantly smaller as substitution elasticities
+ in production are small
+\end_layout
+
+\begin_layout Itemize
+Long run price effects are positive
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Most effects qualitative effects are as in the shock to labor productivity
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Wages per hour worked increase and real wages increase
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Positive effect on income, private consumption and housing investments
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Only very small net effects on employment
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In the short run less employment for given production and increased production
+ keeps employment relative stable
+\end_layout
+
+\begin_layout Itemize
+In the long run employment is unchanged
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Productivity in public sector is unchanged - so government production and
+ consumption is unchanged
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Private GVA increase close to 1 percent, but total GVA and GDP less
+\end_layout
+
+\begin_layout Itemize
+Government production deflator grows as public sector wages follow private
+ sector wages 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Scale effects in exports follow private GVA
+\end_layout
+
+\begin_layout Itemize
+Positive effect on government budget and fiscal sustainability
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/KapitalProd/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

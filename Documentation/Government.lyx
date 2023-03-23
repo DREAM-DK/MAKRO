@@ -1,0 +1,2888 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\begin_local_layout
+Format 66
+PackageOptions demo graphicx
+\end_local_layout
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch AgeDistributionOfTransfers
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Government
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Demand"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This chapter provides an overview of government revenues and expenditures.
+ Several items on the expenditure side of the balance sheet are exogenous
+ or obey exogenous relationships, such as fixed ratios to population or
+ GDP.
+ The same is true on the revenue side, as much of this side of the balance
+ sheet amounts to determining the realized average tax rate on a particular
+ item.
+\end_layout
+
+\begin_layout Standard
+A couple of basic relationships are helpful to put forward here.
+ First, the government budget surplus is the primary budget surplus plus
+ net interest income,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Surplus = Primary Surplus + Net Interests}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the primary surplus is the difference between revenues and expenditures
+ (other than interest payments).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Primary Surplus = Revenues - Expenditures}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Revenues and expenditures are described in the next two sections.
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Net-interest-income"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ accounts for net interests, and finally, after detailing the balance sheet,
+ we define the fiscal sustainability indicator in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-fiscal-sustainability"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Revenue
+\end_layout
+
+\begin_layout Standard
+\noindent
+Government revenue is the sum of direct taxation, indirect taxation and
+ other government revenues:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Revenues}\equiv T_{t}=T_{t}^{Direct}+T_{t}^{Indirect}+T_{t}^{Other}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Direct taxes comprise around 60% of total tax revenues and are described
+ in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Direct taxation"
+
+\end_inset
+
+, which covers many aspects of the Danish income tax system.
+ Indirect taxes consist mainly of duties, VAT, and production taxes, as
+ described in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Indirect taxation"
+
+\end_inset
+
+.
+ Indirect taxes make up around 30% of tax revenues.
+ The remaining taxes are described in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Other government revenues"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Regarding notation, the letter 
+\begin_inset Formula $y$
+\end_inset
+
+ stands for income and appears in different objects, tax rates are denoted
+ by 
+\begin_inset Formula $\tau$
+\end_inset
+
+, and tax revenues are given by the capital letter 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ For example, the sector-specific corporate tax rate is called 
+\begin_inset Formula $\tau_{s,t}^{Corp}$
+\end_inset
+
+ and brings in the total revenue 
+\begin_inset Formula $T_{s,t}^{Corp}$
+\end_inset
+
+.
+ Tax rates in the text, 
+\begin_inset Formula $\tau$
+\end_inset
+
+, correspond to tax rates in the code 
+\begin_inset Formula $t\times f$
+\end_inset
+
+, where 
+\begin_inset Formula $f$
+\end_inset
+
+ is an adjustment variable to fit the data.
+ These adjustments help match observed average tax rates, given the rate
+ determined in the tax law.
+ The adjustment factor is sometimes unnecessary and set to 1.
+ Tax rates and adjustment factors are typically exogenous in MAKRO - if
+ not it is explicitly mentioned.
+\end_layout
+
+\begin_layout Standard
+Where applicable, variables such as 
+\begin_inset Formula $T_{t}^{Income}$
+\end_inset
+
+ represent sums over all cohorts, while corresponding variables with an
+ age subscript, 
+\begin_inset Formula $T_{a,t}^{Income}$
+\end_inset
+
+, represent cohort averages.
+ The two variables are related by 
+\begin_inset Formula $T_{t}^{Income}=\sum_{a}N_{a,t}T_{a,t}^{Income}$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The only exceptions for tax revenues in this chapter are the taxes on the
+ deceased and property tax.
+ However, it does not apply in general as, in some cases, the base is the
+ start-of-year population, and the flow of the deceased needs to be accounted
+ for.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Direct taxes
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Direct taxation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Direct taxation is modeled closely after the Danish income tax law.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See http://www.skm.dk/skattetal/beregning/skatteberegning/skatteberegning-hovedtra
+ekkene-i-personbeskatningen-2017
+\end_layout
+
+\end_inset
+
+ Economic and demographic movements affect the tax burden such that the
+ relationship between direct taxation and the total income level is not
+ constant, and therefore we need a flexible modeling of the tax system.
+\end_layout
+
+\begin_layout Standard
+Direct taxes consist of income taxes 
+\begin_inset Formula $T_{t}^{Income}$
+\end_inset
+
+, labor market contributions (AM bidrag)
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+AM Bidrag is a tax of 8%, which all employees and the self-employed must
+ pay each month on their wages.
+ Employers ensure that the labor market contribution is automatically deducted
+ from salary after ATP and any own pension contribution have been deducted,
+ after which the other taxes are deducted.
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Formula $T_{t}^{AM}$
+\end_inset
+
+, corporate taxation, 
+\begin_inset Formula $T_{t}^{Corp}$
+\end_inset
+
+, taxation on the return on investments in pension funds, 
+\begin_inset Formula $T_{t}^{PAL}$
+\end_inset
+
+, weight duties on cars, 
+\begin_inset Formula $T_{t}^{Weight}$
+\end_inset
+
+, and other personal income taxation, 
+\begin_inset Formula $T_{t}^{PersRest}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+T_{t}^{Direct}= & T_{t}^{Income}+T_{t}^{AM}+T_{t}^{Corp}+T_{t}^{PAL}\\
+ & +T_{t}^{Weight}+T_{t}^{PersRest}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Income tax revenues are given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+T_{t}^{Income}= & T_{t}^{Muncipal}+T_{t}^{Bot}+T_{t}^{Equity}+T_{t}^{Top}\\
+ & +T_{t}^{Property}+T_{t}^{Business}+T_{t}^{Deceased}
+\end{array}
+\]
+
+\end_inset
+
+where the components are local (municipal) income taxes, income taxes from
+ the bottom income bracket, taxes on capital income from equity, income
+ from the top income bracket, property taxes, taxes on small businesses
+ that do not pay corporate tax, and taxes on the deceased (as households
+ can still have income subject to taxation in the year they die).
+ All these revenues are calculated for each cohort of households.
+\end_layout
+
+\begin_layout Standard
+The municipal tax, bottom bracket tax, and top bracket tax revenues are
+ given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Muncipal}=\tau_{a,t}^{Muncipal}\left(y_{a,t}^{Taxable}-AL_{a,t}^{Personal}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Bot}=\tau_{t}^{Bot}\left(y_{a,t}^{Personal}+y_{a,t}^{NetCap^{+}}-AL_{a,t}^{Personal}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Top}=\tau_{t}^{Top}\left(y_{a,t}^{Personal}+y_{a,t}^{NetCap^{+}}\right)\alpha_{a,t}^{Top}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The municipal tax is based on taxable income, 
+\begin_inset Formula $y_{a,t}^{Taxable}$
+\end_inset
+
+, while the bottom and top bracket taxes are based on personal income, 
+\begin_inset Formula $y_{a,t}^{Personal}$
+\end_inset
+
+, plus positive
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Positive means that the net income form bonds and deposits is conditional
+ on being positive and above a certain level.
+\end_layout
+
+\end_inset
+
+ net income from bonds and deposits, 
+\begin_inset Formula $y_{a,t}^{NetCap^{+}}$
+\end_inset
+
+.
+ Only income above a certain threshold is taxed at the 3 relevant tax rates.
+ For the municipal and the bottom bracket taxes, a personal allowance, 
+\begin_inset Formula $AL_{a,t}^{Personal}$
+\end_inset
+
+, is subtracted from the base.
+ For top bracket taxes, 
+\begin_inset Formula $\alpha_{a,t}^{Top}$
+\end_inset
+
+ controls the share of personal income effectively taxed at the top rate.
+ The income terms and allowances are described in detail in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Income-terms-and"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The taxes on income generated by financial stocks are given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{\text{Revenue from survivors}}{\underbrace{T_{a,t}^{Equity}N_{a,t}}}=\tau_{t}^{Equity}\left(\underset{\text{Dividends (pr. household)}}{\underbrace{\sum_{i\in\text{Equity}}r_{i,t}^{Div}A_{i,a-1,t-1}}}+\underset{\text{Aggregate capital gains}}{\underbrace{\alpha_{t}^{Gains}C_{t}^{AccGains}}}\underset{\text{Household share of total}}{\underbrace{\frac{\sum_{i\in\text{Equity}}A_{i,a-1,t-1}}{\sum_{i\in\text{Equity}}A_{i,t-1}}}}\right)\underset{\text{Surviving population}}{\underbrace{s_{a-1,t-1}N_{a-1,t-1}}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $A_{i,a,t}$
+\end_inset
+
+ is the households financial assets of type 
+\begin_inset Formula $i$
+\end_inset
+
+, here either domestic or foreign equities.
+ Both dividends and realized capital gains are subject to taxes on equity
+ income.
+ Only the surviving population pays regular equity taxes, as the deceased
+ are instead taxed through a special tax on the deceased.
+ 
+\end_layout
+
+\begin_layout Standard
+Unrealized capital gains are a stock, 
+\begin_inset Formula $C_{t}^{AccGains}$
+\end_inset
+
+, of accumulated gains and 
+\emph on
+losses
+\emph default
+ from price changes on assets which have not yet been realized and taxed.
+ We model the realization of these gains as a fixed share, 
+\begin_inset Formula $\alpha_{t}^{Gains}$
+\end_inset
+
+, of the unrealized stock.
+ The law of motion of the unrealized-capital-gains stock is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{t}^{AccGains}=C_{t-1}^{AccGains}-\alpha_{t}^{Gains}C_{t}^{AccGains}+\sum_{i\in\text{Equity}}r_{i,t}^{Reval}A_{i,t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $r_{i,t}^{Reval}$
+\end_inset
+
+ is the price change of asset 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+A revaluation is a capital gain that is not realized (where assets change
+ prices but are not traded).
+ A capital gain occurs when the asset is traded.
+\end_layout
+
+\end_inset
+
+ This formulation implies that capital gains are gradually taxed with an
+ average realization time depending on 
+\begin_inset Formula $\alpha_{t}^{Gains}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Property taxes follow the value of the start-of-period stock of owner-occupied
+ housing, 
+\begin_inset Formula $D_{a-1,t-1}$
+\end_inset
+
+:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Note that in the current version of MAKRO 
+\begin_inset Formula $T_{t}^{Property}=T_{a,t}^{Property}N_{a,t}+\tau_{t}^{Property}D_{a-1,t-1}\left(1-s_{a-1,t-1}\right)N_{a-1,t-1}=\sum_{a}\tau_{t}^{Property}D_{a-1,t-1}N_{a-1,t-1}$
+\end_inset
+
+.
+ That is property taxes on the deceased (not a part of taxes on the deceased)
+ must also be paid.
+ These are paid through lower inheritance.
+ This will be changed in a future version of MAKRO.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Property}N_{a,t}=\tau_{t}^{Property}D_{a-1,t-1}s_{a-1,t-1}N_{a-1,t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The business tax follows earnings before taxes, 
+\begin_inset Formula $EBT_{t}$
+\end_inset
+
+.
+ It is distributed among cohorts according to their wage income assuming
+ that business income is distributed as wage income:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Business}=\tau_{t}^{Business}EBT_{t}\frac{W_{a,t}}{W_{t}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $W_{a,t}$
+\end_inset
+
+ denotes the wages per person paid to the households of age 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $W_{t}$
+\end_inset
+
+ is the total of the cohort.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In the notation of the labor market chapter it is defined as 
+\begin_inset Formula $W_{a,t}\equiv\frac{\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}w_{t}}{N_{a,t}}$
+\end_inset
+
+ and 
+\begin_inset Formula $W_{a,t}\equiv\sum_{a}W_{a,t}N_{a,t}=\sum_{a}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}w_{t}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taxation of the deceased primarily consists of taxes on capital income of
+ the deceased.
+ It follows the base for equity taxes and other capital income for those
+ that do not survive:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Death}=\tau_{t}^{Death}\left(\begin{array}{c}
+\underset{\text{Dividends}}{\underbrace{\sum_{i\in\text{Equity}}r_{i,t}^{Div}A_{i,a-1,t-1}}}+\underset{\text{Capital gains}}{\underbrace{\alpha_{t}^{Gains}C_{t}^{AccGains}\frac{\sum_{i\in\text{Equity}}A_{i,a-1,t-1}}{\sum_{i\in\text{Equity}}A_{i,t-1}}}}\\
++\underset{\text{Interests}}{\underbrace{r_{a,t}^{NetCap^{+}}\sum_{i\in\text{Bonds \& Deposits}}r_{i,t}^{Interest}A_{i,a-1,t-1}}}
+\end{array}\right)
+\]
+
+\end_inset
+
+The first two terms of the base refer to equity taxes, and the last refers
+ to positive net capital income, which is described in the subsection 
+\begin_inset Quotes eld
+\end_inset
+
+Income terms and allowances
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The aggregate revenue from taxes on the deceased is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Death}=\sum_{a}T_{a,t}^{Death}\left(1-s_{a-1,t-1}\right)N_{a-1,t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Labor market contributions (AM Bidrag) are modeled as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{AM}=\tau_{t}^{AM}W_{a,t}\left(\frac{W_{t}-T_{t}^{CivilServants}}{W_{t}}\right)
+\]
+
+\end_inset
+
+They depend on the tax rate and on wages per person (not per employee) adjusted
+ for pension contributions to civil servants' pensions.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The last term is modifying the age dependent wage to be net of civil servants'
+ contribution.
+ This is modeled with the extra term as this contribution is not age dependent.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Corporate taxes are given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Corp}=\sum_{s\in Private}T_{s,t}^{Corpx}+T_{t}^{NorthSea}
+\]
+
+\end_inset
+
+which is the sum of corporate tax revenue from the private sectors, 
+\begin_inset Formula $T_{s,t}^{Corpx}$
+\end_inset
+
+, plus a tax for oil and gas extraction in the North Sea, 
+\begin_inset Formula $T_{t}^{NorthSea}$
+\end_inset
+
+.
+ The corporate tax excluding extraction is levied on earnings before taxes,
+ 
+\begin_inset Formula $EBT_{t}$
+\end_inset
+
+ : 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{s,t}^{Corpx}=\tau_{t}^{Corp}EBT_{s,t}
+\]
+
+\end_inset
+
+while tax revenues from oil and gas extraction is based on earnings before
+ taxes, interests, and depreciations in the extraction sector and given
+ by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{NorthSea}=\tau_{t}^{CorpNorth}EBITDA_{s\in\text{Extraction},t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pension funds pay tax on the return on their financial assets (interest
+ on bonds, dividends and capital gains on stocks):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{PAL}=\tau_{t}^{PAL}\sum_{i\in\text{Pensions}}\left(r_{i,t}^{Interest}+r_{i,t}^{Reval}\right)A_{i,t-1}
+\]
+
+\end_inset
+
+where the rate of return is the sum of interests (including dividends),
+ 
+\begin_inset Formula $r_{i,t}^{Interest}$
+\end_inset
+
+, and revaluations, 
+\begin_inset Formula $r_{i,t}^{Reval}$
+\end_inset
+
+, of the pension portfolio.
+\end_layout
+
+\begin_layout Standard
+The weight charge on cars, 
+\begin_inset Formula $T_{a,t}^{Weight}$
+\end_inset
+
+, is calculated per person by an implicit tax rate times the stock of privately
+ owned cars, 
+\begin_inset Formula $Cars_{t}$
+\end_inset
+
+, distributed by age according to non-housing consumption, 
+\begin_inset Formula $C_{a,t}$
+\end_inset
+
+:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+To make the model more consistent we could have age specific car stocks.
+ Then the distribution of weight tax on age could be consistent to the prior
+ car consumption by age.
+ As we do not have car consumption divided by age we assume it to be proportiona
+l to overall consumption, thus sparing the extra book keeping by age, and
+ distribute the tax according to non-housing consumption.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Weight}=\tau_{t}^{Weight}Cars_{t-1}\frac{C_{a,t}}{C_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, other (residual) personal income taxes are given by the tax on
+ income received from capital pensions, and a further term divided according
+ to personal income times an implicit tax rate: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{PersRest}=\tau_{t}^{CapPension}y_{p\in\text{Capital pension},a,t}^{PY}+y_{a,t}^{Personal}\tau_{t}^{PRNCP}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+where tax on income received from capital pensions is given by a fixed rate
+ times the pension income from capital pensions, 
+\begin_inset Formula $y_{p\in\text{Capital Pension},a,t}^{PY}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Income terms and allowances
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Income-terms-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Personal income is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{Personal}=\frac{W_{a,t}}{N_{a,t}}-T_{a,t}^{AM}+y_{a,t}^{GTax}+y_{p\in\text{Taxable excl. capital pension},a,t}^{PY}-y_{p\in\text{Taxable incl. capital pension},a,t}^{CP}+y_{a,t}^{PersonalRest}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+which is wage income per person, 
+\begin_inset Formula $\frac{W_{a,t}}{N_{a,t}}$
+\end_inset
+
+, excluding labor market contributions, 
+\xout off
+
+\begin_inset Formula $T_{a,t}^{AM}$
+\end_inset
+
+
+\xout default
+, plus taxable income transfers, 
+\begin_inset Formula $y_{a,t}^{GTax}$
+\end_inset
+
+, defined below in the section on government expenses, plus (received) pension
+ income subject to income taxation, 
+\begin_inset Formula $y_{p\in\text{Taxable excl. capital pension},a,t}^{PY}$
+\end_inset
+
+, minus pension payments to the two tax-deductible types of pensions, 
+\xout off
+
+\begin_inset Formula $y_{p\in\text{Taxable incl. capital pension},a,t}^{CP}$
+\end_inset
+
+
+\xout default
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Income received from capital pensions is not taxed as personal income, but
+ with an independent tax rate.
+ Payments into capital pensions are tax deductible.
+ 
+\end_layout
+
+\end_inset
+
+ Pensions are discussed in the household chapter.
+ Finally a residual item, 
+\begin_inset Formula $y_{a,t}^{PersonalRest}$
+\end_inset
+
+, ensures that personal income by age matches administrative data.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Taxable income adds net capital income, 
+\begin_inset Formula $y_{a,t}^{NetCapital}$
+\end_inset
+
+, and subtracts a number of allowances (AL) defined below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{Taxable}=y_{a,t}^{Personal}+y_{a,t}^{NetCapital}-AL_{a,t}^{EITC}-AL_{a,t}^{Unemp}-AL_{a,t}^{EarlyRet}-AL_{a,t}^{Other}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Net Capital Income of an average person of age 
+\begin_inset Formula $a$
+\end_inset
+
+ is the difference
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{NetCapital}=y_{a,t}^{Cap^{+}}-y_{a,t}^{Cap^{-}}
+\]
+
+\end_inset
+
+where positive capital income is the return on household nominal deposits
+ and bonds 
+\begin_inset Formula $\sum_{i\in\text{Bonds \& Deposits}}r_{i,t}^{interest}A_{i,a,t}$
+\end_inset
+
+ and negative capital income consists of interest payments on nominal bank
+ debt and mortgage debt 
+\begin_inset Formula $\sum_{i\in\text{Debt \& Mortgages}}r_{i,t}^{interest}L_{i,a,t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Positive and negative capital income is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{\text{Income to survivors}}{\underbrace{y_{a,t}^{Cap^{+}}N_{a,t}}}=\underset{Interests}{\underbrace{\sum_{i\in\text{Bonds \& Deposits}}r_{i,t}^{Interest}A_{i,a-1,t-1}}}\underset{\text{Surviving population}}{\underbrace{s_{a-1,t-1}N_{a-1,t-1}}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\underset{\text{Payments by survivors}}{\underbrace{y_{a,t}^{Cap^{-}}N_{a,t}}}=\underset{Interests}{\underbrace{\sum_{j\in\text{Debt \& Mortgages}}r_{j,t}^{Interest}L_{j,a-1,t-1}}}\underset{\text{Surviving population}}{\underbrace{s_{a-1,t-1}N_{a-1,t-1}}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $A_{i,a,t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{j,a,t}$
+\end_inset
+
+ are the households' financial assets and liabilities of type 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ The deceased do not pay regular income taxes on capital income.
+ These are instead part of 
+\emph on
+taxes on the deceased
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+All capital income is part of taxable income and enters the tax base for
+ municipal taxation.
+ However, only positive net capital income (above a certain threshold, 
+\begin_inset Formula $y_{a,t}^{NetCapital}>\underline{y}>0$
+\end_inset
+
+) is part of the tax base for bottom and top taxation
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We are looking at micro data for an accurate measure and until then we set
+ 
+\begin_inset Formula $r_{a,t}^{NetCap^{+}}=0.5$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{NetCap^{+}}=\left(y_{a,t}^{NetCapital}>\underline{y}>0\right)\equiv r_{a,t}^{NetCap^{+}}y_{a,t}^{Cap^{+}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The potential personal allowance is the same for every (adult) person and
+ follows the wage indexation of transfers (satsregulering, 
+\begin_inset Formula $s_{t}^{reg}$
+\end_inset
+
+, described in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Indirect taxation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ The actual average personal allowance used is, however, not the same for
+ all cohorts as some (few) persons do not have any income
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The personal allowance can be used by a spouse if a person has no income
+ (and is married).
+ This effect is not captured in the model.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AL_{a,t}^{Personal}=s_{t}^{reg}\bar{AL}_{a,t}^{Personal}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\bar{AL}_{a,t}^{Personal}$
+\end_inset
+
+ is set to match data.
+\end_layout
+
+\begin_layout Standard
+The earned income tax credit (Beskæftigelsesfradrag, EITC) is an allowance
+ for people in employment.
+ It is a percentage of income up until a limit.
+ It has the properties of a negative marginal tax for people with low income
+ and a negative lump sum tax for people with high income.
+ It is treated as a negative marginal tax, but with a tax rate equaling
+ the average relative allowance.
+ It could be distributed on age groups according to administrative data,
+ but in this model version it is assumed to be the same for all age groups.
+ This means the total tax credit can be calculated as the average allowance
+ rate times wages: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AL_{a,t}^{EITC}=\tau_{t}^{EITC}W_{a,t}
+\]
+
+\end_inset
+
+The allowance for contribution to unemployment insurance, 
+\begin_inset Formula $AL_{a,t}^{Unemp}$
+\end_inset
+
+, is proportional to the contributions paid towards unemployment insurance.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Allowances include contributions and administration cost.
+ Therefore the ratios of allowance to contribution 
+\begin_inset Formula $A2C_{t}^{Unemp}$
+\end_inset
+
+ and 
+\begin_inset Formula $A2C_{t}^{EarlyRet}$
+\end_inset
+
+ can be above 1.
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AL_{a,t}^{Unemp}=\frac{Cont_{a,t}}{Cont_{t}}A2C_{t}^{Unemp}Cont_{t}^{Unemp}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and similarly, the allowance for contribution to early retirement (Efterløn),
+ 
+\begin_inset Formula $AL_{a,t}^{EarlyRet}$
+\end_inset
+
+, is proportional to contributions toward early retirement:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AL_{a,t}^{EarlyRet}=\frac{Cont_{a,t}}{Cont_{t}}A2C_{t}^{EarlyRet}Cont_{t}^{EarlyRet}
+\]
+
+\end_inset
+
+We have data for 
+\begin_inset Formula $AL_{t}^{Unemp}$
+\end_inset
+
+ and 
+\begin_inset Formula $Cont_{t}^{Unemp}$
+\end_inset
+
+.
+ The age decomposition follows the age distribution from total contributions
+ (as only total contributions, 
+\begin_inset Formula $Cont_{a,t}$
+\end_inset
+
+, have an age distribution), which is simply proportional to wage income
+ by age.
+\end_layout
+
+\begin_layout Standard
+Other allowances include allowances for transport, clothes etc.
+ These are primarily related to employment and therefore modeled as a function
+ of the employment rate by age: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AL_{a,t}^{Other}=\bar{AL}_{t}^{Other}s_{t}^{reg}\frac{n_{a,t}^{e}}{N_{a,t}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\bar{AL}_{t}^{Other}$
+\end_inset
+
+ is exogenous and set to match data.
+\end_layout
+
+\begin_layout Subsubsection
+Indirect taxation
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Indirect taxation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The tax revenue from indirect taxes consist of the revenues from value added
+ taxes, 
+\begin_inset Formula $T_{t}^{VAT}$
+\end_inset
+
+, excise duties, 
+\begin_inset Formula $T_{t}^{Duty}$
+\end_inset
+
+, duties from car sales (registreringsafgift), 
+\begin_inset Formula $T_{t}^{Reg}$
+\end_inset
+
+, production taxes, 
+\begin_inset Formula $T_{t}^{Production}$
+\end_inset
+
+, and the difference between customs taxes (taxes on imported goods), 
+\begin_inset Formula $T_{t}^{Cus}$
+\end_inset
+
+, and indirect taxes to the EU, 
+\begin_inset Formula $T_{t}^{EU}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Indirect}=T_{t}^{VAT}+T_{t}^{Duty}+T_{t}^{Reg}+T_{t}^{Production}+T_{t}^{Cus}-T_{t}^{EU}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Value added taxes, excise duties, and customs are all taxes on demand inputs
+ from the production sectors.
+ Customs are added first, but only to imports:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Cus}=\sum_{d}\sum_{s}\tau_{d,s,t}^{Cus}P_{s,t}^{M}M_{d,s,t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\tau_{d,s,t}^{Cus}$
+\end_inset
+
+ is the exogenous custom rate, 
+\begin_inset Formula $M_{d,s,t}$
+\end_inset
+
+ are imports from sector 
+\begin_inset Formula $s$
+\end_inset
+
+ to demand group 
+\begin_inset Formula $d$
+\end_inset
+
+, and 
+\begin_inset Formula $P_{s,t}^{M}$
+\end_inset
+
+ is the corresponding price.
+ Excise duties are added on top of customs:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Duty}=\sum_{d}\sum_{s}\left[\tau_{d,s,t}^{DutyY}P_{s,t}^{Y}Y_{d,s,t}+\tau_{d,s,t}^{DutyM}\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\tau_{d,s,t}^{DutyY}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{d,s,t}^{DutyM}$
+\end_inset
+
+ are the exogenous duty rates, 
+\begin_inset Formula $Y_{d,s,t}$
+\end_inset
+
+ is domestic input from sector 
+\begin_inset Formula $s$
+\end_inset
+
+ to demand group 
+\begin_inset Formula $d$
+\end_inset
+
+, and 
+\begin_inset Formula $P_{s,t}^{Y}$
+\end_inset
+
+ is the corresponding price.
+ Value added taxes are added on top of duties (except those from car sales)
+ and subsidies:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{VAT}=\sum_{d}\sum_{s}\left[\begin{array}{c}
+\tau_{d,s,t}^{VATY}\left(1+\tau_{d,s,t}^{DutyY}-s_{d,s,t}^{Y}\right)P_{s,t}^{Y}Y_{d,s,t}\\
+\\
++\tau_{d,s,t}^{VATM}\left(1+\tau_{d,s,t}^{DutyM}-s_{d,s,t}^{M}\right)\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}
+\end{array}\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $s_{d,s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{d,s,t}^{M}$
+\end_inset
+
+ are exogenous subsidy rates.
+ Note that duty and VAT rates vary for imported and domestic inputs.
+ The tax structure does not allow for such discrimination.
+ It is a product of aggregation as imported and domestic inputs have different
+ composition and hence different aggregate tax rates even on input/output
+ cell level.
+\end_layout
+
+\begin_layout Standard
+Duties from car sales are added after VAT and are modeled as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Reg}=\sum_{d}\sum_{s}\left[\begin{array}{c}
+\tau_{d,t}^{Reg}\left(1+\tau_{d,s,t}^{VATY}\right)\left(1+\tau_{d,s,t}^{DutyY}-s_{d,s,t}^{Y}\right)P_{s,t}^{Y}Y_{d,s,t}\\
+\\
++\tau_{d,t}^{Reg}\left(1+\tau_{d,s,t}^{VATM}\right)\left(1+\tau_{d,s,t}^{DutyM}-s_{d,s,t}^{M}\right)\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}
+\end{array}\right]
+\]
+
+\end_inset
+
+where the exogenous implicit car duty rates 
+\begin_inset Formula $\tau_{d,t}^{Reg}$
+\end_inset
+
+ are 0 for all but three demand composnents: Private consumption of cars,
+ investments in equipment, and government consumption.
+\end_layout
+
+\begin_layout Standard
+Production taxes are taxes on the production input (labor, capital and materials
+) of firms.
+ They are sector specific and consist of taxes on land (grundskyld), 
+\begin_inset Formula $T_{s,t}^{Land}$
+\end_inset
+
+, weight charges on cars, 
+\begin_inset Formula $T_{s,t}^{FirmWeight}$
+\end_inset
+
+, payroll taxes, 
+\begin_inset Formula $T_{s,t}^{Payroll}$
+\end_inset
+
+, taxes related to firm's contribution to workers education, 
+\begin_inset Formula $T_{s,t}^{FirmEdu}$
+\end_inset
+
+, and a small sum of other production taxes, 
+\begin_inset Formula $T_{s,t}^{ProductionRest}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{Production}=\sum_{s}\left(T_{s,t}^{Land}+T_{s,t}^{FirmWeight}+T_{s,t}^{Payroll}+T_{s,t}^{FirmEdu}+T_{s,t}^{ProductionRest}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The tax on land is modeled as:
+\begin_inset Formula 
+\[
+T_{s,t}^{Land}=\tau_{s,t}^{Land}P_{iB,s,t}^{I}K_{iB,s,t-1}
+\]
+
+\end_inset
+
+With an exogenous tax rate, we assume that the tax base for land value follows
+ the replacement value of structures capital in the relevant sector, 
+\begin_inset Formula $P_{iB,s,t}^{I}K_{iB,s,t-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Both the payroll tax and the education contributions are proportional to
+ payrolls:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The payrolls are given by: 
+\begin_inset Formula $Payroll_{s,t}=\left(1-\lambda_{s,t}^{SelfEmp}\right)w_{t}\rho_{s,t}h_{s,t}n_{s,t}$
+\end_inset
+
+, where 
+\begin_inset Formula $\lambda_{s,t}^{SelfEmp}$
+\end_inset
+
+ is the exogenous share of self-employed in sector 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ For notation on other parameters refer to labor market chapter.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{s,t}^{Payroll}=\tau_{s,t}^{Payroll}\cdot Payroll_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{s,t}^{FirmEdu}=\tau_{s,t}^{FirmEdu}\cdot Payroll_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The residual production taxes follow gross value added in each sector:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{s,t}^{ProductionRest}=\tau_{s,t}^{ProductionRest}GVA_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Indirect taxes to the EU is not exactly equal to customs so a correction
+ factor is added:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We have almost exactly 
+\begin_inset Formula $T_{t}^{Cus}=T_{t}^{EU}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{EU}=f_{t}^{TCus}\cdot T_{t}^{Cus}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Other government revenues
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Other government revenues"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Other revenues are as follows: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+T_{t}^{Other}= & T_{t}^{Bequest}+T_{t}^{\delta}+Cont_{t}+T_{t}^{ForeignCap}\\
+ & +T_{t}^{ForeignEU}+T_{t}^{ForeignRest}+T_{t}^{Hh}\\
+ & +T_{t}^{Firms}+T_{t}^{Church}+T_{t}^{LandRent}+T_{t}^{GovFirms}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bequest taxes (arveafgift) follow the bequest amount, 
+\begin_inset Formula $T_{t}^{Bequest}=\tau_{t}^{Bequest}\cdot Beq_{t}$
+\end_inset
+
+, where 
+\begin_inset Formula $\tau_{t}^{Bequest}$
+\end_inset
+
+ is the implicit tax rate and 
+\begin_inset Formula $Beq_{t}$
+\end_inset
+
+ is the sum of bequests described in the household chapter.
+ 
+\end_layout
+
+\begin_layout Standard
+Revenues from the depreciation of government capital 
+\xout off
+
+\begin_inset Formula $T_{t}^{\delta}$
+\end_inset
+
+
+\xout default
+ are discussed in the chapter on government production and consist of depreciati
+on allowances paid by the government to itself.
+ They are included here as revenue, while on the expenditure side they are
+ a part of government consumption.
+ On the public production side depreciation is counted as a cost.
+ The public sector gets the money back here, however so the actual capital
+ expense is the investment.
+\end_layout
+
+\begin_layout Standard
+Contributions to social programs (Bidrag til sociale ordninger) 
+\begin_inset Formula $Cont_{t}$
+\end_inset
+
+, sums a list of different specific payments to the state: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+Cont_{t}= & Cont_{t}^{Unemp}+Cont_{t}^{CivilServants}+Cont_{t}^{EarlyRet}\\
+ & +Cont_{t}^{FreeRest}+Cont_{t}^{Mandatory}
+\end{array}
+\]
+
+\end_inset
+
+All these contributions follow the labor force through a relation of the
+ form:
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The labor force in MAKRO is a sum of people in socio-economic groups in
+ the labor force 
+\begin_inset Formula $\sum_{soc\in\text{Labor Force}}n_{soc,t}$
+\end_inset
+
+ plus foreign worker.
+ The number of people in socio-economic groups depends mechanically on employmen
+t and population as described under transfers in the expenditure section
+ of this chapter.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Cont_{t}^{X}=\mu_{t}^{X}\cdot n_{t}^{LabForce}
+\]
+
+\end_inset
+
+with contribution rate 
+\begin_inset Formula $\mu_{t}^{X}$
+\end_inset
+
+.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This rate follows the regulation rate of public transfers (sats-regulering)
+ as explained under public expenditures.
+\end_layout
+
+\end_inset
+
+ The index 
+\begin_inset Formula $X$
+\end_inset
+
+ contains contributions to early retirement, other voluntary contributions
+ (øvrige frivillige bidrag), mandatory contributions (obligatoriske bidrag),
+ and contributions to civil servant pensions (bidrag til tjenestemandspension).
+\end_layout
+
+\begin_layout Standard
+Transfers to the government are divided into foreign capital transfers,
+ 
+\begin_inset Formula $T_{t}^{ForeignCap}$
+\end_inset
+
+, non-capital foreign transfers from the EU, 
+\begin_inset Formula $T_{t}^{ForeignEU}$
+\end_inset
+
+, other foreign transfers, 
+\begin_inset Formula $T_{t}^{ForeignRest}$
+\end_inset
+
+, transfers from households, 
+\begin_inset Formula $T_{t}^{Hh}$
+\end_inset
+
+, transfers from firms, 
+\begin_inset Formula $T_{t}^{Firms}$
+\end_inset
+
+, and transfers from publicly owned firms, 
+\begin_inset Formula $T_{t}^{GovFirms}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+All these transfers are all calibrated to match their respective shares
+ of GDP: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{X}=\alpha_{t}^{X}GDP_{t}
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $X\in\left\{ ForeignCap,ForeignEU,ForeignRest,Hh,Firms,GovFirms\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Tax revenue from the church tax follows the same tax base as municipal taxation
+ and is (at a personal level) given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{a,t}^{Church}=\tau_{t}^{Church}r_{t}^{TChurch}\left(y_{a,t}^{Taxable}-y_{a,t}^{PA}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{t}^{TChurch}$
+\end_inset
+
+ are the share of tax-payers that pay church-taxes.
+\end_layout
+
+\begin_layout Standard
+The land rent, 
+\begin_inset Formula $T_{t}^{LandRent},$
+\end_inset
+
+ depends on the gross value added in the extraction sector, and is given
+ by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{t}^{LandRent}=\tau_{t}^{LandRent}\cdot GVA_{extraction,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Expenditures
+\end_layout
+
+\begin_layout Standard
+Total government expenditures, 
+\begin_inset Formula $Exp_{t}^{G}$
+\end_inset
+
+, are the sum of expenditures on government consumption, 
+\begin_inset Formula $P_{t}^{G}G_{t}$
+\end_inset
+
+, income transfers, 
+\begin_inset Formula $TR_{t}$
+\end_inset
+
+, value of investments, 
+\begin_inset Formula $\sum_{k}P_{k,\text{Pub},t}^{I}I_{k,\text{Pub},t}$
+\end_inset
+
+, subsidies, 
+\begin_inset Formula $Sub_{t}$
+\end_inset
+
+, and other expenses, 
+\begin_inset Formula $Exp_{t}^{Other}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Expenditures}\equiv Exp_{t}^{G}=P_{t}^{G}G_{t}+TR_{t}+\sum_{k}P_{k,\text{Pub},t}^{I}I_{k,\text{Pub},t}+Sub_{t}+Exp_{t}^{Other}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The largest expense categories are government consumption and income transfers.
+ In 2021 these two posts were respectively 49 and 32 percent of government
+ expenditures.
+ 
+\end_layout
+
+\begin_layout Standard
+Government consumption, 
+\begin_inset Formula $G_{t}$
+\end_inset
+
+, and investments, 
+\begin_inset Formula $I_{k,\text{Pub},t}$
+\end_inset
+
+, are exogenous.
+ The prices of these are, as usual for demand prices, given by the output
+ prices from the sectors delivering inputs plus indirect taxes.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Expenditures on government consumption and investments depend on the endogenous
+ output prices, where the public sector weighs the most.
+ The public sector's output price follows its production costs, which are
+ mainly wages.
+ So expenditures on government consumption and investments follow the wage
+ level relatively close even though not one to one.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Further details of government investments and capital stocks are given in
+ the chapter on public production.
+\end_layout
+
+\begin_layout Standard
+Income transfers, subsidies and other expenses are described in the rest
+ of this section.
+\end_layout
+
+\begin_layout Subsubsection
+Income transfers
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Income-transfers"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Government income transfers are the sum of many different types
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In the current model version there are 36 different income transfers: 12
+ types of unemployment compensation, 7 types of pension and 17 other including
+ student aid, support for housing, children etc.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+TR_{t}=\sum_{j}TR_{j,t}
+\]
+
+\end_inset
+
+Every type of income transfer 
+\begin_inset Formula $j$
+\end_inset
+
+ is determined as a rate per person in million DKK times a number of recipients
+ in thousand persons:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+It is necessary to include an adjustment term in order to calibrate the
+ model as in some years transfers have been paid even though the base is
+ zero.
+ This is probably due to corrections in transfers paid from the year before.
+ The numbers are, however, very small and in projections this adjustment
+ term is set to zero and not used.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+TR_{j,t}=Rate_{j,t}\cdot n_{j,t}
+\]
+
+\end_inset
+
+Rates follow the wage index, 
+\begin_inset Formula $s_{t}^{reg}$
+\end_inset
+
+, (satsregulering) 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The only exception is the 
+\begin_inset Formula $j=\text{Green Check}$
+\end_inset
+
+, which just consists of a constant value 
+\begin_inset Formula $Rate_{\text{Green Check},t}=\mu_{\text{Green Check},t}^{Rate}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Rate_{j,t}=\mu_{j,t}^{Rate}s_{t}^{reg}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\mu_{j,t}^{Rate}$
+\end_inset
+
+ is a calibrated parameter.
+\end_layout
+
+\begin_layout Standard
+The wage index is based on the average wage per worker with a two year lag:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s_{t}^{reg}=s_{t-1}^{reg}\frac{W_{t-2}/n_{t-2}^{e}}{W_{t-3}/n_{t-3}^{e}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The number of recipients is based on an exogenous mapping
+\begin_inset Formula $\text{\frac{\partial n_{j}}{\partial n_{soc}}}$
+\end_inset
+
+from socio-economic groups
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In the current model version there are 52 different socio-economic groups.
+ The employed are divided into 19 groups, the unemployed into 11 groups,
+ leaving 22 groups for people outside the labor market.
+\end_layout
+
+\end_inset
+
+ contained in the demographic projection (befolkningsregnskab) to the income
+ transfer type:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{j,t}=\sum_{soc}\underbrace{\frac{\partial n_{j}}{\partial n_{soc}}}_{\text{exogenous}}\cdot n_{soc,t}
+\]
+
+\end_inset
+
+The mapping 
+\begin_inset Formula $\frac{\partial n_{j}}{\partial n_{soc}}$
+\end_inset
+
+ is a 
+\begin_inset Formula $j\times soc$
+\end_inset
+
+ matrix.
+ In most cases this matrix only has diagonal elements - i.e.
+ one socio-economic group receives one type of transfer.
+ In several cases, however, more than one socio-economic group receives
+ the same transfer type, for example employed and unemployed students both
+ receive student benefits.
+ Also, the base for some transfers is all people of age 18 and above.
+ In a few cases the socio-economic groups are divided between two transfer
+ groups where they are not the only recipients.
+ This makes it necessary to have coefficients between one and zero in a
+ few cells.
+\end_layout
+
+\begin_layout Standard
+The number of persons in the different socio-economic groups changes with
+ employment.
+ When employment increases by 1.000 persons groups, that make up employment
+ increase by 1.000 persons, and the groups which make up non-employment decrease
+ by the same 1.000 persons.
+ The specific allocation follows the deviation from structural employment:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{soc,t}=n_{soc,t}^{*}+\underbrace{\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}}_{\text{exogenous}}\left(n_{t}^{e}-n_{t}^{e*}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $n_{t}^{e}$
+\end_inset
+
+ is total employment (excluding non-resident workers) and 
+\begin_inset Formula $n_{t}^{e*}$
+\end_inset
+
+ is the equivalent structural employment.
+ The factor 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}$
+\end_inset
+
+ is the marginal effect from deviations of employment relative to its structural
+ level on the composition of the different population groups (socio-economic,
+ index 
+\begin_inset Formula $soc$
+\end_inset
+
+).
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The marginal effects are measured empirically by the Ministry of Finance
+ using correlations with the employment gap.
+ This is described in more detail in the working paper: 
+\begin_inset Quotes eld
+\end_inset
+
+Fordeling af ændringer i beskæftigelsen på socioøkonomiske grupper
+\begin_inset Quotes erd
+\end_inset
+
+ published on www.fm.dk.
+\end_layout
+
+\end_inset
+
+ The object 
+\begin_inset Formula $n_{soc,t}^{*}$
+\end_inset
+
+ is the structural number of persons in the socio-economic group 
+\begin_inset Formula $soc$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Age distribution of income transfers
+\end_layout
+
+\begin_layout Standard
+The previous section covered income transfers by the type of income transfer,
+ 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ The total of these income transfers to households is 
+\begin_inset Formula $\sum_{j}TR_{j,t}^{G}$
+\end_inset
+
+.
+ We now look at how these transfers are distributed among households of
+ different ages.
+\end_layout
+
+\begin_layout Standard
+To keep the model tractable, we do not model each type of transfer by age
+ endogenously.
+ Instead, we model only the total transfers received by age, 
+\begin_inset Formula $y_{a,t}^{G}$
+\end_inset
+
+.
+ Total transfers by age must of course match total transfers by transfer
+ type; that is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{a}y_{a,t}^{G}N_{a,t}=\sum_{j}TR_{j,t}^{G}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the baseline forecast, we do however, utilize a full demographic forecast
+ by age and socio-economic group, 
+\begin_inset Formula $n_{soc,a,t}$
+\end_inset
+
+.
+ In the baseline, we generally assume that the rate received for a particular
+ income transfer is independent of age, but that the share of recipients
+ varies greatly by age.
+ We can denote the full transfer matrix each period by age and type of transfer
+ as 
+\begin_inset Formula $y_{j,a,t}^{G}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The total income transfer received by an individual is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+y_{a,t}^{G} & =\sum_{j}y_{j,a,t}^{G}\\
+\\
+ & =\sum_{j}Rate_{j,t}\cdot\frac{n_{j,a,t}}{N_{a,t}}\\
+\\
+ & =\sum_{j}\left(Rate_{j,t}\sum_{soc}\underbrace{\frac{\partial n_{j}}{\partial n_{soc}}}_{\text{exogenous}}\cdot\frac{n_{soc,a,t}}{N_{a,t}}\right)
+\end{align*}
+
+\end_inset
+
+For marginal shocks to the model, we model the row and column totals of
+ the 
+\begin_inset Formula $y_{j,a,t}^{G}$
+\end_inset
+
+ matrix, but leave the age
+\begin_inset Formula $\times$
+\end_inset
+
+transfer cells unspecified.
+ As already stated, we do this in order to keep the model tractable.
+\end_layout
+
+\begin_layout Standard
+Specifically, we model 
+\begin_inset Formula $y_{a,t}^{G}$
+\end_inset
+
+ as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{G}=\frac{\partial y_{t}^{G}}{\partial n_{t}^{e}}\cdot\frac{n_{a,t}^{e}}{N_{a,t}}+\frac{\partial y_{t}^{G}}{\partial N_{t}}\mu_{a,t}^{yG}+y_{a,t}^{GOther}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\frac{\partial y_{t}^{G}}{\partial n_{t}^{e}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\partial y_{t}^{G}}{\partial N_{t}}$
+\end_inset
+
+ are endogenous and depend on 
+\begin_inset Formula $Rate_{j,t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{a,t}^{yG}$
+\end_inset
+
+ is a calibrated parameter.
+ The term 
+\begin_inset Formula $y_{a,t}^{GOther}$
+\end_inset
+
+ contains age-specific transfers that are not included in the mapping from
+ socio-economic groups (
+\begin_inset Formula $j\in\left\{ \text{Child-base},\text{Adult-base}\right\} $
+\end_inset
+
+ described above).
+ 
+\end_layout
+
+\begin_layout Standard
+The endogenous derivatives, 
+\begin_inset Formula $\frac{\partial y_{t}^{G}}{\partial n_{t}^{e}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\partial y_{t}^{G}}{\partial N_{t}}$
+\end_inset
+
+, are given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial y_{t}^{G}}{\partial n_{t}^{e}} & =\sum_{j}Rate_{j,t}\frac{\partial n_{j,t}}{\partial n_{t}^{e}}\\
+ & =\sum_{j}\left\{ Rate_{j,t}\sum_{soc}\right.\underbrace{\frac{\partial n_{j}}{\partial n_{soc}}}_{\text{exogenous}}\underbrace{\left.\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}\right\} }_{\text{exogenous}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial y_{t}^{G}}{\partial N_{t}} & =\sum_{j}Rate_{j,t}\frac{\partial n_{j,t}}{\partial N_{t}}\\
+ & =\sum_{j}\left\{ Rate_{j,t}\sum_{soc}\right.\underbrace{\frac{\partial n_{j}}{\partial n_{soc}}}_{\text{exogenous}}\underbrace{\left.\frac{\partial n_{soc,t}}{\partial N_{t}}\right\} }_{\text{exogenous}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the derivatives 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial N_{t}}$
+\end_inset
+
+ are exogenous when we shock the model.
+ We covered the estimated relation 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}$
+\end_inset
+
+ in the previous section.
+ We calibrate the residual 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial N_{t}}$
+\end_inset
+
+ to match an exogenous baseline forecast of structural socio-economic groups,
+ such that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{soc,t}^{*}=\underbrace{\frac{\partial n_{soc,t}}{\partial n_{t}^{e}}}_{\text{exogenous}}n_{t}^{e*}+\underbrace{\frac{\partial n_{soc,t}}{\partial N_{t}}}_{\text{exogenous}}N_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When analyzing effects of structural reforms which directly affect the number
+ of transfer recipients (for example reforms regarding pension and education),
+ users can directly specify the expected change in structural socio-economic
+ groups 
+\begin_inset Formula $n_{soc,t}^{*}=\sum_{a}n_{a,soc,t}^{*}$
+\end_inset
+
+ and calculate 
+\begin_inset Formula $\frac{\partial n_{soc,t}}{\partial N_{t}}$
+\end_inset
+
+ residually to match the change.
+\end_layout
+
+\begin_layout Standard
+Not all government income transfers are subject to income taxes.
+ The set of non-taxed transfers is a subset of the index 
+\begin_inset Formula $j$
+\end_inset
+
+ used above - let us call it 
+\begin_inset Formula $j^{-}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+TR_{t}^{NonTax}=\sum_{j^{-}}TR_{j^{-},t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is distributed by age according to a exogenous distribution, 
+\begin_inset Formula $\alpha_{a,t}^{GNonTax}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{GNonTax}=\alpha_{a,t}^{GNonTax}TR_{t}^{NonTax}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\sum_{a}\alpha_{a,t}^{GNonTax}N_{a,t}=1$
+\end_inset
+
+ such that 
+\begin_inset Formula $\sum_{a}y_{a,t}^{GNonTax}N_{a,t}=TR_{t}^{NonTax}$
+\end_inset
+
+ and taxable transfers are given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{GTax}=y_{a,t}^{G}-y_{a,t}^{GNonTax}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Subsidies
+\end_layout
+
+\begin_layout Standard
+Government subsidies are subsidies for products and production minus subsidies
+ financed by the EU: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Sub_{t}=Sub_{t}^{Product}+Sub_{t}^{Production}-Sub_{t}^{EU}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Product subsidies are added simultaneously with excise duties after customs.
+ The expense is modeled as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Sub_{t}^{Product}=\sum_{d}\sum_{s}\left[s_{d,s,t}^{Y}P_{s,t}^{Y}Y_{d,s,t}+s_{d,s,t}^{M}\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}\right]
+\]
+
+\end_inset
+
+For notation, refer to subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Indirect taxation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ on indirect taxes above.
+\end_layout
+
+\begin_layout Standard
+Production subsidies are sector specific and related to firm production:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Sub_{t}^{Production}=\sum_{s}\varsigma_{s,t}^{Wage}Payroll_{s,t}+\sum_{s}\varsigma_{s,t}^{ProductionRest}GVA_{s,t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\varsigma_{s,t}^{Wage}$
+\end_inset
+
+ and 
+\begin_inset Formula $\varsigma_{s,t}^{ProductionRest}$
+\end_inset
+
+ are exogenous effective subsidy rates and 
+\begin_inset Formula $GVA_{s,t}$
+\end_inset
+
+ is gross value added by sector 
+\begin_inset Formula $s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Subsidies financed by the EU are exogenous in MAKRO.
+\end_layout
+
+\begin_layout Subsubsection
+Other expenses
+\end_layout
+
+\begin_layout Standard
+Other expenses consist of government land purchases and non-income transfers
+ to abroad, households and domestic firms:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Exp_{t}^{Other}=Exp_{t}^{Land}+Exp_{t}^{Foreign}+Exp_{t}^{Hh}+Exp_{t}^{Firms}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The non-income transfers to abroad are divided into sub-categories:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+Exp_{t}^{Foreign} & = & Exp_{t}^{ForignCap}+Exp_{t}^{ForeignVAT}+Exp_{t}^{ForeignGNI}+Exp_{t}^{ForeignEU}\\
+ &  & +Exp_{t}^{ForignFO}+Exp_{t}^{ForeignGL}+Exp_{t}^{ForeignAid}
+\end{array}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $Exp_{t}^{ForignCap}$
+\end_inset
+
+ are capital transfers, 
+\begin_inset Formula $Exp_{t}^{ForeignVAT}$
+\end_inset
+
+ are VAT contributions to the EU, 
+\begin_inset Formula $Exp_{t}^{ForeignGNI}$
+\end_inset
+
+ are gross net income contributions to the EU, 
+\begin_inset Formula $Exp_{t}^{ForeignEU}$
+\end_inset
+
+ are other transfers to the EU, 
+\begin_inset Formula $Exp_{t}^{ForeignFO}$
+\end_inset
+
+ are transfers to the Faroe Islands, 
+\begin_inset Formula $Exp_{t}^{ForeignGL}$
+\end_inset
+
+ are transfers to Greenland and 
+\begin_inset Formula $Exp_{t}^{ForeignAid}$
+\end_inset
+
+ are transfers given as foreign aid.
+\end_layout
+
+\begin_layout Standard
+The non-income transfers to the households are also divided into sub-categories:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Exp_{t}^{Hh}=Exp_{t}^{HhCap}+Exp_{t}^{HhNPISH}+Exp_{t}^{HhIndex}+Exp_{t}^{HhRest}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $Exp_{t}^{HhCap}$
+\end_inset
+
+ are capital transfers, 
+\begin_inset Formula $Exp_{t}^{HhNPISH}$
+\end_inset
+
+ are transfers to NPISH (Non-Profit Organizations Serving Households), 
+\begin_inset Formula $Exp_{t}^{HhIndex}$
+\end_inset
+
+ are transfers to households via index supplements to pension schemes, and
+ 
+\begin_inset Formula $Exp_{t}^{HhRest}$
+\end_inset
+
+ are other residual transfers to households.
+\end_layout
+
+\begin_layout Standard
+All the non-income transfers mentioned in this sub-section are exogenous
+ in MAKRO.
+\end_layout
+
+\begin_layout Subsection
+Net interest income and government net wealth
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Net-interest-income"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Net interest income consists of earned interest income from government assets,
+ 
+\begin_inset Formula $A_{i,t-1}^{G}$
+\end_inset
+
+, minus paid interests on government liabilities, 
+\begin_inset Formula $L_{j,t-1}^{G}$
+\end_inset
+
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Net Interests}\equiv NetInt_{t}^{G}=\sum_{i}A_{i,t-1}^{G}r_{i,t}^{Interest}-\sum_{j}r_{j,t}^{Interest}L_{j,t-1}^{G}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{i,t}^{Interest}$
+\end_inset
+
+ is interest for bonds and deposits and dividends for equity.
+\end_layout
+
+\begin_layout Standard
+Government assets are exogenous and consist of bonds, deposits, and equity
+ (almost exclusively domestic).
+ Government liabilities consist only of bonds (divided between real estate
+ bonds and other bonds) and are endogenously given by the government net
+ wealth:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+W_{t}^{G}=A_{t-1}^{G}-L_{t-1}^{G}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The net wealth is given by the government budget:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The equation is the code also includes corrections for net government wealth
+ defined in national accounts vs.
+ statistics on public finances.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+W_{t}^{G}=W_{t-1}^{G}+\underset{\text{Budget}}{\underbrace{T_{t}-Exp_{t}^{G}+NetInt_{t}^{G}}}+\underset{\text{Revaluations}}{\underbrace{\sum_{i}A_{i,t-1}^{G}r_{i,t}^{Reval}-\sum_{j}L_{j,t-1}^{G}r_{j,t}^{Reval}}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{i,t}^{Reval}$
+\end_inset
+
+ is revaluation of rate of assets and liabilities where 
+\begin_inset Formula $r_{i,t}^{Return}=r_{i,t}^{Interest}+r_{i,t}^{Reval}$
+\end_inset
+
+.
+ It should be noted that since government assets are exogenous and only
+ government liabilities of bonds are endogenous, the marginal government
+ interest rate is that of bonds.
+\end_layout
+
+\begin_layout Subsection
+The fiscal sustainability indicator
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:The-fiscal-sustainability"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fiscal sustainability indicator, in the model called HBI (holdbarhedsindikat
+or), is equal to the net present value of all future government revenues
+ minus expenditures (primary budget) minus the initial government net debt
+ (or plus net wealth) relative to the net present value of future GDP:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+HBI_{t}=\frac{\sum_{s=0}^{\infty}\left(\Pi_{q=0}^{s}\frac{1+r_{t}}{1+r_{t+q}}\right)\left(\underset{\text{Primary budget}}{\underbrace{T_{t+s}-Exp_{t+s}^{G}}}+Correction_{t+s}\right)+W_{t-1}^{G}}{\sum_{s=0}^{\infty}\left(\Pi_{q=0}^{s}\frac{1+r_{t}}{1+r_{t+q}}\right)GDP_{t+s}}
+\]
+
+\end_inset
+
+where we discount both GDP and primary budgets using the government bonds
+ rate - as the marginal government return in the forecast is given by 
+\begin_inset Formula $r_{t}=r_{\text{Bonds},t}^{Interest}+r_{\text{Bonds},t}^{Reval}=r_{\text{Bonds},t}^{Interest}$
+\end_inset
+
+.
+ There is also a small correction for returns on assets different from the
+ bond rate.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This correction is given by extra return on revaluations plus interests
+ on government assets and liabilities: 
+\begin_inset Formula $Correction_{t+s}=\underset{\text{Revaluations}}{\underbrace{\left(\sum_{i}A_{i,t+s-1}^{G}r_{i,t+s}^{Reval}-\sum_{j}L_{j,t+s-1}^{G}r_{j,t+s}^{Reval}\right)}}-\underset{\text{Interest margin}}{\underbrace{\left(\sum_{i}A_{i,t+s-1}^{G}\left(r_{t+s}-r_{i,t+s}^{Interest}\right)-\sum_{j}L_{j,t+s-1}^{G}\overset{=0}{\left(\overbrace{r_{t+s}-r_{j,t+s}^{Interest}}\right)}\right)}}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ Investing in assets with a higher return than bonds will in the current
+ version of MAKRO as a benchmark increase the fiscal sustainability.
+ It is assumed that the primary budget balance and GDP both grow at the
+ same constant rate after a terminal year (currently set to 2099).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch AgeDistributionOfTransfers
+inverted 0
+status collapsed
+
+\begin_layout Subsection
+Appendix
+\end_layout
+
+\begin_layout Subsubsection
+Modeling age specific income transfers
+\end_layout
+
+\begin_layout Standard
+From the demographic projections we have a full age-specific socio-economic
+ matrices for both actual and structural levels, 
+\begin_inset Formula $n_{soc,a,t}$
+\end_inset
+
+ and 
+\begin_inset Formula $n_{soc,a,t}^{*}$
+\end_inset
+
+.
+ For most transfer types there is a mapping from socio-economic groups and
+ to the base and we can use this mapping to generate an age-specific actual
+ and structural base:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Base_{j,a,t}=\sum_{soc}S2T_{j,soc}n_{soc,a,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Base_{j,a,t}^{*}=\sum_{soc}S2T_{j,soc}n_{soc,a,t}^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Insert the age-dependent base in the equation for structural age-dependent
+ transfers and use that 
+\begin_inset Formula $s_{t}^{reg}\mu_{j,t}^{Rate}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{G*}N_{a,t}=\sum_{j}TR_{j,a,t}^{*}=s_{t}^{reg}\underset{\equiv\hat{y}_{a,t}^{G*}}{\underbrace{\sum_{j}\left(\mu_{j,t}^{Rate}\sum_{soc}S2T_{j,soc}n_{soc,a,t}^{*}\right)}}+\text{Other}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Other
+\begin_inset Quotes erd
+\end_inset
+
+ term is income transfers with a base of children (age 0-17) and adults
+ (age 18-100).
+ The latter income transfers are simply divided equally among the adults
+ while the transfers with children as a base is directed to the age of their
+ parents through a matrix mapping age of parents and children.
+\end_layout
+
+\begin_layout Standard
+We assume that the relationship between the unemployment gap and socio-economic
+ groups also holds for the individual age groups:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{soc,a,t}=n_{soc,a,t}^{*}+\lambda_{soc,t}^{dS2dE}\left(n_{a,t}^{e}-n_{a,t}^{e*}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this we can get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{a,t}^{G}=s_{t}^{reg}\hat{y}_{a,t}^{G*}+\sum_{j}\left(Rate_{j,t}\sum_{soc}S2T_{j,soc}\lambda_{soc,t}^{dS2dE}\right)\frac{n_{a,t}^{e}-n_{a,t}^{e*}}{N_{a,t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

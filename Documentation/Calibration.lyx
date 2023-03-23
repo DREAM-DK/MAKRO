@@ -1,0 +1,628 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Data and calibration
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Calibration"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Model parameters obtain their values in three ways.
+ By calibration, which roughly means setting the parameter such that the
+ model data matches some first moment in the actual data, by estimation
+ where we use the relationships in the model to guide direct econometric
+ estimation on the data, typically the case for the a number of elasticities
+ in the model, and finally by having the model's reaction to shocks match
+ empirical impulse responses, and here one example is the level parameter
+ in capital adjustment costs for firms and the impulse response of investment.
+\end_layout
+
+\begin_layout Standard
+All variables in the model that are data-covered must match the data or
+ be explicitly stated not to and why.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+One example of an exception is the investment in capital goods by firms
+ in differet sectors.
+ MAKRO assumes an identical composition of the investment good for all sectors.
+ Since the price paid for the different investment components is the same
+ for all buyers, this implies all sectors have the same investment price
+ for the same type of capital.
+ This is not the case in national accounts data.
+ We keep the imputed sectoral investment instead of introducing an ad hoc
+ adjustment factor as in ADAM.
+\end_layout
+
+\end_inset
+
+ For every variable matching the data one parameter is calibrated.
+ In many equations several parameters affect the determination of a variable.
+ If so, only one of the parameters is calibrated while the others are either
+ estimated, or impulse-response-matched.
+ The parameters used to match data levels have less influence on the marginal
+ properties of the model than the various elasticities do.
+ In a CES function elasticities are estimated whereas the share parameters
+ (which match data levels) are calibrated.
+\end_layout
+
+\begin_layout Standard
+Model calibration occurs in two steps.
+ The first step is called static calibration.
+ Many relationships in the model are either static or backward looking in
+ that they contain only current and lagged variables.
+ Any parameters in these equations are 
+\begin_inset Quotes eld
+\end_inset
+
+statically calibrated
+\begin_inset Quotes erd
+\end_inset
+
+ given the data.
+ The values of these parameters do not depend on the solution of the model
+ for future periods.
+ If these parameters vary over time, they are then independently projected
+ using ARIMA-processes.
+ Once this first step is done remaining parameters are dynamically calibrated.
+ Other model equations such as forward looking first order conditions contain
+ future values of variables.
+ Some parameters contained in these equations are calibrated dynamically
+ using the whole projection, and they therefore use the forecasted values
+ of parameters determined in static calibration.
+ In this process all the dynamically calibrated parameters obtain their
+ values, both historically and in the projection.
+\end_layout
+
+\begin_layout Standard
+Most of the exogenous variables are held constant in growth adjusted terms
+ - i.e.
+ most quantities grow with the Harrod-neutral growth rate, prices increase
+ with the inflation rate, and values with both.
+ The exogenous population projections (BFR) are included in the model -
+ so demographics are not taken to be constant.
+ Furthermore, the interest rate projection is included.
+ In a future model version it is planned to use the projections for the
+ export market growth and the foreign prices including the oil price.
+ Most dynamically calibrated parameters are assumed to be constant for the
+ whole projection.
+\end_layout
+
+\begin_layout Subsection
+Data
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the current version of the model we match the data from the data bank
+ for the convergence program for 2018, KP18.
+ The two major data sources are ADAM's databank and the forecast of demographic
+ and labor market status (BFR).
+ ADAM's databank is perfectly aligned with the Danish National Accounts.
+ All data from ADAM's databank are read into a matrix called ADAM and all
+ data from the BFR are read into a matrix called BFR.
+ The government's most recent forecasts are read into a matrix called FMBANK,
+ and register data from the Law Model is read into a matrix called GRUND.
+ In this version of the model the only supplementing data comes from the
+ Statbank of Statististics Denmark.
+\end_layout
+
+\begin_layout Standard
+The different input/output objects are imputed to be consistent with demand
+ and supply from ADAM's databank, in both values and quantities.
+ All deliveries from a sector have the same before-tax price irrespective
+ of buyer.
+\end_layout
+
+\begin_layout Standard
+Price indices for demand and supply components in the model are matched
+ to those from the national accounts - i.e.
+ they are Paasche price indices.
+ As in the model most of them are also CES price indices, the share parameters
+ are calibrated to ensure consistency with both.
+ In the forecast, price indices are CES.
+ In the appendix there is a short discussion of Paashce and CES price indices.
+\end_layout
+
+\begin_layout Subsection
+Static calibration example
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Static calibration"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The different chapters in this documentation contain some information regarding
+ calibration.
+ Here we offer an example of static calibration.
+ The ARIMA process will is described elsewhere.
+ Only a few equations in the model contain leaded variables.
+ Most equations include only contemporaneous and lagged variables.
+ The share parameters allocating domestic and foreign inputs, for example
+ 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOy}$
+\end_inset
+
+ in the following equations for domestically produced 
+\begin_inset Formula $q_{r,s,t}^{IOy}$
+\end_inset
+
+ and imported materials 
+\begin_inset Formula $q_{r,s,t}^{IOm}$
+\end_inset
+
+ to production
+\begin_inset Formula 
+\[
+q_{r,s,t}^{IOy}=\mu_{r,s,t}^{IOy}\cdot q_{r,s,t}^{IO}\cdot\left(\frac{P_{d,s,t}^{IOy}}{P_{d,s,t}^{IO}}\right)^{-\eta_{r,s}^{IO}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+q_{r,s,t}^{IOm}=\mu_{r,s,t}^{IOm}\cdot q_{r,s,t}^{IO}\cdot\left(\frac{P_{r,s,t}^{IOm}}{P_{r,s,t}^{IO}}\right)^{-\eta_{r,s}^{IO}}
+\]
+
+\end_inset
+
+can be calibrated on the basis of the historical data in a static calibration.
+ The 
+\begin_inset Formula $\mu_{r,s,t}^{IOy}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+ are endogenous share parameters, 
+\begin_inset Formula $q_{r,s,t}^{IO}$
+\end_inset
+
+ is the CES aggregate of inputs from both imports and domestic production,
+ 
+\begin_inset Formula $\eta_{r,s}^{IO}$
+\end_inset
+
+ are the elasticities of substitution between imports and domestic inputs,
+ 
+\begin_inset Formula $P_{r,s,t}^{IOy}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{r,s,t}^{IOm}$
+\end_inset
+
+ are CES price indices for domestically produced and imported materials,
+ and 
+\begin_inset Formula $P_{r,s,t}^{IO}$
+\end_inset
+
+ are the CES price indices for the aggregate of the two.
+ 
+\end_layout
+
+\begin_layout Standard
+The share parameters, 
+\begin_inset Formula $\mu_{r,s,t}^{IOy}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+, are given as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{r,s,t}^{IOy}=\lambda_{r,s,t}^{IOs}\frac{\mu_{r,s,t}^{IOy_{0}}}{\mu_{r,s,t}^{IOy_{0}}+\mu_{r,s,t}^{IOm_{0}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{r,s,t}^{IOm}=\lambda_{r,s,t}^{IOs}\frac{\mu_{r,s,t}^{IOm_{0}}}{\mu_{r,s,t}^{IOy_{0}}+\mu_{r,s,t}^{IOm_{0}}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda_{r,s,t}^{IOs}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{r,s,t}^{IOm_{0}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOy_{0}}$
+\end_inset
+
+ are exogenous parameters to be calibrated.
+ The construction is to ensure that that when for example the import share,
+ 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+ , increases, there will be a proportionate decrease in the share of domesticall
+y produced inputs, 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+ .
+ This modeling is described under the input/output system.
+ During calibration this leaves five calibrated parameters to be identified
+ by only four equations in the model.
+ We resolve identification by adding a further equation that only appears
+ in the calibration.
+ It normalizes the sum of the two exogenous share parameters:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{r,s,t}^{IOy_{0}}+\mu_{r,s,t}^{IOm_{0}}=1
+\]
+
+\end_inset
+
+The above 5 equations form their own self contained block in the calibration
+ which is solved independently.
+ The endogenous parameters are 
+\begin_inset Formula $\mu_{r,s,t}^{IOy}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{r,s,t}^{IOm}$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{r,s,t}^{IOs}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{r,s,t}^{IOm_{0}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOy_{0}}$
+\end_inset
+
+.
+ Since only 
+\begin_inset Formula $\lambda_{r,s,t}^{IOs}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{r,s,t}^{IOm_{0}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{r,s,t}^{IOy_{0}}$
+\end_inset
+
+ are exogenous in the model it is only the calibration of those that matters.
+ Isolating the three calibrated parameters yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{r,s,t}^{IOs}=\mu_{r,s,t}^{IOy}+\mu_{r,s,t}^{IOm}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\mu_{r,s,t}^{IOy_{0}}=\frac{\mu_{r,s,t}^{IOy}}{\lambda_{r,s,t}^{IOs}}=\frac{\mu_{r,s,t}^{IOy}}{\mu_{r,s,t}^{IOy}+\mu_{r,s,t}^{IOm}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{r,s,t}^{IOm_{0}}=\frac{\mu_{r,s,t}^{IOm}}{\lambda_{r,s,t}^{IOs}}=\frac{\mu_{r,s,t}^{IOm}}{\mu_{r,s,t}^{IOy}+\mu_{r,s,t}^{IOm}}
+\]
+
+\end_inset
+
+where the endogenous share variables are given by inverting the demand equations
+ above:
+\begin_inset Formula 
+\[
+\frac{q_{r,s,t}^{IOy}}{q_{r,s,t}^{IO}}\cdot\left(\frac{P_{d,s,t}^{IOy}}{P_{d,s,t}^{IO}}\right)^{\eta_{r,s}^{IO}}=\mu_{r,s,t}^{IOy}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{q_{r,s,t}^{IOm}}{q_{r,s,t}^{IO}}\cdot\left(\frac{P_{r,s,t}^{IOm}}{P_{r,s,t}^{IO}}\right)^{\eta_{r,s}^{IO}}=\mu_{r,s,t}^{IOm}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These parameters are calibrated for as long a period as possible.
+ In this case it is possible to calibrate from 1966.
+ The calibrated static parameters are treated as data and projected using
+ auto ARIMA-processes.
+ The groups of parameters statically calibrated and projected by auto ARIMA-proc
+esses are defined in the file static_calibration.gms using groups defined
+ in the different model files.
+\end_layout
+
+\begin_layout Standard
+Not all share parameters are calibrated from static relationships.
+\end_layout
+
+\begin_layout Subsection
+Static calibration of capital user cost
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Static calibration of user cost"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The user cost of capital is a measure derived from the Euler equation.
+ In its simplest form it contains interest, depreciation, and future capital
+ gains.
+ In MAKRO it contains a number of other terms, in particular future values
+ of investment as it enters the user cost function.
+ Given the dynamic nature of the optimal investment decision, the calibration
+ of all parameters in the production function depends on future variables.
+ These parameters include the share parameters for the four factors of productio
+n.
+\end_layout
+
+\begin_layout Standard
+In the historical period some investment prices are very volatile.
+ The resulting future capital gain on investment prices can generate a negative
+ usercost and make the calibration impossible.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The perfect foresight nature of MAKRO exacerbates this problem, but the
+ price process implicit in the data may well be consistent with negative
+ user cost in a rational expectations environment.
+\end_layout
+
+\end_inset
+
+ In order to solve this problem a simpler static user cost 
+\begin_inset Formula $P_{t+1}^{K*}$
+\end_inset
+
+ is introduced in the calibration (it replaces the normal dynamic first
+ order condition for the purpose of calibration of share parameters).
+ This sets adjustment costs to zero, and sets Tobin's q equal to 
+\begin_inset Formula $P_{t}^{I}\left(1-q_{t+1}^{Tax*}\right)$
+\end_inset
+
+ with a 
+\begin_inset Quotes eld
+\end_inset
+
+steady state
+\begin_inset Quotes erd
+\end_inset
+
+ version of 
+\begin_inset Formula $q_{t+1}^{Tax}$
+\end_inset
+
+ given by
+\begin_inset Formula 
+\[
+q_{t+1}^{Tax*}=\frac{\tau_{t+1}\delta_{t+1}^{Tax}}{\left(r_{t+1}+\delta_{t+1}^{Tax}\right)}
+\]
+
+\end_inset
+
+resulting in
+\begin_inset Formula 
+\[
+P_{t+1}^{K*}=\frac{P_{t}^{I}}{1-\tau_{t+1}}\left\{ \left(1-q_{t+1}^{Tax*}\right)\cdot\left(r_{t+1}+\delta_{t+1}^{*}-\left(1-\delta_{t+1}^{*}\right)\pi_{t+1}^{I*}\right)\right\} +
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
++\frac{P_{t}^{I}}{1-\tau_{t+1}}\left(1-\tau_{t+1}\right)\tau_{t+1}^{K}\left(1+\pi_{t+1}^{I*}\right)-\mu_{t}^{D}P_{t}^{I}\frac{\left(r_{t+1}-r_{t+1}^{D}\left(1-\tau_{t+1}\right)\right)}{\left(1-\tau_{t+1}\right)}
+\]
+
+\end_inset
+
+and where capital gains on investment prices and capital depreciation are
+ smoothed versions of the data.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This user cost expression is derived in more detail in the appendix.
+ For notation refer to the chapter on the firms except for 
+\begin_inset Formula $\delta_{t}^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi_{t}^{I*}$
+\end_inset
+
+ which appear in the static calibration code as rAfskr_static[k,sp,t] and
+ gpI_s_static[k,sp,t]).
+\end_layout
+
+\end_inset
+
+ These are smoothed in order to have user cost react smoothly to changes
+ in depreciations and prices and hence avoid a negative user cost.
+ This user cost expression is historically calculated on the basis of data.
+ Then it is used to calibrate the share parameters in the production function.
+ This is done under the assumption of no installation costs and constant
+ factor utilization.
+\end_layout
+
+\begin_layout Subsection
+Dynamic calibration
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Dynamic calibration"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Parameters whose calibration depends on future values of variables must
+ be dynamically calibrated.
+ Private consumption depends on leaded variables as optimal savings is a
+ forward looking decision.
+ We match both aggregate consumption and an age-dependent consumption profile
+ using utility weight parameters for bequests, housing, and utility fo wealth.
+ In the labor market the baseline growth rate in wages is calibrated to
+ have the unemployment rate match data.
+ After the calibration years the baseline growth rate of wages is set to
+ zero meaning that wages per effective unit grow with the rate of inflation
+ when unemployment equals its structural rate.
+ Age-specific productivity is calibrated to have its profile match the register
+ data and is scaled until the wage matches the industrial wage from ADAM's
+ databank normalized to 1 in 2010.
+ Sector prices are fitted by calibrating markups, since with optimal price
+ setting prices today depend on future prices.
+\end_layout
+
+\begin_layout Standard
+In the dynamic calibration the whole model is solved simultaneously for
+ all periods past and future in order to calibrate the relevant parameters.
+ This makes it more vulnerable to convergence problems.
+ If the starting values of the parameters are too far from the correct values
+ the model will not converge.
+ In order to minimize this problem an old solution to the model is used
+ as an initial guess.
+\end_layout
+
+\end_body
+\end_document

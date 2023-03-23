@@ -1,0 +1,719 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch ModulOversigt
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Introduction"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The documentation contained in the subsequent chapters is a description
+ of the model version 2023-March.
+ Although it is written mainly for model users to understand the background
+ of the computational code, each chapter contains a description of the relevant
+ theoretical part that a wider audience can understand.
+ The following paragraphs summarize the content of each chapter.
+\end_layout
+
+\begin_layout Paragraph
+Households.
+\end_layout
+
+\begin_layout Standard
+This chapter lays out the household problem.
+ There are two types of households in the model.
+ Optimizing households and Hand-To-Mouth (HTM) households.
+\end_layout
+
+\begin_layout Standard
+Optimizing households solve a dynamic life cycle problem within an overlapping
+ generations model.
+ They maximize utility by choosing optimal non-durable consumption and savings
+ into liquid assets, optimal housing, optimal job search effort, and hours
+ worked.
+ Within non-durable consumption, they also decide on the optimal composition
+ of a consumption bundle.
+ The consumption/savings decision is dynamic and forward-looking.
+ Households choose the total amount of liquid non-housing net financial
+ assets.
+ We allocate the total volume of wealth to different assets in a portfolio
+ composition estimated from the data.
+ The optimal housing decision is also dynamic and forward-looking and reflects
+ costs of mortgage financing, housing depreciation and maintenance, and
+ capital gains from house prices.
+ The optimal choice of the non-durable consumption bundle is a static decision
+ organized in a sequence of cost-minimization problems.
+ The optimal job search decision is also a dynamic, forward-looking decision.
+\end_layout
+
+\begin_layout Standard
+Hand-to-mouth agents have zero financial assets and allocate their income
+ between non-durable consumption and housing every period.
+ This is a proxy for an explicit model of financial constraints.
+ The presence of HTM households helps aggregate consumption track income
+ over the life cycle, and increases the aggregate marginal propensity to
+ consume out of transitory income shocks, as changes in income are fully
+ transmitted to expenditure for these agents.
+ The proportion of HTM agents in the model is estimated to match these targets
+ in the data.
+\end_layout
+
+\begin_layout Standard
+Household members die in our model, leaving bequests associated with warm
+ glow utility when they die.
+ Bequests received are taken as given by the optimizing agent.
+ The mapping between bequests given and received at different ages is an
+ allocation matrix estimated from the data and which enters the model exogenousl
+y.
+\end_layout
+
+\begin_layout Paragraph
+Firms.
+\end_layout
+
+\begin_layout Standard
+This chapter details production.
+ Domestic output is produced by private firms and by the government.
+ The economy has eight private production sectors corresponding to eight
+ broad classes of goods and services.
+ Firms use capital, labor, and intermediate inputs in each sector to produce
+ output.
+ Quantities of inputs are combined in a production function to produce units
+ of output.
+ Capital is subject to a time-to-build constraint of one period which makes
+ investment decisions forward-looking, and to investment adjustment costs
+ which makes the optimal decision dynamic.
+ Capital goods can be purchased from multiple supplying sectors and both
+ domestic and foreign sources.
+ Employment adjustment is also forward-looking and subject to frictions.
+ Firms incur costs from posting vacancies that are filled with a probability
+ that is outside the firm's control.
+ The optimal use of intermediate inputs is a static decision, and, like
+ capital goods, these can also be purchased from multiple supplying sectors
+ and domestic and foreign sources.
+ Firms are price takers in input markets.
+ Public production differs from its private counterpart and is detailed
+ in the chapter on public production.
+\end_layout
+
+\begin_layout Paragraph
+Price setting
+\end_layout
+
+\begin_layout Standard
+This chapter explains how prices are determined in the economy.
+ The problem faced by firms is twofold: cost optimization and setting the
+ optimal output price.
+ The previous chapter deals with cost optimization, while this chapter focuses
+ on setting the optimal output price.
+ In a perfect competition setting, the optimal output price would equal
+ the unit costs.
+ However, observed prices are more sluggish than the ones generated by the
+ perfect competition solution, which leads to the addition of an intermediate
+ layer of price-setting behavior between the producing firm and the agents
+ demanding the output.
+\end_layout
+
+\begin_layout Standard
+This intermediate layer is modeled as a monopolistic competition problem,
+ which generates price rigidity.
+ In this setup, all firms within each sector face the same demand elasticity,
+ and the aggregate price over all firms in a given sector is a CES price
+ index.
+ Price stickiness originates from quadratic adjustment costs.
+\end_layout
+
+\begin_layout Paragraph
+Input/output structure.
+\end_layout
+
+\begin_layout Standard
+The input/output chapter details the collection of market clearing conditions,
+ where the demand for intermediate inputs, private consumption, government
+ consumption, investment, and exports is met by supply from domestic and
+ foreign producers.
+ The supply side of the IO structure consists of nine domestic and four
+ import sectors.
+ The demand side ultimately disaggregates to the same nine-sector, however,
+ demanded goods have heterogeneous degrees of intermediate aggregation.
+ Intermediate inputs into production have different compositions for each
+ of the nine production sectors.
+ Consumption is split between 5 private consumption groups and a single
+ type of government consumption.
+ Investments are in structures, equipment, or inventories, and finally,
+ demand for exports distinguishes between five different export groups (includin
+g tourism exports which are included in the private consumption groups).
+\end_layout
+
+\begin_layout Standard
+These mappings, for example, between the definition of the five consumption
+ goods demanded by households and the nine different production sectors,
+ can, on the one hand, be viewed as demand coming directly from households
+ and into the various production sectors through layers of nested sub-utility
+ functions.
+ But, on the other hand, they can also be viewed as layers of zero-profit
+ markets/firms that transform the basic goods into the upper-level goods
+ the agents demand.
+ This transformation occurs via constant returns to scale “technology”,
+ which generates the necessary prices.
+\end_layout
+
+\begin_layout Standard
+Finally, at the very bottom of the demand side construction is the decomposition
+ between domestic production and imports by a constant elasticity of substitutio
+n aggregator.
+ At this level, there is substitutability between domestic and foreign supply
+ in response to price changes.
+\end_layout
+
+\begin_layout Paragraph
+Exports.
+\end_layout
+
+\begin_layout Standard
+Exports are modeled using a reduced form incorporating insights from various
+ trade models and mirror the determinants of imports generated by MAKRO.
+ The Export demand equation includes the following: 
+\end_layout
+
+\begin_layout Itemize
+A measure of the size of the export market.
+\end_layout
+
+\begin_layout Itemize
+A price ratio measure of our competitiveness in this market.
+ 
+\end_layout
+
+\begin_layout Itemize
+A measure of domestic output.
+ 
+\end_layout
+
+\begin_layout Itemize
+Lagged exports.
+ 
+\end_layout
+
+\begin_layout Standard
+The price elasticities of export demand in the different exported goods
+ are fundamental parameters in MAKRO, as in any small open economy model.
+ They are a key source of concavity in an otherwise largely linear model
+ and allow the model to have a finite solution.
+ Therefore, significant effort and care have been taken in the econometric
+ estimation of these parameters.
+ Details of the econometric work are available in additional documentation.
+\end_layout
+
+\begin_layout Paragraph
+Labor Market.
+\end_layout
+
+\begin_layout Standard
+The labor market includes heterogeneous households and firms.
+ Households make decisions about their labor market participation and working
+ hours, while firms post job vacancies, and a matching function brings workers
+ and vacancies together.
+ The model includes bargaining between agents representing workers and firms
+ to set the market wage.
+ The household side is age-specific, and the firm side is sector-specific.
+ Both types of households: constrained/impatient and unconstrained/patient,
+ make the same labor market decisions.
+ 
+\end_layout
+
+\begin_layout Paragraph*
+Structural Levels.
+\end_layout
+
+\begin_layout Standard
+This chapter discusses how we calculate structural employment and output,
+ which are essential for calculating the structural budget balance.
+\end_layout
+
+\begin_layout Standard
+Structural employment is based on a modified labor market framework where
+ we remove nominal frictions and rigidity stemming from matching frictions.
+ Structural employment is thereby determined by the structural labor force
+ and the institutional structures of the labor market.
+ The model can, in general, provide conditional forecasts of the effects
+ of shocks or policy interventions.
+ However, MAKRO does not unconditionally forecast the structural labor force
+ or hours worked.
+ Instead, these variables are treated as exogenous inputs based on demographic
+ projections.
+\end_layout
+
+\begin_layout Standard
+From structural employment, we calculate structural output through a production
+ function that uses the actual stock of capital but with neutral utilization
+ rates.
+\end_layout
+
+\begin_layout Paragraph*
+Public production.
+ 
+\end_layout
+
+\begin_layout Standard
+This chapter describes how public sector output, comprised of goods and
+ services, is provided by the state and consumed domestically.
+ Public production is produced just as private sector goods in the sense
+ that it uses labor, capital equipment and structures, and intermediate
+ inputs.
+ The default setting in MAKRO is that all factors of public production (labor,
+ capital equipment and structures, and intermediate inputs) are exogenous.
+ The quantity of output produced is endogenous, but only reacts to shocks
+ to the production factors.
+ Most public services are not traded on any market, and therefore no market
+ prices exist in the data.
+ The accounting price of public production is instead the average cost of
+ production.
+ Rather than the production function approach used for private sector production
+, we use an input method, where chain indices are used to distinguish between
+ changes in public sector prices and quantities.
+\end_layout
+
+\begin_layout Paragraph
+Government.
+\end_layout
+
+\begin_layout Standard
+One essential purpose of MAKRO is to determine the government budget balance
+ and how it responds to shocks and policy changes.
+ The government chapter provides a breakdown of government revenues and
+ expenditures and how each revenue or expenditure item is modeled.
+ The fiscal sustainability indicator (HBI) summarizes the overall long-run
+ state of public finances, and we show how it is calculated.
+\end_layout
+
+\begin_layout Paragraph
+Calibration and Estimation.
+\end_layout
+
+\begin_layout Standard
+The document "The empirical basis for MAKRO" describes our overall empirical
+ strategy.
+ In addition, we publish working papers on the DREAM with detailed descriptions
+ of different econometric procedures and empirical results.
+\end_layout
+
+\begin_layout Standard
+Most parameters are calibrated using available data (over 1,500 in the latest
+ version) such that the model is consistent with the national accounts.
+ Most of these are "level parameters," such as the scale parameters in CES
+ functions, which ensure that MAKRO hits the right levels for the data-covered
+ endogenous variables.
+ Most calibrated parameters are determined using a single static relation/equati
+on.
+ Solving these parameters using data comprises our "static calibration"
+ procedure, yielding time series of these parameters for the available historica
+l data period.
+ Other parameters are determined using dynamic relationships such as forward-loo
+king first-order conditions.
+ These parameters are calibrated in our "dynamic calibration" procedure.
+ Before performing dynamic calibration, we need to forecast some parameters
+ obtained in static calibration.
+\end_layout
+
+\begin_layout Standard
+The static calibration process generates historical time series for the
+ different parameters.
+ These time series can display structural trends, such as a growing service
+ sector, and capture short-run fluctuations and structural breaks.
+ This information is treated econometrically with ARIMA models to generate
+ forecasts of parameter values.
+ With these in hand, we can solve the forward-looking equations to recover
+ the associated parameters.
+\end_layout
+
+\begin_layout Standard
+Finally, some parameters are closely related to short-run fluctuation behavior.
+ These parameters are estimated by shocking the model and comparing the
+ resulting impulse responses in artificial data with those obtained from
+ SVAR models and other empirical approaches.
+ This is a standard methodology in the DSGE literature, which we bring into
+ our CGE framework.
+ 
+\end_layout
+
+\begin_layout Subsection
+Computational MAKRO
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Modules"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+MAKRO is coded in GAMS which is an efficient software for solving large
+ scale systems of nonlinear equations.
+\end_layout
+
+\begin_layout Subsubsection
+Code organization
+\end_layout
+
+\begin_layout Standard
+The code is organized in modules reflecting the theoretical chapters in
+ this documentation.
+ Each module can be solved separately but requires inputs from and provides
+ outputs to other modules.
+\end_layout
+
+\begin_layout Standard
+The code modules are: 
+\emph on
+Consumers
+\emph default
+ and 
+\emph on
+Household Income
+\emph default
+, 
+\emph on
+Finance
+\emph default
+ and 
+\emph on
+Private production
+\emph default
+, 
+\emph on
+Pricing
+\emph default
+, 
+\emph on
+Input/Output
+\emph default
+, 
+\emph on
+Exports
+\emph default
+, 
+\emph on
+Labor market
+\emph default
+, 
+\emph on
+Structural levels
+\emph default
+, 
+\emph on
+Public production
+\emph default
+, 
+\emph on
+Government
+\emph default
+, 
+\emph on
+Government expenses
+\emph default
+ and 
+\emph on
+Government revenues
+\emph default
+, 
+\emph on
+Taxes
+\emph default
+, and 
+\emph on
+Aggregates
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Notation
+\end_layout
+
+\begin_layout Standard
+One problem that arose was that of having a system to name the large number
+ of variables and parameters in the model.
+ Notation in the documentation is consistent with the code but not identical.
+ Nearly all objects in the code have long descriptive names that allow for
+ their identification in a dense computational environment.
+ The code names are mainly in Danish because the users of this code will
+ be Danish, while in the documentation, the working language is English,
+ as the model is meant to be understood by a universal audience.
+\end_layout
+
+\begin_layout Standard
+Some simple organizational choices are made for names in the code: quantities
+ have prefix q, prices have prefix p and nominal values have prefix v.
+ Many variables are recognizable in the code using common sense: K is associated
+ with capital, L with labor, C with consumption, Y with output, etc.
+\end_layout
+
+\begin_layout Standard
+In the documentation, most object names are much shorter to ease notation,
+ while Greek letters are used for parameters following the standard practices
+ of the academic literature.
+ As an example, a depreciation rate will be labeled 
+\backslash
+delta in the documentation while having a long name in the code.
+ One Greek letter pervasive in the documentation is 
+\begin_inset Formula $\mu$
+\end_inset
+
+.
+ This character typically denotes share parameters which are a part of the
+ widely used CES tree approach in production and consumption, and in the
+ code the letter u replace it.
+ While in the documentation, 
+\begin_inset Formula $\mu$
+\end_inset
+
+ will be used identically in different chapters without risk of confusion,
+ in the code, u will have additional characters and indices added to provide
+ identification.
+\end_layout
+
+\begin_layout Standard
+Another aspect of variable name organization is naming the same object at
+ different levels of aggregation.
+ This can be done by extending the variable name, for example, to aggregate
+ or consider an age-specific quantity or by using the same name with additional
+ indexing.
+ For example, a superset s* can contain not just the nine items pertaining
+ to the nine different production sectors in s, but also different subsets
+ of the elements in the set s, allowing for various degrees of aggregation
+ without changing the name of a variable.
+\end_layout
+
+\begin_layout Standard
+A critical aspect of the code, and one crucial capability of GAMS is organizing
+ the data using indices and sets.
+ As the model has many demand and supply side items, identifying such items
+ occurs through appropriate set description and indexing.
+ For example, an object such as q[d,s,t] will denote the quantity q demanded
+ by sector d and supplied by sector s at time t.
+\end_layout
+
+\begin_layout Standard
+The most important sets are time (t), which runs from 1965 to 2099; age
+ (a), which runs from 0 to 100, and the non-numerical set, s, which currently
+ has nine values identifying eight private sectors and one public sector.
+ Additional sets are used to index capital goods, consumption goods, export
+ goods, and intermediate inputs.
+ Of these, the last three sets (consumption (c), exports (x), intermediate
+ inputs (r)) are demand-side reorganizations of the nine sector production
+ set s.
+ The index for capital goods covers equipment, structures, and inventories
+ and is independent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch ModulOversigt
+inverted 0
+status collapsed
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "figure_ModuleOverview"
+
+\end_inset
+
+ is a diagram showing the flows between the different files (NB: This diagram
+ is not updated to 18AUG.).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centerline{
+\end_layout
+
+\end_inset
+
+Aggregates
+\begin_inset Graphics
+	filename Images/ModuleOverview.png
+	width 80page%
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "figure_ModuleOverview"
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The figure shows endogenous variables that are part of more than one module.
+ Arrows point from the module in which a variable is defined to other modules
+ that use it.
+ The variables displayed can also be seen as the endogenous inputs and outputs
+ to and from modules.The 
+\begin_inset Quotes eld
+\end_inset
+
+Aggregates
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Taxes
+\begin_inset Quotes erd
+\end_inset
+
+ modules have inputs from almost every other module.
+ The tax module calculates revenues from taxes on most supply and demand
+ components.
+ The aggregates module contains market equilibrium conditions and aggregate
+ national accounting identities.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To give an example of the structure: Government consumption and government
+ transfers are calculated in the government expenses file.
+ As input this file needs the wage and the labor market status of the population
+ from the labor market module as well as public investments from the public
+ production file and GDP from the Aggregates module.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
