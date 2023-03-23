@@ -1,0 +1,73 @@
+﻿\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{colortbl}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{datetime}
+
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+
+\pagestyle{fancy}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=MAKRO,
+  filecolor=MAKRO,
+  citecolor = black,      
+  urlcolor=MAKRO,
+}
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\title{MAKRO Documentation}
+
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH] \THEYEAR}
+
+\renewcommand{\maketitle}{
+  \begin{flushleft}
+    \textbf{\huge \@title}
+
+    \vspace{20pt}
+
+    \monthyeardate\today
+
+    \href{https://dreamgruppen.dk/}{www.dreamgruppen.dk}
+  \end{flushleft}
+}
+
+\fancyhead[L]{
+  \small
+  \textcolor{MAKRO}{
+    \textbf{\@title}
+    \linebreak
+    \leftmark
+  }
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM $\cdot$ \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}

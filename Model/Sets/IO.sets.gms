@@ -25,7 +25,6 @@ SETS
 
   efterspoergsel_totaler /
     dTot "Total af alt efterspørgsel."
-    rTot "Samlet materiale-input."
     xTot "Samlet eksport"
     cTot "Samlet privat forbrug."
     gTot "Samlet offentligt forbrug"
@@ -74,7 +73,7 @@ SETS
     tot "Total af alle brancher"
     spTot "Total af private brancher"
     spxTot "Total af private brancher ekskl. boligbranchen"
-    spByTot "Total af private byerhverv"
+    sByTot "Total af private byerhverv"
     set.efterspoergsel_totaler
     set.brancher
     set.eksportgrupper
@@ -112,12 +111,15 @@ SETS
 
   dTots2d[d_,d] "Mapping mellem efterspørgselsaggregater og efterspørgselskomponenter" /
     dTot . set.d
-    rTot . set.brancher
+    tot . set.brancher
     xTot . set.eksportgrupper
     cTot . set.privat_forbrug
     gTot . set.offentligt_forbrug
     iTot . set.investeringstyper
   /
+
+  cBil[d_] "Subset bestående af cBil" /cBil/
+  
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -126,10 +128,9 @@ SETS
 SETS
   s_[d_] "Production sectors, including total" /
     tot
-    rTot
     spTot
     spxTot
-    spByTot
+    sByTot
     set.private_brancher
     set.offentlige_brancher
   /
@@ -137,14 +138,16 @@ SETS
   sp[s_] "Private production sectors" / set.private_brancher /
   spx[s_] "Private brancher ekskl. boligbranchen" / lan, byg, ene, udv, fre, soe, tje /
   sOff[s_] "Public sector" / set.offentlige_brancher /
-  spBy[s_] "Private byerhverv" / tje, fre, byg, ene /
+  sBy[s_] "Private byerhverv" / tje, fre, byg, ene /
+  bol[s_] "Subset bestående af bol" / bol /
+  udv[s_] "Subset bestående af udv" / udv /
+  tje[s_] "Subset bestående af tje" / tje /
+  soe[s_] "Subset bestående af soe" / soe /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Materialer
 # ----------------------------------------------------------------------------------------------------------------------
-#  r_[d_] "Materiale input inklusiv total" / rTot, set.brancher /
-#  r[r_] "Materiale input" / set.brancher /
 alias(s_, r_);
 alias(s, r);
 
@@ -156,6 +159,9 @@ SETS
   x[x_] "Eksportgrupper" / set.eksportgrupper /    
 
   xxTur[x] "Export groups, excluding tourism" / xEne, xVar, xSoe, xTje /
+  xEne[x_] "Subset af x_ bestående af xEne" / xEne /
+  xSoe[d_] "Subset af x bestående af xSoe" / xSoe /
+  xTur[x] "Subset af x bestående af xTur" / xTur /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -196,6 +202,10 @@ SETS
     cIkkeBol . (cTur, cTje, cVar, cEne, cBil)
     cTot . (cTur, cTje, cVar, cEne, cBil, cBol)
   /
+
+  cIkkeBol[c_] "Subset bestående af cIkkeBol" / cIkkeBol /
+  cBol[c_] "Subset bestående af cBol" / cBol /
+  cTur[c_] "Subset bestående af cTur" / cTur /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -207,6 +217,9 @@ SETS
 
   is_[i_,s_] "Investment types by sector including totals" / set.i_ . set.s_ /
   is[i,s] "Investment types by sector" / set.i . set.s /
+  iL[d_] "subset bestående af iL" / iL /
+  iB[i_] "subset bestående af iB" / iB /
+  iM[d_] "subset bestående af iM" / iM / 
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -221,141 +234,33 @@ SETS
 ;
 
 
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  # Mapping mellem ADAM og Makro
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  SETS
-#    branche2s[s_,branche] "Mapping fra ADAM brancher til Makro brancher" /
-#      lan . (a) 
-#      byg . (b)                                                 
-#      ene . (ne,ng)                                                 
-#      udv . (e)                                                 
-#      bol . (h)                                           
-#      fre . (nf,nz)
-#      off . (o)             
-#      soe . (qs)
-#      tje . (qf,qz)
-    
-#      tot . (set.branche)
-
-#      rTot . (set.branche)
-#    /
-
-#    mapax2s[s_,as]   "Map fra ADAM produktion til Makro brancher" /
-#      lan . (xa) 
-#      byg . (xb)                                                 
-#      ene . (xne,xng)                                                 
-#      udv . (xe)                                                 
-#      bol . (xh)                                           
-#      fre . (xnf,xnz)
-#      off . (xo)             
-#      soe . (xqs)
-#      tje . (xqf,xqz)
-#      tot . (set.as)
-#      rTot . (set.as)
-#      spTot . (set.axp)
-#    /
-
-#    mapam2s[s_,as]   "Mapping fra sitc grupper til Makro brancher" /
-#      #lan . () 
-#      #byg . ()                                                 
-#      ene . (m3q)                                                 
-#      udv . (m3k, m3r)                                                 
-#      #bol . ()                                           
-#      fre . (m01, m2, m59, m7b, m7y)
-#      #off . ()             
-#      #soe . ()
-#      tje . (ms,mt)
-#      tot . (set.as)
-#      rTot . (set.as)
-#    /
-
-#    mapaxm2s[s_,as]   "Mapping fra ADAM produktion og sitc grupper til Makro brancher" / 
-#      lan . (xa) 
-#      byg . (xb)                                                 
-#      ene . (xne, xng)                                                 
-#      udv . (xe)                                                 
-#      bol . (xh)                                           
-#      fre . (xnf, xnz)
-#      off . (xo)             
-#      soe . (xqs)
-#      tje . (xqf, xqz)
-
-#      #lan . () 
-#      #byg . ()                                                 
-#      ene . (m3q)                                                 
-#      udv . (m3k, m3r)                                                 
-#      #bol . ()                                           
-#      fre . (m01, m2, m59, m7b, m7y)
-#      #off . ()             
-#      #soe . ()
-#      tje . (ms,mt)
-
-#      tot . (set.as)
-#      rTot . (set.as)
-#    /
-
-#    mapai2i[i_,ai] "Mapping af investeringstyper fra ADAM til Makro" /
-#      im   . (im)
-#      iB   . (iB)
-#      iL . (ikn, il, it)
-#      iTot . (im, it, iB, ikn, il)
-#    /
-
-#    mapak2k[k_,ak] "Mapping af investeringstyper fra ADAM til Makro" /
-#      im   . (knm)
-#      iB   . (knb)
-#      iTot . (knm, knb)
-#    /
-
-#    mapacp2c[c_,acp]   "Mapping over forbrugsgrupper" /
-#      cBil . (cb)
-#      cEne . (cg,ce)
-#      cVar . (cf,cv)
-#      cBol . (ch)
-#      cTje . (cs)
-#      cTur . (ct)
-#      cIkkeBol . (cb, cg, ce, cf, cv, cs, ct)
-#      cTot . (set.acp)
-#    /
-
-#    mapae2x[x_,ae]   "Mapping over eksportgrupper" /
-#      xVar . (e01, e2, e59, e7y)
-#      xEne . (e3)
-#      xSoe . (ess)
-#      xTje . (esq)
-#      xTur . (et)
-#      xTot . (set.ae)
-#    /
-#  ;
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Alias
 # --------------------------------------------------------- ------------------------------------------------------------
-alias(s,ds);
-alias(s_,ds_);
-alias(s,dss);
-alias(s,ss);
-alias(sp,dsp);
-alias(sp,dssp);
-alias(sp,ssp);
+alias(s, ds);
+alias(s_, ds_);
+alias(s, dss);
+alias(s, ss);
+alias(sp, dsp);
+alias(sp, dssp);
+alias(sp, ssp);
 
-alias(d,dd);
+alias(d, dd);
 
-alias(c,cDK);
-alias(c_,cDK_);
+alias(c, cDK);
+alias(c_, cDK_);
 
-alias(c,cc);
-alias(g,gg);
-alias(x,xx);
-alias(r,rr);
-alias(i,ii);
+alias(c, cc);
+alias(g, gg);
+alias(x, xx);
+alias(r, rr);
+alias(i, ii);
 
-alias(c_,cc_);
-alias(g_,gg_);
-alias(x_,xx_);
-alias(r_,rr_);
-alias(i_,ii_);
+alias(c_, cc_);
+alias(g_, gg_);
+alias(x_, xx_);
+alias(r_, rr_);
+alias(i_, ii_);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Singletons
@@ -369,8 +274,8 @@ singleton sets
     sTot[s_]     /tot/
     spTot[s_]    /spTot/
     spxTot[s_]   /spxTot/
-    spByTot[s_]  /spByTot/
-    rTot[r_]     /rTot/
+    sByTot[s_]  /sByTot/
+    rTot[r_]     /tot/
     xTot[x_]     /xTot/
     iTot[i_]     /iTot/
     kTot[i_]     /iTot/
@@ -382,36 +287,28 @@ singleton sets
 # Data dummies
 # ----------------------------------------------------------------------------------------------------------------------
 # Dummy parameters indicating whether a delivery (data point) exists.
-$PGROUP pG_dummies
-  d1IO[d_,s_,t]  "IO cell dummy"
-  d1IOy[d_,s_,t] "IO cell dummy"
-  d1IOm[d_,s_,t] "IO cell dummy"
+SETS
+  d1IO[d_,s_,t]  "IO cell dummy" //
+  d1IOy[d_,s_,t] "IO cell dummy" //
+  d1IOm[d_,s_,t] "IO cell dummy" //
 
-  d1Xm[x,t]  "IO cell dummy"
-  d1xy[x,t]  "IO cell dummy"
+  d1Xm[x_,t]  "IO cell dummy" //
+  d1Xy[x_,t]  "IO cell dummy" //
 
-  d1CTurist[c,t] "Private consumption for tourists in Denmark"
-  d1X[x_,t]       "Export"
-  d1I_s[i_,ds_,t] "Investment goods to sector ds"
-  d1K[i_,s_,t]    "Capital in sector s"
+  d1CTurist[c,t] "Private consumption for tourists in Denmark" //
+  d1X[x_,t]       "Export" //
+  d1I_s[i_,ds_,t] "Investment goods to sector ds" //
+  d1K[i_,s_,t]    "Capital in sector s" //
 
-  d1R[r_,t]       "Material goods"
-  d1C[c_,t]       "Private consumption"
-  d1G[g_,t]       "Public consumption"
+  d1R[r_,t]       "Material goods" //
+  d1C[c_,t]       "Private consumption" //
+  d1G[g_,t]       "Public consumption" //
 ;
 d1I_s[i_,spTot,t] = yes; 
 d1I_s[i_,sTot,t] = yes; 
 d1K[k_,sTot,t] = yes;
-d1X[xTot,t] = yes;       
+d1X[xTot,t] = yes;      
 
 d1R[r_,t] = yes;
 d1C[c_,t] = yes;
 d1G[g_,t] = yes;
-
-$FUNCTION set_dummies(&year,&subset):
-# Set dummy values to those of a specific year. 
-# THIS SHOULD ONLY BE USED ON A SUBSET WHERE NO DATA EXISTS. 
-    $LOOP pG_dummies:
-        {name}{sets}{$}[<t>&subset] = {name}{sets}{$}[<t>&year];
-    $ENDLOOP
-$ENDFUNCTION

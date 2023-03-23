@@ -1,7 +1,7 @@
 import os
 from gams import *
 
-input_path = os.path.abspath("..\\Model\\Saved\\previous_dynamic_calibration.gdx")
+input_path = os.path.abspath("..\\Model\\Saved\\previous_deep_calibration.gdx")
 output_path = os.path.abspath("..\\Model\\Saved\\nye_navne.gdx")
 replace_dict = {
   "agr": "lan",

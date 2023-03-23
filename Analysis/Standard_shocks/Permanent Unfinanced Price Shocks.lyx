@@ -1,0 +1,612 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{colortbl}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\renewcommand{\maketitle}{
+	\bgroup\setlength{\parindent}{0pt}
+	\begin{flushleft}
+		\textbf{\huge\@title}
+
+		\vspace{20pt}
+
+		\textbf{\normalsize\@author}
+
+		\textbf{Working paper}\newline\@date
+
+		www.dreamgruppen.dk
+	\end{flushleft}\egroup
+}
+
+\fancyhead[L]{
+	\small
+	\textcolor{MAKRO}{
+		\textbf{\@title}
+		\linebreak
+		\leftmark
+	}
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM · \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\usepackage{amsmath}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\usepackage{amsmath}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent unfinanced price shocks
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Permanent unfinanced price shocks"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this chapter, we look at unfinanced shocks to foreign prices.
+ Price shocks all have elements of a negative supply shock, as increased
+ prices make production more expensive.
+ They also have elements of a positive demand shock as exports increase
+ and imports decrease for given domestic prices.
+ 
+\end_layout
+
+\begin_layout Standard
+A shock to foreign prices has the following mechanisms:
+\end_layout
+
+\begin_layout Itemize
+Initial shock may directly increase export competing prices
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Exports increase
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Initial shock may directly increase import prices
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Substitution away from imports tends to increase demand for domestic goods
+\end_layout
+
+\begin_layout Itemize
+Higher demand prices through imported inputs can decrease domestic demand
+ as well as imports
+\end_layout
+
+\begin_layout Itemize
+Sign of net effects from increased import prices on demand differs for demand
+ components
+\end_layout
+
+\begin_layout Itemize
+Higher intermediate input prices through imported inputs
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Higher intermediate input prices have the same proporties as a negative
+ shock to productivity.
+\end_layout
+
+\begin_layout Itemize
+Higher intermediate input prices in production
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Higher unit costs in production
+\end_layout
+
+\begin_layout Itemize
+Higher unit costs leads to higher output prices
+\end_layout
+
+\begin_layout Itemize
+Higher output prices leads to higher demand prices
+\end_layout
+
+\begin_layout Itemize
+Higher prices decrease demand over time
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Higher export competing prices increase domestic demand through exports
+ while the domestic demand effect from increased import prices can be positive
+ through reduced imports or negative through reduced private consumption
+ and / or investments.
+ A positive demand shock is described in the introduction and has the following
+ proporties:
+\end_layout
+
+\begin_layout Itemize
+Increased demand leads to increased sectoral production
+\end_layout
+
+\begin_layout Itemize
+Increased sectoral production leads to increased sectoral production inputs
+\end_layout
+
+\begin_layout Itemize
+Increased intermediate input inputs leads to increased imports and domestic
+ sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased capital demand leads to increased investments from imports and
+ domestic sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased labor demand leads to increased wages, employment and labor supply
+\end_layout
+
+\begin_layout Itemize
+Increased employment and wages leads to higher household income and increased
+ demand for private consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing demand leads to increased housing prices and investments
+ in housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing prices leads to increased liquidity and demand for private
+ consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased production leads to higher output prices
+\end_layout
+
+\begin_layout Itemize
+Higher output prices leads to higher demand prices
+\end_layout
+
+\begin_layout Itemize
+Increased prices dampens quantity demand over time
+\end_layout
+
+\begin_layout Itemize
+Full crowding out in employment
+\end_layout
+
+\begin_layout Standard
+The above mechanisms are all described in further detail in the introduction.
+ All shocks are unfinanced.
+ All the shocks are synthetic shocks as foreign demand and interest rates
+ are unchanged.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Import prices
+\end_layout
+
+\begin_layout Standard
+All import prices are increased by 1 percent relative to the baseline.
+ Export competing prices are kept unchanged.
+ It affects supply through the prices of intermediate inputs in production.
+ It affects demand through substitution away from imports for all relevant
+ demand components.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Export competing prices are unchanged and exports decrease
+\end_layout
+
+\begin_layout Itemize
+Import share of energy at cell level is fixed
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Aggregate can be affected by composition - but small effect
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The net effect is contractionary
+\end_layout
+
+\begin_layout Itemize
+The net effect on different prices depend on their import shares
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+As import prices increase, but wages decrease
+\end_layout
+
+\begin_layout Itemize
+Government consumption has a negative deflator effect
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It has almost no direct imports
+\end_layout
+
+\begin_layout Itemize
+It has most of its imports from government production, which has almost
+ no imports
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+GDP by construction has a negative deflator as imports are a negative part
+ of GDP
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Negative effect on public budget and fiscal sustainability
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Importpris/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Oil price
+\end_layout
+
+\begin_layout Standard
+The oil price is increased by 10 percent relative to the baseline.
+ This affects all foreign prices both import prices and export competing
+ prices.
+ The shock affects supply through the prices of intermediate inputs in productio
+n.
+ It affects demand through increased exports and substitution away from
+ imports for given domestic prices.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+The import price of energy increases a lot, but other foreign prices also
+ increase
+\end_layout
+
+\begin_layout Itemize
+Pass-through rigid for both foreign and domestic prices
+\end_layout
+
+\begin_layout Itemize
+Substitution away from imports and intermediate inputs makes employment
+ increase in the short run
+\end_layout
+
+\begin_layout Itemize
+Wages increase over time, but real wages fall
+\end_layout
+
+\begin_layout Itemize
+Positive short run effect on government budget
+\end_layout
+
+\begin_layout Itemize
+Long run effect on government budget and fiscal sustainability is small
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Oliepris/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Foreign prices
+\end_layout
+
+\begin_layout Standard
+The two driving exogenous prices are increased by 1 percent: The oil price
+ and the foreign price excluding direct and indirect effects from the oil
+ price.
+ The import and export competing prices endogenously follow these prices.
+ With some rigidity, all foreign prices increase 1 percent.
+ This shock affects supply through the prices of intermediate inputs in
+ production and it affects demand through increased exports and substitution
+ away from imports for given domestic prices.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Pass-through rigid for both foreign and domestic prices
+\end_layout
+
+\begin_layout Itemize
+All foreign prices increase 1 percent in the long run
+\end_layout
+
+\begin_layout Itemize
+The shock is expansionary in the short run
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Domestic prices are more rigid and net exports will increase - especially
+ in the medium term
+\end_layout
+
+\begin_layout Itemize
+Firms expect this increase and invest in capital in the short run
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Households are net savers and their real wealth is decreased by the shock
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Lower real wealth gives lower real returns, lower real pension income and
+ lower real inheritance
+\end_layout
+
+\begin_layout Itemize
+All in all this lowers long run real consumption
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Lower long run demand from consumption makes wages grow with slightly less
+ than 1 percent in the long run
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Output prices and export prices increase by slightly less than 1 percent
+ in the long run
+\end_layout
+
+\begin_layout Itemize
+Exports increase and import decrease in the long run - to compensate for
+ lower private consumption
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Positive short run effect on government budget
+\end_layout
+
+\begin_layout Itemize
+Long run effect on government budget and fiscal sustainability is small
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Udenlandske_priser/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

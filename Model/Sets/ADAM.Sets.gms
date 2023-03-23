@@ -15,7 +15,12 @@ set ADAM_variables /
     set.load_ADAM_variables
     c_et, pC_et                 # We add a foreign tourist consumption group
     ita, pita, fita, fknta      # We add investments and capital in breeding herds to the agricultural sector a
-/; 
+    ULBGAP, qgap, FFYGAP, UAGAP, woski, wosku, WOSK, Syc_e, tion2, FCODEM, FYGAP , lnda  #FM-specific variables are added
+    pfbvgt,pfgvgt, pfevgt,pffvgt,pfvvgt,pfhvgt,pfsvgt,pftvgt,pfpb, pfpe, pfpg,pfpf,pfph,pfps,pfpt, pfpv, pfp #Variables to consumer price idnex
+    vbhicp,vghicp, vehicp,vfhicp,vvhicp,vhhicp,vshicp,vthicp , pfphicp #Variables to consumer price idnex
+    pnpb,pnpg, pnpe,pnpf,pnpv,pnph,pnps,pnpt, pnp,  pnbvgt,pngvgt, pnevgt,pnfvgt,pnvvgt,pnhvgt,pnsvgt,pntvgt    #Variables to consumer price idnex
+    e3x                         # Variable som var med i jul17x, men ikke i okt20
+ /; 
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -181,6 +186,7 @@ sets
 
         e3x
         imx
+        imxo7y
     /
     as[asad] "ADAM supply" /
         set.ADAM_production_sectors
@@ -240,6 +246,7 @@ alias[ave,ave1];
 alias[asad,asad1];
 alias[avm,avm1];
 alias[axmt,axmt1];
+alias[ad,ad1];
 
 
 sets mapai2ak[ak,ai] "Mapping from ADAM investment groups to ADAM capital groups" /

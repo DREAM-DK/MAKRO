@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Befolkningsregnskab
 # ----------------------------------------------------------------------------------------------------------------------
-# vI anvender implicit set definition
+# Vi anvender implicit set definition
 # GAMS Dokumentation: https://www.gams.com/latest/docs/UG_SetDefinition.html#UG_SetDefinition_ImplicitSetDefinition
 $onMulti
 
@@ -59,30 +59,19 @@ set activ "Arbejdsmarkedsstatus (FM definitioner)" /
   aktintroij              "FM special: Ikke-jobparate aktiverede integratinosydelsesmodtagere"
   tidlpens                "Beta: Tidlig tilbagetrækning fra 2020"
   besktidlpens            "Beta: Beskæftigede, Tidlig tilbagetrækning fra 2020"
+  seniorpens              ""
+  beskseniorpens          ""
 /;
 
-set soc_ "Arbejdsmarkedsstatus (FM definitioner) inkl. totaler" /
-  set.activ
-  bruttoled # (leddag,ledkont,ledarbj,ledintro,aktkontudd,sbeskjobtdag,sbeskjobtakt,aktkontj,aktdag,aktarbj, aktintroj)
-  arbsty # (besk,beskuddsu,beskuddxsu,beskfortid,beskeft,beskpens,sbeskrest,sbeskflex,sbeskskaane,sbeskreval,sbeskjobtdag,sbeskjobtakt,dledkont,dleddag,leddag,ledkont,ledintro,ledarbj,aktkontj,aktkontudd,aktdag,aktarbj,aktintroj)
-  #  aktdagtot # (aktarbj,aktdag)
-  #  leddagtot # (leddag,ledarbj)
-  nettoled # (leddag,ledarbj,ledkont,ledintro)
-  nettoarbsty
-  #  dled # (dledkont,dleddag)
-  #  rest # (ovrige,selvpens)
-  #  udd # (uddsu,uddxsu)
-  #  besktot # (besk,beskuddsu,beskuddxsu,beskfortid,beskeft,beskpens,sbeskrest,sbeskflex,sbeskskaane,sbeskreval,sbeskjobtdag,sbeskjobtakt,dledkont,dleddag)
-/;
-
-set soc[soc_] "Arbejdsmarkedsstatus (FM definitioner) ekskl. totaler" /
+set soc "Arbejdsmarkedsstatus (FM definitioner) ekskl. totaler" /
   set.activ
 /;
 
-set bruttoled[soc_] "Bruttoledighed" /
+set boern[soc] / boern /;
+
+set BruttoLedig[soc] "Bruttoledighed" /
   sbeskjobtdag            "Dagpengemodtagere i støttet beskæftigelse"
   sbeskjobtaktj           "Jobparate kontanthjælpsmodtagere i støttet beskæftigelse"
-  sbeskjobtaktij          "Ikke-jobparate kontanthjælpsmodtagere i støttet beskæftigelse"
   leddag                  "Ledige, forsikrede"
   ledkont                 "Ledige, ikke-forsikrede"
   aktdag                  "Aktiverede, forsikrede"
@@ -94,14 +83,14 @@ set bruttoled[soc_] "Bruttoledighed" /
   aktintroj               "FM special: Jobparate aktiverede integrationsydelsesmodtagere"
 /;
 
-set nettoled[soc_] "Nettoledighed" /
+set NettoLedig[soc] "Nettoledighed" /
   leddag                  "Ledige, forsikrede"
   ledkont                 "Ledige, ikke-forsikrede"
   ledarbj                 "FM special: Arbejdsmarkedsydelse - passive"
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
 /;
 
-set besktot[soc_] "Beskæftigelse" /
+set besktot[soc] "Beskæftigelse" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
   beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
@@ -120,9 +109,10 @@ set besktot[soc_] "Beskæftigelse" /
   dleddag                 "Delvist ledige, forsikrede"
   dledkont                "Delvist ledige, ikke-forsikrede"
   besktidlpens            "Beta: Beskæftigede, Tidlig tilbagetrækning fra 2020"
+  beskseniorpens          ""
 /;
 
-set arbsty[soc_] "Arbejdsstyrke" /
+set BruttoArbsty[soc] "Arbejdsstyrke" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
   beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
@@ -150,9 +140,10 @@ set arbsty[soc_] "Arbejdsstyrke" /
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
   aktintroj               "FM special: Jobparate aktiverede integrationsydelsesmodtagere"
   besktidlpens            "Beta: Beskæftigede, Tidlig tilbagetrækning fra 2020"
+  beskseniorpens          ""
 /;
 
-set nettoarbsty[soc_] "Nettoarbejdsstyrke" /
+set NettoArbsty[soc] "Nettoarbejdsstyrke" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
   beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
@@ -175,19 +166,13 @@ set nettoarbsty[soc_] "Nettoarbejdsstyrke" /
   ledarbj                 "FM special: Arbejdsmarkedsydelse - passive"
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
   besktidlpens            "Beta: Beskæftigede, Tidlig tilbagetrækning fra 2020"
-/;
-
-set soc_2soc[soc_,soc] "Mapping af aggregater til sociogrupper" /
-  bruttoled . set.bruttoled
-  arbsty . set.arbsty
-  nettoled . set.nettoled
-  nettoarbsty . set.nettoarbsty
+  beskseniorpens          ""
 /;
 
 Set ovf_hh "Overførsler til husholdningerne" /
   ledigyd      "Ledighedsydelse"
   aktarbj      "Overførsler til aktiverede i arbejdsmarkedsydelsesordningen udenfor arbejdsstyrken"
-#  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
+  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
   aktdag       "Overførsler til AF aktiverede ekskl. arbejdsmarkedsydelse udenfor arbejdsstyrken (dagpenge)"
   aktkont      "Overførsler til aktiverede kontanthjælpsmodtagere"
   reval        "Revalideringsydelse"
@@ -212,41 +197,54 @@ Set ovf_hh "Overførsler til husholdningerne" /
   kontrest     "Overførsler til kontanthjælp i øvrigt, ikke-skattepligtig del (inkl. løntilskud, revalidering mv.)"
   intro        "Modtagere af integrationsydelse, kontanthjælp til flygtninge, introduktionsydelse (passiv periode)"
   boernyd      "Børnefamilieydelse"
-#  udlpens      "Folkepension til udland"
-#  udlfortid    "Førtidspension til udland"
   boligyd      "Boligydelse"
   boligst      "Boligstøtte"
   skatpl       "Øvrige indkomstoverførsler, skattepligtige"
   iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
   groen        "Grøn check"
+  medie        "Mediecheck"
+  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
+  tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
+#  seniorpens   "Seniorpension"
 /;
 
-Set ovf_udl         "Overførsler til udlandet" /
-  udlpens      "Folkepension til udland"
-  udlfortid    "Førtidspension til udland"
+Set ovf_udl "Overførsler til udlandet" /
+  udlpens   "Folkepension til udland"
+  udlfortid "Førtidspension til udland"
+  udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
+#  udlseniorpens "Seniorpension til udlandet"
 /;
 
-Set ovf_         "Overførsler inkl. totaler" /
+Set ovf_ "Overførsler inkl. totaler" /
   set.ovf_hh
   set.ovf_udl
   tot
   hh
   a18t100
+  a0t17
 /;
 
-Set ovf[ovf_]     "Overførsler ekskl. totaler" /
+Set ovftot[ovf_] "Subset bestående af tot" /
+  tot
+/;
+
+Set ovf[ovf_] "Overførsler ekskl. totaler" /
   set.ovf_hh
   set.ovf_udl
 /;
 
-Set ovfhh[ovf]     "Overførsler ekskl. totaler" /
+Set ovfhh[ovf] "Overførsler ekskl. totaler" /
   set.ovf_hh
 /;
 
-Set satsreg[ovf]     "Overførsler ekskl. totaler" /
+Set hh[ovf_] "Subset bestående af hh" /
+  hh
+/;
+
+Set satsreg[ovf] "Overførsler ekskl. totaler" /
   ledigyd      "Ledighedsydelse"
   aktarbj      "Overførsler til aktiverede i arbejdsmarkedsydelsesordningen udenfor arbejdsstyrken"
-#  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
+  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
   aktdag       "Overførsler til AF aktiverede ekskl. arbejdsmarkedsydelse udenfor arbejdsstyrken (dagpenge)"
   aktkont      "Overførsler til aktiverede kontantshjælpmodtagere"
   reval        "Revalideringsydelse"
@@ -277,84 +275,142 @@ Set satsreg[ovf]     "Overførsler ekskl. totaler" /
   boligst      "Boligstøtte"
   skatpl       "Øvrige indkomstoverførsler, skattepligtige"
   iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
-#  groen        "Grøn check"
+  tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
+  udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
+#  seniorpens   "Seniorpension"
+#  udlseniorpens "Seniorpension til udland"
+  medie        "Mediecheck"
+  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
+
+#  groen        "Grøn check" - ikke satsreguleret
 /;
 
-Set ubeskat[ovf]     "Ubeskattede overførsler" /
-  boernyd      "Børnefamilieydelse"
-  boligyd      "Boligydelse"
-  boligst      "Boligstøtte"
-  iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
-  groen        "Grøn check"
+Set ubeskat[ovf] "Ubeskattede overførsler" /
+  boernyd "Børnefamilieydelse"
+  boligyd "Boligydelse"
+  boligst "Boligstøtte"
+  iskatpl "Øvrige indkomstoverførsler, ikke skattepligtige"
+  groen   "Grøn check"
+  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
 /;
 
 Parameter nOvf2Soc[ovf_, soc] "Mapping mellem overførsler og BFR-grupper" /  
-  ledigyd   . ledigyd      1 
-  aktarbj   . aktarbj      1
-  aktdag    . aktdag       1 
-  aktkont   . aktkontudd   1
-  aktkont   . aktkontj     1
-  aktkont   . aktkontij    1
-  aktkont   . aktintroj    0.5
-  aktkont   . aktintroij   0.5
-  reval     . reval        1
-  uddsu     . uddsu        1
-  uddsu     . beskuddsu    1
-  leddag    . leddag       1
-  ledarbj   . ledarbj      1
-  ferie     . leddag       1
-  syge      . syge         1
-  syge      . besksyge     1
-  barsel    . barsel       1
-  barsel    . beskbarsel   1
-  orlov     . orlov        1
-  udvforlob . udvforlob    1
-  udvforlob . jobafkl      1
-  pension   . pension      1
-  pension   . beskpens     1
-  pension   . tidlpens     1
-  pension   . besktidlpens 1
-  fortid    . fortid       1
-  fortid    . beskfortid   1
-  efterl    . efterl       1
-  efterl    . beskeft      1
-  tjmand    . tjmand       1
-  tillaeg   . pension      1
-  tillaeg   . beskpens     1
-  tillaeg   . tidlpens     1
-  tillaeg   . besktidlpens 1
-  tillaeg   . fortid       1
-  tillaeg   . beskfortid   1
-  tilbtrk   . pension      1
-  tilbtrk   . beskpens     1
-  tilbtrk   . tidlpens     1
-  tilbtrk   . besktidlpens 1
-  tilbtrk   . fortid       1
-  tilbtrk   . beskfortid   1
-  overg     . overg        1
-  fleksyd   . fleksyd      1
-  ledkont   . ledkont      1
-  ledkont   . konthj       1
-  ledkont   . ledintro     1
-  kontflex  . sbeskflex    1
-  kontrest  . sbeskreval   1
-  kontrest  . sbeskrest    1
-  intro     . intro        1
-  intro     . aktintroj    0.5
-  intro     . aktintroij   0.5
-  udlpens   . pension      1
-  udlpens   . beskpens     1
-  udlpens   . tidlpens     1
-  udlpens   . besktidlpens 1
-  udlfortid . fortid       1
-  udlfortid . beskfortid   1
-  boligyd   . pension      1
-  boligyd   . beskpens     1
-  boligyd   . tidlpens     1
-  boligyd   . besktidlpens 1
-  boligyd   . fortid       1
-  boligyd   . beskfortid   1
-
+  ledigyd   . ledigyd         1 
+  aktarbj   . aktarbj         1
+  sbeskjobtdag . sbeskjobtdag 1
+  aktdag    . aktdag          1 
+  aktkont   . aktkontudd      1
+  aktkont   . aktkontj        1
+  aktkont   . aktkontij       1
+  aktkont   . aktintroj       0.5
+  aktkont   . aktintroij      0.5
+  reval     . reval           1
+  uddsu     . uddsu           1
+  uddsu     . beskuddsu       1
+  leddag    . leddag          1
+  ledarbj   . ledarbj         1
+  ferie     . leddag          1
+  syge      . syge            1
+  syge      . besksyge        1
+  barsel    . barsel          1
+  barsel    . beskbarsel      1
+  orlov     . orlov           1
+  udvforlob . udvforlob       1
+  udvforlob . jobafkl         1
+  pension   . pension         1
+  pension   . beskpens        1
+  pension   . seniorpens      1
+  pension   . beskseniorpens  1
+#  seniorpens . seniorpens     1
+#  seniorpens . beskseniorpens 1
+  tidlpens  . tidlpens        1
+  tidlpens  . besktidlpens    1
+  fortid    . fortid          1
+  fortid    . beskfortid      1
+  efterl    . efterl          1
+  efterl    . beskeft         1
+  tjmand    . tjmand          1
+  tillaeg   . pension         1
+  tillaeg   . beskpens        1
+  tillaeg   . tidlpens        1
+  tillaeg   . besktidlpens    1
+  tillaeg   . seniorpens      1
+  tillaeg   . beskseniorpens  1
+  tillaeg   . fortid          1
+  tillaeg   . beskfortid      1
+  tilbtrk   . pension         1
+  tilbtrk   . beskpens        1
+  tilbtrk   . tidlpens        1
+  tilbtrk   . besktidlpens    1
+  tilbtrk   . seniorpens      1
+  tilbtrk   . beskseniorpens  1
+  tilbtrk   . fortid          1
+  tilbtrk   . beskfortid      1
+  overg     . overg           1
+  fleksyd   . fleksyd         1
+  ledkont   . ledkont         1
+  ledkont   . konthj          1
+  ledkont   . ledintro        1
+  kontflex  . sbeskflex       1
+  kontrest  . sbeskreval      1
+  kontrest  . sbeskrest       1
+  intro     . intro           1
+  intro     . aktintroj       0.5
+  intro     . aktintroij      0.5
+  udlpens   . pension         1
+  udlpens   . beskpens        1
+  udlpens   . seniorpens      1
+  udlpens   . beskseniorpens  1
+#  udlseniorpens . seniorpens  1
+#  udlseniorpens . beskseniorpens  1
+  udltidlpens . tidlpens      1
+  udltidlpens . besktidlpens  1
+  udlfortid . fortid          1
+  udlfortid . beskfortid      1
+  boligyd   . pension         1
+  boligyd   . beskpens        1
+  boligyd   . tidlpens        1
+  boligyd   . besktidlpens    1
+  boligyd   . seniorpens      1
+  boligyd   . beskseniorpens  1
+  boligyd   . fortid          1
+  boligyd   . beskfortid      1
+  medie     . pension         1
+  medie     . beskpens        1
+  medie     . fortid          1
+  medie     . beskfortid      1
+  lumpsumovf . leddag         1
+  lumpsumovf . ledkont        1
+  lumpsumovf . uddsu          1
+  lumpsumovf . orlov          1
+  lumpsumovf . barsel         1
+  lumpsumovf . syge           1
+  lumpsumovf . aktdag         1
+  lumpsumovf . reval          1
+  lumpsumovf . ledigyd        1
+  lumpsumovf . konthj         1
+  lumpsumovf . fortid         1
+  lumpsumovf . overg          1
+  lumpsumovf . fleksyd        1
+  lumpsumovf . efterl         1
+  lumpsumovf . pension        1
+  lumpsumovf . tjmand         1
+  lumpsumovf . jobafkl        1
+  lumpsumovf . ovrige         1
+  lumpsumovf . aktkontudd     1
+  lumpsumovf . aktkontj       1
+  lumpsumovf . aktkontij      1
+  lumpsumovf . udvforlob      1
+  lumpsumovf . ledarbj        1
+  lumpsumovf . aktarbj        1
+  lumpsumovf . intro          1
+  lumpsumovf . ledintro       1
+  lumpsumovf . aktintroj      1
+  lumpsumovf . aktintroij     1
+  lumpsumovf . tidlpens       1
+  lumpsumovf . besktidlpens   1
+  lumpsumovf . seniorpens     1
+  lumpsumovf . beskseniorpens 1
   #  boernyd   . a0t17        1
   #  boligst   . a18t100      1
   #  skatpl    . a18t100      1

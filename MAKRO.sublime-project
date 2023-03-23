@@ -23,7 +23,36 @@
       [
         "*.cmd"
       ],
-      "path": "Analysis/Shocks_Materiale"
+      "path": "Konjunktur"
+    },
+    {
+      "file_include_patterns":
+      [
+        "*.cmd"
+      ],
+      "path": "Analysis/Standard_shocks"
+    },
+    {
+      "file_include_patterns":
+      [
+        "*.cmd"
+      ],
+      "path": "Analysis/MPC"
+    },
+    {
+      "file_include_patterns":
+      [
+        "*.cmd"
+      ],
+      "path": "Analysis/Shocks_ExternalEvaluation"
+    },
+    {
+      "file_include_patterns":
+      [
+        "*.gms",
+        "*.cmd"
+      ],
+      "path": "Data"
     },
     {
       "file_include_patterns":
@@ -48,7 +77,11 @@
         "*.lyx~",
       ],
     },
-	],
+    {
+      "file_exclude_patterns": ["*"],
+      "path": "Analysis/Old"
+    },
+  ],
 	"settings":
 	{
 		"tab_size": 2,

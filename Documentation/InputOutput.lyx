@@ -1,0 +1,1926 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+The input/output system
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:IO system"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The input/output (IO) matrix organizes market clearing conditions, equating
+ demand and supply of goods and services.
+ We follow the National Accounting classification where aggregate demand
+ consists of intermediate inputs in production, 
+\begin_inset Formula $R$
+\end_inset
+
+, private consumption, 
+\begin_inset Formula $C$
+\end_inset
+
+, government consumption, 
+\begin_inset Formula $G$
+\end_inset
+
+, investment, 
+\begin_inset Formula $I$
+\end_inset
+
+, and exports, 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Demand is met by domestic production, 
+\begin_inset Formula $Y$
+\end_inset
+
+, and imports, 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ In current prices
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+For ease of notation we omit deflators for this equation i.e.
+ we write 
+\begin_inset Formula $Y$
+\end_inset
+
+ instead of 
+\begin_inset Formula $P_{t}^{Y}Y_{t}$
+\end_inset
+
+ etc.
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Y+M=R+C+G+I+X\label{eq:goods_clearing}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The right hand side objects in equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:goods_clearing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) are aggregated from various demand side compositions, investment differs
+ according to the type of capital good for example.
+ Each demand object (
+\begin_inset Formula $R$
+\end_inset
+
+,
+\begin_inset Formula $G$
+\end_inset
+
+,etc) combines inputs from potentially all sectors, and from both domestic
+ production and imports.
+\end_layout
+
+\begin_layout Standard
+The IO system can be viewed as a retailer buying domestic production and
+ imports and selling intermediate product bundles to the demand side under
+ perfect competition.
+ The final demand products are produced with a nested production function.
+ There are two nests.
+ The lower nest is between imports, 
+\begin_inset Formula $M_{d.s,t}$
+\end_inset
+
+, and domestic input, 
+\begin_inset Formula $Y_{d.s,t}$
+\end_inset
+
+, from a specific sector.
+ The upper nest is between aggregates of foreign and domestic inputs, 
+\begin_inset Formula $YM_{d.s,t}$
+\end_inset
+
+, from the different sectors.
+ The elasticity of substitution in all the upper nests is 0, but in the
+ lower nest between imports and domestic production most elasticities are
+ non-zero.
+\end_layout
+
+\begin_layout Standard
+Tables 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:IO1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:IO2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ show the input/output structure of MAKRO in a single year.
+ The first 9 rows represent domestic production sectors, while the next
+ 4 rows are import sectors
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The imports in MAKRO is in the current model version tied to import groups
+ from ADAM and the mapping leaves agriculture and shipping empty (imports
+ from housing, public production and construction are also 0 in the national
+ account IO-tables or very close to 0).
+ For more detail refer to the appendix on 
+\begin_inset Quotes eld
+\end_inset
+
+Data and calibration
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+ Each column represents a demand side: intermediate inputs used in each
+ of the 9 production sectors, 5 private consumption groups, a single type
+ of government consumption, 3 investment types (including inventory investments)
+, and finally 4 export groups (excluding tourism exports which are included
+ in the private consumption groups).
+ The numbers shown are values of the input/output combinations in current
+ prices before taxes in 2021 (bn.
+ DKK).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset VSpace -1cm
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Input/output matrix (part 1/2)
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:IO1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\begin_inset space \hspace{}
+\length -3.25cm
+\end_inset
+
+
+\begin_inset Graphics
+	filename Images/IO_table_1.emf
+	width 19cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace -0.5cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Input/output matrix (part 2/2)
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:IO2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hspace{}
+\length -3.25cm
+\end_inset
+
+
+\begin_inset Graphics
+	filename Images/IO_table_2.emf
+	width 19cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Market clearing prices
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:IO prices"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Markets really exist only at the bottom of the CES trees, and thus this
+ is where equilibrium prices are determined.
+ All other prices are constructed from these equilibirum prices.
+ In MAKRO the most disaggregate production level is the sectoral level,
+ indexed 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ All output from a sector 
+\begin_inset Formula $s$
+\end_inset
+
+ has the same price (before taxes) irrespective of who buys it.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In the input/output matrix from the national accounts, it is possible to
+ derive prices for the different IO cells.
+ In these cells, the net price from each delivering sector will vary.
+ We disregard this information to make the model more tractable.
+ In the ADAM model, prices are not explicitly defined for the IO cells.
+ Instead, they use constant IO coefficients in determining the aggregate
+ price, which implicitly assumes all output from sector 
+\begin_inset Formula $s$
+\end_inset
+
+ has the same price irrespective of who buys it.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+The after-tax price may vary depending on the buyer, as indirect taxes can
+ vary across demand components.
+ For example, households generally face higher indirect taxes on private
+ consumption than firms on intermediate inputs.
+ Demand prices (paid by the buyer) are given by: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{Y\tau}=\left(1+\tau_{d,s,t}^{Y}\right)P_{s,t}^{Y}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{M\tau}=\left(1+\tau_{d,s,t}^{M}\right)P_{s,t}^{M}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $P_{s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{s,t}^{M}$
+\end_inset
+
+ are the (domestic and foreign) prices received by producers, which are
+ the same irrespective of the identity of the buyer and the 
+\begin_inset Formula $\tau$
+\end_inset
+
+'s denote taxes.
+ In particular, the indirect tax rates for domestic production and imports
+ are compositions of customs, net duties, and value added tax (VAT) rates:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tau_{d,s,t}^{Y}=\left(1+\tau_{d,s,t}^{DutyY}-s_{d,s,t}^{Y}\right)\left(1+\tau_{d,s,t}^{VATy}\right)\left(1+\tau_{d,s,t}^{Reg}\right)-1
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\tau_{d,s,t}^{M}=\left(1+\tau_{d,s,t}^{Cus}\right)\left(1+\tau_{d,s,t}^{DutyM}-s_{d,s,t}^{M}\right)\left(1+\tau_{d,s,t}^{VATm}\right)\left(1+\tau_{d,s,t}^{Reg}\right)-1
+\]
+
+\end_inset
+
+where 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\tau_{d,s,t}^{DutyY}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ and 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\tau_{d,s,t}^{DutyM}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ are duty rates, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $s_{d,s,t}^{Y}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ and 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $s_{d,s,t}^{M}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ are subsidy rates, 
+\begin_inset Formula $\tau_{d,s,t}^{VATy}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{d,s,t}^{VATm}$
+\end_inset
+
+ are the VAT rates, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\tau_{d,s,t}^{Reg}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ is the implicit registration duty for cars
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The implicit registration duty, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\tau_{d,s,t}^{Reg}$
+\end_inset
+
+,
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ is only non-zero for private consumption of cars, investments in equipment
+ and government consumption (
+\begin_inset Formula $d$
+\end_inset
+
+= 
+\begin_inset Formula $cCar$
+\end_inset
+
+
+\begin_inset Formula $,iM,g$
+\end_inset
+
+).
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{d,s,t}^{Cus}$
+\end_inset
+
+ are the custom rates, all exogenous to the model and taken from the input/outpu
+t data matrix in the National Accounts.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+All duties, subsidies, customs, and VAT rates are allowed to vary across
+ the demand and supply sectors.
+ In the most dis-aggregate national accounts and in ADAM they are identical
+ for all deliveries 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ The variation on this dimension in MAKRO relative to ADAM is due to the
+ fact that production sectors here aggregate a higher number of sub-sectors.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Demand trees
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:IO equations"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each demanded product, 
+\begin_inset Formula $D_{d,t}=[R_{r,t},C_{c,t},G_{g,t},I_{i,t},X_{x,t}]$
+\end_inset
+
+, is a composition of different inputs produced in different sectors, 
+\begin_inset Formula $s$
+\end_inset
+
+, either domestically (
+\begin_inset Formula $Y$
+\end_inset
+
+) or imported 
+\begin_inset Formula $(M)$
+\end_inset
+
+ .
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that for intermediate inputs, 
+\begin_inset Formula $R_{r,t}$
+\end_inset
+
+, 
+\begin_inset Formula $r$
+\end_inset
+
+ is an alias for 
+\begin_inset Formula $s$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ exists for all sectors.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The explicit problem of the zero-profit retailer selling an aggregated final
+ product to a specific market, 
+\begin_inset Formula $D_{d,t}$
+\end_inset
+
+, is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\max_{Y_{d,st},M_{d,st}}\Pi_{d,t}^{retailer}=P_{d,t}^{D}D_{d,t}-\sum_{s}\left(P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}\right)\\
+\\
+\text{s.t. }D_{d,t}=\text{Leontief}\left(YM_{d,s1,t},...,\text{\ensuremath{YM_{d,S,t}}}\right)\\
+\\
+\text{s.t. }YM_{d,s,t}=CES\left(Y_{d,s,t},M_{d,s,t}\right)\\
+\\
+\text{s.t. }P_{d,t}^{D}D_{d,t}=\sum_{s}\left(P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}\right)\\
+\\
+\end{array}\label{eq:retailer}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $YM_{d,s,t}$
+\end_inset
+
+ is a CES bundle over domestic and foreign inputs, 
+\begin_inset Formula $Y_{d,s,t}$
+\end_inset
+
+ and 
+\begin_inset Formula $M_{d,s,t}$
+\end_inset
+
+.
+ The last equation in eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:retailer"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) is the perfect competition condition that gives the final product price,
+ 
+\begin_inset Formula $P_{d,t}^{D}$
+\end_inset
+
+.
+ Given the perfect competition condition this additive separable problem
+ can be split into two cost minimization problems for a given level of demand
+ 
+\begin_inset Formula $D_{d,t}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\text{min}_{YM_{d,s,t}}\sum_{s}P_{d,s,t}^{YM}\cdot YM_{d,s,t}\\
+\\
+\text{s.t. }D_{d,t}=\text{Leontief}\left(YM_{d,s1,t},...,YM_{d,S,t}\right)\\
+\\
+\text{s.t. }P_{d,t}^{D}D_{d,t}=\sum_{s}P_{d,s,t}^{YM}\cdot YM_{d,s,t}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\text{min}_{Y_{d,s,t},M_{d,s,t}}P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}\\
+\\
+\text{s.t. }YM_{d,s,t}=CES\left(Y_{d,s,t},M_{d,s,t}\right)\\
+\\
+\text{s.t. }P_{d,t}^{YM}\cdot YM_{d,t}=P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The above structure does not apply for exports and inventory investments.
+ For exports there are explicit demands for domestic exports and for imports
+ for export - the two are not nested (see exports chapter).
+ For inventory investments there is no aggregated demand for inventory investmen
+ts, 
+\begin_inset Formula $I_{iL,t}$
+\end_inset
+
+.
+ Aggregate inventory investments is simply an accounting quantity imputed
+ using chain indices.
+ The real demand is for sectoral inventory investments, 
+\begin_inset Formula $I_{iL,s,t}$
+\end_inset
+
+.
+ Determination of inputs to exports and inventory investments have their
+ own subsections below.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Aggregation of foreign and domestic inputs
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:The-bottom"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Domestic and foreign inputs are aggregated using a CES function with a fixed
+ elasticity of substitution 
+\begin_inset Formula $\eta\equiv\eta_{d,s}^{YM}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+YM_{d,s,t}=\left[\left(\mu_{d,s,t}^{Y}\right)^{\frac{1}{\eta}}\left(Y_{d,s,t}\right)^{\frac{\eta-1}{\eta}}+\left(\mu_{d,s,t}^{M}\right)^{\frac{1}{\eta}}\left(M_{d,s,t}\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is equivalent to solving an optimization problem with the accounting
+ identity
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{YM}\cdot YM_{d,s,t}=P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}
+\]
+
+\end_inset
+
+which generates the demand functions
+\begin_inset Formula 
+\begin{equation}
+Y_{d,s,t}=\mu_{d,s,t}^{y}\cdot YM_{d,s,t}\cdot\left(\frac{P_{d,s,t}^{Y\tau}}{P_{d,s,t}^{YM}}\right)^{-\eta_{d,s}^{YM}}\label{eq:retailer_ces1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+M_{d,s,t}=\mu_{d,s,t}^{m}\cdot YM_{d,s,t}\cdot\left(\frac{P_{d,s,t}^{M\tau}}{P_{d,s,t}^{YM}}\right)^{-\eta_{d,s}^{YM}}\label{eq:retailer_ces2}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $P_{d,s,t}^{YM}$
+\end_inset
+
+ is the corresponding zero-profit CES price aggregate of prices 
+\begin_inset Formula $\left(P_{d,s,t}^{Y\tau},P_{d,s,t}^{M\tau}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The key implication of using this CES structure to aggregate the quantities
+ from foreign and domestic suppliers (instead of a price/quantity index
+ construction often used in the data) is that it contains behavior which
+ can be quantified through the elasticity parameter.
+\end_layout
+
+\begin_layout Paragraph
+Reduced short-run elasticity
+\end_layout
+
+\begin_layout Standard
+We tweak the structure above (subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-bottom"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) in order to impose lower short-run (relative to long run) elasticities
+ between domestic and foreign inputs.
+\end_layout
+
+\begin_layout Standard
+Specifically, we retain the zero profit condition along with the explicit
+ quantity aggregator as before:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{YM}\cdot YM_{d,s,t}=P_{d,s,t}^{Y\tau}Y_{d,s,t}+P_{d,s,t}^{M\tau}M_{d,s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+YM_{d,s,t}=\left[\left(\mu_{d,s,t}^{Y}\right)^{\frac{1}{\eta}}\left(Y_{d,s,t}\right)^{\frac{\eta-1}{\eta}}+\left(\mu_{d,s,t}^{M}\right)^{\frac{1}{\eta}}\left(M_{d,s,t}\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But, replace the ratio of the two demand equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{M_{d,s,t}}{Y_{d,s,t}}=\frac{\mu_{d,s,t}^{m}}{\mu_{d,s,t}^{y}}\cdot\left(\frac{P_{d,s,t}^{M\tau}}{P_{d,s,t}^{Y\tau}}\right)^{-\eta_{d,s}^{YM}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with an ad-hoc generalization
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{M_{d,s,t}}{Y_{d,s,t}}=\frac{\mu_{d,s,t}^{m}}{\mu_{d,s,t}^{y}}\cdot\left(R_{d,s,t}^{YM}\right)^{-\eta_{d,s}^{YM}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the relative price object, 
+\begin_inset Formula $R_{d,s,t}^{YM}$
+\end_inset
+
+, reacts sluggishly to changes in actual prices:
+\begin_inset Formula 
+\[
+R_{d,s,t}^{YM}=\left(R_{d,s,t-1}^{YM}\right)^{\lambda_{d,s}}\left(\frac{P_{d,s,t}^{M\tau}}{P_{d,s,t}^{Y\tau}}\right)^{1-\lambda_{d,s}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The resulting price 
+\begin_inset Formula $P_{d,s,t}^{YM}$
+\end_inset
+
+ is no longer the standard CES price, but it remains the price consistent
+ with zero profits.
+ It is still a method of aggregation, except with added behavior.
+\end_layout
+
+\begin_layout Subsubsection
+Aggregation of quantities from different sectors
+\end_layout
+
+\begin_layout Standard
+In this level we use a Leontief aggregator combining sectoral inputs into
+ final goods in fixed proportions.
+ For 
+\begin_inset Formula $d\in\{c,k,g,r\}$
+\end_inset
+
+ we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+YM_{d,s,t}=\mu_{d,s,t}^{YM}D_{d,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this expression 
+\begin_inset Formula $\mu_{d,s,t}^{YM}\in[0,1]$
+\end_inset
+
+ are the Leontief shares and 
+\begin_inset Formula $D_{d,t}$
+\end_inset
+
+ are the final goods quantities.
+ For example 
+\begin_inset Formula $\mu_{c,s,t}^{YM}$
+\end_inset
+
+ is the fraction of total demand for consumption good 
+\begin_inset Formula $c$
+\end_inset
+
+, 
+\begin_inset Formula $C_{c,t}$
+\end_inset
+
+, that falls on goods produced or imported by sector 
+\begin_inset Formula $s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note that for intermediate goods, 
+\begin_inset Formula $R_{r,t}$
+\end_inset
+
+, 
+\begin_inset Formula $r$
+\end_inset
+
+ is an alias for 
+\begin_inset Formula $s$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ exists for all sectors.
+ Finally, note that for investments we assume that all investment demand
+ is made up of the same composition of sectoral inputs across sectors, implying
+ that all sectors have identical investment prices.
+ In national accounts, the price of investments may differ between sectors.
+ Therefore, to ensure consistency with national accounts, we introduce a
+ correction parameter in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Sectoral investments"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The parameter has a linear effect on aggregate prices.
+\end_layout
+
+\begin_layout Subsubsection
+Exports
+\end_layout
+
+\begin_layout Standard
+For exports there are explicit separate demand functions for domestically
+ produced exports and imports that are re-exported.
+ Domestically produced exports, 
+\begin_inset Formula $X_{x,t}^{Y}$
+\end_inset
+
+, and imports for export, 
+\begin_inset Formula $X_{x,t}^{M}$
+\end_inset
+
+, are each determined by Armington demand relations - see the exports chapter.
+ 
+\end_layout
+
+\begin_layout Standard
+For each export demand, sectoral inputs are combined with a Leontief aggregator.
+ The inputs are given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{x,s,t}=\mu_{x,s,t}^{Xy}\cdot X_{x,t}^{Y}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M_{x,s,t}=\mu_{x,s,t}^{Xm}\cdot X_{x,t}^{M}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Aggregation
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:IO aggregates"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The production of each sector is the sum of deliveries to all demand components
+ for both domestic production and imports:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{s,t}=\underset{d}{\sum}Y_{d,s,t}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M_{s,t}=\underset{d}{\sum}M_{d,s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At the sectoral level, there are model-defined equilibrium prices.
+ However, at the aggregate level there are no model-defined prices.
+ Thus, for totals to ensure consistency with National Accounts we use Paasche
+ price indices and Laspeyres indices for the corresponding quantities.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We do the same for GDP and for aggregate gross value added.
+ Note that housing and non-housing consumption do not face this problem
+ as they have model-defined aggregate prices through CES preferences.
+ Investment quantities aggregate linearly so that we do not need a price
+ index to calculate the price of total investment of a given type (structures
+ or equipment).
+ Using the price index approach does not affect the outcome in a significant
+ way.
+\end_layout
+
+\end_inset
+
+ In particular, for a given variable, 
+\begin_inset Formula $Z=[C,I,G,R,X,M]$
+\end_inset
+
+, we use the identity
+\begin_inset Formula 
+\begin{equation}
+P_{t}^{Z}Z_{t}=\sum_{d}P_{d,t}^{Z}Z_{d,t}\label{eq:price_sum}
+\end{equation}
+
+\end_inset
+
+and the index relationship
+\begin_inset Formula 
+\begin{equation}
+P_{t-1}^{Z}Z_{t}=\sum_{d}P_{d,t-1}^{Z}Z_{d,t}\label{index_rel}
+\end{equation}
+
+\end_inset
+
+Together, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:price_sum"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "index_rel"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) imply the price and quantity dynamic indices
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{t}=Z_{t-1}\frac{\sum_{d}P_{d,t-1}^{Z}Z_{d,t}}{\sum_{d}P_{d,t-1}^{Z}Z_{d,t-1}}\;\;\text{and}\;\;P_{t}^{Z}=P_{t-1}^{Z}\frac{\sum_{d}P_{d,t}^{Z}Z_{d,t}}{\sum_{d}P_{d,t-1}^{Z}Z_{d,t}}
+\]
+
+\end_inset
+
+Price indices are unnecessary when quantities are homogeneous.
+ In such a case, we replace the index equation with the quantity sum and
+ work with
+\begin_inset Formula 
+\[
+P_{t}^{Z}Z_{t}=\sum_{d}P_{d,t}^{Z}Z_{d,t}\;\;\text{and}\;\;Z_{t}=\sum_{d}Z_{d,t}
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Appendices
+\end_layout
+
+\begin_layout Subsubsection
+Details on investments
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Sectoral investments"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All firms buy the same composite investment goods.
+ We assume that the contributions from supplying sectors, 
+\begin_inset Formula $s$
+\end_inset
+
+, to a unit of a given type, 
+\begin_inset Formula $k$
+\end_inset
+
+, of capital investment, 
+\begin_inset Formula $I_{k,t}$
+\end_inset
+
+, are identical in all demand sectors.
+ In addition, the contributions from domestic and foreign sources in the
+ lowest level of the demand tree are also identical for all sectors.
+ This implies that quantities are homogeneous and can be added across sectors
+ to obtain the aggregate quantity demanded for an investment good.
+ It also implies that the price of a unit of capital is the same across
+ sectors, 
+\begin_inset Formula $P_{k,t}^{I}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+However, in the national accounts investment prices for the same capital
+ goods differ across sectors.
+ To match this, we add a correction factor, 
+\begin_inset Formula $\lambda_{k,r,t}^{PI}$
+\end_inset
+
+, and define sectoral prices as 
+\begin_inset Formula $P_{k,r,t}^{I}=\lambda_{k,r,t}^{PI}P_{k,t}^{I}$
+\end_inset
+
+ where 
+\begin_inset Formula $r$
+\end_inset
+
+ is the sector demanding capital.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+It is easy to confuse the price from the perspective of the sector supplying
+ inputs to the capital good 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $P_{k,s,t}^{Y\tau}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ with the price from the persepctive of the sector demanding the capital
+ good 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $P_{k,r,t}^{I}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
+ This is why we use subscript 
+\begin_inset Formula $r$
+\end_inset
+
+ for the demanding sector here.
+ Note that 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $P_{k,r,t}^{I}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ is a weighted average of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $P_{k,s,t}^{Y\tau}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
+\end_layout
+
+\end_inset
+
+ This price is then the relevant price for the optimal dynamic investment
+ decision in each sector and is the price that enters the capital goods
+ Euler equations, determining user costs.
+ This factor 
+\begin_inset Formula $\lambda_{k,r,t}^{PI}$
+\end_inset
+
+ enters after the two bottom CES constructions are decided.
+ It affects aggregate prices linearly.
+\end_layout
+
+\begin_layout Subsubsection
+Data and calibration
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:IO calibration"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our sectoral aggregation and the resulting input/output matrix match the
+ corresponding nominal aggregation from the Danish National Accounts.
+ However, the data for the current version of MAKRO is based on the database
+ from the ADAM-model.
+ ADAM has 12 sectors, 8 private consumption groups, 1 government consumption
+ group, 5 investments groups and 8 export groups.
+ There is a direct mapping from ADAM's to MAKRO's consumption, investment
+ and export groups.
+ This mapping is as follows:
+\end_layout
+
+\begin_layout Standard
+The production sector decomposition is almost a one-to-one mapping from
+ ADAM to MAKRO.
+ Agriculture (lan,a), construction (byg,b), extraction (udv,e) housing (bol,h),
+ sea transport (soe,qs) are identical.
+ Energy is decomposed in two (energy manufacturing, ne, and energy refinery,
+ ng) in ADAM but joined in MAKRO (ene = ne+ng).
+ Manufacturing is also decomposed (food nf and other nz) in ADAM and joined
+ in MAKRO (fre = nf+nz).
+ The private service sector in MAKRO is defined as all services, including
+ public and financial services, and excluding all public services (offentlig
+ forvaltning og service, o1 in ADAM).
+ This yields the mapping for services (tje,qf+qz+o-o1), and for public services
+ (off,o1).
+\end_layout
+
+\begin_layout Standard
+The public sector is not a part of the official input/output system.
+ We have initiated a project where MAKRO will receive input/output cells
+ for the public sector's production.
+ Until then private services are a residual and public services reflect
+ the public sector.
+ One disadvantage of having private services residual is that there is some
+ public production in each sector and taking it all from services is only
+ an approximation.
+ Another is that there is no information on the input-structure from and
+ to this definition of the public sector.
+ This is solved by assuming that intermediate inputs to public production
+ (off) are proportional to that of sector “o” in ADAM and by assuming that
+ all deliveries from the public sector go to public sales, direct public
+ investments, and public consumption.
+ All public sales are assumed to go to private consumption of services,
+ and all direct investments from the public sector are assumed to go to
+ intellectual rights placed under investments in equipment - i.e.
+ there are no exports from the public sector and no intermediate inputs
+ from the public to the private sectors.
+\end_layout
+
+\begin_layout Standard
+In ADAM it is assumed that, in every purchasing sector, investments in a
+ given type of capital good contain the same input contributions from supplying
+ sectors.
+ National accounts data contains detailed information about the deliveries
+ to investment types in the different sectors.
+ MAKRO has the same assumption as ADAM, primarily to reduce the dimensionality
+ of the input/output system.
+ This does not change the number of markets that have to clear as the overall
+ number of production sectors determines that.
+ But it reduces the number of CES tree prices and quantities that must be
+ computed.
+ All sectors then have the same price index for investments in the input/output
+ system.
+\end_layout
+
+\begin_layout Standard
+Imports in ADAM are divided into product groups, whereas here, they are
+ decomposed as the production sectors.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Imports in ADAM are more disaggregated than in MAKRO.
+ They are divided into food, coal, crude oil, other raw materials, other
+ energy, cars, ships and aircraft, and other manufacturing.
+ Imports of food inputs are substitutes for domestic food industry output
+ (in MAKRO part of manufacturing).
+ Imports of other raw materials are substitutes for manufacturing in ADAM
+ (as in MAKRO), and manufacturing imports substitutes itself.
+ In MAKRO other import groups do not substitute for domestic production.
+ Ships and aircraft have no significant size, and cars are included primarily
+ as input for car consumption, where the import share is so large that substitut
+ion is insignificant.
+ However, in ADAM, it matters as they do not have substitution at the disaggrega
+ted IO cell level but at the overall import group level.
+\end_layout
+
+\end_inset
+
+ We include energy imports (from SITC Group 3) under imports from the foreign
+ energy and extraction industries, other imports of goods under the foreign
+ manufacturing industry, and service imports under the foreign service industry.
+ All imports come from these 4 industries.
+ Therefore, many 
+\begin_inset Formula $\mu_{d,s,t}^{M}$
+\end_inset
+
+ parameters are zero.
+ Imports of energy is exogenous so it has no endogenous substitution.
+ Production in the extraction sector is exogenous so imports alone clear
+ this market.
+ This means that all substitution between import and domestic production
+ is in relation to goods and services alone.
+ 
+\end_layout
+
+\begin_layout Standard
+In the industry-disaggregated data from the national accounts IO tables,
+ imports from construction, extraction, housing, and public production are
+ extremely small.
+ However, there are sizeable imports from foreign agriculture and shipping.
+ This should, in principle, substitute for these domestic industries.
+ However, it is not apparent how, as long as we rely on ADAM data.
+ Therefore, we follow ADAM and let them substitute manufacturing and private
+ services.
+\end_layout
+
+\begin_layout Standard
+Before taxes, the bottom prices in MAKRO are market clearing prices identical
+ for all buyers.
+ This is not the case in the national accounts for our level of aggregation,
+ and so the corresponding quantities are different in MAKRO and the national
+ accounts.
+ The aggregate quantities of sectoral imports and domestic production are
+ scaled, so the quantities of aggregate deliveries from all sectors and
+ import components to specific demand components are the same in MAKRO and
+ the national accounts.
+ The imputation of data using this assumption is made in the iodata_ADAM.gms
+ file.
+ All aggregates are calculated as Laspeyres quantity and Paasche price indices
+ except on the assumed micro level.
+ All share parameters in the IO equations are statically calibrated, so
+ they correspond to MAKRO IO data.
+\end_layout
+
+\begin_layout Subsubsection
+Balancing share parameters
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Balancing scale parameters"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The share parameters, 
+\begin_inset Formula $\mu_{d,s,t}^{YM}$
+\end_inset
+
+ , 
+\begin_inset Formula $\mu_{d,s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{d,s,t}^{M}$
+\end_inset
+
+ are balanced endogenously to ensure consistency of the IO system in the
+ case a user wants to shock e.g.
+ the import share in a certain sector.
+ For a shock to any share, other shares adjust such they always sum to 1.
+ We construct the share parameters, 
+\begin_inset Formula $\mu_{d,s,t}^{YM}$
+\end_inset
+
+ , 
+\begin_inset Formula $\mu_{d,s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{d,s,t}^{M}$
+\end_inset
+
+ using the auxiliary exogenous variables 
+\begin_inset Formula $\mu_{d,s,t}^{YM_{0}}$
+\end_inset
+
+ , 
+\begin_inset Formula $\mu_{d,s,t}^{Y_{0}}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{d,s,t}^{M_{0}}$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{d,t}$
+\end_inset
+
+, and 
+\begin_inset Formula $\lambda_{d,s,t}^{YM}$
+\end_inset
+
+ as follows:
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+With this construction we can shock an individual deeper parameter indexed
+ zero and the mechanics of the construction of the resulting parameters
+ will spread the initial shock through all of them.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{YM}=\lambda_{d,t}\frac{\mu_{d,s,t}^{YM_{0}}}{\sum_{s}\mu_{d,s,t}^{YM_{0}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{Y}=\lambda_{d,s,t}^{YM}\frac{\mu_{d,s,t}^{Y_{0}}}{\mu_{d,s,t}^{Y_{0}}+\mu_{d,s,t}^{M_{0}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{M}=\lambda_{d,s,t}^{YM}\frac{\mu_{d,s,t}^{M_{0}}}{\mu_{d,s,t}^{Y_{0}}+\mu_{d,s,t}^{M_{0}}}
+\]
+
+\end_inset
+
+for 
+\begin_inset Formula $d=r,c,g,i,x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the calibration 
+\begin_inset Formula $\mu_{d,s,t}^{YM}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{d,s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{d,s,t}^{M}$
+\end_inset
+
+ are determined as usual.
+ It is imposed that 
+\begin_inset Formula $\sum_{s}\mu_{d,s,t}^{YM_{0}}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{d,s,t}^{Y_{0}}+\mu_{d,s,t}^{M_{0}}=1$
+\end_inset
+
+.
+ Then we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{YM}=\lambda_{d,t}\mu_{d,s,t}^{YM_{0}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{Y}=\lambda_{d,s,t}^{YM}\mu_{d,s,t}^{Y_{0}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{d,s,t}^{M}=\lambda_{d,s,t}^{YM}\mu_{d,s,t}^{M_{0}}
+\]
+
+\end_inset
+
+which implies 
+\begin_inset Formula $\lambda_{d,t}=\sum_{s}\mu_{d,s,t}^{YM}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{d,s,t}^{YM}=\mu_{d,s,t}^{Y}+\mu_{d,s,t}^{M}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph*
+Exceptions: Public direct investments and private consumption of public
+ production
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec: Public IO"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The exogenous share parameters, 
+\begin_inset Formula $\mu_{d,s,t}^{YM}$
+\end_inset
+
+ , 
+\begin_inset Formula $\mu_{d,s,t}^{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{d,s,t}^{M}$
+\end_inset
+
+ are constructed using the auxiliary exogenous variables 
+\begin_inset Formula $\mu_{d,s,t}^{YM_{0}}$
+\end_inset
+
+ , 
+\begin_inset Formula $\mu_{d,s,t}^{Y_{0}}$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_{d,s,t}^{M_{0}}$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{d,t}$
+\end_inset
+
+, and 
+\begin_inset Formula $\lambda_{d,s,t}^{YM}$
+\end_inset
+
+.
+ There are two exceptions to this structure, and they are the share parameter
+ for deliveries from the public sector to private consumption, 
+\begin_inset Formula $\mu_{c,s,t}^{Y_{0}}$
+\end_inset
+
+, and for deliveries from the public sector to investments, 
+\begin_inset Formula $\mu_{i,s,t}^{Y_{0}}$
+\end_inset
+
+ where 
+\begin_inset Formula $s=\text{public}$
+\end_inset
+
+.
+ The demand for public production for private consumption and direct investments
+ is covered in the chapter on public production.
+ As we model these demands directly, the variables do not follow the general
+ demand for investment and private consumption inputs and the share parameters
+ are adjusted endogenously to match.
+ 
+\end_layout
+
+\end_body
+\end_document

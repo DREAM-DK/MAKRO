@@ -34,7 +34,7 @@ SETS
     set.portf_pas
   /
 
-  akt[portf] "Typer af nettoaktiver ekskl. udstedte obligationer" / set.portf_akt /
+  akt[portf_] "Typer af nettoaktiver ekskl. udstedte obligationer" / set.portf_akt /
 
   fin_akt[portf_] /
     Obl "Netto beholdning af obligationer ekskl. (udstedte) realkreditobligationer."
@@ -43,7 +43,7 @@ SETS
     Bank "Netto beholdning af øvrige fordringer (Primært bank-indeståender. Hos husholdningerne er ikke-realkredit gæld trukket ud)."
   /
 
-  pas[portf] "Typer af passiver." / set.portf_pas /
+  pas[portf_] "Typer af passiver." / set.portf_pas /
 
   pens_[portf_] "Typer af pensioner inklusiv total" /
     Pens "Total over alle pensionstyper"
@@ -53,4 +53,20 @@ SETS
   Pens[portf_] "Typer af pensioner" /
     set.portf_pens
   /
+
+  pensTot[portf_] "Subset af portf_ bestående af Pens" / Pens /
+  BankGaeld[portf_] "Subset af portf_ bestående af BankGaeld" / BankGaeld /
+  Guld[portf_] "Subset af portf_ bestående af Guld" / Guld /
+  RealKred[portf_] "Subset af portf_ bestående af Guld" / RealKred /
+  NetFin[portf_] " Subset af portf_ bestående af NetFin" / NetFin /
+  Bank[portf_] "Subset af portf_ bestående af Bank" / Bank /
+  IndlAktier[portf_] "Subset af portf_ bestående af IndlAktier" / IndlAktier /
+  UdlAktier[portf_] "Subset af portf_ bestående af UdlAktier" / UdlAktier /
+  Obl[portf_] "Subset af portf_ bestående af Obl" / Obl /
+;
+
+# Dummies for portfolios
+SETS
+  d1vHh[portf_,t] "Hh portefølje dummy" //
+  d1vVirk[portf_, t] "vVirk portefølje dummy" //
 ;

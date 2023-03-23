@@ -3605,7 +3605,7 @@ Initially, use the following parameter values:
 \begin_inset Formula $x_{i,j},L_{j},C_{j}$
 \end_inset
 
-) is found in the input-output table IOdata4_2a.gms.
+) is found in the input/output table IOdata4_2a.gms.
  
 \end_layout
 

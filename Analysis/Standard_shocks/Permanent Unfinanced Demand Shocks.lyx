@@ -1,0 +1,687 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{colortbl}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\renewcommand{\maketitle}{
+	\bgroup\setlength{\parindent}{0pt}
+	\begin{flushleft}
+		\textbf{\huge\@title}
+
+		\vspace{20pt}
+
+		\textbf{\normalsize\@author}
+
+		\textbf{Working paper}\newline\@date
+
+		www.dreamgruppen.dk
+	\end{flushleft}\egroup
+}
+
+\fancyhead[L]{
+	\small
+	\textcolor{MAKRO}{
+		\textbf{\@title}
+		\linebreak
+		\leftmark
+	}
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM · \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\usepackage{amsmath}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\usepackage{amsmath}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent unfinanced demand shocks
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Permanent unfinanced demand shocks"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this chapter, we look at unfinanced demand shocks.
+ These are all classic demand shocks as described in the introduction.
+ With the following mechanisms described in the introduction:
+\end_layout
+
+\begin_layout Itemize
+Initial shock directly or indirectly increases one or more demand components
+\end_layout
+
+\begin_layout Itemize
+Increased demand leads to increased sectoral production
+\end_layout
+
+\begin_layout Itemize
+Increased sectoral production leads to increased demand for production inputs
+\end_layout
+
+\begin_layout Itemize
+Increased demand for intermediate inputs raises imports and domestic sectoral
+ output
+\end_layout
+
+\begin_layout Itemize
+Increased capital demand also raises imports and domestic sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased labor demand leads to increased wages, employment and labor supply
+\end_layout
+
+\begin_layout Itemize
+Increased employment and wages leads to higher household income and increased
+ demand for private consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing demand leads to increased housing prices and housing investment
+\end_layout
+
+\begin_layout Itemize
+Increased housing prices and leverage allowed by mortgages lead to increased
+ liquidity and additional household demand
+\end_layout
+
+\begin_layout Itemize
+Increased production raises unit costs and pushes output prices up from
+ the cost side
+\end_layout
+
+\begin_layout Itemize
+Higher output prices lead to higher demand prices
+\end_layout
+
+\begin_layout Itemize
+Increased demand prices dampen quantity demand over time
+\end_layout
+
+\begin_layout Itemize
+Full crowding out in employment
+\end_layout
+
+\begin_layout Standard
+The first shock we look at is a shock to government lump sum transfers to
+ the households.
+ Since financed shocks by default take place via lump sum transfers, an
+ understanding of this shock is important in relation to all financed shocks.
+ The other shocks are other demand shocks.
+ Note that all shocks are unfinanced.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lump sum transfers to households
+\end_layout
+
+\begin_layout Standard
+Lump sum transfers to households are increased by 1 percent of the baseline
+ GDP.
+ 
+\end_layout
+
+\begin_layout Standard
+Private consumption and housing investment increase through increased household
+ income.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Initial effect on private consumption is less than 1 percent if dampening
+ effects from consumption smoothing and habit formation dominate the acceleratin
+g effects from increased income through employment, wages and increased
+ liquidity through mortgages because of increased house prices
+\end_layout
+
+\begin_layout Itemize
+Long run effect on private consumption is higher than 1 percent of GDP if
+ effect from higher long run real wages dominates negative savings effects
+ from increased liquidity
+\end_layout
+
+\begin_layout Itemize
+Negative effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Itemize
+Long run effect on GDP is higher than long run effect on GVA.
+ This is because:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Demand is shifted from exports to private consumption
+\end_layout
+
+\begin_layout Itemize
+Private demand has more duties than exports
+\end_layout
+
+\begin_layout Itemize
+Duties are part of GDP, but not a part of GVA
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Long run GVA is higher as the economy is more capital intensive.
+ This is because:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Private consumption of housing has increased much and exports decreased
+ (primary effect)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Private consumption of housing draws on the housing sector, which has a
+ very high output per worker
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Increased real wage relative to user cost of capital make firms substitute
+ from labor to capital (secondary effect)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Overforsel_privat/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Government employment
+\end_layout
+
+\begin_layout Standard
+Government employment is increased by permanently increasing the government
+ payroll with 1 percent of baseline GDP.
+\end_layout
+
+\begin_layout Standard
+Government consumption and production are increased through increased government
+ employment.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Negative effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Itemize
+Long run effect on GDP is negative.
+ This is because:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Demand shifted from exports to government consumption
+\end_layout
+
+\begin_layout Itemize
+Lower exports decrease production in manufacturing and services
+\end_layout
+
+\begin_layout Itemize
+Production in manufacturing and services has higher output per worker than
+ government production
+\end_layout
+
+\begin_layout Itemize
+An isolated shock to government employment decrease the capital intensity
+ and output per worker in government production
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Offentlig_beskaeftigelse/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Govenment purchases
+\end_layout
+
+\begin_layout Standard
+Government purchases of intermediate inputs are permanently increased by
+ 1 percent of baseline GDP.
+ 
+\end_layout
+
+\begin_layout Standard
+Government consumption and production increase through higher government
+ purchases.
+ 
+\end_layout
+
+\begin_layout Standard
+The main difference between this shock and the government employment shock
+ is that here private production increases through intermediate inputs going
+ into government production.
+ The main input to government purchases is domestic input from the service
+ sector.
+ In the domestic service sector, increased production can be met by increased
+ intermediate inputs, capital and labor, and in the short run also by increased
+ factor utilization.
+ This means employment needs to increase less in this shock since imports,
+ capital, and in the short run utilization, can satisfy the need for increased
+ production.
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Negative effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Itemize
+Long run effect on GDP is positive as higher duties on government purchases
+ than exports increase GDP for given GVA
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Offentlig_varekoeb/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Government investments
+\end_layout
+
+\begin_layout Standard
+Government investments are permanently increased by 1 percent of baseline
+ GDP.
+\end_layout
+
+\begin_layout Standard
+Main shock is directly to government investments that draw mostly on domestic
+ construction and services.
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Negative effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Itemize
+Increased government investments lead to a gradual increase in government
+ capital, government production and government consumption
+\end_layout
+
+\begin_layout Itemize
+Long run effect on GDP is strong and positive
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Increased government GVA due to higher capital stock - no resources moved
+ from private to government sector
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Offentlige_investeringer/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Foreign demand
+\end_layout
+
+\begin_layout Standard
+The export market size is permanently increased, raising exports by 1 percent
+ of baseline GDP for given prices.
+\end_layout
+
+\begin_layout Standard
+Main shock is directly to exports that draw mostly on domestic manufacturing
+ and services as well as import to re-exports of manufacturing.
+ 
+\end_layout
+
+\begin_layout Standard
+Note:
+\end_layout
+
+\begin_layout Itemize
+Positive effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Short run effect on primary budget due to increased activity
+\end_layout
+
+\begin_layout Itemize
+Long run effect mainly due to interest revenue from initial surpluses
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exports increase less than 1 percent in the short run due to rigidity and
+ in the long run due to higher domestic wage and prices
+\end_layout
+
+\begin_layout Itemize
+Positive long run effect on GDP as sea transport has a much larger export
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Sea transport has very little input of labor and domestic production so
+ it is affected very little by higher wages.
+ It does have capital input, which increases and makes long run GVA and
+ GDP increase
+\end_layout
+
+\begin_layout Itemize
+There is also a small effect from increased housing demand to increased
+ capital and GVA in the housing sector
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Eksportmarkedsvaekst/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

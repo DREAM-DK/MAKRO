@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 A preprocessor for GAMS files (.gms files), implementing a number of additional features.
-
-
 Basic syntax:
   Nothing is case sensitive, just like in GAMS
   All commands (preprocessor macros) start with a "$"
@@ -15,16 +13,13 @@ Basic syntax:
       $IF2 <condition>:
       $ENDIF2
     $ENDIF1
-
 Available commands:
-
   $GROUP <variables or groups>;
     A group is a data structure containing variables.
     New variables should always be defined using the $GROUP command rather than a GAMS VARIABLES statement.
     The group command groups together variables so that they can be manipulated together more easily, using other gamY commands such as $FIX, $UNFIX, $LOOP, $DISPLAY, or $GROUP.
     Variable elements can be selectively included in a group using dollar conditions. Note that conditions ALWAYS need to be enclosed in round brackets.
     Groups can be added together (union operation) or removed (complement operation).
-
     Example:
     $GROUP G_newGroup
       var1[t]   "label for variable 1"
@@ -32,18 +27,14 @@ Available commands:
       G_oldGroup
       var3[a,t], -var3$(a.val < 18)  # Equivalent to var2
     ;
-
   $BLOCK <block name> <equations> $ENDBLOCK
     A block is a data structure containing equations.
     New equations should always be defined using the $BLOCK command rather than a GAMS EQUATIONS statement.
     The block command bundles together equations so that they can be manipulated together more easily, using other gamY commands such as $LOOP or $MODEL.
-
     Example:
     $BLOCK B_myBlock
       E_eq1[t].. v1[t] =E= v2;
     $EndBlock
-
-
   $MODEL <model name> <equations and/or blocks/models>;
     $MODEL can use a mix of Models, Blocks, and Equations.
     Example:
@@ -52,26 +43,22 @@ Available commands:
       B_myBlock
       E_eq2
     ;
-
   $LOOP <group name>: <content replacing {NAME}, {SETS}, {CONDITIONS}> $ENDLOOP
     Example:
     $LOOP G_myGroup:
       parameter saved_{name}{sets};
       saved_{name}{sets} = {name}.L{sets};
     $EndLoop
-
   $LOOP <block name>: <content replacing {NAME}, {SETS}, {CONDITIONS}, {LHS}, or {RHS}> $ENDLOOP
     Example:
     $LOOP B_myBlock:
       {name}_ss{sets}$(tx0[t] and {conditions}) {LHS} =E= {RHS};
     $EndLoop
-
   $FIX <variables or groups>;
     Exogenous variables.
     Equivalent to writing
     <variable>.fx[<variable>] = <variable>.l[<sets>];
     for each variable.
-
   $UNFIX[(<lower bound>, <upper bound>)] <variables or groups>;
     Endogenize variables.
     Equivalent to writing
@@ -79,50 +66,35 @@ Available commands:
     <variable>.up[<variable>] = <upper bound>;
     for each variable.
     If no bounds are given, lower and upper bounds are set to -inf and inf respectively.
-
   $DISPLAY <variables or groups>;
-
   $IMPORT <filename>
     Include a separate file in this file. Note that the regular GAMS $INCLUDE still exists (and is faster). Use @IMPORT if imported file should be processed with gamY.
-
   $IF <condition expression>: <content> $ENDIF
     If statement where the condition is evaluated in python.
-
   $FOR <python expression>: <content> $ENDFOR
     $For {parameter}, {value} in [("a", 1), ("b",2)]:
       {parameter} = {value};
     $EndFor
-
   $FUNCTION <function name>([<argument name>, <...>]) $ENDFUNCTION
     Define a new gamY function.
-
   @<function name>([<argument value>, <...>])
     Call a previously defined function.
-
   $REPLACE $ENDREPLACE
     Find and replace.
-
   $REGEX $ENDREGEX
     Find and replace with regular expressions (wild card search).
-
-
 Save/Read options
   As in regular GAMS, runs can be saved and read using the options s=<filename> and r=<filename>
   Group definitions etc. are saved in and read from a pkl file along side the GAMS g00 file.
-
   $FIX ALL;
   $UNFIX G_myGroup$(subset1[t])
   $FIX var1;
-
   $If %my_var% == conditional:
     #  then do stuff here
   $EndIf
-
-
 Implementation notes
   The preprocessor uses 'brute force' regular expressions to find and replace the new macro commands.
   Commands are processed in the order they appear and can be nested (using recursive descent parsing).
-
   A tokenizer is not used and is unlikely to simplify the code as syntax varies for each command,
   and only the commands, rather than all the GAMS code, need to be parsed.
   The program should be rewritten using a tokenizer, lexer, and parser to allow for unlimited nesting of flow control statements,
@@ -406,7 +378,6 @@ class Precompiler:
   def if_statements(self, match, text):
     """
     Parse $If .. $EndIf command.
-
     To nest if statements use an id, e.g. $IF1 $ENDIF1
     """
     id_ = match.group(1)
@@ -480,7 +451,6 @@ class Precompiler:
   def sub(self, match, text):
     """
     Parse $REPLACE command
-
     Example:
     $REPLACE('t', 'tt'):
       t_in_name[t]
@@ -497,18 +467,15 @@ class Precompiler:
   def regex(self, match, text):
     """
     Parse $REGEX command
-
     First argument should be a string or python code without commas.
     Second argument must be a string enclosed in '' or ""
     Third arguments is an optional integer
-
     Example:
     $REGEX('\bt\b', 'tt'):
       t_in_name[t]
     $ENDREGEX
     ->
     t_in_name(tt)
-
     """
 
     id_, old, new, count, expression = match.groups()
@@ -543,9 +510,7 @@ class Precompiler:
     $Block B_block_name
       E_eq1[t].. v1[t] =E= v2;
     $EndBlock
-
     ==>
-
     #  ***block_name****
     Equation E_eq1[t];
     Variable j_eq1[t];
@@ -619,9 +584,7 @@ class Precompiler:
   def model_define(self, match, text):
     """
     Parse $MODEL command.
-
     Define models from blocks, models, and equations.
-
     Syntax example:
     $MODEL M_myNewModel
       M_oldModel
@@ -689,7 +652,6 @@ class Precompiler:
   def group_define(self, match, text, init_val="0", parameter_group=False):
     """
     Parse $GROUP command
-
     Syntax example:
     $GROUP G_newGroup
       var1[a,t] "label for variable 1"
@@ -804,7 +766,7 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
         else:
           replacement_text += var.name + L + var.sets + " = " + level + ";\n"
 
-    replacement_text += "$onlisting"
+    replacement_text += "$onlisting\n"
 
     GROUPS[group_name] = new_group
     GROUPS["all"] = Group(new_group, **GROUPS["all"])
@@ -819,14 +781,12 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
   def define_function(self, match, text):
     """
     Define gamY macros (multiline global variable)
-
     Example:
     $FUNCTION InflationCorrection:
       $LOOP G_prices
         {name}.l{sets} = {name}.l{sets} * inf_factor[t];
       $ENDLOOP
     $ENDFUNCTION
-
     # Remove inflation and growth correction
     %InflationCorrection%
     """
@@ -846,18 +806,14 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
   def for_loop(self, match, text):
     """
     Parse $FOR command.
-
     Loops over the expression parsing the for loop with python syntax.
-
     Examples:
     $FOR &i in range(1,5):
       a("t&i") = &i**2;
     $ENDFOR
-
     $FOR &i in ["Grane", "joao", "Martin"]:
       $import &i.gms
     $ENDFOR
-
     For loops can be nested by adding an id number after the command
     E.g.
     $FOR {p1} in ["Lob"]:
@@ -892,7 +848,6 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
   def loop(self, match, text):
     """
     Parse $Loop command.
-
     Loops over the expression once for each variable in the group, or each equation in a block
     replacing
     "{NAME}" with the name of the variable or equation
@@ -900,25 +855,20 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
     "{CONDITIONS}" with any conditionals (subsetting) of the equation. E.g. "$ax0(a)"
     "{LHS}" with the left hand side of an equation.
     "{RHS}" with the right hand side of an equation.
-
     The {$} operator can be used to modify sets
-
     Examples:
     # Remove a and add t to all variables
     $LOOP G_endo
       {name}.l{sets}{$}[+t,-a] = {name}.l{sets};
     $ENDLOOP
-
     # Replace 'a' with 'a0'
     $LOOP G_endo
       {name}.l{sets}{$}[<a0>a] = {name}.l{sets};
     $ENDLOOP
-
     # Replace 'a' with 'a0(a)'
     $LOOP G_endo
       {name}.l{sets}{$}[a0[a]] = {name}.l{sets};
     $ENDLOOP
-
     """
     id_ = match.group(1)
     if not id_:
@@ -1168,7 +1118,6 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
   def fix_unfix(self, match, text, lower_bound="-inf", upper_bound="inf", level_value=None):
     """
     Return string with FIX and UNFIX commands replaced by GAMS code.
-
     Fix/Unfix commands
     Can be used either on a group, a variable, or ALL (collection of all variables defined with group commands)
     The command can be limited to a subset in parenthesis
@@ -1176,9 +1125,7 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
       $FIX ALL;
       $UNFIX group1(subset1[t]);
       $FIX var1;
-
       $FIX(0) J;  #  Set all J terms to 0
-
       $UNFIX(0, inf) G_prices;  #  Unfix group and set lower bound to zero
     """
     command = match.group(1).lower()
@@ -1214,7 +1161,7 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
         replacement_text += "{var.name}.lo{var.sets}{conditions} = {lower_bound};\n".format(**locals())
         replacement_text += "{var.name}.up{var.sets}{conditions} = {upper_bound};\n".format(**locals())
 
-    replacement_text += "$onlisting"
+    replacement_text += "$onlisting\n"
     return replacement_text
 
 
@@ -1251,7 +1198,6 @@ Error in {group_name}: {name}{sets}{item_conditions}""")
 def is_enclosed(expression):
   """
   Check if the the expression is enclosed in brackets
-
   >>> is_enclosed('(foo)(bar)')
   False
   >>> is_enclosed('((foo)(bar))')
@@ -1386,6 +1332,137 @@ def cmd_call():
 
   sys.exit(process.returncode)
 
+def py_call(args):
+  start_time = timer()
+
+  # Read any execution paremeters
+  if len(args) < 2 or args[1][-4:] != ".gms":
+    raise ValueError("No .gms file specified")
+  else:
+    file_path = args[1]
+
+  precompiler = Precompiler(file_path, add_adjust=None, mult_adjust=None)
+
+  # Read optional command line arguments
+  save_file, gams_path = None, None
+  for arg in args:
+    #  Read blocks, groups, and variables from saved file if the r=<file_path> option is used.
+    if arg[:2] == "r=":
+      precompiler.read(arg[2:])
+
+    #  Save definitions if s=<file_path> is used
+    elif arg[:2] == "s=":
+      save_file = arg[2:]
+
+    #  Transfer command line parameters to data structure
+    elif arg[:2] == "--":
+      assert "=" in arg[2:], f"'{arg}' command line parameter starts with '--' but does not contain a '=' symbol."
+      k, v = arg[2:].split(sep="=")
+      precompiler.locals[k] = v
+
+    #  Get gams from command line arguments
+    elif arg[:5].lower() == "gams=":
+      gams_path = arg[5:]
+
+  #  Find GAMS program if it was not set as command line argument
+  if not gams_path:
+    if "GAMS" in os.environ:
+      gams_path = os.environ["GAMS"]
+    else:
+      gams_path = shutil.which("GAMS")
+    if not gams_path:
+      sys.exit("ERROR: gamY could not not find GAMS. Set GAMS path as environmental variable with variable name GAMS")
+  else:
+    #  Clean path for common errors
+    while gams_path[0] in ["'",'"'," "]:
+      gams_path = gams_path[1:]
+    while gams_path[-1] in ["'",'"'," "]:
+      gams_path = gams_path[:-1]
+    if gams_path[-4:] != ".exe":
+      sys.exit("ERROR: " + gams_path + " is not an executable file. Make sure GAMS path is correctly set.")
+
+  #  Parse file using recursive descent
+  text = precompiler()
+
+  if save_file: # Save gamY data structure if gamY is called with s= argument
+    precompiler.save(save_file)
+
+  #  Save pre-compiled GAMS file in 'Expanded' folder
+  expanded_dir = os.path.join(precompiler.file_dir, "Expanded")
+  if not os.path.exists(expanded_dir):
+    os.makedirs(expanded_dir)
+  new_file = os.path.join(expanded_dir, precompiler.file_name.replace(".gms", ".gmy"))
+  with open(new_file, 'w') as f:
+    f.write(text)
+
+  compilation_time = timer() - start_time
+
+  #  Run file using GAMS (path needs to be set for system or user)
+  prev_line = ""
+  call_parameters = [
+    "LO=3",
+    "Workdir=" + precompiler.file_dir,
+    "CurDir=" + precompiler.file_dir,
+    "ErrMsg=1",
+    "O=" + precompiler.list_file_path,
+    "pageSize=0",
+    "pageWidth=9999",
+  ]
+  call_parameters += [arg for arg in args[2:] if (arg[:5] != "gams=")]
+  process = subprocess.Popen(
+    [gams_path, new_file, *call_parameters],
+    stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    universal_newlines=True, shell=False
+  )
+
+  while process.poll() is None:
+    for line in iter(process.stdout.readline, ""):
+      if not (line[:3] == "---" and prev_line[:10] == line[:10]):  # For almost identical lines, only print the last one
+        sys.stdout.write(prev_line)
+        sys.stdout.flush()
+      prev_line = line
+  sys.stdout.write(prev_line)
+  sys.stdout.flush()
+
+#  Print errors and messages from listing file (lines starting with ****)
+  error_pattern = re.compile(r"^(\*{4}.+)", re.MULTILINE)
+  model_pattern = re.compile(r"(?<=Model Statistics    SOLVE |Model Analysis      SOLVE )\S+", re.MULTILINE)
+  with open(precompiler.list_file_path, 'r') as f:
+    for line in f:
+      if error_pattern.match(line):
+        print(error_pattern.match(line).group(0))
+      elif model_pattern.search(line):
+        print("")
+        print(model_pattern.search(line).group(0))
+
+  execution_time = timer() - start_time - compilation_time
+  print("Precompiler time: %.2f seconds" % compilation_time)
+  print("Execution time: %.2f seconds" % execution_time)
+  print("Total run time: %.2f seconds" % (execution_time + compilation_time))
+  #  print("Return code: %i" % process.returncode)
+
+  process.terminate() # terminate process
+  process.wait()
+
+def gams_error(gams_file, check_error=False):
+    print(f"Error messages for {gams_file}")
+    lst_path = f"LST\\{gams_file[:-4]}.lst"
+    with open(lst_path, mode='r') as lst:
+      for line in lst.readlines():
+          if '****' in line:
+              print(line)
+          if check_error:
+              errors = [
+                '**** USER ERROR(S) ENCOUNTERED',
+                '** Infeasible solution to a square system',
+                'Locally Infeasible',
+                'Terminated By Solver',
+                'Solver Failure',
+                "**** MODEL STATUS      6 Intermediate Infeasible",
+              ]
+              for error in errors:
+                  if error in line:
+                    raise RuntimeError(f"Error in {gams_file}:\n{line}")
 
 if __name__ == "__main__":
   cmd_call()

@@ -1,0 +1,1027 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch Appendix
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch srJobFinding
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Structural employment and output
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Structural budget balance"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+MAKRO calculates structural employment endogenously based on a modified
+ version of the labor market framework.
+ Most importantly, we remove nominal frictions stemming from the rigidity
+ in wage bargaining and remove the real rigidity stemming from matching
+ frictions.
+ The assumptions behind structural employment are described in more detail
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Structural-employment"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+From the estimates of structural employment, the model also calculates structura
+l output, specifically structural gross value added.
+ We define structural output as the output that would be produced given
+ structural employment, but conditional on the actual capital stock.
+ To compute this measure, the model employs an aggregate production function
+ that takes actual capital and structural employment as inputs.
+ This is explained in more detail in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Structural-output-(gross"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The estimates of structural employment and output are essential for calculating
+ the structural budget balance, which considers the effects of the business
+ cycle on government revenues and expenditures.
+ The Ministry of Finance relies on the gaps between actual and structural
+ levels of employment and output, which can be forecast using MAKRO.
+\end_layout
+
+\begin_layout Standard
+Both the output gap and employment gap are critical macroeconomic indicators
+ that are typically measured empirically.
+ The structural model presented in this chapter aligns with the Ministry
+ of Finance's estimation approach
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Finansministeriets beregning af gab og strukturelle niveauer
+\begin_inset Quotes erd
+\end_inset
+
+ (Finansministeriet, November 2020).
+\end_layout
+
+\end_inset
+
+, allowing the model to be calibrated to match the estimated gaps.
+ Therefore, the model can be utilized to close these gaps endogenously or
+ provide conditional forecasts of the effects of shocks or policy interventions.
+\end_layout
+
+\begin_layout Standard
+It is important to note that MAKRO does not unconditionally forecast the
+ structural labor force or hours worked.
+ Instead, these variables are treated as exogenous inputs based on detailed
+ demographic projections that account for factors such as education, gender,
+ and immigration status (Befolkningsregnskab).
+ Therefore, the model's estimates of structural employment and output are
+ conditional on the assumptions underlying the demographic projections.
+\end_layout
+
+\begin_layout Subsection
+Structural employment
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Structural-employment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Structural employment is primarily determined by the structural supply of
+ labor - the labor force, which is an exogenous input in the model's baseline.
+ Structural employment in MAKRO is caused by real frictions in matching
+ workers and firms.
+ These frictions are structural, but they are also a source of short run
+ rigidity.
+ To move from actual employment to a structural measure, we need to remove
+ the short run rigidity effect of matching frictions while maintaining their
+ effect on structural unemployment.
+ We achieve this by letting structural employment reach a quasi steady state
+ in each period.
+ Employment levels per se cannot be constant with changing demographics,
+ but rate measures such as employment relative to population and unemployment
+ rates can.
+\end_layout
+
+\begin_layout Standard
+The labor market in MAKRO is constructed so that long run employment is
+ independent of wages and prices.
+\end_layout
+
+\begin_layout Subsubsection
+Law of motion of structural employment
+\end_layout
+
+\begin_layout Standard
+The law of motion of actual employment is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+n_{a,t}^{e} & =\left(1-\delta_{a}\right)n_{a-1,t-1}^{e}\frac{N_{a,t}}{N_{a-1,t-1}}+x_{t}n_{a,t}^{s}\\
+=q_{a,t}^{e}N_{a,t} & =\left(1-\delta_{a}\right)q_{a-1,t-1}^{e}N_{a,t}+x_{t}n_{a,t}^{s}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $q_{a,t}^{e}$
+\end_inset
+
+ is the employment rate, 
+\begin_inset Formula $\delta_{a}$
+\end_inset
+
+ is the job separation rate, 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is the finding rate and 
+\begin_inset Formula $n_{a,t}^{s}$
+\end_inset
+
+ is cohort total search effort.
+ 
+\end_layout
+
+\begin_layout Standard
+To get to structural employment we modify this law of motion.
+ First, we replace the job finding rate and search effort with their structural
+ counterparts 
+\begin_inset Formula $x_{t}^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $n_{a,t}^{s*}$
+\end_inset
+
+.
+ Second, we replace the lagged employment rate 
+\begin_inset Formula $q_{a-1,t-1}$
+\end_inset
+
+ with the the structural employment rate in the current period 
+\begin_inset Formula $q_{a-1,t}^{*}$
+\end_inset
+
+ while maintaining the life cycle aspect of employment by retaining the
+ lag on the age index:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+n_{a,t}^{e*} & =\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}+x_{t}^{*}n_{a,t}^{s*}\\
+ & =\left(1-\delta_{a}\right)n_{a-1,t}^{e*}\frac{N_{a,t}}{N_{a-1,t}}+x_{t}^{*}n_{a,t}^{s*}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can write the aggregate law of motion of structural employment as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+n_{t}^{e*} & =\left(1-\delta_{t}^{*}\right)n_{t-1}^{e*}+x_{t}^{*}n_{t}^{s*}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the aggregate job structural destruction rate is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch srJobFinding
+inverted 0
+status collapsed
+
+\begin_layout Standard
+Start from the individual law of motion
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{a,t}^{e*}=\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}+x_{t}^{*}n_{a,t}^{s*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and sum on both sides
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{a}n_{a,t}^{e*}=\sum_{a}\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}+x_{t}^{*}\sum_{a}n_{a,t}^{s*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now define the totals
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{e*}=\sum_{a}n_{a,t}^{e*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{s*}=\sum_{a}n_{a,t}^{s*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+to get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{e*}=\sum_{a}\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}+x_{t}^{*}n_{t}^{s*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Defining 
+\begin_inset Formula $\delta_{t}^{*}$
+\end_inset
+
+ from the aggregate law of motion
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+n_{t}^{e*} & =\left(1-\delta_{t}^{*}\right)n_{t-1}^{e*}+x_{t}^{*}n_{t}^{s*}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(1-\delta_{t}^{*}\right)=\sum_{a}\left(1-\delta_{a}\right)\frac{q_{a-1,t}^{e*}N_{a,t}}{q_{t-1}^{e*}N_{t-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(1-\delta_{t}^{*}\right)=\frac{\sum_{a}\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}}{\sum_{a}q_{a-1,t-1}^{e*}N_{a-1,t-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(1-\delta_{t}^{*}\right)=\frac{\sum_{a}\left(1-\delta_{a}\right)q_{a-1,t}^{e*}N_{a,t}}{\sum_{a}q_{a-1,t-1}^{e*}N_{a-1,t-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Non-resident workers
+\end_layout
+
+\begin_layout Standard
+The law of motion of non-resident workers is modified as above to remove
+ the short run rigidity effect of matching frictions (by letting employment
+ reach a quasi steady state in each period):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{f*}=\left(1-\delta_{t}^{*}\right)n_{t}^{f*}+x_{t}^{*}n_{t}^{s,f*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Both the actual and structural labor supply of non-resident workers is based
+ on the same exogenous input - the total number of cross-border persons
+ who are either employed or searching for a job in Denmark, 
+\begin_inset Formula $N_{t}^{f}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Based on this gross labor supply, the structural job-search of non-residents
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{s,f*}=N_{t}^{f}-\left(1-\delta_{t}^{*}\right)n_{t}^{f*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Structural choice of labor market participation
+\end_layout
+
+\begin_layout Standard
+To calculate a structural level of households' labor market participation,
+ 
+\begin_inset Formula $q_{a,t}^{lf*}N_{a,t}=n_{a,t}^{lf*}=n_{a,t}^{e*}+(1-x_{t}^{*})n_{a,t}^{s*}$
+\end_inset
+
+, we use the same optimality condition as in the actual labor market, except
+ for replacing the job finding probability and hours worked with their structura
+l counterparts:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{gather*}
+\underbrace{\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf*}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}^{*}}_{\text{probability of finding a job}}\cdot\\
+\left\{ \underbrace{\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)}_{\text{wage premium}}-\underbrace{\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e*}\right)^{\eta^{h}}}{1+\eta^{h}}}_{\text{disutility from hours worked}}\right.\\
+\left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}^{*}}{x_{t+1}^{*}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf*}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} 
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to be consistent with the definition of structural employment used
+ by the Ministry of Finance, we exogenize the augmented discount factor
+ 
+\begin_inset Formula $\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}$
+\end_inset
+
+ in both the actual and structural participation condition when evaluating
+ shocks to the model.
+ This implies removing the dynamic effect of changes in real wages and marginal
+ utility on the effective discount factor used in evaluating the effect
+ of participation today on future employment.
+\end_layout
+
+\begin_layout Subsubsection
+Structural choice of hours
+\end_layout
+
+\begin_layout Standard
+The hours decision in MAKRO is already structural, although users can insert
+ an exogenous temporary gap between actual and structural hours worked:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{a,t}^{e}=h_{a,t}^{e*}+\epsilon_{a,t}^{h}=\frac{1}{\lambda_{a,t}^{h}}\left[\frac{1-\tau_{a,t}^{m}}{Z_{a,t}^{\tau}}\right]^{\frac{1}{\eta^{h}}}+\epsilon_{a,t}^{h}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The labor utilization variable discussed in the production chapter provides
+ a more general concept of effort, which may also capture unmeasured deviations
+ in hours worked.
+ Unlike hours worked, labor utilization varies endogenously in MAKRO and
+ gives rise to gaps between structural and actual output.
+ How we handle utilization in the structural model is covered in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Structural-output-(gross"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Structural labor demand
+\end_layout
+
+\begin_layout Standard
+In the previous sections, we have calculated a structural supply of labor
+ taking the structural job finding rate, 
+\begin_inset Formula $x^{*}$
+\end_inset
+
+, as given.
+ In order to get an equilibrium 
+\begin_inset Formula $x^{*}$
+\end_inset
+
+ we also need a structural demand for labor and a matching function that
+ connects workers and firms.
+\end_layout
+
+\begin_layout Standard
+First we relate the structural vacancy matching rate 
+\begin_inset Formula $m^{*}$
+\end_inset
+
+ to 
+\begin_inset Formula $x^{*}$
+\end_inset
+
+.
+ As in the model of actual employment, the number of job searchers finding
+ a job must be equal to the number of vacancies filled:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{t}^{*}\left(n_{t}^{s,f*}+\sum_{a}n_{a,t}^{lf*}\right)=m_{t}^{*}v_{t}^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To get a measure structural vacancies, we start with the optimality condition
+ of the firm posting vacancies from the main model:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}\left[\frac{\partial L_{s,t}}{\partial n_{s,t}}+\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{\partial L_{s,t+1}}{\partial n_{s,t}}\right]^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The structural version is equivalent, except that we substitute the corporate
+ tax rate next period for the one today and use a slightly modified version
+ of the derivative 
+\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
+\end_inset
+
+.
+ We use the same augmented discount factor, 
+\begin_inset Formula $\hat{\beta}_{s,t+1}$
+\end_inset
+
+, as in the main model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{p_{s,t}^{L*}}{w_{t}^{*}}=\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}^{*}h_{s,t}^{*}\left[\frac{\partial L_{s,t}^{*}}{\partial n_{s,t}^{*}}+\left(\frac{1-\tau_{s,t}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{\partial L_{s,t+1}^{*}}{\partial n_{s,t}^{*}}\right]^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The derivative 
+\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
+\end_inset
+
+ (which comes from the firm taking into account that a match with a worker
+ has a probability of lasting multiple periods) is modified in two ways:
+ Firstly, we use the within-period structural values of productivity, hours
+ worked, separation, and matching rates.
+ Secondly, we eliminate the quadratic adjustment cost which is modeled such
+ that it always disappears in any steady state.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial L_{s,t+1}^{*}}{\partial n_{s,t}^{*}} & =-\rho_{s,t}^{*}h_{s,t}^{*}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}\\
+ & =\rho_{s,t}^{*}h_{s,t}^{*}\left(1-\delta_{t}^{*}\right)\left[\frac{\kappa}{m_{t}^{*}}+\lambda\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using within-period structural values is consistent with the definition
+ of structural employment as a quasi-steady state employment with a fixed
+ labor market structure.
+ In the main model an anticipated shock can affect firm hiring decisions
+ even before the shock actually occurs, however, for structural employment
+ there is no affect until the change is implemented after which the effect
+ is fully incorporated immediately.
+ Note however that very few shocks actually affect structural employment.
+ On the supply side, the net benefit replacement rate determines households'
+ economic incentives to seek work, and demographics and preferences directly
+ affect supply.
+ Changes in labor market structures such as hiring cost parameters, bargaining
+ power, or efficiency of the matching function also affect structural employment.
+ Changes in demand for labor on the other hand are largely irrelevant for
+ structural employment however.
+\end_layout
+
+\begin_layout Subsubsection
+Structural wage
+\end_layout
+
+\begin_layout Standard
+To close the model of structural employment, we need a structural model
+ of wage bargaining.
+ We start with the wage bargaining equation from the labor market chapter:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J_{t}^{+}}{J_{t}^{\prime}}+\left\{ \text{wage rigidity}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Removing the wage rigidity and inserting the outside option of the worker
+ representatives, 
+\begin_inset Formula $o_{t}=\mu^{o}x_{t}S_{t}^{\prime}w_{t}$
+\end_inset
+
+, we get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=\phi_{t}\mu^{o}x_{t}w_{t}-\left[1-\phi_{t}\right]\frac{J_{t}^{+}}{J_{t}^{\prime}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We then replace terms with their structural counterparts and divide through
+ by 
+\begin_inset Formula $w_{t}^{*}$
+\end_inset
+
+ to get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+1=\phi_{t}\mu^{o}x_{t}^{*}-\left[1-\phi_{t}\right]\frac{\left(J_{t}^{+*}/w_{t}^{*}\right)}{J_{t}^{\prime*}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{J_{t}^{+*}}{w_{t}^{*}}=\sum_{s\in\text{private}}\left[1-\tau_{s,t}^{c}\right]\left(\frac{p_{s,t}^{L*}}{w_{t}^{*}}\right)\rho_{s,t}h_{s,t}^{*}n_{s,t}^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J_{t}^{\prime*}=-\sum_{s\in\text{private}}\left[1-\tau_{t}^{c}\right]\rho_{s,t}^{*}h_{s,t}^{*}n_{s,t}^{*}\left[1+\tau_{s,t}^{L}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $J_{t}^{*}=J_{t}^{+*}+J^{\prime*}w_{t}^{*}$
+\end_inset
+
+ is the structural bargaining surplus.
+\end_layout
+
+\begin_layout Standard
+We treat both ratios involving the structural wage as single variables (
+\begin_inset Formula $\frac{J_{t}^{+*}}{w_{t}^{*}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{p_{s,t}^{L*}}{w_{t}^{*}}$
+\end_inset
+
+), and thereby avoid having an explicit structural wage level, which would
+ require us to make further assumptions about the composition of demand.
+ I.e.
+ structurally, the wage level is in-determinate, and we only need the ratio
+ between the marginal product of labor and the wage.
+ This ratio is determined by the structures of the labor market, primarily
+ by the bargaining power of the two sides, the cost of posting vacancies,
+ and the outside option of workers.
+\end_layout
+
+\begin_layout Subsection
+Structural output (gross value added)
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Structural-output-(gross"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We define structural output as the output that would be produced given structura
+l employment, but conditional on the actual capital stock
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+See Vetlov, Hlédik, Jonsson, Kucsera & Pisani (2011) for a discussion on
+ various definitions of potential output and the decision of whether or
+ not to condition on the actual capital stock.
+\end_layout
+
+\end_inset
+
+.
+ With structural employment given by the modified version of the labor market
+ above, we can now model a measure of structural output.
+ Specifically, we model structural aggregate gross value added, 
+\begin_inset Formula $Y^{*}$
+\end_inset
+
+.
+ To compute this measure, the model employs an aggregate production function
+ that takes actual capital and structural employment as inputs.
+\end_layout
+
+\begin_layout Standard
+We have to also consider how an output gap is distributed between different
+ sectors.
+ Here, we follow the definition of the Ministry of Finance and divide the
+ production sectors in two groups - sectors with a output gap and sectors
+ for which define the structural output is defined to always equal actual
+ output.
+ Specifically, we only allow for output gaps in the four large private sectors:
+ services, manufacturing, construction, and energy provision.
+ We label this set of sectors 
+\begin_inset Formula $s^{*}$
+\end_inset
+
+.
+ The choice of sectors which contain gaps is primarily a pragmatic decision,
+ driven in part by econometric considerations with regards to estimating
+ the output gap.
+ The private sectors excluded are the extraction sector and the housing
+ sector which mostly consist of capital (which we explicitly condition on),
+ and shipping and agriculture where demand is mostly driven by factors exogenous
+ to the domestic business cycle.
+ Finally, the public sector is exogenous by construction and not directly
+ affected by the business cycle.
+\end_layout
+
+\begin_layout Standard
+With this sector decomposition in mind, structural output (aggregated using
+ actual prices) can be written as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}^{*}Y_{t}^{*}=\underbrace{\sum_{s\in s^{*}}P_{s,t}Y_{s,t}^{*}}_{\hat{P}_{t}\hat{Y}_{t}^{*}}+\sum_{s\notin s^{*}}P_{s,t}Y_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\hat{Y}^{*}$
+\end_inset
+
+ is aggregate structural output of the sectors in which structural and actual
+ output can differ.
+ 
+\begin_inset Formula $P^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{P}$
+\end_inset
+
+ are Paasche price indices based on prices levels from the main model.
+\end_layout
+
+\begin_layout Standard
+We model the output aggregate 
+\begin_inset Formula $\hat{Y}^{*}$
+\end_inset
+
+ directly as a Cobb-Douglas production function, in line with the assumptions
+ that the Ministry of Finance uses when estimating the output gap:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{Y}_{t}^{*}=A_{t}\left(\hat{L}_{t}^{*}\right)^{\alpha}\left(\hat{K}_{t-1}\right)^{1-\alpha}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\hat{L}_{t}^{*}\equiv\sum_{s\in s^{*}}L_{s,t}^{*}$
+\end_inset
+
+ is the structural labor input and 
+\begin_inset Formula $\hat{K}_{t}\equiv\sum_{s\in s^{*}}K_{s,t}$
+\end_inset
+
+ is the actual capital input.
+ The labor share parameter 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is set to match the estimation method of the Ministry of Finance.
+ The employment gap is assumed to affect the four sectors with gaps proportional
+ly, so that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{L_{s,t}^{*}}{L_{s,t}}=\frac{\hat{L}_{t}^{*}}{\hat{L}_{t}}|s\in s^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The total factor productivity 
+\begin_inset Formula $A$
+\end_inset
+
+ is calculated endogenously such that the same Cobb-Douglas production function,
+ but using actual rather than structural inputs, reproduces the output generated
+ by the CES production structure of the main model (see the chapter on productio
+n).
+ I.e.
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{Y}_{t}=A_{t}\left(\hat{L}_{t}\right)^{\alpha}\left(\hat{u}_{t}^{K}\hat{K}_{t-1}\right)^{1-\alpha}\label{eq:TFP}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unlike for structural output, the inputs used in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:TFP"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) depend on the variable rates of utilization (embodied in 
+\begin_inset Formula $\hat{\hat{L}_{t}\equiv\sum_{s\in s^{*}}L_{s,t}}$
+\end_inset
+
+ and explicitly for 
+\begin_inset Formula $\hat{u}_{t}^{K}\hat{K}_{t}\equiv\sum_{s\in s^{*}}u_{s,t}^{K}K_{s,t-1}$
+\end_inset
+
+).
+ Factor utilization varies significantly over the business cycle and is
+ the source of the endogenous productivity gap in MAKRO.
+ Utilization is modeled such that is always 1 in the long run and we define
+ structural output conditional on utilization being 1 structurally.
+\end_layout
+
+\end_body
+\end_document
