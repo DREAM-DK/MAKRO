@@ -1,0 +1,5175 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing double
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch LeontiefUtilization
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch lf_elasticity_derivation
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch pL
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch wage_derivation
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch LabormarketVariables
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\rightmargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Labor market
+\end_layout
+
+\begin_layout Standard
+The labor market contains heterogeneous households (unconstrained and 
+\begin_inset Quotes eld
+\end_inset
+
+Hand-to-Mouth
+\begin_inset Quotes erd
+\end_inset
+
+ type of households age 15 to 100) and firms.
+ Households choose the amount of working hours and their labor market participat
+ion.
+ Labor demand comes from firms posting their optimal amount of job vacancies,
+ and a matching function brings vacancies and workers together.
+ The model closes with bargaining between agents representing workers and
+ firms, setting the market wage.
+ The model aims to reproduce the level and behavior of Danish employment
+ and wages.
+\end_layout
+
+\begin_layout Standard
+A difficulty when formulating the labor market is that there is heterogeneity
+ on both the supply and demand side - a life cycle with workers of different
+ ages and multiple sectors on the firm side.
+ We therefore build the model so that the household side is age-specific
+ and the firm side is sector-specific, but the two dimensions are never
+ present simultaneously.
+ In addition, there are two types of households, the constrained/impatient
+ and the unconstrained/patient, and we solve the model so that both types
+ have the same labor market decisions.
+ The following are the key assumptions we make:
+\end_layout
+
+\begin_layout Itemize
+Firms cannot choose who they hire.
+ Firms and workers meet randomly in the matching process, and once the meeting
+ takes place, it is never optimal to send the worker away, irrespective
+ of how old the worker might be.
+\end_layout
+
+\begin_layout Itemize
+Optimal labor market participation and hours are age-specific but not sector
+ specific.
+ The worker cannot choose which sector she will be employed in and cannot
+ voluntarily quit a job in one sector to join a different one.
+\end_layout
+
+\begin_layout Itemize
+For computational reasons, we do not solve for the age distribution of workers
+ inside each firm and instead impose that it is always the same for every
+ firm.
+ The data shows that the average age of workers is the same across firms
+ of different sizes and for firms that are expanding or shrinking in terms
+ of labor force size.
+\end_layout
+
+\begin_layout Standard
+Finally, it is not the purpose of the model to unconditionally forecast
+ long run trends in labor market participation or hours worked.
+ Rather, these are exogenous inputs to the model's baseline based on detailed
+ demographic projections including education, gender, and immigration status
+ (Befolkningsregnskab).
+\end_layout
+
+\begin_layout Subsection
+Household problem
+\end_layout
+
+\begin_layout Standard
+There is an exogenous number, 
+\begin_inset Formula $N_{a,t}$
+\end_inset
+
+, of households of age 
+\begin_inset Formula $a$
+\end_inset
+
+ in period 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ In this chapter, we interpret each household as containing a unit mass
+ of agents who share the unemployment risk.
+ We suppress the index within cohort heterogeneity, 
+\begin_inset Formula $j$
+\end_inset
+
+, as we let labor supply be identical for all households of a given age.
+ Households aged 
+\begin_inset Formula $a$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+ survive into the following age and period with probability 
+\begin_inset Formula $s_{a,t}$
+\end_inset
+
+.
+ When a household dies its entire unit mass of members dies with it.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $0<q_{a,t}^{e}<1$
+\end_inset
+
+ be the fraction of the household unit mass of workers employed in period
+ 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ At the start of each period, agents in a household of age 
+\begin_inset Formula $a$
+\end_inset
+
+ can be in one of two labor market states: those who have kept their jobs
+ from the previous period, 
+\begin_inset Formula $\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}$
+\end_inset
+
+, and the remaining 
+\begin_inset Formula $1-\left(1-\delta_{a-1,t-1}\right)q_{a-1,t-1}^{e}$
+\end_inset
+
+ that start the period without a job.
+ The object 
+\begin_inset Formula $\delta_{a,t}$
+\end_inset
+
+ is an exogenous age-specific job destruction rate.
+ After decisions are taken in period 
+\begin_inset Formula $t$
+\end_inset
+
+ and the market clears 
+\begin_inset Formula $q_{a,t}^{e}$
+\end_inset
+
+ are employed.
+ From the household point of view employment evolves according to
+\begin_inset Formula 
+\begin{equation}
+q_{a,t}^{e}=\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}+x_{t}q_{a,t}^{s}\label{eq:LOM_emp}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $q_{a,t}^{s}$
+\end_inset
+
+ is search effort and 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ is the job finding probability.
+ We now define a measure of labor force participation
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We calibrate this measure to be identical to the concept of the 
+\emph on
+gross labor force
+\emph default
+ (brutto-arbejdsstyrke) in aggregate, but not by age.,
+\end_layout
+
+\end_inset
+
+ as the sum of the employed and the unsuccessful search effort:
+\begin_inset Formula 
+\begin{equation}
+q_{a,t}^{lf}\equiv q_{a,t}^{e}+(1-x_{t})q_{a,t}^{s}\label{eq:qlf}
+\end{equation}
+
+\end_inset
+
+Total employment, 
+\begin_inset Formula $n_{t}=n_{t}^{e}+n_{t}^{f}$
+\end_inset
+
+ , contains the employment of residents, 
+\begin_inset Formula $n_{t}^{e}=\sum_{a}q_{a,t}^{e}N_{a,t}$
+\end_inset
+
+, plus a number of workers that are not residents, 
+\begin_inset Formula $n_{t}^{f}$
+\end_inset
+
+ (see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Non-resident"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Household problem
+\end_layout
+
+\begin_layout Standard
+\noindent
+We extend household utility to include disutility from hours worked, 
+\begin_inset Formula $h_{a,t}^{e}$
+\end_inset
+
+, and from labor market participation, 
+\begin_inset Formula $q_{a,t}^{lf}$
+\end_inset
+
+.
+ We have then
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}}{1-\eta^{lf}}\left(1-q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+The 
+\begin_inset Formula $Z_{a,t}$
+\end_inset
+
+ controls are exogenous to the household and used to control for stationarity,
+ and, in line with Galí, Smets, and Wouters (2012), to eliminate the marginal
+ utility of consumption from the first order conditions.
+ This allows us to have the same search and hours decisions for HtM and
+ unconstrained households, which greatly reduces model complexity.
+ The objects 
+\begin_inset Formula $\lambda_{a,t}^{lf}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{a,t}^{h}$
+\end_inset
+
+ are calibration parameters.
+ As hours vary by age in the data the disutility parameter, 
+\begin_inset Formula $\lambda_{a,t}^{h}$
+\end_inset
+
+ varies with age to match this pattern.
+ Note that the CRRA disutility of labor market participation binds labor
+ market participation 
+\begin_inset Formula $q_{a,t}^{lf}$
+\end_inset
+
+ below one for all age groups; and as the probability of finding a job is
+ also in the unit interval, so is employment 
+\begin_inset Formula $q_{a,t}^{e}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Utility maximization is subject to the 
+\emph on
+budget constraint
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\Pi_{a,t} & =\underbrace{\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}}_{\text{yearly wages after taxes}}\underbrace{q_{a,t}^{e}}_{\text{employment}}\label{B.C.}\\
+ & +\left(1-\tau_{a,t}\right)b_{a,t}\underbrace{\left(q_{a,t}^{lf}-q_{a,t}^{e}\right)}_{\text{unemployment}}\\
+ & +\left(1-\tau_{a,t}\right)b_{a,t}\underbrace{\left(1-q_{a,t}^{lf}\right)}_{\text{out of the labor force}}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The household's after-tax wage depends on their effective tax rate 
+\begin_inset Formula $\tau_{a,t}$
+\end_inset
+
+, the market wage 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, age specific productivity 
+\begin_inset Formula $\rho_{a,t}^{e}$
+\end_inset
+
+ and finally the number of hours worked 
+\begin_inset Formula $h_{a,t}^{e}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $b_{a,t}$
+\end_inset
+
+ is the unemployment compensation received by those that are unemployed
+ or out of the labor force, and 
+\begin_inset Formula $\Pi_{a,t}$
+\end_inset
+
+ summarizes all other budget constraint terms which do not appear in the
+ problem at hand.
+ As we do not make compensation contingent on search, the budget constraint
+ simplifies to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Pi_{a,t}=b_{a,t}+\left[\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}-b_{a,t}\right]q_{a,t}^{e}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which says that every household member earns 
+\begin_inset Formula $b_{a,t}$
+\end_inset
+
+, and working members earn an additional wage premium 
+\begin_inset Formula $\left(1-\tau_{a,t}\right)\left[w_{t}\rho_{a,t}^{e}h_{a,t}^{e}-b_{a,t}\right]$
+\end_inset
+
+.
+ As the tax rate depends on the household's labor market participation and
+ their number of hours worked, we write the wage premium more generally
+ as 
+\begin_inset Formula $\frac{\partial\Pi_{a,t}}{\partial q_{a,t}^{e}}$
+\end_inset
+
+.
+ From this wage premium we define 
+\begin_inset Formula $r_{a,t}^{b}$
+\end_inset
+
+ as the net benefit replacement rate of a household on the extensive margin
+ of the labor market, i.e.
+ the income after taxes and subsidies received by a household that is not
+ employed, divided by the income received by that household if they found
+ a job.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+1-r_{a,t}^{b}\equiv\frac{\partial\Pi_{a,t}/\partial q_{a,t}^{e}}{\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This rate determines the incentive to search for a job and participate in
+ the labor market.
+ The net replacement rate 
+\begin_inset Formula $r_{a,t}^{b}$
+\end_inset
+
+ is exogenous to the model and based on calculations from the Ministry of
+ Finance's models of rules and administrative data (Lovmodeller).
+\end_layout
+
+\begin_layout Standard
+The effective tax rate, 
+\begin_inset Formula $\tau_{a,t}$
+\end_inset
+
+, is likewise a complicated function of income and deductions, but crucially
+ depends on the number of hours worked by the household.
+ Rather than specifying this function here, we define the marginal income
+ tax rate directly as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+1-\tau_{a,t}^{m}\equiv\frac{\partial\Pi_{a,t}/\partial h_{a,t}^{e}}{w_{t}\rho_{a,t}^{e}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The level of age specific marginal tax rates 
+\begin_inset Formula $\tau_{a,t}^{m}$
+\end_inset
+
+ are also based on Ministry of Finance calculations, but move endogenously
+ with shocks to tax rates.
+\end_layout
+
+\begin_layout Standard
+We are now ready to maximize utility subject to the budget constraint and
+ obtain the first-order conditions for participation and hours.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Optimal choice of hours
+\end_layout
+
+\begin_layout Standard
+The first order condition for household 
+\begin_inset Formula $h_{a,t}^{e}$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left[1-\tau_{a,t}^{m}\right]U_{a,t}^{c}\frac{w_{t}\rho_{a,t}^{e}}{p_{t}^{c}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+U_{a,t}^{c}\left[1-\tau_{a,t}^{m}\right]\frac{w_{t}}{p_{t}^{c}}=Z_{a,t}^{h}\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}\label{eq:hours_optimality}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $Z_{a,t}^{h}=Z_{a,t}^{c}Z_{a,t}^{\tau}Z_{t}^{w}$
+\end_inset
+
+.
+ The term 
+\begin_inset Formula $Z_{t}^{w}$
+\end_inset
+
+ is used to control the impact of after-tax real wages.
+ The term 
+\begin_inset Formula $Z_{a,t}^{c}$
+\end_inset
+
+ is used to eliminate the wealth effect from this equation.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The standard is to assume 
+\begin_inset Formula $Z_{a,t}^{c}$
+\end_inset
+
+ is a function of average marginal utility which in symmetric equilibrium
+ equals the individual marginal utility.
+ With the pooling assumptions within the unit mass of each household, and
+ the assumption that all households are identical the average and the marginal
+ are always identical but the symmetric equilibrium concept remains.
+\end_layout
+
+\end_inset
+
+ We let the 
+\begin_inset Formula $Z$
+\end_inset
+
+ terms be defined as
+\begin_inset Formula 
+\[
+Z_{t}^{w}=\frac{w_{t}}{p_{t}^{c}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Z_{a,t}^{c}=U_{a,t}^{c}\end{array}
+\]
+
+\end_inset
+
+Eliminating the impact of real wages and marginal utility of consumption,
+ the only remaining endogenous channel is from the marginal income tax rate
+ 
+\begin_inset Formula $\tau_{a,t}^{m}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+h_{a,t}^{e}=\frac{1}{\lambda_{a,t}^{h}}\left[\frac{1-\tau_{a,t}^{m}}{Z_{a,t}^{\tau}}\right]^{\frac{1}{\eta^{h}}}\label{eq:hours_reduced}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By default, this effect is also eliminated by setting 
+\begin_inset Formula $Z_{a,t}^{\tau}=\left[1-\tau_{a,t}^{m}\right]$
+\end_inset
+
+, however model users can enable endogenous effects of shocks to marginal
+ taxes on hours worked by exogenizing 
+\begin_inset Formula $Z_{a,t}^{\tau}$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We do not model the long run downward trend of the workweek.
+ 
+\begin_inset Formula $Z_{t}^{c}$
+\end_inset
+
+ rules out the income effect (higher consumption implying lower marginal
+ utility) and 
+\begin_inset Formula $Z_{a,t}^{\tau}$
+\end_inset
+
+ rules out the substitution effect of higher taxes (funding the expanding
+ welfare state) in the baseline.
+ An trend in preferences 
+\begin_inset Formula $\lambda_{a,t}^{h}$
+\end_inset
+
+ can be used to match an exogenously imposed trend in the baseline.
+\end_layout
+
+\end_inset
+
+ In that case, the elasticity of hours worked to the marginal tax rate is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\ln h_{a,t}^{e}}{\partial\tau_{a,t}}=-\frac{1}{\eta^{h}\left[1-\tau_{a,t}^{m}\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Optimal choice of labor market participation
+\end_layout
+
+\begin_layout Standard
+Inserting the household law of motion of employment, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:LOM_emp"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), in the definition of 
+\begin_inset Formula $q_{a,t}^{lf}$
+\end_inset
+
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:qlf"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) we get an expression for 
+\begin_inset Formula $q_{a,t}^{lf}$
+\end_inset
+
+ (labor force participation) as a function of the household's choice of
+ employment rate:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+q_{a,t}^{lf}=\frac{q_{a,t}^{e}}{x_{t}}-\left(\frac{1-x_{t}}{x_{t}}\right)\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}\label{eq:LOM_lf}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using this and the first order condition for the 
+\begin_inset Formula $q_{a,t}^{e}$
+\end_inset
+
+ (employment) yields the optimality condition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{gather}
+\underbrace{Z_{a,t}^{lf}\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}}_{\text{probability of finding a job}}\cdot\nonumber \\
+\left\{ \underbrace{\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(1-r_{a,t}^{b}\right)\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}}_{\text{wage premium}}-\underbrace{Z_{a,t}^{h}\rho_{a,t}^{e}\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{disutility from hours worked}}\right.\nonumber \\
+\left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}}{x_{t+1}}\right)Z_{a+1,t+1}^{lf}\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} \label{eq:lf_FOC}
+\end{gather}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Optimality trades off current against future marginal utility, where 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is the relevant utility discount factor and 
+\begin_inset Formula $s_{a,t}$
+\end_inset
+
+ is the survival rate.
+ Extra engagement in the labor market today brings an immediate disutility
+ of search, but with probability 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ (the job finding rate) leads to additional employment.
+ In case of finding a job we earn a wage premium 
+\begin_inset Formula $\left(1-r_{a,t}^{b}\right)\left(...\right)$
+\end_inset
+
+, but get disutility from hours worked.
+ With probability 
+\begin_inset Formula $s_{a,t}\left(1-\delta_{a,t}\right)$
+\end_inset
+
+ we are alive and still have the job the following period and save the disutilit
+y from having to search.
+ Specifically, a retained job means we can lower 
+\begin_inset Formula $q_{a+1,t+1}^{lf}$
+\end_inset
+
+ by 
+\begin_inset Formula $\left(\frac{1-x_{t+1}}{x_{t+1}}\right)$
+\end_inset
+
+ and still get the same level of employment, as shown by the law of motion
+ for 
+\begin_inset Formula $q^{lf}$
+\end_inset
+
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:LOM_lf"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+We now define 
+\begin_inset Formula $Z_{a,t}^{lf}=\underbrace{Z_{a,t}^{c}Z_{a,t}^{\tau}Z_{t}^{w}}_{Z_{a,t}^{h}}Z_{a,t}^{\rho}Z_{a,t}^{r^{b}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As before, 
+\begin_inset Formula $Z_{a,t}^{c}$
+\end_inset
+
+ eliminates the effect of the marginal utility of consumption, 
+\begin_inset Formula $Z_{t}^{w}$
+\end_inset
+
+ eliminates the effect of real wages pr.
+ productive hour, and 
+\begin_inset Formula $Z_{a,t}^{\tau}$
+\end_inset
+
+ eliminates the effect of marginal taxes.
+ In addition, we define
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{a,t}^{\rho}=\rho_{a,t}^{e}h_{a,t}^{e}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which eliminates the effect of age-specific productivity and hours worked.
+\end_layout
+
+\begin_layout Standard
+Dividing through by 
+\begin_inset Formula $Z_{a,t}^{lf}$
+\end_inset
+
+, the participation condition (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:lf_FOC"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) can be re-written as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{gather*}
+\underbrace{\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}}_{\text{probability of finding a job}}\cdot\\
+\left\{ \underbrace{\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)}_{\text{wage premium}}-\underbrace{\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}}_{\text{disutility from hours worked}}\right.\\
+\left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} 
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch lf_elasticity_derivation
+inverted 0
+status collapsed
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}=x_{t}\left\{ \frac{1}{Z_{a,t}^{r^{b}}}\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]+s_{a,t}\left(1-\delta_{a,t}\right)\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{a,t}^{lf}=1-\lambda_{a,t}^{lf}\left[x_{t}\right]^{-1/\eta^{lf}}\left\{ \frac{1}{Z_{a,t}^{r^{b}}}\left\{ \frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right\} +s_{a,t}\left(1-\delta_{a,t}\right)\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}\right\} ^{-1/\eta^{lf}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\ln q_{a,t}^{lf}}{\partial r_{a,t}^{b}}=-\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\frac{1}{\eta^{lf}}\left[\frac{1-q_{a,t}^{lf}}{q_{a,t}^{lf}}\right]\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}+s_{a,t}\left(1-\delta_{a,t}\right)\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}\right]^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\ln q_{a,t}^{lf}}{\partial r_{a,t}^{b}}=-\frac{1}{\eta^{lf}}x_{t}\left[\lambda_{a,t}^{lf}\right]^{-\eta^{lf}}\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\frac{\left(1-q_{a,t}^{lf}\right)^{1+\eta^{lf}}}{q_{a,t}^{lf}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We get 
+\begin_inset Formula $Z_{a,t}^{r^{b}}$
+\end_inset
+
+ by equating the parenthesis containing the 
+\begin_inset Formula $\left(1-r_{a,t}^{b}\right)$
+\end_inset
+
+ lifted to the power of 
+\begin_inset Formula $1/\eta^{lf}$
+\end_inset
+
+ to the same parenthesis except without the Z-term, and with the power 
+\begin_inset Formula $1/\eta^{b}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \frac{1}{Z_{a,t}^{r^{b}}}\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]\right\} ^{1/\eta^{lf}}=\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]^{1/\eta^{b}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{1}{Z_{a,t}^{r^{b}}}=\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]^{\eta^{lf}/\eta^{b}-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+inserting 
+\begin_inset Formula $Z_{a,t}^{r^{b}}$
+\end_inset
+
+ we get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}=x_{t}\left\{ \left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]^{\eta^{lf}/\eta^{b}}+s_{a,t}\left(1-\delta_{a,t}\right)\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We probably want to change this in the future, and set 
+\begin_inset Formula $Z_{a,t}^{r^{b}}$
+\end_inset
+
+ in order to 
+\begin_inset Formula $\frac{\partial\ln q_{a,t}^{lf}}{\partial\left(1-r_{a,t}^{b}\right)}$
+\end_inset
+
+to an empirically estimated constant.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The elasticity of labor supply with respect to changes in the net benefit
+ replacement rate is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\ln q_{a,t}^{lf}}{\partial r_{a,t}^{b}}=-\frac{1}{\eta^{lf}}x_{t}\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{-\eta^{lf}}\left(\frac{1-q_{a,t}^{lf}}{q_{a,t}^{lf}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, we define the last control variable 
+\begin_inset Formula $Z_{a,t}^{r^{b}}$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\frac{1}{Z_{a,t}^{r^{b}}}=\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]^{\eta^{lf}/\eta^{b}-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The parameter 
+\begin_inset Formula $\eta^{lf}$
+\end_inset
+
+ determines the effect of labor market conditions, as measured by the job
+ finding rate 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+, on labor force participation, while 
+\begin_inset Formula $\eta^{b}$
+\end_inset
+
+ corresponds to the inverse elasticity of labor market participation wrt.
+ to the net compensation rate.
+\end_layout
+
+\begin_layout Subsection
+Non-resident workers
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Non-resident"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our model, total employment includes employed residents in Denmark and
+ non-resident workers.
+ Above, we outlined the decisions made by resident households.
+ However, we assume that firms do not distinguish between residents and
+ non-residents when they hire.
+ Non-residents workers are cross-border agents that work in Denmark, but
+ live abroad most or all of the year.
+ These non-resident workers are not part of the resident population 
+\begin_inset Formula $N_{a,t}$
+\end_inset
+
+ and they do not have any direct consumption in Denmark.
+ Non-resident workers provide search input, 
+\begin_inset Formula $n_{a,t}^{s,f}$
+\end_inset
+
+, into the matching function and generate employment 
+\begin_inset Formula $n_{a,t}^{f}$
+\end_inset
+
+.
+ They face the same job destruction rates and die and migrate at the same
+ rate as the locals, and they stay in their jobs when they are not destroyed
+ but do not demand local consumption or housing.
+ However, in order to match the data, they have different productivity and
+ work different hours than resident workers.
+\end_layout
+
+\begin_layout Standard
+Non-resident workers have the same probability of finding a job as local
+ job searchers, 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+, and the number of employed non-resident workers obeys the law of motion
+\begin_inset Formula 
+\[
+n_{t}^{f}=\left(1-\delta_{t}\right)n_{t-1}^{f}+x_{t}n_{t}^{s,f}
+\]
+
+\end_inset
+
+The total number of cross-border persons who are either employed or searching
+ for a job in Denmark can be written as
+\begin_inset Formula 
+\[
+N_{t}^{f}=\left(1-\delta_{t}\right)n_{t-1}^{f}+n_{t}^{s,f}
+\]
+
+\end_inset
+
+We assume that this total is exogenous.
+ The number of non-resident workers searching for a job is then endogenous
+ and given by
+\begin_inset Formula 
+\[
+n_{t}^{s,f}=N_{t}^{f}-\left(1-\delta_{t}\right)n_{t-1}^{f}
+\]
+
+\end_inset
+
+E.g.
+ when the job-finding rate is higher, more potential migrant workers find
+ employment, reducing the search input of non-resident workers in the following
+ period.
+\end_layout
+
+\begin_layout Standard
+Since non-resident workers only enter the model through the firm and the
+ matching function, their age decomposition is irrelevant, and only their
+ aggregate contribution matters.
+ Our default assumption is that the number of hours worked pr.
+ non-resident worker is proportional to that of Danish households
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{t}^{f}=\mu_{t}^{hf}\frac{\sum h_{a,t}^{e}n_{a,t}^{e}}{\sum n_{a,t}^{e}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\mu_{t}^{hf}$
+\end_inset
+
+ is calibrated to match the data.
+\end_layout
+
+\begin_layout Subsection
+Firms
+\end_layout
+
+\begin_layout Standard
+What follows applies to all private sector firms in the model while the
+ public sector is treated differently.
+ There is a unit mass of identical firms in each (private) sector 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ Employment in the firm is given by the measure 
+\begin_inset Formula $n_{t}$
+\end_inset
+
+ which sums residents and non-resident workers.
+\end_layout
+
+\begin_layout Standard
+Total workers in sector 
+\begin_inset Formula $s$
+\end_inset
+
+, 
+\begin_inset Formula $n_{s,t}$
+\end_inset
+
+, contribute with a total amount of productive hours 
+\begin_inset Formula $\rho_{s,t}h_{s,t}n_{s,t}$
+\end_inset
+
+, where 
+\begin_inset Formula $\rho_{s,t}$
+\end_inset
+
+ is the productivity factor and 
+\begin_inset Formula $h_{s,t}$
+\end_inset
+
+ is the hours factor in the firm.
+ We cover their link to the productivity and hours of the households in
+ section (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Hours-and-productivity"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) on aggregation.
+\end_layout
+
+\begin_layout Standard
+Firms post vacancies and the economy wide matching function, 
+\begin_inset Formula $m_{t}$
+\end_inset
+
+, dictates their success in filling them (see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-matching-function"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ for details on the matching function).
+ The matching process occurs in period 
+\begin_inset Formula $t$
+\end_inset
+
+, after which employment is determined and production occurs.
+ The firm cannot affect the hours worked by its employees and takes them
+ as given.
+ An effort/utilization choice by the firm is added to the model to help
+ generate pro-cyclical value added per worker.
+ Utilization is discussed in the production chapter.
+\end_layout
+
+\begin_layout Subsubsection
+The problem of the firm
+\end_layout
+
+\begin_layout Standard
+Firms maximize profits and choose an optimal amount of labor input.
+ When firms post vacancies, they hire workers.
+ Although workers are “attached” to hours and productivity, the choice variable
+ for the firm is 
+\begin_inset Formula $n$
+\end_inset
+
+ as the firm takes 
+\begin_inset Formula $m$
+\end_inset
+
+ as given.
+ Current profits (as relevant for the optimal employment decision) are given
+ by
+\begin_inset Formula 
+\begin{equation}
+\max_{n_{s,t}}\pi_{t}^{s}=\left(1-\tau_{s,t}^{c}\right)\left\{ p_{s,t}^{0}Y_{s}\left(L_{s,t}\right)-w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}n_{s,t}\right\} 
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\tau_{s,t}^{c}$
+\end_inset
+
+ are corporate taxes and 
+\begin_inset Formula $Y_{s}$
+\end_inset
+
+ is gross-output as a function of labor input sold at price 
+\begin_inset Formula $p_{s,t}^{0}$
+\end_inset
+
+.
+ Wages paid by firms pr.
+ employee, 
+\begin_inset Formula $w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}$
+\end_inset
+
+, contain payroll taxes and subsidies 
+\begin_inset Formula $\tau_{s,t}^{L}$
+\end_inset
+
+, the market wage 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+ paid pr.
+ productivity unit, sector specific productivity 
+\begin_inset Formula $\rho_{s,t}$
+\end_inset
+
+ and hours pr.
+ worker 
+\begin_inset Formula $h_{s,t}$
+\end_inset
+
+.
+ The object 
+\begin_inset Formula $n_{s,t}$
+\end_inset
+
+ is the 
+\emph on
+stock
+\emph default
+ of employees as the employment decision of the firm is a dynamic one, just
+ as the choice of its capital stock.
+ Below we will derive the user cost of labor, 
+\begin_inset Formula $p_{s,t}^{L}\equiv p_{s,t}^{0}\partial Q_{s}/\partial L_{t}$
+\end_inset
+
+ which is evaluated at firm optimization price 
+\begin_inset Formula $p^{0}$
+\end_inset
+
+.
+ This optimization price is derived in the production chapter.
+ The production input 
+\begin_inset Formula $L$
+\end_inset
+
+ is a broad concept of 
+\begin_inset Quotes eld
+\end_inset
+
+labor
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It is the total utilization of the effective labor input in productivity
+ units.
+ The effective labor input is net of hiring costs which are 
+\begin_inset Quotes eld
+\end_inset
+
+paid
+\begin_inset Quotes erd
+\end_inset
+
+ in foregone labor input.
+\end_layout
+
+\begin_layout Standard
+The first-order condition for employment is
+\begin_inset Formula 
+\begin{equation}
+\left(1-\tau_{s,t}^{c}\right)w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}=\left(1-\tau_{s,t}^{c}\right)p_{s,t}^{L}\frac{\partial L_{s,t}}{\partial n_{s,t}}+\left(1-\tau_{s,t+1}^{c}\right)\beta_{s,t+1}p_{s,t+1}^{L}\frac{\partial L_{s,t+1}}{\partial n_{s,t}}\label{eq:firm_foc}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which trades off the marginal costs against the marginal added profit for
+ the marginal worker.
+\end_layout
+
+\begin_layout Standard
+In the following subsections, we detail the components of the firm's problem.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Wages and production input
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Wages-and-production"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We define 
+\begin_inset Formula $L$
+\end_inset
+
+ as the net amount of productive labor input that goes into the CES production
+ function.
+ It contains the endogenous utilization factor 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+, sector specific productivity and hours 
+\begin_inset Formula $\rho_{s,t}h_{s,t}$
+\end_inset
+
+, and finally contains the endogenous adjustment for the fraction of employment
+ used in the hiring process which we denote by 
+\begin_inset Formula $\chi$
+\end_inset
+
+ (detailed in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Vacancy-posting-costs"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ below):
+\begin_inset Formula 
+\[
+L_{s,t}=u_{s,t}\rho_{s,t}h_{s,t}\left(1-\chi_{s,t}\right)n_{s,t}
+\]
+
+\end_inset
+
+The cost of hiring is defined in terms of units of labor lost to production
+ so that the total number of heads actually producing output is given by
+ 
+\begin_inset Formula $(1-\chi)n$
+\end_inset
+
+.
+ Finally, the choice variable for the firm is the number of workers, so
+ that the relevant derivatives are
+\begin_inset Formula 
+\[
+\frac{\partial L_{s,t}}{\partial n_{s,t}}=u_{s,t}\rho_{s,t}h_{s,t}\left(1-\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{\partial L_{s,t+1}}{\partial n_{s,t}}=-u_{s,t+1}\rho_{s,t+1}h_{s,t+1}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Vacancy posting costs
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Vacancy-posting-costs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A unit mass of identical firms in sector 
+\begin_inset Formula $s$
+\end_inset
+
+ posts vacancies 
+\begin_inset Formula $v$
+\end_inset
+
+ and the law of motion for employment 
+\begin_inset Formula $n$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+n_{s,t}=\left(1-\delta_{t}\right)n_{s,t-1}+m_{t}v_{s,t}
+\]
+
+\end_inset
+
+The cost of posting vacancies is incurred in units of employment.
+ We define an auxiliary endogenous variable 
+\begin_inset Formula $\chi$
+\end_inset
+
+ such that 
+\begin_inset Formula $\chi_{s,t}n_{s,t}$
+\end_inset
+
+ equals total vacancy posting costs:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\chi_{s,t}n_{s,t}=\kappa v_{s,t}+\frac{\gamma}{2}n_{s,t}\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}-1\right]^{2}+\lambda m_{t}v_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vacancy costs are comprised of three terms, 1) a linear vacancy posting
+ cost, 2) a quadratic labor adjustment cost, and 3) a matching cost which
+ can be calibrated to match data on the cost of training new employees.
+ Note that in the current version of MAKRO this component is set to zero.
+\end_layout
+
+\begin_layout Standard
+The derivatives of total vacancy costs, wrt.
+ to the firm's choice of employment, that go into the first-order condition
+ of the firm are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}=\frac{\kappa}{m_{t}}+\frac{\gamma}{2}\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}-1\right]^{2}+\gamma\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}-1\right]\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}\right]+\lambda
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t-1}}=-\left(1-\delta_{t}\right)\left[\frac{\kappa}{m_{t}}+\lambda\right]-2\gamma\frac{n_{s,t}}{n_{s,t-1}}\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}-1\right]\left[\frac{n_{s,t}}{n_{s,t-1}}/\frac{n_{s,t-1}}{\overline{n}_{s,t-2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where we have used the law of motion for employment to eliminate the vacancies
+ variable, i.e.
+ using that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+v_{s,t}=\frac{n_{s,t}-\left(1-\delta_{t}\right)n_{s,t-1}}{m_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Detailing the first-order condition
+\end_layout
+
+\begin_layout Standard
+By rearranging the first-order condition (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:firm_foc"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) we get the expression
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}\left[\frac{\partial L_{s,t}}{\partial n_{s,t}}+\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{\partial L_{s,t+1}}{\partial n_{s,t}}\right]^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\beta}_{s,t+1}\equiv\beta_{s,t+1}\frac{p_{s,t+1}^{L}}{p_{s,t}^{L}}
+\]
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In order to ensure that actual employment converges with our model of structural
+ employment on any stable growth path, the default setting is to exogenize
+ 
+\begin_inset Formula $\hat{\beta}_{s,t+1}$
+\end_inset
+
+ such that it remains as it is in the baseline when we shock the model.
+ The first-order condition retains forward-looking behavior since the derivative
+s of 
+\begin_inset Formula $L$
+\end_inset
+
+ contain endogenous variables.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Inserting the derivatives of 
+\begin_inset Formula $L$
+\end_inset
+
+ we see clearly that in lieu of vacancy posting costs, the user cost of
+ labor is simply the wage after taxes and utilization:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\frac{1}{u_{s,t}}\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{u_{s,t+1}\rho_{s,t+1}h_{s,t+1}}{u_{s,t}\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or vice versa: firms post vacancies until the wage equals the marginal product
+ of labor (user cost of labor) except for the wedge caused by hiring costs:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=p_{s,t}^{L}\frac{u_{s,t}}{1+\tau_{s,t}^{L}}\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{u_{s,t+1}\rho_{s,t+1}h_{s,t+1}}{u_{s,t}\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that sector specific hours and productivity disappear.
+ This is consistent with the assumption that firms pay the same wage pr.
+ productive hour of labor, i.e.
+ the sector differences only reflect that the average worker in each sector
+ provides a different number of productive hours of labor.
+ Shifts in the sector-composition of employment therefore do not affect
+ the total productivity units of labor available and does not directly affect
+ total wages.
+\end_layout
+
+\begin_layout Subsubsection
+Link to CES optimization
+\end_layout
+
+\begin_layout Standard
+The dynamic first-order condition provides the input to the CES minimization
+ problem used in solving the overall problem of the firm.
+ The CES function is
+\begin_inset Formula 
+\[
+p_{s,t}^{KL}Q_{s,t}^{KL}\equiv p_{s,t}^{KL}\left[\left(\mu_{s,t}^{k}\right)^{\frac{1}{E}}\left(u_{s,t}^{k}K_{s,t}\right)^{\frac{E-1}{E}}+\left(\mu_{s,t}^{l}\right)^{\frac{1}{E}}\left(L_{s,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
+\]
+
+\end_inset
+
+On the budget side of the CES problem we have the total cost associated
+ with all the labor actually used, 
+\begin_inset Formula $L$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+p_{s,t}^{KL}Q_{s,t}^{KL}\equiv p_{s,t}^{L}L_{s,t}+p_{s,t}^{K}K_{s,t}
+\]
+
+\end_inset
+
+where the object 
+\begin_inset Formula $p_{s,t}^{L}$
+\end_inset
+
+ is the user cost of 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ In the CES optimization problem we take a derivative with respect to 
+\begin_inset Formula $L_{j,t}$
+\end_inset
+
+ and this yields
+\begin_inset Formula 
+\[
+L_{s,t}=\mu_{s,t}^{l}Q_{s,t}^{KL}\left(\frac{p_{s,t}^{L}}{p_{s,t}^{KL}}\right)^{-E}
+\]
+
+\end_inset
+
+The last identity ensures the CES problem is consistent with the optimization
+ problem and shows the relationship between the user cost of 
+\begin_inset Formula $L$
+\end_inset
+
+ and the optimal choice of vacancies.
+ The accompanying expression for capital is 
+\begin_inset Formula 
+\[
+u_{t}^{k}K_{s,t}=\mu_{s,t}^{k}Q_{s,t}^{KL}\left(\frac{p_{s,t}^{K}}{p_{s,t}^{KL}}\frac{1}{u_{t}^{k}}\right)^{-E}
+\]
+
+\end_inset
+
+and it looks slightly different from the labor one but that is because utilizati
+on is embodied in the 
+\begin_inset Formula $L$
+\end_inset
+
+ object.
+\end_layout
+
+\begin_layout Subsection
+The matching function
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:The-matching-function"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We use the matching function from den Haan, Ramey & Watson (2000) which
+ is defined in the following way:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m\left(v_{t},n_{t}^{s}\right)=\frac{n_{t}^{s}}{\left[\left(v_{t}\right)^{1/\eta^{m}}+\left(n_{t}^{s}\right)^{1/\eta^{m}}\right]^{\eta^{m}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The total number of searchers is the aggregate of households by age as well
+ as non-resident job-searchers:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+n_{t}^{s}=n_{t}^{s,f}+\sum_{a}q_{a,t}^{lf}N_{a,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and total vacancies is the sum of vacancies posted by each sector:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+v_{t}=\sum_{s}v_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The labor market equilibrium condition states that the number of job searchers
+ finding a job must be equal to the number of vacancies filled and relates
+ the vacancy matching rate 
+\begin_inset Formula $m$
+\end_inset
+
+ to the job finding rate 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{t}n_{t}^{s}=m_{t}v_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The matching function specification has a few important properties.
+ It has constant returns to scale and can be rewritten as a function of
+ labor market tightness 
+\begin_inset Formula $\frac{v_{t}}{n_{t}^{s}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m\left(\frac{v_{t}}{n_{t}^{s}}\right)=\left[\left(\frac{v_{t}}{n_{t}^{s}}\right)^{1/\eta^{m}}+1\right]^{-\eta^{m}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is also bounded between zero and one.
+ I.e.
+ if there are no other vacancies, a firm that posts a vacancy is sure to
+ fill it.
+ However, if there are no job-searchers left the probability of filling
+ a vacancy goes to zero.
+ More importantly, the job finding rate 
+\begin_inset Formula $x$
+\end_inset
+
+ is also bounded between zero and one.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The finding rate as a function of labor market tightness is 
+\begin_inset Formula $x\left(\frac{v_{t}}{n_{t}^{s}}\right)=\left[\left(\frac{v_{t}}{n_{t}^{s}}\right)^{-1/\eta^{m}}+1\right]^{-\eta^{m}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Combined with the condition that labor force participation 
+\begin_inset Formula $q_{a,t}^{lf}$
+\end_inset
+
+ is bounded, this ensures that both unemployment and employment rates are
+ positive for all ages.
+ Finally, the parameter 
+\begin_inset Formula $\eta^{m}$
+\end_inset
+
+ controls how sensitive households' and firms' probabilities of finding
+ a job or filling a vacancy are to changes in labor market conditions.
+ 
+\begin_inset Formula $\eta^{m}$
+\end_inset
+
+ is one of the key parameters that we set in order to match MAKRO's impulse
+ responses to a number of empirical models.
+\end_layout
+
+\begin_layout Subsection
+Aggregation
+\end_layout
+
+\begin_layout Subsubsection
+Hours and productivity
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Hours-and-productivity"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Total labor hours match both the sum of sectors (demand) and the sum over
+ households and non-resident workers (supply):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+h_{t}n_{t}=\sum_{s}h_{s,t}n_{s,t}=\sum_{a}\left(h_{a,t}^{e}n_{a,t}^{e}\right)+h_{t}^{f}n_{t}^{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Average productivity, 
+\begin_inset Formula $\rho$
+\end_inset
+
+, is defined from the identity
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{t}h_{t}n_{t}=\sum_{a}\left(\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}\right)+\rho_{t}^{f}h_{t}^{f}n_{t}^{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To ensure that the total productive units by sector also aggregates to the
+ total, i.e.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho_{t}h_{t}n_{t}=\sum_{s}\rho_{s,t}h_{s,t}n_{s,t}\label{eq:productivity_split}
+\end{equation}
+
+\end_inset
+
+
+\change_inserted 1344751391 1677579511
+
+\end_layout
+
+\begin_layout Standard
+we let sector productivity shift endogenously with changes in average productivi
+ty
+\change_inserted 1344751391 1677580254
+.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+We first separate labor productivity units between the public and private
+ sectors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\rho_{t}h_{t}n_{t} & =\sum_{s}\rho_{s,t}h_{s,t}n_{s,t}\\
+ & =\sum_{s\ne\text{Pub}}\rho_{s,t}h_{s,t}n_{s,t}+\rho_{\text{Pub},t}h_{\text{Pub},t}n_{\text{Pub},t}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and impose a fixed ratio between public sector productivity units and aggregate
+ 
+\emph on
+structural 
+\emph default
+productivity:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{\text{Pub},t}=\mu_{\text{Pub},t}^{\rho}\rho_{t}^{*}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This ensures that a change in public employment has a proportional effect
+ on the public sector payroll, before general equilibrium effects, and that
+ changes in employment between private sectors has no direct effect on the
+ public payroll.
+ Note that 
+\begin_inset Formula $\rho_{\text{Pub},t}$
+\end_inset
+
+ has no effect on public production (see the chapter on public production),
+ but 
+\begin_inset Formula $\rho_{\text{Pub},t}w_{t}$
+\end_inset
+
+ is the hourly wage paid by the government.
+ Sector specific productivity is calibrated to match differences in hourly
+ wages across sectors, and only reflect differences in productivity insofar
+ as differences in wages in the data reflect differences in productivity.
+\end_layout
+
+\begin_layout Standard
+Given public sector productivity, the productivity in each private sector
+ is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{s,t}=\mu_{s,t}^{\rho}\cdot\frac{\sum_{s\ne\text{Pub}}\rho_{s,t}h_{s,t}n_{s,t}}{\sum_{s\ne\text{Pub}}\mu_{s}^{\rho}h_{s}n_{s}}\mid s\ne\text{Pub}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\mu_{s,t}^{\rho}$
+\end_inset
+
+ is a parameter which controls for differences in productivity (hourly wages)
+ between private sectors.
+ The interpretation is as follows: Differences in wages between sectors
+ are entirely due to differences in productivity tied to the composition
+ of workers in different sectors.
+ Shifts in the sector-composition of employment therefore does not affect
+ the total productivity units of labor available and does not directly affect
+ total wages.
+\end_layout
+
+\begin_layout Subsubsection
+Employment law of motion, firm's point of view
+\end_layout
+
+\begin_layout Standard
+Total employment 
+\begin_inset Formula $n_{t}$
+\end_inset
+
+ follows the law of motion
+\begin_inset Formula 
+\[
+n_{t}=\left(1-\delta_{t}\right)n_{t-1}+m_{t}v_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since we make the necessary assumption to ensure non-resident workers have
+ the same law of motion as residents we can write
+\begin_inset Formula 
+\[
+1-\delta_{t}=\frac{\sum_{a}\left(1-\delta_{a,t}\right)n_{a-1,t-1}^{e}\frac{N_{a,t}}{N_{a-1,t-1}}}{\sum_{a}n_{a-1,t-1}^{e}}
+\]
+
+\end_inset
+
+where the aggregate destruction rate 
+\begin_inset Formula $\delta_{t}$
+\end_inset
+
+ is now endogenous (although exogenous to the firm).
+ Unlike the age-specific job destruction rate, the aggregate job destruction
+ rate 
+\begin_inset Formula $\delta_{t}$
+\end_inset
+
+ includes job destruction due to migration or death - both effects are captured
+ by the change in cohort size 
+\begin_inset Formula $\frac{N_{a,t}}{N_{a-1,t-1}}$
+\end_inset
+
+ (see Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:labor_market_migration"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Because the firm cannot choose whom it hires, it effectively always hires
+ the average job searcher.
+ Then, as we impose the same age distribution inside every firm irrespective
+ of sector, all firms are the same in this respect and face the same job
+ destruction rate.
+ Since they do not control who they hire, they do not control the job destructio
+n rate either (see Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:ages_and_sectors"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Wage determination
+\end_layout
+
+\begin_layout Standard
+We have derived the equations determining optimal search/participation (labor
+ supply) and optimal vacancy posting (labor demand), but in both cases taking
+ the wage level as given.
+ To determine the wage level, we use an adapted Nash bargaining problem.
+\end_layout
+
+\begin_layout Standard
+We assume a unique bargaining agent on both sides of the market which aggregate,
+ on one side, preferences of all firms from all sectors, and, on the other,
+ preferences of all workers of all ages.
+ We also assume that these agents, which we can call unions, are “distant”
+ from their firm and worker constituents and solve a simplified problem
+ on their behalf.
+ These assumptions allow for a degree of freedom in setting up the surpluses
+ that enter the bargaining problem.
+ One other important assumption is that although we consider a single bargaining
+ problem that includes all agents, the intervening unions disregard the
+ impact of the wage on equilibrium employment.
+ Finally, we model wage rigidity directly in the bargaining problem through
+ an adjustment cost function that extends the usual Nash bargaining surplus.
+\end_layout
+
+\begin_layout Subsubsection
+Bargaining
+\end_layout
+
+\begin_layout Standard
+The solution to the bargaining problem results in a bargained wage 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+.
+ Wage rigidity is introduced by adding a cost function to the standard Nash
+ formulation.
+ This cost function captures a utility loss of changing wages as perceived
+ by the bargaining agents.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Ljungqvist and Sargent, (2017) discuss standard formulations of the bargaining
+ problem.
+ The cost function draws on Kravik & Mimir (2019) and we use it also in
+ the price setting problem.
+\end_layout
+
+\end_inset
+
+ It also makes the problem dynamic.
+ 
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ denote the surplus of the unions representing the workers and 
+\begin_inset Formula $J_{t}$
+\end_inset
+
+ that of the firms.
+ These surpluses which enter the Nash bargaining function are given by the
+ difference between the value of agreement and the value of disagreement
+ for each party.
+ Disagreement is an out of equilibrium event that never happens in model
+ (we do not model labor disputes explicitly).
+\end_layout
+
+\begin_layout Standard
+In the case of the union representing workers the surplus is
+\begin_inset Formula 
+\[
+S\left(w_{t}\right)=\underbrace{\left(1-\bar{\tau}_{t}\right)\rho_{t}h_{t}n_{t}}_{S_{t}^{\prime}}w_{t}-o_{t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\bar{\tau}_{t}$
+\end_inset
+
+ is the weighted average of the personal income tax rate
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We assume that non-resident workers pay the same taxes as average resident
+ workers.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bar{\tau}_{t}=\frac{\sum_{a}\tau_{a,t}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}+\overline{\tau}_{t}\rho_{t}^{f}h_{t}^{f}n_{t}^{f}}{\rho_{t}h_{t}n_{t}}=\frac{\sum_{a}\tau_{a,t}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}{\sum_{a}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $o_{t}$
+\end_inset
+
+ is an outside option value which is exogenous to the agents
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We model the outside option as a constant share of the sum of wages, weighed
+ by the job finding probability:
+\begin_inset Formula 
+\[
+o_{t}=\mu^{o}S_{t}^{\prime}x_{t}w_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The expression for the outside option can be interpreted as a share of the
+ period and foregone wage 
+\begin_inset Formula $1-\mu^{o}$
+\end_inset
+
+ wasted in negotiations, after which the job seeker can find a different
+ job with probability 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+.
+ Without better empirical foundations we are not ready to directly link
+ unemployment compensation to the wage bargaining process, and we allow
+ for the idea that searching for a different job is also an important outside
+ option in decentralized negotiations.
+ 
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+On the firm side the surplus is the difference between the marginal product
+ of labor and the wage paid, summing over all private sectors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J\left(w_{t}\right)=\sum_{s\in\text{private}}\left[1-\tau_{t}^{c}\right]\left(P_{s,t}^{L}u_{s,t}\rho_{s,t}h_{s,t}n_{s,t}-\rho_{s,t}h_{s,t}n_{s,t}\left[1+\tau_{s,t}^{L}\right]w_{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is useful to divide the firm surplus into two parts: 1) the value of
+ the labor to the firms after taxes, 
+\begin_inset Formula $J_{t}^{+}$
+\end_inset
+
+, and 2) net wages paid, 
+\begin_inset Formula $J_{t}^{\prime}\cdot w_{t}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J\left(w_{t}\right)=\underbrace{\sum_{s\in\text{private}}\left[1-\tau_{s,t}^{c}\right]P_{s,t}^{L}u_{s,t}\rho_{s,t}h_{s,t}n_{s,t}}_{J_{t}^{+}}-\underbrace{\sum_{s\in\text{private}}\left[1-\tau_{t}^{c}\right]\rho_{s,t}h_{s,t}n_{s,t}\left[1+\tau_{s,t}^{L}\right]}_{-J_{t}^{\prime}}w_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suppressing the sector dimension and ignoring taxes makes it clear that
+ the heart of the firm's bargaining surplus is the wedge between wages and
+ the marginal product of labor:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J\left(w_{t}\right)\approx\underbrace{\rho_{t}h_{t}n_{t}}_{\text{scale}}\left(\underbrace{P_{t}^{L}}_{\text{MPL}}-\underbrace{w_{t}}_{\text{wage}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The wedge (between wages and the marginal product of labor) exists due the
+ cost of posting vacancies which is a sunk cost in the bargaining situation.
+ I.e.
+ the firm's expected value of posting a vacancy is zero in equilibrium,
+ but the value of a vacancy that has turned into a match is positive.
+ The value of a match is often called the matching surplus and it is this
+ surplus which is bargained over and divided into a bargaining surplus for
+ the worker and a bargaining surplus for the firm.
+\end_layout
+
+\begin_layout Standard
+The bargaining surpluses are mostly static and wage dynamics primarily enter
+ the bargaining problem through an adjustment cost function.
+ We define the bargaining loss function as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{t}=\left(S_{t}\right)^{1-\phi_{t}}\left(J_{t}\right)^{\phi_{t}}-G_{t}\label{eq:bargaining_loss}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $G(\cdot)$
+\end_inset
+
+ is a wage adjustment cost and 
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+ is the Nash bargaining power parameter.
+ We now specify the adjustment cost function 
+\begin_inset Formula $G_{t}\equiv g_{t}+\beta_{t+1}g_{t+1}$
+\end_inset
+
+ where
+\begin_inset Formula 
+\[
+g_{t}=\frac{\psi^{\omega}}{2}\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}-1\right]^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and where 
+\begin_inset Formula $\overline{w}_{t-2}$
+\end_inset
+
+ is an exogenous object which in equilibrium satisfies 
+\begin_inset Formula $w_{t-2}=\overline{w}_{t-2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The bargaining problem then consists of maximizing the loss function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:bargaining_loss"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) with respect to 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, yielding
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch wage_derivation
+inverted 0
+status collapsed
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial G_{t}}{\partial w_{t}} & =\frac{\partial g_{t}}{\partial w_{t}}+\beta_{t+1}\frac{\partial g_{t+1}}{\partial w_{t}}\\
+ & =\frac{\psi^{\omega}}{w_{t}}\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}-1\right]\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}\right]-2\beta_{t+1}\frac{\psi^{\omega}}{w_{t}}\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}-1\right]\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}\right]\\
+ & =\frac{\psi^{\omega}}{w_{t}}\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}-1\right]\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}\right]-2\beta_{t+1}\frac{w_{t+1}}{w_{t}}\frac{\psi^{\omega}}{w_{t+1}}\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}-1\right]\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}\right]\\
+ & =\frac{\partial g_{t}}{\partial w_{t}}-2\beta_{t+1}\frac{w_{t+1}}{w_{t}}\frac{\partial g_{t+1}}{\partial w_{t+1}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L_{t}=\left(S_{t}\right)^{1-\phi_{t}}\left(J_{t}\right)^{\phi_{t}}-G_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial L_{t}}{\partial w_{t}}=\left[1-\phi_{t}\right]S_{t}^{\prime}\left(S_{t}\right)^{-\phi_{t}}\left(J_{t}\right)^{\phi_{t}}+\phi_{t}J_{t}^{\prime}\left(S_{t}\right)^{1-\phi_{t}}\left(J_{t}\right)^{\phi_{t}-1}-\frac{\partial G_{t}}{\partial w_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0=\left[1-\phi_{t}\right]\frac{J_{t}}{J_{t}^{\prime}}+\phi_{t}\frac{S_{t}}{S_{t}^{\prime}}-\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{\partial G_{t}}{\partial w_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J\left(w_{t}\right)=J^{+}+J_{t}^{\prime}w_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S\left(w_{t}\right)=S_{t}^{\prime}w_{t}-o_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0=\left[1-\phi_{t}\right]\frac{J^{+}+J_{t}^{\prime}w_{t}}{J_{t}^{\prime}}+\phi_{t}\frac{S_{t}^{\prime}w_{t}-o_{t}}{S_{t}^{\prime}}-\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{\partial G_{t}}{\partial w_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J^{+}}{J_{t}^{\prime}}+\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{\partial G_{t}}{\partial w_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J^{+}}{J_{t}^{\prime}}+\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\underset{\frac{\partial G_{t}}{\partial w_{t}}}{\underbrace{\left[\frac{\partial g_{t}}{\partial w_{t}}-2\beta_{t+1}\frac{w_{t+1}}{w_{t}}\frac{\partial g_{t+1}}{\partial w_{t+1}}\right]}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+w_{t} & =\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J^{+}}{J_{t}^{\prime}}+\left\{ \frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{1}{w_{t}}\right\} \left[w_{t}\frac{\partial g_{t}}{\partial w_{t}}-2\beta_{t+1}w_{t+1}\frac{\partial g_{t+1}}{\partial w_{t+1}}\right]\\
+ & =\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J^{+}}{J_{t}^{\prime}}+\left\{ \frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{1}{w_{t}}\right\} \left[\Psi_{t}-2\beta_{t+1}\Psi_{t+1}\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}\frac{\partial g_{t}}{\partial w_{t}}=\underbrace{\psi^{\omega}\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}-1\right]\left[\frac{w_{t}}{w_{t-1}}/\frac{w_{t-1}}{\overline{w}_{t-2}}\right]}_{\Psi_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}\frac{\partial g_{t+1}}{\partial w_{t+1}}=\psi^{\omega}\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}-1\right]\left[\frac{w_{t+1}}{w_{t}}/\frac{w_{t}}{\overline{w}_{t-1}}\right]=\Psi_{t+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+w_{t}=\phi_{t}\frac{o_{t}}{S_{t}^{\prime}}-\left[1-\phi_{t}\right]\frac{J_{t}^{+}}{J_{t}^{\prime}}+\underbrace{\left[\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{1}{w_{t}}\right]}_{\approx\text{constant}}\left[\frac{\partial g_{t}}{\partial w_{t}}w_{t}-2\beta_{t+1}\frac{\partial g_{t+1}}{\partial w_{t+1}}w_{t+1}\right]\label{eq:bargaining_FOC}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For computational efficiency we replace the term 
+\begin_inset Formula $\left[\frac{\left(S_{t}\right)^{\phi_{t}}\left(J_{t}\right)^{1-\phi_{t}}}{S_{t}^{\prime}J_{t}^{\prime}}\frac{1}{w_{t}}\right]$
+\end_inset
+
+ with a constant as there is no discernible difference between IRFs from
+ holding it constant vis-a-vis letting it be endogenous.
+ Note that the wage rigidity term is zero in any steady state.
+\end_layout
+
+\begin_layout Standard
+The fraction associated with the firm surplus, 
+\begin_inset Formula $\frac{J_{t}^{+}}{J_{t}^{\prime}}$
+\end_inset
+
+, can be rewritten as a function of aggregate measures with a term 
+\begin_inset Formula $f_{t}^{J}$
+\end_inset
+
+ that captures all sector composition effects
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{J_{t}^{+}}{J_{t}^{\prime}}=\frac{\rho_{t}h_{t}n_{t}\left[1-\tau_{t}^{c}\right]P_{t}^{L}}{-\rho_{t}h_{t}n_{t}\left[1-\tau_{t}^{c}\right]\left[1+\tau_{t}^{L}\right]}f_{t}^{J}=-f_{t}^{J}\frac{P_{t}^{L}}{1+\tau_{t}^{L}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $P_{t}^{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{t}^{L}$
+\end_inset
+
+ are both sector averages.
+\end_layout
+
+\begin_layout Standard
+Inserting this, and our function for the outside option of the worker representa
+tives, 
+\begin_inset Formula $o_{t}=\mu^{o}x_{t}S_{t}^{\prime}w_{t}$
+\end_inset
+
+, we get the wage as a function of the marginal product of labor:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w_{t}=\left[\frac{1-\phi_{t}}{1-\phi_{t}\mu^{o}x_{t}}\right]\frac{f_{t}^{J}}{\left[1+\tau_{t}^{L}\right]}P_{t}^{L}+\text{\left\{  \text{wage rigidity}\right\}  }
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Appendices
+\end_layout
+
+\begin_layout Subsubsection
+Aggregating household employment with migration
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:labor_market_migration"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Population flows obey
+\begin_inset Formula 
+\[
+N_{a,t}=s_{a-1,t-1}N_{a-1,t-1}+I_{a,t}-E_{a,t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $I_{a,t}$
+\end_inset
+
+ are immigrants and 
+\begin_inset Formula $E_{a,t}$
+\end_inset
+
+ are emigrants.
+ Households making the choice described above are those surviving from the
+ previous period.
+ Those that survive from on period to another and stay in the country are
+ denoted as; 
+\begin_inset Formula $N_{a-1,t-1}s_{a-1,t-1}-E_{a,t}$
+\end_inset
+
+.
+ Emigrants 
+\begin_inset Formula $E_{a,t}$
+\end_inset
+
+ are identical to other residents except that they leave the country.
+ Employment for a household of age 
+\begin_inset Formula $a$
+\end_inset
+
+ evolves according to the accumulation-equation
+\begin_inset Formula 
+\[
+q_{a,t}^{e}=\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}+x_{t}q_{a,t}^{s}
+\]
+
+\end_inset
+
+Immigrants 
+\begin_inset Formula $I_{a,t}$
+\end_inset
+
+ come into the country and we assume they obtain the same employment 
+\begin_inset Formula $q_{a,t}^{e}$
+\end_inset
+
+ as residents.
+ We also assume that immigrants have the same search behavior as surviving
+ households.
+ However, they do not have an employment history in the country.
+ This implies that some immigrants enter with jobs, so they do not have
+ to search.
+ This accounts for the employment quantity 
+\begin_inset Formula $q_{a,t}^{I}I_{a,t}$
+\end_inset
+
+.
+ We have then
+\begin_inset Formula 
+\[
+q_{a,t}^{e}=x_{t}q_{a,t}^{s}+q_{a,t}^{I}
+\]
+
+\end_inset
+
+This sums to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\underbrace{N_{a,t}q_{a,t}^{e}}_{n_{a,t}^{e}} & =\left(1-\delta_{a,t}\right)\left(s_{a-1,t-1}-\frac{E_{a,t}}{N_{a-1,t-1}}\right)q_{a-1,t-1}^{e}N_{a-1,t-1}\\
+ & +x_{t}\underbrace{q_{a,t}^{s}\left(s_{a-1,t-1}N_{a-1,t-1}+I_{a,t}-E_{a,t}\right)}_{n_{a,t}^{s}\equiv N_{a,t}q_{a,t}^{s}}+q_{a,t}^{I}I_{a,t}
+\end{align*}
+
+\end_inset
+
+Now assume that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{a,t}^{I}\equiv\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so that
+\begin_inset Formula 
+\begin{align*}
+n_{a,t}^{e} & =\left(1-\delta_{a,t}\right)\left(s_{a-1,t-1}-\frac{E_{a,t}}{N_{a-1,t-1}}+\frac{I_{a,t}}{N_{a-1,t-1}}\right)n_{a-1,t-1}^{e}+x_{t}n_{a,t}^{s}\\
+ & =\left(1-\delta_{a,t}\right)\frac{N_{a,t}}{N_{a-1,t-1}}n_{a-1,t-1}^{e}+x_{t}n_{a,t}^{s}
+\end{align*}
+
+\end_inset
+
+Given this construction, we do not have to know the number of immigrants
+ and emigrants.
+ All we need to know is the total population.
+\end_layout
+
+\begin_layout Subsubsection
+Imposing the same age distribution on every firm
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:ages_and_sectors"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result of the household's first order condition for participation/search
+ is that employment will vary by age.
+ However, we do not want to add the sectoral dimension to the disaggregated
+ employment variable.
+ In order to do this, when we solve the problem of the firm we do not solve
+ endogenously for the age distribution of workers inside the different firms/sec
+tors indexed by 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ Instead we impose exogenously that this distribution is the same across
+ all firms in the economy.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Different sectors will move differently over the cycle.
+ And age specific population does not move evenly over time which implies
+ neither will the labor force.
+ All firms from all sectors hire the 
+\begin_inset Quotes eld
+\end_inset
+
+average job searcher
+\begin_inset Quotes erd
+\end_inset
+
+ from the currently available pool in the economy.
+ As firms from different sectors hire different amounts over time the age
+ composition of labor inside firms across sectors will differ, while it
+ is the same in all firms within a sector.
+ Keeping track of the age distribution within each firm/sector greatly increases
+ the dimensionality of the model.
+\end_layout
+
+\end_inset
+
+ We also choose not to allow for differences in the job destruction rate
+ across sectors arising from other factors.
+ Evidence from administrative data on wage earners indicates that the average
+ age of the labor force is independent of firm size and also uncorrelated
+ with whether firms are reducing or expanding their employment.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Job Destruction and Job Finding Rates by Age in Danmark.
+ Dream Working Paper, May 5, 2021.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We force the same distribution using the relationship
+\begin_inset Formula 
+\[
+n_{a,s,t}\equiv\frac{n_{s,t}}{n_{t}}n_{a,t}
+\]
+
+\end_inset
+
+Given our assumptions, we never have to use the bigger object 
+\begin_inset Formula $n_{a,s,t}$
+\end_inset
+
+, since on the production side the age distribution does not matter and
+ so we only care about total employment inside the firm.
+\end_layout
+
+\begin_layout Subsubsection
+Different average wages across sectors
+\end_layout
+
+\begin_layout Standard
+Although in our model both labor supply and demand are anonymous, resulting
+ in all firms hiring the same average worker looking for a job, and employing
+ the same average employed worker in the economy, we observe in the data
+ that average wages differ across sectors.
+ It is possible that this reflects the heterogeneity of workers employed
+ in different sectors, a feature which is ruled out in our model.
+ In order to match the data on both employment and average wage acoss sectors
+ we need a reduced form mechanism that will allow us to do so without breaking
+ the two sided anonymity of the labor market.
+\end_layout
+
+\begin_layout Standard
+The mechanism described here attaches different productivities to workers
+ working in different sectors, while the workers themselves are identical
+ wherever they happen to work.
+ A three sector example helps illustrate it.
+ We first impose the identifying constraint which attaches a relative sectoral
+ productivity factor 
+\begin_inset Formula $\rho_{t}^{i}$
+\end_inset
+
+ to sectoral employment, while keeping the total constant:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{1,t}^{w}n_{t}^{1}+\rho_{2,t}^{w}n_{t}^{2}+\rho_{3,t}^{w}n_{t}^{3}=\sum_{i}n_{t}^{i}=n_{t}
+\]
+
+\end_inset
+
+Given this constraint, calculate the average wage per sector in the data
+ and compute the ratios:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\rho_{1,t}^{w}}{\rho_{3,t}^{w}}=\frac{w_{t}^{1}}{w_{t}^{3}}=w_{t}^{13},\;\;\;\;\frac{\rho_{2,t}^{w}}{\rho_{3,t}^{w}}=\frac{w_{t}^{2}}{w_{t}^{3}}=w_{t}^{23}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note: the objects 
+\begin_inset Formula $w_{t}^{ij}$
+\end_inset
+
+ are data for the period where data exists, and are forecasts for the subsequent
+ periods.
+ They are an exogenous input into the model.
+ This allows for the endogenous calculation of 
+\begin_inset Formula $\rho_{3,t}^{w}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{3,t}^{w}=\frac{n_{t}}{w_{t}^{13}n_{t}^{1}+w_{t}^{23}n_{t}^{2}+n_{t}^{3}}
+\]
+
+\end_inset
+
+and of course of the other two as well.
+ During data years we use observed average wages and employment, and in
+ the forecasting years we use a forecast of relative average wages to calculate
+ the 
+\begin_inset Formula $\rho_{j,t}^{w}$
+\end_inset
+
+.
+ This mechanism preserves the search model.
+ It is consistent with the randomness of matching.
+ Which means the household problem is unaffected because of the initial
+ identifying constraint.
+ And it can be interpreted as a proxy for heterogeneity.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch LabormarketVariables
+inverted 0
+status collapsed
+
+\begin_layout Subsubsection
+Labor market variables
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Households and migrant workers
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+arrayrulecolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="20" columns="3">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{MAKRO}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Endogenous variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Code name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Employment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $q_{a,t}^{e}\cdot N_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nLHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Employment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{a,t}^{e}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nLHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Sum of job seeking and employed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $q_{a,t}^{lf}\cdot N_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nSoegBaseHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Parameter controlling the elasticity of labor force participation from
+ changes in the job finding rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\eta^{lf}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eDeltag
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Inverse labor supply elasticity - intensive margin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\eta^{h}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eh
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Job separation rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rSeparation[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Job separation rate, total over cohorts
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rSeparation[aTot,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Share of job seekers who get a job
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rJobFinding[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Preference parameter for labor market participation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lambda_{a,t}^{lf}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uDeltag[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Preference parameter for hours
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lambda_{a,t}^{h}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Age dependent productivity wrt.
+ education and composition effects
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{a,t}^{e}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qProdHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Average income tax rate of marginal worker
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mtInd[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Age dependent total work hours
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{a,t}^{e}\cdot N_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hLHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Total work hours for non-resident workers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{t}^{f}\cdot N_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hLxDK[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Marginal net benefit replacement rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $r_{a,t}^{b}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mrKomp[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Household job seekers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $q_{a,t}^{s}\cdot N_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nSoegHh[a,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Non-resident workers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{t}^{f}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nLxDK[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Job seeking potential non-resident workers
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{t}^{s,f}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nSoegxDK[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Sum of non-resident workers and job seeking potential non-resident workers.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $N_{t}^{f}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nSoegBasexDK[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Code names, firms
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+arrayrulecolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="17" columns="3">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{MAKRO}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Endogenous variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Code name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Employment by sector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Productivity by sector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fW[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Vacancies by sector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ensuremath{v_{s,t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nOpslag[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Linear job posting cost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\kappa$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uOpslagOmk
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Quadratic job posting cost
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\gamma$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uOpslagOmkSqr
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Share of job postings resulting in a match
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $m_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rMatch[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Share of worker inputs used for hiring costs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\chi_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rOpslagOmk[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Sector dependent work hours per employee
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rhL2nL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Work hours per non-resident employee 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{t}^{f}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rhL2nLxDK[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dOpslagOmk2dnL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Effective labor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $L_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qL[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dqLd2nLlag[s,t+1]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+User cost for effective labor in production function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $p_{s,t}^{L}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Corporate tax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{s,t}^{c}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tSelskab[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Firms' discount rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{\beta_{t}}-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rVirkDisk[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Capacity utilization of labor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $u_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rLUdn[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Code names, Matching and Wage Bargaining
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+arrayrulecolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<column alignment="center" valignment="middle" width="33text%">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{MAKRO}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Endogenous variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\color white
+Code name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+ Exponent in matching function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\eta^{m}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+eMatching
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Wage per productive unit of labor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vhW[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Nash bargaining weight
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\phi_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rLoenNash[t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Positive part of firms value function in wage bargaining
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $J_{t}^{+}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vVirkLoenPos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Derivative of the firm's value function in wage bargaining wrt.
+ the wage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $J_{t}^{\prime}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dVirk2dLoen
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Derivative of the union's value function in wage bargaining wrt.
+ the wage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $S_{t}^{\prime}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dFF2dLoen
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Outside option value of the union in wage bargaining
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $o_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vFFOutsideOption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{GRAY}
+\end_layout
+
+\end_inset
+
+Term that removes quadratic matching costs form baseline
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cMatchOmkSqr[s,t]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

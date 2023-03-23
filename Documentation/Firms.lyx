@@ -1,0 +1,2471 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch derive_pK
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch derive_utilization_FOC
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Firms
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Firms"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The economy has eight private sectors indexed by the subscript 
+\begin_inset Formula $s$
+\end_inset
+
+ in this chapter.
+ These are agriculture (including fishing), construction, energy provision,
+ extraction, housing, manufacturing (including food processing), shipping,
+ and services (other than shipping).
+\end_layout
+
+\begin_layout Standard
+Firms maximize the present discounted value of profits.
+ Solving this problem requires both cost minimization and optimal price
+ setting.
+ These two problems are separated into two sub-sectors - an intermediate
+ sub-sector producing the goods and choosing inputs optimally, and another
+ sub-sector where retail firms buy goods from producers, set prices and
+ sell the same goods to the final consumers.
+ The production and the price-setting decisions are separated both in the
+ documentation and in the code.
+ The production problem is given in this chapter.
+\end_layout
+
+\begin_layout Standard
+The model's private sector firms use labor, capital, and intermediate goods
+ as inputs.
+ These inputs generate output through a production function which is a CES
+ nest with multiple levels.
+ Capital and intermediate goods can be bought from domestic firms or imported,
+ and labor services are bought from supplying households.
+ The market for intermediate inputs is a spot market and the optimal decision
+ is static.
+ The optimal decisions for labor and capital are dynamic, and the relevant
+ price measures are user costs derived from intertemporal first-order conditions.
+\end_layout
+
+\begin_layout Standard
+The user cost of labor is derived in the labor market chapter.
+ The user cost of capital is derived here.
+ Given the correct user cost measures, the problem of the firm can be solved
+ by a sequence of static cost minimization problems at every level of the
+ CES tree.
+ Two bottom levels of the CES tree determine input demand for intermediate
+ inputs and investment goods from all producing sectors and from foreign
+ or domestic sources.
+ These levels are separated from the problem of the firm and into the input/outp
+ut system of market clearing relationships by interpreting them as intermediate
+ transformation sectors with constant returns to scale technologies.
+ These two levels are mainly data aggregation devices although we can also
+ interpret them as behavioral objects.
+ They are described in the input/output chapter.
+\end_layout
+
+\begin_layout Standard
+This section delivers two demand components - intermediate inputs,
+\begin_inset Formula $R_{s,t}$
+\end_inset
+
+, and investments, 
+\begin_inset Formula $I_{i,s,t}$
+\end_inset
+
+ - to the input/output chapter.
+ The rest of this chapter is organized as follows:
+\end_layout
+
+\begin_layout Itemize
+Cost minimization, subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Cost-minimization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: The production function, the CES tree, and the general cost minimization
+ problem.
+\end_layout
+
+\begin_layout Itemize
+Dynamic optimization, subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Dynamic-optimization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: The dynamic optimization problem and the computation of the user cost
+ of capital.
+\end_layout
+
+\begin_layout Itemize
+Firm investments with costly external finance, subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Costly External Finance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: A reduced form way of modeling costly external finance through the firm's
+ discount factor.
+\end_layout
+
+\begin_layout Itemize
+Finance, subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Finance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: A brief introduction to the valuation of the firm and how we account for
+ firm financial assets and liabilities.
+\end_layout
+
+\begin_layout Itemize
+Special sector considerations, subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Special-sector-considerations"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: Deviations from the baseline model for the housing and extraction sectors.
+\end_layout
+
+\begin_layout Subsection
+Cost minimization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Cost-minimization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The production function
+\end_layout
+
+\begin_layout Standard
+\noindent
+Gross output 
+\begin_inset Formula $Q$
+\end_inset
+
+ is produced with capital equipment, 
+\begin_inset Formula $K_{iM}$
+\end_inset
+
+, labor, 
+\begin_inset Formula $L$
+\end_inset
+
+, capital structures (buildings) 
+\begin_inset Formula $K_{iB}$
+\end_inset
+
+, and intermediate inputs 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+All inputs except intermediate inputs enter production in effective units
+ which include factor utilization and in the case of labor, net of hiring
+ costs.
+ Effective capital inputs are denoted 
+\begin_inset Formula $K_{iM,s,t-1}^{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $K_{iB,s,t-1}^{u}$
+\end_inset
+
+ (superscript 
+\begin_inset Formula $u$
+\end_inset
+
+ for utilization).
+ Capital stocks are subject to a one period time to build which implies
+ they are fixed in the short run (current period) although they can be used
+ with varying intensity.
+\end_layout
+
+\begin_layout Standard
+\noindent
+We write the general production function in sector 
+\begin_inset Formula $s$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+ as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q_{s,t}^{KLBR}=Q\left(K_{iM,s,t-1}^{u},L_{s,t},K_{iB,s,t-1}^{u},R_{sp,t}\right)
+\]
+
+\end_inset
+
+In what follows sector and time indices are omitted when that does not affect
+ exposition.
+\end_layout
+
+\begin_layout Subsubsection
+The CES tree
+\end_layout
+
+\begin_layout Standard
+Production inputs generate output through a CES nest structure where superscript
+s 
+\begin_inset Formula $K,L,B,R$
+\end_inset
+
+ denote equipment capital, labor, structures, and intermediate inputs:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size small
+\begin_inset Formula $\xymatrix{Q^{KLBR}\left(Q^{KLB},R\right)\ar@{-}[dr]\ar@{-}[d]\\
+Q^{KLB}\left(Q^{KL},K_{iB}\right)\ar@{-}[dr]\ar@{-}[d] & R\\
+Q^{KL}\left(K_{iM},L\right)\ar@{-}[dr]\ar@{-}[d] & K_{iB}\\
+K_{iM} & L
+}
+$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+CES cost minimization
+\end_layout
+
+\begin_layout Standard
+The optimal demand for inputs is obtained from solving a sequence of cost
+ minimization problems at every level in the tree.
+ As an example, the problem at the bottom branch of the upper tree is to
+ minimize total cost 
+\begin_inset Formula $P^{KL}Q^{KL}=p^{L}L+p^{K}K^{u}$
+\end_inset
+
+ subject to 
+\begin_inset Formula $Q^{KL}=CES\left(K^{u},L\right)$
+\end_inset
+
+.
+ The solution to this problem is well known and yields the following objects
+ which, with the necessary extensions and appropriate indexing, translate
+ appropriately to all levels of the tree:
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+It is easy to show that the CES structure also captures zero elasticities
+ of substitution.
+ The demand functions, constraint, and CES price all go through, while we
+ never make use of the production function, 
+\begin_inset Formula $Q^{KL}=min(K/\mu^{K},L/\mu^{L})$
+\end_inset
+
+, and of course there are no derivatives but instead optimality implies
+ 
+\begin_inset Formula $K^{u}/\mu^{K}=L/\mu^{L}=Q^{KL}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+\text{Output} & \Rightarrow & Q^{KL}=\left[\left(\mu^{K}\right)^{\frac{1}{\eta}}\left(K^{u}\right)^{\frac{\eta-1}{\eta}}+\left(\mu^{L}\right)^{\frac{1}{\eta}}\left(L\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}\\
+\\
+\text{Derivative} & \Rightarrow & \frac{\partial Q^{KL}}{\partial L}=\left(\mu^{L}\frac{Q^{KL}}{L}\right)^{\frac{1}{\eta}}\\
+\\
+\text{Demand/F.O.C.} & \Rightarrow & L=\mu^{L}Q^{KL}\left(\frac{P^{KL}}{p^{L}}\right)^{\eta}\\
+\\
+\text{CES Price} & \Rightarrow & P^{KL}=\left[\mu^{K}\left(p^{K}\right)^{1-\eta}+\mu^{L}\left(p^{L}\right)^{1-\eta}\right]^{\frac{1}{1-\eta}}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In these equations the parameters 
+\begin_inset Formula $\mu^{j}$
+\end_inset
+
+ are calibrated scale parameters.
+ The parameter 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is the elasticity of substitution between the two inputs.
+ The input prices 
+\begin_inset Formula $p^{j}$
+\end_inset
+
+(not the CES prices 
+\begin_inset Formula $P$
+\end_inset
+
+) are user costs except for intermediate goods where it is a CES aggregate
+ of spot prices.
+\end_layout
+
+\begin_layout Standard
+One detail to mention is that, although we show it explicitly here, the
+ production function is never used in the numerical solution to the problem.
+ Much like the utility function in the household problem, only its derivatives
+ are ever needed, and they enter the problem through the demand functions
+ shown above.
+ The problem is solved using only the demand functions and the constraint
+ in the form 
+\begin_inset Formula $P^{KL}Q^{KL}=p^{L}L+p^{K}K$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Solving all the problems in the tree requires knowing the correct prices
+ of every input.
+ 
+\end_layout
+
+\begin_layout Standard
+Intermediate inputs in production as well as capital investments are sourced
+ from many production sectors, both domestic and foreign, in exactly the
+ same way as all other demand components.
+ The prices of intermediate inputs and investments are derived in input/output
+ chapter.
+ Firms pay same the wage pr.
+ unit of labor, but user costs will generally differ between sectors due
+ to differences in labor adjustment costs etc.
+ The user cost of labor is derived in the labor market chapter.
+\end_layout
+
+\begin_layout Standard
+Finding the correct input prices of capital (and labor) requires solving
+ a dynamic, forward-looking, optimization problem.
+ We look at the user cost of capital in the next subsection.
+\end_layout
+
+\begin_layout Subsection
+Dynamic optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Dynamic-optimization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This section derives the user cost of capital.
+ All variables and parameters in the problem generally have a sub-index
+ 
+\begin_inset Formula $(k,s,t)$
+\end_inset
+
+ – that is over investment/capital type, sector and time.
+ In this section, this index will be truncated to only 
+\begin_inset Formula $t$
+\end_inset
+
+, unless otherwise explicitly stated.
+ Given eight different private sectors and two types of capital, MAKRO has
+ 16 appropriately indexed versions of the variables and equations described.
+\end_layout
+
+\begin_layout Subsubsection
+Definitions
+\end_layout
+
+\begin_layout Standard
+All capital stocks have a law of motion of the following form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K_{t}=\left(1-\delta_{t}\right)K_{t-1}+I_{t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\delta_{t}$
+\end_inset
+
+ is the depreciation rate and 
+\begin_inset Formula $I_{t}$
+\end_inset
+
+ is the investment flow.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Inventory investment is assumed to be proportional to net output: 
+\begin_inset Formula $I_{invt,sp,t}=\mu_{sp,t}^{Invt}Y_{sp,t}$
+\end_inset
+
+.
+ It does not accumulate or contribute to production.
+ It is just a drain on resources in order to match the model with national
+ accounts data, where it is small fraction of total spending (less than
+ 0.5 percent).
+ Inventories are listed in the index 
+\begin_inset Formula $i$
+\end_inset
+
+ which identifies the three types of investments (inventories, equipment,
+ structures): 
+\begin_inset Formula $i=\{iL,iM,iB\}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Capital stocks are subject to adjustment costs
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AC_{t}=\frac{\gamma}{2}\frac{\left(I_{t}-\xi_{t}I_{t-1}\right)^{2}}{K_{t-1}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\xi_{t}$
+\end_inset
+
+ are parameters.
+\end_layout
+
+\begin_layout Standard
+Capital stocks are fixed in the short run due to one period time to build,
+ but they can be used with varying intensity 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+.
+ The problem of optimal capital utilization is examined below.
+ Adjustment and utilization costs as well as vacancy costs are not explicitly
+ measured in the data, and are modeled as unobserved lost production.
+ Adjustment costs are subtracted from gross production, 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+ Gross and net output are related by:
+\begin_inset Formula 
+\[
+Q_{t}^{KLBR}=Y_{t}+\sum_{k}AC{}_{k,t}
+\]
+
+\end_inset
+
+where the index 
+\begin_inset Formula $k$
+\end_inset
+
+ identifies the type of capital good (equipment or structures).
+ Note that we do not see the vacancy posting costs or labor utilization
+ costs explicitly here, as they are modeled directly inside gross output
+ 
+\begin_inset Formula $Q$
+\end_inset
+
+ and detailed in the labor market chapter.
+\end_layout
+
+\begin_layout Subsubsection
+Debt
+\end_layout
+
+\begin_layout Standard
+We model the debt issued by the firm as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{t}=\mu_{t}^{D}p_{t}^{I}K_{t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\mu_{t}^{D}$
+\end_inset
+
+ is a factor taken as given by the optimizing firm and which can be viewed
+ as the result of an independent optimal corporate capital structure problem.
+ The value of 
+\begin_inset Formula $\mu_{t}^{D}$
+\end_inset
+
+ is then an expression of a modified Modigliani-Miller theorem.
+ There is an implicit trade-off between bankruptcy risk and associated costs
+ on one hand, and the gain from financing the firm at a lower rate on the
+ other.
+ Currently all firms in the model have the same constant debt factor 
+\begin_inset Formula $\mu_{t}^{D}=0.4$
+\end_inset
+
+.
+ This way of modeling debt mirrors the way mortgage debt is modeled on our
+ household side of the model.
+\end_layout
+
+\begin_layout Standard
+There are other reasons to link debt to the firm's capital stock.
+ One significant component of firm debt is mortgage debt, which is closely
+ related to (or collateralized by) the firm's capital stock.
+ Corporate debt is also issued with various covenants (such as not allowing
+ sales of installed capital), which serve as an indirect claim on the firm's
+ equipment and structures.
+\end_layout
+
+\begin_layout Subsubsection
+The problem of the firm
+\end_layout
+
+\begin_layout Standard
+For exposition purposes, we state the problem with a single capital stock
+ rather than two, and we use only the time index on all variables.
+ As we focus only on the optimal choice of capital, we also leave out many
+ details of the labor input.
+ The operating surplus 
+\begin_inset Formula $\pi$
+\end_inset
+
+ in a period 
+\begin_inset Formula $t$
+\end_inset
+
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\pi_{t} & =\left(1-\tau_{t}^{c}\right)\left(\begin{array}{c}
+P_{t}Y_{t}-P_{t}^{R}R_{t}-\left[1+\tau_{t}^{L}\right]w_{t}L_{t}\\
+\\
+-\tau_{t}^{K}P_{t}^{I}K_{t-1}-T_{t}\\
+\\
+-r_{t}^{D}\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}
+\end{array}\right)\\
+\\
+ & -P_{t}^{I}I_{t}+\tau_{t}^{c}\delta_{t}^{Tax}K_{t-1}^{Tax}+\mu_{t}^{D}P_{t}^{I}K_{t}-\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}\\
+\\
+ & +q_{t}\left(\left[1-\delta_{t}\right]K_{t-1}+I_{t}-K_{t}\right)\\
+\\
+ & +q_{t}^{Tax}\left(\left[1-\delta_{t}^{Tax}\right]K_{t-1}^{Tax}+P_{t}^{I}I_{t}-K_{t}^{Tax}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where net output 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\[
+Y_{t}=Q_{t}\left(u_{t}K_{t-1},R_{t},L_{t}\right)-AC_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To properly locate the elements in the above tree, the production function
+ 
+\begin_inset Formula $Q$
+\end_inset
+
+ here corresponds to the top of the tree, KLBR, and the optimization price
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ is the associated CES price.
+\end_layout
+
+\begin_layout Standard
+The first block of the surplus expression in curved brackets lists elements
+ affected by corporate taxes 
+\begin_inset Formula $\tau_{t}^{c}$
+\end_inset
+
+.
+ It contains net output, minus expenses on intermediate goods and on labor
+ costs.
+ 
+\begin_inset Formula $\tau^{K}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau^{L}$
+\end_inset
+
+ are net input taxes (such as property taxes, vehicle taxes, or payroll
+ subsidies).
+ Finally there are lump sum taxes 
+\begin_inset Formula $T_{t}$
+\end_inset
+
+ and interest payments on debt 
+\begin_inset Formula $r^{D}$
+\end_inset
+
+, all of which reduce the taxable income (corporate tax) generated by the
+ firm.
+\end_layout
+
+\begin_layout Standard
+After these we have the nominal investment cost 
+\begin_inset Formula $P_{t}^{I}I_{t}$
+\end_inset
+
+, the value of the tax deduction from capital depreciation, revenues (expenses)
+ from increases (reductions) in corporate debt, and finally, the Lagrange
+ multiplier (Tobin's q) and its attached law of motion for capital (the
+ standard one), and the Lagrange multiplier and its attached law of motion
+ for tax (or book) value capital.
+ The tax value of capital is the nominal object, 
+\begin_inset Formula $K^{Tax}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+First-order conditions
+\end_layout
+
+\begin_layout Standard
+The discount factor between time 
+\begin_inset Formula $t$
+\end_inset
+
+ and time 
+\begin_inset Formula $t+1$
+\end_inset
+
+ is 
+\begin_inset Formula $\beta_{t+1}=\frac{1}{1+r_{t+1}}$
+\end_inset
+
+.
+ The required rate of return, 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+, is taken as given by the firm and may vary across sectors if investors
+ demand different risk premia to hold equity in different sector.
+ In subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Costly External Finance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we discuss the introduction of costly external finance in the firm's problem,
+ modeled so that its effect is contained in an augmented discount factor.
+\end_layout
+
+\begin_layout Standard
+The optimal choice of labor is detailed in the labor market chapter.
+ The first-order condition for capital utilization is discussed in section
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Factor-utilization"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) below.
+ The first-order condition for intermediate goods, 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+, is simply 
+\begin_inset Formula $P_{t}\frac{\partial Q_{t}}{\partial R_{t}}=P_{t}^{R}$
+\end_inset
+
+ and, since this optimization is static, it is already obtained in the CES
+ cost minimization problem.
+ The first-order condition for investment, 
+\begin_inset Formula $I_{t}$
+\end_inset
+
+, which isolates Tobin's q, is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{t}=P_{t}^{I}\left(1-q_{t}^{Tax}\right)+\left(1-\tau_{t}^{c}\right)P_{t}\frac{\partial AC_{t}}{\partial I_{t}}+\beta_{t+1}\left(1-\tau_{t+1}^{c}\right)P_{t+1}\frac{\partial AC_{t+1}}{\partial I_{t}}K_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first-order condition for the book/tax value of capital, 
+\begin_inset Formula $K_{t}^{Tax}$
+\end_inset
+
+ , is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{t}^{Tax}=\beta_{t+1}\tau_{t+1}^{c}\delta_{t+1}^{Tax}+\beta_{t+1}\left(1-\delta_{t+1}^{Tax}\right)q_{t+1}^{Tax}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\delta^{Tax}$
+\end_inset
+
+ is the tax deductible depreciation rate.
+ This Lagrange multiplier is given by a Bellman equation which computes
+ the present discounted value of all future tax deductions.
+\end_layout
+
+\begin_layout Standard
+The first-order condition for capital, 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+, is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch derive_pK
+inverted 0
+status collapsed
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\pi_{t} & =\left(1-\tau_{t}^{c}\right)\left(\begin{array}{c}
+P_{t}Y_{t}-P_{t}^{R}R_{t}-\left[1+\tau_{t}^{L}\right]w_{t}L_{t}\\
+\\
+-\tau_{t}^{K}P_{t}^{I}K_{t-1}-T_{t}\\
+\\
+-r_{t}^{D}\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}
+\end{array}\right)\\
+\\
+ & -P_{t}^{I}I_{t}+\tau_{t}^{c}\delta_{t}^{Tax}K_{t-1}^{Tax}+\mu_{t}^{D}P_{t}^{I}K_{t}-\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}\\
+\\
+ & +q_{t}\left(\left[1-\delta_{t}\right]K_{t-1}+I_{t}-K_{t}\right)\\
+\\
+ & +q_{t}^{Tax}\left(\left[1-\delta_{t}^{Tax}\right]K_{t-1}^{Tax}+P_{t}^{I}I_{t}-K_{t}^{Tax}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\pi_{t}}{\partial K_{t}}=\mu_{t}^{D}P_{t}^{I}-q_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\pi_{t+1}}{\partial K_{t}}=\left(1-\tau_{t+1}^{c}\right)\left(P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}}-\tau_{t+1}^{K}P_{t+1}^{I}-r_{t+1}^{D}\mu_{t}^{D}P_{t}^{I}\right)-\mu_{t}^{D}P_{t}^{I}+q_{t+1}\left[1-\delta_{t+1}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0=\mu_{t}^{D}P_{t}^{I}-q_{t}+\frac{1}{1+r_{t+1}}\left[\left(1-\tau_{t+1}^{c}\right)\left(P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}}-\tau_{t+1}^{K}P_{t+1}^{I}-r_{t+1}^{D}\mu_{t}^{D}P_{t}^{I}\right)-\mu_{t}^{D}P_{t}^{I}+q_{t+1}\left[1-\delta_{t+1}\right]\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}}=-\frac{1+r_{t+1}}{1-\tau_{t+1}^{c}}\left(\mu_{t}^{D}P_{t}^{I}-q_{t}\right)+\tau_{t+1}^{K}P_{t+1}^{I}+r_{t+1}^{D}\mu_{t}^{D}P_{t}^{I}+\frac{\mu_{t}^{D}P_{t}^{I}}{1-\tau_{t+1}^{c}}-q_{t+1}\frac{1-\delta_{t+1}}{1-\tau_{t+1}^{c}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}}=\frac{1+r_{t+1}}{1-\tau_{t+1}^{c}}q_{t}-\frac{1-\delta_{t+1}}{1-\tau_{t+1}^{c}}q_{t+1}-\left[\frac{r_{t+1}}{1-\tau_{t+1}^{c}}-r_{t+1}^{D}\right]\mu_{t}^{D}P_{t}^{I}+\tau_{t+1}^{K}P_{t+1}^{I}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}} & =\frac{1+r_{t+1}}{1-\tau_{t+1}^{c}}q_{t}-\frac{1-\delta_{t+1}}{1-\tau_{t+1}^{c}}q_{t+1}\\
+ & +\tau_{t+1}^{K}P_{t+1}^{I}\\
+ & -\left[\frac{r_{t+1}}{1-\tau_{t+1}^{c}}-r_{t+1}^{D}\right]\mu_{t}^{D}P_{t}^{I}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Some intuition is immediate.
+ The corporate tax rate raises the user cost of capital by the factor 
+\begin_inset Formula $1/(1-\tau^{c})$
+\end_inset
+
+.
+ Having corporate debt reduces the user cost of capital when the cost of
+ this debt 
+\begin_inset Formula $r_{t+1}^{D}$
+\end_inset
+
+ is lower than the cost of equity funding 
+\begin_inset Formula $r_{t+1}$
+\end_inset
+
+.
+ And not surprisingly, taxes on capital 
+\begin_inset Formula $\tau_{t}^{K}$
+\end_inset
+
+ raise the user cost.
+ From the derivative of net output we isolate the user cost of capital
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t+1}\frac{\partial Y_{t+1}}{\partial K_{t}}\equiv\underbrace{P_{t+1}\frac{\partial Q_{t+1}}{\partial\left(u_{t+1}K_{t}\right)}u_{t+1}}_{P_{t+1}^{K}:\text{user cost of \ensuremath{K_{t}}}}-P_{t+1}\frac{\partial AC{}_{t+1}}{\partial K_{t}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ is the utilization rate in period 
+\begin_inset Formula $t$
+\end_inset
+
+ (
+\begin_inset Formula $u_{t}K_{t-1}$
+\end_inset
+
+ is the effective capital input in period 
+\begin_inset Formula $t$
+\end_inset
+
+).
+ The last term measures how an increase in 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+, decided in period 
+\begin_inset Formula $t$
+\end_inset
+
+, lowers adjustment costs in period 
+\begin_inset Formula $t+1$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Factor utilization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Factor-utilization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Intuition
+\end_layout
+
+\begin_layout Standard
+Factor utilization is added to the model to help generate pro-cyclical value
+ added per worker.
+ In order to counter diminishing returns across all factors of production
+ due to capital rigidity, it is necessary to compensate with a mechanism
+ that increases total factor productivity.
+ The equations used are flexible adaptations of the following idea.
+ Let the firm have gross output given by a function of the type 
+\begin_inset Formula $Q_{t}=Q\left(u_{t}X_{t}\right)$
+\end_inset
+
+ with a generic first-order condition for optimal choice of 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+ given by 
+\begin_inset Formula 
+\[
+P_{t}\frac{\partial Q_{t}}{\partial\left(u_{t}X_{t}\right)}u_{t}=P_{t}^{X}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $P_{t}^{X}$
+\end_inset
+
+ is the user cost of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Utilization is then associated with an auxiliary stock variable 
+\begin_inset Formula $x$
+\end_inset
+
+ which obeys the following law of motion 
+\begin_inset Formula $x_{t}=\left(u_{t}-1\right)X_{t}+\lambda_{t}x_{t-1}$
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda_{t}=\bar{u}_{t-1}^{1/\eta}/\beta_{t}$
+\end_inset
+
+, and where 
+\begin_inset Formula $\bar{u}_{t}$
+\end_inset
+
+ is an externality term which in equilibrium equals 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+.
+ This law of motion has a steady state solution at 
+\begin_inset Formula $x=0$
+\end_inset
+
+ and 
+\begin_inset Formula $u=1$
+\end_inset
+
+.
+ We replace the choice of 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ with the choice of the stock 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ and impose the limit condition 
+\begin_inset Formula $\lim_{t\rightarrow\infty}x_{t}=0$
+\end_inset
+
+.
+ Imposing symmetric equilibrium on the externality term, and lagging the
+ expression one period, the resulting dynamic first-order condition is
+\begin_inset Formula 
+\[
+u_{t}=\left(\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right)^{\eta^{u}}=\left(\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right)^{\eta^{u}}\left(\frac{P_{t-1}^{X}/u_{t-1}}{P_{t}^{X}/u_{t}}\right)^{-\eta^{u}}u_{t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Branch derive_utilization_FOC
+inverted 0
+status collapsed
+
+\begin_layout Standard
+FOC is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0=P_{t}\frac{\partial Q_{t}}{\partial x_{t}}+\beta_{t+1}P_{t+1}\frac{\partial Q_{t+1}}{\partial x_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=1+\frac{1}{X_{t}}x_{t}-\frac{\lambda_{t}}{X_{t}}x_{t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+use that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial Q_{t}}{\partial x_{t}}=\frac{1}{X_{t}}\frac{\partial Q_{t}}{\partial u_{t}}=\frac{\partial Q_{t}}{\partial\left(u_{t}X_{t}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial Q_{t+1}}{\partial x_{t}}=-\frac{\lambda_{t+1}}{X_{t+1}}\frac{\partial Q_{t\text{+1}}}{\partial u_{t+1}}=-\lambda_{t+1}\frac{\partial Q_{t\text{+1}}}{\partial\left(u_{t+1}X_{t+1}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+to write
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0=P_{t}\frac{\partial Q_{t}}{\partial\left(u_{t}X_{t}\right)}-\beta_{t+1}\lambda_{t+1}P_{t+1}\frac{\partial Q_{t\text{+1}}}{\partial\left(u_{t+1}X_{t+1}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+insert definition of usercost
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}^{X}\equiv P_{t}\frac{\partial Q_{t}}{\partial\left(u_{t}X_{t}\right)}u_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+to get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=\frac{1}{\beta_{t+1}\lambda_{t+1}}\frac{P_{t}^{X}}{P_{t+1}^{X}}u_{t+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now insert 
+\begin_inset Formula $\lambda_{t}=\bar{u}_{t-1}^{1/\eta}/\beta_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=\bar{u}_{t-1}^{-1/\eta}\frac{P_{t}^{X}}{P_{t+1}^{X}}u_{t+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and with 
+\begin_inset Formula $\overline{u}_{t}=u_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=\left[\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right]^{\eta}=\left[\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right]^{\eta}\left[\frac{P_{t-1}^{X}/u_{t-1}}{P_{t}^{X}/u_{t}}\right]^{-\eta}u_{t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To get the more general version we add an exponent parameter to the last
+ term:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=\left[\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right]^{\eta}=\left[\frac{P_{t}^{X}/u_{t}}{P_{t+1}^{X}/u_{t+1}}\right]^{\eta}\left[\frac{P_{t-1}^{X}/u_{t-1}}{P_{t}^{X}/u_{t}}\right]^{-\eta}\left(u_{t-1}\right)^{\lambda^{u}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Capital
+\end_layout
+
+\begin_layout Standard
+We generalize the derived expression with an additional parameter, 
+\begin_inset Formula $\lambda^{u}$
+\end_inset
+
+, to get the expression for utilization for each type of capital:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{k,t}=\left(\frac{P_{k,t}^{K}/u_{k,t}}{P_{k,t+1}^{K}/u_{k,t+1}}\right)^{\eta_{k}^{u}}\left(\frac{P_{k,t-1}^{K}/u_{k,t-1}}{P_{k,t}^{K}/u_{k,t}}\right)^{-\eta_{k}^{u}}\left(u_{k,t-1}\right)^{\lambda^{u}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The parameter 
+\begin_inset Formula $\eta^{u}$
+\end_inset
+
+ controls the degree to which capital utilization varies and is one of the
+ key parameters that we set in order to match MAKRO's impulse responses
+ to a number of empirical models.
+ Setting 
+\begin_inset Formula $0<\lambda^{u}<1$
+\end_inset
+
+ adds persistence to changes in utilization and is likewise used to match
+ empirical IRFs.
+\end_layout
+
+\begin_layout Paragraph
+Labor
+\end_layout
+
+\begin_layout Standard
+Although we do not look at the optimal choice of labor in this chapter it
+ is convenient to discuss its utilization rate here.
+ Labor utilization is closer to the idea of effort.
+ The object 
+\begin_inset Formula $L$
+\end_inset
+
+ contains many components and we use the term 
+\begin_inset Formula $P^{L}$
+\end_inset
+
+ which is the marginal product 
+\begin_inset Formula $P_{t}\partial Q_{t}/\partial L$
+\end_inset
+
+.
+ In the 
+\begin_inset Formula $Q(u\cdot X)$
+\end_inset
+
+ model above the object 
+\begin_inset Formula $X$
+\end_inset
+
+ equals 
+\begin_inset Formula $L/u$
+\end_inset
+
+, with the resulting first-order condition
+\begin_inset Formula 
+\[
+P_{t}^{L}\frac{\partial L_{t}}{\partial u_{t}}\frac{\partial u_{t}}{\partial x_{t}}+\beta P_{t+1}^{L}\frac{\partial L_{t+1}}{\partial u_{t+1}}\frac{\partial u_{t+1}}{\partial x_{t}}=0
+\]
+
+\end_inset
+
+and using the fact that 
+\begin_inset Formula $\partial L_{t}/\partial u_{t}=L/u$
+\end_inset
+
+ we get
+\begin_inset Formula 
+\[
+u_{t}=\left(\frac{P_{t}^{L}}{P_{t+1}^{L}}\right)^{\eta}=\left(\frac{P_{t}^{L}}{P_{t+1}^{L}}\right)^{\eta}\left(\frac{P_{t}^{L}}{P_{t+1}^{L}}\right)^{-\eta}u_{t-1}
+\]
+
+\end_inset
+
+and the generalized expression used in the model is
+\begin_inset Formula 
+\[
+u_{t}^{L}=\left(\frac{P_{t}^{L}}{P_{t+1}^{L}}\right)^{\eta^{uL}}\left(\frac{P_{t-1}^{L}}{P_{t}^{L}}\right)^{-\eta^{uL}}\left(u_{t-1}^{L}\right)^{\lambda^{u}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Firm investments with costly external finance
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Costly External Finance"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the following we detail a reduced form way of modeling costly external
+ finance through the firm's discount factor.
+ Besides financial frictions being a realistic feature of the theory of
+ the firm, they help generate pro-cyclical investment in line with data.
+\end_layout
+
+\begin_layout Subsubsection
+An illustrative example
+\end_layout
+
+\begin_layout Standard
+The simplest model of the firm abstracts from costly external finance.
+ The firm has free access to funds at an exogenous rate, 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+, which is the discount rate of its cash flows, and which is the required
+ rate of return demanded by all investors.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+There are also no conflicts of interest between management and ownership,
+ and no issues of corporate control.
+\end_layout
+
+\end_inset
+
+ A simple illustration of this model is the one variable example where the
+ capital stock obeys the standard law of motion 
+\begin_inset Formula $K_{t}=\left(1-\delta\right)K_{t-1}+I_{t}$
+\end_inset
+
+, and profits are given by revenues minus investment costs, 
+\begin_inset Formula $\pi_{t}=Y\left(K_{t-1}\right)-P_{t}^{I}I_{t}$
+\end_inset
+
+.
+ The unconstrained optimal choice of capital obeys
+\begin_inset Formula 
+\[
+\frac{\partial\pi_{t}}{\partial K_{t}}+\beta_{t+1}\frac{\partial\pi_{t+1}}{\partial K_{t}}=0
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\beta_{t+1}=1/(1+r_{t+1})$
+\end_inset
+
+ is the discount factor which is exogenous to the firm and is not affected
+ by how much the firm chooses to invest.
+ 
+\end_layout
+
+\begin_layout Standard
+However, this is an incomplete model since financing the firm's activity
+ is a complex process.
+ When firms finance their activity, the immediate source of funds is retained
+ earnings or internal finance.
+ This is often not enough and firms also interact with banks, issue corporate
+ debt, and raise or buy back equity.
+ One common characteristic of all sources of outside finance is that it
+ is costly and therefore, we want to extend the model of the firm by defining
+ this cost.
+ Before that, in order for costly external finance to matter the firm must
+ be in need of funds: it must be constrained.
+ 
+\end_layout
+
+\begin_layout Standard
+The simplest model of costly outside finance adds a constraint 
+\begin_inset Formula $\pi_{t}\geq\bar{\pi}$
+\end_inset
+
+.
+ Outside finance beyond this threshold is infinitely costly.
+ With a Lagrange multiplier 
+\begin_inset Formula $\xi$
+\end_inset
+
+ the optimal decision obeys
+\begin_inset Formula 
+\[
+\frac{\partial\pi_{t}}{\partial K_{t}}+\left[\beta_{t+1}\frac{1+\xi_{t+1}}{1+\xi_{t}}\right]\frac{\partial\pi_{t+1}}{\partial K_{t}}=0
+\]
+
+\end_inset
+
+where if 
+\begin_inset Formula $\pi_{t}<\bar{\pi}$
+\end_inset
+
+ then 
+\begin_inset Formula $\xi_{t}>0$
+\end_inset
+
+ (and large enough).
+ The firm can raise cash freely up until the threshold and after that the
+ cost of outside finance is prohibitive.
+ The optimality condition shows that this financial friction is fully captured
+ in the generalized discount factor.
+
+\shape italic
+ 
+\shape default
+While this is not a general property of models of firm finance, we choose
+ our model so that we have it.
+ When the constraint binds, this generalized discount factor is lower (the
+ future becomes less relevant).
+ This is intuitive as the effect of costly external finance is to reduce
+ investment.
+ However, that is not the only effect of costly external finance on the
+ firm.
+ In fact, how this constraint moves is more interesting over the business
+ cycle.
+ Although the existence of costly external finance acts to 
+\emph on
+reduce
+\emph default
+ investment, as long as the constraint is normally binding what matters
+ is how the constraint tightens and relaxes.
+ These effects through the constraint help propagate the business cycle.
+\end_layout
+
+\begin_layout Standard
+In MAKRO we model the costs of external finance assuming that they generally
+ bind.
+ We do this by using a differentiable cost function as in Gomes (2001) as
+ a flexible way of modeling the above Lagrange multiplier.
+ His model is as follows.
+ Dividends are
+\begin_inset Formula 
+\[
+d_{t}=\pi_{t}-\xi\left(m_{t}\right)
+\]
+
+\end_inset
+
+with the function 
+\begin_inset Formula $\xi$
+\end_inset
+
+ having value zero for 
+\begin_inset Formula $m\leq0$
+\end_inset
+
+ and a positive increasing function for 
+\begin_inset Formula $m>0$
+\end_inset
+
+ where 
+\begin_inset Formula $m_{t}=-\pi_{t}=P_{t}^{I}I_{t}-Y_{t}$
+\end_inset
+
+, and it is easy to verify that it yields the same first-order condition
+\begin_inset Formula 
+\[
+\frac{\partial\pi_{t}}{\partial K_{t}}+\left[\beta_{t+1}\frac{1+\frac{\partial\xi_{t+1}}{\partial m_{t+1}}}{1+\frac{\partial\xi_{t}}{\partial m_{t}}}\right]\frac{\partial\pi_{t+1}}{\partial K_{t}}=0
+\]
+
+\end_inset
+
+where the Lagrange multipliers are replaced with the derivatives of the
+ cost function.
+\end_layout
+
+\begin_layout Subsubsection
+The financial constraint in MAKRO
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:The-Financial-Constraint"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The firm maximizes 
+\begin_inset Formula 
+\[
+V_{t}=m_{t}-\xi_{t}+\beta_{t+1}V_{t+1}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $m_{t}$
+\end_inset
+
+ is the free cash flow of the firm (excluding financial assets).
+ The positive valued function 
+\begin_inset Formula $\xi_{t}\equiv\xi\left(m_{t}-\overline{m}_{t}\right)\ge0$
+\end_inset
+
+ models the cost of financial frictions.
+ The first-order condition with respect to a given input 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\frac{\partial m_{t}}{\partial X_{t}}+\hat{\beta}_{t+1}\frac{\partial m_{t+1}}{\partial X_{t}}=0
+\]
+
+\end_inset
+
+where the augmented discount factor 
+\begin_inset Formula $\hat{\beta}_{t+1}$
+\end_inset
+
+ is given by 
+\begin_inset Formula 
+\[
+\hat{\beta}_{t+1}=\beta_{t+1}\frac{1-\partial\xi_{t+1}/\partial m_{t+1}}{1-\partial\xi_{t}/\partial m_{t}}
+\]
+
+\end_inset
+
+We can rewrite the augmented discount factor as 
+\begin_inset Formula $\hat{\beta}_{t+1}=1/(1+r_{t+1}+r_{t+1}^{p}+r_{t+1}^{\xi})$
+\end_inset
+
+ by defining a premium 
+\begin_inset Formula $r_{t+1}^{\xi}$
+\end_inset
+
+ associated with the financial constraint.
+\end_layout
+
+\begin_layout Standard
+We specify the financial friction function 
+\begin_inset Formula $\xi$
+\end_inset
+
+ as a differentiable symmetric function with derivative given by the hyperbolic
+ tangent function
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The function 
+\begin_inset Formula $tanh(x)=$
+\end_inset
+
+ 
+\begin_inset Formula $\left(e^{x}-e^{-x}\right)/\left(e^{x}+e^{-x}\right)$
+\end_inset
+
+ is well defined for the entire support of 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ This makes the primitive function 
+\begin_inset Formula $\xi$
+\end_inset
+
+ a two-sided penalty function for missing profit targets and can be viewed
+ as the cost of issuing 
+\begin_inset Formula $\left(m_{t}<\overline{m}_{t}\right)$
+\end_inset
+
+ or re-purchasing 
+\begin_inset Formula $\left(m_{t}>\overline{m}_{t}\right)$
+\end_inset
+
+ equity.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\xi_{t}}{\partial m_{t}}\equiv\mu\tanh\left(\kappa\left[m_{t}-\overline{m}_{t}\right]\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lim_{m_{t}\rightarrow\infty}\partial\xi_{t}/\partial m_{t}=\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\lim_{m_{t}\rightarrow-\infty}\partial\xi_{t}/\partial m_{t}=-\mu$
+\end_inset
+
+.
+ Numerically, with 
+\begin_inset Formula $\mu=2\%$
+\end_inset
+
+ the firm pays a 2 pct.
+ fee for outside finance (
+\begin_inset Formula $m_{t}<\overline{m}_{t}$
+\end_inset
+
+).
+ The parameter 
+\begin_inset Formula $\kappa>0$
+\end_inset
+
+ controls the slope of the derivative around 
+\begin_inset Formula $m_{t}-\overline{m}_{t}=0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Homogeneity
+\end_layout
+
+\begin_layout Standard
+The function 
+\begin_inset Formula $\xi_{s,t}$
+\end_inset
+
+ is sector specific with sector subscript 
+\begin_inset Formula $s$
+\end_inset
+
+, and is approximately homogeneous if 
+\begin_inset Formula $\overline{m}_{s,t}=0$
+\end_inset
+
+ and with high enough 
+\begin_inset Formula $\kappa$
+\end_inset
+
+.
+ To preserve long run homogeneity with a free cash flow target different
+ from zero we let 
+\begin_inset Formula $\overline{m}_{s,t}$
+\end_inset
+
+ endogenously adjust as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{m}_{s,t}=\gamma\overline{m}_{s,t-1}+\left(1-\gamma\right)m_{s,t}-\epsilon_{s,t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ controls the speed of adjustment and 
+\begin_inset Formula $\epsilon_{s,t}$
+\end_inset
+
+ is calibrated to set 
+\begin_inset Formula $\overline{m}_{s,t}=m_{s,t}$
+\end_inset
+
+ in the baseline forecast.
+ We calibrate 
+\begin_inset Formula $\kappa_{s,t}=\frac{\hat{\kappa}}{K_{s,t}}$
+\end_inset
+
+ (other measures of sector size can be used) to ensure similar behavior
+ across sectors.
+ For strict homogeneity 
+\begin_inset Formula $\kappa_{s,t}$
+\end_inset
+
+ would need to endogenously adapt to changes in 
+\begin_inset Formula $K_{s,t}$
+\end_inset
+
+, but this is unlikely to matter in practice as 
+\begin_inset Formula $m_{s,t}-\overline{m}_{s,t}$
+\end_inset
+
+ converges to zero.
+\end_layout
+
+\begin_layout Standard
+It is useful to define the 'habit adjusted' free cash flow 
+\begin_inset Formula $\hat{m}_{s,t}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\hat{m}_{s,t}\equiv m_{s,t}-\overline{m}_{s,t}=\gamma\left[m_{s,t}-m_{s,t-1}+\hat{m}_{s,t-1}\right]+\epsilon_{s,t}
+\]
+
+\end_inset
+
+Rearranging the augmented discount factor we get an expression for the discount
+ rate premium associated with the financial constraint
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r_{s,t+1}^{\xi}=\left[1+r_{t+1}+r_{t+1}^{p}\right]\left[\frac{1-\mu_{s}\tanh\left(\kappa_{s}\hat{m}_{s,t}\right)}{1-\mu_{s}\tanh\left(\kappa_{s}\hat{m}_{s,t+1}\right)}-1\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Acceleration
+\end_layout
+
+\begin_layout Standard
+The financial constraint model we use is closer to the Gomes (2001) model
+ than to collateral acceleration models such as Bernanke and Gertler (1989).
+ The factors relaxing the constraint in good times come from the expansion
+ of revenues as prices increase and from the increased production ability
+ as capital accumulates.
+ There is no additional contribution from an improvement in collateral values
+ or from any additional relaxation of the constraint from a goodwill effect
+ arising from extra revenues.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+These mechanisms are discussed in recent work.
+ See Lian and Ma (2020) and Drechsel (2021) and references therein.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Finance
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Finance"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Production firms hold and manage liquid assets (cash, credit lines, liquid
+ assets) since, due to financial frictions, cash inside the firm is not
+ identical to cash outside it.
+ These frictions are currently modeled parsimoniously in the production
+ model and so the presence of financial assets in the firm's balance sheet
+ is dealt with in reduced form and separated from the firm's optimization
+ problem.
+\end_layout
+
+\begin_layout Standard
+Financial services also account for a significant share of total services.
+ We do not have a model of the financial firm, and therefore there is no
+ theory of endogenous optimal decision making for these agents, but we do
+ have basic principles of financial arbitrage which we apply to include
+ financial stocks and flows in the MAKRO model.
+ These assets must be adequately accounted for in order to fit the national
+ accounts data (Nationalregnskabet) and make up a separate entity from productio
+n firms.
+\end_layout
+
+\begin_layout Standard
+The data contains both financial and production components of firm valuation.
+ Financial assets are valued at current market price
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The value of cash and other low-return instruments outside the firm would
+ be higher than the discounted nominal value of their returns inside the
+ firm.
+ This is corrected by their convenience yield: this is the exact difference
+ between the nominal yield the asset generates and the required rate on
+ equity.
+ Keynes used the idea of convenience yield in his money demand function.
+ See also Del Negro et al.
+ (2017), Safety, Liquidity, and the Natural rate of Interest, Brookings
+ Papers, Spring 2017.
+\end_layout
+
+\end_inset
+
+.
+ We now provide a brief introduction to financial valuation and accounting.
+ More detailed descriptions are contained in the appendix.
+\end_layout
+
+\begin_layout Subsubsection
+Valuation algebra
+\end_layout
+
+\begin_layout Standard
+We divide the value of the firm, 
+\begin_inset Formula $V_{t}$
+\end_inset
+
+, into two separate objects: 1) The value of the main operations of the
+ firm 
+\begin_inset Formula $V^{x}$
+\end_inset
+
+, and 2) the value of net financial assets not related to the main operations,
+ 
+\begin_inset Formula $B_{t}^{x}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V_{t}=V_{t}^{x}+B_{t}^{x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The value of operations is the discounted value of the cash flows that result
+ from the endogenous optimal decisions of the firm:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V_{t}^{x}=\frac{\pi_{t+1}+V_{t+1}^{x}}{1+r_{t+1}^{E}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The required return on equity is the sum of the bond rate and an equity
+ risk premium and differs from the discount rate used by the firm in its
+ optimal production decision.
+\end_layout
+
+\begin_layout Standard
+Net financial assets consist of a several asset classes (index 
+\begin_inset Formula $A$
+\end_inset
+
+) and two types of debt (index 
+\begin_inset Formula $L$
+\end_inset
+
+ for liabilities).
+ All the portfolio components are valued at their market price.
+ For example, financial firms hold a large number of mortgage bonds that
+ we value at their market price rather than discounting their associated
+ interest rate payments with the required return on equity.
+ The debt associated with capital, 
+\begin_inset Formula $\mu_{t}^{D}P_{t}^{I}K_{t}$
+\end_inset
+
+, is included in the value of main operations and is therefore not included
+ in net financial assets.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B_{t}^{x}=\underbrace{\sum_{A}B_{A,t}}_{\text{financial assets}}-\left[\underbrace{\sum_{L}B_{L,t}}_{\text{total debt}}-\underbrace{\mu_{t}^{D}P_{t}^{I}K_{t}}_{\text{debt from operations}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We assume that the firm holds financial assets proportional to the value
+ of their main operations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B_{t}^{x}=\left(\sum_{A}\mu_{A,t}^{B}-\sum_{L}\mu_{L,t}^{B}\right)V_{t}^{x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can now write a budget constraint of the firm which ties together net
+ financial assets with the cash flow from main operations, dividends paid
+ and finally revenue from new equity issues (buybacks if negative):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B_{t}^{x}=\left(1+\left[1-\tau_{t}^{c}\right]r_{t}^{Bx}\right)B_{t-1}^{x}+\pi_{t}-div_{t}+issues_{t}+\underbrace{\epsilon_{t}}_{\text{other transfers}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $r_{t}^{Bx}$
+\end_inset
+
+ is the rate return on net financial assets before taxes.
+\end_layout
+
+\begin_layout Standard
+We assume that firms follow a constant dividend rate policy such that dividends
+ are proportional to the total value of shares,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+div_{t}=r_{t}^{div}V_{t-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+implying equity issues are endogenous and determined residually by the budget
+ constraint.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The separation between dividends and equity issuance has minor tax implications,
+ but is primarily necessary in order to match national accounting data.
+\end_layout
+
+\end_inset
+
+ The change in share price is then given by 
+\begin_inset Formula 
+\[
+r_{t}^{omv}=\frac{V_{t}-issues_{t}}{V_{t-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the rate of return on equity 
+\begin_inset Formula $\left(r^{div}+r^{omv}\right)$
+\end_inset
+
+ is unaffected by the dividend policy and equity issuance.
+ I.e., if the firm issues equities and uses the money to buy financial assets,
+ the value of shares including financial assets, 
+\begin_inset Formula $V_{t}$
+\end_inset
+
+, increases by exactly the same amount and share prices do not change.
+ Similarly, when the firm pays dividends, their value decreases by the same
+ amount.
+\end_layout
+
+\begin_layout Subsubsection
+Financial accounting terms and corporate taxes
+\end_layout
+
+\begin_layout Standard
+In order to define the scope of corporate taxation 
+\begin_inset Formula $\tau_{t}^{c}$
+\end_inset
+
+ we make a detour to discuss how EBITDA (Earnings Before Interests, Taxes,
+ Depreciation and Amortization) , and how EBT (Earnings Before Tax), translate
+ into the income the cash flow from main operations, 
+\begin_inset Formula $\pi$
+\end_inset
+
+, (which we used in the dynamic optimization problem of the firm):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\pi_{t} & =\underbrace{P_{t}Y_{t}-P_{t}^{R}R_{t}-\left[1+\tau_{t}^{L}\right]w_{t}L_{t}-\tau_{t}^{K}P_{t}^{I}K_{t-1}-T_{t}}_{\text{EBITDA}}\\
+\\
+ & -P_{t}^{I}I_{t}+\underbrace{\mu_{t}^{D}P_{t}^{I}K_{t}-\left(1+r_{t}^{D}\right)\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}}_{\text{new debt without interest tax deduction}}\\
+\\
+ & -\tau_{t}^{c}\left[\underbrace{\text{EBITDA}_{t}^{x}-\delta_{t}^{Tax}K_{t-1}^{Tax}-r_{t}^{D}\mu_{t-1}^{D}P_{t-1}^{I}K_{t-1}}_{\text{EBT}^{x}}\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\text{EBT}^{x}$
+\end_inset
+
+ consists of earnings before taxes 
+\emph on
+and
+\emph default
+ before income from net financial assets.
+ To get the total tax base for corporate taxes we add the income from the
+ net financial assets part of the firm:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{EBT}_{t}=\text{EBT}^{x}+r_{t}^{Bx}B_{t-1}^{x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the 
+\begin_inset Quotes eld
+\end_inset
+
+before taxes
+\begin_inset Quotes erd
+\end_inset
+
+ in EBITDA and EBT refers to corporate taxes only and not production taxes.
+ Net production taxes consist of 
+\begin_inset Formula $\tau_{t}^{L}$
+\end_inset
+
+ (payroll taxes and subsidies), 
+\begin_inset Formula $\tau_{t}^{K}$
+\end_inset
+
+ (land and vehicle taxes) and 
+\begin_inset Formula $T_{t}$
+\end_inset
+
+ (other production taxes, which are treated as exogenous to the firm), which
+ can all be considered part of the net prices of the firm's production inputs.
+\end_layout
+
+\begin_layout Subsection
+Special sector considerations
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Special-sector-considerations"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The extraction sector
+\end_layout
+
+\begin_layout Standard
+The extractions sector consists of oil and gas and a small amount of gravel
+ extraction.
+ Output and prices from this sector are exogenous and based on forecasts
+ from the Danish Energy Agency (Energistyrelsen).
+ Given the exogenous output, production factors are endogenously chosen
+ to minimize costs and modeled the same way as other sectors apart from
+ the existence of an additional tax:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tau_{\text{extraction},t}^{c}=\tau_{t}^{c}+\frac{y_{\text{extraction,}t}-y_{t}^{\text{\emph{gravel}}}}{y_{\text{extraction,}t}}\tau_{t}^{oil}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As both the price and domestic output quantity is exogenous, we scale the
+ demand for domestic extraction output proportionally to match the supply.
+ Demand for extraction imports is scaled inversely such that the total demand
+ for extraction does not depend on the exogenized sector output.
+ I.e., import and domestic production of extraction are perfect substitutes,
+ and we allocate a share of domestic output to different types of demand
+ and use imports to satisfy residual demand.
+\end_layout
+
+\begin_layout Subsubsection
+The housing sector
+\end_layout
+
+\begin_layout Standard
+In the national accounts, the housing sector produces housing services where
+ the key input is a measure of the stock of houses.
+ The sector includes both rental and privately owned housing and produces
+ a homogeneous good priced at the rental value of housing.
+ The rent value of owner-occupied housing is imputed based on rents of comparabl
+e rental housing.
+\end_layout
+
+\begin_layout Standard
+In the model, we have an endogenous decision by households on owner-occupied
+ housing while rental housing enters the household problem exogenously.
+ As we do not (yet) model the rental market, both consumption and production
+ of rental housing are exogenous.
+ The housing stock available for rent is exogenous and assumed to depend
+ on government-supported rental building projects.
+\end_layout
+
+\begin_layout Standard
+Given that the rental part of housing is exogenous, we need to decouple
+ it from owner-occupied housing.
+ In order to achieve this separation, we model the production of housing
+ services using a Leontief production function.
+ The main input is the existing stock of housing (structures) and there
+ is no input of capital equipment.
+ Note that this measure of housing stock excludes land, and therefore it
+ is not the housing measure, 
+\begin_inset Formula $D$
+\end_inset
+
+, described in the household chapter.
+ In the data, this sector accounts for services such as housing maintenance
+ 
+\begin_inset Formula $(\approx15\%)$
+\end_inset
+
+, which involves labor and intermediate inputs, and other (mainly financial)
+ services 
+\begin_inset Formula $(\approx10\%)$
+\end_inset
+
+, and for that reason it is organized as a production sector within the
+ input/output structure of the economy.
+\end_layout
+
+\begin_layout Standard
+These three inputs, structures, labor, and intermediate goods, generate
+ output through a Leontief production function.
+ The consequence is that output, employment, and intermediate goods are
+ proportional to the capital stock measure.
+ Unlike production in the other private sectors, there are no adjustment
+ costs to capital, and therefore, net and gross production are the same.
+\end_layout
+
+\begin_layout Standard
+Since everything is proportional to capital, we can separate all inputs
+ and output in proportion to the fraction of structures that are owner-occupied
+ housing (described as “bricks” in the household chapter) and the fraction
+ which is rental housing.
+ This is equivalent to assuming separate but identical Leontief production
+ technologies for owner-occupied and rental housing, so they have equal
+ amounts of intermediate goods and labor in proportion to their respective
+ building capital stock.
+\end_layout
+
+\begin_layout Standard
+Once the rental part of the data is separated, we calculate how it behaves
+ in existing data and forecast its use of resources in the future.
+\end_layout
+
+\begin_layout Paragraph
+Formalizing the problem
+\end_layout
+
+\begin_layout Standard
+Net output 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ uses structures 
+\begin_inset Formula $(K)$
+\end_inset
+
+, labor 
+\begin_inset Formula $(L)$
+\end_inset
+
+, and intermediate goods 
+\begin_inset Formula $(R)$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Y_{t}=Q_{t}\left(K_{t-1},R_{t},L_{t}\right)=min\left(\frac{\phi_{k}}{\phi_{R}}R_{t},min\left(\phi_{k}K_{t-1},\frac{\phi_{k}}{\phi_{l}}L_{t}\right)\right)
+\]
+
+\end_inset
+
+and the Leontief function implies the optimality conditions 
+\begin_inset Formula $Q_{t}=\phi_{k}K_{t-1}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{t}=\phi_{l}K_{t-1}$
+\end_inset
+
+, and 
+\begin_inset Formula $R_{t}=\phi_{R}K_{t-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The capital stock 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ (here, the total stock of structures or “bricks”), and the associated investmen
+ts, are the sum of owner-occupied and rental housing.
+ The owner-occupied housing part is endogenous, while the rental part is
+ an exogenous projection.
+ The owned housing part of this stock is described in the household chapter
+ in the section covering the housing intermediary.
+ Output, employment, and the use of intermediate inputs are endogenous,
+ but all of them are proportional to the stock due to the Leontief production
+ function.
+\end_layout
+
+\begin_layout Paragraph
+Link to the household problem
+\end_layout
+
+\begin_layout Standard
+As we decouple rental housing from owned housing, we introduce them differently
+ in the household problem.
+ The rental housing coming out of this sector is added exogenously to the
+ household's budget constraint, while owner-occupied housing is an optimal
+ decision.
+ Owner-occupied housing is bought from an intermediary that takes a flow
+ product from the construction sector, puts it on a plot of land, and sells
+ the final combined good (bricks and land) to the household.
+ Rental housing does not explicitly contain land.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Land is introduced in MAKRO in this specific way to improve house prices'
+ modeling.
+ The user cost of owner-occupied housing includes the effect of the price
+ of land.
+ Currently, land is not included in any other product or sector.
+\end_layout
+
+\end_inset
+
+ If we remove the value added of land from the house bought by households,
+ we have a stock equivalent to the rental housing capital, and the sum of
+ the two stocks match the data from the housing services sector described
+ here.
+\end_layout
+
+\begin_layout Standard
+In the problem of the household we can find in the budget constraint a term
+ which accounts for expenses with housing maintenance, 
+\begin_inset Formula $x_{t}P_{t-1}^{D}D_{a-1,t-1}$
+\end_inset
+
+.
+ The factor 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ in this term is taken as given by the household and is the fraction of
+ the labor and intermediate goods costs 
+\begin_inset Formula $\left[P_{t}^{R}\phi_{R}+P_{t}^{L}\phi_{l}\right]$
+\end_inset
+
+ we have in the problem above which is allocated to owner-occupied housing.
+\end_layout
+
+\begin_layout Standard
+Finally, the household owns the stock of owner-occupied housing and pays
+ directly for its maintenance costs.
+ Therefore only the fraction of sector profits corresponding to rental housing
+ can be allocated through the ownership of the firm in the household portfolio,
+ controlling for the fact that households consume an exogenous amount of
+ rental housing and pay rent on it.
+\end_layout
+
+\end_body
+\end_document

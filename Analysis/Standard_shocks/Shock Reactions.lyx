@@ -1,0 +1,273 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{colortbl}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\renewcommand{\maketitle}{
+	\bgroup\setlength{\parindent}{0pt}
+	\begin{flushleft}
+		\textbf{\huge\@title}
+
+		\vspace{20pt}
+
+		\textbf{\normalsize\@author}
+
+		\textbf{Working paper}\newline\@date
+
+		www.dreamgruppen.dk
+	\end{flushleft}\egroup
+}
+
+\fancyhead[L]{
+	\small
+	\textcolor{MAKRO}{
+		\textbf{\@title}
+		\linebreak
+		\leftmark
+	}
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM · \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\usepackage{amsmath}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\usepackage{amsmath}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Shock Reactions in MAKRO
+\end_layout
+
+\begin_layout Author
+Grane H.
+ Høegh m.fl.
+\end_layout
+
+\begin_layout Date
+2023
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "Introduction.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "Permanent Unfinanced Demand Shocks.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand include
+filename "Permanent Unfinanced Supply Shocks.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\lang english
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "Permanent Unfinanced Price Shocks.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\lang english
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "Permanent Unfinanced Financial Shocks.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\lang english
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "Permanent Unfinanced Preference Shocks.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

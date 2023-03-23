@@ -1,0 +1,598 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+References
+\end_layout
+
+\begin_layout Itemize
+Anderson, James E., 1979.
+ “A Theoretical Foundation for the Gravity Equation,” American Economic
+ Review, 69(1), 106–116.
+\end_layout
+
+\begin_layout Itemize
+Anderson, James, E., and Eric van Wincoop.
+ 2003.
+ "Gravity with Gravitas: A Solution to the Border Puzzle ." American Economic
+ Review, 93 (1): 170-192.
+\end_layout
+
+\begin_layout Itemize
+Ampudia, M., Cooper, R., Le Blanc, J., and Zhu, G.
+ (2019).
+ MPC Heterogeneity in Europe: Sources and Policy Implications.
+\end_layout
+
+\begin_layout Itemize
+Armington, P.
+ S., 1969: “A Theory of Demand for Products Distinguished by Place of Production,
+” International Monetary Fund Staff Papers, 16, 159–178.
+ 
+\end_layout
+
+\begin_layout Itemize
+Attanasio, O., Peter Levell, Hamish Low, Virginia Sanchez-Marcos (2018).
+ Aggregating Elasticities: Intensive and Extensive Margins of Women's Labour
+ Supply.
+ June 4, 2018.
+\end_layout
+
+\begin_layout Itemize
+Bernanke, B.
+ and M.
+ Gertler (1989): Agency Costs, Net Worth, and Business Fluctuations," American
+ Economic Review 79, 14-31.
+\end_layout
+
+\begin_layout Itemize
+Blanchard, O., and Fischer, S.
+ (1989), Lectures on Macroeconomics.
+ MIT Press.
+\end_layout
+
+\begin_layout Itemize
+Blanchard, O.
+ (2018).
+ On the future of macroeconomic models.
+ Oxford Review of Economic Policy, Volume 34, Issue 1-2, Spring-Summer 2018,
+ Pages 43–54.
+\end_layout
+
+\begin_layout Itemize
+Blanchard, O.
+ (2017), 
+\begin_inset Quotes eld
+\end_inset
+
+Should we get rid of the natural rate hypothesis?
+\begin_inset Quotes erd
+\end_inset
+
+, NBER Working Paper 24057, November 2017.
+\end_layout
+
+\begin_layout Itemize
+Blanchard, O., and Galí, J., 2008.
+ "Labor Markets and Monetary Policy: A New-Keynesian Model with Unemployment,"
+ NBER Working Papers 13897, National Bureau of Economic Research, Inc.
+\end_layout
+
+\begin_layout Itemize
+Boldrin, Michelle, Lawrence J.
+ Christiano, and Jonas Fisher “Habit Persistence, Asset Returns, and the
+ Business Cycle,” American Economic Review, 91: 149—166, 2001.
+ 23
+\end_layout
+
+\begin_layout Itemize
+Boserup, S., Kpoczuk, W., Kreiner, C.
+ (2016), "The Role of Bequests in Shaping Wealth Inequality: Evidence from
+ Danish Wealth Records," American Economic Review, American Economic Association
+, vol.
+ 106(5), pages 656-661, May.
+\end_layout
+
+\begin_layout Itemize
+Browning, M., & Ejrnæs, M.
+ (2009).
+ Consumption and Children.
+ Review of Economics and Statistics, 91(1), 93-111.
+\end_layout
+
+\begin_layout Itemize
+Campbell, John Y., and Mankiw, N.
+ Gregory, (1989).
+ Consumption, Income and Interest Rates: Reinterpreting the Time Series
+ Evidence.
+ NBER Macroeconomics Annual 1989, Volume 4, (p.
+ 185 - 246).
+\end_layout
+
+\begin_layout Itemize
+Carroll, Christopher.
+ (2001).
+ Death to the Log-Linearized Consumption Euler Equation! (And Very Poor
+ Health to the Second-Order Approximation).
+ Advances in Macroeconomics.
+ 1.
+ 1003-1003.
+ 10.2202/1534-6013.1003.
+ 
+\end_layout
+
+\begin_layout Itemize
+Christiano, L., Eichenbaum, M., and Trabant, M., (2016), Unemployment and Business
+ Cycles, Econometrica, July 2016, 84(4), pp.
+ 1523-1569.
+\end_layout
+
+\begin_layout Itemize
+Cooper, R., and Adda, J.
+ (2000), 
+\begin_inset Quotes eld
+\end_inset
+
+Balladurette and Juppette: A Discrete Analysis of Scrapping Subsidies
+\begin_inset Quotes erd
+\end_inset
+
+, Journal of Political Economy Volume 108, Number 4 | August 2000.
+\end_layout
+
+\begin_layout Itemize
+Coibion, O., and Gorodnichenko, Y.
+ (2013) 
+\begin_inset Quotes eld
+\end_inset
+
+Is the Phillips Curve alive and well after all?
+\begin_inset Quotes erd
+\end_inset
+
+, NBER Working Paper 19598, October 2013.
+\end_layout
+
+\begin_layout Itemize
+den Haan, W.
+ J., Ramey, G., & Watson, J.
+ (2000) 
+\begin_inset Quotes eld
+\end_inset
+
+Job Destruction and Propagation of Shocks
+\begin_inset Quotes erd
+\end_inset
+
+, American Economic Review 90(3), 482-498.
+\end_layout
+
+\begin_layout Itemize
+Dennis, R.
+ (2009) Consumption habits in a new keynesian business cycle model.
+ Journal of Money, Credit and Banking.
+\end_layout
+
+\begin_layout Itemize
+Drechsel, T.
+ (2021).
+ Earnings-Based Borrowing Constraints and Macroeconomic Fluctuations.
+ University of Maryland.
+ (2019 LSE Job Market paper)
+\end_layout
+
+\begin_layout Itemize
+Eaton, J., & Kortum, S.
+ (1999).
+ International Technology Diffusion: Theory and Measurement.
+ International Economic Review, 40(3), 537-570.
+\end_layout
+
+\begin_layout Itemize
+Eaton, J., & Kortum, S.
+ (2002).
+ Technology, Geography, and Trade.
+ Econometrica, 70(5), 1741-1779.
+ 
+\end_layout
+
+\begin_layout Itemize
+Galí, J., and Gertler, M.
+ (1999), Inflation Dynamics: A Structural Econometric Analysis.
+ Journal of Monetary Economics Volume 44, Issue 2, October 1999, Pages 195-222.
+\end_layout
+
+\begin_layout Itemize
+Galí, J., Smets, F., and Wouters, R., (2012), "Unemployment in an Estimated
+ New Keynesian Model," NBER Macroeconomics Annual 26 (2012): 329-360.
+\end_layout
+
+\begin_layout Itemize
+Gomes, J.
+ F.
+ (2001).
+ Financing Investment.
+ American Economic Review 91, 1263-1285.
+\end_layout
+
+\begin_layout Itemize
+Gordon, R.
+ (2013) 
+\begin_inset Quotes eld
+\end_inset
+
+The Phillips Curve is alive and well
+\begin_inset Quotes erd
+\end_inset
+
+, NBER Working Paper 19390, August 2013.
+\end_layout
+
+\begin_layout Itemize
+Gourinchas, P., and Parker, J.
+ (2002).
+ Consumption Over the Life Cycle.
+ Econometrica.
+ 70.
+ 47-89.
+\end_layout
+
+\begin_layout Itemize
+Kaplan, G., G., Mitman, K., and Violante, G.
+ (2017), The Housing Boom and Bust: Model meets Evidence.
+ NBER Working Paper 23694, August 2017.
+\end_layout
+
+\begin_layout Itemize
+Kaplan, G., Violante, G.
+ L., and Weidner, J., (2014).
+ The Wealthy hand-to-mouth.
+ NBER Working Paper 20073, April 2014.
+\end_layout
+
+\begin_layout Itemize
+King, Plosser and Rebelo (1988), 
+\begin_inset Quotes eld
+\end_inset
+
+Production, Growth and Business Cycles
+\begin_inset Quotes erd
+\end_inset
+
+, Journal of Monetary Economics 21, 195-232.
+\end_layout
+
+\begin_layout Itemize
+Kiyotaki, N., and Moore, J., (1997).
+ Credit Cycles.
+ Journal of Political Economy Vol.
+ 105, No.
+ 2, pp.
+ 211-248.
+\end_layout
+
+\begin_layout Itemize
+Kocherlakota, N.
+ (2010).
+ Modern Macroeconomic Models as Tools for Economic Policy.
+ Federal Reserve Bank of Minneapolis.
+ Annual Report Essay May 4, 2010.
+ Narayana Kocherlakota, President, Minneapolis Federal Reserve Bank.
+\end_layout
+
+\begin_layout Itemize
+Kravik, Erling Motzfeldt og Yasin Mimir (2019).
+ “Navigating with NEMO”.
+\end_layout
+
+\begin_layout Itemize
+Krugman, Paul R., 1979.
+ "Increasing returns, monopolistic competition, and international trade,"
+ Journal of International Economics, Elsevier, vol.
+ 9(4), pages 469-479, November.
+\end_layout
+
+\begin_layout Itemize
+Krugman, P., 1980.
+ “Scale Economies, Product Differentiation, and the Pattern of Trade,” American
+ Economic Review, 70(5), 950–959.
+\end_layout
+
+\begin_layout Itemize
+Kronborg, A., Poulsen, K., & Kastrup, C.
+ (2020).
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Estimering af udenrigshandelselasticiteter i MAKRO
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Working paper, DREAM.
+\end_layout
+
+\begin_layout Itemize
+Li, W., Liu, H., Yang, F., and Yao, R.
+ (2016), 
+\begin_inset Quotes eld
+\end_inset
+
+Housing over Time and over the Life Cycle: A Structural Estimation
+\begin_inset Quotes erd
+\end_inset
+
+, International Economic Review, Volume 57, Issue 4, Pages 1237-1260.
+\end_layout
+
+\begin_layout Itemize
+Lian, C.
+ and Yueran Ma (2020), Anatomy of Corporate Borrowing Constraints.
+ The Quarterly Journal of Economics, vol.
+ 136, issue 1, 229-291
+\end_layout
+
+\begin_layout Itemize
+Ljungqvist, L., and Sargent, T.
+ (2017).
+ "The Fundamental Surplus," American Economic Review, American Economic
+ Association, vol.
+ 107(9), pages 2630-2665, September.
+\end_layout
+
+\begin_layout Itemize
+Mankiw, G.
+ (1982), 
+\begin_inset Quotes eld
+\end_inset
+
+Hall's Consumption Hypothesis and Durable Goods
+\begin_inset Quotes erd
+\end_inset
+
+, Journal of Monetary Economics 10, 417-425.
+\end_layout
+
+\begin_layout Itemize
+Melitz, M., 2003, The impact of trade on intra-industry reallocations and
+ aggregate industry productivity.
+ Econometrica 71, Number 6, pp.
+ 1695-1725.
+\end_layout
+
+\begin_layout Itemize
+Mortensen, D., and Pissarides, C.
+ (1994).
+ Job Creation and Job Destruction in the Theory of Unemployment.
+ The Review of Economic Studies, 61(3), 397-415.
+ 
+\end_layout
+
+\begin_layout Itemize
+Mortensen, Anne Ulstrup (2015) 
+\begin_inset Quotes eld
+\end_inset
+
+The Keynesian Multiplier in a CGE Model
+\begin_inset Quotes erd
+\end_inset
+
+, Master Thesis, Institute of Economics, University of Copenhagen.
+\end_layout
+
+\begin_layout Itemize
+Mortensen, M., Sisay, D., and Kristensen, T., 2014.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Export market index: forecast for latest historical period
+\begin_inset Quotes erd
+\end_inset
+
+, Working Paper, Danmarks Statistik Modelgruppen.
+\end_layout
+
+\begin_layout Itemize
+Pedersen, J.
+ (2016).
+ An Estimated DSGE Model for Denmark with Housing, Banking, and Financial
+ Frictions, Danmarks Nationalbank Working Paper N.
+ 108, 2016.
+\end_layout
+
+\begin_layout Itemize
+Petrongolo, B., and Pissarides, C., (2001), Looking into the Black Box: A
+ Survey of the Matching Function, Journal of Economic Literature Vol.
+ 39, No.
+ 2, June 2001, (pp.
+ 390-431)
+\end_layout
+
+\begin_layout Itemize
+Rebelo, S.
+ (2005), 
+\begin_inset Quotes eld
+\end_inset
+
+Real Business Cycle Models: Past, Present, and Future
+\begin_inset Quotes erd
+\end_inset
+
+, The Scandinavian Journal of Economics 107(2), 217-238.
+\end_layout
+
+\begin_layout Itemize
+Rogerson, R.
+ (1988).
+ Indivisible Labor, Lotteries and Equilibrium.
+ Journal of Monetary Economics 21, pp 3-16.
+\end_layout
+
+\begin_layout Itemize
+Rotemberg, J., (1982).
+ “Monopolistic Price Adjustment and Aggregate Output”.
+ Review of Economic Studies 49(4), 517–531.
+\end_layout
+
+\begin_layout Itemize
+Sisay, D., 2013.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Export Market and Market Price Indices for ADAM
+\begin_inset Quotes erd
+\end_inset
+
+, Working Paper, Danmarks Statistik Modelgruppen.
+ 
+\end_layout
+
+\begin_layout Itemize
+Straathof, Bas., 2008.
+ "Gravity with gravitas: comment," CPB Discussion Paper 111.rdf, CPB Netherlands
+ Bureau for Economic Policy Analysis.
+\end_layout
+
+\begin_layout Itemize
+Temere, Dawit S., and Tony M.
+ Kristensen.
+ 2016.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Supply factors in trade determination.
+\begin_inset Quotes erd
+\end_inset
+
+ Danmarks Statistik Modelgruppen, Working Paper DSI080816, August 2016.
+ 
+\end_layout
+
+\begin_layout Itemize
+Temere, Dawit S., and Tony M.
+ Kristensen.
+ 2016.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Incorporating supply effects in ADAM’s export equations.
+\begin_inset Quotes erd
+\end_inset
+
+ Danmarks Statistik Modelgruppen, Working Paper DSI111116, November 2016.
+\end_layout
+
+\begin_layout Itemize
+Vetlov, I., Hlédik, T., Jonsson, M., Kucsera, H.
+ and Pisani, M., Potential Output in DSGE Models (May 26, 2011).
+ ECB Working Paper No.
+ 1351
+\end_layout
+
+\begin_layout Itemize
+Yang, F.
+ (2009), 
+\begin_inset Quotes eld
+\end_inset
+
+Consumption over the life cycle: How different is housing?
+\begin_inset Quotes erd
+\end_inset
+
+, Review of Economic Dynamics, Volume 12, Issue 3, July 2009, Pages 423-443
+ 
+\end_layout
+
+\end_body
+\end_document

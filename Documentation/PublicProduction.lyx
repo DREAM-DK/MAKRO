@@ -1,0 +1,1757 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input{preamble}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\branch Appendix
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\branch PublicProductionVariables
+\selected 0
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Public production
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Public Production"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Public sector output consists of all the different goods and services provided
+ by the state, from education and health care, to the judicial system and
+ defense, and to child care, elderly care, etc.
+ This output, 
+\begin_inset Formula $Y_{G}$
+\end_inset
+
+, is not exported.
+ It is entirely consumed domestically.
+ The vast majority of these services are paid for using tax revenues or
+ using the intake from public debt issues.
+\end_layout
+
+\begin_layout Standard
+A small share of public services are paid directly by private agents, as
+ is the case for some co-payments for health care and education.
+ These private payments are included in household consumption of services
+ and we denote this private consumption of government supplied services
+ as 
+\begin_inset Formula $C_{t}^{\text{Pub}}$
+\end_inset
+
+.
+ The government also makes direct investments, 
+\begin_inset Formula $I_{t}^{\text{Pub}}$
+\end_inset
+
+, which is almost entirely publicly funded R&D and accounted for as a public
+ production of investments in equipment
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Investments in research and development will likely be separated from investment
+s in equipment in a future version of MAKRO.
+\end_layout
+
+\end_inset
+
+.
+ The majority of public production is accounted for as government consumption
+ of public goods and services, 
+\begin_inset Formula $G_{t}^{\text{Pub}}$
+\end_inset
+
+, however.
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:PublicProductionIO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the input output matrix in MAKRO from a single year.
+ The column in blue sums to the value of government consumption 
+\begin_inset Formula $P_{t}^{G}G_{t}$
+\end_inset
+
+, while the row in red sums to the value of public production before taxes,
+ 
+\begin_inset Formula $P_{\text{Pub},t}^{Y}Y_{\text{Pub},t}$
+\end_inset
+
+.
+ Their intersect, the cell in purple, is public production for government
+ consumption and makes up the majority of both public production and government
+ consumption.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Input/output matrix
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:PublicProductionIO"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\noindent
+\begin_inset space \hspace{}
+\length -3.25cm
+\end_inset
+
+
+\begin_inset Graphics
+	filename Images/public_production_IO.emf
+	width 19cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+2021 input/output table in current prices before taxes (bn.
+ DKK).
+ Columns representing demand for exports and intermediate inputs have been
+ aggregated.
+ The red row is government production.
+ The blue column is government consumption.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Supply side
+\end_layout
+
+\begin_layout Standard
+Public production, 
+\begin_inset Formula $Y_{\text{Pub},t}$
+\end_inset
+
+, is produced just as private sector goods are, in the sense that it uses
+ labor, capital equipment and structures, and intermediate inputs.
+\end_layout
+
+\begin_layout Standard
+Most public services are not traded on a market, however, and therefore
+ no market prices exist in the data.
+ The accounting price of public production is instead the average cost of
+ production rather than a market price.
+ This is equivalent to saying that there are zero profits in the public
+ sector.
+\end_layout
+
+\begin_layout Standard
+The default setting in MAKRO is that all factors of public production (labor,
+ capital equipment and structures, and intermediate inputs) are exogenous.
+ The quantity of output produced is endogenous, but only reacts to shocks
+ to the production factors.
+\end_layout
+
+\begin_layout Standard
+The total cost of public production is the sum of the value of the inputs
+ into production: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{\text{Pub},t}^{Y}Y_{\text{Pub},t}=w_{t}\rho_{\text{Pub},t}h_{\text{Pub},t}n_{\text{Pub},t}+\sum_{k}P_{k,\text{Pub},t}^{I}\delta_{k,\text{Pub},t-1}K_{k,\text{Pub},t-1}+P_{\text{Pub},t}^{R}R_{\text{Pub},t}+T_{\text{Pub},t}^{\text{NetY}}\label{eq:public_production_value}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $w_{t}\rho_{\text{Pub},t}h_{\text{Pub},t}n_{\text{Pub},t}$
+\end_inset
+
+ is the public sector payroll, and where following accounting standards
+ for the public sector, the cost of public capital is entirely accounted
+ for as depreciation
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In years covered by data, we include residual terms in the depreciation
+ rates and prices used to compute the value of public capital depreciation
+ in order to match the national accounts data.
+ Public capital depreciation would otherwise differ slightly from the national
+ accounts data due to composition effects in the prices of capital and investmen
+t which affect the chain indices used to calculate prices.
+\end_layout
+
+\end_inset
+
+.
+ Net production taxes and subsidies, 
+\begin_inset Formula $T_{\text{Pub},t}^{\text{NetY}}$
+\end_inset
+
+, are added explicitly rather than being included in the payroll and cost
+ of capital.
+\end_layout
+
+\begin_layout Standard
+Given the total cost of public production, the issue is how to measure separatel
+y the quantity of public output, 
+\begin_inset Formula $Y_{\text{Pub},t},$
+\end_inset
+
+ and its price 
+\begin_inset Formula $P_{\text{Pub},t}^{Y}$
+\end_inset
+
+.
+ In our model of the private sector we solve this problem using a theory
+ of production.
+ This is materialized in a (CES) production function that describes how
+ the quantities of inputs are organized to generate units of output.
+ The output price is then a by-product of this theory and of profit maximization.
+ For the public sector, we generally do not apply a standard theory of productio
+n, but instead apply the 
+\emph on
+input method
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Input method
+\end_layout
+
+\begin_layout Standard
+We have separate measures of the price and quantity of each factor input
+ in public production.
+ We can measure investment, capital stocks, employment, and quantities of
+ intermediate inputs used.
+ From these, we create a Paasche price index of the underlying factor prices
+ (set to 1 in the base year) and a corresponding Laspeyres measure of the
+ quantity, so that in addition to eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:public_production_value"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) we have
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+P_{\text{Pub},t-1}^{Y}Y_{\text{Pub},t}=\gamma_{t}w_{t-1}\rho_{\text{Pub},t-1}h_{\text{Pub},t}n_{\text{Pub},t}\\
++\sum_{k}P_{k,\text{Pub},t-1}^{I}\delta_{k,\text{Pub},t-1}K_{k,\text{Pub},t-1}+P_{\text{Pub},t-1}^{R}R_{\text{Pub},t}+\frac{T_{\text{Pub},t-1}^{\text{NetY}}}{Y_{\text{Pub},t-1}}Y_{\text{Pub},t}
+\end{array}\label{eq:pYoff}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the data, public employees are differentiated by educational attainment
+ etc., and changes in the average public wage may therefore reflect changes
+ in the composition of public employees rather than actual changes in wages
+ for the individual public employee.
+ E.g.
+ the average public wage increases if the share of highly educated workers
+ increases, even if the wage pr.
+ highly educated worker remains constant.
+ An additional exogenous term, 
+\begin_inset Formula $\gamma_{t}$
+\end_inset
+
+, is included with the lagged wage to capture this effect in the baseline
+ forecast.
+ In addition, in years covered by data, this term also captures differences
+ between the input method and the national accounting estimates of public
+ production, which attempts to measure actual output (number of surgeries
+ etc.).
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The chain index method of accounting for public production has the unfortunate
+ feature that a shock which leaves all factors of public production completely
+ unchanged can still affect the Laspeyres measure of output through price
+ changes.
+ For a transitory shock, the effect is negligible, but for a permanent shock
+ the effect can be difficult to ignore, as the effect accumulates over time.
+ The problem also exists for other chain indices, but is exacerbated here
+ by the fact that capital and intermediate inputs generally follow productivity
+ growth, while hours worked do not.
+ For shocks to the model, which do not affect any public sector factor of
+ production, users are therefore advised to also exogenize government consumptio
+n, 
+\begin_inset Formula $G_{t}$
+\end_inset
+
+, rather than using eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pYoff"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Public employment
+\end_layout
+
+\begin_layout Standard
+The expenditure on labor by the public sector consists of wages paid pr.
+ hour, 
+\begin_inset Formula $w_{t}\rho_{\text{Pub},t}$
+\end_inset
+
+, times hours pr.
+ employee, 
+\begin_inset Formula $h_{\text{Pub},t}$
+\end_inset
+
+, times the number of employee, 
+\begin_inset Formula $n_{\text{Pub},t}$
+\end_inset
+
+.
+ Payroll taxes, 
+\begin_inset Formula $\tau_{t}^{L}$
+\end_inset
+
+, are disregarded here as they are transfers from the state to itself.
+ The wage expenditure also disregards vacancy posting costs as these are
+ a component of the user cost of labor, which is not considered in the input
+ method of accounting for the public sector.
+ I.e.
+ since we merely measure costs, rather than apply a standard theory of productio
+n, it does not matter whether the labor is spent as hiring costs or used
+ in production.
+ The hourly wage, 
+\begin_inset Formula $w_{t}\rho_{\text{Pub},t}$
+\end_inset
+
+, is detailed in the labor market chapter.
+\end_layout
+
+\begin_layout Standard
+Public employment in hours is exogenous by default in MAKRO.
+ In the baseline forecast, the ratio between public capital and output is
+ fixed, as well as the ratio between the public payroll and expenditure
+ on intermediate purchases (we go into detail on these ratios below).
+ With the public K/Y and L/R ratios fixed in the baseline, public employment
+ is determined residually given a baseline demand for public production.
+ The baseline demand for public production is covered in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Demand-for-public"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Public investments
+\end_layout
+
+\begin_layout Standard
+Public investments as real quantities are exogenous by default in MAKRO,
+ and it is up to the user to shock public investments explicitly for a balanced
+ shock to public production.
+ Public sector capital (equipment and structures) obeys the standard law
+ of motion
+\begin_inset Formula 
+\[
+K_{k,\text{Pub},t}=\left(1-\delta_{k,\text{Pub},t}\right)K_{k,\text{Pub},t-1}+I_{k,\text{Pub},t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the baseline forecast, public investments are determined residually as
+ we forecast the public sector capital stock directly.
+ Public sector capital in current investment prices is forecasted as a constant
+ share, 
+\begin_inset Formula $\hat{\alpha}_{k,t}^{K}$
+\end_inset
+
+, of a weighed average of public and private sector gross value added.
+ That is, we add the restriction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{k,t}^{I}K_{k,t}=\hat{\alpha}_{k,t}^{K}\left(0.7\cdot\left(P_{\text{Pub},t}^{Y}Y_{\text{Pub},t}-P_{\text{Pub},t}^{R}R_{\text{Pub},t}\right)+0.3\cdot X_{t}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $X_{t}$
+\end_inset
+
+ is a moving average of private sector value added.
+ 
+\begin_inset Formula $\hat{\alpha}_{k,t}^{K}$
+\end_inset
+
+ is constant in the baseline forecast, but is endogenous by default for
+ shocks to the model as public investments are fixed.
+\end_layout
+
+\begin_layout Paragraph
+New, direct, and indirect investments
+\end_layout
+
+\begin_layout Standard
+In addition to distinguishing between capital structures and equipment,
+ public investments are also classified in three other categories: 
+\emph on
+new
+\emph default
+,
+\emph on
+ direct
+\emph default
+,
+\emph on
+ 
+\emph default
+and 
+\emph on
+indirect 
+\emph default
+investments.
+ In this section we document how these categories are allocated between
+ equipment and structures and how we forecast these categories.
+\end_layout
+
+\begin_layout Standard
+The majority of public investments are categorized as 
+\emph on
+new investments
+\emph default
+, and we divide these between both capital types with a share parameter,
+ 
+\begin_inset Formula $\mu_{t}^{new}$
+\end_inset
+
+.
+ Direct investments, which consist almost entirely of publicly funded R&D
+ are allocated to investments in equipment.
+ Finally, indirect investments are purchases of existing capital and are
+ entirely allocated to structures.
+ In current prices, we have the following accounting identities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{public investments}_{t}=\text{new investments}_{t}+\text{direct investments}_{t}+\text{indirect investments}_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{public investment in structures}_{t}=\mu_{t}^{new}\cdot\text{new investments}_{t}+\text{indirect investments}_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{public investment in equipment}_{t}=\left(1-\mu_{t}^{new}\right)\cdot\text{new investments}_{t}+\text{direct investments}_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Indirect investments are modeled as a constant share of aggregate gross
+ value added
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{indirect investments}_{t}=\mu_{t}^{indirect}\cdot\left(P_{t}^{Y}Y_{t}-P_{t}^{R}R_{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the separation between indirect and new investments is purely
+ accounting and has no effect on any behavior in MAKRO.
+\end_layout
+
+\begin_layout Standard
+Direct investments are modeled as a fixed share of public production in
+ real quantities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{direct investments}_{t}=P_{\text{Pub},t}^{Y}\cdot\mu_{IM,t}^{\text{Pub}}\cdot Y_{\text{Pub},t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+New investments are determined residually, given total public investments.
+\end_layout
+
+\begin_layout Subsubsection
+Intermediate input purchases
+\end_layout
+
+\begin_layout Standard
+The aggregate quantity of intermediate inputs used in public production
+ is exogenous by default in MAKRO.
+\end_layout
+
+\begin_layout Standard
+Intermediate inputs in the public sector are sourced from many production
+ sectors, both domestic and foreign, in exactly the same way as other demand
+ components and is covered in the input/output chapter.
+\end_layout
+
+\begin_layout Standard
+In the baseline forecast we assume a constant ratio, 
+\begin_inset Formula $\mu_{t}^{LR}$
+\end_inset
+
+, between the public payroll and expenditures on intermediate inputs:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{t}^{LR}=\frac{w_{t}\rho_{\text{Pub},t}h_{\text{Pub},t}n_{\text{Pub},t}}{P_{\text{Pub},t}^{R}R_{\text{Pub},t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a generic shock to government consumption, the user can exogenize this
+ ratio in order to determine a proportional change in public sector intermediate
+ purchases.
+\end_layout
+
+\begin_layout Subsection
+Demand for public production
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Demand-for-public"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Public production, 
+\begin_inset Formula $Y_{\text{Pub},t}$
+\end_inset
+
+, is given in the input/output system as the sum of three demand components:
+ government consumption (of public services) 
+\begin_inset Formula $G^{\text{Pub}}$
+\end_inset
+
+, private consumption of public services 
+\begin_inset Formula $C^{\text{Pub}}$
+\end_inset
+
+, and public direct investments, 
+\begin_inset Formula $I^{\text{Pub}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{\text{Pub},t}=C_{t}^{\text{Pub}}+G_{t}^{\text{Pub}}+I_{t}^{\text{Pub}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As we assume that the same price (before taxes) is paid independent of how
+ output is consumed, this identity holds both for real quantities and in
+ current prices.
+\end_layout
+
+\begin_layout Subsubsection
+Private consumption of public services and public direct investments
+\end_layout
+
+\begin_layout Standard
+We model the private consumption of public services as proportional to governmen
+t consumption:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{c,t}^{\text{Pub}}=\mu_{c,t}^{\text{Pub}}G_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The underlying assumption is that the structure of public services are fixed,
+ such that co-payments remain a constant share except if the user shocks
+ these structures explicitly.
+\end_layout
+
+\begin_layout Standard
+Similarly, public direct investments (R&D) are a fixed share of public productio
+n:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+I_{k,t}^{\text{Pub}}=\mu_{k,t}^{\text{Pub}}Y_{\text{Pub},t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These two assumptions imply that public production is fixed except for shocks
+ that affect the government consumption, as opposed to moving endogenously
+ with changes in private sector demand through constant input/output shares.
+\end_layout
+
+\begin_layout Subsubsection
+Government consumption of public production
+\end_layout
+
+\begin_layout Standard
+Total government consumption 
+\begin_inset Formula $G_{t}$
+\end_inset
+
+ is the sum of government consumption of public output plus government consumpti
+on of private output, including imports (the blue column in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:PublicProductionIO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}^{G}G_{t}=P_{G,Pub,t}^{Y\tau}G_{t}^{Pub}+\text{Private inputs}=\sum_{s}\left(P_{G,s,t}^{Y\tau}Y_{G,s,t}+P_{G,s,t}^{M\tau}M_{,G,s,t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The sourcing of government consumption from different sectors, domestic
+ and foreign, works in exactly the same way as other demand components and
+ is covered in the input/output chapter.
+ Given a desired total government consumption, the input/output system delivers
+ a demand for public production, or vice versa given a total public production,
+ we can calculate total government consumption as a residual.
+\end_layout
+
+\begin_layout Standard
+As all factors of production are fixed by default, the supply of public
+ production 
+\begin_inset Formula $Y_{\text{Pub},t}$
+\end_inset
+
+ is also effectively fixed, and the demand for government consumption is
+ determined residually.
+\end_layout
+
+\begin_layout Subsubsection
+Baseline government consumption
+\end_layout
+
+\begin_layout Standard
+We decompose the costs of government consumption in two parts: the depreciation
+ costs of capital and the remainder:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}^{G}G_{t}=\sum_{k}\delta_{\text{Pub},k,t}P_{\text{Pub},k,t}^{I}K_{\text{Pub},k,t}+\mu_{t}^{G}N_{t}^{G}\rho_{t}w_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the baseline, the remainder (government consumption net of depreciations),
+ follow a fixed 
+\emph on
+government service level
+\emph default
+ parameter, 
+\begin_inset Formula $\mu_{t}^{G}$
+\end_inset
+
+, times an exogenous demographics based index of demand of government services,
+ 
+\begin_inset Formula $N_{t}^{G}$
+\end_inset
+
+, and finally the average wage 
+\begin_inset Formula $\rho_{t}\cdot w_{t}$
+\end_inset
+
+ pr.
+ hour, in line with the forecast methodology of the Ministry of Finance.
+ The demographics index is an important exogenous input to the model baseline
+ and based on more detailed demographic projections (befolkningsregnskab).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Appendices - Public Production 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Public production variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\noindent
+\begin_inset space \hspace{}
+\length -3.25cm
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="22" columns="3">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="4cm">
+<column alignment="left" valignment="top" width="10cm">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Documentation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Y_{\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qY['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Public production
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{\text{Pub},t}$
+\end_inset
+
+
+\begin_inset Formula $n_{\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hL['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Public sector employment in hours worked
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{k,\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qK[k,'off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Public sector capital of type k, ultimo
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R_{\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qR['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intermediate inputs to public production
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $G_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qG['g',t] = qG[gTot,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Government consumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $G_{t}^{\text{Pub}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qIO['g','off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inputs from public production to government consumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{t}^{\text{Pub}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qIO['cTje','off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inputs from public production to private consumption of services
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{t}^{\text{Pub}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qIO['iM','off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inputs from public production to capital equipment
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\delta_{k,\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rAfskr[k,'off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Depreciation rate of public capital of type k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho_{\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qProd['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Labor units pr.
+ hour in public sector
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{k,\text{Pub},t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qI_s[k,'off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Public sector investments of type k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Y_{G,s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qIOy['g',s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Domestic inputs from sector s to government consumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M_{G,s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qIOm['g',s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Imports from sector s to government consumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{\text{Pub},t}^{Y}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pY['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Deflator for public production
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pW[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wage per unit of productive labor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{k,\text{Pub},t}^{I}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pI_s[k,'off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Deflator for public sector investments of type k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{\text{pub},t}^{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pR[''off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Deflator for intermediate inputs to public production
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{t}^{G}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pG[gTot,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Deflator for government consumption.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{G,s,t}^{Y\tau}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pIOy['g',s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Price of domestic deliveries from s to 'g' including taxes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{G,s,t}^{M\tau}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pIOm['g',s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Price of imported deliveries from s to 'g' including taxes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T_{\text{Pub},t}^{\text{NetY}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vtNetY['off',t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Value of net production taxes in public production
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Productivity Growth
+\end_layout
+
+\begin_layout Standard
+It is assumed the there is no labor augmenting technological progress in
+ the public sector.
+ A simple way to understand the consequences of this fact is to work as
+ if public production happened through a Cobb-Douglas production function
+ with inputs 
+\begin_inset Formula $\left(K_{b},K_{m},L,R\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{t}=K_{b,t}^{\alpha_{b}^{K}}K_{m,t}^{\alpha_{m}^{K}}\left(A_{t}L_{t}\right)^{\alpha^{L}}R_{t}^{\alpha^{R}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In such a case the price would be the variable recovered through the zero
+ profit condition, and this price would be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}=A_{t}^{-\alpha^{L}}\left(\frac{P_{b,t}^{K}}{\alpha_{b}^{K}}\right)^{\alpha_{b}^{K}}\left(\frac{P_{m,t}^{K}}{\alpha_{m}^{K}}\right)^{\alpha_{m}^{K}}\left(\frac{P_{t}^{L}}{\alpha^{L}}\right)^{\alpha^{L}}\left(\frac{P_{t}^{R}}{\alpha^{R}}\right)^{\alpha^{R}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+On a balanced growth path all input prices or user costs grow with the inflation
+ rate, except for the user cost of labor, which increases with the inflation
+ rate plus the Harrod neutral growth rate 
+\begin_inset Formula $g_{\xi}$
+\end_inset
+
+.
+ This implies for a Cobb-Douglas output price:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{P_{t}}{P_{t-1}}=\left(1+\pi\right)^{\alpha_{b}^{K}+\alpha_{m}^{K}+\alpha^{R}}\left(\frac{\left(1+\pi\right)\left(1+g_{\xi}\right)}{\left(1+g_{\xi}\right)}\right)^{\alpha^{L}}=1+\pi
+\]
+
+\end_inset
+
+It is, however, assumed that there is no productivity growth in the public
+ sector.
+ This implies that its price will grow with a higher rate, namely
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{P_{t}^{0}}{P_{t-1}^{0}}=\left(1+\pi\right)^{\alpha_{b}^{K}+\alpha_{m}^{K}+\alpha^{R}}\left(\frac{\left(1+\pi\right)\left(1+g_{\xi}\right)}{1}\right)^{\alpha^{l}}=\left(1+\pi\right)\left(1+g_{\xi}\right)^{\alpha^{L}}
+\]
+
+\end_inset
+
+where the contribution of the growth rate of technology on the labor price
+ is weighed by the labor share.
+\end_layout
+
+\begin_layout Standard
+This is captured in the price index of public production by adding the growth
+ of technology in the denominator as follows
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t}^{0}=P_{t-1}^{0}\frac{\sum_{i\in(b,m)}P_{i,t}^{I}K_{i,t}+P_{t}^{R}R_{t}+\left(P_{t}^{L}/\cancel{A_{t}}\right)\left(\cancel{A_{t}}L_{t}\right)}{\sum_{i\in(b,m)}P_{i,t-1}^{I}K_{i,t}+P_{t-1}^{R}R_{t}+\left(P_{t-1}^{L}/A_{t-1}\right)\left(A_{t}L_{t}\right)}
+\]
+
+\end_inset
+
+and this works in the desired way because the technology factor grows at
+ a constant rate in all sectors except for the public sector where it is
+ constant.
+\end_layout
+
+\end_body
+\end_document

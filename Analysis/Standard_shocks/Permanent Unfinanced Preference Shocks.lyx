@@ -1,0 +1,446 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{verbose, tmargin=3.7cm, bmargin=2.5cm, innermargin=4.25cm, outermargin=2.75cm, headheight=2cm, headsep=1.7cm, footskip=1.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{colortbl}
+
+\definecolor{DREAM}{HTML}{DE0D0D} 
+\definecolor{MAKRO}{HTML}{0F837D} 
+\definecolor{SMILE}{HTML}{F76E00} 
+\definecolor{GREFORM}{HTML}{31B149} 
+\definecolor{REFORM}{HTML}{1F8FBB} 
+
+\definecolor{GRAY}{HTML}{E6E6E8} 
+
+\renewcommand{\headrulewidth}{0pt} % Remove fancy header line
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+\renewcommand{\maketitle}{
+	\bgroup\setlength{\parindent}{0pt}
+	\begin{flushleft}
+		\textbf{\huge\@title}
+
+		\vspace{20pt}
+
+		\textbf{\normalsize\@author}
+
+		\textbf{Working paper}\newline\@date
+
+		www.dreamgruppen.dk
+	\end{flushleft}\egroup
+}
+
+\fancyhead[L]{
+	\small
+	\textcolor{MAKRO}{
+		\textbf{\@title}
+		\linebreak
+		\leftmark
+	}
+}
+\fancyhead[C]{}
+\fancyhead[R]{}
+
+\fancyfoot[L]{\small DREAM · \textcolor{MAKRO}{MAKRO}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small \thepage}
+
+\usepackage{amsmath}
+
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\makeatletter\let\ps@plain\ps@fancy\makeatother  % Also use header on first page
+
+\usepackage{amsmath}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Permanent unfinanced preference shocks
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Permanent unfinanced preference shock"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this chapter, we look at unfinanced preference shocks.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Household discount factor
+\end_layout
+
+\begin_layout Standard
+The household discount factor is decreased permanently by 1 percentage point.
+\end_layout
+
+\begin_layout Itemize
+Households are more impatient and will immediately increase their consumption
+\end_layout
+
+\begin_layout Itemize
+In the short run and medium term it works as a positive (but gradually declining
+) shock to private consumption and housing demand
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Increased demand leads to increased production
+\end_layout
+
+\begin_layout Itemize
+Increased sectoral production leads to increased sectoral production inputs
+\end_layout
+
+\begin_layout Itemize
+Increased material inputs leads to increased imports and domestic sectoral
+ output
+\end_layout
+
+\begin_layout Itemize
+Increased capital demand leads to increased investmens from imports and
+ domestic sectoral output
+\end_layout
+
+\begin_layout Itemize
+Increased labor demand leads to increased wages, employment and labor supply
+\end_layout
+
+\begin_layout Itemize
+Increased employment and wages leads to higher household income and increased
+ demand for private consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing demand leads to increased housing prices and investments
+ in housing
+\end_layout
+
+\begin_layout Itemize
+Increased housing prices lead to increased liquidity and demand for private
+ consumption and housing
+\end_layout
+
+\begin_layout Itemize
+Increased production leads to higher output prices
+\end_layout
+
+\begin_layout Itemize
+Higher output prices lead to higher demand prices
+\end_layout
+
+\begin_layout Itemize
+Increased demand prices dampen demand over time
+\end_layout
+
+\begin_layout Itemize
+Full crowding out in employment
+\end_layout
+
+\begin_layout Itemize
+Positive short run effect on government budget
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The increased short and medium term consumption will reduce household wealth
+ and long run consumption
+\end_layout
+
+\begin_layout Itemize
+55 years after the shock the negative effect on wealth has not stabilized
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We do see the negative effect on consumption, but this has also not stabilized
+\end_layout
+
+\begin_layout Itemize
+Households live many years and give inheritance - so it will stabilize very
+ slowly
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In the long run it works as a negative shock to private consumption and
+ housing demand
+\end_layout
+
+\begin_layout Itemize
+Negative long run effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Diskontering/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Wages through the Nash Negotiation Weight
+\end_layout
+
+\begin_layout Standard
+The Nash negotiation weight is decreased permanently by 1 percentage point.
+\end_layout
+
+\begin_layout Itemize
+Workers receive a larger share of the surplus
+\end_layout
+
+\begin_layout Itemize
+On one hand this increases household income and works as a positive demand
+ shock to private consumption and housing - for an isolated analysis of
+ this shock refer to the demand shock via lump sum transfers
+\end_layout
+
+\begin_layout Itemize
+On the other hand it tightens the wedge between the marginal product of
+ labor and the wage
+\end_layout
+
+\begin_layout Itemize
+This wedge needs to pay for hiring costs so firms reduce their labor demand
+\end_layout
+
+\begin_layout Itemize
+For most other shocks reduced labor demand lowers the wages, but here the
+ higher wages are the cause of the lower labor demand and structural unemploymen
+t increase
+\end_layout
+
+\begin_layout Itemize
+The shock also works as a negative supply shock to labor - for an isolated
+ analysis of this shock refer to the supply shock to labor via participation
+ (with opposite sign)
+\end_layout
+
+\begin_layout Itemize
+Higher wages gives higher unit costs and higher prices
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This lowers exports and increases import shares
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Real household income increases
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Effect from higher wages and lower employment makes net effect from wage
+ income very small
+\end_layout
+
+\begin_layout Itemize
+Larger unemployment are compensated and this increase household income this
+ dominates effect from higher prices
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The shock is contractionary in employment
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In the short run the employment gap is positive as actual employment rigidly
+ decrease to its structural level
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In the short run the shock is expansionary in GVA and GDP as a large permanent
+ shift to more capital intensive production increase short term investments
+ a lot and firms can increase utilization on labor and capital in the short
+ run
+\end_layout
+
+\begin_layout Itemize
+In the medium and long term the shock is also contractionary in GVA and
+ GDP as labor input is permanently lower
+\end_layout
+
+\begin_layout Itemize
+Negative long run effect on government budget and fiscal sustainability
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+graphicspath{{Output/Loen/}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset include
+LatexCommand input
+filename "Figures.lyx"
+
+\end_inset
+
+
+\lang american
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

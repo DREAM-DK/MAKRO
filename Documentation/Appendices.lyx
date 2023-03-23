@@ -1,0 +1,2297 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "cmbr" "default"
+\font_typewriter "default" "default"
+\font_math "iwona-math" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Appendices
+\end_layout
+
+\begin_layout Subsection
+Government variables
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec: Government variables"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Problem of the firm
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Problem of the firm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each sector consists of a representative producer firm, which sells its
+ product an intermediate firm.
+ The producer firm is a price taker and maximises its value and free cash
+ flows to equity this period:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+FCFE_{sp,t}+Equity_{sp,t}=FCFE_{sp,t}+\sum_{n=1}^{\infty}\frac{FCFE_{sp,t+n}}{\prod_{m=1}^{n}\left(1+r_{sp,t+m}^{Firms}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Maximizing this is equivalent to maximizing 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{n=0}^{^{\infty}}\frac{FCFE_{sp,t+n}}{\prod_{m=0}^{n}\left(1+r_{sp,t+m}^{Firms}\right)}
+\]
+
+\end_inset
+
+The discounted free cash flows to equity: of a given period are given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+FCFE_{sp,t}=\\
+\left(1-t_{sp,t}^{corp}\right)\left(\begin{array}{c}
+P_{sp,t}^{KLBR}\left[\begin{array}{c}
+F_{sp,t}\left(L_{sp,t},R_{sp,t},u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}\right)\\
+-\sum_{k}\frac{\mu_{k,sp,t}^{^{Inst}}}{2}K_{k,sp,t-1}\left((I_{k,sp,t}-I_{k,sp,t-1}\xi)/K_{k,sp,t-1}\right)^{2}-K_{k,sp,t-1}\lambda_{k,sp,t}^{KapUtilCost}
+\end{array}\right]\\
+-w_{t}L_{sp,t}-P_{sp,t}^{R}R_{sp,t}-r_{k,sp,t}^{Firms}\mu_{sp,t-1}^{FirmDebt}\sum_{k}P_{k,sp,t-1}^{I}K_{k,sp,t-1}\\
+-t_{k,sp,t}^{K}P_{k,sp,t}^{I}K_{k,sp,t-1}-t_{sp,t}^{L}w_{t}\left(1-\mu_{sp,t}^{Selfemployed}\right)L_{sp,t}\\
+-T_{sp,t}^{NetProductionExo}
+\end{array}\right)\\
++\sum_{k}t_{sp,t}^{corp}\delta_{k,sp,t}^{Tax}K_{k,sp,t-1}^{Tax}-\sum_{k}P_{k,sp,t}^{I}I_{k,sp,t}\\
++\left(\mu_{sp,t}^{FirmDebt}\sum_{k}P_{k,sp,t}^{I}K_{k,sp,t}-\mu_{sp,t-1}^{FirmDebt}\sum_{k}P_{k,sp,t-1}^{I}K_{k,sp,t-1}\right)
+\end{array}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula 
+\[
+-\sum_{k}\frac{\mu_{k,sp,t}^{^{Inst}}}{2}K_{k,sp,t-1}\left((I_{k,sp,t}-I_{k,sp,t-1}\xi)/K_{k,sp,t-1}\right)^{2}-K_{k,sp,t\text{-1}}\lambda_{k,sp,t}^{KapUtilCost}
+\]
+
+\end_inset
+
+is the loss of production due to installation and utilization costs.
+ Utilization costs for capital are function of capital utilization
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{k,sp,t}^{KapUtilCost}=\lambda_{k,sp,t}^{KapUtilCost}\left(u_{k,sp,t}^{KapUtil}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Depreciation of capital is tax deductible, and the deduction is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{k}t_{sp,t}^{corp}\delta_{k,sp,t}^{Tax}K_{k,sp,t-1}^{Tax}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $t_{k,s,t}^{K}$
+\end_inset
+
+ and 
+\begin_inset Formula $t_{s,t}^{L}$
+\end_inset
+
+ are input taxes on capital and 
+\emph on
+hired
+\emph default
+ labor.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The firms maximizes the sum of discounted future dividends subject to the
+ law of motion for capital and the book value of capital
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K_{k,sp,t}=\left(1-\delta_{k,sp,t}\right)K_{k,sp,t-1}+I_{k,sp,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K_{k,sp,t}^{Tax}=\left(1-\delta_{k,sp,t}^{Tax}\right)K_{k,sp,t-1}^{Tax}+P_{k,sp,t}^{I}I_{k,sp,t}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The first order condition for materials, 
+\begin_inset Formula $R_{sp,t}$
+\end_inset
+
+, is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{sp,t}^{KLBR}\frac{\partial F_{sp,t}\left(L_{sp,t},R_{sp,t},u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}\right)}{\partial R_{sp,t}}=P_{sp,t}^{R}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Maximizing with respect to labor, 
+\begin_inset Formula $L_{sp,t}$
+\end_inset
+
+, results in the following first order condition
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+P_{sp,t}^{KLBR}\frac{\partial F_{sp,t}\left(L_{sp,t},R_{sp,t},u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}\right)}{\partial L_{sp,t}} & =\left(w_{t}+t_{sp,t}^{L}w_{t}\left(1-\mu_{sp,t}^{Selfemployed}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Usercost of labor ,
+\begin_inset Formula $UC_{sp,t}^{L}$
+\end_inset
+
+, is defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+UC_{sp,t}^{L}\equiv P_{sp,t}^{KLBR}\frac{\partial F_{sp,t}\left(L_{sp,t},R_{sp,t},u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}\right)}{\partial L_{sp,t}}
+\]
+
+\end_inset
+
+The first order condition for capital utilization, 
+\begin_inset Formula $u_{k,sp,t}^{K}$
+\end_inset
+
+,is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{sp,t}^{KLBR}\frac{\partial F_{sp,t}\left(L_{sp,t},R_{sp,t},u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}\right)}{\partial u_{k,sp,t}^{KapUtil}K_{k,sp,t-1}}K_{k,sp,t-1}=P_{sp,t}^{KLBR}\frac{\partial\lambda_{k,sp,t}^{KapUtilCost}}{\partial u_{k,sp,t}^{KapUtil}}K_{k,sp,t-1}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Let 
+\begin_inset Formula $Q_{k,sp,t}^{tobins}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{k,sp,t}^{KTax}$
+\end_inset
+
+ denote the Lagrange multipliers for the accumulation of real and tax value
+ capital.
+ The first order condition for investments, 
+\begin_inset Formula $I_{k,sp,t}$
+\end_inset
+
+, is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+Q_{k,sp,t}^{tobins} & = & P_{k,sp,t}^{I}-P_{k,sp,t}^{I}P_{k,sp,t}^{KTax}\\
+ &  & +P_{sp,t}^{KLBR}(1-t_{sp,t}^{Corp})\mu_{k,sp}^{KInstCost}(I_{k,sp,t}-I_{k,sp,t-1}\xi_{k,sp,t})/K_{k,sp,t-1}\\
+ &  & -\frac{1}{1+r_{sp,t+1}^{Firms}}P_{sp,t+1}^{KLBR}(1-t_{sp,t+1}^{Corp})\\
+ &  & *\xi_{k,sp,t+1}\mu_{k,sp}^{KInstCost}(I_{k,sp,t+1}-I_{k,sp,t}\xi_{k,sp,t+1})/K_{k,sp,t}
+\end{array}
+\]
+
+\end_inset
+
+This condtion is in line with tobin's q-theory.
+ (Tonbin's Q is defined as the negativ FOC of investment)
+\begin_inset Newline newline
+\end_inset
+
+The first order condition for the book value of capital, 
+\begin_inset Formula $K_{k,sp,t}^{Tax}$
+\end_inset
+
+ , is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(1+r_{sp,t+1}^{Firms}\right)P_{k,sp,t}^{KTax}=t_{sp,t+1}^{corp}\delta_{k,sp,t+1}^{Tax}+P_{k,sp,t+1}^{KTax}\left(1-\delta_{k,sp,t+1}^{Tax}\right)
+\]
+
+\end_inset
+
+Law of motion for book value of capital has been used in the first order
+ condition.
+\begin_inset Newline newline
+\end_inset
+
+Finally the first order condition for capital, 
+\begin_inset Formula $K_{k,sp,t}$
+\end_inset
+
+, is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\left(1-t_{sp,t+1}^{corp}\right)P_{sp,t+1}^{KLBR}\frac{\partial F_{sp,t+1}\left(L_{sp,t+1},R_{sp,t+1},u_{k,sp,t+1}^{KapUtil}K_{k,sp,t}\right)}{\partial u_{k,sp,t+1}^{KapUtil}K_{k,sp,t}}u_{k,sp,t+1}^{KapUtil}=\\
+\\
+\left(1-t_{sp,t+1}^{corp}\right)P_{sp,t+1}^{KLBR}\left(\lambda_{k,sp,t+1}^{KapUtilCost}-\frac{\mu_{k,sp,t+1}^{^{Inst}}}{2}(\frac{I_{k,sp,t+1}-I_{k,sp,t}\xi_{k,sp,t+1}}{K_{k,sp,t}})^{2}\right)\\
+\\
+-t_{sp,t+1}^{corp}r_{k,sp,t+1}^{Firms}\mu_{sp,t}^{FirmDebt}P_{k,sp,t}^{I}+\left(1-t_{sp,t+1}^{corp}\right)t_{k,sp,t+1}^{K}P_{k,sp,t+1}^{I}\\
+\\
++\left(1+r_{sp,t+1}^{Firms}\right)Q_{k,sp,t}^{tobins}-Q_{k,sp,t+1}^{tobins}\left(1-\delta_{k,sp,t+1}\right)
+\end{array}
+\]
+
+\end_inset
+
+
+
+P_{k,sp,t}^{I}K_{k,sp,t}
+
+
+\begin_inset Newline newline
+\end_inset
+
+Using that the user cost for capital, 
+\begin_inset Formula $P_{k,sp,t}^{K}$
+\end_inset
+
+, is defined as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{k,sp,t+1}^{K}\equiv P_{sp,t+1}^{KLBR}\frac{\partial F_{sp,t+1}\left(L_{sp,t+1},R_{sp,t+1},u_{k,sp,t+1}^{KapUtil}K_{k,sp,t}\right)}{\partial u_{k,sp,t+1}^{KapUtil}K_{k,sp,t}}u_{k,sp,t+1}^{KapUtil}
+\]
+
+\end_inset
+
+the first order condition for capital utilization can be rewritten as 
+\begin_inset Formula 
+\[
+\frac{P_{k,sp,t}^{K}}{u_{k,sp,t}^{KapUtil}}K_{k,sp,t-1}=P_{sp,t}^{KLR}\frac{\partial\lambda_{k,sp,t}^{KapUtilCost}}{\partial u_{k,sp,t}^{KapUtil}}K_{k,sp,t-1}
+\]
+
+\end_inset
+
+
+
+,
+\end_layout
+
+\begin_layout Subsubsection*
+Note on utilization costs
+\end_layout
+
+\begin_layout Standard
+The utilization costs have the following function form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{k,sp,t}^{KapUtilCost}(u_{k,sp,t}^{KapUtil})=\frac{\beta}{2}(x_{k,sp,t})^{2}+\alpha_{k,sp,t}^{KapUtilCost}(u_{k,sp,t}^{KapUtil}-1)
+\]
+
+\end_inset
+
+
+\begin_inset Formula $x_{k,sp,t}$
+\end_inset
+
+ is a stock of capital utilization fatigue and it given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{k,sp,t}=x_{k,sp,t-1}+u_{k,sp,t}^{KapUtil}-1
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The resulting derivatives are 
+\begin_inset Formula 
+\[
+\frac{\partial\lambda_{k,sp,t}^{KapUtilCost}}{\partial x_{k,sp,t}}=P_{k,sp,t}^{k}\frac{K_{k,sp,t-1}}{u_{k,sp,t}^{KapUtil}}-P_{sp,t}^{KLR}K_{k,sp,t-1}\frac{\partial g_{t}}{\partial x_{k,sp,t}}-(1+r_{k,sp,t+1}^{Firms})[P_{k,sp,t+1}^{k}\frac{K_{k,sp,t}}{u_{k,sp,t+1}^{KapUtil}}-P_{sp,t}^{KLR}K_{k,sp,t}\frac{\partial g_{t+1}}{\partial x_{k,sp,t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial g_{t}}{\partial x_{t}}=\beta x_{k,sp,t}+\alpha_{k,sp,t}^{KapUtilCost}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial g_{t+1}}{\partial x_{t}}=-\alpha_{k,sp,t+1}^{KapUtilCost}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Deriving Calvo pricing
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Deriving Calvo"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The point of departure is a lot of firms within each sector facing individually
+ falling demand curves:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{jt}=\left(\frac{p_{jt}}{P_{t}}\right)^{-E}Y_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y_{jt}$
+\end_inset
+
+is the demand for production by firm j at time t, 
+\begin_inset Formula $p_{jt}$
+\end_inset
+
+ is its price, 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+ is the aggregate firm price (this is called 
+\begin_inset Formula $P_{s,t}^{Y}$
+\end_inset
+
+ in the rest of the documentation.
+ The suffix for sector and superfix for production is omitted in this appendix),
+ 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ (called 
+\begin_inset Formula $Y_{s,t}$
+\end_inset
+
+ outside this appendix) is the aggregate production , and 
+\begin_inset Formula $E$
+\end_inset
+
+ is the elasticity of substitution (again sector specific, but suffix omitted).
+\end_layout
+
+\begin_layout Standard
+In a given period a randomly chosen share 
+\begin_inset Formula $1-\lambda$
+\end_inset
+
+ ( called 
+\begin_inset Formula $1-\mu_{s,t}^{pYrigidity}$
+\end_inset
+
+ outside this appendix) of the firms can change their prices.
+ If unchanged the price follows the exogenous rate of inflation 
+\begin_inset Formula $\pi$
+\end_inset
+
+ (called 
+\begin_inset Formula $gp_{t}$
+\end_inset
+
+ in the code).
+ Consider a firm resetting its price.
+ It will make a full re-optimization.
+ In absence of real rigidities the choice of price today will not influence
+ the choice of price the next time the firm gets to reset its price.
+ That is, when setting its price, the firm need only consider expected discounte
+d profits in the particular case that it never gets to change its price
+ again.
+ A sketch of the situation facing a firm resetting price at time 
+\begin_inset Formula $t$
+\end_inset
+
+ is given below.
+ From this one sees that current price 
+\begin_inset Formula $p_{jt}$
+\end_inset
+
+ only shows up on the far left branch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Images/calvo_pricing_figure.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denote the expected discounted value of profits of the far left branch 
+\begin_inset Formula $\Pi_{j}$
+\end_inset
+
+.
+ For a firm resetting price at time 
+\begin_inset Formula $t$
+\end_inset
+
+ the value of this is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E_{t}\left[\Pi_{jt-1}\right]=\sum_{s=t}^{\infty}\lambda^{s-t}\left(p_{jt}\left(1+\pi\right)^{s-t}y_{js}-p_{s}^{O}y_{js}\right)\frac{R_{s}}{R_{t-1}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $p_{t}^{O}$
+\end_inset
+
+ is marginally production cost (called 
+\begin_inset Formula $P_{s,t}^{Y0}$
+\end_inset
+
+ outside this appendix), 
+\begin_inset Formula $R_{t}\equiv\prod_{s=1}^{t}\frac{1}{1+r_{s}}$
+\end_inset
+
+ (
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ is called 
+\begin_inset Formula $r_{t}^{firms}$
+\end_inset
+
+ outside this appendix), and 
+\begin_inset Formula $y_{js}=\left(\frac{p_{jt}\left(1+\pi\right)^{s-t}}{P_{s}}\right)^{-E}Y_{s}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Before solving the problem it is rewritten.
+ Define
+\begin_inset Formula 
+\[
+\hat{p}_{t}\equiv\frac{p_{t}}{\left(1+\pi\right)^{t}}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\hat{R}_{t}\equiv R_{t}\left(1+\pi\right)^{t},\:\hat{\Pi}_{t}\equiv\frac{\Pi_{t}}{\left(1+\pi\right)^{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The problem is to choose 
+\begin_inset Formula $\hat{p}_{jt}$
+\end_inset
+
+ to maximize
+\begin_inset Formula 
+\[
+E_{t}\left[\hat{\Pi}_{jt-1}\right]=\sum_{s=t}^{\infty}\lambda^{s-t}\left(\hat{p}_{jt}y_{js}-\hat{p}_{s}^{O}x_{js}\right)\frac{\hat{R}_{s}}{\hat{R}_{t-1}}
+\]
+
+\end_inset
+
+subject to
+\begin_inset Formula 
+\[
+y_{js}=\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E}Y_{s}
+\]
+
+\end_inset
+
+This can be rewritten to
+\begin_inset Formula 
+\[
+E_{t}\left[\hat{\Pi}_{jt-1}\right]=\sum_{s=t}^{\infty}\lambda^{s-t}\left(\hat{p}_{jt}-\hat{p}_{s}^{O}\right)\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}
+\]
+
+\end_inset
+
+such that
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial E_{t}\left[\hat{\Pi}_{jt-1}\right]}{\partial\hat{p}_{jt}} & =\sum_{s=t}^{\infty}\lambda^{s-t}\left[\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E}-E\left(\hat{p}_{jt}-\hat{p}_{s}^{O}\right)\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E-1}\frac{1}{\hat{P}_{s}}\right]Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\\
+ & =\sum_{s=t}^{\infty}\lambda^{s-t}\left[\left(1-E\right)\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E}+E\left(\frac{\hat{p}_{jt}}{\hat{P}_{s}}\right)^{-E-1}\frac{\hat{p}_{s}^{O}}{\hat{P}_{s}}\right]Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\\
+ & =-\left(E-1\right)\hat{p}_{jt}^{-E}\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}+E\hat{p}_{jt}^{-E-1}\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{1+E}\frac{\hat{p}_{s}^{O}}{\hat{P}_{s}}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\\
+ & =0
+\end{align*}
+
+\end_inset
+
+Let 
+\begin_inset Formula $\hat{p}_{t}^{*}$
+\end_inset
+
+ be the solution to this FOC (absence of real rigidities makes it equal
+ for all firms).
+ The optimal price is given by
+\begin_inset Formula 
+\begin{align*}
+\hat{p}_{t}^{*} & =\frac{E}{E-1}\frac{\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\hat{p}_{s}^{O}}{\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}}\\
+ & =\frac{E}{E-1}\frac{\Delta_{t}}{\Omega_{t}}
+\end{align*}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\[
+\Delta_{t}\equiv\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\hat{p}_{s}^{O}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\Omega_{t}\equiv\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}
+\]
+
+\end_inset
+
+Rearranging yields
+\begin_inset Formula 
+\begin{align*}
+\Delta_{t} & =\sum_{s=t}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\hat{p}_{s}^{O}\\
+ & =\hat{P}_{t}^{E}Y_{t}\frac{\hat{R}_{t}}{\hat{R}_{t-1}}\hat{p}_{t}^{O}+\sum_{s=t+1}^{\infty}\lambda^{s-t}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t-1}}\hat{p}_{s}^{O}\\
+ & =\hat{P}_{t}^{E}Y_{t}\frac{\hat{R}_{t}}{\hat{R}_{t-1}}\hat{p}_{t}^{O}+\frac{\hat{R}_{t}}{\hat{R}_{t-1}}\lambda\sum_{s=t+1}^{\infty}\lambda^{s-\left(t+1\right)}\hat{P}_{s}^{E}Y_{s}\frac{\hat{R}_{s}}{\hat{R}_{t}}\hat{p}_{s}^{O}\\
+ & =\frac{1+\pi}{1+r_{t}}\left(\hat{P}_{t}^{E}Y_{t}\hat{p}_{t}^{O}+\lambda\Delta_{t+1}\right)
+\end{align*}
+
+\end_inset
+
+such that
+\begin_inset Formula 
+\[
+\Delta_{t}=\frac{1+\pi}{1+r_{t}}\left(\hat{P}_{t}^{E}Y_{t}\hat{p}_{t}^{O}+\lambda\Delta_{t+1}\right)
+\]
+
+\end_inset
+
+The same kinds of manipulations yield
+\begin_inset Formula 
+\[
+\Omega_{t}=\frac{1+\pi}{1+r_{t}}\left(\hat{P}_{t}^{E}Y_{t}+\lambda\Omega_{t+1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now for aggregation.
+ Consider the aggregated CES price index 
+\begin_inset Formula $P_{t}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+P_{t}^{1-E}=\int_{0}^{1}p_{jt}^{1-E}dj
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A share 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ of the prices, 
+\begin_inset Formula $p_{jt}$
+\end_inset
+
+, has just been changed and is equal to 
+\begin_inset Formula $p_{t}^{*}.$
+\end_inset
+
+ The rest is the 'old' prices.
+ Following law of large number the aggregated price is
+\begin_inset Formula 
+\[
+P_{t}^{1-E}=\lambda\left(p_{t}^{*}\right)^{1-E}+\left(1-\lambda\right)P_{t-1}^{1-E}
+\]
+
+\end_inset
+
+or
+\begin_inset Formula 
+\[
+P_{t}=\left[\lambda\left(p_{t}^{*}\right)^{1-E}+\left(1-\lambda\right)P_{t-1}^{1-E}\right]^{\frac{1}{1-E}}
+\]
+
+\end_inset
+
+Inflation correcting:
+\begin_inset Formula 
+\[
+\frac{P_{t}}{\left(1+\pi\right)^{t}}=\left[\lambda\left(\frac{p_{t}^{*}}{\left(1+\pi\right)^{t}}\right)^{1-E}+\left(1-\lambda\right)\left(\frac{P_{t-1}}{\left(1+\pi\right)^{t}}\right)^{1-E}\right]^{\frac{1}{1-E}}
+\]
+
+\end_inset
+
+such that
+\begin_inset Formula 
+\[
+\hat{P}_{t}=\left[\lambda\left(\hat{p}_{t}^{*}\right)^{1-E}+\left(1-\lambda\right)\left(\hat{P}_{t-1}\frac{1}{1+\pi}\right)^{1-E}\right]^{\frac{1}{1-E}}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\begin{equation}
+\hat{P}_{t}^{1-E}=\lambda\left(\hat{p}_{t}^{*}\right)^{1-E}+\left(1-\lambda\right)\left(\hat{P}_{t-1}\frac{1}{1+\pi}\right)^{1-E}\label{eq:P}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If the aggregated price index is a correct CES price index (which (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:P"
+
+\end_inset
+
+) is) is the aggregated output 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ a CES aggregate of the production of all the firms:
+\begin_inset Formula 
+\[
+Y_{t}^{\frac{E-1}{E}}=\int_{0}^{1}y_{jt}^{\frac{E-1}{E}}dj
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ is determined by demand and 
+\begin_inset Formula $\hat{P}_{t}$
+\end_inset
+
+ is determined by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:P"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Inflation and growth corrected the Calvo equations can be written as:
+\begin_inset Formula 
+\[
+\Delta_{t}=\left(1+r_{t}\right)\left(P_{t}^{E}Y_{t}p_{t}^{O}+\left(1+g\right)\lambda\Delta_{t+1}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Omega_{t}=\left(1+r_{t}\right)\left(P_{t}^{E}Y_{t}+\left(1+g\right)\lambda\Omega_{t+1}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{t}$
+\end_inset
+
+ is the growth corrected real interest rate.
+ Furthermore:
+\begin_inset Formula 
+\[
+P_{t}^{1-E}=\lambda\left(p_{t}^{*}\right)^{1-E}+\left(1-\lambda\right)\left(P_{t-1}\frac{1}{1+\pi}\right)^{1-E}
+\]
+
+\end_inset
+
+where
+\begin_inset Formula 
+\[
+p_{t}^{*}=\frac{E}{E-1}\frac{\Delta_{t}}{\Omega_{t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Allowing for deviations from the law-of-one-price in the IO-system
+\end_layout
+
+\begin_layout Standard
+From the IO-chapter, we have the following expressions for demand prices:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{IOy}=\left(1+\tau_{d,s,t}^{IOy}\right)P_{s,t}^{Y}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{IOm}=\left(1+\tau_{d,s,t}^{IOm}\right)P_{s,t}^{M}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These assume that all sectors have the same demand price before taxes irrespecti
+ve of the buyer.
+ We can deviate from this by using the following expression for the demand
+ price:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{IOy}=\left(1+\tau_{d,s,t}^{IOy}\right)\left(1+j_{d,t}^{pIOy}-j_{s,t}^{pY}\right)P_{s,t}^{Y}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{d,s,t}^{IOm}=\left(1+\tau_{d,s,t}^{IOm}\right)\left(1+j_{d,t}^{pIOm}-j_{s,t}^{pM}\right)P_{s,t}^{M}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The terms 
+\begin_inset Formula $j_{d,t}^{pIOy}$
+\end_inset
+
+ and 
+\begin_inset Formula $j_{d,t}^{pIOm}$
+\end_inset
+
+are meant to allow deviations from the law of one price and are exogenous
+ to the model.
+ By shocking 
+\begin_inset Formula $j_{d,t}^{pIOy}$
+\end_inset
+
+, we shock the demand price for a demand component supplied by domestic
+ production.
+ The increase in the demand price is not sector-specific.
+ The terms 
+\begin_inset Formula $j_{s,t}^{pY}$
+\end_inset
+
+ and 
+\begin_inset Formula $j_{s,t}^{pM}$
+\end_inset
+
+are necessary to ensure that central IO identities still hold.
+ To explain how we set 
+\begin_inset Formula $j_{s,t}^{pY}$
+\end_inset
+
+ and 
+\begin_inset Formula $j_{s,t}^{pM}$
+\end_inset
+
+, we use domestic production as an example, but the exact same could have
+ been done with imports.
+ Define demand prices before taxes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{d,s,t}^{IOyx}=\left(1+j_{d,t}^{pIOy}-j_{s,t}^{pY}\right)P_{s,t}^{Y}\label{eq:pioy_eq}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following IO-identities must hold:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sum_{d}P_{d,s,t}^{IOyx}Q_{d,s,t}^{IOy}=Y_{s,t}P_{s,t}^{Y}\label{eq:ident_1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sum_{d}Q_{d,s,t}^{IOy}=Y_{s,t}\label{eq:ident_2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In absence of the term 
+\begin_inset Formula $j_{d,t}^{pIOy}-j_{s,t}^{pY}$
+\end_inset
+
+, 
+\begin_inset Formula $P_{d,s,t}^{IOyx}=P_{s,t}^{Y}$
+\end_inset
+
+so 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident_1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ is identical to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident_2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ But with 
+\begin_inset Formula $j_{d,t}^{pIOy}-j_{s,t}^{pY}$
+\end_inset
+
+ this is no longer true.
+ If we shock 
+\begin_inset Formula $j_{d,s,t}^{pIOY}$
+\end_inset
+
+while setting 
+\begin_inset Formula $j_{s,t}^{pY}=0$
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident_1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ is violated since
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident_2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ must still hold.
+ We can derive a condition to set 
+\begin_inset Formula $j_{s,t}^{pY}$
+\end_inset
+
+ such that both conditions hold:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{d}P_{d,s,t}^{IOyx}q_{d,s,t}^{IOy}=\sum_{d}\left(1+j_{d,t}^{pIOy}-j_{s,t}^{pY}\right)P_{s,t}^{Y}q_{d,s,t}^{IOy}=Y_{s,t}P_{s,t}^{Y}\Longleftrightarrow Y_{s,t}=\sum_{d}\left(1+j_{d,t}^{pIOy}-j_{s,t}^{pY}\right)q_{d,s,t}^{IOy}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Longleftrightarrow\sum_{d}j_{d,t}^{pIOy}q_{d,s,t}^{IOy}=j_{s,t}^{pY}\sum_{d}q_{d,s,t}^{IOy}\Longleftrightarrow j_{s,t}^{pY}=\frac{\sum_{d}j_{d,t}^{pIOy}q_{d,s,t}^{IOy}}{Y_{s,t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The equivalent condition for 
+\begin_inset Formula $j_{s,t}^{pM}$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+j_{s,t}^{pM}=\frac{\sum_{d}j_{d,t}^{pIOm}q_{d,s,t}^{IOm}}{M_{s,t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a shock to some demand component price through 
+\begin_inset Formula $j_{d,t}^{pIOy}$
+\end_inset
+
+, we then move all other demand prices such that 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ident_1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ holds.
+ While not necessary, we would like the supply prices to move in conjunction
+ with our shocks to the demand prices.
+ This is achieved by simply adding 
+\begin_inset Formula $j_{s,t}^{pY}$
+\end_inset
+
+ to the markup in 
+\begin_inset Formula $P_{s,t}^{Y}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We do this by adding 
+\begin_inset Formula $j_{s,t}^{pY}$
+\end_inset
+
+to the expression for 
+\begin_inset Formula $P_{s,t}^{Y}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{s,t}^{Y}=(1+\theta_{t}+j_{s,t}^{pY})P_{s,t}^{0}\label{eq:pY_eq}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Solving CES nests
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Solving CES nests"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In solving a CES nest you have a set of simple optimization problems:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\underset{Q_{1},Q{}_{2}}{MIN}\left[P_{1}Q_{1}+P_{2}Q_{2}\right]\\
+s.t.\\
+Q=\left(\mu_{1}^{1/\sigma}Q{}_{1}^{\left(\sigma-1\right)/\sigma}+\mu_{2}^{1/\sigma}Q_{2}^{\left(\sigma-1\right)/\sigma}\right)^{\sigma/\left(\sigma-1\right)}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Lagrange function is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\mathcal{L}=P_{1}Q_{1}+P_{2}Q_{2}-\lambda\left(\left(\mu_{1}^{1/\sigma}Q{}_{1}^{\left(\sigma-1\right)/\sigma}+\mu_{2}^{1/\sigma}Q_{2}^{\left(\sigma-1\right)/\sigma}\right)^{\sigma/\left(\sigma-1\right)}-Q\right)\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first order conditions are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\frac{\partial\mathcal{L}}{\partial Q_{1}}=P_{1}-\lambda Q^{1/(\sigma-1)}\mu_{1}^{1/\sigma}Q{}_{1}^{-1/\sigma}\end{array}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\frac{\partial\mathcal{L}}{\partial Q_{2}}=P_{2}-\lambda Q^{1/(\sigma-1)}\mu_{2}^{1/\sigma}Q{}_{2}^{-1/\sigma}\end{array}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\frac{\partial\mathcal{L}}{\partial\lambda}=Q-\left(\mu_{1}^{1/\sigma}Q{}_{1}^{\left(\sigma-1\right)/\sigma}+\mu_{2}^{1/\sigma}Q_{2}^{\left(\sigma-1\right)/\sigma}\right)^{\sigma/\left(\sigma-1\right)}\end{array}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first two FOC yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\frac{Q_{1}}{Q_{2}}=\end{array}\frac{\mu_{1}}{\mu_{2}}\left(\frac{P_{1}}{P_{2}}\right)^{-\sigma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Isolating Q1 and inserting in the third FOC yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Q_{2}=\mu_{2}Q\left(\frac{P_{2}}{\left(\mu_{1}P_{1}^{-\left(\sigma-1\right)}+\mu_{2}P_{2}^{-\left(\sigma-1\right)}\right)^{1/\left(\sigma-1\right)}}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Inserting this in the third FOC yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Q_{1}=\mu_{1}Q\left(\frac{P_{1}}{\left(\mu_{1}P_{1}^{-\left(\sigma-1\right)}+\mu_{2}P_{2}^{-\left(\sigma-1\right)}\right)^{1/\left(\sigma-1\right)}}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The total cost is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+PQ=P_{1}Q_{1}+P_{2}Q_{2}=\left(\mu_{1}P_{1}^{-\left(\sigma-1\right)}+\mu_{2}P_{2}^{-\left(\sigma-1\right)}\right)^{-1/\left(\sigma-1\right)}Q\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P=\left(\mu_{1}P_{1}^{-\left(\sigma-1\right)}+\mu_{2}P_{2}^{-\left(\sigma-1\right)}\right)^{-1/\left(\sigma-1\right)}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Inserting yields:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Q_{1}=\mu_{1}Q\left(\frac{P_{1}}{P}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Q_{2}=\mu_{2}Q\left(\frac{P_{2}}{P}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+On growth and inflation correction
+\end_layout
+
+\begin_layout Standard
+Real growth and price inflation are introduced exogenously in the model.
+ Variables in the model are understood as the residual of a common growth
+ and inflation trend.
+ Consider a price variable in the model.
+ It is useful to decompose it into its stationary and inflation components.
+ We typically write 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$p_{t}= 
+\backslash
+left(1+
+\backslash
+pi_{1}
+\backslash
+right)..
+\backslash
+left(1+
+\backslash
+pi_{t}
+\backslash
+right) 
+\backslash
+times p_{0}$
+\end_layout
+
+\end_inset
+
+, but here we add an additional stationary component to have 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$p_{t}= 
+\backslash
+left(1+
+\backslash
+pi_{1}
+\backslash
+right)..
+\backslash
+left(1+
+\backslash
+pi_{t}
+\backslash
+right) 
+\backslash
+times 
+\backslash
+zeta_{t} 
+\backslash
+times p_{0}$
+\end_layout
+
+\end_inset
+
+, which we then write as 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$p_{t}= 
+\backslash
+left(1+
+\backslash
+pi_{1}
+\backslash
+right)..
+\backslash
+left(1+
+\backslash
+pi_{t}
+\backslash
+right) 
+\backslash
+times 
+\backslash
+hat{p}_{t}$
+\end_layout
+
+\end_inset
+
+.
+ Then , when we have in the model an equation that contains prices at different
+ dates in the model such as 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$p_{t}=bp_{t+1}$
+\end_layout
+
+\end_inset
+
+, we in fact work with
+\begin_inset Formula 
+\[
+\hat{p}_{t}=b\left(1+\pi_{t+1}\right)\hat{p}_{t+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A standard example looks at how the capital accumulation is affected.
+ From 
+\begin_inset Formula 
+\[
+K_{t}=\left(1-\delta\right)K_{t-1}+I_{t}
+\]
+
+\end_inset
+
+we write
+\begin_inset Formula 
+\[
+\hat{K}_{t}=\frac{\left(1-\delta\right)}{1+g_{t}}\hat{K}_{t-1}+\hat{I}_{t}
+\]
+
+\end_inset
+
+and ignoring hats the steady state in these transformed variables implies
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+frac{I}{K}=
+\backslash
+frac{g+
+\backslash
+delta}{1+g}$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Consider now a more general example of how it is done.
+ 
+\end_layout
+
+\begin_layout Standard
+The firm will maximize profits by choosing capital (where there is also
+ book capital which is a regulation induced object)
+\begin_inset Formula 
+\[
+\Pi_{t}=\left(1-\tau_{t}\right)p_{t}F_{t}-I_{t}p_{t}^{I}+\tau_{t}\delta^{b}K_{t-1}^{b}+q_{t}\left[\left(1-\delta^{k}\right)K_{t-1}+I_{t}-K_{t}\right]+\lambda_{t}\left[\left(1-\delta^{b}\right)K_{t-1}^{b}+I_{t}p_{t}^{I}-K_{t}^{b}\right]
+\]
+
+\end_inset
+
+With a nominal discount factor 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+beta = 1/(1+i)$
+\end_layout
+
+\end_inset
+
+, the first order conditions with respect to investment, capital, and book-capit
+al are
+\begin_inset Formula 
+\[
+\begin{array}{c}
+q_{t}=p_{t}^{I}\left(1-\lambda_{t}\right)\\
+\lambda_{t}=\beta\lambda_{t+1}\left(1-\delta^{b}\right)+\beta\tau_{t+1}\delta^{b}\\
+q_{t}=\beta q_{t+1}\left(1-\delta^{k}\right)+\beta\left(1-\tau_{t+1}\right)p_{t+1}^{k}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, lambda is a shadow price of a nominal quantity and so it does not grow
+ (it has no corrections).
+ However, q is the shadow price of a real quantity and so it must grow at
+ the rate of inflation (because the investment price and the output price
+ are growing at the rate of inflation).
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This may sound confusing.
+ While prices grow at the exogenous rate of inflation, shadow prices of
+ nominal quantities do not need an inflation correction.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is now useful to decompose our price variables into their stationary
+ and inflation components so we are ready to rewrite everything with stationary
+ variables as 
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\hat{q}_{t}=\hat{p}_{t}^{I}\left(1-\lambda_{t}\right)\\
+\lambda_{t}=\beta\lambda_{t+1}\left(1-\delta^{b}\right)+\beta\tau_{t+1}\delta^{b}\\
+\hat{q}_{t}=\beta\hat{q}_{t+1}\left(1+\pi_{t+1}\right)\left(1-\delta^{k}\right)+\beta\left(1-\tau_{t+1}\right)\left(1+\pi_{t+1}\right)\hat{p}_{t+1}^{k}
+\end{array}
+\]
+
+\end_inset
+
+where all but the last inflation terms drop out of the system.
+ In steady state (and abusing notation by dropping the hats) this yields
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q = p^{I}(1-
+\backslash
+lambda)$
+\end_layout
+
+\end_inset
+
+, and
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\lambda(1+i)=\lambda\left(1-\delta^{b}\right)+\tau\delta^{b}\\
+q(1+i)=q\left(1+\pi\right)\left(1-\delta^{k}\right)+\left(1-\tau\right)\left(1+\pi\right)p^{k}
+\end{array}
+\]
+
+\end_inset
+
+and rearranging we get 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+lambda = 
+\backslash
+tau 
+\backslash
+delta^{b}/(i+
+\backslash
+delta^{b})$
+\end_layout
+
+\end_inset
+
+, and using the fact that 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$(1+i)=(1+r)(1+
+\backslash
+pi)$
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q
+\backslash
+left[r+
+\backslash
+delta^{k}
+\backslash
+right]=
+\backslash
+left(1-
+\backslash
+tau
+\backslash
+right)p^{k}$
+\end_layout
+
+\end_inset
+
+, which yields
+\begin_inset Formula 
+\[
+p^{I}\left(r+\delta^{k}-\frac{r+\delta^{k}}{i+\delta^{b}}\tau\delta^{k}\right)=\left(1-\tau\right)\hat{p}^{k}
+\]
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+CES and Paasche price indices
+\end_layout
+
+\begin_layout Standard
+The CES demand for a quantity 
+\begin_inset Formula $Q_{i,t}$
+\end_inset
+
+ is (for i=1,2) derived in appendix 1.2 and given by:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+Q_{i,t}=\mu_{i,t}Q_{t}^{CES}\left(\frac{P_{i,t}}{P_{t}^{CES}}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\mu_{i,t}$
+\end_inset
+
+ is a share parameter, 
+\begin_inset Formula $Q_{t}^{CES}$
+\end_inset
+
+ is the CES aggregate of the demand components, 
+\begin_inset Formula $P_{i,t}$
+\end_inset
+
+ is the the price for demand component i, 
+\begin_inset Formula $P_{t}^{CES}$
+\end_inset
+
+ is the CES price index and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is the elasticity of substitution.
+ The budget constraint gives:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t}^{CES}Q_{t}^{CES}=\sum_{i}P_{i,t}Q_{i,t}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The above two equations implicitly gives the CES price index.
+ In MAKRO all CES price indices are implicitly given.
+ Inserting and writing the CES price index explicitly gives:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t}^{CES}=\left(\sum_{i}\mu_{i,t}P_{i,t}^{-\left(\sigma-1\right)}\right)^{-1/\left(\sigma-1\right)}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The national accounts use Laspeyres chain index for quantities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t-1}^{PCI}Q_{t}^{LCI}=\sum_{i}P_{i,t-1}Q_{i,t}\end{array}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $P_{t}^{PCI}$
+\end_inset
+
+ is a Paasche chain index for prices and 
+\begin_inset Formula $Q_{t}^{LCI}$
+\end_inset
+
+ is a Laspeyres chain index for quantities.
+ Together with the budget constraint this yields a Paasche chain index for
+ prices:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t}^{PCI}=P_{t-1}^{PCI}\frac{\sum_{i}P_{i,t}Q_{i,t}}{\sum_{i}P_{i,t-1}Q_{i,t}}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For historical data the 
+\begin_inset Formula $\mu_{i,t}$
+\end_inset
+
+ are calibrated so either 
+\begin_inset Formula $P_{t}^{CES}=P_{t}^{PCI}$
+\end_inset
+
+ or 
+\begin_inset Formula $Q_{t}^{CES}=Q_{t}^{LCI}$
+\end_inset
+
+ together with the budget constraint the one implies the other and we need
+ not to distinguish.
+ This implies:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{i,t0}=\begin{array}{c}
+\frac{Q_{i,t0}}{Q_{t0}^{LCI}}\left(\frac{P_{i,t0}}{P_{t0}^{PCI}}\right)^{\sigma}\end{array}
+\]
+
+\end_inset
+
+where t0 is the last year of the calibration period.
+ 
+\end_layout
+
+\begin_layout Standard
+In the forecast period our CES prices will only equal Paasche chain prices
+ if:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t-1}^{CES}Q_{t}^{CES}=\sum_{i}P_{i,t-1}Q_{i,t}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t-1}^{CES}Q_{t}^{CES}=\sum_{i}P_{i,t-1}\mu_{i,t}Q_{t}^{CES}\left(\frac{P_{i,t}}{P_{t}^{CES}}\right)^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{t-1}^{CES}\begin{array}{c}
+=\left(P_{t}^{CES}\right)^{\sigma}\sum_{i}\mu_{i,t}P_{i,t-1}P_{i,t}^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\left(\sum_{i}\mu_{i,t-1}P_{i,t-1}^{-\left(\sigma-1\right)}\right)^{-1/\left(\sigma-1\right)}=\left(\sum_{i}\mu_{i,t}P_{i,t}^{-\left(\sigma-1\right)}\right)^{-\sigma/\left(\sigma-1\right)}\sum_{i}\mu_{i,t}P_{i,t-1}P_{i,t}^{-\sigma}\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This will generally not be the case.
+ The Paasche price index is a superlative price index - so the deviation
+ from a chain index will not increase over time, but we should never expect
+ to hit exactly.
+\end_layout
+
+\begin_layout Standard
+We have put restrictions on the share parameters not to catch productivity
+ gains in the share parameters.
+ Instead of balancing with fixed coefficient sums you can balance by enforcing
+ the CES price aggregates to equal the Paasche price aggregates.
+ This is done by endogenizing 
+\begin_inset Formula $\lambda_{t}$
+\end_inset
+
+ in the equation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{i,t}=\lambda_{t}\frac{\mu_{i,t}^{0}}{\sum_{i}\mu_{i,t}^{0}}
+\]
+
+\end_inset
+
+and adding an equation stating:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+P_{t-1}^{CES}Q_{t}^{CES}=\sum_{i}P_{i,t-1}Q_{i,t}\end{array}
+\]
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Static user cost
+\end_layout
+
+\begin_layout Standard
+Usercost is in the standard model given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t}^{K} & =P_{sp,t+1}^{KLBR}\left(\lambda_{k,sp,t+1}^{KapUtilCost}-\frac{\mu_{k,sp,t+1}^{KInstCost}}{2}(\frac{I_{k,sp,t+1}-I_{k,sp,t}\xi_{k,sp,t+1}}{K_{k,sp,t}})^{2}\right)\\
+\\
+ & \frac{-t_{sp,t+1}^{corp}r_{k,sp,t+1}^{Firms}\mu_{sp,t}^{FirmDebt}P_{k,sp,t}^{I}}{\left(1-t_{sp,t+1}^{corp}\right)}+t_{k,sp,t+1}^{K}P_{k,sp,t+1}^{I}\\
+\\
+ & +\frac{\left(1+r_{sp,t+1}^{Firms}\right)}{\left(1-t_{sp,t+1}^{corp}\right)}Q_{k,sp,t}^{tobins}-Q_{k,sp,t+1}^{tobins}\frac{\left(1-\delta_{k,sp,t+1}\right)}{\left(1-t_{sp,t+1}^{corp}\right)}
+\end{array}
+\]
+
+\end_inset
+
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+Q_{k,sp,t}^{tobins} & = & P_{k,sp,t}^{I}-P_{k,sp,t}^{I}P_{k,sp,t}^{KTax}\\
+ &  & +P_{sp,t}^{KLBR}(1-t_{sp,t}^{Corp})\mu_{k,sp}^{KInstCost}(I_{k,sp,t}-I_{k,sp,t-1}\xi_{k,sp,t})/K_{k,sp,t-1}\\
+ &  & -\frac{1}{1+r_{sp,t+1}^{Firms}}P_{sp,t+1}^{KLBR}(1-t_{sp,t+1}^{Corp})\\
+ &  & *\xi_{k,sp,t+1}\mu_{k,sp}^{KInstCost}\left((I_{k,sp,t+1}-I_{k,sp,t}\xi_{k,sp,t+1})/K_{k,sp,t}\right)
+\end{array}
+\]
+
+\end_inset
+
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{k,sp,t}^{KTax}=\frac{1}{1+r_{sp,t+1}^{Firms}}\left[\left(1-\delta_{k,sp,t+1}^{Tax}\right)P_{k,sp,t+1}^{KTax}+t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tobins Q is inserted in the user cost expression and use the fact that in
+ the calibration 
+\begin_inset Formula $\xi_{k,sp,t}=I_{k,sp,t}/I_{k,sp,t-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{k,sp,t}^{KapUtilCost}=0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(1+r_{sp,t+1}^{Firms}\right)-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}\\
+ &  & -\left(1+r_{sp,t+1}^{Firms}\right)P_{k,sp,t}^{KTax}+\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}P_{k,sp,t+1}^{KTax}\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The expression for 
+\begin_inset Formula $P_{k,sp,t+1}^{KTax}$
+\end_inset
+
+ is isolated:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{k,sp,t+1}^{KTax}=\frac{\left(1+r_{sp,t+1}^{Firms}\right)P_{k,sp,t}^{KTax}-t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{\left(1-\delta_{k,sp,t+1}^{Tax}\right)}
+\]
+
+\end_inset
+
+and inserted in the user cost expression:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(1+r_{sp,t+1}^{Firms}\right)-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}\left(1+\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{1-\delta_{k,sp,t+1}^{Tax}}\right)\\
+ &  & -\left(1-\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}\frac{1-\delta_{k,sp,t+1}}{1-\delta_{k,sp,t+1}^{Tax}}\right)\left(1+r_{sp,t+1}^{Firms}\right)P_{k,sp,t}^{KTax}\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With static expectations to taxes, interest rates and depreciations after
+ next period - i.e.
+ 
+\begin_inset Formula $t_{sp,t+n}^{Corp}=t_{sp,t+1}^{Corp}$
+\end_inset
+
+, 
+\begin_inset Formula $r_{sp,t+n}^{Firms}=r_{sp,t+1}^{Firms}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta_{k,sp,t+n}^{Tax}=\delta_{k,sp,t+1}^{Tax}$
+\end_inset
+
+ then 
+\begin_inset Formula $P_{k,sp,t}^{KTax}$
+\end_inset
+
+ can be written as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{k,sp,t}^{KTax}=\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}^{Tax}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By observering the 
+\begin_inset Formula $P_{k,sp,t+1}^{KTax}$
+\end_inset
+
+ as a sequence and the only stable solution appears when 
+\begin_inset Formula $P_{k,sp,t}^{KTax}$
+\end_inset
+
+= 
+\begin_inset Formula $P_{k,sp,t+1}^{KTax}$
+\end_inset
+
+, result follows.
+\end_layout
+
+\begin_layout Standard
+Inserting and rearranging with following steps:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(1+r_{sp,t+1}^{Firms}\right)-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}\left(1+\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{1-\delta_{k,sp,t+1}^{Tax}}\right)\\
+ &  & -\left(1-\frac{P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}\frac{1-\delta_{k,sp,t+1}}{1-\delta_{k,sp,t+1}^{Tax}}\right)\left(1+r_{sp,t+1}^{Firms}\right)\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}^{Tax}}\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}-P_{k,sp,t}^{I}}{P_{k,sp,t}^{I}}\right)\\
+ &  & -t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}(\frac{1}{1-\delta_{k,sp,t+1}^{Tax}}\frac{(1-\delta_{k,sp,t+1})P_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}+\frac{1+r_{sp,t+1}^{Firms}}{r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}^{Tax}}(1-\frac{P_{k,sp,t+1}^{I}(1-\delta_{k,sp,t+1})}{P_{k,sp,t}^{I}(1-\delta_{k,sp,t+1}^{Tax})})\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}-P_{k,sp,t}^{I}}{P_{k,sp,t}^{I}}\right)\\
+ &  & -\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{r_{k,sp,t+1}^{Firm}+\delta_{k,sp,t+1}^{Tax}}((\delta_{k,sp,t+1}-1)\frac{(1-\delta_{k,sp,t+1})P_{k,sp,t+1}^{I}}{(1-\delta_{k,sp,t+1}^{Tax})P_{k,sp,t}^{I}}+1+r_{k,sp,t+1}^{Firm})\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Yieds:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t+1}^{Corp}}\\
+ &  & [\left(1-\frac{t_{sp,t+1}^{Corp}\delta_{k,sp,t+1}^{Tax}}{r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}^{Tax}}\right)\\
+ &  & \left(r_{sp,t+1}^{Firms}+\delta_{k,sp,t+1}-\left(1-\delta_{k,sp,t+1}\right)\frac{P_{k,sp,t+1}^{I}-P_{k,sp,t}^{I}}{P_{k,sp,t}^{I}}\right)\\
+ &  & -t_{sp,t+1}^{Corp}r_{k,sp,t+1}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With static expectations to taxes, interest rates and tax depreciations
+ we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+P_{k,sp,t+1}^{K} & = & \frac{P_{k,sp,t}^{I}}{1-t_{sp,t}^{Corp}}\\
+ &  & [\left(1-\frac{t_{sp,t}^{Corp}\delta_{k,sp,t}^{Tax}}{r_{sp,t}^{Firms}+\delta_{k,sp,t}^{Tax}}\right)\\
+ &  & \left(r_{sp,t}^{Firms}+E_{t}\left[\delta_{k,sp,t+1}\right]-\left(1-E_{t}\left[\delta_{k,sp,t+1}\right]\right)E_{t}\left[\frac{P_{k,sp,t+1}^{I}-P_{k,sp,t}^{I}}{P_{k,sp,t}^{I}}\right]\right)\\
+ &  & -t_{sp,t}^{Corp}r_{k,sp,t}^{FirmDebt}\mu_{sp,t}^{FirmDebt}\\
+ &  & +\left(1-t_{sp,t+1}^{Corp}\right)t_{sp,t+1}^{K}(E[\frac{p_{k,sp,t+1}^{I}}{P_{k,sp,t}^{I}}]-1)]
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
