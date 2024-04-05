@@ -1,7 +1,7 @@
-import collections
+from collections.abc import MutableMapping, Mapping
 
+class CaseInsensitiveDict(MutableMapping):
 
-class CaseInsensitiveDict(collections.MutableMapping):
     """A case-insensitive ``dict``-like object.
     Implements all methods and operations of
     ``collections.MutableMapping`` as well as dict's ``copy``. Also
@@ -55,7 +55,7 @@ class CaseInsensitiveDict(collections.MutableMapping):
         )
 
     def __eq__(self, other):
-        if isinstance(other, collections.Mapping):
+        if isinstance(other, Mapping):
             other = CaseInsensitiveDict(other)
         else:
             return NotImplemented
@@ -124,3 +124,4 @@ class MockMatch:
 
     def groups(self, i):
         return self.groups
+
