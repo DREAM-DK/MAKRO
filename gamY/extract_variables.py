@@ -13,7 +13,7 @@ from gams import *
 # assert input_path[-4:] == ".gdx", "%s is not a .gdx file" % input_path
 
 ws = GamsWorkspace()
-input_path = os.path.abspath("..\\Model\\Gdx\\previous_smooth_calibration.gdx")
+input_path = os.path.abspath("..\\Model\\Gdx\\previous_deep_calibration.gdx")
 
 db = ws.add_database_from_gdx(input_path)
 
