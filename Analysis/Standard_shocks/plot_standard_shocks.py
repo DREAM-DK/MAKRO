@@ -34,9 +34,9 @@ gdx_folders, gdx_labels = zip(*gdx_folders_info)
 # For each variation, we also supply a label
 variations_info = [
     ("_blip", "Blip", "Blip"),
-    # ("_midl", "Midlertidig", "Transitory"),
-    # ("_perm", "Permanent", "Permanent"),
-    # ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
+    ("_midl", "Midlertidig", "Transitory"),
+    ("_perm", "Permanent", "Permanent"),
+    ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
 ]
 shock_variation_suffixes, shock_variation_labels_DA, shock_variation_labels_EN = zip(*variations_info)
 
