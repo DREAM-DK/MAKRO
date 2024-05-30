@@ -19,11 +19,11 @@ while root != os.path.dirname(root):
         break
     root = os.path.dirname(root)
 
-sys.path.append(root)
+sys.path.insert(0, root)
 exec(open(paths_file).read()) # get local paths
 
-sys.path.append(fr"{root}\Analysis\Baseline")
-sys.path.append(fr"{root}\Analysis\Templates") # Add the Templates folder to the path so we can import variables_to_plot
+sys.path.insert(0,fr"{root}\Analysis\Baseline")
+sys.path.insert(0,fr"{root}\Analysis\Templates") # Add the Templates folder to the path so we can import variables_to_plot
 
 
 os.environ["R_HOME"] = R_path
