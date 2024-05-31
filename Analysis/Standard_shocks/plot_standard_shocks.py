@@ -68,7 +68,7 @@ yaxis_title_from_operator = {
 }
 
 # Create dataframe with all combinations of shocks, variations, model versions, and variables
-data = pd.DataFrame()
+data = []
 for folder, folder_label in gdx_folders_info:
     baseline = dt.Gdx(fr"{folder}\baseline.gdx")
     for shock_name, shock_label, shock_specific_plot in zip(shock_names, shock_labels, shock_specific_plot_info):
@@ -89,7 +89,7 @@ for folder, folder_label in gdx_folders_info:
                 get_variable_functions,
                 operators
             )):
-                data = data.append({
+                data.append({
                     "variable_index": variable_index,
                     "folder": folder,
                     "folder_label": folder_label,
@@ -102,7 +102,8 @@ for folder, folder_label in gdx_folders_info:
                     "getter": getter,
                     "variable_label": variable_label,
                     "operator": operator,
-                }, ignore_index=True)
+                })
+data = pd.DataFrame(data)
 
 def get_multiplier(row):
     """Get multiplier for a given row in the dataframe"""

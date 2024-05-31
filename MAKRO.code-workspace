@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "Data"
+		},
+		{
+			"path": "Documentation"
+		},
+		{
+			"path": "gamY"
+		},
+		{
+			"path": "Konjunktur"
+		},
+		{
+			"path": "Matching"
+		},
+		{
+			"path": "Model"
+		},
+		{
+			"path": "Analysis"
+		}
+	],
+	"settings": {
+		"editor.codeActionsOnSave": {}
+	},
+}
+
