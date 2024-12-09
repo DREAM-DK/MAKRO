@@ -5,7 +5,12 @@
   lmmxsf = 1
 
   # Time limit in seconds
-  reslim = 172000
+  reslim = 3600
+
+  #Limit on number of error messages related to infeasible pre-triangle
+  #25 is default but often not enough. 
+  Lim_Pre_Msg = 400
+
 
   # Multithreading
   Threads=7

@@ -38,7 +38,16 @@ figs-within-sections
 \index_command default
 \paperfontsize 12
 \spacing double
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize a4paper
 \use_geometry true
 \use_package amsmath 1
@@ -82,7 +91,7 @@ figs-within-sections
 \color #faf0e6
 \end_branch
 \branch LabormarketVariables
-\selected 0
+\selected 1
 \filename_suffix 0
 \color #faf0e6
 \end_branch
@@ -342,7 +351,19 @@ We extend household utility to include disutility from hours worked,
  We have then
 \begin_inset Formula 
 \[
-U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}}{1-\eta^{lf}}\left(1-q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}}{1-\eta^{lf}}\left(1-q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{1}{1-\eta^{lf}}\left(1-\lambda_{a,t}^{lf}q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
 \]
 
 \end_inset
@@ -354,8 +375,15 @@ The
  controls are exogenous to the household and used to control for stationarity,
  and, in line with Galí, Smets, and Wouters (2012), to eliminate the marginal
  utility of consumption from the first order conditions.
- This allows us to have the same search and hours decisions for HtM and
- unconstrained households, which greatly reduces model complexity.
+ 
+\begin_inset Formula $\Xi_{a,t}^{h}$
+\end_inset
+
+ is a control relating to hours which is exactly equal to the hours term,
+ such that the participation choice is not affected by a second order effect
+ relating to hours.
+ This is similar to a subsistence consumption assumption, just for hours
+ worked.
  The objects 
 \begin_inset Formula $\lambda_{a,t}^{lf}$
 \end_inset
@@ -365,11 +393,16 @@ The
 \end_inset
 
  are calibration parameters.
- As hours vary by age in the data the disutility parameter, 
+ As job search and hours worked vary by age in the data the disutility parameter
+s, 
+\begin_inset Formula $\lambda_{a,t}^{lf}$
+\end_inset
+
+ and 
 \begin_inset Formula $\lambda_{a,t}^{h}$
 \end_inset
 
- varies with age to match this pattern.
+, vary by age to match these patterns.
  Note that the CRRA disutility of labor market participation binds labor
  market participation 
 \begin_inset Formula $q_{a,t}^{lf}$
@@ -624,6 +657,9 @@ Eliminating the impact of real wages and marginal utility of consumption,
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
 h_{a,t}^{e}=\frac{1}{\lambda_{a,t}^{h}}\left[\frac{1-\tau_{a,t}^{m}}{Z_{a,t}^{\tau}}\right]^{\frac{1}{\eta^{h}}}\label{eq:hours_reduced}
@@ -741,10 +777,82 @@ Using this and the first order condition for the
 \end_layout
 
 \begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}}{1-\eta^{lf}}\left(1-q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{1}{1-\eta^{lf}}\left(1-\lambda_{a,t}^{lf}q_{a,t}^{lf}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}}{1-\eta^{lf}}\left(1-\frac{q_{a,t}^{e}}{x_{t}}+\left(\frac{1-x_{t}}{x_{t}}\right)\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+U_{a,t}(C_{a,t},D_{a,t})-\underbrace{Z_{a,t}^{h}}_{\text{Control}}\underbrace{\rho_{a,t}^{e}q_{a,t}^{e}}_{\text{Scaling}}\underbrace{\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{Hours}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\frac{1}{1-\eta^{lf}}\left(1-\lambda_{a,t}^{lf}\frac{q_{a,t}^{e}}{x_{t}}+\lambda_{a,t}^{lf}\left(\frac{1-x_{t}}{x_{t}}\right)\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}\right)^{1-\eta^{lf}}}_{\text{Participation}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\underbrace{\left(\lambda_{a,t}^{lf}\right)^{\eta^{lf}}\left(1-\frac{q_{a,t}^{e}}{x_{t}}+\left(\frac{1-x_{t}}{x_{t}}\right)\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}\right)^{-\eta^{lf}}}_{\text{Participation}}=x_{t}\left[\underbrace{Z_{a,t}^{h}\rho_{a,t}^{e}\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{disutility from hours worked}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\[
+\underbrace{Z_{a,t}^{lf}}_{\text{Control}}\lambda_{a,t}^{lf}\underbrace{\left(1-\lambda_{a,t}^{lf}\frac{q_{a,t}^{e}}{x_{t}}+\lambda_{a,t}^{lf}\left(\frac{1-x_{t}}{x_{t}}\right)\left(1-\delta_{a,t}\right)q_{a-1,t-1}^{e}\right)^{-\eta^{lf}}}_{\text{Participation}}=x_{t}\left[\underbrace{Z_{a,t}^{h}\rho_{a,t}^{e}\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{disutility from hours worked}}+\underbrace{\Xi_{a,t}^{h}}_{\text{Control}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{gather}
 \underbrace{Z_{a,t}^{lf}\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}}_{\text{probability of finding a job}}\cdot\nonumber \\
-\left\{ \underbrace{\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(1-r_{a,t}^{b}\right)\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}}_{\text{wage premium}}-\underbrace{Z_{a,t}^{h}\rho_{a,t}^{e}\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{disutility from hours worked}}\right.\nonumber \\
+\left\{ \underbrace{\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(1-r_{a,t}^{b}\right)\left(1-\tau_{a,t}\right)w_{t}\rho_{a,t}^{e}h_{a,t}^{e}}_{\text{wage premium}}-\left[\cancel{\underbrace{Z_{a,t}^{h}\rho_{a,t}^{e}\frac{\left(\lambda_{a,t}^{h}\right)^{\eta^{h}}}{1+\eta^{h}}\left(h_{a,t}^{e}\right)^{1+\eta^{h}}}_{\text{disutility from hours worked}}}+\cancel{\underbrace{\Xi_{a,t}^{h}}_{\text{Control=\text{disutility from hours worked}}}}\right]\right.\nonumber \\
 \left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}}{x_{t+1}}\right)Z_{a+1,t+1}^{lf}\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} \label{eq:lf_FOC}
 \end{gather}
 
@@ -869,8 +977,21 @@ noprefix "false"
 \begin_inset Formula 
 \begin{gather*}
 \underbrace{\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}}_{\text{probability of finding a job}}\cdot\\
-\left\{ \underbrace{\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)}_{\text{wage premium}}-\underbrace{\frac{1}{Z_{a,t}^{r^{b}}}\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}}_{\text{disutility from hours worked}}\right.\\
+\left\{ \underbrace{\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)}_{\text{wage premium}}\right.\\
 \left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} 
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{gather*}
+\underbrace{\left(\frac{\lambda_{a,t}^{lf}}{1-q_{a,t}^{lf}\boldsymbol{/\Lambda_{a,t}}}\right)^{\eta^{lf}}}_{\text{marginal disutility of search}}=\underbrace{x_{t}}_{\text{probability of finding a job}}\cdot\\
+\left\{ \underbrace{\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{r^{b}}Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)}_{\text{wage premium}}\right.\\
+\left.+\underbrace{s_{a,t}\left(1-\delta_{a+1,t+1}\right)}_{\text{probability of surviving with a job}}\underbrace{\beta\frac{Z_{a+1,t+1}^{lf}}{Z_{a,t}^{lf}}}_{\text{discount factor}}\underbrace{\left(\frac{1-x_{t+1}}{x_{t+1}}\right)\left(\frac{\lambda_{a+1,t+1}^{lf}}{1-q_{a+1,t+1}^{lf}\boldsymbol{/\Lambda_{a+1,t+1}}}\right)^{\eta^{lf}}}_{\text{saved disutility of search}}\right\} 
 \end{gather*}
 
 \end_inset
@@ -1030,7 +1151,7 @@ Finally, we define the last control variable
  as
 \begin_inset Formula 
 \[
-\frac{1}{Z_{a,t}^{r^{b}}}=\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)-\frac{\left(\lambda_{a,t}^{h}h_{a,t}^{e}\right)^{\eta^{h}}}{1+\eta^{h}}\right]^{\eta^{lf}/\eta^{b}-1}
+\frac{1}{Z_{a,t}^{r^{b}}}=\left[\frac{\left(1-\tau_{a,t}\right)}{Z_{a,t}^{\tau}}\left(1-r_{a,t}^{b}\right)\right]^{\eta^{lf}/\eta^{b}-1}
 \]
 
 \end_inset
@@ -1054,6 +1175,26 @@ The parameter
 
  corresponds to the inverse elasticity of labor market participation wrt.
  to the net compensation rate.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The elasticity 
+\begin_inset Formula $\eta^{lf}$
+\end_inset
+
+induces too strong a reaction of participation to changes in the finding
+ rate late in life (after age 80).
+ Rather than make the elasticity age dependent we choose to exogenize a
+ fraction of the labor force at those ages.
+ The resulting employment income is aggregated, and it is the appropriate
+ average that enters the budget constraint and affects the consumption decisions
+, which do not have these exogenous components.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1266,7 +1407,7 @@ Firms maximize profits and choose an optimal amount of labor input.
  by
 \begin_inset Formula 
 \begin{equation}
-\max_{n_{s,t}}\pi_{t}^{s}=\left(1-\tau_{s,t}^{c}\right)\left\{ p_{s,t}^{0}Y_{s}\left(L_{s,t}\right)-w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}n_{s,t}\right\} 
+\max_{n_{s,t}}\pi_{t}^{s}=\left(1-\tau_{s,t}^{c}\right)\left\{ p_{s,t}^{0}Y_{s,t}\left(L_{s,t}\right)-w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}n_{s,t}\right\} 
 \end{equation}
 
 \end_inset
@@ -1276,7 +1417,7 @@ where
 \end_inset
 
  are corporate taxes and 
-\begin_inset Formula $Y_{s}$
+\begin_inset Formula $Y_{s,t}$
 \end_inset
 
  is gross-output as a function of labor input sold at price 
@@ -1319,7 +1460,7 @@ stock
  of employees as the employment decision of the firm is a dynamic one, just
  as the choice of its capital stock.
  Below we will derive the user cost of labor, 
-\begin_inset Formula $p_{s,t}^{L}\equiv p_{s,t}^{0}\partial Q_{s}/\partial L_{t}$
+\begin_inset Formula $p_{s,t}^{L}\equiv p_{s,t}^{0}\partial Y_{s,t}/\partial L_{s,t}$
 \end_inset
 
  which is evaluated at firm optimization price 
@@ -1329,7 +1470,7 @@ stock
 .
  This optimization price is derived in the production chapter.
  The production input 
-\begin_inset Formula $L$
+\begin_inset Formula $u_{s,t}L_{s,t}$
 \end_inset
 
  is a broad concept of 
@@ -1341,8 +1482,15 @@ labor
 \end_inset
 
 .
- It is the total utilization of the effective labor input in productivity
- units.
+ It is the total utilization 
+\begin_inset Formula $u_{s,t}$
+\end_inset
+
+ of the effective labor input 
+\begin_inset Formula $L_{s,t}$
+\end_inset
+
+ in productivity units.
  The effective labor input is net of hiring costs which are 
 \begin_inset Quotes eld
 \end_inset
@@ -1355,7 +1503,8 @@ paid
 \end_layout
 
 \begin_layout Standard
-The first-order condition for employment is
+The first-order condition for employment trades off the marginal costs against
+ the marginal added profit for the marginal worker, and is given by
 \begin_inset Formula 
 \begin{equation}
 \left(1-\tau_{s,t}^{c}\right)w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}=\left(1-\tau_{s,t}^{c}\right)p_{s,t}^{L}\frac{\partial L_{s,t}}{\partial n_{s,t}}+\left(1-\tau_{s,t+1}^{c}\right)\beta_{s,t+1}p_{s,t+1}^{L}\frac{\partial L_{s,t+1}}{\partial n_{s,t}}\label{eq:firm_foc}
@@ -1363,15 +1512,14 @@ The first-order condition for employment is
 
 \end_inset
 
+where 
+\begin_inset Formula 
+\[
+p_{s,t}^{0}\frac{\partial Y_{s,t}}{\partial L_{s,t}}=P_{s,t}^{L}=p_{s,t}^{0}\frac{\partial Y_{s,t}}{\partial\left(u_{s,t}L_{s,t}\right)}u_{s,t}
+\]
 
-\end_layout
+\end_inset
 
-\begin_layout Standard
-which trades off the marginal costs against the marginal added profit for
- the marginal worker.
-\end_layout
-
-\begin_layout Standard
 In the following subsections, we detail the components of the firm's problem.
  
 \end_layout
@@ -1394,16 +1542,12 @@ We define
 
  as the net amount of productive labor input that goes into the CES production
  function.
- It contains the endogenous utilization factor 
-\begin_inset Formula $u_{t}$
-\end_inset
-
-, sector specific productivity and hours 
+ It contains sector specific productivity and hours 
 \begin_inset Formula $\rho_{s,t}h_{s,t}$
 \end_inset
 
-, and finally contains the endogenous adjustment for the fraction of employment
- used in the hiring process which we denote by 
+, and the endogenous adjustment for the fraction of employment used in the
+ hiring process which we denote by 
 \begin_inset Formula $\chi$
 \end_inset
 
@@ -1420,7 +1564,7 @@ noprefix "false"
  below):
 \begin_inset Formula 
 \[
-L_{s,t}=u_{s,t}\rho_{s,t}h_{s,t}\left(1-\chi_{s,t}\right)n_{s,t}
+L_{s,t}=\rho_{s,t}h_{s,t}\left(1-\chi_{s,t}\right)n_{s,t}
 \]
 
 \end_inset
@@ -1436,7 +1580,7 @@ The cost of hiring is defined in terms of units of labor lost to production
  that the relevant derivatives are
 \begin_inset Formula 
 \[
-\frac{\partial L_{s,t}}{\partial n_{s,t}}=u_{s,t}\rho_{s,t}h_{s,t}\left(1-\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}\right)
+\frac{\partial L_{s,t}}{\partial n_{s,t}}=\rho_{s,t}h_{s,t}\left(1-\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}\right)
 \]
 
 \end_inset
@@ -1444,7 +1588,7 @@ The cost of hiring is defined in terms of units of labor lost to production
 
 \begin_inset Formula 
 \[
-\frac{\partial L_{s,t+1}}{\partial n_{s,t}}=-u_{s,t+1}\rho_{s,t+1}h_{s,t+1}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}
+\frac{\partial L_{s,t+1}}{\partial n_{s,t}}=-\rho_{s,t+1}h_{s,t+1}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}
 \]
 
 \end_inset
@@ -1585,24 +1729,9 @@ p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\rho_{s,t}h_{s,t}\left[\frac{\part
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 where
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\hat{\beta}_{s,t+1}\equiv\beta_{s,t+1}\frac{p_{s,t+1}^{L}}{p_{s,t}^{L}}
-\]
-
-\end_inset
-
-
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 In order to ensure that actual employment converges with our model of structural
@@ -1618,8 +1747,15 @@ s of
 \end_inset
 
  contain endogenous variables.
- 
 \end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\hat{\beta}_{s,t+1}\equiv\beta_{s,t+1}\frac{p_{s,t+1}^{L}}{p_{s,t}^{L}}
+\]
 
 \end_inset
 
@@ -1632,13 +1768,13 @@ Inserting the derivatives of
 \end_inset
 
  we see clearly that in lieu of vacancy posting costs, the user cost of
- labor is simply the wage after taxes and utilization:
+ labor is simply the wage after taxes:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\frac{1}{u_{s,t}}\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{u_{s,t+1}\rho_{s,t+1}h_{s,t+1}}{u_{s,t}\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]^{-1}
+p_{s,t}^{L}=w_{t}\left(1+\tau_{s,t}^{L}\right)\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{\rho_{s,t+1}h_{s,t+1}}{\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]^{-1}
 \]
 
 \end_inset
@@ -1654,7 +1790,7 @@ or vice versa: firms post vacancies until the wage equals the marginal product
 \begin_layout Standard
 \begin_inset Formula 
 \[
-w_{t}=p_{s,t}^{L}\frac{u_{s,t}}{1+\tau_{s,t}^{L}}\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{u_{s,t+1}\rho_{s,t+1}h_{s,t+1}}{u_{s,t}\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]
+w_{t}=p_{s,t}^{L}\frac{1}{1+\tau_{s,t}^{L}}\left[1-\underbrace{\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}-\left(\frac{1-\tau_{s,t+1}^{c}}{1-\tau_{s,t}^{c}}\right)\hat{\beta}_{s,t+1}\frac{\rho_{s,t+1}h_{s,t+1}}{\rho_{s,t}h_{s,t}}\frac{\partial\left(\chi_{s,t+1}n_{s,t+1}\right)}{\partial n_{s,t}}}_{\text{hiring costs}}\right]
 \]
 
 \end_inset
@@ -1683,7 +1819,7 @@ The dynamic first-order condition provides the input to the CES minimization
  The CES function is
 \begin_inset Formula 
 \[
-p_{s,t}^{KL}Q_{s,t}^{KL}\equiv p_{s,t}^{KL}\left[\left(\mu_{s,t}^{k}\right)^{\frac{1}{E}}\left(u_{s,t}^{k}K_{s,t}\right)^{\frac{E-1}{E}}+\left(\mu_{s,t}^{l}\right)^{\frac{1}{E}}\left(L_{s,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
+p_{s,t}^{KEL}KEL_{s,t}\equiv p_{s,t}^{KEL}\left[\left(\mu_{s,t}^{KE}\right)^{\frac{1}{\eta}}\left(KE_{s,t}\right)^{\frac{\eta-1}{\eta}}+\left(\mu_{s,t}^{L}\right)^{\frac{1}{\eta}}\left(u_{s,t}^{L}L_{s,t}\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}
 \]
 
 \end_inset
@@ -1696,7 +1832,7 @@ On the budget side of the CES problem we have the total cost associated
 :
 \begin_inset Formula 
 \[
-p_{s,t}^{KL}Q_{s,t}^{KL}\equiv p_{s,t}^{L}L_{s,t}+p_{s,t}^{K}K_{s,t}
+p_{s,t}^{KEL}KEL_{s,t}\equiv p_{s,t}^{L}L_{s,t}+p_{s,t}^{KE}KE_{s,t}
 \]
 
 \end_inset
@@ -1717,31 +1853,12 @@ where the object
  and this yields
 \begin_inset Formula 
 \[
-L_{s,t}=\mu_{s,t}^{l}Q_{s,t}^{KL}\left(\frac{p_{s,t}^{L}}{p_{s,t}^{KL}}\right)^{-E}
+u_{s,t}^{L}L_{s,t}=\mu_{s,t}^{L}KEL_{s,t}\left(\frac{p_{s,t}^{L}}{p_{s,t}^{KEL}}\frac{1}{u_{s,t}^{L}}\right)^{-\eta}
 \]
 
 \end_inset
 
-The last identity ensures the CES problem is consistent with the optimization
- problem and shows the relationship between the user cost of 
-\begin_inset Formula $L$
-\end_inset
-
- and the optimal choice of vacancies.
- The accompanying expression for capital is 
-\begin_inset Formula 
-\[
-u_{t}^{k}K_{s,t}=\mu_{s,t}^{k}Q_{s,t}^{KL}\left(\frac{p_{s,t}^{K}}{p_{s,t}^{KL}}\frac{1}{u_{t}^{k}}\right)^{-E}
-\]
-
-\end_inset
-
-and it looks slightly different from the labor one but that is because utilizati
-on is embodied in the 
-\begin_inset Formula $L$
-\end_inset
-
- object.
+These equations are identical for all inputs.
 \end_layout
 
 \begin_layout Subsection
@@ -1957,17 +2074,11 @@ To ensure that the total productive units by sector also aggregates to the
 \end_inset
 
 
-\change_inserted 1344751391 1677579511
-
 \end_layout
 
 \begin_layout Standard
 we let sector productivity shift endogenously with changes in average productivi
-ty
-\change_inserted 1344751391 1677580254
-.
-\change_unchanged
-
+ty.
 \end_layout
 
 \begin_layout Standard
@@ -2223,7 +2334,7 @@ where
 \begin_inset Formula $\bar{\tau}_{t}$
 \end_inset
 
- is the weighted average of the personal income tax rate
+ is the weighted average of the marginal income tax rates
 \begin_inset Foot
 status collapsed
 
@@ -2240,7 +2351,7 @@ We assume that non-resident workers pay the same taxes as average resident
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\bar{\tau}_{t}=\frac{\sum_{a}\tau_{a,t}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}+\overline{\tau}_{t}\rho_{t}^{f}h_{t}^{f}n_{t}^{f}}{\rho_{t}h_{t}n_{t}}=\frac{\sum_{a}\tau_{a,t}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}{\sum_{a}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}
+\bar{\tau}_{t}=\frac{\sum_{a}\tau_{a,t}^{m}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}+\overline{\tau}_{t}\rho_{t}^{f}h_{t}^{f}n_{t}^{f}}{\rho_{t}h_{t}n_{t}}=\frac{\sum_{a}\tau_{a,t}^{m}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}{\sum_{a}\rho_{a,t}^{e}h_{a,t}^{e}n_{a,t}^{e}}
 \]
 
 \end_inset
@@ -2961,7 +3072,7 @@ and of course of the other two as well.
 \begin_layout Standard
 \begin_inset Branch LabormarketVariables
 inverted 0
-status collapsed
+status open
 
 \begin_layout Subsubsection
 Labor market variables
@@ -2977,101 +3088,59 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Households and migrant workers
+Households and non-resident workers
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-arrayrulecolor{white}
 \end_layout
 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\noindent
+\begin_inset space \hspace{}
+\length -3.25cm
 \end_inset
 
 
 \begin_inset Tabular
-<lyxtabular version="3" rows="20" columns="3">
-<features islongtable="true" longtabularalignment="center">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
+<lyxtabular version="3" rows="21" columns="3">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="3cm">
+<column alignment="left" valignment="top" width="5cm">
+<column alignment="left" valignment="top" width="10cm">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{MAKRO}
-\end_layout
-
-\end_inset
-
-
+Documentation
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Endogenous variable
+Code
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Code name
+Definition
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Employment
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3096,7 +3165,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3105,30 +3174,18 @@ nLHh[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Employment
+Employment
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3140,7 +3197,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3149,30 +3206,18 @@ nLHh[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Sum of job seeking and employed
+Employment
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3184,7 +3229,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3193,31 +3238,18 @@ nSoegBaseHh[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Parameter controlling the elasticity of labor force participation from
- changes in the job finding rate
+Sum of job seeking and employed
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3229,7 +3261,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3238,30 +3270,19 @@ eDeltag
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Inverse labor supply elasticity - intensive margin
+Parameter controlling the elasticity of labor force participation from changes
+ in the job finding rate
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3273,7 +3294,7 @@ Inverse labor supply elasticity - intensive margin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3282,30 +3303,50 @@ eh
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Job separation rate
+Inverse labor supply elasticity - intensive margin
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $s_{a,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rOverlev[a,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Survival rate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3317,7 +3358,7 @@ Job separation rate
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3326,30 +3367,18 @@ rSeparation[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Job separation rate, total over cohorts
+Job separation rate
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3361,7 +3390,7 @@ Job separation rate, total over cohorts
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3370,30 +3399,18 @@ rSeparation[aTot,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Share of job seekers who get a job
+Job separation rate, total over cohorts
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3405,7 +3422,7 @@ Share of job seekers who get a job
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3414,30 +3431,18 @@ rJobFinding[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Preference parameter for labor market participation
+Share of job seekers who get a job
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3449,7 +3454,7 @@ Preference parameter for labor market participation
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3458,30 +3463,18 @@ uDeltag[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Preference parameter for hours
+Preference parameter for labor market participation
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3493,7 +3486,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3502,31 +3495,18 @@ uh[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Age dependent productivity wrt.
- education and composition effects
+Preference parameter for hours
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3538,7 +3518,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3547,34 +3527,23 @@ qProdHh[a,t]
 
 \end_inset
 </cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age dependent productivity wrt.
+ education and composition effects
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Average income tax rate of marginal worker
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\tau_{a,t}$
+\begin_inset Formula $\tau_{a,t}^{m}$
 \end_inset
 
 
@@ -3582,7 +3551,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3591,34 +3560,22 @@ mtInd[a,t]
 
 \end_inset
 </cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Marginal income tax rate
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Age dependent total work hours
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $h_{a,t}^{e}\cdot N_{a,t}$
+\begin_inset Formula $h_{a,t}^{e}$
 \end_inset
 
 
@@ -3626,7 +3583,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3635,34 +3592,22 @@ hLHh[a,t]
 
 \end_inset
 </cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age dependent hours worked
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Total work hours for non-resident workers
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $h_{t}^{f}\cdot N_{a,t}$
+\begin_inset Formula $h_{t}^{f}\cdot n_{t}^{f}$
 \end_inset
 
 
@@ -3670,7 +3615,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3679,30 +3624,18 @@ hLxDK[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Marginal net benefit replacement rate
+Total work hours for non-resident workers
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3714,7 +3647,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3723,30 +3656,18 @@ mrKomp[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Household job seekers
+Marginal net benefit replacement rate
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3758,7 +3679,7 @@ Household job seekers
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3767,30 +3688,18 @@ nSoegHh[a,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Non-resident workers
+Household job seekers
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3802,7 +3711,7 @@ Non-resident workers
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3811,30 +3720,18 @@ nLxDK[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Job seeking potential non-resident workers
+Non-resident workers
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3846,7 +3743,7 @@ Job seeking potential non-resident workers
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3855,30 +3752,18 @@ nSoegxDK[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Sum of non-resident workers and job seeking potential non-resident workers.
+Job seeking potential non-resident workers
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3890,11 +3775,20 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 nSoegBasexDK[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sum of non-resident workers and job seeking potential non-resident workers.
 \end_layout
 
 \end_inset
@@ -3922,101 +3816,59 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Code names, firms
+Firms
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-arrayrulecolor{white}
 \end_layout
 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\noindent
+\begin_inset space \hspace{}
+\length -3.25cm
 \end_inset
 
 
 \begin_inset Tabular
-<lyxtabular version="3" rows="17" columns="3">
-<features islongtable="true" longtabularalignment="center">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
+<lyxtabular version="3" rows="23" columns="3">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="3cm">
+<column alignment="left" valignment="top" width="5cm">
+<column alignment="left" valignment="top" width="10cm">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{MAKRO}
-\end_layout
-
-\end_inset
-
-
+Documentation
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Endogenous variable
+Code
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Code name
+Definition
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Employment by sector
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4028,7 +3880,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4037,30 +3889,18 @@ nL[s,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Productivity by sector
+Employment by sector
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4072,39 +3912,27 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-fW[s,t]
+qProd[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Productivity of labor by sector
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Vacancies by sector
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4116,7 +3944,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4125,30 +3953,50 @@ nOpslag[s,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Linear job posting cost
+Vacancies by sector
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\hat{\beta}_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fDiskpL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Exogenous discount rate on demand for labor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4160,7 +4008,7 @@ Linear job posting cost
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4169,30 +4017,18 @@ uOpslagOmk
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Quadratic job posting cost
+Linear job posting cost
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4204,39 +4040,59 @@ Quadratic job posting cost
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-uOpslagOmkSqr
+uMatchOmkSqr
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Quadratic job posting cost
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
+\begin_inset Formula $\lambda$
 \end_inset
 
-Share of job postings resulting in a match
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+uMatchOmk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear job match cost 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4248,7 +4104,7 @@ Share of job postings resulting in a match
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4257,30 +4113,18 @@ rMatch[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Share of worker inputs used for hiring costs
+Share of job postings resulting in a match
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4292,7 +4136,7 @@ Share of worker inputs used for hiring costs
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4301,30 +4145,18 @@ rOpslagOmk[s,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Sector dependent work hours per employee
+Share of worker inputs used for hiring costs
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4336,39 +4168,59 @@ Sector dependent work hours per employee
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-rhL2nL[s,t]
+hL2nL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sector dependent work hours per employee
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
+\begin_inset Formula $h_{s,t}\cdot n_{s,t}$
 \end_inset
 
-Work hours per non-resident employee 
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Total hours worked by sector
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4380,43 +4232,27 @@ Work hours per non-resident employee
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-rhL2nLxDK[t]
+hL2nLxDK[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sector dependent work hours per non-resident employee 
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Formula $\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4428,7 +4264,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4437,30 +4273,52 @@ dOpslagOmk2dnL[s,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Effective labor
+Derivative of hiring costs wrt.
+ number of employees
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\partial\left(\chi_{s,t}n_{s,t}\right)}{\partial n_{s,t-1}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dOpslagOmk2dnLLag[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Derivative of hiring costs wrt.
+ lagged number of employees
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4472,7 +4330,7 @@ Effective labor
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4481,78 +4339,84 @@ qL[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\frac{\partial L_{s,t+1}}{\partial n_{s,t}}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-dqLd2nLlag[s,t+1]
+Effective labor
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
+\begin_inset Formula $\frac{\partial L_{s,t}}{\partial n_{s,t}}$
 \end_inset
 
-User cost for effective labor in production function
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dqL2dnL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Derivative of effective labor L wrt.
+ number of employees
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\partial L_{s,t}}{\partial n_{s,t-1}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dqLd2nLlag[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Derivative of effective labor L wrt.
+ lagged number of employees
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4564,7 +4428,7 @@ User cost for effective labor in production function
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4573,30 +4437,50 @@ pL[s,t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Corporate tax
+User cost for effective labor in production function
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau_{s,t}^{L}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tL[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rate of net payroll taxes and subsidies, self-employed included
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4608,83 +4492,59 @@ Corporate tax
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-tSelskab[t]
+mtVirk[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Corporate marginal income tax by sector
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
+\begin_inset Formula $\beta_{s,t}$
+\end_inset
 
 
-\backslash
-rowcolor{GRAY}
 \end_layout
 
 \end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
 
+\begin_layout Plain Layout
+fVirkDisk[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 Firms' discount rate
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\frac{1}{\beta_{t}}-1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-rVirkDisk[t]
-\end_layout
-
-\end_inset
-</cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Capacity utilization of labor
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4696,11 +4556,20 @@ Capacity utilization of labor
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 rLUdn[s,t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity utilization of labor
 \end_layout
 
 \end_inset
@@ -4728,101 +4597,59 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Code names, Matching and Wage Bargaining
+Matching and Wage Bargaining
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-arrayrulecolor{white}
 \end_layout
 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+\noindent
+\begin_inset space \hspace{}
+\length -3.25cm
 \end_inset
 
 
 \begin_inset Tabular
 <lyxtabular version="3" rows="9" columns="3">
-<features islongtable="true" longtabularalignment="center">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
-<column alignment="center" valignment="middle" width="33text%">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="3cm">
+<column alignment="left" valignment="top" width="5cm">
+<column alignment="left" valignment="top" width="10cm">
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{MAKRO}
-\end_layout
-
-\end_inset
-
-
+Documentation
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Endogenous variable
+Code
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size footnotesize
-\color white
-Code name
+Definition
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
- Exponent in matching function
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4834,7 +4661,7 @@ rowcolor{GRAY}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4843,30 +4670,18 @@ eMatching
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Wage per productive unit of labor
+Exponent in matching function
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4878,7 +4693,39 @@ Wage per productive unit of labor
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pW[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Wage per productive unit of labor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $w_{t}\cdot\rho_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4887,30 +4734,18 @@ vhW[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Nash bargaining weight
+Average hourly wage
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4922,7 +4757,7 @@ Nash bargaining weight
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4931,30 +4766,18 @@ rLoenNash[t]
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Positive part of firms value function in wage bargaining
+Nash bargaining weight
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -4966,40 +4789,27 @@ Positive part of firms value function in wage bargaining
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-vVirkLoenPos
+vVirkLoenPos[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Positive part of firms value function in wage bargaining
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Derivative of the firm's value function in wage bargaining wrt.
- the wage
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5011,40 +4821,28 @@ Derivative of the firm's value function in wage bargaining wrt.
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-dVirk2dLoen
+dvVirk2dpW[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Derivative of the firm's value function in wage bargaining wrt.
+ the wage
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Derivative of the union's value function in wage bargaining wrt.
- the wage
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5056,39 +4854,28 @@ Derivative of the union's value function in wage bargaining wrt.
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-dFF2dLoen
+dFF2dLoen[t]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Derivative of the union's value function in wage bargaining wrt.
+ the wage
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Outside option value of the union in wage bargaining
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5100,55 +4887,20 @@ Outside option value of the union in wage bargaining
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-vFFOutsideOption
+vFFOutsideOption[t]
 \end_layout
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-rowcolor{GRAY}
-\end_layout
-
-\end_inset
-
-Term that removes quadratic matching costs form baseline
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\alpha_{s,t}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-cMatchOmkSqr[s,t]
+Outside option value of the union in wage bargaining
 \end_layout
 
 \end_inset

@@ -2,18 +2,32 @@
 # Finansielle beholdninger
 # ----------------------------------------------------------------------------------------------------------------------
 SETS
-  portf_akt "Typer af nettoaktiver ekskl. udstedte obligationer" /
-    Obl "Netto beholdning af obligationer ekskl. (udstedte) realkreditobligationer."
-    IndlAktier "Brutto beholdning af danske aktier."
-    UdlAktier "Brutto beholdning af udenlandske aktier (passiv for udlandet)."
-    Pens "Netto pensionsformue (passiv for pensionssektor)."
-    Bank "Netto beholdning af øvrige fordringer (Primært bank-indeståender. Hos husholdningerne er ikke-realkredit gæld trukket ud)."
-    Guld "Beholdning af monetært guld og særlige trækningsrettigheder."
+
+  portefolje_elementer "Typer af portefølje-elementer" /
+    Obl "Obligationer ekskl. realkreditobligationer."
+    RealKred "Realkreditobligationer."
+    IndlAktier "Danske aktier."
+    UdlAktier "Udenlandske aktier."
+    pensTot "Pensionsformue."
+    Bank "Øvrige fordringer (Primært bank-indeståender/-gæld)."
+    Guld "Monetært guld og særlige trækningsrettigheder."
   /
 
-  portf_pas "Typer af passiver." /
-    RealKred "Netto beholdning af (udstedte) realkreditobligationer."
-    BankGaeld "Anden (ikke-realkredit) gæld (kun opgjort for husholdningerne)"
+  portf_ "Typer af aktiver og passiver." /
+    Tot "Total ekskl. udstedte aktier"
+    set.portefolje_elementer
+  /
+
+  portf[portf_] "Typer af aktiver og passiver." /
+    set.portefolje_elementer
+  /
+
+  fin_akt[portf_] /
+    Obl "Obligationer ekskl. realkreditobligationer."
+    RealKred "Realkreditobligationer."
+    IndlAktier "Danske aktier."
+    UdlAktier "Udenlandske aktier."
+    Bank "Øvrige fordringer (Primært bank-indeståender/-gæld)."
   /
 
   portf_pens "Typer af pensioner" /
@@ -22,51 +36,39 @@ SETS
     Alder "Aldersopsparing beskattet ved indbetalingstidspunktet"
   /
 
-  portf_ "Typer af aktiver og passiver." /
-    NetFin "Nettoformue ekskl. udstedte aktier"
-    set.portf_akt
-    set.portf_pas
+  pens_ "Typer af pensioner inklusiv total" /
+    pensTot "Total over alle pensionstyper"
     set.portf_pens
   /
 
-  portf[portf_] "Typer af aktiver og passiver." /
-    set.portf_akt
-    set.portf_pas
-  /
-
-  akt[portf_] "Typer af nettoaktiver ekskl. udstedte obligationer" / set.portf_akt /
-
-  fin_akt[portf_] /
-    Obl "Netto beholdning af obligationer ekskl. (udstedte) realkreditobligationer."
-    IndlAktier "Brutto beholdning af danske aktier."
-    UdlAktier "Brutto beholdning af udenlandske aktier (passiv for udlandet)."
-    Bank "Netto beholdning af øvrige fordringer (Primært bank-indeståender. Hos husholdningerne er ikke-realkredit gæld trukket ud)."
-  /
-
-  pas[portf_] "Typer af passiver." / set.portf_pas /
-
-  pens_[portf_] "Typer af pensioner inklusiv total" /
-    Pens "Total over alle pensionstyper"
+  pens[pens_] "Typer af pensioner" /
     set.portf_pens
   /
 
-  Pens[portf_] "Typer af pensioner" /
-    set.portf_pens
-  /
-
-  pensTot[portf_] "Subset af portf_ bestående af Pens" / Pens /
-  BankGaeld[portf_] "Subset af portf_ bestående af BankGaeld" / BankGaeld /
+  pensTot[portf_] "Subset af portf_ bestående af PensTot" / pensTot /
   Guld[portf_] "Subset af portf_ bestående af Guld" / Guld /
   RealKred[portf_] "Subset af portf_ bestående af Guld" / RealKred /
-  NetFin[portf_] " Subset af portf_ bestående af NetFin" / NetFin /
+  portfTot[portf_] " Subset af portf_ bestående af Tot" / Tot /
   Bank[portf_] "Subset af portf_ bestående af Bank" / Bank /
   IndlAktier[portf_] "Subset af portf_ bestående af IndlAktier" / IndlAktier /
   UdlAktier[portf_] "Subset af portf_ bestående af UdlAktier" / UdlAktier /
   Obl[portf_] "Subset af portf_ bestående af Obl" / Obl /
+
+  PensX[pens_] "Subset af pens_ bestående af PensX" / PensX /
+  Alder[pens_] "Subset af pens_ bestående af Alder" / Alder /
+  Kap[pens_] "Subset af pens_ bestående af Kap" / Kap /
 ;
 
 # Dummies for portfolios
 SETS
-  d1vHh[portf_,t] "Hh portefølje dummy" //
-  d1vVirk[portf_, t] "vVirk portefølje dummy" //
+  d1vHhAkt[portf_,t] "vHhAkt portefølje dummy" //
+  d1vHhPas[portf_,t] "vHhPas portefølje dummy" //
+  d1vHhPens[pens_,t] "vHhPens portefølje dummy" //
+  d1vPensionAkt[portf_,t] "vPensionAkt portefølje dummy" //
+  d1vVirkAkt[portf_,t] "vVirkAkt portefølje dummy" //
+  d1vVirkPas[portf_,t] "vVirkPas portefølje dummy" //
+  d1vOffAkt[portf_,t] "vOffAkt portefølje dummy" //
+  d1vOffPas[portf_,t] "vOffPas portefølje dummy" //
+  d1vUdlAkt[portf_,t] "vUdlAkt portefølje dummy" //
+  d1vUdlPas[portf_,t] "vUdlPas portefølje dummy" //
 ;

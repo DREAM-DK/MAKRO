@@ -178,16 +178,21 @@ Household discount factor
 \end_layout
 
 \begin_layout Standard
-The household discount factor is decreased permanently by 1 percentage point.
+The household discount factor is permanently decreased by 1 percentage point.
 \end_layout
 
 \begin_layout Itemize
-Households are more impatient and will immediately increase their consumption
+Households are more impatient (discount the future less) and increase their
+ consumption
 \end_layout
 
 \begin_layout Itemize
-In the short run and medium term it works as a positive (but gradually declining
-) shock to private consumption and housing demand
+In the short and medium term, this it works as a positive (but gradually
+ declining) shock to private consumption and housing demand
+\end_layout
+
+\begin_layout Itemize
+This sets in motion the following equilibrium responses:
 \end_layout
 
 \begin_deeper
@@ -251,11 +256,13 @@ Positive short run effect on government budget
 \end_deeper
 \begin_layout Itemize
 The increased short and medium term consumption will reduce household wealth
- and long run consumption
+ and long-run consumption
 \end_layout
 
 \begin_layout Itemize
-55 years after the shock the negative effect on wealth has not stabilized
+55 years after the shock the negative effect on wealth has not stabilized.
+ This is because of slow generational effects arising from our overlapping-gener
+ations structure.
 \end_layout
 
 \begin_deeper
@@ -275,7 +282,8 @@ In the long run it works as a negative shock to private consumption and
 \end_layout
 
 \begin_layout Itemize
-Negative long run effect on government budget and fiscal sustainability
+There are negative long-run effect on the government budget and fiscal sustainab
+ility
 \end_layout
 
 \begin_layout Standard
@@ -319,7 +327,8 @@ Wages through the Nash Negotiation Weight
 \end_layout
 
 \begin_layout Standard
-The Nash negotiation weight is decreased permanently by 1 percentage point.
+The Nash negotiation weight is decreased permanently by 1 percentage point
+ (workers bargaining power goes up).
 \end_layout
 
 \begin_layout Itemize
@@ -327,13 +336,13 @@ Workers receive a larger share of the surplus
 \end_layout
 
 \begin_layout Itemize
-On one hand this increases household income and works as a positive demand
+On one hand, this increases household income and works as a positive demand
  shock to private consumption and housing - for an isolated analysis of
- this shock refer to the demand shock via lump sum transfers
+ this shock, refer to the demand shock via lump-sum transfers
 \end_layout
 
 \begin_layout Itemize
-On the other hand it tightens the wedge between the marginal product of
+On the other hand, it tightens the wedge between the marginal product of
  labor and the wage
 \end_layout
 
@@ -342,19 +351,19 @@ This wedge needs to pay for hiring costs so firms reduce their labor demand
 \end_layout
 
 \begin_layout Itemize
-For most other shocks reduced labor demand lowers the wages, but here the
- higher wages are the cause of the lower labor demand and structural unemploymen
-t increase
+For most other shocks, reduced labor demand lowers the wages, but here,
+ the higher wages are the cause of the lower labor demand and structural
+ unemployment increase
 \end_layout
 
 \begin_layout Itemize
 The shock also works as a negative supply shock to labor - for an isolated
- analysis of this shock refer to the supply shock to labor via participation
- (with opposite sign)
+ analysis of this shock, refer to the supply shock to labor via participation
+ (with the opposite sign)
 \end_layout
 
 \begin_layout Itemize
-Higher wages gives higher unit costs and higher prices
+Higher wages give higher unit costs and higher prices
 \end_layout
 
 \begin_deeper
@@ -369,12 +378,12 @@ Real household income increases
 
 \begin_deeper
 \begin_layout Itemize
-Effect from higher wages and lower employment makes net effect from wage
- income very small
+The effect from higher wages and lower employment makes the net-effect from
+ wage income very small
 \end_layout
 
 \begin_layout Itemize
-Larger unemployment are compensated and this increase household income this
+Larger unemployment is compensated and this increase household income this
  dominates effect from higher prices
 \end_layout
 
@@ -391,19 +400,20 @@ In the short run the employment gap is positive as actual employment rigidly
 
 \end_deeper
 \begin_layout Itemize
-In the short run the shock is expansionary in GVA and GDP as a large permanent
- shift to more capital intensive production increase short term investments
+In the short run, the shock is expansionary in GVA and GDP, as a large permanent
+ shift to more capital intensive production increases short term investments
  a lot and firms can increase utilization on labor and capital in the short
  run
 \end_layout
 
 \begin_layout Itemize
-In the medium and long term the shock is also contractionary in GVA and
+In the medium and long term, the shock is also contractionary in GVA and
  GDP as labor input is permanently lower
 \end_layout
 
 \begin_layout Itemize
-Negative long run effect on government budget and fiscal sustainability
+There is a negative long run effect on the government budget and fiscal
+ sustainability
 \end_layout
 
 \begin_layout Standard

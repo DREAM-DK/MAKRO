@@ -37,7 +37,16 @@ PackageOptions demo graphicx
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -1419,19 +1428,19 @@ Duties from car sales are added after VAT and are modeled as:
 \begin_inset Formula 
 \[
 T_{t}^{Reg}=\sum_{d}\sum_{s}\left[\begin{array}{c}
-\tau_{d,t}^{Reg}\left(1+\tau_{d,s,t}^{VATY}\right)\left(1+\tau_{d,s,t}^{DutyY}-s_{d,s,t}^{Y}\right)P_{s,t}^{Y}Y_{d,s,t}\\
+\tau_{d,s,t}^{Reg}\left(1+\tau_{d,s,t}^{VATY}\right)\left(1+\tau_{d,s,t}^{DutyY}-s_{d,s,t}^{Y}\right)P_{s,t}^{Y}Y_{d,s,t}\\
 \\
-+\tau_{d,t}^{Reg}\left(1+\tau_{d,s,t}^{VATM}\right)\left(1+\tau_{d,s,t}^{DutyM}-s_{d,s,t}^{M}\right)\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}
++\tau_{d,s,t}^{Reg}\left(1+\tau_{d,s,t}^{VATM}\right)\left(1+\tau_{d,s,t}^{DutyM}-s_{d,s,t}^{M}\right)\left(1+\tau_{d,s,t}^{Cus}\right)P_{s,t}^{M}M_{d,s,t}
 \end{array}\right]
 \]
 
 \end_inset
 
 where the exogenous implicit car duty rates 
-\begin_inset Formula $\tau_{d,t}^{Reg}$
+\begin_inset Formula $\tau_{d,s,t}^{Reg}$
 \end_inset
 
- are 0 for all but three demand composnents: Private consumption of cars,
+ are 0 for all but three demand components: Private consumption of cars,
  investments in equipment, and government consumption.
 \end_layout
 

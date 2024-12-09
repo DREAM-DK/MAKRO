@@ -18,8 +18,8 @@ new_year = 2018
 ref_year = 2017
 
 # 1. compare IO cells
-r = dt.Gdx("..//..//Model/Gdx/previous_smooth_calibration.gdx") # reference
-n = dt.Gdx("..//..//Model/Gdx/smooth_calibration.gdx") # new
+r = dt.Gdx("..//..//Model/Gdx/previous_deep_calibration.gdx") # reference
+n = dt.Gdx("..//..//Model/Gdx/deep_calibration.gdx") # new
 
 qIO_changed_cells = n.qIO.loc[:,:,new_year][r.qIO.loc[:,:,ref_year] == 0] != 0
 with pd.option_context('display.max_rows', None,

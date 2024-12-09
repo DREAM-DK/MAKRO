@@ -1,5 +1,0 @@
-{
-   "rawModel":      "equations.gmy",    //Raw model eqs
-   "unrolledModel": "gams.gms",     //GAMS scalar model, with variables x1, x2, x3, ...
-   "unrolledNames": "dict.txt"      //Translation of x1, x2, x3, ... into "normal" variable names
-}

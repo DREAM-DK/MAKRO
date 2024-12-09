@@ -17,24 +17,64 @@ d1K[i_,s_,tx1] = d1K[i_,s_,t1];
 d1R[r_,tx1] = d1R[r_,t1];      
 d1C[c_,tx1] = d1C[c_,t1];      
 d1G[g_,tx1] = d1G[g_,t1];
-d1vHh[portf_,tx1]$(not pens[portf_]) = d1vHh[portf_,t1];
+d1vHhAkt[portf_,tx1] = d1vHhAkt[portf_,t1];
+d1vHhPas[portf_,tx1] = d1vHhPas[portf_,t1];
+d1vVirkAkt[portf_,tx1] = d1vVirkAkt[portf_,t1];
+d1vVirkPas[portf_,tx1] = d1vVirkPas[portf_,t1];
+d1vOffAkt[portf_,tx1] = d1vOffAkt[portf_,t1];
+d1vOffPas[portf_,tx1] = d1vOffPas[portf_,t1];
+d1vUdlAkt[portf_,tx1] = d1vUdlAkt[portf_,t1];
+d1vUdlPas[portf_,tx1] = d1vUdlPas[portf_,t1];
+d1vPensionAkt[portf_,tx1] = d1vPensionAkt[portf_,t1];
 
-set load_d1vHh[portf_, t];
-execute_load "..\Data\aldersprofiler\aldersprofiler.gdx", load_d1vHh = d1vHh;
-d1vHh[portf_,t]$(pens[portf_]) = load_d1vHh[portf_, t];
+sets load_d1vHhPens[pens_, t];
+execute_load "..\Data\pension\pension.gdx", load_d1vHhPens = d1vHhPens;
+d1vHhPens[pens_,t]$(t.val > %AgeData_t1%) = load_d1vHhPens[pens_,t];
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Extend the last calibration as our forecast of parameters
+# Variable that are kept constant from the deep calibration year
 # ----------------------------------------------------------------------------------------------------------------------
-$LOOP All:
-  #Select all variables in forecast period - set them equal to their value in the final data year
-  {name}.l{sets}{$}[<t>tx1]${conditions} = {name}.l{sets}{$}[<t>t1];
-  #Select all variables in the forecast year given that their value in the final data-year is equal to 1 or 0 - set them equal to their value in the year before the final data-year
-  {name}.l{sets}{$}[<t>tx1]$({conditions} and ({name}.l{sets}{$}[<t>t1] = 1 or {name}.l{sets}{$}[<t>t1] = 0)) = sum(t$(t.val = t1.val - 1), {name}.l{sets});
+$GROUP G_fixed_forecast
+  G_exports_fixed_forecast
+  G_labor_market_fixed_forecast
+  G_aggregates_fixed_forecast
+  G_consumers_fixed_forecast
+  G_finance_fixed_forecast
+  G_GovExpenses_fixed_forecast
+  G_GovRevenues_fixed_forecast
+  G_government_fixed_forecast
+  G_HHincome_fixed_forecast
+  G_IO_fixed_forecast
+  G_pricing_fixed_forecast
+  G_production_private_fixed_forecast
+  G_production_public_fixed_forecast
+;
+$LOOP G_fixed_forecast:
+  {name}.l{sets}$(tx1[t] and {conditions}) = {name}.l{sets}{$}[<t>t1];
 $ENDLOOP
-# Except those explictly added to G_exogenous_forecast and G_forecast_as_zero (fx demographic forecast)
-$FIX(0) G_exogenous_forecast;
-$FIX(0) G_forecast_as_zero;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Variables that use the static calibration value after the deep calibration year
+# and are kept constant from the last data year (unless overwritten in this file or by dynamic calibration)
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_newdata_forecast
+  G_GovExpenses_newdata_forecast
+  G_taxes_newdata_fixed_forecast
+  G_GovRevenues_newdata_forecast
+;
+$LOOP G_newdata_forecast:
+  {name}.l{sets}$(t.val > %cal_end% and {conditions}) = {name}.l{sets}{$}[<t>'%cal_end%'];
+$ENDLOOP
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Other variable are set to zero, except if explicitly overwritten in this file or by dynamic calibration
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_set_to_zero
+  All, -G_constants
+  -G_newdata_forecast
+  -G_fixed_forecast
+;
+$FIX(0) G_set_to_zero$(tx1[t]);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Produktivitet
@@ -44,41 +84,65 @@ rProdVaekst.l[t]$(tx1[t]) = gq;
 # ----------------------------------------------------------------------------------------------------------------------
 # Load ARIMA forecasts
 # ----------------------------------------------------------------------------------------------------------------------
-@load(G_ARIMA_forecast$[tx1[t]], "Gdx\ARIMA_forecasts.gdx")
+$GROUP G_ARIMA_forecast G_ARIMA_forecast$(tx0[t]);
+@load_as(G_ARIMA_forecast, "Gdx\ARIMA_forecasts.gdx", _ARIMA)
 
-# Add aggregate trends to variables (removed prior to fitting ARIMAs)
-uXy.l[x,t] = uXy.l[x,t] * uXy.l[xTot,t];
-uXm.l[x,t] = uXm.l[x,t] * uXm.l[xTot,t];
+rE2KE_ARIMA[sp,t]$(tx0[t] and eKE.l[sp] > 0 and rE2KE_ARIMA[sp,t] > 0) = (rE2KE_ARIMA[sp,t]/rE2KE_ARIMA[sp,t1])**eKE.l[sp] * rE2KE_ARIMA[sp,t1];
+rL2KEL_ARIMA[sp,t]$(tx0[t] and eKEL.l[sp] > 0 and rL2KEL_ARIMA[sp,t] > 0) = (rL2KEL_ARIMA[sp,t]/rL2KEL_ARIMA[sp,t1])**eKEL.l[sp] * rL2KEL_ARIMA[sp,t1];
+rB2KELB_ARIMA[sp,t]$(tx0[t] and eKELB.l[sp] > 0 and rB2KELB_ARIMA[sp,t] > 0) = (rB2KELB_ARIMA[sp,t]/rB2KELB_ARIMA[sp,t1])**eKELB.l[sp] * rB2KELB_ARIMA[sp,t1];
+rR2KELBR_ARIMA[sp,t]$(tx0[t] and eKELBR.l[sp] > 0 and rR2KELBR_ARIMA[sp,t] > 0) = (rR2KELBR_ARIMA[sp,t]/rR2KELBR_ARIMA[sp,t1])**eKELBR.l[sp] * rR2KELBR_ARIMA[sp,t1];
+uIOm0_ARIMA[dux,s,t]$(tx0[t] and eIO.l[dux,s] > 0 and uIOm0_ARIMA[dux,s,t] > 0) = (uIOm0_ARIMA[dux,s,t]/uIOm0_ARIMA[dux,s,t1])**eIO.l[dux,s] * uIOm0_ARIMA[dux,s,t1];
+uXy_ARIMA[x,t]$(tx0[t] and eXUdl.l[x] > 0 and uXy_ARIMA[x,t] > 0) = (uXy_ARIMA[x,t]/uXy_ARIMA[x,t1])**eXUdl.l[x] * uXy_ARIMA[x,t1];
+uXm_ARIMA[x,t]$(tx0[t] and eXUdl.l[x] > 0 and uXm_ARIMA[x,t] > 0) = (uXm_ARIMA[x,t]/uXm_ARIMA[x,t1])**eXUdl.l[x] * uXm_ARIMA[x,t1];
 
-rAfskr.l[k,s,t] = rAfskr.l[k,s,t] * rAfskr.l[k,sTot,t];
+### Korrektioner til ARIMA forecasts
+# Vi tror ikke, at den posisitve trend i eksport af søfart skal fortsætte
+uXy_ARIMA[x,t]$(xSoe[x] and tx1[t]) = uXy_ARIMA[x,t1];
 
-uK.l[k,sp,t] = uK.l[k,sp,t] * uK.l[k,spTot,t];
-uL.l[sp,t] = uL.l[sp,t] * uL.l[spTot,t];
-uKL.l[sp,t] = uKL.l[sp,t] * uKL.l[spTot,t];
-uKLB.l[sp,t] = uKLB.l[sp,t] * uKLB.l[spTot,t];
-uR.l[sp,t] = uR.l[sp,t] * uR.l[spTot,t];
+# Der er et mærkeligt niveau-dyk tilbage mod gammelt niveau i tjenesteeksport, som vi ikke tror på
+uXy_ARIMA[x,t]$(xTje[x] and tx1[t]) = uXy_ARIMA[x,t1];
 
-@save_as(G_ARIMA_forecast, _ARIMA)
+# Turisme-eksport fremskrives uændret
+uXy_ARIMA[x,t]$(xTur[x] and tx1[t]) = uXy_ARIMA[x,t1];
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Load pension forecasts
-# ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_exogenous_forecast_pension
-  rPensUdb_a[pens,a,t]$(tx1[t])
-  rPensArv$(tx1[t])
-  rPensIndb2loensum$(tx1[t])
-  rPensAfk2Pens$(tx1[t])
+# Rentespændet sættes til 0
+rRenteSpaend_ARIMA[t]$(tx1[t]) = 0;
 
-;
-@load(G_exogenous_forecast_pension, "..\Data\pension\pension.gdx") ;
+# Markupper fremskrives som gennemsnit af ARIMAer og historisk gennemsnit
+srMarkup_ARIMA[sp,t]$(tx1[t]) = 0.5 * @mean(tt$[t1.val - 20 < tt.val and tt.val <= t1.val], srMarkup_ARIMA[sp,tt])
+                              + 0.5 * srMarkup_ARIMA[sp,t];
+###
+
+# Hvis ARIMA_forecasts.gdx ikke er opdateret niveau-forskydes tidligere fremskrivning for at passe med kalibrerede t1-værdier 
+$IF not %ARIMAs_updated%:
+  $LOOP G_ARIMA_forecast:
+    {name}_ARIMA{sets}$({conditions} and tx0[t] and {name}_ARIMA{sets}{$}[<t>t1] <> 0 and {name}.l{sets}{$}[<t>t1] <> 0)
+      = {name}_ARIMA{sets} / {name}_ARIMA{sets}{$}[<t>t1] * {name}.l{sets}{$}[<t>t1];
+
+    {name}_ARIMA{sets}$({conditions} and tx0[t] and ({name}_ARIMA{sets}{$}[<t>t1] = 0 or {name}.l{sets}{$}[<t>t1] = 0))
+      = {name}.l{sets}{$}[<t>t1];
+  $ENDLOOP
+$ENDIF
+
+$GROUP G_test G_ARIMA_forecast$(t.val <= t1.val);
+@assert_no_difference(G_test, 1e-6, .l, _ARIMA, "ARIMA forecasting changed calibrated value.");
+
+# Variable sættes til ARIMA-fremskrivning
+# Visse parametre kalibreres dynamisk pga. fremaskuende forventinger, men fremskrives med ARIMAer.
+# Vi skalerer fremskrivningen i deep_calibration for at matche niveuaet i det dybe kalibreringsår.
+# Til dette formål bruges fremskrivningerne med suffix _ARIMA direkte i kalibreringsligninger.
+@set(G_ARIMA_forecast, .l, _ARIMA)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Load demographic forecasts (BFR)
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_exogenous_forecast_BFR
-  rOverlev, ErOverlev, rSeparation, srSeparation, snLHh, shLHh, rBoern
-  dSoc2dBesk, dSoc2dPop
-  nPop, nLxDK
+  rOverlev, ErOverlev,
+  rSeparation, srSeparation,
+  snLHh, shLHh, snLxDK
+  dSoc2dBesk, snSoc
+  nPop, nLxDK, nPop_inklOver100, nPop_Over100, rBoern
+  nOvf2nSoc
 ;
 $GROUP G_exogenous_forecast_BFR G_exogenous_forecast_BFR$(tx1[t]);
 @load(G_exogenous_forecast_BFR, "..\Data\Befolkningsregnskab\BFR.gdx");
@@ -89,37 +153,84 @@ $GDXIN ..\Data\Befolkningsregnskab\BFR.gdx
 $GDXIN
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Load pension forecasts
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_exogenous_forecast_pension
+  # Vi tager (som udgangspunkt) de aldersfordelte pensionsind- og udbetalinger fra FMs fremskrivning
+  rPensUdb_a[pens,a,t]
+  rPensArv
+  rPensIndb2loensum
+;
+$GROUP G_exogenous_forecast_pension G_exogenous_forecast_pension$(tx1[t]);
+@load(G_exogenous_forecast_pension, "..\Data\pension\pension.gdx") ;
+
+# HACK - der er gået noget helt galt i FMs fremskrivning af udbetalingsrater for personer over 90 år
+rPensUdb_a.l[pens,a,t]$(tx1[t] and a.val > 90) = rPensUdb_a.l[pens,a,t1];
+
+# Investerings- og administrationsomkostninger antages fremadrettet at udgøre ½ pct.
+rHhAktOmk.l['pensTot',t]$(tx1[t]) = 0.005;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Load forecast for world output and demand for exports
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_world_output_forecast
+  qBVTUdl, uXMarked
+;
+@load_as(G_world_output_forecast, "..\Data\FM_exogenous_forecast.gdx", _forecast);
+qBVTUdl_forecast[t] = qBVTUdl_forecast[t] / fqt[t];
+
+# Smooth forecast growth rates to avoid using actual data as forecast
+$LOOP G_world_output_forecast:
+  {name}_forecast[t] = log({name}_forecast[t]);
+  @HPfilter({name}_forecast, 6.25);
+  {name}_forecast[t] = exp({name}_forecast[t]);
+  {name}.l[t]$(tx1[t]) = {name}_forecast[t] / {name}_forecast[t1] * {name}.l[t1];
+$ENDLOOP
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Exogenous forecasts based on BFR
 # ---------------------------------------------------------------------------------------------------------------------- 
-# Aldersmæssig fordelingsnøgle knyttet til dvOvf2dPop 
-# Korrekt såfremt at overførsler knyttet til dvOvf2dPop vokser med samme rate, fx satsregulering
-uHhOvfPop.l[a,t]$(a15t100[a] and tx1[t]) =          
-  sum(ovfhh, vOvfSats.l[ovfhh,t1] * nOvfFraSocResidual[ovfhh,a,t]) / nPop.l[a,t]  # Samlede overførsler pr. person i alder a, som ikke afhænger af beskæftigelsesfrekvens
-/ sum(ovfhh, vOvfSats.l[ovfhh,t1] * nOvfFraSocResidual[ovfhh,aTot,t]) * nPop.l['a15t100',t];  # Samlede overførsler i alt, som ikke afhænger af beskæftigelsesfrekvens
+# vOvfSats og vOvfUbeskat er endogene, men beregnes som hjælpevariabel til beregning af uHhOvfPop og uOvfUbeskat
+# Vi antager at satsregulerede overførsler vokser med fv, prisregulerede vokser med fp, mens at resten nominelt udfases
+vOvfSats.l[satsreg,t]$(t.val > %cal_end%) = vOvfSats.l[satsreg,'%cal_end%'];
+vOvfSats.l[prisreg,t]$(t.val > %cal_end%) = vOvfSats.l[prisreg,'%cal_end%'] / fqt[t] * fqt['%cal_end%'];
+vOvfSats.l[ovfHh,t]$(t.val > %cal_end% and not satsreg[ovfHh] and not prisreg[ovfHh])
+  = vOvfSats.l[ovfHh,'%cal_end%'] / fvt[t] * fvt['%cal_end%'];
 
-# vOvfUbeskat er endogen, men beregnes som hjælpevariabel til beregning af uOvfUbeskat
-# Vi antager at satsregulerede overførsler vorkser med fv, mens at resten nominelt udfases
-vOvfUbeskat.l[a,t]$(a15t100[a] and nPop.l[a,t] and tx1[t]) = (
-      sum(ovf$(ubeskat[ovf] and satsreg[ovf]), vOvfSats.l[ovf,t1] * nOvf_a[ovf,a,t])
-    + sum(ovf$(ubeskat[ovf] and not satsreg[ovf]), vOvfSats.l[ovf,t1] * inf_growth_factor[t] / inf_growth_factor[t1] * nOvf_a[ovf,a,t])
-  ) / nPop.l[a,t];
-vOvfUbeskat.l[aTot,t]$(tx1[t]) = sum(a, vOvfUbeskat.l[a,t] * nPop.l[a,t]);
-uOvfUbeskat.l[a,t]$(vOvfUbeskat.l[a,t] <> 0 and  tx1[t]) = vOvfUbeskat.l[a,t]  / (vOvfUbeskat.l[aTot,t] / sum(aa, nPop.l[aa,t]));
+vOvfUbeskat.l[a,t]$(a15t100[a] and nPop.l[a,t] and t.val > %cal_end%) = sum(ovf$(ubeskat[ovf]), vOvfSats.l[ovf,t] * nOvf_a[ovf,a,t]) / nPop.l[a,t];
+vOvfUbeskat.l[aTot,t]$(t.val > %cal_end%) = sum(a, vOvfUbeskat.l[a,t] * nPop.l[a,t]);
+
+# Aldersmæssig fordelingsnøgle knyttet til dvOvf2dnPop 
+# Korrekt såfremt at overførsler knyttet til dvOvf2dnPop vokser med samme rate, fx satsregulering
+uHhOvfPop.l[a,t]$(a15t100[a] and t.val > %cal_end%) =
+  sum(ovfHh, vOvfSats.l[ovfHh,t] * nOvfFraSocResidual[ovfHh,a,t]) / nPop.l[a,t]  # Samlede overførsler pr. person i alder a, som ikke afhænger af beskæftigelsesfrekvens
+/ sum(ovfHh, vOvfSats.l[ovfHh,t] * nOvfFraSocResidual[ovfHh,aTot,t]) * nPop.l['a15t100',t];  # Samlede overførsler i alt, som ikke afhænger af beskæftigelsesfrekvens
+
+uOvfUbeskat.l[a,t]$(vOvfUbeskat.l[a,t] <> 0 and t.val > %cal_end%) = vOvfUbeskat.l[a,t]  / (vOvfUbeskat.l[aTot,t] / sum(aa, nPop.l[aa,t]));
 
 nArvinger.l[a,t]$(tx1[t]) = sum(aa, rArv_a.l[a-1,aa-1] * nPop.l[aa,t]);
 
 d1Arv[a,t]$(a18t100[a]) = (ErOverlev.l[a,t] < 0.995); # Kun aldersgrupper med forventet dødssansynlighed over 0.5% har arvemotiv
+
+# Asymptotisk maksimum for arbejdsmarkedsdeltagelse sættes til 3 gange strukturel beskæftigelse
+# Sættes for at undgå ekstreme konjunktur-gab i beskæftigelse for meget gamle husholdninger
+fSoegBaseHh.l[a,t]$(tx1[t] and nPop.l[a,t] <> 0) = min(nPop.l[a,t], 3 * snLHh.l[a,t]) / nPop.l[a,t];
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Land til ejerboligere holdes konstant
+# ----------------------------------------------------------------------------------------------------------------------
+qLand.l[t]$(tx1[t]) = qLand.l[t1] * fqt[t1] / fqt[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Inventory investments
 # ----------------------------------------------------------------------------------------------------------------------
 # In forecast years tax rates on net inventory investments follow the tax on material inputs.
 # As inventory investments are net, but tax revenue is gross, the imputed tax rates are nonsense. 
-rSub_y0.l['iL',s,tx1] = rSub_y0.l[s,s,t1];
-rSub_m0.l['iL',s,tx1] = rSub_m0.l[s,s,t1];
-tTold.l['iL',s,tx1] = tTold.l[s,s,t1];
-tMoms_y.l['iL',s,tx1] = tMoms_y.l[s,s,t1];
-tMoms_m.l['iL',s,tx1] = tMoms_m.l[s,s,t1];
+$LOOP G_IO_taxes:
+  {name}.l['iL',s,tx1]$({conditions}) = {name}.l[s,s,tx1];
+$ENDLOOP
+# ARIMA-fremskrivning for lagerinvesteringer i landbrug er fejlbehæftet og erstattes
+rILy2Y.l['lan',tx1] = rILy2Y.l['fre',tx1];
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Interest rates and risk premia
@@ -137,14 +248,40 @@ rRenteECB.l[t]$(tx1[t]) = rRenteOblEU.l[t] - rOblPrem.l[t];
 crRenteBankIndskud.l[t]$(tx1[t] and t.val <= 2050) = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] + 0.01) - 0.01;
 crRenteBankIndskud.l[t]$(t.val > 2050) = -0.01;  
 
-rIndlAktiePrem.l[sp,t]$(tx1[t]) = max(0.03, 0.07 - rRente.l['Obl',t]);  # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
-rVirkDiskPrem.l[sp,t]$(tx1[t]) = rIndlAktiePrem.l[sp,t];
-rBoligPrem.l[t]$(tx1[t]) = rIndlAktiePrem.l['bol',t];
+rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
+rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] + 0.07 - rRenteECB.l[tEnd], 0.07);
+rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] + 0.08 - rRenteECB.l[tEnd], 0.08);
+
+# Realrente er endogen men bruges nedenfor og skal beregnes
+rRente.l['RealKred',t]$(tx1[t]) = rRente.l['Obl',t] + crRenteRealKred.l[t];
+
+# Pensionsformuen har en aktieandel, som sikrer et afkast på 4½ pct. (før skat) på sigt
+parameter rPensionAfk_target;
+parameter rPensionIndlAktier_target;
+rPensionAfk_target = 0.045;
+rPensionIndlAktier_target = (rPensionAfk_target - rRente.l['Obl',tEnd] + rHhAktOmk.l['pensTot',tEnd]
+                             - rPensionAkt.l['RealKred',tEnd] * (rRente.l['RealKred',tEnd] - rRente.l['Obl',tEnd])
+                             - rPensionAkt.l['UdlAktier',tEnd] * (rAfk.l['UdlAktier',tEnd] - rRente.l['Obl',tEnd]))
+                            / (rAfk.l['IndlAktier',tEnd] - rRente.l['Obl',tEnd]);
+rPensionAkt.l['IndlAktier',t]$(tx1[t] and t.val <= 2050) 
+  = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rPensionAkt.l['IndlAktier',t1] - rPensionIndlAktier_target) 
+     + rPensionIndlAktier_target;
+rPensionAkt.l['IndlAktier',t]$(t.val > 2050) = rPensionIndlAktier_target;
+rPensionAkt.l['Obl',t]$(tx1[t]) = 1 - rPensionAkt.l['RealKred',t] - rPensionAkt.l['UdlAktier',t] - rPensionAkt.l['IndlAktier',t];
+
+rBoligPrem.l[t]$(tx1[t]) = max(0.03, 0.07 - rRente.l["Obl",t]);
 
 # Sammensætningseffekt af ændrede uddannelsesbaggrunde etc. for offentligt ansatte
 fpYoff.l[t]$(tx1[t]) = 1.0008;
 
-vNulvaekstIndeks.l[t]$(tx1[t]) = inf_growth_factor[t];
+vNulvaekstIndeks.l[t]$(tx1[t]) = 1/fvt[t];
+
+#  # ----------------------------------------------------------------------------------------------------------------------
+#  # Markupper går til historisk gennemsnit, dog mindst 0
+#  # ----------------------------------------------------------------------------------------------------------------------
+#  parameter aftrapprofil[t] "Profil for aftrapning af vissekalibrerede parametre til strukturelt niveau.";
+#  aftrapprofil[t]$(tx0[t]) = 0.8**(dt[t]**1.5);
+#  srMarkup.l[sp,t]$(tx0[t]) = srMarkup.l[sp,t1] * aftrapprofil[t] + (1-aftrapprofil[t]) * max(@mean(tData, srMarkup.l[sp,tData]), 0);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Public finances
@@ -154,28 +291,42 @@ vNulvaekstIndeks.l[t]$(tx1[t]) = inf_growth_factor[t];
 # Vi fremskriver aktieskat ved konstant provenue som andel af privat-sektor-BVT
 # baseret på gennemsnit af de seneste 10 år op til det dybe kalibreringsår
 set t10[t];
-t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep%);
+t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep% and t.val >= %cal_start%);
 rvtAktie2BVT.l[t]$(tx1[t]) = @mean(t10, rvtAktie2BVT.l[t10]);
 
 # Korrektionsfaktor på selskabsskat fremskrives direkte (pga. ændringer i selskabsskattesats)
 ftSelskab.l[t]$(tx1[t]) = @mean(t10, ftSelskab.l[t10]); 
 
-# Medielicens afskaffes gradvist fremtil 2021 i data, her er vi mest interesseret i den langsigtede værdi
-utMedie.l[t]$(t.val > 2021) = 0;
+# Mellemskat og top-top-skat
+tMellem.l[t]$(tx1[t] and t.val >= 2026) = 0.075;
+tTopTop.l[t]$(tx1[t] and t.val >= 2026) = 0.05;
 
-fHBIDisk.l[tHBI] = 1; # I tilfælde af at tHBI > t1
+# Demografisk træk
+$GROUP G_GovExpenses_DemoTraek
+    fDemoTraek[a,t]$(tx1[t])
+    fDemoTraek_Over100[t]$(tx1[t])
+  ;
+@load(G_GovExpenses_DemoTraek, "..\Data\Befolkningsregnskab\DemoTraek.gdx" )
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Exogenous forecasts re-uses from previous forecast
 # ----------------------------------------------------------------------------------------------------------------------  
-$GROUP G_load_from_previous_forecast
-  fDemoTraek
-  qY$(udv[s_])
-  qXy$(xEne[x_])
-  rtKilde2Loensum # Restfradrag sættes markant højere i fremskrivning, svarende til FMs mellemfristede fremskriving (skal tjekkes efter!)
+$GROUP G_load_udv
+  qY['udv',t]
 ;
-$GROUP G_load_from_previous_forecast G_load_from_previous_forecast$(tx1[t]);
-@load(G_load_from_previous_forecast, "Gdx\previous_smooth_calibration.gdx" )
+@load_as(G_load_udv, "..\Data\FM_exogenous_forecast.gdx", _previous)
+qY.l['udv',t]$(tx1[t]) = qY.l['udv',t1] * qY_previous['udv',t] / qY_previous['udv',t1];
+
+# Produktion af olie/gas aftrappes gradvist efter 2040 for at hjælpe konvergens ift. bræt afslutning i fremskrivning
+qY.l['udv',t]$(t.val > 2040) = qGrus.l[t] + (qY.l['udv','2040'] - qGrus.l['2040']) * 0.8**((t.val-2040)**1.5);
+
+# Leverencer fra udvinding til eksport skaleres med indenlandsk produktion af udvinding.
+# Øvrige leverencer tager tilpasning via. skalering i E_uIOXy.
+uIOXy0.l[x,'udv',t]$(tx1[t]) = uIOXy0.l[x,'udv',t1] * (qY.l['udv',t] - qGrus.l[t]) / (qY.l['udv',t1] - qGrus.l[t1]);
+
+# Enkelte ARIMA-fremskrivninger slås fra i udvnindingsbranche
+rL2KEL_ARIMA['udv',t] = rL2KEL_ARIMA['udv',t1];
+uL_ARIMA['udv',t] = uL_ARIMA['udv',t1];
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Dummies and exogenous IO cells
@@ -186,16 +337,16 @@ $GROUP G_load_from_previous_forecast G_load_from_previous_forecast$(tx1[t]);
 # 2) value of IO cell is 0 in last calibration year, or
 # 3) The forecasted scale parameter is below 0.001
 d1IOm[dux,s,t]$tx1[t] = (
-  uIO0.l[dux,s,t] > 0.001
-  and uIOm0.l[dux,s,t] > 0.001
-  and sum(tData, vIOm.l[dux,s,tData]) > 0.001
-  and vIOm.l[dux,s,t1] >= 0
+  (uIO0.l[dux,s,t] > 0.001 or iL[dux])
+  and uIOm0.l[dux,s,t] > 0.001 
+  and sum(tData, abs(vIOm.l[dux,s,tData])) > 0.001
+  and vIOm.l[dux,s,t1] <> 0
 );
 d1IOy[dux,s,t]$tx1[t] = (
-  uIO0.l[dux,s,t] > 0.001
+  (uIO0.l[dux,s,t] > 0.001 or iL[dux])
   and uIOm0.l[dux,s,t] <= 1-0.001
-  and sum(tData, vIOy.l[dux,s,tData]) > 0.001
-  and vIOy.l[dux,s,t1] >= 0
+  and sum(tData, abs(vIOy.l[dux,s,tData])) > 0.001
+  and vIOy.l[dux,s,t1] <> 0
 );
 d1IOy[x,s,t]$tx1[t] = (
   uIOXy0.l[x,s,t] > 0.0001
@@ -208,8 +359,9 @@ d1IOm[x,s,t]$tx1[t] = (
   and vIOm.l[x,s,t1] >= 0
 );
 # Do not allow negative inventory investments in forecast
-d1I_s['iL',s,t]$tx1[t] = yes$(rIL2y.l[s,t] > 0 and uIO0.l['iL',s,t] > 0);
-rIL2y.l[s,t]$(not d1I_s['iL',s,t]) = 0;
+rILy2Y.l[s,t]$(tx1[t] and rILy2Y.l[s,t] < 0) = 0.001;
+rILm2Y.l[s,t]$(tx1[t] and rILm2Y.l[s,t] < 0) = 0.001;
+d1I_s['iL',s,t]$(tx1[t]) = d1IOy['iL',s,t] or d1IOm['iL',s,t];
 d1IO['iL',s,t]$(not d1I_s['iL',s,t]) = No;
 d1IOy['iL',s,t]$(not d1I_s['iL',s,t]) = No;
 d1IOm['iL',s,t]$(not d1I_s['iL',s,t]) = No;
@@ -245,10 +397,126 @@ $ENDFOR
 qK.l[k,s,t]$(tx1[t] and not d1k[k,s,t]) = 0;
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Save snapshot of forecasts, to check that all forecasts are intact after calibration.
+# Fremskrivning af alderspecifik produktivitet - bør rykkes til BFR på sigt
 # ----------------------------------------------------------------------------------------------------------------------
-@save_as(G_exogenous_forecast, _data)
-@save_as(G_forecast_as_zero, _data)
+execute_unloaddi "Gdx/qProdHh_a_forecast.gdx" qProdHh_a, BruttoArbsty, tDataEnd, tEnd;
+embeddedCode Python:
+  with open("age_productivity_forecast.py") as f: exec(f.read())
+endEmbeddedCode
+execute_load "Gdx/qProdHh_a_forecast.gdx" qProdHh_a;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Filtrering af aldersafhængige parametre
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_smooth_profiles
+  ftBund_a
+  ftKommune_a
+  rTopSkatInd_a
+  uPersIndRest_a$(a[a_])
+  cHh_a
+  rRealKred2Bolig_a
+  rvCLejeBolig
+  uBoernFraHh_a$(a0t17[a])
+  mtIndRest
+  mrKomp
+  vHhx
+;
+@set(G_smooth_profiles, _presmooth, .l)
+execute_unloaddi "Gdx/smooth_profiles_input.gdx" $LOOP G_smooth_profiles:, {name} $ENDLOOP, tDataEnd, tEnd;
+
+embeddedCode Python:
+  import dreamtools as dt
+  import numpy as np
+  import pandas as pd
+  from scipy.optimize import curve_fit
+
+  db = dt.Gdx("Gdx/smooth_profiles_input.gdx")
+  tEnd = db.tEnd[0]
+  tDataEnd = db.tDataEnd[0]
+
+  # ----------------------------------------------------------------------------------------------------------------------
+  # Smoothing
+  # ----------------------------------------------------------------------------------------------------------------------
+  # List of variables to be smoothed
+  smoothing_vars = [
+      (db["ftBund_a"], 15, 5),
+      (db["ftKommune_a"], 15, 5),
+      (db["rTopSkatInd_a"], 15, 5),
+      (db["uPersIndRest_a"], 15, 5),
+      (db["cHh_a"], 0, 4),
+      (db["rRealKred2Bolig_a"], 18, 5),
+      (db["rvCLejeBolig"], 18, 6),
+      (db["uBoernFraHh_a"], 0, 3),
+      (db["mtIndRest"], 15, 5),
+      (db["mrKomp"], 15, 5),
+      (db["vHhx"], 0, 5),
+  ]
+
+  for var, a_start, degrees in smoothing_vars:
+      a = "a" if ("a" in var.index.names) else "a_"
+
+      # Limit DataFrame to the years and age groups that we want to smooth (and remove any totals etc.)
+      t_range = range(tDataEnd-1, tDataEnd + 1)
+      a_range = range(a_start, 100 + 1)
+      df = var.reset_index()
+      df = df[df["t"].isin(t_range) & df[a].isin(a_range)]
+
+      # Reset index to those of original variable
+      df = df.set_index(var.index.names)
+
+      # Groupby all sets except the age set
+      levels = [i for i in df.index.names if i != a]
+      grouped = df.groupby(levels, group_keys=False)
+
+      # group = list(grouped)[-1][1]
+      # group = grouped.get_group(('Obl',2017))
+      M = N = degrees
+      def polynomial_ratio(x, *args):
+          a = args[:M+1]
+          b = args[M+1:]
+          return sum(a[i] * x**i for i in range(M+1)) / (1 - sum(b[i] * x**(i+1) for i in range(N)))
+
+      def smooth(group):
+          if len(group[var.name].unique()) < (N + M + 2):
+              return group[var.name]
+          y = group[var.name].values
+          a1 = np.array(a_range).astype(float) - a_start
+          starting_values = np.ones(M+N+1) / 100
+          for i in range(10): # Max number of tries with new starting values
+              try:
+                  popt, pcov = curve_fit(polynomial_ratio, a1, y, p0=starting_values, maxfev=1000000)
+                  if i > 0:
+                      print(f"Fit of ratio of polynomiums of order M={M} and N={N} for group:\n{group} succeeded after {i} retries")
+                  break
+              except RuntimeError as e:
+                  starting_values = np.random.rand(M+N+1) - 0.5
+          else:
+              msg = f"Failed to fit ratio of polynomiums of order M={M} and N={N} for group:\n{group}"
+              print(msg)
+              raise e
+
+          group["fit"] = polynomial_ratio(a1, *popt)
+          # import plotly.express as px
+          # group[var.name] = y
+          # px.line(group.reset_index(), x=a, y=[var.name, "fit"]).show()
+          return group["fit"]
+
+      # Apply smoothing function to each group
+      smoothed = grouped.apply(smooth)
+      smoothed *= (df[var.name] != 0) # Remove smoothing where original value was exactly zero
+
+      # Overwrite database values with new smoothed profiles
+      idx = [smoothed.index.get_level_values(i) for i in smoothed.index.names[:-1]]
+      for year in range(tDataEnd, tEnd+1):
+          db[var.name].loc[(*idx, year)] = smoothed.xs(tDataEnd, level="t").values
+
+  db.export("smooth_profiles.gdx")
+endEmbeddedCode
+
+@load(G_smooth_profiles, "Gdx\smooth_profiles.gdx");
+jqFormueBase.l[a,t1] = (vHhx.l[a,t1] - vHhx_presmooth[a,t1]) / pC.l['Cx',t1];
+$GROUP G_reset G_smooth_profiles$(t1[t]);
+@set(G_reset, .l, _presmooth);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Clear large objects that we no longer need from memory

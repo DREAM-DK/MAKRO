@@ -29,6 +29,7 @@ SETS
     cTot "Samlet privat forbrug."
     gTot "Samlet offentligt forbrug"
     iTot "Samlede investeringer."
+    tot "Total af alle brancher"
   /
 
   eksportgrupper /
@@ -48,10 +49,10 @@ SETS
     cTur "Turisme"
   /
   privat_forbrug_nests /
-    cTurTje       "Consumption nest - tourism and services"
-    cTurTjeVar    "Consumption nest - tourism, services, and goods"
-    cTurTjeVarEne "Consumption nest - tourism, services, goods, and energy"
-    cIkkeBol      "Consumption nest - Non-housing"
+    cTurTjex       "Consumption nest - tourism and services excl. financial costs"
+    cTurTjexVar    "Consumption nest - tourism, services, and goods"
+    cTurTjexVarEne "Consumption nest - tourism, services, goods, and energy"
+    Cx             "Total Consumption excl. housing and financial costs"
   /
 
   offentligt_forbrug /
@@ -59,9 +60,9 @@ SETS
   /
 
   investeringstyper /
-    iB "Bygningsinvesteringer"
-    iM "Maskininvesteringer"
-    iL "Lagerinvesteringer"
+    iB "Bygningsinvesteringer inkl. anlæg"
+    iM "Maskininvesteringer inkl. transportmidler og immaterielle rettigheder"
+    iL "Lagerinvesteringer inkl. værdigenstande og stambesætninger"
   /
 ;
 
@@ -70,9 +71,7 @@ SETS
 # ----------------------------------------------------------------------------------------------------------------------
 SETS
   d_ "Efterspørgselskomponenter inklusiv total og deltotaler" /
-    tot "Total af alle brancher"
     spTot "Total af private brancher"
-    spxTot "Total af private brancher ekskl. boligbranchen"
     sByTot "Total af private byerhverv"
     set.efterspoergsel_totaler
     set.brancher
@@ -91,7 +90,6 @@ SETS
     set.investeringstyper
   /
   dux_[d_] "Efterspørgselskomponenter" /
-    tot "Total af alle brancher"
     set.efterspoergsel_totaler    
     set.brancher
     set.privat_forbrug
@@ -105,6 +103,12 @@ SETS
     set.investeringstyper
   /
 
+  cgi[d_] "Efterspørgselskomponenter" /
+    set.privat_forbrug
+    set.offentligt_forbrug
+    set.investeringstyper
+  /
+  
   dTots[d_] "Efterspørgselsaggregater" /
     set.efterspoergsel_totaler
   /
@@ -116,10 +120,7 @@ SETS
     cTot . set.privat_forbrug
     gTot . set.offentligt_forbrug
     iTot . set.investeringstyper
-  /
-
-  cBil[d_] "Subset bestående af cBil" /cBil/
-  
+  /  
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -129,7 +130,6 @@ SETS
   s_[d_] "Production sectors, including total" /
     tot
     spTot
-    spxTot
     sByTot
     set.private_brancher
     set.offentlige_brancher
@@ -137,12 +137,30 @@ SETS
   s[s_] "Production sectors" / set.private_brancher, set.offentlige_brancher /
   sp[s_] "Private production sectors" / set.private_brancher /
   spx[s_] "Private brancher ekskl. boligbranchen" / lan, byg, ene, udv, fre, soe, tje /
-  sOff[s_] "Public sector" / set.offentlige_brancher /
+  #  sOff[s_] "Public sector" / set.offentlige_brancher /
   sBy[s_] "Private byerhverv" / tje, fre, byg, ene /
-  bol[s_] "Subset bestående af bol" / bol /
-  udv[s_] "Subset bestående af udv" / udv /
-  tje[s_] "Subset bestående af tje" / tje /
-  soe[s_] "Subset bestående af soe" / soe /
+  sTold[s_] "Toldbelagte import-brancher" / lan, byg, ene, udv, fre /
+
+  sMat[s_] "Subset bestående af sektorer der producerer materialer" / tje, fre, byg, lan , soe, bol /
+  sEne[s_] "Subset bestående af sektorer der producerer energi" / ene, udv /
+
+  m[s_] "Brancher med import." / tje, fre, soe, udv, ene /
+;
+
+set harrod_neutral[s_] "Brancher hvor teknologiske fremskridt antages udelukkende at være arbejdskraft-besparende" /
+  tje, fre, byg, lan
+/; # sp eksklusiv ene, bol, soe, udv
+
+SINGLETON SETS
+  tje[s_] "Private tjenester ekskl. søtransport" / tje /
+  fre[s_] "Fremstilling ekskl. energi" / fre /
+  byg[s_] "Byggeri og anlæg" / byg /
+  lan[s_] "Landbrug og fiskeri" / lan /
+  soe[s_] "Søtransport" / soe /
+  bol[s_] "Bolig" / bol /
+  ene[s_] "Energi" / ene /
+  udv[s_] "Udvinding" / udv /
+  off[s_] "Offentlig" / off /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -159,9 +177,14 @@ SETS
   x[x_] "Eksportgrupper" / set.eksportgrupper /    
 
   xxTur[x] "Export groups, excluding tourism" / xEne, xVar, xSoe, xTje /
-  xEne[x_] "Subset af x_ bestående af xEne" / xEne /
-  xSoe[d_] "Subset af x bestående af xSoe" / xSoe /
-  xTur[x] "Subset af x bestående af xTur" / xTur /
+;
+
+SINGLETON SETS
+  xEne[d_] "Eksport af energivarer - SITC 3."  / xEne /
+  xVar[d_] "Eksport af varer ekskl. energi."  / xVar /
+  xSoe[d_] "Eksport af søtransport."  / xSoe /
+  xTje[d_] "Eksport af tjenester ekskl. søtransport og turistindtægter."  / xTje /
+  xTur[d_] "Turistindtægter (eksport)." / xTur /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -184,28 +207,28 @@ SETS
   c[c_] "Demand for private consumption - micro-level" / set.privat_forbrug /
 
   cNest[c_] "Private consumption nests. The order should be from bottom of the CES tree and up!" /
-    cTurTje
-    cTurTjeVar
-    cTurTjeVarEne
-    cIkkeBol
-  /
-  cNest2c_[cNest,c_] "Mapping of the private consumption CES nest structure" /
-    cTurTje . (cTur, cTje)
-    cTurTjeVar . (cTurTje, cVar)
-    cTurTjeVarEne . (cTurTjeVar, cEne)
-    cIkkeBol . (cTurTjeVarEne, cBil)
+    cTurTjex
+    cTurTjexVar
+    cTurTjexVarEne
+    Cx
   /
   c_2c[c_,c] "Mapping from private consumption nests to constituent consumption groups." /
-    cTurTje . (cTur, cTje)
-    cTurTjeVar . (cTur, cTje, cVar)
-    cTurTjeVarEne . (cTur, cTje, cVar, cEne)
-    cIkkeBol . (cTur, cTje, cVar, cEne, cBil)
+    cTurTjex . (cTur, cTje)
+    cTurTjexVar . (cTur, cTje, cVar)
+    cTurTjexVarEne . (cTur, cTje, cVar, cEne)
+    Cx . (cTur, cTje, cVar, cEne, cBil)
     cTot . (cTur, cTje, cVar, cEne, cBil, cBol)
   /
+;
 
-  cIkkeBol[c_] "Subset bestående af cIkkeBol" / cIkkeBol /
-  cBol[c_] "Subset bestående af cBol" / cBol /
-  cTur[c_] "Subset bestående af cTur" / cTur /
+SINGLETON SETS
+  Cx[d_] "Subset bestående af Cx" / Cx /
+  cBol[d_] "Bolig" / cBol /
+  cBil[d_] "Biler" / cBil /
+  cEne[d_] "Energi" / cEne /
+  cVar[d_] "Varer" / cVar /
+  cTje[d_] "Tjenester" / cTje /
+  cTur[d_] "Turisme" / cTur /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -217,9 +240,12 @@ SETS
 
   is_[i_,s_] "Investment types by sector including totals" / set.i_ . set.s_ /
   is[i,s] "Investment types by sector" / set.i . set.s /
-  iL[d_] "subset bestående af iL" / iL /
-  iB[i_] "subset bestående af iB" / iB /
-  iM[d_] "subset bestående af iM" / iM / 
+;
+
+SINGLETON SETS
+  iB[d_] "Bygningsinvesteringer" / iB /
+  iM[d_] "Maskininvesteringer" / iM /
+  iL[d_] "Lagerinvesteringer" / iL /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -255,6 +281,7 @@ alias(g, gg);
 alias(x, xx);
 alias(r, rr);
 alias(i, ii);
+alias(k, kk);
 
 alias(c_, cc_);
 alias(g_, gg_);
@@ -263,24 +290,22 @@ alias(r_, rr_);
 alias(i_, ii_);
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Singletons
+# Totaler
 # ----------------------------------------------------------------------------------------------------------------------
-# The can be used interchangeably with 'tot'
-singleton sets
-    dTot[d_]     /dTot/
-    gTot[g_]     /gTot/
-    cTot[c_]     /cTot/
-    cDKtot[c_]   /cTot/   
-    sTot[s_]     /tot/
-    spTot[s_]    /spTot/
-    spxTot[s_]   /spxTot/
-    sByTot[s_]  /sByTot/
-    rTot[r_]     /tot/
-    xTot[x_]     /xTot/
-    iTot[i_]     /iTot/
-    kTot[i_]     /iTot/
-    isTot[i_,s_] /iTot . tot/
-    ksTot[k_,s_] /iTot . tot/
+SINGLETON SETS
+  dTot[d_]     /dTot/
+  gTot[g_]     /gTot/
+  cTot[c_]     /cTot/
+  cDKtot[c_]   /cTot/   
+  sTot[s_]     /tot/
+  spTot[s_]    /spTot/
+  sByTot[s_]  /sByTot/
+  rTot[r_]     /tot/
+  xTot[x_]     /xTot/
+  iTot[i_]     /iTot/
+  kTot[i_]     /iTot/
+  isTot[i_,s_] /iTot . tot/
+  ksTot[k_,s_] /iTot . tot/
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------

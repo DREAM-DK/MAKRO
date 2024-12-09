@@ -16,12 +16,10 @@ sets
   tIOdata[t]      "Years where we have input output data"
   tADAMdata[t]    "Years where we have ADAM data" /1967*%cal_end%/
 
-  tADAMfinData[t] "Years with financial data from ADAM" /1994*%cal_end%/
   tFMdata[t]      "Years where we have FM ADAM data"
   tPSKAT2data[t]  "Years where we have PSKAT2 data"
 
-  tAgeData[t]  "Years where we have data on cohort behavior" /2015*%cal_deep%/
-  tBFR[t] "Years where we have demographic projections (except first and last year as these have errors)" /2001*2099/
+  tAgeData[t]  "Years where we have data on cohort behavior" /%AgeData_t1%*%AgeData_tEnd%/
 
   # These are used dynamically throughout data management
   tData[t]     "Years with data"
@@ -39,6 +37,7 @@ singleton sets
     tDataEnd[t]  "Last period with data"
 
     tBase[t]      "Base year in which prices are set to 1" /%base_year%/
+    tDeep[t]      "Last calibration year with full age distribution" /%cal_deep%/
     tDataEnd[t]   "Last calibration year"
 
     tHBI[t] "Year in which rHBI is evaluated" /%rHBI_eval%/    
@@ -60,7 +59,7 @@ parameters
 # 101 år, ingen levende, men renter mv. som tilskrives beholdninger fra 100 årige året før, dateres 101
 
 sets
-  a_ "Cohort ages and aggregates over age groups" /a15t100, a0t17, a18t100, tot, 0 * 101/
+  a_ "Cohort ages and aggregates over age groups" /a15t100, a0t17, a18t100, tot, 0 * 110/
   a[a_] "All age groups" /0 * 101/  
   a0t100[a_] "Aller levende personer." /0 * 100/
   a0t14[a_] "Børn" /0 * 14/
@@ -80,6 +79,22 @@ singleton sets
 parameter aVal[a_] "Numeric value of age super set";
 aVal[a_] = ord(a_)-5;
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Permanent heterogeneity
+# ----------------------------------------------------------------------------------------------------------------------
+sets
+  h_ "Types of consumers and aggregate" / R, tot/
+  h[h_] "Types of consumers" / R/
+;
+set hTotals[h_,h] /
+  tot . set.h
+/;
+singleton sets 
+  hTot[h_] "Total of all perm. heterogeneity" /tot/
+  hhR[h_] "R" /R/
+;
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Alias
@@ -88,6 +103,7 @@ alias(t,tt);
 alias(a,aa);
 alias(a,aaa);
 alias(a_,aa_);
+alias(h,hh);
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -15,78 +15,78 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Adjusting for growth and inflation
 # ----------------------------------------------------------------------------------------------------------------------
-# Shift variables to adjust for inflation and growth
 variable INF_GROWTH_ADJUSTED "Dummy indicating if variables are growth and inflation adjusted";
 INF_GROWTH_ADJUSTED.l = 0;
 
 $FUNCTION inf_growth_adjust():
+  # Shift variables to adjust for inflation and growth
   abort$(INF_GROWTH_ADJUSTED.l) "Trying to adjust for inflation and growth, but model is already adjusted.";
   $offlisting
     $LOOP G_prices:
-      {name}.l{sets} = {name}.l{sets} * inf_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} * inf_factor[t];
-      {name}.up{sets} = {name}.up{sets} * inf_factor[t];
+      {name}.l{sets} = {name}.l{sets} / fpt[t];
+      {name}.lo{sets} = {name}.lo{sets} / fpt[t];
+      {name}.up{sets} = {name}.up{sets} / fpt[t];
     $ENDLOOP
     $LOOP G_quantities:
-      {name}.l{sets} = {name}.l{sets} * growth_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} * growth_factor[t];
-      {name}.up{sets} = {name}.up{sets} * growth_factor[t];
+      {name}.l{sets} = {name}.l{sets} / fqt[t];
+      {name}.lo{sets} = {name}.lo{sets} / fqt[t];
+      {name}.up{sets} = {name}.up{sets} / fqt[t];
     $ENDLOOP
     $LOOP G_values:
-      {name}.l{sets} = {name}.l{sets} * inf_growth_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} * inf_growth_factor[t];
-      {name}.up{sets} = {name}.up{sets} * inf_growth_factor[t];
+      {name}.l{sets} = {name}.l{sets} / fvt[t];
+      {name}.lo{sets} = {name}.lo{sets} / fvt[t];
+      {name}.up{sets} = {name}.up{sets} / fvt[t];
     $ENDLOOP
   $onlisting
   INF_GROWTH_ADJUSTED.l = 1;
 $ENDFUNCTION
 
-# Remove inflation and growth adjustment
 $FUNCTION remove_inf_growth_adjustment():
+  # Remove inflation and growth adjustment
   abort$(not INF_GROWTH_ADJUSTED.l) "Trying to remove inflation and growth adjustment, but model is already nominal.";
   $offlisting
     $LOOP G_prices:
-      {name}.l{sets} = {name}.l{sets} / inf_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} / inf_factor[t];
-      {name}.up{sets} = {name}.up{sets} / inf_factor[t];
+      {name}.l{sets} = {name}.l{sets} * fpt[t];
+      {name}.lo{sets} = {name}.lo{sets} * fpt[t];
+      {name}.up{sets} = {name}.up{sets} * fpt[t];
     $ENDLOOP
     $LOOP G_quantities:
-      {name}.l{sets} = {name}.l{sets} / growth_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} / growth_factor[t];
-      {name}.up{sets} = {name}.up{sets} / growth_factor[t];
+      {name}.l{sets} = {name}.l{sets} * fqt[t];
+      {name}.lo{sets} = {name}.lo{sets} * fqt[t];
+      {name}.up{sets} = {name}.up{sets} * fqt[t];
     $ENDLOOP
     $LOOP G_values:
-      {name}.l{sets} = {name}.l{sets} / inf_growth_factor[t];
-      {name}.lo{sets} = {name}.lo{sets} / inf_growth_factor[t];
-      {name}.up{sets} = {name}.up{sets} / inf_growth_factor[t];
+      {name}.l{sets} = {name}.l{sets} * fvt[t];
+      {name}.lo{sets} = {name}.lo{sets} * fvt[t];
+      {name}.up{sets} = {name}.up{sets} * fvt[t];
     $ENDLOOP
   $onlisting
   INF_GROWTH_ADJUSTED.l = 0;
 $ENDFUNCTION
 
-# Growth adjust a single group of variables (note that dollar-conditions are used here, but not above)
 $FUNCTION growth_adjust_group({group}):
+  # Growth adjust a single group of variables (note that dollar-conditions are used here, but not above)
   $offlisting
   $LOOP {group}:
-      {name}.l{sets}$({conditions}) = {name}.l{sets} * growth_factor[t];
+      {name}.l{sets}$({conditions}) = {name}.l{sets} / fqt[t];
   $ENDLOOP
   $onlisting
 $ENDFUNCTION
 
-# Inflation adjust a single group of variables
 $FUNCTION inf_adjust_group({group}):
+  # Inflation adjust a single group of variables
   $offlisting
   $LOOP {group}:
-      {name}.l{sets}$({conditions}) = {name}.l{sets} * inf_factor[t];
+      {name}.l{sets}$({conditions}) = {name}.l{sets} / fpt[t];
   $ENDLOOP
   $onlisting
 $ENDFUNCTION
 
-# Growth and inflation adjust a single group of variables. 
 $FUNCTION inf_growth_adjust_group({group}):
+  # Growth and inflation adjust a single group of variables. 
   $offlisting
   $LOOP {group}:
-      {name}.l{sets}$({conditions}) = {name}.l{sets} * inf_growth_factor[t];
+      {name}.l{sets}$({conditions}) = {name}.l{sets} / fvt[t];
   $ENDLOOP
   $onlisting
 $ENDFUNCTION
@@ -95,21 +95,6 @@ $ENDFUNCTION
 # ----------------------------------------------------------------------------------------------------------------------
 # Save and load states
 # ----------------------------------------------------------------------------------------------------------------------
-# Load levels of group from GDX file 
-$FUNCTION load({group}, {gdx}):
-  $offlisting
-  $GROUP __load_group {group};  # Redefining a group to get around $LOOP not working with direct dollar-conditions 
-  $LOOP __load_group:
-    parameter load_{name}{sets} "";
-    load_{name}{sets}$({conditions}) = 0;
-  $ENDLOOP
-  execute_load {gdx} $LOOP __load_group: load_{name}={name}.l $ENDLOOP;
-  $LOOP __load_group:
-    {name}.l{sets}$({conditions}) = load_{name}{sets};
-  $ENDLOOP
-  $onlisting
-$ENDFUNCTION
-
 $FUNCTION load_nonzero({group}, {gdx}):
   $offlisting
   $GROUP __load_group {group};
@@ -126,30 +111,33 @@ $ENDFUNCTION
 
 $FUNCTION load_as({group}, {gdx}, {suffix}):
   $offlisting
-  $GROUP __load_group {group};
-  $LOOP __load_group:
-    parameter {name}{suffix}{sets} "";
-    parameter {name}_load{sets} "";
-    {name}_load{sets}$({conditions}) = 0;
-  $ENDLOOP
-  execute_load {gdx} $LOOP __load_group: {name}_load={name}.l $ENDLOOP;
-  $LOOP __load_group:
-    {name}{suffix}{sets}$({conditions}) = {name}_load{sets};
-  $ENDLOOP
+  parameters
+    $LOOP {group}:
+      {name}__load__{sets}
+    $ENDLOOP
+  ;
+  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l $ENDLOOP;
+  @set({group}, {suffix}, __load__);
   $onlisting
 $ENDFUNCTION
 
-# Set group to a linear combination of current values and values from a GDX file
-$FUNCTION load_linear_combination({group}, {share}, {gdx}):
+$FUNCTION load({group}, {gdx}):
   $offlisting
-  $GROUP __load_group {group};
-  $LOOP __load_group:
-    parameter load_{name}{sets} "";
-    load_{name}{sets}$({conditions}) = 0;
-  $ENDLOOP
-  execute_load {gdx} $LOOP __load_group: load_{name}={name}.l $ENDLOOP;
-  $LOOP __load_group:
-    {name}.l{sets}$({conditions}) = load_{name}{sets} * {share} + (1-{share}) * {name}.l{sets};
+  parameters
+    $LOOP {group}:
+      {name}__load__{sets}
+    $ENDLOOP
+  ;
+  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l $ENDLOOP;
+  @set({group}, .l, __load__)
+  $onlisting
+$ENDFUNCTION
+
+$FUNCTION set_linear_combination({group}, {share}, {suffix1}, {suffix2}):
+  # Set {group} to a linear combination of current values and parameters with same name except a suffix
+  $offlisting
+  $LOOP {group}:
+    {name}.l{sets}$({conditions}) = {name}{suffix1}{sets} * {share} + (1-{share}) * {name}{suffix2}{sets};
   $ENDLOOP
   $onlisting
 $ENDFUNCTION
@@ -168,8 +156,18 @@ $FUNCTION load_dummies({time_subset}, {gdx}):
     load_d1R[r_,t]
     load_d1C[c_,t]
     load_d1G[g_,t]
-    load_d1vHh[portf_,t]
-  ;
+    load_d1vHhAkt[portf_,t]
+    load_d1vHhPas[portf_,t]
+    load_d1vHhPens[pens_,t]
+    load_d1vVirkAkt[portf_,t]
+    load_d1vVirkPas[portf_,t]
+    load_d1vOffAkt[portf_,t]
+    load_d1vOffPas[portf_,t]
+    load_d1vUdlAkt[portf_,t]
+    load_d1vUdlPas[portf_,t]
+    load_d1vPensionAkt[portf_,t]
+    load_d1Arv[a_,t]
+    ;
   execute_load {gdx}
     load_d1IO=d1IO
     load_d1IOy=d1IOy
@@ -183,7 +181,17 @@ $FUNCTION load_dummies({time_subset}, {gdx}):
     load_d1R=d1R
     load_d1C=d1C
     load_d1G=d1G
-    load_d1vHh=d1vHh
+    load_d1vHhAkt=d1vHhAkt
+    load_d1vHhPas=d1vHhPas
+    load_d1vHhPens=d1vHhPens
+    load_d1vVirkAkt=d1vVirkAkt
+    load_d1vVirkPas=d1vVirkPas
+    load_d1vOffAkt=d1vOffAkt
+    load_d1vOffPas=d1vOffPas
+    load_d1vUdlAkt=d1vUdlAkt
+    load_d1vUdlPas=d1vUdlPas
+    load_d1vPensionAkt=d1vPensionAkt
+    load_d1Arv=d1Arv
   ;
   d1IO[d_,s_,t]$({time_subset}[t]) = load_d1IO[d_,s_,t];
   d1IOy[d_,s_,t]$({time_subset}[t]) = load_d1IOy[d_,s_,t];
@@ -197,94 +205,93 @@ $FUNCTION load_dummies({time_subset}, {gdx}):
   d1R[r_,t]$({time_subset}[t]) = load_d1R[r_,t];      
   d1C[c_,t]$({time_subset}[t]) = load_d1C[c_,t];      
   d1G[g_,t]$({time_subset}[t]) = load_d1G[g_,t];      
-  d1vHh[portf_,t]$({time_subset}[t]) = load_d1vHh[portf_,t];      
+  d1vHhAkt[portf_,t]$({time_subset}[t]) = load_d1vHhAkt[portf_,t];      
+  d1vHhPas[portf_,t]$({time_subset}[t]) = load_d1vHhPas[portf_,t];
+  d1vHhPens[pens_,t]$({time_subset}[t]) = load_d1vHhPens[pens_,t];
+  d1vVirkAkt[portf_,t]$({time_subset}[t]) = load_d1vVirkAkt[portf_,t];
+  d1vVirkPas[portf_,t]$({time_subset}[t]) = load_d1vVirkPas[portf_,t];
+  d1vOffAkt[portf_,t]$({time_subset}[t]) = load_d1vOffAkt[portf_,t];
+  d1vOffPas[portf_,t]$({time_subset}[t]) = load_d1vOffPas[portf_,t];
+  d1vUdlAkt[portf_,t]$({time_subset}[t]) = load_d1vUdlAkt[portf_,t];
+  d1vUdlPas[portf_,t]$({time_subset}[t]) = load_d1vUdlPas[portf_,t];
+  d1vPensionAkt[portf_,t]$({time_subset}[t]) = load_d1vPensionAkt[portf_,t];
+  d1Arv[a_,t]$({time_subset}[t]) = load_d1Arv[a_,t];
 $ENDFUNCTION
 
 # Export all variables to GDX files (with and without adjusment for inflation and growth).
 $FUNCTION unload({fname}):
   execute_unloaddi '{fname}'
     $LOOP All:, {name} $ENDLOOP
-    inf_factor, growth_factor, inf_growth_factor, fp, fq, fv, INF_GROWTH_ADJUSTED, nOvf2Soc
+    fpt, fqt, fvt, fp, fq, fv, INF_GROWTH_ADJUSTED, nOvf2nSoc
     a_, a, a0t100, a15t100, a18t100, aTot
     ovf_, ovf, soc
-    portf_, akt, pas
-    d_, d, s_, s, x_, x, g_, g, c_, c, i_, i, k_, k 
+    portf_, portf
+    d_, d, s_, s, sBy, x_, x, g_, g, c_, c, i_, i, k_, k
     sTot, kTot
-    d1IO, d1IOy, d1IOm, d1Xm, d1Xy, d1CTurist, d1X, d1I_s, d1K, d1R, d1C, d1G
-    d1vHh
+    d1IO, d1IOy, d1IOm, d1Xm, d1Xy, d1CTurist, d1X, d1I_s, d1K, d1R, d1C, d1G, d1Arv
+    d1vHhAkt, d1vHhPas, d1vHhPens, d1vVirkAkt, d1vVirkPas
+    d1vOffAkt, d1vOffPas, d1vUdlAkt, d1vUdlPas, d1vPensionAkt
+    
   ;
-$ENDFUNCTION
-
-$FUNCTION unload_all_nominal({fname}):
-  @remove_inf_growth_adjustment()
-  execute_unloaddi '{fname}';
-  @inf_growth_adjust()
 $ENDFUNCTION
 
 $FUNCTION unload_all({fname}):
   execute_unloaddi '{fname}';
 $ENDFUNCTION
 
+$FUNCTION unload_nominal({fname}):
+  @remove_inf_growth_adjustment()
+  @unload({fname})
+  @inf_growth_adjust()
+$ENDFUNCTION
+
+$FUNCTION unload_all_nominal({fname}):
+  @remove_inf_growth_adjustment()
+  @unload_all({fname})
+  @inf_growth_adjust()
+$ENDFUNCTION
+
 $FUNCTION unload_group({group}, {fname}):
   execute_unloaddi '{fname}' $LOOP {group}:, {name} $ENDLOOP;
 $ENDFUNCTION
 
-# Save the values of a group of variables, by creating parameters with the same names and a suffix added.
-$FUNCTION save_as({group}, {suffix}):
-  $onDotL
+$FUNCTION set({group}, {suffix1},  {suffix2}):
+  # For each variable in a {group}, assign level from {suffix2} to {suffix1}. I.e. {name}{suffix1}{sets}${conditions} = {name}{suffix2}{sets}
   $offlisting
+  $IF "{suffix1}" not in [".l", "", ".fx", ".up", ".lo"]:
+    parameters
+      $LOOP {group}:
+        {name}{suffix1}{sets}
+      $ENDLOOP
+    ;
+  $ENDIF
     $LOOP {group}:
-      parameter {name}{suffix}{sets};
-      {name}{suffix}{sets}${conditions} = {name}{sets};
+      {name}{suffix1}{sets}${conditions} = {name}{suffix2}{sets};
     $ENDLOOP
   $onlisting
-  $offDotL
 $ENDFUNCTION
 
-# Save the values of a group of variables so that they can later be recalled.
-$FUNCTION save({group}):
-  @save_as({group}, _saved)
-$ENDFUNCTION
+$FUNCTION display_difference({group}, {suffix1}, {suffix2}):
+# Display differences above 1e-9 for a group of variables (suffixes can be .l for current levels) 
 
-# Reset the values of a group of variables to the levels saved previously. 
-$FUNCTION reset_to({group}, {suffix}):
   $offlisting
-  $onDotL
-    $LOOP {group}:
-      {name}{sets}${conditions} = {name}{suffix}{sets};
-    $ENDLOOP
-  $offDotL
-  $onlisting
-$ENDFUNCTION
-
-$FUNCTION reset({group}):
-  @reset_to({group}, _saved)
-$ENDFUNCTION
-
-# Display the difference between the current values of a group of variables and the previously saved values.
-$FUNCTION display_difference({group}):
-  $offlisting
-  $onDotL
     $LOOP {group}:
       parameter {name}_difference{sets};
-      {name}_difference{sets}${conditions} = {name}{sets} - {name}_saved{sets};
+      {name}_difference{sets}${conditions} = {name}{suffix1}{sets} - {name}{suffix2}{sets};
     $ENDLOOP
 
-  # Differences above E-9:
     $LOOP {group}:
       display$(sum({sets}{$}[+t], abs(round({name}_difference{sets}, 9)))) {name}_difference;
     $ENDLOOP
-  $offDotL
   $onlisting
 $ENDFUNCTION
 
-# Abort if differences exceed the threshold. Differences are between the current values of a group of variables and the previously saved values.
-$FUNCTION assert_no_difference_from({group}, {threshold}, {suffix}, {msg}):
+$FUNCTION assert_no_difference({group}, {threshold}, {suffix1}, {suffix2}, {msg}):
+  # Abort if differences exceed the threshold. Differences are between the current values of a group of variables and the previously saved values.
   $offlisting
-  $onDotL
     $LOOP {group}:
       parameter {name}_difference{sets};
-      {name}_difference{sets}${conditions} = {name}{sets} - {name}{suffix}{sets};
+      {name}_difference{sets}${conditions} = {name}{suffix1}{sets} - {name}{suffix2}{sets};
       {name}_difference{sets}$(abs({name}_difference{sets}) < {threshold}) = 0;
       if (sum({sets}{$}[+t]${conditions}, abs({name}_difference{sets})),
         display {name}_difference;
@@ -295,17 +302,12 @@ $FUNCTION assert_no_difference_from({group}, {threshold}, {suffix}, {msg}):
         abort$({name}_difference{sets} <> 0) '{name}_difference exceeds allowed threshold! {msg}';
       )
     $ENDLOOP
-  $offDotL
   $onlisting
 $ENDFUNCTION
 
-$FUNCTION assert_no_difference({group}, {threshold}, {msg}):
-  @assert_no_difference_from({group}, {threshold}, _saved, {msg})
-$ENDFUNCTION
-
-# Display variables that have become 0 in current data eg static calibration, but was not 0 in previous data eg static calibration
-#          and variables that is not 0 in current data eg static calibration, but was 0 in previous data eg static calibration
 $FUNCTION display_zeros({group}, {gdx}):
+  # Display variables that have become 0 in current data eg static calibration, but was not 0 in previous data eg static calibration
+  #          and variables that is not 0 in current data eg static calibration, but was 0 in previous data eg static calibration
   @load_as({group}, {gdx}, _previous);
 
   $offlisting
@@ -331,6 +333,7 @@ $FUNCTION display_zeros({group}, {gdx}):
   $onlisting 
 $ENDFUNCTION
 
+# Load a group of parameters from a GDX file
 $FUNCTION load_pgroup({pgroup}, {gdx}):
   $offlisting
   $PGROUP __load_pgroup {pgroup};
@@ -348,16 +351,75 @@ $ENDFUNCTION
 # Functions used to define new groups etc. based on endogeneity of variables
 $FUNCTION fixed({group}):
     $LOOP {group}:
-      {name}{sets}$({conditions} and {name}.lo{sets} = {name}.l{sets} and {name}.up{sets} = {name}.l{sets})
+      {name}{sets}$({conditions} and {name}.lo{sets} = {name}.up{sets})
     $ENDLOOP
 $ENDFUNCTION
 
 $FUNCTION unfixed({group}):
     $LOOP {group}:
-      {name}{sets}$({conditions} and {name}.lo{sets} <> {name}.l{sets} and {name}.up{sets} <> {name}.l{sets})
+      {name}{sets}$({conditions} and {name}.lo{sets} <> {name}.up{sets})
     $ENDLOOP
 $ENDFUNCTION
 
+# Example: is_fixed(a[t]) -> a.lo[t] = a.up[t]
+$FUNCTION is_fixed({var_and_sets})
+  $REPLACE('[', '.up['){var_and_sets}$ENDREPLACE = $REPLACE('[', '.lo['){var_and_sets}$ENDREPLACE
+$ENDFUNCTION
+
+# Example: is_unfixed(a[t]) -> a.lo[t] <> a.up[t]
+$FUNCTION is_unfixed({var_and_sets})
+  $REPLACE('[', '.up['){var_and_sets}$ENDREPLACE <> $REPLACE('[', '.lo['){var_and_sets}$ENDREPLACE
+$ENDFUNCTION
+
+# Procedure for comparing the values of a group of variables in two different GDX files
+$FUNCTION compare({group}, {gdx1}, {gdx2}):
+  @load_as({group}, {gdx1}, _gdx1);
+  @load_as({group}, {gdx2}, _gdx2);
+
+  $offlisting
+  $onDotL
+
+  # Set NAs and other special values to zero
+  $LOOP {group}:
+    {name}_gdx1{sets}$(mapVal({name}_gdx1{sets}) > 0) = 0;
+    {name}_gdx2{sets}$(mapVal({name}_gdx1{sets}) > 0) = 0;
+  $ENDLOOP
+
+  $LOOP {group}:
+    parameter {name}_is_zero_now{sets};
+    {name}_is_zero_now{sets}${conditions} = (abs({name}_gdx1{sets}) < 1e-9) and not (abs({name}_gdx2{sets}) < 1e-9);
+  $ENDLOOP
+
+  $LOOP {group}:
+    display$(sum({sets}{$}[+t], {name}_is_zero_now{sets})) {name}_is_zero_now;
+  $ENDLOOP
+
+  $LOOP {group}:
+    parameter {name}_is_not_zero_now{sets};
+    {name}_is_not_zero_now{sets}${conditions} = (abs({name}_gdx1{sets}) >= 1e-9) and (abs({name}_gdx2{sets}) < 1e-9);
+  $ENDLOOP
+
+  $LOOP {group}:
+    display$(sum({sets}{$}[+t], {name}_is_not_zero_now{sets})) {name}_is_not_zero_now;
+  $ENDLOOP
+
+
+  $LOOP {group}:
+    parameter {name}_difference{sets};
+    {name}_difference{sets}${conditions} = {name}_gdx1{sets} - {name}_gdx2{sets};
+    {name}_difference{sets}$(abs({name}_difference{sets}) < 0.5) = 0; # Remove differences below cutoff
+    display$(sum({sets}{$}[+t], {name}_difference{sets})) {name}_difference;
+
+    parameter {name}_pctgrowth{sets};
+    {name}_pctgrowth{sets}$({conditions} and abs({name}_gdx2{sets}) > 1e9) = ({name}_gdx1{sets} / {name}_gdx2{sets} - 1) * 100;
+    {name}_pctgrowth{sets}$(abs({name}_pctgrowth{sets}) < 10) = 0; # Remove differences below cutoff
+    display$(sum({sets}{$}[+t], {name}_pctgrowth{sets})) {name}_pctgrowth;
+  $ENDLOOP
+
+
+  $offDotL
+  $onlisting
+$ENDFUNCTION
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Math
@@ -391,83 +453,46 @@ $FUNCTION solve({model}):
   #  {model}.workspace = 8000;
   #  {model}.tolinfeas = 1e-12;
   @print("---------------------------------------- Solve start ----------------------------------------")
-  @set_bounds();
   solve {model} using CNS;
   abort$({model}.solveStat > 1) "Solver did not complete normally";
   @print("---------------------------------------- Solve finished ----------------------------------------")
 $ENDFUNCTION
 
-$FUNCTION robust_solve({model}):
-  {model}.optfile = 1;
-  {model}.holdFixed = 1;
-  {model}.workfactor = 2;
-  #  {model}.workspace = 8000;
-  #  {model}.tolinfeas = 1e-12;
-  @set_initial_levels_to_nonzero()
-  @set_bounds();
-  @unload_all(Gdx\{model}_presolve); # Output gdx file with the state before solving to help with debugging
-  @print("---------------------------------------- Solve start ----------------------------------------")
-  solve {model} using CNS;
-  @print("---------------------------------------- Solve finished ----------------------------------------")
-  @reset_initial_levels()
-$ENDFUNCTION
-
-# Set bounds on three groups, G_lower_bound, G_zero_bound, and G_lower_upper_bound
-$FUNCTION set_bounds():
-  @bound(G_lower_bound, 0.001, inf);
-  @bound(G_zero_bound, 1e-6, inf);
-  @bound(G_lower_upper_bound, 0.01, 20);
-  @bound(G_unit_interval_bound, 1e-6, 1-1e-6);
-$ENDFUNCTION
-
-# Set bounds on {group} to {lo}, {up}
 $FUNCTION bound({group}, {lo}, {up}):
-  $LOOP {group}:
-      {name}.lo{sets}$({conditions} and {name}.up{sets} <> {name}.l{sets}) = {lo};
-      {name}.up{sets}$({conditions} and {name}.up{sets} <> {name}.l{sets}) = {up};
-  $ENDLOOP
-$ENDFUNCTION
-
-# Set better initial levels for endogenous variables that are zero
-$FUNCTION set_initial_levels_to_nonzero():
+  # Set bounds on {group} to {lo}, {up}, for variables that are not fixed
   $offlisting
-
-  # Variables that should start at 1 (if endogenous and no starting level exists)
-  $GROUP G_unity_starting_level
-    fuIOym, G_prices, -empty_group_dummy
-  ;
-  $LOOP G_unity_starting_level:
-    {name}.l{sets}$(({name}.up{sets} <> {name}.lo{sets}) and {name}.l{sets} = 0) = 1;
-  $ENDLOOP
-
-  # Variables that should start at the previous years level or a small number (if endogenous and no starting level exists)
-  $GROUP G_other
-     All, -G_unity_starting_level  # Add all variables here requires more consistent dummies or defining variables over smaller sets (turning off domain checking)
-  ;
-  $LOOP G_other:
-    # If the variable is 1) endogenous 2) has a starting level of 0 and 3) has a non-zero level in t1 => set starting level to t1
-    {name}.l{sets}$(
-           ({name}.up{sets} <> {name}.lo{sets})
-       and ({name}.l{sets} = 0)
-       and ({name}.l{sets}{$}[<t>t1] <> 0)) = {name}.l{sets}{$}[<t>t1];
-    # If the variable is 1) endogenous 2) has a starting level of 0 and 3) has a non-zero level in t0 => set starting level to t0
-    {name}.l{sets}$(
-           ({name}.up{sets} <> {name}.lo{sets})
-       and ({name}.l{sets} = 0)
-       and ({name}.l{sets}{$}[<t>t0] <> 0)) = {name}.l{sets}{$}[<t>t0];
-    # If an endogenous variable still has a staring level of 0, set the starting level to a small non-zero number
-    {name}.l{sets}$(
-           ({name}.up{sets} <> {name}.lo{sets})
-       and ({name}.l{sets} = 0)) = 0.000987654321;
+  $LOOP {group}:
+      {name}.lo{sets}$({conditions} and {name}.up{sets} <> {name}.lo{sets}) = {lo}; # .lo == .up means that a variable is fixed
+      {name}.up{sets}$({conditions} and {name}.up{sets} <> {name}.lo{sets}) = {up};
   $ENDLOOP
   $onlisting
 $ENDFUNCTION
 
-# Reset levels of endogenous variables that are still the exact value set in set_initial_levels_to_nonzero
-$FUNCTION reset_initial_levels():
-  $LOOP All:
-    {name}.l{sets}$(({name}.up{sets} <> {name}.lo{sets}) and {name}.l{sets} = 0.000987654321) = 0;
+$FUNCTION set_initial_levels_to_nonzero({group}):
+  # Set better initial levels for that are zero
+  $offlisting
+
+  $LOOP {group}:
+    # Set NAs and other special values to zero
+    {name}.l{sets}$({conditions} and mapVal({name}.l{sets}) > 0) = 0;
+
+    # If the variable 1) has a starting level of 0 and 2) has a non-zero level in t1 => set starting level to t1
+    {name}.l{sets}$(
+            {conditions}
+       and ({name}.l{sets} = 0)
+       and ({name}.l{sets}{$}[<t>t1] <> 0)) = {name}.l{sets}{$}[<t>t1];
+    # If the variable 1) has a starting level of 0 and 2) has a non-zero level in t0 => set starting level to t0
+    {name}.l{sets}$(
+            {conditions}
+       and ({name}.l{sets} = 0)
+       and ({name}.l{sets}{$}[<t>t0] <> 0)) = {name}.l{sets}{$}[<t>t0];
+    # If variable still has a staring level of 0, set the starting level to the maximum absolute value of all periods
+    {name}.l{sets}$(
+            {conditions}
+       and ({name}.l{sets} = 0)) = smax(tt, abs({name}.l{sets}{$}[<t>tt]));
   $ENDLOOP
+
+  $onlisting
 $ENDFUNCTION
 
 
@@ -494,29 +519,29 @@ $FUNCTION copy_equation_to_period({equation},{time}):
 $ENDFUNCTION
 
 
-# Define equations setting each variable in the group equal to their t1 value 
-$FUNCTION forecast_constant_equation({group}):
-  $LOOP00 {group}:
-    E_{name}_forecast_constant{sets}${conditions}.. {name}{sets} =E= {name}{sets}{$}[<t>t1];
-  $ENDLOOP00
-$ENDFUNCTION
-
-
 # ----------------------------------------------------------------------------------------------------------------------
 # HP-filter
 # ----------------------------------------------------------------------------------------------------------------------
 # Apply an HP-filter to the input variable
-$FUNCTION HPfilter({name})
+$FUNCTION HPfilter({name}, {lambda})
 embeddedCode Python:
   import dreamtools as dt
+  import pandas as pd
   from statsmodels.tsa.filters.hp_filter import hpfilter
 
   db = dt.GamsPandasDatabase(gams.db)
 
-  levels = db['{name}'].index.names[:-1]  # Alle sets undtagen det sidste, som er tidsdimensionen
-  db['{name}'] = db['{name}'].groupby(levels).transform(lambda x: hpfilter(x.values, lamb=6.25)[1])
+  levels = db['{name}'].index.names
+  if len(levels) > 1: # Hvis fleres indeks grupperer vi efter alle sets undtagen det sidste, som er tidsdimensionen
+    db['{name}'] = db['{name}'].groupby(levels[:-1]).transform(lambda x: hpfilter(x.values, lamb={lambda})[1])
+  else:
+    x = db['{name}']
+    x = x[pd.notna(x)]
+    db['{name}'][x.index] = hpfilter(x, lamb=6.25)[1]
 
   db.save_series_to_database()
   gams.set('{name}', db.symbols['{name}'])
 endEmbeddedCode {name}
 $ENDFUNCTION
+
+

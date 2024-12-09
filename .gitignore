@@ -8,10 +8,11 @@
 *.dat
 
 *.gdx
-!Model/Gdx/aldersprofiler.gdx
+!Model/Gdx/sets.gdx
 !Model/Gdx/ARIMA_forecasts.gdx
 !Model/Gdx/previous_static_calibration.gdx
 !Model/Gdx/previous_deep_calibration.gdx
-!Model/Gdx/previous_smooth_calibration.gdx
+!Model/Gdx/calibration_2022.gdx
 !Data/*.gdx
 !Data/*/*.gdx
+!Konjunktur/Gdx/previous_konjunktur

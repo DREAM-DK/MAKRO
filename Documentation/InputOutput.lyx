@@ -33,7 +33,16 @@
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -254,13 +263,32 @@ Data and calibration
 \end_inset
 
 .
- Each column represents a demand side: intermediate inputs used in each
- of the 9 production sectors, 5 private consumption groups, a single type
- of government consumption, 3 investment types (including inventory investments)
-, and finally 4 export groups (excluding tourism exports which are included
- in the private consumption groups).
+ Each column represents a demand side: intermediate inputs and energy used
+ in each of the 9 production sectors, 5 private consumption groups, a single
+ type of government consumption, 3 investment types (including inventory
+ investments), and finally 4 export groups (excluding tourism exports which
+ are included in the private consumption groups).
+ Energy and intermediate inputs are split by assuming that all output from
+ extraction(
+\begin_inset Quotes eld
+\end_inset
+
+udv
+\begin_inset Quotes erd
+\end_inset
+
+ in the table) or energy(
+\begin_inset Quotes eld
+\end_inset
+
+ene
+\begin_inset Quotes erd
+\end_inset
+
+ in the table) are energy and the remaining sectors produce intermediate
+ inputs.
  The numbers shown are values of the input/output combinations in current
- prices before taxes in 2021 (bn.
+ prices before taxes in 2022 (bn.
  DKK).
  
 \end_layout

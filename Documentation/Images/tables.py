@@ -5,9 +5,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import xlwings as xw
 
-b = dt.REFERENCE_DATABASE = dt.Gdx("../../Model/Gdx/calibration_2021.gdx")
-
-t = 2021
+t = 2022
+b = dt.REFERENCE_DATABASE = dt.Gdx(f"../../Model/Gdx/calibration_{t}.gdx")
+# swap index elements
+s_index = b.s[0:-3]
+final_list = ["off", "ene", "udv"]
+s_index = s_index.append(pd.Index(final_list))
+b.s = s_index
 
 s_labels = {
     "tje": "Services, other (tje)",
@@ -16,13 +20,13 @@ s_labels = {
     "lan": "Agriculture (lan)",
     "soe": "Shipping (soe)",
     "bol": "Housing (bol)",
+    "off": "Public (off)",
     "ene": "Energy provision (ene)",
     "udv": "Extraction (udv)",
-    "off": "Public (off)",
 }
 
-y = b.vIOy / b.inf_growth_factor
-m = b.vIOm / b.inf_growth_factor
+y = b.vIOy * b.fvt
+m = b.vIOm * b.fvt
 
 y = y.loc[b.d,b.s][:,:,t].reset_index()
 y["s_"] = [s_labels[x] for x in y["s_"]]
@@ -48,6 +52,8 @@ sheet["A1"].value = t
 columns = [*b.s, *b.i]
 sheet["B3"].value = y[columns]
 sheet["B13"].options(header=False).value = m[columns]
+
+
 
 columns = [*b.c, *b.g, *b.x]
 sheet["Q3"].value = y[columns]
