@@ -1,7 +1,12 @@
 # ------------------------------------------------------------------------------------------------------------------
 # Betalingsbalance
 # ------------------------------------------------------------------------------------------------------------------
-parameter betalingsbalance[t]; betalingsbalance[t]$(tx0[t] and t.val >= 1996) =
+parameter jvUdlNFE_test[t]; jvUdlNFE_test[t]$(tx0[t] and t.val >= 1996) = 
+  jvUdlNFE.l[t] + (vVirkAkt.l['Guld',t] - vVirkAkt.l['Guld',t-1]/fv - rOmv.l['Guld',t] * vVirkAkt.l['Guld',t-1]/fv);
+abort$(smax(t, abs(jvUdlNFE_test[t])) > 0.05) "jvUdlNFE does not match investments in gold", jvUdlNFE_test;
+abort$(smax(t$(tForecast[t]), abs(jvUdlNFE_test[t])) > 1e-7) "jvUdlNFE does not match investments in gold in forecast", jvUdlNFE_test;
+
+parameter fordringsbalance[t]; fordringsbalance[t]$(tx0[t] and t.val >= 1996) =
   # Nettofordringserhvervelse (Tfn_e)                           
     vUdlNFE.l[t]
   # Net exports = Exports - Imports -(M-E)
@@ -11,68 +16,73 @@ parameter betalingsbalance[t]; betalingsbalance[t]$(tx0[t] and t.val >= 1996) =
   # Customs going to EU and subsidies from EU -(Spteu - Spueu)
   - vtEU.l[t] + vSubEU.l[t]
   # Net foreign return excl. capital gains -(Tin_e)
-  - vUdlRenter.l[t]
-  # Net foreign transfer to government -(Tr_o_e-Tr_e_o+tK_o_e-tK_e_o)   
-  + vOffFraUdlKap.l[t] +vOffFraUdlEU.l[t] + vOffFraUdlRest.l[t] - vOffTilUdl.l[t]
+  - vUdlNetRenter.l[t]
+  # Net foreign transfer to government -(Tr_o_e+tK_o_e - Tr_e_o - tK_e_o)   
+  - vOffTilUdl.l[t] + vOffFraUdlKap.l[t] + vOffFraUdlEU.l[t] + vOffFraUdlRest.l[t]
   # Overførsler til pensionister i udlandet
-  - vOvf.l['UdlFortid',t] - vOvf.l['UdlPens',t]
+  - sum(ovfUdl, vOvf.l[ovfUdl,t])
   # Residual foreign transfer to households
-  # Rest: Syn_e + Tpc_h_e - Tpc_e_z + (Ty_o_e + Typc_cf_e-Typc_e_h) + (Tr_hc_e - Tr_e_hc) + (Tknr_e) - Ikn_e - Izn_e  
-  - vhhTilUdl.l[t]
+  # Rest: Syn_e + Tpc_h_e - Tpc_e_z + (Typc_cf_e-Typc_e_h) + (Tr_hc_e - Tr_e_hc) + (Tknr_e) - Ikn_e - Izn_e  
+  - vHhTilUdl.l[t] + vtPALudl.l[t]
   + vVirkIndRest.l[t]
   # Fejl i 2016 betyder, at der er en kæmpe overførsel fra et ukendt sted - det er ikke i betalingsbalancen
   + jrOmv_IndlAktier.l[t]*(vAktie.l[t-1]/fv)
 ;
-abort$(smax(t$(tData[t]), abs(betalingsbalance[t])) > 0.15) "Fejl i betalingsbalancen", betalingsbalance;
-# Dette test er midlertidigt hævet - hvis fortsat fejl > 0.025 på nyeste databank kontakt ADAM-gruppen
-abort$(smax(t$(tForecast[t]), abs(betalingsbalance[t])) > 0.001) "Fejl i betalingsbalancen", betalingsbalance;
+abort$(smax(t$(tData[t] and t.val >= 2000), abs(fordringsbalance[t])) > 0.01) "Fejl i fordringsbalancen", fordringsbalance;
+abort$(smax(t$(tForecast[t]), abs(fordringsbalance[t])) > 0.001) "Fejl i fordringsbalancen", fordringsbalance;
 
 # ------------------------------------------------------------------------------------------------------------------
 # Produktionsfunktion
 # ------------------------------------------------------------------------------------------------------------------
-parameter test_qKL[sp,t], test_qKLB[sp,t], test_qKLBR[sp,t];
+parameter test_qKE[sp,t], test_qKEL[sp,t], test_qKELB[sp,t], test_qKELBR[sp,t];
 
-test_qKLBR[sp,t]$(tx0[t] and eKLBR.l[sp]>0) = ( (uR.l[sp,t])**(1/eKLBR.l[sp]) * qR.l[sp,t]**(1-1/eKLBR.l[sp])
-                 + (uKLB.l[sp,t])**(1/eKLBR.l[sp]) * qKLB.l[sp,t]**(1-1/eKLBR.l[sp]) )**(1/(1-1/eKLBR.l[sp]))
-                 - qKLBR.l[sp,t];
+test_qKELBR[sp,t]$(tx0[t] and eKELBR.l[sp] > 0 and eKELBR.l[sp] <> 1) = ( rR2KELBR.l[sp,t]**(1/eKELBR.l[sp]) * qR.l[sp,t]**(1-1/eKELBR.l[sp])
+                 + (1-rR2KELBR.l[sp,t])**(1/eKELBR.l[sp]) * qKELB.l[sp,t]**(1-1/eKELBR.l[sp]) )**(1/(1-1/eKELBR.l[sp]))
+                 - qKELBR.l[sp,t];
                  
-test_qKLB[sp,t]$(tx0[t] and eKLB.l[sp]>0) = ( (uK.l['iB',sp,t])**(1/eKLB.l[sp]) * (qKUdn.l['iB',sp,t])**(1-1/eKLB.l[sp])
-                + (uKL.l[sp,t])**(1/eKLB.l[sp]) * qKL.l[sp,t]**(1-1/eKLB.l[sp]) )**(1/(1-1/eKLB.l[sp]))
-                - qKLB.l[sp,t];
+test_qKELB[sp,t]$(tx0[t] and eKELB.l[sp] > 0 and eKELB.l[sp] <> 1) = ( rB2KELB.l[sp,t]**(1/eKELB.l[sp]) * (qKUdn.l['iB',sp,t])**(1-1/eKELB.l[sp])
+                + (1-rB2KELB.l[sp,t])**(1/eKELB.l[sp]) * qKEL.l[sp,t]**(1-1/eKELB.l[sp]) )**(1/(1-1/eKELB.l[sp]))
+                - qKELB.l[sp,t];
 
-test_qKL[sp,t]$(tx0[t] and eKL.l[sp]>0) = ( (uK.l['iM',sp,t])**(1/eKL.l[sp]) * (qKUdn.l['iM',sp,t])**(1-1/eKL.l[sp])
-               + (uL.l[sp,t])**(1/eKL.l[sp]) * (qL.l[sp,t])**(1-1/eKL.l[sp]) )**(1/(1-1/eKL.l[sp]))
-               - qKL.l[sp,t];
+test_qKEL[sp,t]$(tx0[t] and eKEL.l[sp] > 0 and eKEL.l[sp] <> 1) = ( (1-rL2KEL.l[sp,t])**(1/eKEL.l[sp]) * (qKE.l[sp,t])**(1-1/eKEL.l[sp])
+               + rL2KEL.l[sp,t]**(1/eKEL.l[sp]) * (qLUdn.l[sp,t])**(1-1/eKEL.l[sp]) )**(1/(1-1/eKEL.l[sp]))
+               - qKEL.l[sp,t];
+test_qKE[sp,t]$(tx0[t] and eKE.l[sp] > 0 and eKE.l[sp] <> 1 and d1K['iM',sp,t]) = ( (1-rE2KE.l[sp,t])**(1/eKE.l[sp]) * (qKUdn.l['iM',sp,t])**(1-1/eKE.l[sp])
+               + rE2KE.l[sp,t]**(1/eKE.l[sp]) * (qE.l[sp,t])**(1-1/eKE.l[sp]) )**(1/(1-1/eKE.l[sp]))
+               - qKE.l[sp,t];
 
-test_qKLBR[sp,t]$(tx0[t] and eKLBR.l[sp]=0)
-  = qR.l[sp,t] / uR.l[sp,t] + qKLB.l[sp,t] / uKLB.l[sp,t] - 2 * qKLBR.l[sp,t];
-test_qKLB[sp,t]$(tx0[t] and eKLB.l[sp]=0)
-  = qKUdn.l['iB',sp,t] / uK.l['iB',sp,t] + qKL.l[sp,t] / uKL.l[sp,t] - 2 * qKLB.l[sp,t];
-test_qKL[sp,t]$(tx0[t] and eKL.l[sp]=0 and d1K['iM',sp,t])
-  = qKUdn.l['iM',sp,t] / uK.l['iM',sp,t]
-  + qL.l[sp,t] / uL.l[sp,t]
-  - 2 * qKL.l[sp,t];
-test_qKL[sp,t]$(tx0[t] and not d1K['iM',sp,t]) =
-  qL.l[sp,t] / uL.l[sp,t] - qKL.l[sp,t];
+test_qKELBR[sp,t]$(tx0[t] and eKELBR.l[sp] = 0)
+  = qR.l[sp,t] / rR2KELBR.l[sp,t] + qKELB.l[sp,t] / (1-rR2KELBR.l[sp,t]) - 2 * qKELBR.l[sp,t];
+test_qKELB[sp,t]$(tx0[t] and eKELB.l[sp] = 0)
+  = qKUdn.l['iB',sp,t] / rB2KELB.l[sp,t] + qKEL.l[sp,t] / (1-rB2KELB.l[sp,t]) - 2 * qKELB.l[sp,t];
+test_qKEL[sp,t]$(tx0[t] and eKEL.l[sp] = 0)
+  = qKE.l[sp,t] / (1-rL2KEL.l[sp,t]) + qLUdn.l[sp,t] / rL2KEL.l[sp,t] - 2 * qKEL.l[sp,t];
+test_qKE[sp,t]$(tx0[t] and eKE.l[sp] = 0 and d1K['iM',sp,t])
+  = qKUdn.l['iM',sp,t] / (1-rE2KE.l[sp,t]) + qE.l[sp,t] / rE2KE.l[sp,t] - 2 * qKE.l[sp,t];
+test_qKE[sp,t]$(tx0[t] and not d1K['iM',sp,t]) =
+  qE.l[sp,t] / rE2KE.l[sp,t] - qKE.l[sp,t];
 
-abort$(smax([sp,t], abs(test_qKLBR[sp,t])) > 1e-6) "KLBR stemmer ikke med produktionsfunktion", test_qKLBR;
-abort$(smax([sp,t], abs(test_qKLB[sp,t])) > 1e-6) "KLB stemmer ikke med produktionsfunktion", test_qKLB;
-abort$(smax([sp,t], abs(test_qKL[sp,t])) > 1e-6) "KL stemmer ikke med produktionsfunktion", test_qKL;
+abort$(smax([sp,t], abs(test_qKELBR[sp,t])) > 1e-6) "KELBR stemmer ikke med produktionsfunktion", test_qKELBR;
+abort$(smax([sp,t], abs(test_qKELB[sp,t])) > 1e-6) "KELB stemmer ikke med produktionsfunktion", test_qKELB;
+abort$(smax([sp,t], abs(test_qKEL[sp,t])) > 1e-6) "KEL stemmer ikke med produktionsfunktion", test_qKEL;
+abort$(smax([sp,t], abs(test_qKE[sp,t])) > 1e-6) "KE stemmer ikke med produktionsfunktion", test_qKE;
 
 parameter test_qYBolig[t];
-test_qYBolig[t]$(tx0[t]) = (   (uLand.l[t])**(1/eBolig.l) * qLandSalg.l[t]**(1-1/eBolig.l)
-                             + (uIBolig.l[t])**(1/eBolig.l) * (qIBolig.l[t])**(1-1/eBolig.l)
+test_qYBolig[t]$(tx0[t]) = uYBolig.l[t]**(1/(eBolig.l-1))
+                         * (     (rLand2YBolig.l[t])**(1/eBolig.l) * qLandSalg.l[t]**(1-1/eBolig.l)
+                             + (1-rLand2YBolig.l[t])**(1/eBolig.l) * qIBolig.l[t]**(1-1/eBolig.l)
                            )**(1/(1-1/eBolig.l)) - qYBolig.l[t];
 abort$(smax([t], abs(test_qYBolig[t])) > 1e-6) "qYBolig stemmer ikke med produktionsfunktion", test_qYBolig;
 
 # ------------------------------------------------------------------------------------------------------------------
 # Negative tal
 # ------------------------------------------------------------------------------------------------------------------
-#  $GROUP G_negative_allowed
-#    vVirkNFE
-#  ;
-#  $GROUP G_no_negatives G_prices, G_quantities, G_values, -G_negative_allowed;
-#  $GROUP G_no_negatives G_no_negatives$(tx0[t]);
-#  $LOOP G_no_negatives:
-#    abort$sum({sets}${conditions}, {name}.l{sets} < 0) "{name} er negativ", {name}.l;
-#  $ENDLOOP
+$GROUP G_no_negatives
+  G_prices, G_quantities, -G_negative_allowed
+;
+$GROUP G_no_negatives G_no_negatives$(tx0[t]);
+@set(G_no_negatives, _test, .l)
+$LOOP G_no_negatives:
+  {name}_test{sets}${conditions} = min({name}_test{sets}, 0);
+  abort$sum({sets}, {name}_test{sets} < -1e-15) "{name} er negativ (hvis historisk data slå fra i test og kontakt modelgruppen i DST)", {name}_test;
+$ENDLOOP

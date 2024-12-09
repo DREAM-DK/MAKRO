@@ -8,28 +8,45 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
+  $GROUP G_production_private_constants
+    eKUdn[i_,s_] "Eksponent som styrer anvendelsen af kapacitetsudnyttelse af kapital."
+    eKUdnPersistens[k] "Eksponent som styrer træghed i kapacitetsudnyttelse af kapital."
+    eLUdn "Eksponent som styrer anvendelsen af kapacitetsudnyttelse af arbejdskraft."
+    eLUdnPersistens "Eksponent som styrer træghed i kapacitetsudnyttelse af arbejdskraft."
+    eKELBR[sp] "Substitutionselasticitet mellem qKELB og qR."
+    eKELB[sp] "Substitutionselasticitet mellem qKEL[sp] og qKUdn[iB,sp]"
+    eKEL[sp] "Substitutionselasticitet mellem qK[iM,sp] og qLUdn."
+    eKE[sp] "Substitutionselasticitet mellem qK[iM,sp] og qE."
+    fuY[s_] "Forhold mellem Y og KELBR i basisår hvor pY og pKELBR sættes til 1"
+  ;
+
 	$GROUP G_production_private_prices_endo
-    pKL[sp,t] "CES pris af qKL-aggregat."
-    pKLB[s_,t]$(sp[s_]) "CES pris af qKLB-aggregat."
-    pKLBR[s_,t]$(sp[s_]) "Marginalomkostning fra produktion før rest-produktionsskatter."
-    pK[k,s_,t]$(d1K[k,s_,t] and sp[s_] or sByTot[s_]) "User cost af kapital."
-    pKUdn[k,s_,t]$(d1K[k,s_,t] and sp[s_] or sByTot[s_]) "User cost af kapital efter kapacitetsudnyttelse."
-    pTobinsQ[k,s_,t]$(sp[s_] or sByTot[s_]) "Skyggepris af kapital eller Tobin's Q."
-    pLxUdn[sp,t] "User cost for effektiv arbejdskraft før kapacitetsudnyttelse i produktionsfunktion."
-    pKI_sByTot[i_,t] "Investeringspris, pI_s, sammenvejet med kapitalapparat"
-    pL[s_,t]$(sByTot[s_]) "User cost for effektiv arbejdskraft i produktionsfunktion."
+    pKE[sp,t] "CES pris af qKE-aggregat."
+    pKEL[sp,t] "CES pris af qKEL-aggregat."
+    pKELB[s_,t]$(sp[s_]) "CES pris af qKELB-aggregat."
+    pKELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion før rest-produktionsskatter."
+    pK[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or spTot[s_]) "User cost af kapital (skyggepris i første periode hvor K er eksogen)."
+    pKUdn[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or (spTot[s_] and t.val > %cal_start%)) "User cost af kapital efter kapacitetsudnyttelse. Normaliseret til 1 i basisår."
+    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and spTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
+    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and sTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
+    pLUdn[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "User cost for effektiv arbejdskraft i produktionsfunktion."
+    pY0[s_,t]$(s[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion + øvrige produktionsskatter"
 	;    
 	$GROUP G_production_private_quantities_endo
-    qKInstOmk[i_,s_,t]$(d1K[i_,s_,t] and sp[s_] or sByTot[s_]) "Installationsomkostninger for kapital fordelt på private brancher."
-    qKLBR[sp,t] "CES-aggregat mellem KLB-aggregat og materialer."
-    qKLB[s_,t]$(sp[s_]) "CES-aggregat mellem KL-aggregat and bygningskapital."
-    qKL[sp,t] "CES-aggregat mellem maskinkapital og arbejdskraft."
-    qR[r_,t]$(sp[r_]) "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fV] eller ADAM[fV<i>]"
-    qK[i_,s_,t]$(d1K[i_,s_,t] and sp[s_] or sByTot[s_]) "Ultimokapital fordelt efter kapitaltype og branche, Kilde: ADAM[fKnm<i>] eller ADAM[fKnb<i>]"
-    qL[s_,t]$(s[s_] or sByTot[s_]) "Arbejdskraft i effektive enheder."
-    qKUdn[i_,s_,t]$(d1K[i_,s_,t] and sp[s_] or sByTot[s_]) "Ultimokapital efter kapacitetsudnyttelse"
+    qKInstOmk[i_,s_,t]$((d1K[i_,s_,t] and sp[s_]) or (spTot[s_] and t.val > %cal_start%)) "Installationsomkostninger for kapital fordelt på private brancher."
+    qKELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "CES-aggregat mellem KELB-aggregat og materialer."
+    qKELB[s_,t]$(sp[s_]) "CES-aggregat mellem KEL-aggregat and bygningskapital."
+    qKEL[sp,t] "CES-aggregat mellem KE-aggregat og arbejdskraft."
+    qKE[sp,t] "CES-aggregat mellem maskinkapital og Energi."
+    qR[r_,t]$(sp[r_]) "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fVm] eller ADAM[fVm<i>]"
+    qE[r_,t]$(sp[r_]) "Energiinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fVe] eller ADAM[fVe<i>]"
+    qK[i_,s_,t]$((d1K[i_,s_,t] and k[i_] and sp[s_])) "Ultimokapital fordelt efter kapitaltype og branche, Kilde: ADAM[fKnm<i>] eller ADAM[fKnb<i>]"
+    qK[i_,s_,t]$((k[i_] or kTot[i_]) and spTot[s_]) "Ultimokapital fordelt efter kapitaltype og branche, NB:Vægtet med investeringspriser - ikke lig den fra NR!"
+    qK[i_,s_,t]$((k[i_] or kTot[i_]) and sTot[s_]) "Ultimokapital fordelt efter kapitaltype og branche, NB:Vægtet med investeringspriser - ikke lig den fra NR!"
+    qLUdn[s_,t]$(s[s_] or (spTot[s_] and t.val > %cal_start%)) "Arbejdskraft i effektive enheder."
+    qKUdn[i_,s_,t]$((d1K[i_,s_,t] and sp[s_])  or (spTot[s_] and t.val > %cal_start%)) "Ultimokapital efter kapacitetsudnyttelse, med pris normaliseret til 1 i basisår."
     qI_s[i_,s_,t]$(d1I_s[i_,s_,t] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
-    qLxUdn[s,t] "Arbejdskraft i effektive enheder før kapacitetsudnyttelse."
+    qL[s_,t]$(s[s_] or spTot[s_] or sTot[s_]) "Arbejdskraft i effektive enheder før kapacitetsudnyttelse."
   ;
 	$GROUP G_production_private_values_endo
     empty_group_dummy
@@ -40,32 +57,44 @@ $IF %stage% == "variables":
     G_production_private_quantities_endo
     G_production_private_values_endo
 
-    rLUdn[s_,t]$(not sOff[s_]) "Kapacitetsudnyttelse af arbejdskraft."
-    rKUdn[i_,s_,t]$(d1K[i_,s_,t-1] and not (bol[s_] or udv[s_] or sOff[s_]) or sByTot[s_]) "Kapacitetsudnyttelse af sidste periodes qK."
-    ErSkatAfskr[k,s_,t]$(sp[s_] or sByTot[s_]) "Skyggepris for skatteværdien af bogført kapitalapparat."
+    rLUdn[s_,t]$(not off[s_]) "Kapacitetsudnyttelse af arbejdskraft."
+    rKUdn[i_,s_,t]$(d1K[i_,s_,t-1] and eKUdn.l[i_,s_] <> 0 or spTot[s_] or sTot[s_]) "Kapacitetsudnyttelse af sidste periodes qK."
+    ErSkatAfskr[k,s_,t]$(sp[s_]) "Skyggepris for skatteværdien af bogført kapitalapparat."
     hL[s_,t]$(sp[s_]) "Erlagte arbejdstimer fordelt på brancher, Kilde: ADAM[hq] eller ADAM[hq<i>]"
-    fqBVT[t] "Residual Faktor i Cobb-Douglas produktionsfunktion"
-    fqL[t] "Residual Faktor i Cobb-Douglas produktionsfunktion"
-    dKInstOmk2dK[k,s_,t]$(d1K[k,s_,t] and sp[s_] or sByTot[s_]) "qKInstOmk differentieret ift. qK[t-1]"
-    dKInstOmk2dI[k,s_,t]$(d1K[k,s_,t] and sp[s_] or sByTot[s_]) "qKInstOmk differentieret ift. qI_s."
-    dKInstOmkLead2dI[k,s_,t]$(d1K[k,s_,t] and sp[s_] or sByTot[s_]) "qKInstOmk[t+1] differentieret ift. qI_s."
-    rVirkDisk[s_,t]$(sByTot[s_]) "Selskabernes diskonteringsrate."
-    fVirkDisk[s_,t]$(sByTot[s_]) "Selskabernes diskonteringsfaktor."
+    dKInstOmk2dK[k,s_,t]$(d1K[k,s_,t] and sp[s_]) "qKInstOmk[t] differentieret ift. qK[t]"
+    dKInstOmk2dKLag[k,s_,t]$(d1K[k,s_,t] and sp[s_]) "qKInstOmk[t] differentieret ift. qK[t-1]"
     mtVirk[s_,t]$(sByTot[s_]) "Branchefordelt marginal indkomstskat hos virksomheder."
-    tK[k,s_,t]$(sByTot[s_]) "Kapitalafgiftssats (hhv. ejendomsskatter og vægtafgift)"
-    uKInstOmk[k,s_,t]$(sByTot[s_]) "Parameter for installationsomkostninger."
-    fKInstOmk[k,s_,t]$(sByTot[s_]) "Vækstfaktor i investeringer som giver nul installationsomkostningerne."
-    uKtot[k, t] "Omkostningsandel for kapital i BVT-aggregat for private byerhverv."
-    uLtot[t] "Omkostningsandel for arbejdskraft i BVT-aggregat for private byerhverv."
-    pKrest[k,t] "Residual i beregning af aggregeret usercost af kapital."
-    rAfskr[k,s_,t]$(sByTot[s_]) "Afskrivningsrate for kapital."
-    frLUdn[t] "Korrektions-faktor for kapacitetsudnyttelse på arbejdskraft aggregeret for private byerhverv."
-    uL[s_,t]$(sByTot[s_]) "Skalaparameter for qL i produktionsfunktionen."
-    uK[k,s_,t]$(sByTot[s_]) "Skalaparameter for qK i produktionsfunktionen."
-    frKUdn[k,t] "Korrektions-faktor for kapacitetsudnyttelse på kapital aggregeret for private byerhverv."
+
+    fuY_spTot[t]$(t.val > %cal_start%) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qKELBR[spTot,t]"
+    fR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qR[s_,t] - skal være 1 for sp"
+    fB[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qKUdn['iB',s_,t] - skal være 1 for sp"
+    fL[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qLUdn[s_,t] - skal være 1 for sp"
+    fE[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qE[s_,t] - skal være 1 for sp"
+    fK[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%)) "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qKUdn['iM',s_,t] - skal være 1 for sp"
+    rR2KELBR[s_,t]$(spTot[s_] and t.val > %cal_start%) "R-andel i KELBR-nest."
+    rB2KELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "B-andel i KELBR-nest."
+    rL2KELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "L-andel i KELBR-nest."
+    rE2KELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "E-andel i KELBR-nest."
+    rK2KELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "K-andel i KELBR-nest."
+    rPrisEffekt_R[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Substitutionseffekt ift. baseline for priser til R"
+    rPrisEffekt_B[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Substitutionseffekt ift. baseline for priser til B"
+    rPrisEffekt_L[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Substitutionseffekt ift. baseline for priser til L"
+    rPrisEffekt_E[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Substitutionseffekt ift. baseline for priser til E"
+    rPrisEffekt_K[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%)) "Substitutionseffekt ift. baseline for priser til K"
+
+    fpK_spTot[k,t] "Korrektionsfaktor for sammensætningseffekt i bestemmelse af pK[spTot,t]"
 
     # Housing-kapital er eksogent og CES-efterspørgsel efter K bestemmer i stedet housing produktionen
     qY[s_,t]$(bol[s_])
+
+    rAfskr[k,s_,t]$(spTot[s_]) "Afskrivningsrate for kapital."
+
+    uKELBR[sp,t] "Parameter i produktionsnest for KELBR - konstantled i Cobb-Douglas limit af CES-produktions-nest."
+    uKELB[sp,t] "Parameter i produktionsnest for KELB - konstantled i Cobb-Douglas limit af CES-produktions-nest."
+    uKEL[sp,t] "Parameter i produktionsnest for KEL - konstantled i Cobb-Douglas limit af CES-produktions-nest."
+    uKE[sp,t] "Parameter i produktionsnest for KE - konstantled i Cobb-Douglas limit af CES-produktions-nest."
+
+    rKInstOmk[k,s_,t] "Hjælpevariabel til installationsomkostninger."
 	;
 	$GROUP G_production_private_endo G_production_private_endo$(tx0[t]);
 
@@ -86,42 +115,49 @@ $IF %stage% == "variables":
     jfrLUdn[sp,t] "J-led."
     jfrLUdn_t[t] "J-led."
     jfrKUdn[k,sp,t] "J-led."
-    jfrKUdn_t[t] "J-led."
-    jfqI_s_iL[t] "J-led."
+    jfrKUdn_k[k,t] "J-led."
     jpK_t[k,t] "J-led."
-  ;
-  $GROUP G_production_private_ARIMA_forecast
-    rIL2y[s_,t] "Andel af samlet produktion som går til lagerinvesteringer."
-    rAfskr
-    uK    
-    uL
-    uKL[s_,t] "Skalaparameter for qKL i produktionsfunktionen."
-    uKLB[s_,t] "Skalaparameter for qKLB i produktionsfunktionen."
-    uR[s_,t] "Skalaparameter for qR i produktionsfunktionen."
-  ;
-  $GROUP G_production_private_constants
-    eKUdn[k] "Eksponent som styrer anvendelsen af kapacitetsudnyttelse af kapital."
-    eKUdnPersistens[k] "Eksponent som styrer træghed i kapacitetsudnyttelse af kapital."
-    eLUdn "Eksponent som styrer anvendelsen af kapacitetsudnyttelse af arbejdskraft."
-    eLUdnPersistens "Eksponent som styrer træghed i kapacitetsudnyttelse af arbejdskraft."
-    eKLBR[sp] "Substitutionselasticitet mellem qKLB og qR."
-    eKLB[sp] "Substitutionselasticitet mellem qKL[sp] og qK[iB,sp]"
-    eKL[sp] "Substitutionselasticitet mellem qK[im,sp] og qL."
-    
-  ;
-  $GROUP G_production_private_other
-    rAfskr_static[k,sp,t] "Udglattet afskrivningsrate til statisk kalibrering."
-    gpI_s_static[k,sp,t] "Udglattet prisstigningsrate for investeringer til statisk kalibrering."
+    jrKInstOmk[k,sp,t] "J-led."
     jpK_s[k,sp,t] "J-led."
   ;
-$ENDIF
+  $GROUP G_production_private_ARIMA_forecast
+    rAfskr[k,s_,t]$(s[s_]) "Afskrivningsrate for kapital."
+    rE2KE[sp,t] "Energi-andel i KE-nest."
+    rL2KEL[sp,t] "L-andel i KEL-nest."
+    rB2KELB[sp,t] "B-andel i KELB-nest."
+    rR2KELBR[s_,t]$(sp[s_]) "R-andel i KELBR-nest."
+    uL[s_,t]$(sp[s_]) "Arbejdskraft-besparende produktivitet."
+  ;
+  $GROUP G_production_private_fixed_forecast
+    rAfskr_static[k,sp,t] "Udglattet afskrivningsrate til statisk kalibrering."
+    gpI_s_static[k,sp,t] "Udglattet prisstigningsrate for investeringer til statisk kalibrering."
 
+    uKInstOmk[k,s_,t] "Parameter for installationsomkostninger."
+    rVirkDisk[s_,t] "Selskabernes diskonteringsrate."
+    fVirkDisk[s_,t] "Selskabernes diskonteringsfaktor."
+    uK[k,s_,t]$(sp[s_]) "Kapital-besparende produktivitet."
+    rKUdn[i_,s_,t]$(eKUdn.l[i_,s_] = 0)
+    rLUdn[off,t]
+  ;
+$ENDIF
 
 # ======================================================================================================================
 # Equations
 # ======================================================================================================================
 $IF %stage% == "equations":
-	$BLOCK B_production_private
+	$BLOCK B_production_private_static$(tx0[t])
+    # Investeringspriser vægtet med kapital
+    # Boligkapital er en undtagelse og er givet ud fra husholdningernes forbrugsvalg
+    E_qK_bol[t].. qK['iB','bol',t] =E= qKBolig[t] + qKlejebolig[t];
+
+    # Capital accumulation
+    E_qI_sp[k,sp,t]$(d1I_s[k,sp,t]).. qI_s[k,sp,t] =E= qK[k,sp,t] - (1 - rAfskr[k,sp,t]) * qK[k,sp,t-1]/fq;
+
+    # Inventory investments
+    E_qI_s_iL_private[sp,t]$(d1IO['iL',sp,t]).. qI_s['iL',sp,t] =E= qIO['iL',sp,t];      
+  $ENDBLOCK
+
+  $BLOCK B_production_private_forwardlooking$(tx0[t])
     # ------------------------------------------------------------------------------------------------------------------
     # Two versions of the private production model are written here: an aggregate and a disaggregate version.
     # The disaggregate version is the core model.
@@ -130,293 +166,172 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
 
     # ------------------------------------------------------------------------------------------------------------------
-    # Aggregate version
-    # ------------------------------------------------------------------------------------------------------------------
-    # BVT er output minus materialelkøb
-    E_vBVT_sByTot[t]$(tx0[t]).. vBVT[sByTot,t] =E= vY[sByTot,t] - vR[sByTot,t];
-
-    E_pBVT_sByTot[t]$(tx0[t]).. pBVT[sByTot,t] * qBVT[sByTot,t] =E= vBVT[sByTot,t];
-
-    # BVT beregnet ved Cobb-Douglas produktionsfunktion med effektivt K, B og L som input
-    E_qBVT_sByTot[t]$(tx0[t])..
-      qBVT[sByTot,t] =E= (uK['iM',sByTot,t] * qKUdn['iM',sByTot,t])**uKtot['iM',t] # MaskinKapital
-                       * (uK['iB',sByTot,t] * qKUdn['iB',sByTot,t])**uKtot['iB',t] # Bygningskapital
-                       * (uL[sByTot,t] * qL[sByTot,t])**uLtot[t] # Arbejdskraft
-                       * fqBVT[t] # Korrektionsfaktor,som fanger sammensætningseffekter mm.
-                       - qKInstOmk[kTot,sByTot,t];
-
-    # Effektiv kapital som budgetandel af BVT
-    E_qKUdn_sByTot[k,t]$(tx0[t])..
-      pKUdn[k,sByTot,t] * qKUdn[k,sByTot,t] =E= uKtot[k,t] * sum(sBy, pKLB[sBy, t] * qKLB[sBy,t]);
-
-    # Effektiv arbejdskraft som budgetandel af BVT
-    E_qL_sByTot[t]$(tx0[t])..
-      pL[sByTot,t] * qL[sByTot,t] =E= uLtot[t] * sum(sBy, pKLB[sBy, t] * qKLB[sBy,t]); 
-
-    # Kapacitetsudnyttelse på arbejdskraft
-    E_rLUdn_sByTot[t]$(tx0E[t])..
-      rLUdn[sByTot,t] =E= (pL[sByTot,t] / pL[sByTot,t+1])**eLUdn
-                        / (pL[sByTot,t-1] / pL[sByTot,t])**eLUdn
-                        * rLUdn[sByTot,t-1]**eLUdnPersistens
-                        * (frLUdn[t] + jfrLUdn_t[t]);
-
-    E_rLUdn_sByTot_tEnd[t]$(tEnd[t])..
-      rLUdn[sByTot,t] =E= rLUdn[sByTot,t-1]**eLUdnPersistens * (frLUdn[t] + jfrLUdn_t[t]);
-
-    # Kapacitetsudnyttelse på kapital
-    E_rKUdn_sByTot[k,t]$(tx0E[t])..
-      rKUdn[k,sByTot,t] =E= (pKUdn[k,sByTot,t] / pKUdn[k,sByTot,t+1])**eKUdn[k]
-                          / (pKUdn[k,sByTot,t-1] / pKUdn[k,sByTot,t])**eKUdn[k]
-                          * rKUdn[k,sByTot,t-1]**eKUdnPersistens[k]
-                          * (frKUdn[k,t] + jfrKUdn_t[t]);
-
-    E_rKUdn_sByTot_tEnd[k,t]$(tEnd[t])..
-      rKUdn[k,sByTot,t] =E= rKUdn[k,sByTot,t-1]**eKUdnPersistens[k] * (frKUdn[k,t] + jfrKUdn_t[t]);
-
-    # Effektiv kapital = kapacitetsudnyttelse * primo-kapital
-    E_qK_sByTot[k,t]$(tx0[t]).. qKUdn[k,sByTot,t] =E= rKUdn[k,sByTot,t] * qK[k,sByTot,t-1]/fq;
-
-    # Usercost af effektiv kapital
-    E_pKUdn_sByTot[k,t]$(tx0[t])..
-      pKUdn[k,sBytot,t] =E= pK[k,sByTot,t] / rKUdn[k,sByTot,t];
-
-    # Aggregeret effektiv arbejdskraft input som funktion af hL mv. og sammensætningseffektled
-    E_fqL_sByTot[t]$(tx0[t])..
-      qL[sByTot,t] =E= fqL[t] * qProd[sByTot,t] # Sector specific labor productivity
-                     * rLUdn[sByTot,t] # Variable factor utilization
-                     * (1-rOpslagOmk[sByTot,t]) # Matching friction
-                     * hL[sByTot,t]; # Number of hours worked
-
-    # Usercost of capital
-    E_pK_sByTot[k,t]$((tx0E[t]))..
-      pK[k,sByTot,t+1]*fp =E=
-      # Tobin's q today and tomorrow
-        pTobinsQ[k,sByTot,t] / (1-tSelskab[t+1]) / fVirkDisk[sByTot,t+1] 
-      - (1 - rAfskr[k,sByTot,t+1]) * pTobinsQ[k,sByTot,t+1]*fp / (1-tSelskab[t+1])
-      # Production tax on capital
-      + tK[k,sByTot,t+1] * pKI_sByTot[k,t+1]*fp
-      # Tax shield and collateral value on capital
-      - (rVirkDisk[sByTot,t+1] / (1-tSelskab[t+1]) - rRente['Obl',t+1]) * rLaan2K[t] * pKI_sByTot[k,t]
-      # Discounted value of change in future installation costs from change in investments today
-      + pBVT[sByTot,t+1]* fp * dKInstOmk2dK[k,sByTot,t]
-
-      + jpK_t[k,t+1] + pKrest[k,t+1];
-
-    # First order condition with respect to tax deductible capital ('Shadows price')
-    E_ErSkatAfskr_sByTot[k,t]$(tx0E[t])..
-      ErSkatAfskr[k,sByTot,t] =E= ((1-rSkatAfskr[k,t+1]) * ErSkatAfskr[k,sByTot,t+1] + tSelskab[t+1] * rSkatAfskr[k,t+1]) * fVirkDisk[sByTot,t+1];
-    
-    E_ErSkatAfskr_sByTot_tEnd[k,t]$(tEnd[t])..
-      ErSkatAfskr[k,sByTot,t] =E= tSelskab[t] * rSkatAfskr[k,t] / (rVirkDisk[sByTot,t] + rSkatAfskr[k,t]);
-
-    # First order condition with respect to investment
-    E_pTobinsQ_sByTot[k,t]$(tx0E[t])..
-      pTobinsQ[k,sByTot,t] =E= pKI_sByTot[k,t] * (1-ErSkatAfskr[k,sByTot,t])
-                             + pBVT[sByTot,t] * (1-tSelskab[t]) * dKInstOmk2dI[k,sByTot,t]
-                             + fVirkDisk[sByTot,t] * pBVT[sByTot,t+1]*fp * (1-tSelskab[t+1]) * dKInstOmkLead2dI[k,sByTot,t] * qK[k,sByTot,t];
-
-    E_pTobinsQ_sByTot_tEnd[k,t]$(tEnd[t])..
-      pTobinsQ[k,sByTot,t] =E= pKI_sByTot[k,t] - pKI_sByTot[k,t] * ErSkatAfskr[k,sByTot,t]
-                             + pBVT[sByTot,t] * (1-tSelskab[t]) * dKInstOmk2dI[k,sByTot,t];
-
-    # Kapital-akkumulation
-    E_rAfskr_sByTot[k,t]$(tx0[t]).. qI_s[k,sByTot,t] =E= qK[k,sByTot,t] - (1 - rAfskr[k,sByTot,t]) * qK[k,sByTot,t-1]/fq;
-
-    # Afledte af installationsomkostninger 
-    E_dKInstOmk2dK_sByTot[k,t]$(tx0E[t])..
-      dKInstOmk2dK[k,sByTot,t] =E= - uKInstOmk[k,sByTot,t]/2 * sqr((qI_s[k,sByTot,t+1]*fq - qI_s[k,sByTot,t] * fKInstOmk[k,sByTot,t+1]) / qK[k,sByTot,t]);
-
-    E_dKInstOmk2dI_sByTot[k,t]$(tx0[t])..
-      dKInstOmk2dI[k,sByTot,t] =E= uKInstOmk[k,sByTot,t] * (qI_s[k,sByTot,t] - qI_s[k,sByTot,t-1]/fq * fKInstOmk[k,sByTot,t]) / (qK[k,sByTot,t-1]/fq);
-
-    E_dKInstOmkLead2dI_sByTot[k,t]$(tx0E[t])..
-      dKInstOmkLead2dI[k,sByTot,t] =E= - fKInstOmk[k,sByTot,t+1] / qK[k,sByTot,t] * dKInstOmk2dI[k,sByTot,t+1];
-
-    # ------------------------------------------------------------------------------------------------------------------
-    # Composition effects are calculated by aggregating the disaggregate version
-    # ------------------------------------------------------------------------------------------------------------------
-    # BVT beregnet ved kædeindeks - diskrepans til Cobb-Douglas produktionsfunktion fanges i korrektionsfaktor
-    E_fqBVT[t]$(tx0[t])..
-      pBVT[sByTot,t-1]/fp * qBVT[sByTot,t] =E= pY[sByTot,t-1]/fp * qY[sByTot,t] - pR[sByTot,t-1]/fp * qR[sByTot,t];
-
-    # Kapacitetsudnyttelse på arbejdskraft
-    E_frLUdn[t]$(tx0[t]).. rLUdn[sByTot,t] * hL[sByTot,t] =E= sum(sBy, rLUdn[sBy,t] * hL[sBy,t]);
-
-    # Kapacitetsudnyttelse på Kapital
-    E_frKUdn[k,t]$(tx0[t]).. rKUdn[k,sByTot,t] * sum(sBy, qK[k,sBy,t-1]/fq) =E= sum(sBy, qKUdn[k,sBy,t]);
-
-    # Aggeregerede skalaparametre
-    E_uK_sByTot[k,t]$(tx0[t])..
-      uK[k,sByTot,t] / uK[k,sByTot,t-1] =E= sum(sBy, uK[k,sBy,t] * qKUdn[k,sBy,t-1])
-                                          / sum(sBy, uK[k,sBy,t-1] * qKUdn[k,sBy,t-1]);
-
-    E_uL_sByTot[t]$(tx0[t])..
-      uL[sByTot,t] / uL[sByTot,t-1] =E= sum(sBy, uL[sBy,t] * qL[sBy,t-1])
-                                      / sum(sBy, uL[sBy,t-1] * qL[sBy,t-1]);
-
-    # User cost af kapital
-    E_pKrest[k,t]$(tx0[t]).. pK[k,sByTot,t] * qK[k,sByTot,t-1]/fq =E= sum(sBy, pK[k,sBy,t] * qK[k,sBy,t-1]/fq);
-
-    # Arbejdskraftandel
-    E_uLTot[t]$(tx0[t]).. qL[sByTot,t] =E= sum(sBy, qL[sBy,t]);
-
-    # Kapitalandel
-    E_uKtot[k,t]$(tx0[t]).. pKI_sByTot[k,t] * qK[k,sByTot,t] =E= sum(sBy, pI_s[k,sBy,t] * qK[k,sBy,t]);
-
-    # Investeringspriser vægtet med kapital
-    E_pKI_sByTot[k,t]$(tx0[t]).. pKI_sByTot[k,t-1]/fp * qK[k,sByTot,t] =E= sum(sBy, pI_s[k,sBy,t-1]/fp * qK[k,sBy,t]);
-
-    E_pKI_sByTot_kTot[t]$(tx0[t]).. pKI_sByTot[kTot,t-1]/fp * qK[kTot,sByTot,t] =E= sum([k,sBy], pI_s[k,sBy,t-1]/fp * qK[k,sBy,t]);
-    E_qK_kTot_sByTot[t]$(tx0[t]).. pKI_sByTot[kTot,t] * qK[kTot,sByTot,t] =E= sum([k,sBy], pI_s[k,sBy,t] * qK[k,sBy,t]);
-
-    # Aggregated user cost of labor
-    E_pL_sByTot[t]$(tx0[t]).. pL[sByTot,t] * qL[sByTot,t] =E= sum(sBy, pL[sBy,t] * qL[sBy,t]);
-
-    # Compute parts of aggregate adjustment cost equations
-    E_uKInstOmk_sByTot[k,t]$(tx0[t])..     
-      uKInstOmk[k,sByTot,t] * pKI_sByTot[k,t] * qK[k,sByTot,t-1] =E= sum(sBy, uKInstOmk[k,sBy,t] * pI_s[k,sBy,t] * qK[k,sBy,t-1]);
-
-    # Compute parts of aggregated adjustment cost equations
-    E_fKInstOmk_sByTot[k,t]$(tx0[t])..     
-      fKInstOmk[k,sByTot,t] * pKI_sByTot[k,t] * qK[k,sByTot,t-1] =E= sum(sBy, fKInstOmk[k,sBy,t] * pI_s[k,sBy,t] * qK[k,sBy,t-1]);
-
-    # Compute parts of aggregated qL
-    E_rOpslagOmk_sByTot[t]$(tx0[t]).. rOpslagOmk[sByTot,t] * nL[sByTot,t] =E= sum(sBy, rOpslagOmk[sBy,t] * nL[sBy,t]);
-
-    # Constructing elements of aggregate usercost
-    E_rVirkDisk_sByTot[t]$(tx0[t])..
-      rVirkDisk[sByTot,t] * sum([k,sBy], pI_s[k,sBy,t] * qK[k,sBy,t-1]) =E= sum([k,sBy], rVirkDisk[sBy,t] * pI_s[k,sBy,t] * qK[k,sBy,t-1]);
-    E_fVirkDisk_sByTot[t]$(tx0[t])..
-      fVirkDisk[sByTot,t] =E= 1 / (1 + rVirkDisk[sByTot,t]);
-
-    E_tK_sByTot[k,t]$(tx0[t])..
-      tK[k,sByTot,t] * pKI_sByTot[k,t] * qK[k,sByTot,t-1] =E= sum(sBy, tK[k,sBy,t] * pI_s[k,sBy,t] * qK[k,sBy,t-1]);
-
-    E_qKInstOmk_sByTot[t]$(tx0[t])..
-      pBVT[sByTot,t] * qKInstOmk[kTot,sByTot,t] =E= sum(sBy, pBVT[sBy,t] * qKInstOmk[kTot,sBy,t]);
-
-    E_rKUdn_sTot[k,t]$(tx0[t])..
-      rKUdn[k,sTot,t] * sum(s, qKUdn[k,s,t] / rkUdn[k,s,t]) =E= sum(s, qKUdn[k,s,t]);
-
-    E_rKUdn_kTot_sByTot[t]$(tx0[t])..
-      rKUdn[kTot,sByTot,t] * sum([k,sBy], qKUdn[k,sBy,t] / rkUdn[k,sBy,t]) =E= sum([k,sBy], qKUdn[k,sBy,t]);
-    E_qKUdn_kTot_sByTot[t]$(tx0[t])..
-      qKUdn[kTot,sByTot,t] =E= rKUdn[kTot,sByTot,t] * qK[kTot,sByTot,t-1]/fq;
-
-    E_rLUdn_sTot[t]$(tx0[t])..
-      rLUdn[sTot,t] * hL[sTot,t] =E= sum(s,rLUdn[s,t] * hL[s,t]);
-
-    # ------------------------------------------------------------------------------------------------------------------
     # Disaggregate version
     # ------------------------------------------------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # CES-prices and cost of production
+    # ------------------------------------------------------------------------------------------------------------------  
+    E_pY0[sp,t]..
+      pY0[sp,t] * qY[sp,t] =E= pKELBR[sp,t] * (qKELBR[sp,t] - qKInstOmk[kTot,sp,t]) + vtNetYRest[sp,t] + (tE[sp,t] * vY[sp,t])$(lan[sp]);
+
+    E_pKELBR[sp,t].. pKELBR[sp,t] * qKELBR[sp,t] =E= pR[sp,t] * qR[sp,t] + pKELB[sp,t] * qKELB[sp,t];
+
+    E_pKELB[sp,t].. pKELB[sp,t] * qKELB[sp,t] =E= pKUdn['iB',sp,t] * qKUdn['iB',sp,t] + pKEL[sp,t] * qKEL[sp,t];
+
+    E_pKEL[sp,t].. pKEL[sp,t] * qKEL[sp,t] =E= pLUdn[sp,t] * qLUdn[sp,t] + pKE[sp,t] * qKE[sp,t];
+
+    E_pKE[sp,t].. pKE[sp,t] * qKE[sp,t] =E= pE[sp,t] * (1+tE[sp,t]) * qE[sp,t] + pKUdn['iM',sp,t] * qKUdn['iM',sp,t];
+
     # ------------------------------------------------------------------------------------------------------------------
     # Gross production from net production
     # ------------------------------------------------------------------------------------------------------------------
-    E_qKLBR[sp,t]$(tx0[t]).. qKLBR[sp,t] =E= qY[sp,t] + qKInstOmk[kTot,sp,t];
+    E_qKELBR[sp,t].. qY[sp,t] =E= fuY[sp] * (qKELBR[sp,t] - qKInstOmk[kTot,sp,t]);
 
 		# ------------------------------------------------------------------------------------------------------------------
-    # 1) Top of CES tree: gross production KLBR (KLB-aggregate and material/intermediate inputs)
+    # 1) Top of CES tree: gross production KELBR (KELB-aggregate and material/intermediate inputs)
 		# ------------------------------------------------------------------------------------------------------------------
-    E_pKLBR[sp,t]$(tx0[t]).. pKLBR[sp,t] * qKLBR[sp,t] =E= pR[sp,t] * qR[sp,t] + pKLB[sp,t] * qKLB[sp,t];
-
     # CES Demand for capital-labor aggregate
-    E_qKLB[sp,t]$(tx0[t])..
-      qKLB[sp,t] =E= uKLB[sp,t] * qKLBR[sp,t] * (pKLBR[sp,t] / pKLB[sp,t])**eKLBR[sp];
+    E_qKELB[sp,t]$(eKELBR.l[sp] <> 1)..
+      qKELB[sp,t] =E= (1-rR2KELBR[sp,t]) * qKELBR[sp,t] * (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp];
+    E_qKELB_e1[sp,t]$(eKELBR.l[sp] = 1)..
+      qKELBR[sp,t] =E= uKELBR[sp,t] * qKELB[sp,t]**(1-rR2KELBR[sp,t]) * qR[sp,t]**rR2KELBR[sp,t];
+    E_uKELBR[sp,t].. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
+      1 =E= uKELBR[sp,t] * (1-rR2KELBR[sp,t])**(1-rR2KELBR[sp,t]) * rR2KELBR[sp,t]**rR2KELBR[sp,t];
 
     # CES Demand for material/intermediate inputs
-    E_qR[sp,t]$(tx0[t]).. qR[sp,t] =E= uR[sp,t] * qKLBR[sp,t] * (pKLBR[sp,t] / pR[sp,t])**eKLBR[sp];
+    E_qR[sp,t].. qR[sp,t] =E= rR2KELBR[sp,t] * qKELBR[sp,t] * (pKELBR[sp,t] / pR[sp,t])**eKELBR[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
-    # 2) Next level of CES tree: KLB-aggregate(KL-aggregate and building capital)
+    # 2) Next level of CES tree: KELB-aggregate(KEL-aggregate and structures capital)
     # ------------------------------------------------------------------------------------------------------------------
-    E_pKLB[sp,t]$(tx0[t]).. pKLB[sp,t] * qKLB[sp,t] =E= pKUdn['iB',sp,t] * qKUdn['iB',sp,t] + pKL[sp,t] * qKL[sp,t];
+    # CES demand: KEL-aggregate as function of the KELB aggregate
+    E_qKEL[sp,t]$(eKELB.l[sp] <> 1)..
+      qKEL[sp,t] =E= (1-rB2KELB[sp,t]) * qKELB[sp,t] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp];
+    E_qKEL_e1[sp,t]$(eKELB.l[sp] = 1)..
+      qKELB[sp,t] =E= uKELB[sp,t] * qKEL[sp,t]**(1-rB2KELB[sp,t]) * qKUdn['iB',sp,t]**rB2KELB[sp,t];
+    E_uKELB[sp,t].. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
+      1 =E= uKELB[sp,t] * (1-rB2KELB[sp,t])**(1-rB2KELB[sp,t]) * rB2KELB[sp,t]**rB2KELB[sp,t];
 
-    # CES demand: KL-aggregate as function of the KLB aggregate
-    E_qKL[sp,t]$(tx0[t])..
-      qKL[sp,t] =E= uKL[sp,t] * qKLB[sp,t] * (pKLB[sp,t] / pKL[sp,t])**eKLB[sp];
-
-    # CES demand: building capital aggregate as function of the KLB aggregate
-    E_qKUdn_ib[sp,t]$(tx0[t] and d1K['iB',sp,t])..
-      qKUdn['iB',sp,t] =E= uK['iB',sp,t] * qKLB[sp,t] * (pKLB[sp,t] / pKUdn['iB',sp,t])**eKLB[sp];
-
-    # Boligkapital er en undtagelse og er givet ud fra husholdningernes forbrugsvalg
-    E_qK_bol[t]$(tx0[t]).. qK['iB','bol',t] =E= qKBolig[t] + qKLejeBolig[t];
+    # CES demand: structures capital aggregate as function of the KELB aggregate
+    # For bolig-branchen bestemmer denne pK
+    E_qKUdn_ib[sp,t]$(d1K['iB',sp,t])..
+      qKUdn['iB',sp,t] =E= rB2KELB[sp,t] * qKELB[sp,t] * (pKELB[sp,t] / pKUdn['iB',sp,t])**eKELB[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
-    # 3) Lowest level of CES tree: KL-aggregate (machine capital and labor)
+    # 3) Next level of CES tree: KEL-aggregate (labor and KE-aggregate)
     # ------------------------------------------------------------------------------------------------------------------
-    E_pKL[sp,t]$(tx0[t]).. pKL[sp,t] * qKL[sp,t] =E= pL[sp,t] * qL[sp,t] + pKUdn['iM',sp,t] * qKUdn['iM',sp,t];
+    # CES demand: KE aggregate as a function of the KEL aggregate
+    E_qKE[sp,t]$(eKEL.l[sp] <> 1) ..
+      qKE[sp,t] =E= (1-rL2KEL[sp,t]) *  qKEL[sp,t] * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp];
 
-    # CES demand, machine capital aggregate as function of the KLB aggregate
-    E_qKUdn_im[sp,t]$(tx0[t] and d1K['iM',sp,t])..
-      qKUdn['iM',sp,t] =E= uK['iM',sp,t] * qKL[sp,t] * (pKL[sp,t] / pKUdn['iM',sp,t])**eKL[sp];
+    E_qKE_e1[sp,t]$(eKEL.l[sp] = 1)..
+      qKEL[sp,t] =E= uKEL[sp,t] * qKE[sp,t]**(1-rL2KEL[sp,t]) * qLUdn[sp,t]**rL2KEL[sp,t];
+    E_uKEL[sp,t].. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
+      1 =E= uKEL[sp,t] * (1-rL2KEL[sp,t])**(1-rL2KEL[sp,t]) * rL2KEL[sp,t]**rL2KEL[sp,t];
 
-    # CES demand: labor as function of the KL aggregate
-    E_hL[sp,t]$(tx0[t] and d1K['iM',sp,t-1])..
-      qL[sp,t] =E= uL[sp,t] * qKL[sp,t] * (pKL[sp,t] / pL[sp,t])**eKL[sp];
+    # CES demand: labor as function of the KEL aggregate
+    E_qLUdn[sp,t]..
+      qLUdn[sp,t] =E= rL2KEL[sp,t] * qKEL[sp,t] * (pKEL[sp,t] / pLUdn[sp,t])**eKEL[sp];
 
-    E_hL_xiM[sp,t]$(tx0[t] and not d1K['iM',sp,t-1])..
-      qL[sp,t] =E= uL[sp,t] * qKL[sp,t];
+    # Labor input in productivity units net of hiring costs, before factor utilization 
+    # E_qL[sp,t].. qLUdn[sp,t] =E= qL[sp,t] * (uL[sp,t] * rLUdn[sp,t] * pL[sp,tBase] / rLUdn[sp,tBase]);
+    E_qL[sp,t].. qLUdn[sp,t] =E= qL[sp,t] * (uL[sp,t] * rLUdn[sp,t]);
 
-    # Effective labor input is a function of..
-    E_qL[s,t]$(tx0[t])..
-      qL[s,t] =E= qProd[s,t] # Sector specific labor productivity
-                * rLUdn[s,t] # Variable factor utilization
-                * (1-rOpslagOmk[s,t]) # Matching friction
-                * hL[s,t]; # Number of hours worked
+    # Effective user cost of labor
+    # E_pLUdn[sp,t].. pLUdn[sp,t] =E= pL[sp,t] / (uL[sp,t] * rLUdn[sp,t] * pL[sp,tBase] / rLUdn[sp,tBase]);
+    E_pLUdn[sp,t].. pLUdn[sp,t] =E= pL[sp,t] / (uL[sp,t] * rLUdn[sp,t]);
+
+    # Total hours worked
+    E_hL[sp,t]..
+      qL[sp,t] =E= qProd[sp,t] # Sector specific labor productivity
+                 * (1-rOpslagOmk[sp,t]) # Matching friction
+                 * hL[sp,t]; # Number of hours worked
+
+    # Public sector has exogenous hL
+    E_qL_off[t]..
+      qL['off',t] =E= qProd['off',t] # Sector specific labor productivity
+                * (1-rOpslagOmk['off',t]) # Matching friction
+                * hL['off',t]; # Number of hours worked
+
+    E_qLUdn_off[t].. qLUdn['off',t] =E= qL['off',t];
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # 4) bottom level of CES tree: KE-aggregate (equipment capital and Energy)
+    # ------------------------------------------------------------------------------------------------------------------  
+    # CES demand for energy as a function of the KE-aggregate
+    E_qE[sp,t]$(d1K['iM',sp,t] and eKE.l[sp] <> 1) ..
+      qE[sp,t] =E= rE2KE[sp,t] * qKE[sp,t] * (pKE[sp,t] / ((1+tE[sp,t]) * pE[sp,t]))**eKE[sp];
+
+    E_qE_xim[sp,t]$(not d1K['iM',sp,t]) ..
+      qE[sp,t] =E= rE2KE[sp,t] * qKE[sp,t];
+
+    E_qE_e1[sp,t]$(eKE.l[sp] = 1 and d1K['iM',sp,t])..
+      qKE[sp,t] =E= uKE[sp,t] * qKUdn['iM',sp,t]**(1-rE2KE[sp,t]) * qE[sp,t]**rE2KE[sp,t];
+    E_uKE[sp,t]$(d1K['iM',sp,t]).. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
+      1 =E= uKE[sp,t] * (1-rE2KE[sp,t])**(1-rE2KE[sp,t]) * rE2KE[sp,t]**rE2KE[sp,t];
+
+    # CES demand for equipment capital aggregate as function of the KE aggregate
+    E_qKUdn_im[sp,t]$(d1K['iM',sp,t])..
+      qKUdn['iM',sp,t] =E= (1-rE2KE[sp,t]) * qKE[sp,t] * (pKE[sp,t] / pKUdn['iM',sp,t])**eKE[sp];
 
     # Effective capital
-    E_qK[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
-      qKUdn[k,sp,t] =E= rKUdn[k,sp,t] * qK[k,sp,t-1]/fq;
+    E_qK[k,sp,t]$(d1K[k,sp,t])..
+      # qKUdn[k,sp,t] =E= qK[k,sp,t-1]/fq * (uK[k,sp,t] * rKUdn[k,sp,t] * pK[k,sp,tBase] / rKUdn[k,sp,tBase]);
+      # Vi normaliserer med pK fra 2018 fremfor tBase, da pK er fremadskuende og tBase+1 ligger efter det dybe kalibreringsår
+      qKUdn[k,sp,t] =E= qK[k,sp,t-1]/fq * (uK[k,sp,t] * rKUdn[k,sp,t] * pK[k,sp,'2018']);
 
     # Effective user cost of capital
-    E_pKUdn[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
-      pKUdn[k,sp,t] =E= pK[k,sp,t] / rKUdn[k,sp,t];
+    E_pKUdn[k,sp,t]$(d1K[k,sp,t])..
+      # pKUdn[k,sp,t] =E= pK[k,sp,t] / (uK[k,sp,t] * rKUdn[k,sp,t] * pK[k,sp,tBase] / rKUdn[k,sp,tBase]);
+      pKUdn[k,sp,t] =E= pK[k,sp,t] / (uK[k,sp,t] * rKUdn[k,sp,t] * pK[k,sp,'2018']);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Kapital-installationsomkostninger
     # ------------------------------------------------------------------------------------------------------------------
-    # Samlet output tabt til installationsomkostninger
-    E_qKInstOmk_kTot[sp,t]$(tx0[t] and d1K[kTot,sp,t]).. qKInstOmk[kTot,sp,t] =E= sum(k, qKInstOmk[k,sp,t]);
+    E_rKInstOmk[k,sp,t]$(d1K[k,sp,t])..
+      rKInstOmk[k,sp,t] =E= qK[k,sp,t]/qK[k,sp,t-1] / (qK[k,sp,t-1]/qK[k,sp,t-2]) + jrKInstOmk[k,sp,t];
+      
+    E_qKInstOmk[k,sp,t]$(d1K[k,sp,t])..
+      qKInstOmk[k,sp,t] =E= uKInstOmk[k,sp,t]/2 * sqr(rKInstOmk[k,sp,t] - 1) * qK[k,sp,t-1]/fq;
 
-    E_qKInstOmk[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
-      qKInstOmk[k,sp,t] =E= uKInstOmk[k,sp,t]/2 * sqr(qI_s[k,sp,t] - qI_s[k,sp,t-1]/fq * fKInstOmk[k,sp,t]) / (qK[k,sp,t-1]/fq);
+    # Samlet output tabt til installationsomkostninger
+    E_qKInstOmk_kTot[sp,t]$(d1K[kTot,sp,t]).. qKInstOmk[kTot,sp,t] =E= sum(k, qKInstOmk[k,sp,t]);
 
     # Derivatives
+    E_dKInstOmk2dKLag[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
+      dKInstOmk2dKLag[k,sp,t+1] =E= - 2 * uKInstOmk[k,sp,t+1] * (rKInstOmk[k,sp,t+1] - 1) * rKInstOmk[k,sp,t+1]
+                                    + qKInstOmk[k,sp,t+1]*fq / qK[k,sp,t];
+
     E_dKInstOmk2dK[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
-      dKInstOmk2dK[k,sp,t] =E= - ukinstomk[k,sp,t]/2 * sqr((qI_s[k,sp,t+1]*fq - qI_s[k,sp,t] * fKInstOmk[k,sp,t+1]) / qK[k,sp,t]);
-
-    E_dKInstOmk2dI[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
-      dKInstOmk2dI[k,sp,t] =E= ukinstomk[k,sp,t] * (qI_s[k,sp,t] - qI_s[k,sp,t-1]/fq * fKInstOmk[k,sp,t]) / (qK[k,sp,t-1]/fq);
-
-    E_dKInstOmkLead2dI[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
-      dKInstOmkLead2dI[k,sp,t] =E= - fKInstOmk[k,sp,t+1] / qK[k,sp,t] * dKInstOmk2dI[k,sp,t+1];
+      dKInstOmk2dK[k,sp,t] =E= uKInstOmk[k,sp,t] * (rKInstOmk[k,sp,t] - 1) * rKInstOmk[k,sp,t]
+                                                 * qK[k,sp,t-1]/fq / qK[k,sp,t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Kapacitets-udnyttelse på kapital
     # ------------------------------------------------------------------------------------------------------------------
-    E_rKUdn[k,sp,t]$(tx0E[t] and d1K[k,sp,t-1] and not (bol[sp] or udv[sp]))..
-      rKUdn[k,sp,t] =E= (pKUdn[k,sp,t] / pKUdn[k,sp,t+1])**eKUdn[k]
-                      / (pKUdn[k,sp,t-1] / pKUdn[k,sp,t])**eKUdn[k]
+    E_rKUdn[k,sp,t]$(tx0E[t] and d1K[k,sp,t-1] and eKUdn.l[k,sp] <> 0)..
+      rKUdn[k,sp,t] =E= (pK[k,sp,t] / rKUdn[k,sp,t] / (pK[k,sp,t+1] / rKUdn[k,sp,t+1]))**eKUdn[k,sp]
+                      / (pK[k,sp,t-1] / rKUdn[k,sp,t-1] / (pK[k,sp,t] / rKUdn[k,sp,t]))**eKUdn[k,sp]
                       * rKUdn[k,sp,t-1]**eKUdnPersistens[k]
-                      * (1+jfrKUdn[k,sp,t]+jfrKUdn_t[t]);
+                      * (1 + jfrKUdn[k,sp,t] + jfrKUdn_k[k,t]);
 
-    E_rKUdn_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t-1] and not (bol[sp] or udv[sp]))..
+    E_rKUdn_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t-1] and eKUdn.l[k,sp] <> 0)..
       rKUdn[k,sp,t] =E= rKUdn[k,sp,t-1]**eKUdnPersistens[k]
-                      * (1+jfrKUdn[k,sp,t]+jfrKUdn_t[t]);
+                      * (1 + jfrKUdn[k,sp,t] + jfrKUdn_k[k,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Kapacitets-udnyttelse på arbejdskraft
     # ------------------------------------------------------------------------------------------------------------------
     E_rLUdn[sp,t]$(tx0E[t])..
-      rLUdn[sp,t] =E= (pL[sp,t] / pL[sp,t+1])**eLUdn
-                    / (pL[sp,t-1] / pL[sp,t])**eLUdn
+      rLUdn[sp,t] =E= (pL[sp,t] / rLUdn[sp,t] / (pL[sp,t+1] / rLUdn[sp,t+1]))**eLUdn
+                    / (pL[sp,t-1] / rLUdn[sp,t-1] / (pL[sp,t] / rLUdn[sp,t]))**eLUdn
                     * rLUdn[sp,t-1]**eLUdnPersistens
-                    * (1+jfrLUdn[sp,t]+jfrLUdn_t[t]);
+                    * (1 + jfrLUdn[sp,t] + jfrLUdn_t[t]);
 
     E_rLUdn_tEnd[sp,t]$(tEnd[t])..
       rLUdn[sp,t] =E= rLUdn[sp,t-1]**eLUdnPersistens
-                    * (1+jfrLUdn[sp,t]+jfrLUdn_t[t]);
+                    * (1 + jfrLUdn[sp,t] + jfrLUdn_t[t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Cost of capital
@@ -425,140 +340,444 @@ $IF %stage% == "equations":
     E_pK[k,sp,t]$((tx0E[t] and not bol[sp]) and d1K[k,sp,t])..
       pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * pTobinsQ[k,sp,t]
-      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * pTobinsQ[k,sp,t+1]*fp
+        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t+1]) * pI_s[k,sp,t+1]*fp
       # Production tax on capital
       + tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp
       # Tax shield and collateral value on capital
-      - (rVirkDisk[sp,t+1] / (1-mtVirk[sp,t+1]) - rRente['Obl',t+1]) * rLaan2K[t] * pI_s[k,sp,t]
+      - (rVirkDisk[sp,t+1] / (1-mtVirk[sp,t+1]) - mrRenteVirkLaan[k,t+1]) * mrLaan2K[k,sp,t] * pI_s[k,sp,t]
+      # Change in installation costs today
+      + (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * pKELBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dK[k,sp,t]
       # Discounted value of change in future installation costs from change in investments today
-      + pKLBR[sp,t+1]*fp * dKInstOmk2dK[k,sp,t]
-
+      + pKELBR[sp,t+1]*fp * dKInstOmk2dKLag[k,sp,t+1]
+      # Derivative of profits two periods ahead wrt. capital, which we normally consider exogenous to the firm
+      #  + ((1-mtVirk[sp,t+2]) / (1+rVirkDisk[sp,t+2]) * pKELBR[sp,t+2]*fp * uKInstOmk[k,sp,t+2] * (qK[k,sp,t+2]/qK[k,sp,t+1] / (qK[k,sp,t+1]/qK[k,sp,t]) - 1) * qK[k,sp,t+2]/qK[k,sp,t+1])$(not tEnd[t+1])
       + jpK_s[k,sp,t+1] + jpK_t[k,t+1];
 
-    #User cost for the housing sector 
-    E_pK_bol[sp,t]$(tx0[t] and bol[sp])..
-      pY[sp,t] =E= pKLBR[sp,t] + vtNetYRest[sp,t] / qY[sp,t] ;
+    # Shadow price of capital in housing sector is set residually to match price of housing services assuming zero markup
+    E_qY_bol[sp,t]$(bol[sp])..
+      pY[sp,t] =E= pY0[sp,t];
 
     # Terminal condition for capital stock
     E_qK_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t] and not bol[sp])..
       qI_s[k,sp,t] =E= fq * qI_s[k,sp,t-1]/fq;
-
-		# First order condition with respect to investment
-	  E_pTobinsQ[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
-      pTobinsQ[k,sp,t] =E= pI_s[k,sp,t] * (1-ErSkatAfskr[k,sp,t])
-                         + pKLBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dI[k,sp,t]
-                         + fVirkDisk[sp,t+1] * pKLBR[sp,t+1]*fp * (1-mtVirk[sp,t+1]) * dKInstOmkLead2dI[k,sp,t] * qK[k,sp,t];
-
-    E_pTobinsQ_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t])..
-      pTobinsQ[k,sp,t] =E= pI_s[k,sp,t] - pI_s[k,sp,t] * ErSkatAfskr[k,sp,t]
-                         + pKLBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dI[k,sp,t];
 
 		# First order condition with respect to tax deductible capital ('Shadows price')
     E_ErSkatAfskr[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
       ErSkatAfskr[k,sp,t] =E= ((1-rSkatAfskr[k,t+1]) * ErSkatAfskr[k,sp,t+1] + mtVirk[sp,t+1] * rSkatAfskr[k,t+1]) * fVirkDisk[sp,t+1];
     E_ErSkatAfskr_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t])..
       ErSkatAfskr[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
-     
-  	 # Capital accumulation
-    E_qI_sp[k,sp,t]$(tx0[t] and d1I_s[k,sp,t]).. qI_s[k,sp,t] =E= qK[k,sp,t] - (1 - rAfskr[k,sp,t]) * qK[k,sp,t-1]/fq;
 
-    # Inventory investments
-    # Inventories are forecast as fixed shares of production - corrected with lagged prices to balance future aggregated chain index
-    E_qI_s_iL_private[sp,t]$(tx0[t] and d1I_s['iL',sp,t])..
-      qI_s['iL',sp,t] * pI_s['iL',sp,t-1]/fp =E= (1+jfqI_s_iL[t]) * rIL2y[sp,t] * pY[sp,t-1]/fp * qY[sp,t];
+    # ------------------------------------------------------------------------------------------------------------------
+    # Hjælpe-ligninger til faktor-efterspørgsel
+    # ------------------------------------------------------------------------------------------------------------------
 
-    # Additional post model equations
-    E_qLxUdn[s,t]$(tx0[t]).. qLxUdn[s,t] =E= qL[s,t] / rLUdn[s,t]; # =E= qProd[s,t] * (1-rOpslagOmk[s,t]) * hL[s,t];
-    E_pLxUdn[sp,t]$(tx0[t]).. pLxUdn[sp,t] =E= pL[sp,t] * rLUdn[sp,t];
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for material/intermediate inputs - R
+    # ------------------------------------------------------------------------------------------------------------------
+    # fR[sp,t] skal være 1
+    E_qR_via_fR[sp,t].. 
+      qR[sp,t]  =E= fR[sp,t] * rR2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_R[sp,t];
+
+    E_rPrisEffekt_R[sp,t].. rPrisEffekt_R[sp,t] =E= (pKELBR[sp,t] / pR[sp,t])**eKELBR[sp];
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand: structures capital aggregate in effective units - qKUdn_iB
+    # ------------------------------------------------------------------------------------------------------------------
+    # fB[sp,t] skal være 1
+    E_qKUdn_iB_via_fB[sp,t]..
+      qKUdn['iB',sp,t] =E= fB[sp,t] * rB2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_B[sp,t];
+
+    E_rB2KELBR[sp,t].. rB2KELBR[sp,t] =E= rB2KELB[sp,t] * (1-rR2KELBR[sp,t]);
+
+    E_rPrisEffekt_B[sp,t]..
+      rPrisEffekt_B[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKUdn['iB',sp,t])**eKELB[sp];
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Labor input in productivity units net of hiring costs, before factor utilization - qLUdn
+    # ------------------------------------------------------------------------------------------------------------------
+    # fL[sp,t] skal være 1
+    E_qLUdn_via_fL[sp,t].. 
+      qLUdn[sp,t] =E= fL[sp,t] * rL2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_L[sp,t];
+
+    E_rL2KELBR[sp,t].. rL2KELBR[sp,t] =E= rL2KEL[sp,t] * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
+
+    E_rPrisEffekt_L[sp,t]..
+      rPrisEffekt_L[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
+                                                                       * (pKEL[sp,t] / pLUdn[sp,t])**eKEL[sp] ;
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for energy - E
+    # ------------------------------------------------------------------------------------------------------------------
+    # fE[sp,t] skal være 1
+    E_qE_via_fE[sp,t].. 
+      qE[sp,t] =E= fE[sp,t] * rE2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_E[sp,t];
+
+    E_rE2KELBR[sp,t].. 
+      rE2KELBR[sp,t] =E= rE2KE[sp,t] * (1-rL2KEL[sp,t]) * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
+
+    E_rPrisEffekt_E[sp,t]..
+      rPrisEffekt_E[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
+                              * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp]     * (pKE[sp,t] / ((1+tE[sp,t]) * pE[sp,t]))**eKE[sp];
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for equipment capital aggregate in effective uinits - qKUdn_iM
+    # ------------------------------------------------------------------------------------------------------------------  
+    # fK[sp,t] skal være 1
+    E_qKUdn_iM_via_fK[sp,t]$(d1K['iM',sp,t]).. 
+      qKUdn['iM',sp,t] =E= fK[sp,t] * rK2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_K[sp,t];
+
+    E_rK2KELBR[sp,t]..
+      rK2KELBR[sp,t] =E= (1-rE2KE[sp,t]) * (1-rL2KEL[sp,t]) * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
+
+    E_rPrisEffekt_K[sp,t]$(d1K['iM',sp,t])..
+      rPrisEffekt_K[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
+                              * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp]     * (pKE[sp,t] / pKUdn['iM',sp,t])**eKE[sp];
+
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Aggregate version
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Cost of production
+    # ------------------------------------------------------------------------------------------------------------------  
+    E_pY0_spTot[t]$(t.val > %cal_start%)..
+      pY0[spTot,t] * qY[spTot,t] =E= pKELBR[spTot,t] * (qKELBR[spTot,t] - qKInstOmk[kTot,spTot,t]) + vtNetYRest[spTot,t];
+
+    E_pKELBR_spTot[t]$(t.val > %cal_start%).. 
+      pKELBR[spTot,t] * qKELBR[spTot,t] =E= pKUdn['iM',spTot,t] * qKUdn['iM',spTot,t] 
+                                          + (1+tE[spTot,t]) * pE[spTot,t] * qE[spTot,t]
+                                          + pLUdn[spTot,t] * qLUdn[spTot,t] 
+                                          + pKUdn['iB',spTot,t] * qKUdn['iB',spTot,t]
+                                          + pR[spTot,t] * qR[spTot,t];
+
+     # ------------------------------------------------------------------------------------------------------------------
+    # Gross production from net production
+    # ------------------------------------------------------------------------------------------------------------------
+    E_qKELBR_spTot[t]$(t.val > %cal_start%)..
+     pKELBR[spTot,t-1]/fp * qKELBR[spTot,t] =E= sum(sp, pKELBR[sp,t-1]/fp * qKELBR[sp,t]);
+
+    # OBS: Benyt denne ligning til at analysere på aggregeret niveau
+    # fuY_spTot fanger sammensætningseffekter 
+    E_qKELBR_spTot_via_fuY_spTot[t]$(t.val > %cal_start%)..
+      qY[spTot,t] =E= fuY_spTot[t] * (qKELBR[spTot,t] - qKInstOmk[kTot,spTot,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for material/intermediate inputs - R
+    # ------------------------------------------------------------------------------------------------------------------
+    # fR[spTot,t] fanger sammensætningseffekter 
+    # OBS: Benyt denne ligning til at analysere på aggregeret niveau
+    E_qR_spTot_via_fR_spTot[t]$(t.val > %cal_start%).. 
+      qR[spTot,t]  =E= fR[spTot,t] * rR2KELBR[spTot,t] * qKELBR[spTot,t] * rPrisEffekt_R[spTot,t];
+
+    # Hvad er effekten fra andelsparametrene givet qKELBR og i fravær af sammensætnings- og priseffekter?
+    # Vi udnytter pR[s_,tBase] = 1, fR[spTot,tBase] = 1 og rPrisEffekt_R[spTot,tBase] = 1
+    E_rR2KELBR_spTot[t]$(t.val > %cal_start%)..
+      rR2KELBR[spTot,t] * qKELBR[spTot,tBase] =E= sum(sp, rR2KELBR[sp,t] * qKELBR[sp,tBase]);
+
+    # Hvad er priseffekterne i fravær af sammensætningseffekter?
+    # Vi udnytter pR[s_,tBase] = 1, fR[spTot,tBase] = 1 og rPrisEffekt_R[spTot,tBase] = 1
+    E_rPrisEffekt_R_spTot[t]$(t.val > %cal_start%)..
+      rR2KELBR[spTot,tBase] * qKELBR[spTot,tBase] * rPrisEffekt_R[spTot,t] 
+      =E= 
+      sum(sp, rR2KELBR[sp,tBase] * qKELBR[sp,tBase] * rPrisEffekt_R[sp,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand: structures capital aggregate in effective units - qKUdn_iB
+    # ------------------------------------------------------------------------------------------------------------------
+    E_qKUdn_iB_spTot[t]$(t.val > %cal_start%).. 
+      pKUdn['iB',spTot,t-1]/fp * qKUdn['iB',spTot,t] =E= sum(sp, pKUdn['iB',sp,t-1]/fp * qKUdn['iB',sp,t]);
+
+    # fB[spTot,t] fanger sammensætningseffekter 
+    # OBS: Benyt denne ligning til at analysere på aggregeret niveau
+    E_qKUdn_iB_spTot_via_fB_spTot[t]$(t.val > %cal_start%)..
+      qKUdn['iB',spTot,t] =E= fB[spTot,t] * rB2KELBR[spTot,t] * qKELBR[spTot,t] * rPrisEffekt_B[spTot,t];
+
+    # Hvad er effekten fra andelsparametrene givet qKELBR og i fravær af sammensætnings- og priseffekter?
+    # Vi udnytter pKUdn[k,s_,tBase] = 1, fB[spTot,tBase] = 1 og rPrisEffekt_B[spTot,tBase] = 1
+    E_rB2KELBR_spTot[t]$(t.val > %cal_start%)..
+      rB2KELBR[spTot,t] * qKELBR[spTot,tBase] =E= sum(sp, rB2KELBR[sp,t] * qKELBR[sp,tBase]);
+
+    # Hvad er priseffekterne i fravær af sammensætningseffekter?
+    # Vi udnytter pKUdn[k,s_,tBase] = 1, fB[spTot,tBase] = 1 og rPrisEffekt_B[spTot,tBase] = 1
+    E_rPrisEffekt_B_spTot[t]$(t.val > %cal_start%)..
+      rB2KELBR[spTot,tBase] * qKELBR[spTot,tBase] * rPrisEffekt_B[spTot,t]
+      =E= 
+      sum(sp, rB2KELBR[sp,tBase] * qKELBR[sp,tBase] * rPrisEffekt_B[sp,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Labor input in productivity units net of hiring costs, before factor utilization - qLUdn
+    # ------------------------------------------------------------------------------------------------------------------
+    E_qLUdn_spTot[t]$(t.val > %cal_start%).. 
+      pLUdn[spTot,t-1]/fp * qLUdn[spTot,t] =E= sum(sp, pLUdn[sp,t-1]/fp * qLUdn[sp,t]);
+
+    # fL[spTot,t] fanger sammensætningseffekter 
+    # OBS: Benyt denne ligning til at analysere qLUdn på aggregeret niveau
+    E_qLUdn_spTot_via_fL_spTot[t]$(t.val > %cal_start%).. 
+      qLUdn[spTot,t] =E= fL[spTot,t] * rL2KELBR[spTot,t] * qKELBR[spTot,t] * rPrisEffekt_L[spTot,t];
+
+    # Hvad er effekten fra andelsparametrene givet qKELBR og i fravær af sammensætnings- og priseffekter?
+    # Vi udnytter pLUdn[s_,tBase] = 1, fL[spTot,tBase] = 1 og rPrisEffekt_L[spTot,tBase] = 1
+    E_rL2KELBR_spTot[t]$(t.val > %cal_start%)..
+      rL2KELBR[spTot,t] * qKELBR[spTot,tBase] =E= sum(sp, rL2KELBR[sp,t] * qKELBR[sp,tBase]);
+
+    # Hvad er priseffekterne i fravær af sammensætningseffekter?
+    # Vi udnytter pLUdn[s_,tBase] = 1, fL[spTot,tBase] = 1 og rPrisEffekt_L[spTot,tBase] = 1
+    E_rPrisEffekt_L_spTot[t]$(t.val > %cal_start%)..
+      rL2KELBR[spTot,tBase] * qKELBR[spTot,tBase] * rPrisEffekt_L[spTot,t]
+      =E= 
+      sum(sp, rL2KELBR[sp,tBase] * qKELBR[sp,tBase] * rPrisEffekt_L[sp,t]);
+
+    # Labor input in productivity units net of hiring costs, before factor utilization 
+    E_qL_spTot[t].. qL[spTot,t] =E= qProd[spTot,t] * (1-rOpslagOmk[spTot,t]) * hL[spTot,t];
+
+    # Effective user cost of labor
+    E_pLUdn_spTot[t]$(t.val > %cal_start%).. 
+      pLUdn[spTot,t] * qLUdn[spTot,t] =E= sum(sp, pLUdn[sp,t] * qLUdn[sp,t]);
+ 
+   # Total hours worked - i labor_market.gms
+#    E_hL[sp,t].. qL[sp,t] =E= qProd[sp,t] * (1-rOpslagOmk[sp,t]) # Matching friction * hL[sp,t];
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for energy - E
+    # ------------------------------------------------------------------------------------------------------------------
+    # fE[spTot,t] fanger sammensætningseffekter 
+    # OBS: Benyt denne ligning til at analysere på aggregeret niveau
+    E_qE_spTot_via_fE_spTot[t]$(t.val > %cal_start%).. 
+      qE[spTot,t] =E= fE[spTot,t] * rE2KELBR[spTot,t] * qKELBR[spTot,t] * rPrisEffekt_E[spTot,t];
+
+    # Hvad er effekten fra andelsparametrene givet qKELBR og i fravær af sammensætnings- og priseffekter?
+    # Vi udnytter pE[s_,tBase] = 1, fE[spTot,tBase] = 1 og rPrisEffekt_E[spTot,tBase] = 1
+    E_rE2KELBR_spTot[t]$(t.val > %cal_start%)..
+      rE2KELBR[spTot,t] * qKELBR[spTot,tBase] =E= sum(sp, rE2KELBR[sp,t] * qKELBR[sp,tBase]);
+
+    # Hvad er priseffekterne i fravær af sammensætningseffekter?
+    # Vi udnytter pE[s_,tBase] = 1, fE[spTot,tBase] = 1 og rPrisEffekt_E[spTot,tBase] = 1
+    E_rPrisEffekt_E_spTot[t]$(t.val > %cal_start%)..
+      rE2KELBR[spTot,tBase] * qKELBR[spTot,tBase] * rPrisEffekt_E[spTot,t]
+      =E= 
+      sum(sp, rE2KELBR[sp,tBase] * qKELBR[sp,tBase] * rPrisEffekt_E[sp,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Demand for equipment capital aggregate in effective uinits - qKUdn_iM
+    # ------------------------------------------------------------------------------------------------------------------  
+    E_qKUdn_iM_spTot[t]$(t.val > %cal_start%).. 
+      pKUdn['iM',spTot,t-1]/fp * qKUdn['iM',spTot,t] =E= sum(sp, pKUdn['iM',sp,t-1]/fp * qKUdn['iM',sp,t]);
+
+    # fK[spTot,t] fanger sammensætningseffekter 
+    # OBS: Benyt denne ligning til at analysere på aggregeret niveau
+    E_qKUdn_iM_spTot_via_fK_spTot[t].. 
+      qKUdn['iM',spTot,t] =E= fK[spTot,t] * rK2KELBR[spTot,t] * qKELBR[spTot,t] * rPrisEffekt_K[spTot,t];
+
+    # Hvad er effekten fra andelsparametrene givet qKELBR og i fravær af sammensætnings- og priseffekter?
+    # Vi udnytter pKUdn[k,s_,tBase] = 1, fK[spTot,tBase] = 1 og rPrisEffekt_E[spTot,tBase] = 1
+    E_rK2KELBR_spTot[t]$(t.val > %cal_start%)..
+      rK2KELBR[spTot,t] * qKELBR[spTot,tBase] =E= sum(sp, rK2KELBR[sp,t] * qKELBR[sp,tBase]);
+
+    # Hvad er priseffekterne i fravær af sammensætningseffekter?
+    # Vi udnytter pKUdn[k,s_,tBase] = 1, fK[spTot,tBase] = 1 og rPrisEffekt_K[spTot,tBase] = 1
+    E_rPrisEffekt_K_spTot[t]$(t.val > %cal_start%)..
+      rK2KELBR[spTot,tBase] * qKELBR[spTot,tBase] * rPrisEffekt_K[spTot,t]
+      =E= 
+      sum(sp, rK2KELBR[sp,tBase] * qKELBR[sp,tBase] * rPrisEffekt_K[sp,t]);
+
+    # Aggregate investment price of capital (NB: Dette er investeringsprisen og ikke lig kapitalprisen i NR!)
+    E_pKI_spTot[k,t].. pKI[k,spTot,t] * qK[k,spTot,t] =E= sum(sp, pI_s[k,sp,t] * qK[k,sp,t]);
+    E_pKI_kTot_spTot[t].. pKI[kTot,spTot,t] * qK[kTot,spTot,t] =E= sum(k, pKI[k,spTot,t] * qK[k,spTot,t]);
+
+    E_pKI_sTot[k,t].. pKI[k,sTot,t] * qK[k,sTot,t] =E= sum(s, pI_s[k,s,t] * qK[k,s,t]);
+    E_pKI_kTot_sTot[t].. pKI[kTot,sTot,t] * qK[kTot,sTot,t] =E= sum(k, pKI[k,sTot,t] * qK[k,sTot,t]);
+
+    # Aggregate capital
+#    E_qK[k,sp,t]$(d1K[k,sp,t]).. qKUdn[k,sp,t] =E= rKUdn[k,sp,t] * qK[k,sp,t-1]/fq * (pK[k,sp,tBase] / rKUdn[k,sp,tBase]);
+    E_qK_spTot[k,t].. pKI[k,spTot,t-1]/fp * qK[k,spTot,t] =E= sum(sp, pI_s[k,sp,t-1]/fp * qK[k,sp,t]);
+    E_qK_kTot_spTot[t].. 
+      pKI[kTot,spTot,t-1]/fp * qK[kTot,spTot,t] =E= sum(k, pKI[k,spTot,t-1]/fp * qK[k,spTot,t]);
+
+    E_qK_sTot[k,t].. pKI[k,sTot,t-1]/fp * qK[k,sTot,t] =E= sum(s, pI_s[k,s,t-1]/fp * qK[k,s,t]);
+    E_qK_kTot_sTot[t].. 
+      pKI[kTot,sTot,t-1]/fp * qK[kTot,sTot,t] =E= sum(k, pKI[k,sTot,t-1]/fp * qK[k,sTot,t]);
+
+    # Effective user cost of capital
+#    E_pKUdn[k,sp,t]$(d1K[k,sp,t]).. pKUdn[k,sp,t] =E= pK[k,sp,t] / rKUdn[k,sp,t] / (pK[k,sp,tBase] / rKUdn[k,sp,tBase]);
+    E_pKUdn_spTot[k,t]$(t.val > %cal_start%).. 
+      pKUdn[k,spTot,t] * qKUdn[k,spTot,t] =E= sum(sp, pKUdn[k,sp,t] * qKUdn[k,sp,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Kapital-installationsomkostninger
+    # ------------------------------------------------------------------------------------------------------------------
+    E_qKInstOmk_spTot[k,t]$(t.val > %cal_start%)..
+      pKELBR[spTot,t-1]/fp * qKInstOmk[k,spTot,t] =E= sum(sp, pKELBR[sp,t-1]/fp * qKInstOmk[k,sp,t]);
+
+    E_qKInstOmk_kTot_spTot[t]$(t.val > %cal_start%).. 
+      qKInstOmk[kTot,spTot,t] =E= sum(k, qKInstOmk[k,spTot,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Kapacitets-udnyttelse på kapital
+    # ------------------------------------------------------------------------------------------------------------------
+    E_rKUdn_spTot[k,t].. 
+      rKUdn[k,spTot,t] * sum(sp, qKUdn[k,sp,t]/rKUdn[k,sp,t]) =E= sum(sp, qKUdn[k,sp,t]);
+    E_rKUdn_kTot_spTot[t].. 
+      rKUdn[kTot,spTot,t] * sum([k,sp], qKUdn[k,sp,t]/rKUdn[k,sp,t]) =E= sum([k,sp], qKUdn[k,sp,t]);      
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Kapacitets-udnyttelse på arbejdskraft
+    # ------------------------------------------------------------------------------------------------------------------
+    # Beregnes lidt ad hoc for at få, at rLUdn[spTot,t] bliver 1, når alle rLUdn[sp,t] er 1
+    E_rLUdn_spTot[t].. rLUdn[spTot,t] * sum(sp, qLUdn[sp,t] / rLUdn[sp,t]) =E= sum(sp, qLUdn[sp,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Cost of capital
+    # ------------------------------------------------------------------------------------------------------------------
+    E_pK_spTot[k,t].. pK[k,spTot,t] * qK[k,spTot,t-1]/fq =E= sum(sp, pK[k,sp,t] * qK[k,sp,t-1]/fq);
+
+    # Definition of user cost
+    # User cost på spTot er defineret uden boliger, da usercost på boliger er defineret ved pBoligUC
+    E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t])..
+      pK[k,spTot,t+1]*fp * qK[k,spTot,t] =E= fpK_spTot[k,t] *(
+      # Tobin's q today and tomorrow
+      sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
+      - sum(sp$(not bol[sp]), (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t+1]) * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
+      # Production tax on capital
+      + sum(sp$(not bol[sp]), tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
+      # Tax shield and collateral value on capital
+      - sum(sp$(not bol[sp]), (rVirkDisk[sp,t+1] / (1-mtVirk[sp,t+1]) - mrRenteVirkLaan[k,t+1]) * mrLaan2K[k,sp,t] * pI_s[k,sp,t] * qK[k,sp,t])
+      # Change in installation costs today
+      + sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * pKELBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dK[k,sp,t] * qK[k,sp,t])
+      # Discounted value of change in future installation costs from change in investments today
+      + sum(sp$(not bol[sp]), pKELBR[sp,t+1]*fp * dKInstOmk2dKLag[k,sp,t+1] * qK[k,sp,t])
+      + sum(sp$(not bol[sp]), (jpK_s[k,sp,t+1] + jpK_t[k,t+1]) * qK[k,sp,t])
+      )
+      + pK[k,'bol',t+1]*fp * qK[k,'bol',t]
+      ;
+
+    #  # Constructing elements of aggregate usercost
+    #  E_rVirkDisk_spTot[t]..
+    #    rVirkDisk[spTot,t] * sum([k,sp], pI_s[k,sp,t] * qK[k,sp,t-1]) =E= sum([k,sp], rVirkDisk[sp,t] * pI_s[k,sp,t] * qK[k,sp,t-1]);
+    #  E_fVirkDisk_spTot[t]..
+    #    fVirkDisk[spTot,t] =E= 1 / (1 + rVirkDisk[spTot,t]);
+
+    # Kapital-akkumulation
+    E_rAfskr_spTot[k,t].. qI_s[k,spTot,t] =E= qK[k,spTot,t] - (1 - rAfskr[k,spTot,t]) * qK[k,spTot,t-1]/fq;
+    # ------------------------------------------------------------------------------------------------------------------
+    # sTot aggregates
+    # ------------------------------------------------------------------------------------------------------------------
+    # Kan evt. komme i post-model
+    E_qL_sTot[t].. qL[sTot,t] =E= sum(s, qL[s,t]);
+
+    # Kan evt. komme i post-model
+    E_rKUdn_sTot[k,t].. rKUdn[k,sTot,t] * sum(s, qKUdn[k,s,t] / rKUdn[k,s,t]) =E= sum(s, qKUdn[k,s,t]);
+
+    E_rLUdn_sTot[t]..
+      rLUdn[sTot,t] * sum(s, qLUdn[s,t] / rLUdn[s,t]) =E= sum(s, qLUdn[s,t]);
   $ENDBLOCK
+
+  MODEL M_production_private /
+    B_production_private_static 
+    B_production_private_forwardlooking 
+  /;
+
+  $GROUP G_production_private_static
+  #    # Hele faktorblokken er dynamisk, så en del variable skal fastsættes eksogent:
+  #    # qR, qE, hL og qK
+    qK[i_,s_,t]$(ib[i_] and bol[s_]) "Ultimokapital fordelt efter kapitaltype og branche, Kilde: ADAM[fKnm<i>] eller ADAM[fKnb<i>]"
+    qI_s[i_,s_,t]$(d1I_s[i_,s_,t] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
+  ;
+  $GROUP G_production_private_static G_production_private_static$(tx0[t]);
 
   # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
   MODEL M_production_private_post /
-    E_uKInstOmk_sByTot
-    E_fKInstOmk_sByTot
-    E_qLxUdn
-    E_pLxUdn
-    E_rLUdn_sTot
-    E_rKUdn_sTot
-    E_rAfskr_sByTot
-    E_pKrest
-    E_uL_sByTot
-    E_uK_sByTot
-    E_dKInstOmk2dK_sByTot
-    E_dKInstOmk2dI_sByTot
-    E_dKInstOmkLead2dI_sByTot
-    E_ErSkatAfskr_sByTot
-    E_ErSkatAfskr_sByTot_tEnd
-    E_rVirkDisk_sByTot
-    E_fVirkDisk_sByTot
-    E_pTobinsQ_sByTot
-    E_pTobinsQ_sByTot_tEnd
-    E_tK_sByTot
-    E_uKtot
-    E_pKUdn_sByTot
-    E_rOpslagOmk_sByTot
-    E_rLUdn_sByTot
-    E_rLUdn_sByTot_tEnd
-    E_fqL_sByTot
-    E_qBVT_sByTot
-    E_qKUdn_sByTot
-    E_rKUdn_sByTot
-    E_rKUdn_sByTot_tEnd
-    E_qL_sByTot
-    E_qK_sByTot
-    E_pKI_sByTot
-    E_pK_sByTot
-    E_pL_sByTot
-    E_frLUdn
-    E_frKUdn
-    E_qKInstOmk_sByTot
+    E_pY0_spTot
+    E_pKELBR_spTot
+    E_qKELBR_spTot
+    E_qKELBR_spTot_via_fuY_spTot
+    E_qR_spTot_via_fR_spTot
+    E_qR_via_fR
+    E_rR2KELBR_spTot
+    E_rPrisEffekt_R_spTot
+    E_rPrisEffekt_R
+    E_qKUdn_iB_spTot
+    E_qKUdn_iB_spTot_via_fB_spTot
+    E_qKUdn_iB_via_fB
+    E_rB2KELBR_spTot
+    E_rPrisEffekt_B_spTot
+    E_rPrisEffekt_B
+    E_qLUdn_spTot
+    E_qLUdn_spTot_via_fL_spTot
+    E_qLUdn_via_fL
+    E_rL2KELBR_spTot
+    E_rPrisEffekt_L_spTot
+    E_rPrisEffekt_L
+    E_pLUdn_spTot
+    E_qE_spTot_via_fE_spTot
+    E_qE_via_fE
+    E_rE2KELBR_spTot
+    E_rPrisEffekt_E_spTot
+    E_rPrisEffekt_E
+    E_qKUdn_iM_spTot
+    E_qKUdn_iM_spTot_via_fK_spTot
+    E_qKUdn_iM_via_fK
+    E_rK2KELBR_spTot
+    E_rPrisEffekt_K_spTot
+    E_rPrisEffekt_K
+    E_pKUdn_spTot
+    E_qKInstOmk_spTot
+    E_qKInstOmk_kTot_spTot
+
+    E_rAfskr_spTot
+
+#    E_rLUdn_sTot
+#    E_rKUdn_sTot
+#    E_qL_sTot
   /;
+
 
   # Endogenous variables that are solved for only after the main model.
   # Note that these may not appear anywhere in the main model (this results in a model not square error).
   $GROUP G_production_private_post
-    qLxUdn
-    pLxUdn
-    uKInstOmk$(sByTot[s_])
-    fKInstOmk$(sByTot[s_])
-    rLUdn$(sTot[s_])
-    rKUdn$(sTot[s_])
-    pKrest
-    tK$(sByTot[s_])
-    dKInstOmk2dK$(sByTot[s_])
-    dKInstOmk2dI$(sByTot[s_])
-    dKInstOmkLead2dI$(sByTot[s_])
-    ErSkatAfskr$(sByTot[s_])
-    pTobinsQ$(sByTot[s_])
-    rAfskr$(sByTot[s_])
-    rVirkDisk$(sByTot[s_])
-    fVirkDisk$(sByTot[s_])
-    uL$(sByTot[s_])
-    uK$(sByTot[s_])
-    qKInstOmk$(sByTot[s_])
-    uKtot
-    uLtot
-    pKUdn$(sByTot[s_])
-    rOpslagOmk$(sByTot[s_])
-    rLUdn$(sByTot[s_])
-    fqL
-    fqBVT
-    qKUdn$(sByTot[s_] and k[i_])
-    rKUdn$(sByTot[s_] and k[i_])
-    qK$(sByTot[s_] and k[i_])
-    pKI_sByTot$(k[i_])
-    pK$(sByTot[s_])
-    pL$(sByTot[s_])
-    frLUdn
-    frKUdn
+    pY0[s_,t]$((spTot[s_] and t.val > %cal_start%))
+    pKELBR[s_,t]$(spTot[s_] and t.val > %cal_start%)
+    qKELBR[s_,t]$(spTot[s_] and t.val > %cal_start%)
+    fuY_spTot[t]$(t.val > %cal_start%)
+    fR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    rR2KELBR[spTot,t]$(t.val > %cal_start%)
+    rPrisEffekt_R[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    qKUdn[i_,s_,t]$(iB[i_] and spTot[s_] and t.val > %cal_start%)
+    fB[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    rB2KELBR[spTot,t]$(t.val > %cal_start%)
+    rPrisEffekt_B[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    qLUdn[s_,t]$(spTot[s_] and t.val > %cal_start%)
+    fL[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    rL2KELBR[spTot,t]$(t.val > %cal_start%)
+    rPrisEffekt_L[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    pLUdn[s_,t]$(spTot[s_] and t.val > %cal_start%)
+    fE[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    rE2KELBR[spTot,t]$(t.val > %cal_start%)
+    rPrisEffekt_E[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
+    qKUdn[i_,s_,t]$(iM[i_] and spTot[s_] and t.val > %cal_start%)
+    fK[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%))
+    rK2KELBR[spTot,t]$(t.val > %cal_start%)
+    rPrisEffekt_K[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%))
+    pKUdn[k,s_,t]$(spTot[s_] and t.val > %cal_start%)
+    qKInstOmk[i_,s_,t]$(spTot[s_] and t.val > %cal_start%)
+
+    rAfskr[k,s_,t]$(spTot[s_])
+
+#    E_rLUdn_sTot
+#    E_rKUdn_sTot
+#    E_qL_sTot
   ;
+
+
+
+
   $GROUP G_production_private_post G_production_private_post$(tx0[t]);
 $ENDIF
 
 
 $IF %stage% == "exogenous_values":
-# =============================================================================================½=========================
+# ======================================================================================================================
 # Load data
 # ======================================================================================================================
   # Totaler og aggregater fra makrobk indlæses
@@ -580,63 +799,89 @@ $IF %stage% == "exogenous_values":
 # Exogenous variables
 # ======================================================================================================================
   # Kapacitetsudnyttelses-omkostninger
-  eKUdn.l['iB'] = 0.655363; # Matching parameter
-  eKUdn.l['iM'] = 0.90946; # Matching parameter
-  eLUdn.l = 0.78762; # Matching parameter
-  eKUdnPersistens.l[k] = 0.799636; # Matching parameter
-  eLUdnPersistens.l = 0.799636; # Matching parameter
+  #  eKUdn.l['iB',sp]$(not bol[sp]) = 1.485615; # Matching parameter
+  #  eKUdn.l['iM',sp] = 1.922826; # Matching parameter
+  # eKUdnPersistens.l[k] = 0.5; # Matching parameter
+  eLUdn.l = 1.989658; # Matching parameter
+  eLUdnPersistens.l = 0.492526 ; # Matching parameter
 
   # Installationsomkostninger
-  uKInstOmk.l['iB',sp,t] = 13.366462; # Matching parameter
-  uKInstOmk.l['iM',sp,t] = 5.66308; # Matching parameter
+  uKInstOmk.l['iB',sp,t] = 15.0; # Matching parameter
+  uKInstOmk.l['iM',sp,t] = 2.55389; # Matching parameter
 
   # Produktionselasticiteter
-  # Estimeret i Kronborg, A., & Poulsen, K. (2021). Estimater for elasticiteterne i MAKROs produktionsfunktion. Nyt user cost-begreb for kapital. Working paper, DREAM.
-  # for udvinding i Kronborg, A., Poulsen, K., & Kastrup, C. (2021). Estimering af CES produktionsfunktioner i MAKRO. Working paper, DREAM.
-  eKLBR.l[sp] = 0.25;
-  eKLBR.l['fre'] = 0.83;
-  eKLBR.l['tje'] = 0.80;
-  eKLBR.l['byg'] = 0.37;
+  eKELBR.l['byg'] = 0.88;
+  eKELBR.l['ene'] = 0.9; # Afrundet fra 0.94, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELBR.l['fre'] = 1; # Afrundet fra 0.95, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELBR.l['lan'] = 0.90;
+  eKELBR.l['soe'] = 1; # Denne er ekstremt usikkert estimeret, og ikke signifikant forskellig fra 1. Vi antager elasticitet på 1.
+  eKELBR.l['tje'] = 0.9; # Afrundet fra 0.94, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELBR.l['udv'] = 0.86;
 
-  eKLB.l[sp]  = 0.25;
-  eKLB.l['udv'] = 0.55;
-  eKLB.l['tje'] = 0.94; 
+  eKELB.l['byg'] = 0.9; # Afrundet fra 0.92, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELB.l['ene'] = 0.57;
+  eKELB.l['fre'] = 0.86;
+  eKELB.l['lan'] = 0.9; # Afrundet fra 0.93, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELB.l['soe'] = 1; # Afrundet fra 0.97, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKELB.l['tje'] = 0.55;
+  eKELB.l['udv'] = 1; # Afrundet fra 0.97, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
 
-  eKL.l[sp]   = 0.25;
-  eKL.l['fre'] = 0.45;
-  eKL.l['lan'] = 0.71; 
-  eKL.l['tje'] = 0.42;
-  eKL.l['udv']   = 0.33;
+  eKEL.l['byg'] = 0.82;
+  eKEL.l['ene'] = 0.90;
+  eKEL.l['fre'] = 0.9; # Afrundet fra 0.94, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKEL.l['lan'] = 0.87;
+  eKEL.l['soe'] = 1; # Afrundet fra 0.97, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKEL.l['tje'] = 0.81;
+  eKEL.l['udv'] = 0.84;
+
+  eKE.l['byg'] = 0.73;
+  eKE.l['ene'] = 0.88;
+  eKE.l['fre'] = 0.9; # Afrundet fra 0.94, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKE.l['lan'] = 1; # Afrundet fra 0.95, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKE.l['soe'] = 1; # Denne er ekstremt usikkert estimeret, og ikke signifikant forskellig fra 1. Vi antager elasticitet på 1.
+  eKE.l['tje'] = 0.9; # Afrundet fra 0.94, da elasticitet tæt på, men ikke eksakt 1, er svært at løse.
+  eKE.l['udv'] = 1.72;
 
   # Housing production is almost Leontief and does not have installations costs.
-  eKLBR.l['bol'] = 0;
-  eKLB.l['bol'] = 0;
-  eKL.l['bol']   = 0;
+  eKELBR.l['bol'] = 0;
+  eKELB.l['bol'] = 0;
+  eKEL.l['bol'] = 0;
+  eKE.l['bol'] = 0;
   uKInstOmk.l[k,'bol',t] = 0;
+
+  # Kapital-besparende produktivitetsindeks sættes til 1 i brancher, hvor teknologiske fremskridt antages udelukkende at være arbejdskraft-besparende
+  uK.l[k,sp,t] = 1;
+  # Produktivitetsindeks normeres til 1 i basisåret
+  uL.l[sp,tBase] = 1;
 
 # ======================================================================================================================
 # Data assignment
 # ======================================================================================================================
+  # Vi normaliserer priser til 1 i basisåret
+  pKELBR.l[spTot,tBase] = 1;
+  pKELBR.l[sp,tBase] = 1;
+  pKELB.l[sp,tBase] = 1;
+  pKEL.l[sp,tBase] = 1;
+  pKE.l[sp,tBase] = 1;
+  pKI.l[k,spTot,tBase] = 1;
+  pKI.l[kTot,spTot,tBase] = 1;
+  pKI.l[k,sTot,tBase] = 1;
+  pKI.l[kTot,sTot,tBase] = 1;
+  fuY_spTot.l[tBase] = 1;
+  pKUdn.l[k,spTot,tBase] = 1;
+  pLUdn.l[spTot,tBase] = 1;
 
-  #  We normalize pKL and pKLB to 1
-  pKLB.l[sp,t] = 1/inf_factor[t];
-  pKL.l[sp,t] = 1/inf_factor[t];
-  pKI_sByTot.l[k,t]$(tBase[t]) = 1;
-  pKI_sByTot.l[kTot,t]$(tBase[t]) = 1;
-
-  uL.l[s_,t]$(sByTot[s_]) = 1;
-  uK.l[k,s_,t]$(sByTot[s_]) = 1;
- 
   # Kapacitetsudnyttelse
   rKUdn.l[k,s_,t] = 1;
-  rLUdn.l[s_,t]   = 1;
+  rLUdn.l[s_,t] = 1;
 
-  set_data_periods(1967, %cal_deep%);
+  set_data_periods(1967, %cal_end%);
 
   rAfskr_static.l[k,sp,t]$(tDataX1[t] and d1I_s[k,sp,t]) = max(0, (qI_s.l[k,sp,t] - (qK.l[k,sp,t] - qK.l[k,sp,t-1])) / qK.l[k,sp,t-1]);
+  @HPfilter(rAfskr_static, 100);
+
   gpI_s_static.l[k,sp,t]$(tDataX1[t] and d1I_s[k,sp,t]) = pI.l[k,t] / pI.l[k,t-1] - 1;
-  @HPfilter(rAfskr_static);
-  @HPfilter(gpI_s_static);
+  gpI_s_static.l[k,sp,t] = @mean(tt$[t.val-5 < tt.val and tt.val <= t.val], gpI_s_static.l[k,sp,tt]);  # MA5
 
   set_data_periods(%cal_start%, %cal_end%);
 $ENDIF
@@ -646,134 +891,110 @@ $ENDIF
 # Static calibration
 # ======================================================================================================================
 $IF %stage% == "static_calibration":
-  $GROUP G_production_private_static_calibration
+
+  $GROUP G_production_private_static_calibration_base
     G_production_private_endo
-
-    uR[sp,t], -qR[r_,t]$(sp[r_])
-    uL[s_,t]$(sp[s_]), -hL[s_,t]$(sp[s_])
-    uK[k,s_,t]$(sp[s_] and d1K[k,s_,t-1]), -qK[i_,s_,t]$(sp[s_] and not bol[s_]), -qY[s_,t]$(bol[s_])
-
-    uKL[sp,t] # E_uKL
-    uKLB[sp,t] # E_uKLB
-    -rLUdn$(s[s_]), jfrLUdn
-    -rKUdn$(s[s_]), jfrKUdn
-
-    fKInstOmk[k,s_,t] # E_fKInstOmk_static_calibration
-
-    rIL2y[s_,t]$(sp[s_]), -qI_s[i_,s_,t]$(iL[i_] and sp[s_]) 
-    rAfskr[k,s_,t]$(sp[s_]), -qI_s[i_,s_,t]$((iM[i_] or iB[i_]) and sp[s_])
+    uL[sp,t], -qE[sp,t]
+    uK[k,sp,t]$(d1K[k,sp,t] and not harrod_neutral[sp]) # E_uK
+    rR2KELBR[sp,t], -qR[sp,t]
+    rB2KELB[sp,t]$(not bol[sp]), -qK[iB,sp,tx0E]$(not bol[sp]) # E_rB2KELB_t1
+    rB2KELB[bol,t], -qY[bol,t] # Boligkapital efterspørges direkte af husholdninger - produktionsfunktion giver output for syntetisk boligbranche
+    rL2KEL[sp,t], -hL[sp,t]
+    rE2KE[sp,t]$(not bol[sp]), -qK[iM,sp,tx0E]$(not bol[sp]) # E_rE2KE_t1
+    rE2KE[bol,t] # E_rE2KE_xK
+    rAfskr[k,sp,t], -qI_s[k,sp,t]
+    -qK[k,sp,tEnd]$(not bol[sp]) # -E_qK_tEnd
+    jfrLUdn_t[t], -rLUdn[spTot,t]
+    jrKInstOmk[k,sp,t]
   ;
+
   $GROUP G_production_private_static_calibration
-    G_production_private_static_calibration$(tx0[t])
-    pK[k,s_,t]$(t0[t] and (sp[s_] or sByTot[s_])) # E_pK_t0
-    pKUdn[k,s_,t]$(t0[t] and (sByTot[s_] or sp[s_])) # E_pKUdn_t0, E_pKUdn_sByTot_t0
-    pL[s_,t]$(t0[t] and ( sByTot[s_] or sp[s_])) # E_vpL_t0
-    pKL[sp,t]$(t0[t]), -pKL[sp,t]$(tBase[t])
-    pKLB[sp,t]$(t0[t]), -pKLB[sp,t]$(tBase[t])
-    qK$(t0[t] and sByTot[s_]) # E_uKtot_t0, E_qK_kTot_sByTot_t0
-    pKI_sByTot$(t0[t]), -pKI_sByTot$(tBase[t])
-    uL$(t0[t] and (sp[s_] or sByTot[s_])) #E_uL_t0, E_uL_sByTot_t0
-    uK$(t0[t] and (sp[s_] or sByTot[s_])) #E_uK_t0, E_uK_sByTot_t0
-    qKUdn$(t0[t] and (sByTot[s_] or sp[s_])) #E_qK_sByTot_t0
-    qL$((sp[s_] or sByTot[s_]) and t0[t]) #E_qL_t0
+    G_production_private_static_calibration_base$(tx0[t])
+    pK[k,sp,t0] # E_pK_t0
+    pLUdn[sp,t0] # E_pLUdn_t0
+    qK[k,spTot,t0] # E_pKI_spTot    
+    qK[kTot,spTot,t0] # E_pKI_kTot_spTot
+    pKI[k,spTot,t0], -pKI[k,spTot,tBase], pKI[kTot,spTot,t0], -pKI[kTot,spTot,tBase]
 
-    rAfskr[k,s_,t]$(sTot[s_]) # E_rAfskr_sTot, E_rAfskr_sTot_t0
-    uK[k,s_,t]$(spTot[s_]) # E_uK_spTot, E_uK_spTot_t0
-    uL[s_,t]$(spTot[s_]) # E_uL_spTot, E_uL_spTot_t0
-    uKL[s_,t]$(spTot[s_]) # E_uKL_spTot, E_uKL_spTot_t0
-    uKLB[s_,t]$(spTot[s_]) # E_uKLB_spTot, E_uKLB_spTot_t0
-    uR[s_,t]$(spTot[s_]) # E_uR_spTot, E_uR_spTot_t0
+    qK[k,sTot,t0] # E_pKI_sTot    
+    qK[kTot,sTot,t0] # E_pKI_kTot_sTot
+    pKI[k,sTot,t0], -pKI[k,sTot,tBase], pKI[kTot,sTot,t0], -pKI[kTot,sTot,tBase]
+    pKELBR[sptot,'%cal_start%'], -pKELBR[spTot,tBase]
+    pKUdn[k,spTot,'%cal_start%'], -pKUdn[k,spTot,tBase]
+    pLUdn[spTot,'%cal_start%'], -pLUdn[spTot,tBase]
+    fuY, -uL[sp,tBase]
   ;
 
-  $BLOCK B_production_private_static_calibration
-    E_uKL[sp,t]$(tx0[t])..
-      qKL[sp,t] * pKL[sp,t-1]/fp =E= pL[sp,t-1]/fp * qL[sp,t]
-                                   + (pKUdn['iM',sp,t-1]/fp * qKUdn['iM',sp,t])$d1K['iM',sp,t-1];
+  $BLOCK B_production_private_static_calibration_base$(tx0[t])
+    E_uK[k,sp,t]$(d1K[k,sp,t] and not harrod_neutral[sp])..
+      uK[k,sp,t] =E= uL[sp,t];
 
-    E_uKLB[sp,t]$(tx0[t])..
-      qKLB[sp,t] * pKLB[sp,t-1]/fp =E= pKUdn['iB',sp,t-1]/fp * qKUdn['iB',sp,t]
-                                     + pKL[sp,t-1]/fp * qKL[sp,t];
+    E_rB2KELB_t1[sp,t]$(t1[t] and not bol[sp])..
+      rB2KELB[sp,t] =E= rB2KELB[sp,t+1];
 
-    E_fKInstOmk_static_calibration[sp,k,t]$(tx0[t] and d1K[k,sp,t])..
-      0 =E= qI_s[k,sp,t] - qI_s[k,sp,t-1]/fq * fKInstOmk[k,sp,t];
+    E_rE2KE_t1[sp,t]$(t1[t] and not bol[sp])..
+      rE2KE[sp,t] =E= rE2KE[sp,t+1];
 
-    E_vpL_t0[s_,t]$(t0[t] and (sp[s_] or sByTot[s_])).. pL[s_,t]/pW[t] =E= pL[s_,t+1]/pW[t+1];    
-    E_pK_t0[k,s_,t]$(t0[t] and d1K[k,s_,t] and sp[s_] or  t0[t] and sByTot[s_]).. pK[k,s_,t] =E= pK[k,s_,t+1];
+    E_rE2KE_xK[sp,t]$(not d1K['iM',sp,t]).. rE2KE[sp,t] =E= 1;
 
-    E_pKUdn_t0[k,sp,t]$(t0[t] and d1K[k,sp,t]).. pKUdn[k,sp,t] =E= pK[k,sp,t] / rKUdn[k,sp,t];
+    # Vi ser bort fra installationsomkostninger i perioder, hvor investeringerne er databelagte
+    # Derved fortolkes fx høje investeringer i en branche i sidste data-år ikke således at investeringne ville være steget endnu mere i fravær af installationsomkostninger,
+    # og derved skal stige yderligere fremadrettet (ved at andelsparameteren skal være højere)
+    E_jrKInstOmk[k,sp,t]$(d1K[k,sp,t]).. rKInstOmk[k,sp,t] =E= 1;
 
-    E_pTobinsQ_static[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
-      pTobinsQ[k,sp,t] =E= pI_s[k,sp,t] * (1-ErSkatAfskr[k,sp,t]);
-
-    E_ErSkatAfskr_static[k,sp,t]$(tx0[t] and d1K[k,sp,t])..
+    E_ErSkatAfskr_static[k,sp,t]$(d1K[k,sp,t])..
       ErSkatAfskr[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
 
-    E_pK_static[k,sp,t]$(((t0[t] or tx0E[t]) and not bol[sp]) and d1K[k,sp,t]).. 
-      pK[k,sp,t+1]*fp / (1+rVirkDisk[sp,t]) =E=
+    E_pK_static[k,sp,t]$(tx0E[t] and not bol[sp] and d1K[k,sp,t])..
+      pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-       pTobinsQ[k,sp,t] / (1-mtVirk[sp,t])
-      - (1 - rAfskr_static[k,sp,t]) * pTobinsQ[k,sp,t]*(1+gpI_s_static[k,sp,t]) * fVirkDisk[sp,t] / (1-mtVirk[sp,t])
+        (1+rVirkDisk[sp,t]) / (1-mtVirk[sp,t]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr_static[k,sp,t]) / (1-mtVirk[sp,t]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t] * (1+gpI_s_static[k,sp,t])
       # Production tax on capital
-      + tK[k,sp,t] *(1+gpI_s_static[k,sp,t])*pI_s[k,sp,t] / (1+rVirkDisk[sp,t])
+      + tK[k,sp,t] * pI_s[k,sp,t]*(1+gpI_s_static[k,sp,t])
       # Tax shield and collateral value on capital
-      - (rVirkDisk[sp,t] / (1-mtVirk[sp,t]) - rRente['Obl',t]) * rLaan2K[t] * pI_s[k,sp,t] * fVirkDisk[sp,t];
+      - (rVirkDisk[sp,t] / (1-mtVirk[sp,t]) - mrRenteVirkLaan[k,t]) * mrLaan2K[k,sp,t] * pI_s[k,sp,t];
 
-    E_uL_t0[sp,t]$(t0[t]).. uL[sp,t] =E= uL[sp,t+1];
+    E_rLUdn_static[sp,t]..
+      rLUdn[sp,t] =E= rLUdn[sp,t-1]**eLUdnPersistens * (1 + jfrLUdn[sp,t] + jfrLUdn_t[t]);
 
-    E_uK_t0[k,sp,t]$(t0[t] and d1K[k,sp,t]).. uK[k,sp,t] =E= uK[k,sp,t+1];
+    E_rKUdn_static[k,sp,t]$(d1K[k,sp,t-1] and eKUdn.l[k,sp] <> 0)..
+      rKUdn[k,sp,t] =E= rKUdn[k,sp,t-1]**eKUdnPersistens[k] * (1 + jfrKUdn[k,sp,t] + jfrKUdn_k[k,t]);
+  $ENDBLOCK
 
-    E_qKUdn_t0[k,sp,t]$(t0[t]).. qKUdn[k,sp,t] =E= qKUdn[k,sp,t+1]*fq/fq;
+  $BLOCK B_production_private_static_calibration
+    E_pK_t0[k,s_,t]$(t0[t] and d1K[k,s_,t] and sp[s_]).. pK[k,s_,t] =E= pK[k,s_,t+1];
 
-    E_qKUdn_sByTot_t0[k,t]$(t0[t]).. qKUdn[k,sByTot,t] * pKUdn[k,sByTot,t] =E= sum(sBy, qKUdn[k,sBy,t] * pKUdn[k,sBy,t]) ;
+    E_pLUdn_t0[s_,t]$(t0[t] and sp[s_]).. pLUdn[s_,t]/vhW[t] =E= pLUdn[s_,t+1]/vhW[t+1];    
 
-    E_uK_sByTot_t0[k,t]$(tx0[t] and tBase[t])..
-      uK[k,sByTot,t] * pKUdn[k,sByTot,t] * qKUdn[k,sByTot,t]=E= sum(sBy, uK[k,sBy,t] * pKUdn[k,sBy,t] * qKUdn[k,sBy,t]);
+    @copy_equation_to_period(E_pKI_spTot, t0)
+    @copy_equation_to_period(E_pKI_kTot_spTot, t0)
 
-    E_uL_sByTot_t0[t]$(tx0[t] and tBase[t])..
-      uL[sByTot,t] * pL[sByTot,t] * qL[sByTot,t] =E= sum(sBy, uL[sBy,t] * pL[sBy,t] *  qL[sBy,t]);
-
-    E_qL_t0[sp, t]$(t0[t]).. qL[sp,t] =E= qL[sp,t+1]*fq/fq ;
-
-    @copy_equation_to_period(E_uLTot, t0)
-    @copy_equation_to_period(E_uKtot, t0)
-    @copy_equation_to_period(E_pKUdn_sByTot, t0)
-
-    @copy_equation_to_period(E_qK_kTot_sByTot, t0)
-
-    E_rAfskr_sTot[k,t]$(tx1[t])..
-      rAfskr[k,sTot,t] / rAfskr[k,sTot,t-1] =E= sum(s, rAfskr[k,s,t] * qK[k,s,t-1]) / sum(s, rAfskr[k,s,t-1] * qK[k,s,t-1]);
-    E_rAfskr_sTot_t0[k,t]$(tx0[t] and tBase[t])..
-      rAfskr[k,sTot,t] * sum(s, qK[k,s,t]) =E= sum(s, rAfskr[k,s,t] * qK[k,s,t]);
-
-    E_uK_spTot[k,t]$(tx1[t])..
-      uK[k,spTot,t] / uK[k,spTot,t-1] =E= sum(sp, uK[k,sp,t] * qKUdn[k,sp,t-1]) / sum(sp, uK[k,sp,t-1] * qKUdn[k,sp,t-1]);
-    E_uL_spTot[t]$(tx1[t])..
-      uL[spTot,t] / uL[spTot,t-1] =E= sum(sp, uL[sp,t] * qL[sp,t-1]) / sum(sp, uL[sp,t-1] * qL[sp,t-1]);
-    E_uKL_spTot[t]$(tx1[t])..
-      uKL[spTot,t] / uKL[spTot,t-1] =E= sum(sp, uKL[sp,t] * qKL[sp,t-1]) / sum(sp, uKL[sp,t-1] * qKL[sp,t-1]);
-    E_uKLB_spTot[t]$(tx1[t])..
-      uKLB[spTot,t] / uKLB[spTot,t-1] =E= sum(sp, uKLB[sp,t] * qKLB[sp,t-1]) / sum(sp, uKLB[sp,t-1] * qKLB[sp,t-1]);
-    E_uR_spTot[t]$(tx1[t])..
-      uR[spTot,t] / uR[spTot,t-1] =E= sum(sp, uR[sp,t] * qR[sp,t-1]) / sum(sp, uR[sp,t-1] * qR[sp,t-1]);
-
-    E_uK_spTot_t0[k,t]$(tx0[t] and tBase[t])..
-      uK[k,spTot,t] * sum(sp, pKUdn[k,sp,t] * qKUdn[k,sp,t]) =E= sum(sp, uK[k,sp,t] * pKUdn[k,sp,t] * qKUdn[k,sp,t]);
-    E_uL_spTot_t0[t]$(tx0[t] and tBase[t])..
-      uL[spTot,t] * sum(sp, pL[sp,t] * qL[sp,t])=E= sum(sp, uL[sp,t] * pL[sp,t] * qL[sp,t]);
-    E_uKL_spTot_t0[t]$(tx0[t] and tBase[t])..
-      uKL[spTot,t] * sum(sp, qKL[sp,t]) =E= sum(sp, uKL[sp,t] * qKL[sp,t]);
-    E_uKLB_spTot_t0[t]$(tx0[t] and tBase[t])..
-      uKLB[spTot,t] * sum(sp, qKLB[sp,t]) =E= sum(sp, uKLB[sp,t] * qKLB[sp,t]);
-    E_uR_spTot_t0[t]$(tx0[t] and tBase[t])..
-      uR[spTot,t] * sum(sp, qR[sp,t]) =E= sum(sp, uR[sp,t] * qR[sp,t]);
+    @copy_equation_to_period(E_pKI_sTot, t0)
+    @copy_equation_to_period(E_pKI_kTot_sTot, t0)
   $ENDBLOCK
   MODEL M_production_private_static_calibration /
-    B_production_private
-    B_production_private_static_calibration
+    M_production_private
+    B_production_private_static_calibration_base
+    -E_ErSkatAfskr - E_ErSkatAfskr_tEnd  # E_ErSkatAfskr_static
     -E_pK - E_qK_tEnd  # E_pK_static
-    -E_pTobinsq - E_pTobinsQ_tEnd  # E_pTobinsq_static 
-    -E_ErSkatAfskr - E_ErSkatAfskr_tEnd  # E_ErSkatAfskr_static 
+    -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
+    -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
+
+    B_production_private_static_calibration
   /;
+
+  $GROUP G_production_private_static_calibration_newdata
+    G_production_private_static_calibration_base$(tx0[t])
+  ;
+  MODEL M_production_private_static_calibration_newdata /
+    M_production_private
+    B_production_private_static_calibration_base
+    -E_ErSkatAfskr - E_ErSkatAfskr_tEnd  # E_ErSkatAfskr_static
+    -E_pK - E_qK_tEnd  # E_pK_static
+    -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
+    -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
+  /; 
 $ENDIF
 
 
@@ -784,80 +1005,120 @@ $IF %stage% == "deep_dynamic_calibration":
   $GROUP G_production_private_deep
     G_production_private_endo
 
-    uR[s_,t], -qR[r_,t]$(t1[t] and sp[r_]) # E_uR_forecast
-    jpK_s$(t.val = t1.val+1 and not bol[sp]), -qK[k,s_,t]$(t1[t] and sp[s_] and not bol[s_]),
-    uK$(bol[s_]), -qY[s_,t]$(bol[s_] and t1[t]) # E_uK_forecast
-    uL[s_,t]$(sp[s_]) , -hL[s_,t]$(t1[t] and sp[s_]) # E_uL_forecast
+    # Usercost of labor and utilization rates are affected by forward-looking expectations.
+    # productivity parameters and share parameters are therefore re-calibrated to keep factor inputs equal to the data,
+    # and ARIMA forecasts are adjusted proportionally to the re-calibration.
+    uL[sp,t1], -qE[sp,t1]
+    uL[sp,tx1] # E_uL_forecast
 
-    uK[k,s_,t]$(not bol[s_] and sp[s_]), -pK$(t1[t] and not bol[s_] and not sByTot[s_]) # E_uK_forecast
+    uK[k,sp,t]$(d1K[k,sp,t] and not harrod_neutral[sp]) # E_uK
 
-    fKInstOmk$(tx1[t])  # E_fKInstOmk
+    rR2KELBR[sp,t1], -qR[sp,t1]
+    rR2KELBR[sp,tx1] # E_rR2KELBR_forecast
 
-    uKLB[s_,t] # E_uKLB_t1, E_uKLB_forecast
+    # Note that end-of-period capital in the last data year enters production the following period.
+    # We assume no jumps in the share-parameters used in within period production and choice of end-of-period capital.
+    rB2KELB[sp,t1]$(not bol[sp]), -qK[iB,sp,t1]$(not bol[sp])
+    rB2KELB[sp,tx1]$(not bol[sp]) # E_rB2KELB_forecast
 
-    uKL[s_,t]$(d1K['iM',s_,t-1])  # E_uKL_t1, E_uKL_forecast
+    # Boligkapital efterspørges direkte af husholdninger - produktionsfunktion giver output for syntetisk boligbranche.
+    rB2KELB[bol,t1], -qY[bol,t1] 
+    rB2KELB[bol,tx1] # E_rB2KELB_bol_forecast
 
-    qProd, -rProdVaekst
+    rL2KEL[sp,t1], -hL[sp,t1]
+    rL2KEL[sp,tx1] # E_rL2KEL_forecast
+    
+    # Note that end-of-period capital in the last data year enters production the following period.
+    # We assume no jumps in the share-parameters used in within period production and choice of end-of-period capital.
+    rE2KE[sp,t1]$(not bol[sp]), -qK[iM,sp,t1]$(not bol[s_])
+    rE2KE[sp,tx1]$(not bol[sp]) # E_rE2KE_forecast
   ;
   $GROUP G_production_private_deep G_production_private_deep$(tx0[t]);
 	$BLOCK B_production_private_deep
-    E_uR_forecast[sp,t]$(tx1[t])..
-      uR[sp,t] =E= uR_ARIMA[sp,t] * uR[sp,t1] / uR_ARIMA[sp,t1];
-
-    E_uK_forecast[k,s_,t]$(tx1[t] and d1K[k,s_,t-1] and sp[s_])..
-      uK[k,s_,t] =E= uK_ARIMA[k,s_,t] * uK[k,s_,t1] / uK_ARIMA[k,s_,t1];
-
     E_uL_forecast[sp,t]$(tx1[t])..
       uL[sp,t] =E= uL_ARIMA[sp,t] * uL[sp,t1] / uL_ARIMA[sp,t1];
 
-    E_fKInstOmk[k,sp,t]$(tx1[t] and d1K[k,sp,t]).. fKInstOmk[k,sp,t] =E= fq;
+    E_rR2KELBR_forecast[sp,t]$(tx1[t])..
+      rR2KELBR[sp,t] =E= rR2KELBR_ARIMA[sp,t] * rR2KELBR[sp,t1] / rR2KELBR_ARIMA[sp,t1];    
 
-    E_uKLB_t1[sp,t]$(t1[t] and d1K['iB',sp,t-1])..
-      qKLB[sp,t] * pKLB[sp,t-1]/fp =E= pKUdn['iB',sp,t-1]/fp * qKUdn['iB',sp,t]
-                                     + pKL[sp,t-1]/fp * qKL[sp,t];
+    E_rB2KELB_forecast[sp,t]$(tx1[t] and not bol[sp])..
+      rB2KELB[sp,t] =E= rB2KELB_ARIMA[sp,t] * rB2KELB[sp,t1] / rB2KELB_ARIMA[sp,t1];
 
-    E_uKLB_forecast[sp,t]$(tx1[t])..
-      uKLB[sp,t] =E= uKLB_ARIMA[sp,t] * uKLB[sp,t1] / uKLB_ARIMA[sp,t1];
+    E_rB2KELB_bol_forecast[sp,t]$(tx1[t] and bol[sp])..
+      rB2KELB[sp,t] =E= rB2KELB_ARIMA[sp,t] * rB2KELB[sp,t1] / rB2KELB_ARIMA[sp,t1];
 
-    E_uKL_t1[sp,t]$(t1[t] and d1K['iM',sp,t-1])..
-      qKL[sp,t] * pKL[sp,t-1]/fp =E= pL[sp,t-1]/fp * qL[sp,t]
-                                   + (pKUdn['iM',sp,t-1]/fp * qKUdn['iM',sp,t]);
-    E_uKL_forecast[sp,t]$(tx1[t] and d1K['iM',sp,t-1])..
-      uKL[sp,t] =E= uKL_ARIMA[sp,t] * uKL[sp,t1] / uKL_ARIMA[sp,t1];
+    E_rE2KE_forecast[sp,t]$(tx1[t] and not bol[sp])..
+      rE2KE[sp,t] =E= rE2KE_ARIMA[sp,t] * rE2KE[sp,t1] / rE2KE_ARIMA[sp,t1];
+
+    E_rL2KEL_forecast[sp,t]$(tx1[t])..
+      rL2KEL[sp,t] =E= rL2KEL_ARIMA[sp,t] * rL2KEL[sp,t1] / rL2KEL_ARIMA[sp,t1];
   $ENDBLOCK
   MODEL M_production_private_deep /
-    B_production_private - M_production_private_post
+    M_production_private - M_production_private_post
     B_production_private_deep
+    E_uK
   /;
 $ENDIF
 
 
 # ======================================================================================================================
-# Simple dynamic calibration
+# Dynamic calibration
 # ======================================================================================================================
-$IF %stage% == "simple_dynamic_calibration":
+$IF %stage% == "dynamic_calibration_newdata":
   $GROUP G_production_private_dynamic_calibration
     G_production_private_endo
-    uR[sp,t]$(t1[t]), -qR[r_,t]$(t1[t] and sp[r_])
-    jpK_s[k,sp,t]$(t.val = t1.val+1 and not bol[sp]), -qK[k,s_,t]$(t1[t] and sp[s_] and not bol[s_])
-    uK[k,s_,t]$(t1[t] and d1K[k,s_,t-1] and bol[s_]), -qY[s_,t]$(t1[t] and bol[s_])
-    jfrLUdn[s_,t]$(t1[t]), -hL[s_,t]$(t1[t] and sp[s_])
 
-    jfrLUdn_t$(tx1[t]) # E_jfrLUdn_t
-    jfrKUdn_t$(tx1[t]) # E_jfrKUdn_t
+    uL[sp,t1], -qE[sp,t1]
+    uL[sp,tx1] # E_uL_forecast
+
+    uK[k,sp,tx0]$(d1K[k,sp,t] and not harrod_neutral[sp]) # E_uK
+
+    rR2KELBR[sp,t1], -qR[sp,t1]
+    rR2KELBR[sp,tx1] # E_rR2KELBR_forecast
+
+    rB2KELB[sp,t1]$(not bol[sp]), -qK[iB,sp,t1]$(not bol[sp])
+    rB2KELB[sp,tx1]$(not bol[sp]) # E_rB2KELB_forecast$(not bol)
+
+    rB2KELB[bol,t1], -qY[bol,t1] 
+    rB2KELB[bol,tx1] # E_rB2KELB_forecast[bol]
+
+    rL2KEL[sp,t1], -hL[sp,t1]
+    rL2KEL[sp,tx1] # E_rL2KEL_forecast
+    
+    rE2KE[sp,t1]$(not bol[sp]), -qK[iM,sp,t1]$(not bol[s_])
+    rE2KE[sp,tx1]$(not bol[sp]) # E_rE2KE_forecast
+
+    jpK_s[iM,sp,t2], -rK2KELBR[sp,t1]
+    jpK_s[iB,sp,t2]$(not bol[sp]), -rB2KELBR[sp,t1]$(not bol[sp])
+    jpK_s[k,sp,t]$(t.val > t2.val and not bol[sp]) # E_jpK_s_forecast
+
+    # Vi ser bort fra installationsomkostninger i perioder, hvor investeringerne er databelagte
+    # Derved fortolkes fx høje investeringer i en branche i sidste data-år ikke således at investeringne ville være steget endnu mere i fravær af installationsomkostninger,
+    # og derved skal stige yderligere fremadrettet (ved at andelsparameteren skal være højere)
+    # jrKInstOmk[k,sp,t2] # E_jrKInstOmk_t2
+
+    # Afskrivningsraterne i foreløb data virker utroværdige.
+    # Vi sætter uK således at ændringen i effektivt kapitalapparat baseres på afskrivningsrater fra endelig data.
+    uK[k,sp,tx0]$(d1K[k,sp,t] and harrod_neutral[sp]) # E_uK_forecast
   ;
-  $BLOCK B_production_private_dynamic_calibration
-    # Vi lukker indtil videre gab i kapacitetsudnyttelse håndholdt
-    E_jfrLUdn_t[t]$(tx1[t])..
-      rLUdn[sByTot,t] =E= rLUdn_baseline[sByTot,t] + aftrapprofil[t] * (rLUdn[sByTot,t1] - rLUdn_baseline[sByTot,t1]);
+  $BLOCK B_production_private_dynamic_calibration$(tx0[t] )
+    E_uL_forecast[sp,t]$(tx1[t]).. uL[sp,t] =E= uL_baseline[sp,t] * uL[sp,t1] / uL_baseline[sp,t1];
+    # E_uL_forecast[s_,t]$(sp[s_] and tx1[t]).. @gradual_return_to_baseline(uL);
+    E_rR2KELBR_forecast[s_,t]$(sp[s_] and tx1[t]).. @gradual_return_to_baseline(rR2KELBR);
+    E_rB2KELB_forecast[sp,t]$(tx1[t]).. @gradual_return_to_baseline(rB2KELB);
+    E_rL2KEL_forecast[sp,t]$(tx1[t]).. @gradual_return_to_baseline(rL2KEL);
+    E_rE2KE_forecast[sp,t]$(tx1[t] and not bol[sp]).. @gradual_return_to_baseline(rE2KE);
+    E_jpK_s_forecast[k,sp,t]$(t.val > t2.val and not bol[sp]).. jpK_s[k,sp,t] =E= jpK_s[k,sp,t2] * aftrapprofil[t-1];
 
-    E_jfrKUdn_t[t]$(tx1[t])..
-      rKUdn[kTot,sByTot,t] =E= rKUdn_baseline[kTot,sByTot,t] + aftrapprofil[t] * (rKUdn[kTot,sByTot,t1] - rKUdn_baseline[kTot,sByTot,t1]);
+    # @copy_equation_to_period(E_jrKInstOmk, t2)
+
+    E_uK_forecast[k,sp,t]$(d1K[k,sp,t] and harrod_neutral[sp])..
+      uK[k,sp,t] * qK[k,sp,t-1]/fq =E= (1-rAfskr_baseline[k,sp,t]) * uK[k,sp,t-1] * qK[k,sp,t-2]/fq/fq + qI_s[k,sp,t-1]/fq;
   $ENDBLOCK
-  MODEL M_production_private_dynamic_calibration /
-    B_production_private - M_production_private_post
-    B_production_private_dynamic_calibration
-    E_rLUdn_sByTot, E_rLUdn_sByTot_tEnd, E_pL_sByTot, E_qL_sByTot, E_frLUdn # Eftermodel-ligninger, som bruges til håndholdt lukning af output-gab. 
-  /;
 
+  MODEL M_production_private_dynamic_calibration /
+    M_production_private - M_production_private_post
+    B_production_private_dynamic_calibration
+    E_uK
+  /;
 $ENDIF

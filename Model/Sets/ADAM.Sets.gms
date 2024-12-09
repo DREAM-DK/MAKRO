@@ -10,15 +10,15 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Create a set of ADAM variables by reading from the ADAM bank and FM ADAM bank
 set load_ADAM_variables;
-$GDXIN "..\Data\ADAM\ADAM_set.gdx" $load load_ADAM_variables=ADAM_variables $GDXIN
+$GDXIN "..\Data\ADAM\adambk.gdx" $load load_ADAM_variables=ADAM_variables $GDXin
 set ADAM_variables /
     set.load_ADAM_variables
     c_et, pC_et                 # We add a foreign tourist consumption group
     ita, pita, fita, fknta      # We add investments and capital in breeding herds to the agricultural sector a
-    ULBGAP, qgap, FFYGAP, UAGAP, woski, wosku, WOSK, Syc_e, tion2, FCODEM, FYGAP , lnda  #FM-specific variables are added
-    pfbvgt,pfgvgt, pfevgt,pffvgt,pfvvgt,pfhvgt,pfsvgt,pftvgt,pfpb, pfpe, pfpg,pfpf,pfph,pfps,pfpt, pfpv, pfp #Variables to consumer price idnex
+    ULBGAP, qgap, FYT, UAGAP, woski, wosku, WOSK, tion2, FCODEM, lnda  #FM-specific variables are added
+    pfbvgt, pfgvgt, pfevgt, pffvgt, pfvvgt, pfhvgt, pfsvgt, pftvgt, pfpb, pfpe, pfpg, pfpf, pfph, pfps, pfpt, pfpv, pfp #Variables to consumer price idnex
     vbhicp,vghicp, vehicp,vfhicp,vvhicp,vhhicp,vshicp,vthicp , pfphicp #Variables to consumer price idnex
-    pnpb,pnpg, pnpe,pnpf,pnpv,pnph,pnps,pnpt, pnp,  pnbvgt,pngvgt, pnevgt,pnfvgt,pnvvgt,pnhvgt,pnsvgt,pntvgt    #Variables to consumer price idnex
+    pnpb, pnpg, pnpe, pnpf, pnpv, pnph, pnps, pnpt, pnp, pnbvgt, pngvgt, pnevgt, pnfvgt, pnvvgt, pnhvgt, pnsvgt, pntvgt    #Variables to consumer price idnex
     e3x                         # Variable som var med i jul17x, men ikke i okt20
  /; 
 
@@ -82,9 +82,9 @@ sets
     /
     ADAM_taxes /
         spm    "Customs"
-        spp    "Duty"
+        spp    "Duty excl. spr"
         spg    "VAT"
-#         spr    "Registration duty for cars"
+        spr    "Registration duty for cars"
         spz    "Other production taxes"
     /
     ADAM_incomes /
@@ -144,11 +144,11 @@ sets
         et     "Exports of turism"
     /
     ADAM_investment_groups /
-        im     "Investments in machinery"
+        iM     "Investments in machinery"
         iB     "Investments in buildings"
         it     "Investments in breeding stock"
         ikn    "Investments in valuables"
-        il     "Investments in stockbuilding"
+        iL     "Investments in stockbuilding"
     /
     ADAM_capital_groups /
         knm     "Machinery"
@@ -201,7 +201,7 @@ sets
     am[as]   "ADAM import groups"                         / set.ADAM_commodity_imports, set.ADAM_service_imports /
     axm[as]  "Input from domestic and foreign production" / set.ADAM_production_sectors, set.am /
     axpm[as] "Input from domestic and foreign private production" / set.ADAM_private_production_sectors, set.am /
-    axmt[as] "Input from domestic and foreign production incl. product taxes" / set.axm, spp, spg, spm /
+    axmt[as] "Input from domestic and foreign production incl. product taxes" / set.axm, spp, spr, spg, spm /
 
     ad[asad]  "ADAM demand" /
         set.ADAM_non_energy_input
@@ -250,7 +250,7 @@ alias[ad,ad1];
 
 
 sets mapai2ak[ak,ai] "Mapping from ADAM investment groups to ADAM capital groups" /
-    knm . im
+    knm . iM
     knb . iB
     knt . it
 /;

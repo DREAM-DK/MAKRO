@@ -163,12 +163,12 @@ name "sec:Permanent unfinanced demand shocks"
 
 \begin_layout Standard
 In this chapter, we look at unfinanced demand shocks.
- These are all classic demand shocks as described in the introduction.
- With the following mechanisms described in the introduction:
+ These are all classic demand shocks, as described in the introduction.
+ The following mechanisms are described in the introduction:
 \end_layout
 
 \begin_layout Itemize
-Initial shock directly or indirectly increases one or more demand components
+The initial shock directly or indirectly increases one or more demand components
 \end_layout
 
 \begin_layout Itemize
@@ -198,7 +198,8 @@ Increased employment and wages leads to higher household income and increased
 \end_layout
 
 \begin_layout Itemize
-Increased housing demand leads to increased housing prices and housing investment
+Increased housing demand leads to increased housing prices and housing investmen
+t
 \end_layout
 
 \begin_layout Itemize
@@ -220,14 +221,14 @@ Increased demand prices dampen quantity demand over time
 \end_layout
 
 \begin_layout Itemize
-Full crowding out in employment
+There is full crowding out in employment (as structural employment is unchanged).
 \end_layout
 
 \begin_layout Standard
-The first shock we look at is a shock to government lump sum transfers to
+The first shock we look at is a shock to government lump-sum transfers to
  the households.
- Since financed shocks by default take place via lump sum transfers, an
- understanding of this shock is important in relation to all financed shocks.
+ Since financed shocks by default occur via lump-sum transfers, understanding
+ this shock is essential in relation to all financed shocks.
  The other shocks are other demand shocks.
  Note that all shocks are unfinanced.
 \end_layout
@@ -244,8 +245,8 @@ Lump sum transfers to households
 \end_layout
 
 \begin_layout Standard
-Lump sum transfers to households are increased by 1 percent of the baseline
- GDP.
+Lump-sum transfers to households are increased by 1 percent relative to
+ the baseline GDP level.
  
 \end_layout
 
@@ -259,24 +260,24 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-Initial effect on private consumption is less than 1 percent if dampening
+The initial effect on private consumption is less than 1 percent if dampening
  effects from consumption smoothing and habit formation dominate the acceleratin
 g effects from increased income through employment, wages and increased
  liquidity through mortgages because of increased house prices
 \end_layout
 
 \begin_layout Itemize
-Long run effect on private consumption is higher than 1 percent of GDP if
- effect from higher long run real wages dominates negative savings effects
- from increased liquidity
+The long-run effect on private consumption is higher than 1 percent of GDP
+ if the effect from higher long-run real wages dominates adverse savings
+ effects from increased liquidity
 \end_layout
 
 \begin_layout Itemize
-Negative effect on government budget and fiscal sustainability
+There are negative effects on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
-Long run effect on GDP is higher than long run effect on GVA.
+The long-run effect on GDP is higher than long run effect on GVA.
  This is because:
 \end_layout
 
@@ -295,14 +296,14 @@ Duties are part of GDP, but not a part of GVA
 
 \end_deeper
 \begin_layout Itemize
-Long run GVA is higher as the economy is more capital intensive.
+The long-run GVA is higher as the economy becomes more capital-intensive.
  This is because:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Private consumption of housing has increased much and exports decreased
- (primary effect)
+Private consumption of housing has increased, and exports decreased (primary
+ effect)
 \end_layout
 
 \begin_deeper
@@ -313,7 +314,7 @@ Private consumption of housing draws on the housing sector, which has a
 
 \end_deeper
 \begin_layout Itemize
-Increased real wage relative to user cost of capital make firms substitute
+Increased real wage relative to the user cost of capital make firms substitute
  from labor to capital (secondary effect)
 \end_layout
 
@@ -360,7 +361,7 @@ Government employment
 \end_layout
 
 \begin_layout Standard
-Government employment is increased by permanently increasing the government
+Government employment is increased by permanently increasing government
  payroll with 1 percent of baseline GDP.
 \end_layout
 
@@ -374,17 +375,17 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-Negative effect on government budget and fiscal sustainability
+There is a negative effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
-Long run effect on GDP is negative.
+The long-run effect on GDP is negative.
  This is because:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Demand shifted from exports to government consumption
+Demand shifts from exports to government consumption
 \end_layout
 
 \begin_layout Itemize
@@ -475,12 +476,12 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-Negative effect on government budget and fiscal sustainability
+There is a negative effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
-Long run effect on GDP is positive as higher duties on government purchases
- than exports increase GDP for given GVA
+The long-run effect on GDP is positive as higher duties on government purchases
+ than exports increase GDP for a given GVA
 \end_layout
 
 \begin_layout Standard
@@ -532,7 +533,7 @@ Government investments are permanently increased by 1 percent of baseline
 \end_layout
 
 \begin_layout Standard
-Main shock is directly to government investments that draw mostly on domestic
+The main shock concerns government investments that draw primarily on domestic
  construction and services.
  
 \end_layout
@@ -542,7 +543,7 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-Negative effect on government budget and fiscal sustainability
+There is a negative effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
@@ -551,13 +552,13 @@ Increased government investments lead to a gradual increase in government
 \end_layout
 
 \begin_layout Itemize
-Long run effect on GDP is strong and positive
+The long-run effect on GDP is strong and positive
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Increased government GVA due to higher capital stock - no resources moved
- from private to government sector
+There is increased government GVA due to higher capital stock - no resources
+ moved from private to government sector
 \end_layout
 
 \end_deeper
@@ -607,8 +608,8 @@ The export market size is permanently increased, raising exports by 1 percent
 \end_layout
 
 \begin_layout Standard
-Main shock is directly to exports that draw mostly on domestic manufacturing
- and services as well as import to re-exports of manufacturing.
+The main shock is directly on exports, which draw primarily on domestic
+ manufacturing and services and imports to re-exports of manufacturing.
  
 \end_layout
 
@@ -617,26 +618,28 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-Positive effect on government budget and fiscal sustainability
+There is a positive effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Short run effect on primary budget due to increased activity
+The short-run effect on primary budget due to increased activity
 \end_layout
 
 \begin_layout Itemize
-Long run effect mainly due to interest revenue from initial surpluses
+Long-run effects are mainly due to interest revenue from initial surpluses
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Exports increase less than 1 percent in the short run due to rigidity and
- in the long run due to higher domestic wage and prices
+Exports increase less than 1 percent in the short run due to investment
+ adjustment costs (rigidities) and in the long run due to higher domestic
+ wages and prices
 \end_layout
 
 \begin_layout Itemize
-Positive long run effect on GDP as sea transport has a much larger export
+There is a positive long-run effect on GDP as sea transport has a large
+ export share:
 \end_layout
 
 \begin_deeper
@@ -644,7 +647,7 @@ Positive long run effect on GDP as sea transport has a much larger export
 Sea transport has very little input of labor and domestic production so
  it is affected very little by higher wages.
  It does have capital input, which increases and makes long run GVA and
- GDP increase
+ GDP increase.
 \end_layout
 
 \begin_layout Itemize

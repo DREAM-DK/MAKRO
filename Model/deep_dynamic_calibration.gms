@@ -58,62 +58,70 @@ $GROUP G_deep_dynamic_calibration
 # ======================================================================================================================
 $GROUP G_load G_deep_dynamic_calibration, -G_do_not_load;
 @load(G_load, "Gdx\previous_deep_calibration.gdx"); # load previous solution
+$GROUP G_exo All, - G_deep_dynamic_calibration;
+$GROUP G_new_endogenous G_do_not_load, - G_exo;
+@set_initial_levels_to_nonzero(G_new_endogenous)
 
+$IF %run_tests%:
+  # Small pertubation of all endogenous variables
+  # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
+  $LOOP G_deep_dynamic_calibration:
+    {name}.l{sets}$({conditions} and {name}.l{sets} <> 0) = {name}.l{sets} + 1e-8;
+  $ENDLOOP
+  @set(G_deep_dynamic_calibration, _presolve, .l);
+$ENDIF
 
-# ======================================================================================================================
-# Various solver strategies in case we have trouble solving the calibration model 
-# ======================================================================================================================
 #  # ======================================================================================================================
-#  # Using simple dynamic calibration as basis
+#  # Various solver strategies in case we have trouble solving the calibration model 
+#  # ======================================================================================================================
+#  # ======================================================================================================================
+#  # Using dynamic calibration for new data as basis
 #  # ======================================================================================================================
 #  # ----------------------------------------------------------------------------------------------------------------------
 #  # Save value of all exogenous inputs before setting them to value from previous solution
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  @save(All)
-
-#  $GROUP G_load All, -G_constants, -vArvPrArving, -qY_udv_Forecast;
-#  @load(G_load, "Gdx\previous_simple_dynamic_calibration.gdx")
-#  @load_dummies(tx0, "Gdx\previous_simple_dynamic_calibration.gdx")
+#  @set(All, _saved, .l)
 
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  # Test that everything solves before making changes - should solve immediately
+#  # Import calibration models for new data and test that everything solves before making changes - should solve in one step
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  $FIX All; $UNFIX G_simple_dynamic_calibration;
-#  @solve(M_simple_dynamic_calibration);
+#  $SETLOCAL data_year %cal_deep%;
+#  $SETLOCAL last_calibration previous_deep_calibration;
+#  $SETGLOBAL calibration_steps 1;
+#  $IMPORT static_calibration_newdata.gms;
+#  $IMPORT dynamic_calibration_newdata.gms;
 
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  # Replace simple dynamic calibration with deep dynamic calibration, one module at a time, if needed to solve
+#  # Replace dynamic calibration for new data with deep dynamic calibration, one module at a time, if needed to solve
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  MODEL M_labor_market_x / M_labor_market - M_labor_market_post /;
-#  MODEL M_production_private_x / B_production_private - M_production_private_post /;
-#  MODEL M_exports_x / B_exports - M_exports_post /;
-#  MODEL M_consumers_x / M_consumers - M_consumers_post /;
-#  MODEL M_GovRevenues_x / M_GovRevenues - M_GovRevenues_post /;
-#  MODEL M_HHincome_x / M_HHincome - M_HHincome_post /;
-
-#  MODEL M_cal / M_simple_dynamic_calibration /;
-#  $GROUP G_cal G_simple_dynamic_calibration;
+#  MODEL M_cal / M_dynamic_calibration_newdata /;
+#  $GROUP G_cal G_dynamic_calibration_newdata;
 #  $SETLOCAL prev_model M_cal
-#  $FOR {id}   , {old_block}                        , {new_block}                  , {old_group}                         , {new_group}                  , {solve} in [
-#    #  ("ss"     , "M_struk_dynamic_calibration"             , "M_struk_deep"              , "G_struk_dynamic_calibration"              , "G_struk_deep"              , 1),
-#    #  ("pro"    , "M_production_private_x"             , "M_production_private_deep" , "G_production_private_dynamic_calibration" , "G_production_private_deep" , 1),
-#    #  ("lab"    , "M_labor_market_x"                   , "M_labor_market_deep"       , "G_labor_market_dynamic_calibration"       , "G_labor_market_deep"       , 1),
-#    ("con"    , "M_consumers_x"                      , "M_consumers_deep"          , "G_consumers_dynamic_calibration"          , "G_consumers_deep"          , 1),
-#    #  ("hh"     , "M_HHincome_x"                       , "M_HHincome_deep"           , "G_HHincome_dynamic_calibration"           , "G_HHincome_deep"           , 1),
-#    #  ("x"      , "M_exports_x"                        , "M_exports_deep"            , "G_exports_dynamic_calibration"            , "G_exports_deep"            , 1),
-#    #  ("pri"    , "B_pricing"                        , "M_pricing_deep"            , "G_pricing_dynamic_calibration"            , "G_pricing_deep"            , 1),
-#    #  ("off"    , "M_production_public_dynamic_calibration" , "M_production_public_deep"  , "G_production_public_dynamic_calibration"  , "G_production_public_deep"  , 1),
-#    #  ("g_r"    , "M_GovRevenues_x"                    , "M_GovRevenues_deep"        , "G_GovRevenues_dynamic_calibration"        , "G_GovRevenues_deep"        , 1),
-#    #  ("fin"    , "B_finance"                        , "M_finance_deep"            , "G_finance_dynamic_calibration"            , "G_finance_deep"            , 1),
+#  $FOR {id}   , {old_block}                                 , {new_block}                 , {old_group}                                , {new_group}                 , {solve} in [
+#    ("IO"     , "M_IO_dynamic_calibration"                  , "M_IO_deep"                 , "G_IO_dynamic_calibration"                 , "G_IO_deep"                 , 1),
+#    ("pri"    , "M_pricing_dynamic_calibration"             , "M_pricing_deep"            , "G_pricing_dynamic_calibration"            , "G_pricing_deep"            , 1),
+#    ("con"    , "M_consumers_dynamic_calibration"           , "M_consumers_deep"          , "G_consumers_dynamic_calibration"          , "G_consumers_deep"          , 1),
+#    ("ss"     , "M_struk_dynamic_calibration"               , "M_struk_deep"              , "G_struk_dynamic_calibration"              , "G_struk_deep"              , 1),
+#    ("lab"    , "M_labor_market_dynamic_calibration"        , "M_labor_market_deep"       , "G_labor_market_dynamic_calibration"       , "G_labor_market_deep"       , 1),
+#    ("hh"     , "M_HHincome_dynamic_calibration"            , "M_HHincome_deep"           , "G_HHincome_dynamic_calibration"           , "G_HHincome_deep"           , 1),
+#    ("x"      , "M_exports_dynamic_calibration"             , "M_exports_deep"            , "G_exports_dynamic_calibration"            , "G_exports_deep"            , 1),
+#    ("off"    , "M_production_public_dynamic_calibration"   , "M_production_public_deep"  , "G_production_public_dynamic_calibration"  , "G_production_public_deep"  , 1),
+#    ("g_r"    , "M_GovRevenues_dynamic_calibration"         , "M_GovRevenues_deep"        , "G_GovRevenues_dynamic_calibration"        , "G_GovRevenues_deep"        , 1),
+#    ("fin"    , "M_finance_dynamic_calibration"             , "M_finance_deep"            , "G_finance_dynamic_calibration"            , "G_finance_deep"            , 1),
+#    ("gov"    , "M_Government_dynamic_calibration"          , "M_Government_deep"         , "G_Government_dynamic_calibration"         , "G_Government_deep"         , 1),
+#    ("g_e"    , "M_GovExpenses_dynamic_calibration"         , "M_GovExpenses_deep"        , "G_GovExpenses_dynamic_calibration"        , "G_GovExpenses_deep"        , 1),
+#    ("pro"    , "M_production_private_dynamic_calibration"  , "M_production_private_deep" , "G_production_private_dynamic_calibration" , "G_production_private_deep" , 1),
 #  ]:
 #    $SETLOCAL new_model %prev_model%_{id} # Generate new model name
-#    # Replace simple dynamic calibration module with full dynamic calibration module
+#    # Replace dynamic calibration module for newdata with full dynamic calibration module
 #    MODEL %new_model% / %prev_model% - {old_block} + {new_block} /;
 #    $GROUP G_cal G_cal, -{old_group}, {new_group};
 
 #    $IF {solve}:
 #      $FIX All; $UNFIX G_cal;
-#      @robust_solve(%new_model%);
+#      @print("---------------------------------------- Solve %new_model% ----------------------------------------")
+#      @set_bounds();
+#      @solve(%new_model%);
 #    $ENDIF
 
 #    $SETLOCAL prev_model %new_model%
@@ -130,7 +138,9 @@ $GROUP G_load G_deep_dynamic_calibration, -G_do_not_load;
 #      {name}.l{sets}$({conditions}) = {name}.l{sets} * (1-{share}) + {share} * {name}_saved{sets};
 #    $ENDLOOP
 #    $FIX All; $UNFIX G_deep_dynamic_calibration;
-#    @robust_solve(M_deep_dynamic_calibration);
+  #  @set_initial_levels_to_nonzero(All)
+  #  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+  #  @solve(M_deep_dynamic_calibration);
 #  $ENDFOR
 
 #  # ----------------------------------------------------------------------------------------------------------------------
@@ -138,54 +148,196 @@ $GROUP G_load G_deep_dynamic_calibration, -G_do_not_load;
 #  # ----------------------------------------------------------------------------------------------------------------------
 #  @load_dummies(tx0, "Gdx\exogenous_forecast.gdx")
 #  $GROUP G_load All, -G_deep_dynamic_calibration, -G_constants;
-#  @reset(G_load)
-
+#  @set(G_load, .l, _saved)
 
 # ======================================================================================================================
 # Homotopy continuation
 # Solve model by gradually adjusting exogenous variables from previous solution
 # ======================================================================================================================
-$IF %deep_homotopy% == 1:
-  $GROUP G_load All, -G_deep_dynamic_calibration, -G_do_not_load;
-  @save(G_load)
-  $FOR {share_of_previous} in [
-      1, 0.8, 0.6, 0.4, 0.2
+$IF %calibration_steps% > 1:
+  @load_dummies(tx0, "Gdx\previous_deep_calibration.gdx")
+
+  $GROUP G_homotopy All, -G_deep_dynamic_calibration, -G_do_not_load, G_ARIMA_forecast;
+  @set(G_homotopy, _new_data, .l) # Save all values prior to trouble-shooting
+  @set(G_ARIMA_forecast, .l, _ARIMA) # Reset ARIMA variables in case start values were loaded from previous solution
+  @set(G_homotopy, _previous_combination, .l);
+  @load_as(G_homotopy, "Gdx\previous_deep_calibration.gdx", _previous_solution);
+  $FOR {share_of_previous} in [0.99]+[
+    round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
-    @load_linear_combination(G_load, {share_of_previous}, "Gdx\previous_deep_calibration.gdx")
+    @set_linear_combination(G_homotopy, {share_of_previous}, _previous_solution, _new_data)
+    # Any exogenous variable that gets close to zero from the linear combiation is set to the latest combination that worked
+    $LOOP G_homotopy:
+      {name}.l{sets}$({conditions} and abs({name}.l{sets}) < 1e-6) = {name}_previous_combination{sets};  
+    $ENDLOOP
+    @set(G_ARIMA_forecast, _ARIMA, .l)
     $FIX All; $UNFIX G_deep_dynamic_calibration;
     @print("---------------------------------------- Share = {share_of_previous} ----------------------------------------")
-    @robust_solve(M_deep_dynamic_calibration); 
+    @set_bounds();
+    @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+    @solve(M_deep_dynamic_calibration); 
     @unload(Gdx\deep_calibration_{share_of_previous}.gdx)
-    @reset(G_load);
+    @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
+
+  # Reset exogenous values
+  @set(G_homotopy, .l, _new_data);
+  @set(G_ARIMA_forecast, _ARIMA, .l)
+
+  @load_dummies(tx0, "Gdx\exogenous_forecast.gdx")
+  $FIX All; $UNFIX G_deep_dynamic_calibration;
+  @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+  @solve(M_deep_dynamic_calibration);
 $ENDIF
 
-#  #  ======================================================================================================================
-#  #  Solve calibration model a few years at a time
-#  #  ======================================================================================================================
-#  $GROUP G_deep_dynamic_calibration_x G_deep_dynamic_calibration, -G_constants;
-#  $FOR {end_year} in range(2060, %terminal_year%, 15):
-#    set_time_periods(%cal_deep%-1, {end_year});
-#    $FIX All; $UNFIX G_deep_dynamic_calibration;
-#    @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
-#    @unload_all(Gdx\M_deep_dynamic_calibration_presolve); # Output gdx file with the state before solving to help with debugging
-#    @solve(M_deep_dynamic_calibration)
-#    set_time_periods(%cal_deep%-1, %terminal_year%);
-#    @unload(Gdx\deep_calibration_{end_year}.gdx)
-#    $EVAL penultimate {end_year}-1;
-#    $LOOP G_deep_dynamic_calibration_x:
-#       {name}.l{sets}$(t.val >= {end_year} and {conditions}) = {name}.l{sets}{$}[<t>'%penultimate%'];
-#    $ENDLOOP
-#  $ENDFOR
-
+#  ======================================================================================================================
+#  Solve calibration model a few years at a time
+#  ======================================================================================================================
+$IF %time_steps%:
+  $FOR {end_year} in [2060, 2070, 2080, 2090, %terminal_year%]:
+    set_time_periods(%cal_deep%-1, {end_year});
+    $FIX All; $UNFIX G_deep_dynamic_calibration;
+    @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
+    @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+    @set_bounds();
+    @solve(M_deep_dynamic_calibration)
+    set_time_periods(%cal_deep%-1, %terminal_year%);
+    @unload(Gdx\deep_calibration_{end_year}.gdx)
+    $GROUP G_starting_values_from_previous_years G_deep_dynamic_calibration$(t.val >= {end_year}), -G_constants;
+    $EVAL penultimate {end_year}-1;
+    $LOOP G_starting_values_from_previous_years:
+      {name}.l{sets}$({conditions}) = {name}.l{sets}{$}[<t>'%penultimate%'];
+    $ENDLOOP
+    @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+  $ENDFOR
+$ENDIF
 
 # ======================================================================================================================
 # Solve the dynamic calibration model
 # ======================================================================================================================
+$IF %run_tests%:
+  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+$ENDIF
 $FIX All; $UNFIX G_deep_dynamic_calibration;
-#  @robust_solve(M_deep_dynamic_calibration);
+# @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+@set_bounds();
 @solve(M_deep_dynamic_calibration);
+$IF %run_tests%:
+  @unload(Gdx\deep_calibration_pre_smooth)
+$ENDIF
 
+# ======================================================================================================================
+# Filtrering af aldersafhængige, dynamisk kalibrerede, parametre
+# ======================================================================================================================
+$IF %smooth_age_profiles%:
+	$GROUP G_smooth_profiles
+	  uBolig_a
+	  rSplurge
+	;
+	$GROUP G_smooth_profiles G_smooth_profiles$(tx0[t]);
+	execute_unloaddi "Gdx/smooth_profiles_input.gdx" $LOOP G_smooth_profiles:, {name} $ENDLOOP, tDataEnd, tEnd;
+
+  embeddedCode Python:
+    import dreamtools as dt
+    import numpy as np
+    import pandas as pd
+    from scipy.optimize import curve_fit
+
+    db = dt.Gdx("Gdx/smooth_profiles_input.gdx")
+    tEnd = db.tEnd[0]
+    tDataEnd = db.tDataEnd[0]
+
+    # ----------------------------------------------------------------------------------------------------------------------
+    # Smoothing
+    # ----------------------------------------------------------------------------------------------------------------------
+    # List of variables to be smoothed
+    smoothing_vars = [
+        (db["uBolig_a"], 18, 5),
+        (db["rSplurge"], 18, 6),
+    ]
+
+    for var, a_start, degrees in smoothing_vars:
+        a = "a" if ("a" in var.index.names) else "a_"
+
+        # Limit DataFrame to the years and age groups that we want to smooth (and remove any totals etc.)
+        t_range = range(tDataEnd-1, tDataEnd + 1)
+        a_range = range(a_start, 100 + 1)
+        df = var.reset_index()
+        df = df[df["t"].isin(t_range) & df[a].isin(a_range)]
+
+        # Reset index to those of original variable
+        df = df.set_index(var.index.names)
+
+        # Groupby all sets except the age set
+        levels = [i for i in df.index.names if i != a]
+        grouped = df.groupby(levels, group_keys=False)
+
+        # group = list(grouped)[-1][1]
+        # group = grouped.get_group(('Obl',2017))
+        M = N = degrees
+        def polynomial_ratio(x, *args):
+            a = args[:M+1]
+            b = args[M+1:]
+            return sum(a[i] * x**i for i in range(M+1)) / (1 - sum(b[i] * x**(i+1) for i in range(N)))
+
+        def smooth(group):
+            if len(group[var.name].unique()) < (N + M + 2):
+                return group[var.name]
+            y = group[var.name].values
+            a1 = np.array(a_range).astype(float) - a_start
+            starting_values = np.ones(M+N+1) / 100
+            try:
+                popt, pcov = curve_fit(polynomial_ratio, a1, y, p0=starting_values, maxfev=100000)
+            except RuntimeError as e:
+                msg = f"Failed to fit ratio of polynomiums of order M={M} and N={N} for group:\n{group}"
+                print(msg)
+                raise e
+
+            group["fit"] = polynomial_ratio(a1, *popt)
+            # import plotly.express as px
+            # group["y"] = y
+            # px.line(group.reset_index(), x=a, y=["y", "fit"]).show()
+            return group["fit"]
+
+        # Apply smoothing function to each group
+        smoothed = grouped.apply(smooth)
+        smoothed *= (df[var.name] != 0) # Remove smoothing where original value was exactly zero
+
+        # Overwrite database values with new smoothed profiles
+        idx = [smoothed.index.get_level_values(i) for i in smoothed.index.names[:-1]]
+        for year in range(tDataEnd+1, tEnd+1):
+            db[var.name].loc[(*idx, year)] = smoothed.xs(tDataEnd, level="t").values
+
+    db.export("smooth_profiles.gdx")
+  endEmbeddedCode
+
+  @load(G_smooth_profiles, "Gdx\smooth_profiles.gdx");
+$ENDIF
+
+# ======================================================================================================================
+# Dynamisk kalibrering med udglattede, dynamisk kalibrerede, aldersprofiler
+# ======================================================================================================================
+$GROUP G_smoothed_parameters_calibration
+  G_deep_dynamic_calibration
+
+  # Consumers
+  -uBolig_a[a,tx1] # -E_uBolig_a_forecast -E_uBolig_a_forecast_u21
+  -rSplurge[h,a,tx1] # -E_rSplurge_forecast -E_rSplurge_forecast_u21
+;
+
+MODEL M_smoothed_parameters_calibration /
+  M_deep_dynamic_calibration
+  -E_uBolig_a_forecast -E_uBolig_a_forecast_u21
+  -E_rSplurge_forecast -E_rSplurge_forecast_u21
+/;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Solve
+# ----------------------------------------------------------------------------------------------------------------------
+$FIX All; $UNFIX G_smoothed_parameters_calibration;
+@set_bounds();
+@solve(M_smoothed_parameters_calibration);
 
 # ======================================================================================================================
 # Solve post model containing ouput only variables
@@ -197,8 +349,27 @@ $FIX All; $UNFIX G_post;
 # ======================================================================================================================
 # Output
 # ======================================================================================================================
+$IF %run_tests%:
+  # Remove "endogenous" variables not changed by solving the model
+  $LOOP G_deep_dynamic_calibration:
+    {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
+  $ENDLOOP
+$ENDIF
+
 # Write GDX file
 @unload(Gdx\deep_calibration)
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Output til Gekko
+# ----------------------------------------------------------------------------------------------------------------------
+# M_post kan ikke køre med, da det så ikke bliver square
+#  MODEL M_TilGekko /
+#    M_base
+#    M_post
+#  /;
+#  $FIX All; $UNFIX G_endo; # $UNFIX G_post;
+#  option mcp=convert;
+#  solve M_base using mcp;
 
 # ======================================================================================================================
 # Tests
@@ -213,24 +384,41 @@ $IF %run_tests%:
   # ----------------------------------------------------------------------------------------------------------------------
   # Data check  -  Abort if any data covered variables have been changed by the calibration
   # ----------------------------------------------------------------------------------------------------------------------
-  set_data_periods(2001, %cal_deep%);
-
-  @assert_no_difference_from(G_data, 0.05, _data, "G_imprecise_data was changed by dynamic calibration.");
-  $GROUP G_precise_data G_data, -G_imprecise_data;
-  @assert_no_difference_from(G_precise_data, 1e-6, _data, "G_precise_data was changed by dynamic calibration.");
-  @assert_no_difference_from(G_exogenous_forecast, 1e-6, _data, "G_exogenous_forecast was changed by dynamic calibration.");
-  @assert_no_difference_from(G_forecast_as_zero, 1e-6, _data, "G_forecast_as_zero was changed by dynamic calibration.");
+  $GROUP G_data_test
+    G_data
+    # 2014 er slået midlertidigt fra pga. inkonsistens mellem pensionsdata og finansielle konti
+    # 2015 og 2016 slået fra pga. databrud i finansielle konti
+    # Begge ting burde blive korrigeret ved udgivelse af nyt NR 28/6-2024
+    -vUdlNet$(t.val = 2014 or t.val = 2015)
+    -vUdlAkt$(Bank[portf_] and (t.val = 2014 or t.val = 2015))
+    -vUdlOmv$(t.val = 2016)
+    # Tests slået fra efter forlængelse af bank ultimo november 2014
+    -vUdlAktRenter$(t.val = 2005 or t.val = 2007) # Inkonsistens i data fra modelgruppen i DST - mail sendt 20/11-24
+    ;
+  # Abort if any data covered variables have been changed by the calibration
+  @assert_no_difference(G_data_test, 0.05, .l, _data, "G_imprecise_data was changed by dynamic calibration.");
+  $GROUP G_precise_data_test G_data_test, -G_imprecise_data;
+  @assert_no_difference(G_precise_data_test, 1e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
 
   # ----------------------------------------------------------------------------------------------------------------------
   # Zero shock  -  Abort if a zero shock changes any variables significantly
   # ----------------------------------------------------------------------------------------------------------------------
   $GROUP G_ZeroShockTest All, -dArv;
 
-  @save(G_ZeroShockTest)
+  @set(G_ZeroShockTest, _saved, .l)
   set_time_periods(%cal_deep%-1, %terminal_year%);
   $FIX All; $UNFIX G_endo;
   @solve(M_base);
   $FIX All; $UNFIX G_post;
   @solve(M_post);
-  @assert_no_difference(G_ZeroShockTest, 1e-6, "Zero shock changed variables significantly.");
+  @assert_no_difference(G_ZeroShockTest, 1e-6, .l, _saved, "Zero shock changed variables significantly.");
+
+  # ----------------------------------------------------------------------------------------------------------------------
+  # Static zero shock  -  Abort if a zero shock changes any variables significantly
+  # ----------------------------------------------------------------------------------------------------------------------
+  @set(All, _saved, .l)
+  $FIX All; $UNFIX G_static;
+  @solve(M_static);
+  @assert_no_difference(G_Static, 1e-6, .l, _saved, "Static zero shock changed variables significantly.");
+
 $ENDIF

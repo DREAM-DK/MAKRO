@@ -20,20 +20,18 @@ shock_info = [
     ("Offentlige_investeringer", "Offentlige investeringer", "Public investments",
         ("Offentlige investeringer<br>(qI_s[iTot,off])", "Public investments (qI_s[iTot,off])", lambda s: s.qI_s["iTot","off"], "pq")),
     ("Skattepligtig_indkomstoverforsel", "Skattepligtige overførselsindkomster", "Taxable transfer incomes",
-        (" "*4, lambda s: s.qBNP*0, "")),
+        (" "*4, "", lambda s: s.qBNP*0, "pq")),
         # ("Skattepligtige indkomsteroverførsler<br>(∑vOvf[!ubeskat])", "Taxable transfer incomes<br>(∑vOvf[!ubeskat])", lambda s: s.vOvf[s.ovf].groupby("t").sum() - s.vOvf[s.ubeskat].groupby("t").sum(), "pq")),
     ("Ikke_skattepligtig_indkomstoverforsel", "Ikke-skattepligtige overførselsindkomster", "Non-taxable transfer incomes",
         # ("Ikke-skattepligtige indkomsteroverførsler<br>(∑vOvf[ubeskat])", "Non-taxable transfer incomes<br>(∑vOvf[ubeskat])", lambda s: s.vOvf[s.ubeskat].groupby("t").sum(), "pq")),
-        (" "*5, lambda s: s.qBNP*0, "")),
+        (" "*5, "", lambda s: s.qBNP*0, "pq")),
   # Subsidier
     ("Produktsubsidier", "Produktsubsidier", "Product subsidies",
-        ("Produktsubsidier (vPunktSub)", "Product subsidies (vPunktSub)", lambda s: s.vPunktSub, "pq")),
+        ("Produktsubsidier (vSub[dTot,tot])", "Product subsidies (vSub[dTot,tot])", lambda s: s.vSub["dTot","tot"], "pq")),
     ("Lontilskud", "Løntilskud", "Wage subsidies",
-        ("Løntilskud (vtLoenSub)", "Wage subsidies (vtLoenSub)", lambda s: s.vtLoenSub, "pq")),
+        ("Løntilskud (vSubLoen)", "Wage subsidies (vSubLoen)", lambda s: s.vSubLoen, "pq")),
     ("Produktionssubsidier", "Produktionssubsidier ekskl. løntilskud", "Production subsidies excl. wage subsidies",
-        ("Produktionssubsidier<br>ekskl. løntilskud (vSubYRes)", "Production subsidies<br>excl. wage subsidies (vSubYRes)", lambda s: s.vSubYRes, "pq")),
-    ("Overforsel_privat", "Øvrige overførsler til husholdninger", "Other transfers to households",
-        ("Øvrige overførsler til husholdninger<br>(vOffTilHhRest)", "Other transfers to households<br>(vOffTilHhRest)", lambda s: s.vOffTilHhRest, "pq")),
+        ("Produktionssubsidier<br>ekskl. løntilskud (vSubYRest)", "Production subsidies<br>excl. wage subsidies (vSubYRest)", lambda s: s.vSubYRest, "pq")),
 
   # Skatter
     ("Bundskat", "Bundskat", "Income taxes (bundskat)",
@@ -45,7 +43,7 @@ shock_info = [
     ("Ejendomsvaerdiskat", "Ejendomsværdiskat", "Property taxes (ejendomsværdiskat)",
         ("Ejendomsværdiskat (tEjd)", "Property taxes (tEjd)", lambda s: s.tEjd, "pm")),
     ("Vaegtafgift", "Vægtafgift", "Vehicle excise duty (vægtafgift)",
-        ("Vægtafgifter (vtHhVaegtSats)", "Vehicle excise duties (vtHhVaegtSats)", lambda s: s.vtHhVaegtSats, "pq")),
+        ("Vægtafgifter (utHhVaegt)", "Vehicle excise duties (utHhVaegt)", lambda s: s.utHhVaegt, "pq")),
     ("Selskabsskat", "Selskabsskat", "Corporate income tax (selskabsskat)",
         ("Selskabsskat (tSelskab)", "Corporate income tax (tSelskab)", lambda s: s.tSelskab, "pm")),
     ("Aktieskat", "Aktieskat", "Dividend and capital gains tax (aktieskat)",
@@ -53,13 +51,15 @@ shock_info = [
     ("Moms", "Moms", "VAT",
         ("Moms-provenue (vtMoms)", "VAT revenue (vtMoms)", lambda s: s.vtMoms, "pq")),
     ("Registreringsafgift", "Registreringsafgift til privat forbrug", "Household vehicle registration tax",
-        ("Registreringsafgift (tReg[cBil])", "Household vehicle registration tax<br>(tReg[cBil])", lambda s: s.tReg["cBil"], "pm")),
+        ("Registreringsafgift (tReg_y & tReg_m)", "Household vehicle registration tax<br>(tReg_y & tReg_m)", lambda s: s.tReg_y["cBil"]["fre"], "pm")),
     ("Energiafgift", "Energiafgift til privat forbrug", "Household energy taxes",
-        ("Energiafgifter til privat forbrug<br>(vtAfg[cEne])", "Household energy taxes<br>(vtAfg[cEne])", lambda s: s.vtAfg["cEne"], "pq")),
+        ("Energiafgifter til privat forbrug<br>(tAfg_y[cEne] & tAfg_m[cEne])", "Household energy taxes<br>(tAfg_y[cEne] & tAfg_m[cEne])", lambda s: s.tAfg_y["cEne"]["ene"], "pm")),
     ("Forbrugsafgift", "Øvrige forbrugsafgifter", "Other consumption taxes",
-        ("Afgifter på privat vare-forbrug<br>(vtAfg[cVar])", "Duties on other consumption goods<br>(vtAfg[cVar])", lambda s: s.vtAfg["cVar"], "pq")),
+        ("Afgifter på privat vare-forbrug<br>(tAfg_y[cVar] & tAfg_m[cVar])", "Duties on other consumption goods<br>(tAfg_y[cVar] & tAfg_m[cVar])", lambda s: s.tAfg_y["cVar"]["fre"], "pm")),
     ("Afgift_erhverv", "Afgift på private erhvervs materialeinput", "Duties on intermediate goods",
-        ("Afgift på private erhvervs<br>materialeinput (vtAfg[rTot,spTot])", "Duties on intermediate goods<br>(vtAfg[rTot,spTot])", lambda s: s.vtAfg["tot"]["spTot"], "pq")),
+        ("Afgift på private erhvervs<br>materialeinput (tAfg_y[r,s] & tAfg_m[r,s])", "Duties on intermediate goods<br>(tAfg_y[r,s] & tAfg_m[r,s])", lambda s: s.tAfg_y["fre"]["fre"], "pm")),
+    ("Overforsel_privat", "Øvrige overførsler til husholdninger", "Other transfers to households",
+        ("Øvrige overførsler til husholdninger<br>(vOffTilHhRest)", "Other transfers to households<br>(vOffTilHhRest)", lambda s: s.vOffTilHhRest, "pq")),
 
   # Udland
     ("Eksportmarkedsvaekst", "Eksportmarkedsvækst", "Export market growth",
@@ -78,12 +78,18 @@ shock_info = [
         ("Rente (rRenteECB)", "Interest rate (rRenteECB)", lambda s: s.rRenteECB, "pm")),
 
   # Øvrige udbudsstød
-    ("Arbejdsudbud", "Arbejdsudbud", "Labor supply",
+    ("Arbejdsudbud - beskæftigelse", "Arbejdsudbud, beskæftigelse", "Labor supply, employment",
         ("Strukturel bruttoarbejdsstyrke<br>(snBruttoArbsty)", "Structural labor force<br>(snBruttoArbsty)", lambda s: s.snBruttoArbsty, "pq")),
+    
+    ("Arbejdsudbud - timer", "Arbejdsudbud, timer", "Labor supply, hours",
+        ("Strukturel arbejdstid<br>(shLHh)", "Structural work hours<br>(shLHh)", lambda s: s.shLHh["tot"], "pq")),
+
     ("Befolkning", "Befolkning", "Population",
         ("Befolkning (nPop)", "Population (nPop)", lambda s: s.nPop, "pq")),
-    ("Produktivitet", "Produktivitet", "Productivity",
-        ("Arbejdskraftbesparende teknologi<br>(qProd)", "Labor saving technology<br>(qProd)", lambda s: s.qProd, "pq")),
+    ("KapitalProd", "Kapitalproduktivitet", "Capital productivity",
+        ("Skala parameter for kapital (uK)", "Scale parameter for kapital (uK)", lambda s: s.uK['iM', "tje"], "pq")),
+    ("ArbejdsProd", "Arbejdskraftsproduktivitet", "Productivity of labour",
+        ("Skala parameter for arbejdskraft (uL)", "Scale parameter for labour (uL)", lambda s: s.uL['tje'], "pq")),
 
   # Risikopræmier
   ("VirkDisk", "Virksomhedernes hurdle rates", "Firm hurdle rates",
@@ -91,9 +97,21 @@ shock_info = [
   ("BoligRisiko", "Risiko-præmie i usercost på bolig", "Risk premium in usercost of housing",
     ("Risiko-præmie i usercost på bolig<br>(rBoligPrem)", "Risk premium in usercost of housing<br>(rBoligPrem)", lambda s: s.rBoligPrem, "pm")),
   ("AktieAfkast", "Virksomhedernes hurdle rates og aktieafkastrater", "Firm hurdle rates and equity risk premia",
-    ("Risiko-præmie i aktieafkast<br>(rIndlAktiePrem)", "Risk premium in equity returns<br>(rIndlAktiePrem)", lambda s: s.rIndlAktiePrem, "pm")),
+    ("Risiko-præmie i aktieafkast<br>(rAktieDriftPrem)", "Risk premium in equity returns<br>(rAktieDriftPrem)", lambda s: s.rAktieDriftPrem, "pm")),
   ("RisikoPraemier", "Risikopræmier på aktier og bolig, og virksomhedens hurdle rates", "Risk premia on equities and housing, and firm hurdle rates",
-    ("Risiko-præmie i aktieafkast<br>(rIndlAktiePrem)", "Risk premium in equity returns<br>(rIndlAktiePrem)", lambda s: s.rIndlAktiePrem, "pm")),
+    ("Risiko-præmie i aktieafkast<br>(rAktieDriftPrem)", "Risk premium in equity returns<br>(rAktieDriftPrem)", lambda s: s.rAktieDriftPrem, "pm")),
+
+ # Præference
+  ("Diskontering", "Husholdningernes diskonteringsfaktor", "Discount factor for households",
+    ("Husholdingernes diskonteringsfaktor (jfDisk_t)", "Discount factor for households (jfDisk_t)", lambda s: s.jfDisk_t, "pm")),
+  ("Loen", "Lønmodtagernes forhandlingsstyrke", "Bargaining power of wage earners",
+    ("Nash-forhandlingsvægt (rLoenNash)", "Nash bargaining weight (rLoenNash)", lambda s: s.jfDisk_t, "pm")),
+
+  # Homogenitet
+  ("Prisneutralitet", "Prisneutralitet", "Price neutrality",
+   ("Befolking (nPop)", "Population (nPop)", lambda s: s.nPop, "pq")),
+  ("Befolkningshomogenitet", "Befolkningshomogenitet", "Poulation homogeneity",
+   ("Nominel BNP (vBNP)", "Nominal GDP (vBNP)", lambda s: s.vBNP, "pq")),
 ]
 
 shock_names, shock_labels_DA, shock_labels_EN, shock_specific_plot_info = [list(t) for t in zip(*shock_info)]

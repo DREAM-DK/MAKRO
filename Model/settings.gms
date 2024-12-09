@@ -42,7 +42,6 @@ $FUNCTION import_from_modules(stage_key):
   $IMPORT production_public.gms;
   $IMPORT struk.gms;
   $IMPORT taxes.gms;
-  $IMPORT DataOnlyVariables.gms;
 $ENDFUNCTION
 
 # ======================================================================================================================
@@ -50,7 +49,7 @@ $ENDFUNCTION
 # ======================================================================================================================
 parameters
   gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.01/
-  gp "Long run rate of foreign inflation" /0.0178/
+  gp "Long run rate of foreign inflation" /0.018/
   terminal_rente "Obligationsrente på lang sigt" /0.04/
 ;
 
@@ -60,12 +59,18 @@ parameters
 # ----------------------------------------------------------------------------------------------------------------------
 # Time periods
 # ----------------------------------------------------------------------------------------------------------------------
-$SETGLOBAL base_year 2010 # Basis year for growth and inflation adjustments
-$SETGLOBAL cal_start 1983 # Calibration start year
-$SETGLOBAL cal_deep 2017 # Last calibration year with full age distribution
-$SETGLOBAL cal_end 2021 # Last calibration year
+$SETGLOBAL base_year 2020 # Basis year for growth and inflation adjustments
+$SETGLOBAL cal_start 2001 # Calibration start year
+$SETGLOBAL cal_deep 2019 # Last calibration year used for structural parameters
+$SETGLOBAL cal_end 2023 # Last calibration year with full national accounting data, but no data on age profiles
 $SETGLOBAL terminal_year 2099 # The terminal year
 $SETGLOBAL rHBI_eval 2030 # Year in which rHBI is evaluated
+
+$SETGLOBAL NettoFin_t1 1994 # First year with net financial data
+$SETGLOBAL BruttoFin_t1 2016 # First year with gross financial data
+$SETGLOBAL BFR_t1 2001 # First year with BFR data
+$SETGLOBAL AgeData_t1 2015 # First year with age data on cohort behavior
+$SETGLOBAL AgeData_tEnd 2019 # Last year with age data on cohort behavior
 
 # Beregningsteknisk skat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0)
 $SETGLOBAL HBI_lukning_start 2030 # Start på indfasning af reaktion
@@ -105,7 +110,12 @@ $ONECHO > conopt4.opt
   lmmxsf = 1
 
   # Time limit in seconds
-  reslim = 172000
+  reslim = 3600
+
+  #Limit on number of error messages related to infeasible pre-triangle
+  #25 is default but often not enough. 
+  Lim_Pre_Msg = 400
+
 
   # Multithreading
   Threads=7
@@ -123,12 +133,8 @@ $OFFECHO
 $IMPORT functions.gms
 
 # ======================================================================================================================
-# Homotopy continuation flags (solve model gradually from last solution)
-# ======================================================================================================================
-$SETGLOBAL static_homotopy 0 # homotopy continuation in static calibration flag, 1.0 = True
-$SETGLOBAL deep_homotopy 0 # homotopy continuation in deep dynamic calibration flag, 1.0 = True
-
-# ======================================================================================================================
 # Should aggregation and other tests be run after calibration? Is set to 0 when running matching algorithm
 # ======================================================================================================================
 $SETGLOBAL run_tests 1
+
+$SETGLOBAL smooth_age_profiles 1 # Should age profiles be smoothed in deep_dynamic_calibration? 1 = yes, 0 = no

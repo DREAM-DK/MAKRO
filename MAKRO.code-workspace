@@ -1,29 +1,53 @@
-{
+  // "F55252", # DREAM
+  // "14AFA6", # REFORM
+  // "FF9B4B", # SMILE
+  // "5CD272", # Grøn REFORM
+  // "42B4E0", # MAKRO
+  // "BCADDD", # Plum
+  // "005F97", # Dark blue
+  // "893070", # Maroon
+  // "46464C", # Dark gray
+  // "E6E6E8", # Light gray
+
+	{
 	"folders": [
 		{
-			"path": "Data"
-		},
-		{
-			"path": "Documentation"
-		},
-		{
-			"path": "gamY"
-		},
-		{
-			"path": "Konjunktur"
-		},
-		{
-			"path": "Matching"
-		},
-		{
-			"path": "Model"
-		},
-		{
-			"path": "Analysis"
+			"path": "." // Top directory
 		}
 	],
 	"settings": {
-		"editor.codeActionsOnSave": {}
+		"editor.codeActionsOnSave": {},
+		"editor.rulers": [120],
+		"git.autofetch": true,
+		"jupyter.interactiveWindow.textEditor.executeSelection": true,
+		"jupyter.interactiveWindow.creationMode": "multiple",
+		"editor.tabSize": 2,
+		"search.useIgnoreFiles": false,
+		"search.exclude": {
+			"**/*.g00": true,
+			"**/*.svg": true,
+			"**/*.pkl": true,
+			"**/*.gdx": true,
+			"**/*.emf": true,
+			"**/*.pyc": true,
+		},
+		"workbench.colorCustomizations": {
+			"titleBar.activeBackground": "#14AFA6",
+			"titleBar.activeForeground": "#000000",
+			"titleBar.inactiveBackground": "#14AFA6",
+			"titleBar.inactiveForeground": "#000000",
+		},
+		"editor.rulers": [120],
+		"jupyter.interactiveWindow.textEditor.executeSelection": true,
+		"jupyter.interactiveWindow.creationMode": "multiple",
 	},
+  "extensions": {
+    "recommendations": [
+			"jeppekinslev.gamY-syntax-highlighting", // gamY syntax highlighting
+      "teabyii.ayu", // Color themes, inludes dark, light and mirage themes
+			"ms-toolsai.jupyter", // Jupyter notebook support
+			"ms-python.python" // Python support
+    ]
+  },
 }
 

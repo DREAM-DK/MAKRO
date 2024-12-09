@@ -33,7 +33,16 @@
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -205,7 +214,8 @@ As in the CES demand problem from Anderson (1979) exports relate to price
 \begin_inset Formula $q_{t}^{\text{Scale}}$
 \end_inset
 
- is a scale parameter which measures the growth of the domestic country.
+ is a scale parameter which measures the growth of domestic supply relative
+ to world supply.
  In this way this equation is similar to any of the CES demand curves originatin
 g from our households or firms.
  A more detailed explanation of the variables are outlined below.
@@ -245,6 +255,37 @@ The parameter
  Danish trading partners to increased demand for Danish exports.
  The parameter is set so that it matches MAKRO's impulse responses to empirical
  models of shocks to foreign trade.
+\end_layout
+
+\begin_layout Standard
+The import activity of Danish trade partners 
+\begin_inset Formula $m_{t}^{x}$
+\end_inset
+
+ is determined by the exogenously given measure of world output:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+m_{t}^{x}=\mu_{t}^{m^{x}}Y^{world}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $Y^{world}$
+\end_inset
+
+ is the foreign gross value added and 
+\begin_inset Formula $\mu_{t}^{m^{x}}$
+\end_inset
+
+is a parameter which ties world output to foreign import expenditure.
 \end_layout
 
 \begin_layout Subsubsection
@@ -289,10 +330,10 @@ world price
 
  is sourced from the 9 domestic production sectors, and that composition
  is summarized by the factors 
-\begin_inset Formula $\mu_{x,s,t}^{IOy}$
+\begin_inset Formula $\mu_{x,s,t}^{YM}$
 \end_inset
 
-:
+.
 \begin_inset Formula 
 \[
 p_{x,t}^{Xy}=\sum_{s}\mu_{x,s,t}^{YM}p_{x,s,t}^{YM}
@@ -366,7 +407,7 @@ relative
 We derive explicitly this equation in section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "subsec:Foreign-prices"
+reference "subsec:Derivation-of-price-ratio"
 plural "false"
 caps "false"
 noprefix "false"
@@ -440,7 +481,7 @@ supply generating its own demand
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Y_{t}^{X}=\left(1-\alpha\right)\sum_{i=0}^{n}\frac{Y_{t-i}^{*}}{n+1}+\alpha\cdot q_{t-1}^{\text{Scale}}
+q_{t}^{\text{Scale}}=\left(1-\alpha\right)\sum_{i=0}^{n}\frac{Y_{t-i}^{*}/Y_{t}^{world}}{n+1}+\alpha\cdot q_{t-1}^{\text{Scale}}
 \]
 
 \end_inset
@@ -450,10 +491,11 @@ Y_{t}^{X}=\left(1-\alpha\right)\sum_{i=0}^{n}\frac{Y_{t-i}^{*}}{n+1}+\alpha\cdot
 
 \begin_layout Standard
 where 
-\begin_inset Formula $Y^{*}$
+\begin_inset Formula $Y^{*}/Y^{world}$
 \end_inset
 
- is the structural gross value added of the private sector, which 
+ is the ratio between structural output of the private sector and world
+ output (gross value added), which 
 \begin_inset Formula $q_{t}^{\text{Scale}}$
 \end_inset
 

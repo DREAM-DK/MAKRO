@@ -7,14 +7,9 @@
 # Variable definition
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_DataOnly_prices
-    empty_group_dummy[t]
-  ;
-  $GROUP G_DataOnly_quantities
-    empty_group_dummy[t]
-  ;
+  $GROUP G_DataOnly_prices ;
+  $GROUP G_DataOnly_quantities ;
   $GROUP G_DataOnly_values
-    empty_group_dummy[t]
     vhW_DA[t] "DA time-løn"
   ;
   $GROUP G_DataOnly_forecast_as_zero

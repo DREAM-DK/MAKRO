@@ -33,7 +33,16 @@
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -648,7 +657,7 @@ Direct investments are modeled as a fixed share of public production in
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\text{direct investments}_{t}=P_{\text{Pub},t}^{Y}\cdot\mu_{IM,t}^{\text{Pub}}\cdot Y_{\text{Pub},t}
+\text{direct investments}_{t}=P_{\text{Pub},t}^{Y}\cdot\mu_{iM,t}^{\text{Pub}}\cdot Y_{\text{Pub},t}
 \]
 
 \end_inset

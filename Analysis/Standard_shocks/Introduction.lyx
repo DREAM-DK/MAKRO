@@ -162,25 +162,26 @@ name "sec:Indledning"
 \end_layout
 
 \begin_layout Standard
-The purpose of this note is to illustrate the properties of the most recent
- version of MAKRO to a series of shocks.
- The model is documented in several companion documents.
- Before analyzing the impact of specific shocks we discuss general properties
+This note aims to illustrate the properties of the most recent version of
+ MAKRO to a series of shocks.
+ The model is documented in several companion documents, see e.g.
+ XXX.
+ Before analyzing the impact of specific shocks, we discuss general properties
  of the transmission mechanisms present in the model.
 \end_layout
 
 \begin_layout Standard
-First we describe the general response to demand shocks (Section 1.1), followed
- by similar considerations for supply shocks (Section 1.2 for shocks to labor
- supply and productivity, section 1.3 for shocks to foreign prices and section
+First, we describe the general response to demand shocks (Section 1.1), followed
+ by similar considerations for supply shocks (Section 1.2 for labor supply
+ and productivity, section 1.3 for shocks to foreign prices, and Section
  1.4 for financial shocks).
- After this we discuss how the financing of public expenditure affects the
- dynamic responses of the model (Section 1.5).
+ After this, we discuss how public expenditure financing affects the model's
+ dynamic responses (Section 1.5).
  Finally, we write briefly about the sectors in MAKRO.
- Given their large contribution to GDP it is often enough to look at the
- service and manufacturing sectors if one wants to understand the marginal
- properties of the model (Section 1.6).
- The individual shock analyzes are described in the subsequent sections.
+ Given their significant contribution to GDP it is often enough to look
+ at the service and manufacturing sectors if one wants to understand the
+ marginal properties of the model (Section 1.6).
+ The individual shock analyses are described in the subsequent sections.
 \begin_inset Newpage newpage
 \end_inset
 
@@ -200,12 +201,12 @@ A positive demand shock is a shock that increases domestic demand for given
  prices.
  The demand curve shifts right.
  This occurs through changes in private consumption, public consumption,
- investments, exports or imports.
- The shock can be direct as with a shock to government consumption, but it is
- often indirect as with shocks to the income tax which change household
+ investments, exports, or imports.
+ The shock can be direct, as with a shock to government consumption, but
+ it is often indirect, as with shocks to the income tax, which change household
  income.
- Irrespective, the way the different demand shocks propagate through the
- model economy is similar and we discuss it in this section.
+ Regardless, the way the different demand shocks propagate through the model
+ economy is similar, and we discuss it in this section.
 \end_layout
 
 \begin_layout Subsubsection
@@ -215,32 +216,32 @@ Increased demand leads to increased sector production
 \begin_layout Standard
 When demand increases, production from different sectors will increase via
  the input / output system.
- For given output prices and unit costs firms will want to meet the increased
- demand in order to increase profits.
-\end_layout 
+ For given output prices and unit costs, firms will want to meet the increased
+ demand to increase profits.
+\end_layout
 
 \begin_layout Subsubsection
 Increased sectoral production leads to increased production inputs
 \end_layout
 
 \begin_layout Standard
-In order to increase production, firms need to increase their capacity utilizati
-on and/or their input of intermediates, labor and capital.
+To increase production, firms must increase their capacity utilization and
+ input of intermediates, labor, and capital.
  Firms invest in capital based on their expectations for production in the
  coming periods.
- In the short and medium run, there is decreasing returns to scale due to
- installation costs, while in the long run there is constant returns to
- scale.
+ In the short and medium run, there are decreasing returns to scale due
+ to installation costs, while in the long run, there are constant returns
+ to scale.
  Capacity utilization means that production in the short run is not only
  affected by the amount of production inputs used.
- In this manner, production in the individual sectors can increase more
- than factor input in the short term.
+ In this manner, output in the individual sectors can increase more than
+ factor input in the short term.
 \end_layout
 
 \begin_layout Standard
 Time-to-build and installation costs on capital mean that user costs on
- capital increase in the short run relative to other inputs and the K/L
- ratios in the individual sectors decrease.
+ capital increase in the short run relative to other inputs.
+ The K/L ratios in the individual sectors decrease.
  In the short run, it is thus easier to increase factor input from labor
  and intermediates compared to capital.
 \end_layout
@@ -251,8 +252,8 @@ Increased intermediate inputs leads to increased imports and domestic sectoral
 \end_layout
 
 \begin_layout Standard
-Increased demand for intermediates results in increased demand for goods
- and services from other sectors and from imports.
+Increased demand for intermediate inputs results in increased demand for
+ goods and services from other sectors and imports.
  
 \end_layout
 
@@ -271,12 +272,11 @@ Increased labor demand leads to increased wages, employment and labor supply
 \end_layout
 
 \begin_layout Standard
-The labor market takes the form of a search-labor market, where the wage
- is determined by annual negotiations for a share of the wage contracts.
- In order to increase employment, firms need to hire more employees and
- post more vacancies.
- The more vacancies that are posted in relation to the number of job seekers,
- the more difficult it is to get a match by a vacancy posting.
+The labor market is a search-labor market, where annual negotiations for
+ a share of the wage contracts determine the wage.
+ To increase employment, firms must hire more employees and post more vacancies.
+ The more vacancies posted relative to the number of job seekers, the more
+ difficult it is to get a match by a vacancy posting.
  The marginal cost of hiring thus increases for firms.
  In return, it becomes easier for the job seekers to get a match.
  The expected marginal gain from applying for a job increases, causing household
@@ -285,12 +285,12 @@ s to increase the effective labor supply.
 
 \begin_layout Standard
 Increased marginal cost of hiring causes the marginal cost of labor to increase.
- It provides a larger wedge between the marginal cost of new employees that
- the firm is willing to pay and the salary that existing employees receive.
+ It provides a larger wedge between the marginal cost of new employees the
+ firm is willing to pay and the salary existing employees receive.
  This increases the bargaining power of existing employees, which puts upward
  pressure on salaries.
- Wages adapt sluggishly and make an additional gradual contribution to increasin
-g the marginal cost of labor.
+ Wages adapt sluggishly and gradually contribute to increasing the marginal
+ cost of labor.
  
 \end_layout
 
@@ -301,22 +301,19 @@ Increased employment and wages leads to higher household income and increased
 
 \begin_layout Standard
 Increased employment and wages increase household income.
- The forward-looking households spread consumption out throughout their
- life and save something for inheritance taking into account the relative
- prices and expectations of future wealth and income.
- Habit consumption provides a more gradual adjustment, and benefit of wealth
- incl.
- to inheritance ensures that they save when old and do not borrow too much
- when young.
- The credit constrained households (so-called hand-to-mouth households)
- consume the entire income increase.
- Both types of households will, all other things being equal, increase consumpti
-on when income rises, but the effect is strongest for credit constrained
- households in the short run.
- Furthermore, the effect for the forward-looking agents will depend on which
- age groups experience the income increase, as younger age groups in MAKRO
- have a higher marginal propensity to consume.
- The increase in private consumption reflects both an increase in consumption
+ Households spread consumption throughout their life and save something
+ for inheritance, considering the relative prices and expectations of future
+ wealth and income.
+ Habit consumption provides a more gradual adjustment, and the benefit of
+ wealth incl., including inheritance, ensures that they save when old and
+ do not borrow too much when young.
+ Reference consumption relative to liquid income (Keynesian consumption)
+ ensures empirically realistic marginal propensities to consume out of income
+ increases, which ensures realistic short-run consumption properties.
+ Furthermore, the effect will depend on which age groups experience the
+ income increase, as younger age groups in MAKRO have a higher marginal
+ propensity to consume.
+ The increase in private consumption reflects an increase in consumption,
  excluding housing and housing consumption.
 \end_layout
 
@@ -326,12 +323,12 @@ Increased housing demand leads to increased housing prices and investments
 \end_layout
 
 \begin_layout Standard
- The increased housing demand results primarily in higher prices because
+The increased housing demand results primarily in higher prices because
  the supply of housing changes slowly.
  The marginal price for increasing the housing volume is very high in the
- short run primarily because houses embody land which exists in rigid supply,
- and land and other inputs are not strong substitutes in the production
- of the final housing good.
+ short run because houses embody land that exists in rigid supply, and land
+ and other inputs are not strong substitutes in producing the final housing
+ good.
  The housing volume thus only changes slightly in the short run, while the
  house price is quite volatile.
 \end_layout
@@ -350,7 +347,8 @@ Higher housing prices lead to a redistribution of wealth from those who
  However, this effect is dominated by the fact that all households can borrow
  through a mortgage.
  Overall, this mechanism means that increased housing prices lead to a higher
- propensity to consume.
+ propensity to consume as the liquidity gain of higher house prices enters
+ into the Keynesian reference consumption income term.
  There is thus an amplifying effect on consumption through demand shocks
  via increased loan financing in the housing market - a so-called financial
  accelerator.
@@ -362,13 +360,14 @@ Increased production leads to a gradual increase in output prices
 
 \begin_layout Standard
 Increasing marginal vacancy posting costs and capital installation costs
- mean that firms’ unit costs rise in the short run.
- The firm has an additional way of increasing output in the short run, which
- is to increase its factor utilization, but increased capacity utilization
- today must be compensated for in the future.
- Overall, firms' unit costs are rising, eroding its margins and putting
- upward pressure on output prices.
- However, the increase in prices is gradual due to price setting rigidity.
+ mean that firms' unit costs rise in the short run.
+ The firm has an additional way of increasing output in the short run: to
+ increase its factor utilization.
+ However, increased capacity utilization today must be compensated for in
+ the future by bringing down utilization again.
+ Overall, firms' unit costs are rising, eroding their profit margins and
+ putting upward pressure on output prices.
+ However, the increase in prices is gradual due to price-setting rigidity..
 \end_layout
 
 \begin_layout Subsubsection
@@ -385,28 +384,27 @@ Increased prices dampens the quantity demand over time
 \end_layout
 
 \begin_layout Standard
-Increased prices reduce the quantity demand.
- In the product market for goods and services, the increased prices mean
- lower demand.
- For intermediates, the effect is modest, as the substitution elasticities are
- typically small.
+Increased prices reduce the quantity demanded.
+ The increased prices mean lower demand in the market for goods and services.
+ The effect is modest for intermediates, as the substitution elasticities
+ are typically small.
  Investments are also generally not very sensitive to changes in investment
- prices and react more as a consequence of lower production due to the fall
- in other demand components.
+ prices and react more due to lower production due to the fall in other
+ demand components.
  Private consumption reacts - primarily as a reaction to the fall in real
  income.
- Much more sensitive to changing prices are exports.
- The reaction is only gradual, but in the long run exports will change significa
-ntly due to changes in relative prices.
+ Exports are much more sensitive to changing prices.
+ The reaction is only gradual, but in the long run, exports will change
+ significantly due to changes in relative prices.
  
 \end_layout
 
 \begin_layout Standard
-In addition, domestic demand is significantly affected by rising prices
- through the effect of relative prices on import content.
- Thus, the demand for domestic production of intermediates or private consumption
- will fall, even though the general demand for these components is only
- to a lesser extent affected by rising prices.
+In addition, rising prices significantly affect domestic demand through
+ the effect of relative prices on import content.
+ Thus, the demand for domestic production of intermediates or private consumptio
+n will fall, even though rising prices only affect the general demand for
+ these components to a lesser extent.
  As with exports, this reaction to relative prices is gradual.
 \end_layout
 
@@ -415,11 +413,9 @@ Full crowding out in employment for permanent demand shocks
 \end_layout
 
 \begin_layout Standard
-A permanent exogenous increase in domestic demand will over time result
- in crowding-out via foreign trade, improved terms of trade and higher real
- wages.
- In the short run, price and wage rigidities will create an increase in
- employment.
+A permanent exogenous increase in domestic demand will result in crowding
+ out via foreign trade, improved terms of trade, and higher real wages.
+ In the short run, price and wage rigidities will increase employment.
  In the long run, however, structural employment will be re-established.
  Higher domestic demand pushes up domestic prices and reduces exports.
 \begin_inset Foot
@@ -440,7 +436,8 @@ Wages will typically grow more than domestic output prices, so that product
 \end_inset
 
 
-\begin_inset Newpage newpage\end_inset
+\begin_inset Newpage newpage
+\end_inset
 
 
 \end_layout
@@ -458,21 +455,22 @@ A positive supply shock decreases prices for any given quantity produced.
  The supply curve shifts right.
  There is typically an effect via the production costs of the firm as with
  increased labor supply (lowers costs of labor), increased productivity
- (lowers effective costs of one or more production inputs), lower financial
- costs (lower capital costs) or lower foreign prices (lower intermediate
+ (reduces effective costs of one or more production inputs), lower financial
+ costs (lower capital costs), or lower foreign prices (lower intermediate
  input or investment costs).
- With output prices being set as a markup over costs, these prices also fall.
+ With output prices being set as a markup over costs, these prices also
+ fall.
  Shocks to foreign prices also affect the demand prices directly through
  imports.
- Furthermore shocks to foreign prices affect demand through the import shares
- and exports both affected by foreign prices.
- Financial shocks is also most often more than a pure shock to financial
- costs and an interest rate shock will for example change the income flow,
- wealth and hence demand of the households.
+ Furthermore, shocks to foreign prices affect demand through the import
+ shares and exports, both affected by foreign prices.
+ Financial shocks are also often more than a pure shock to economic costs,
+ and an interest rate shock will, for example, change the income flow, wealth,
+ and hence the demand of the households.
 \end_layout
 
 \begin_layout Standard
-In this section we focus on labor supply and productivity shocks.
+In this section, we focus on labor supply and productivity shocks.
  Shocks to foreign prices and financial shocks are described in later sections.
 \end_layout
 
@@ -482,24 +480,26 @@ Increased supply leads to fewer production inputs for given production and
 \end_layout
 
 \begin_layout Standard
-A productivity shock lowers unit costs of production and inputs of labor,
- capital and materials are all reduced for a given production.
- Input of the more productive input is reduced as it is possible to produce
- the same with less input and this is not dominated by substitution effect
- as all substitution elasticities in the production is less than one.
- Input of the other factors are reduced due to substitution as the more
- productive factor has become cheaper in effective units.
+A productivity shock lowers unit production costs, and labor, capital, and
+ materials inputs are all reduced for a given production.
+ The input of the more productive input is reduced as it is possible to
+ produce the same with less input, and this is not dominated by substitution
+ effects as all substitution elasticities in the production are less than
+ or close to one.
+ Input of the other factors is reduced due to substitution as the more productiv
+e factor has become cheaper in effective units.
 \end_layout
 
 \begin_layout Standard
 Total labor input consists of workers times hours worked times individual
  productivity.
- Hours worked depend on taxes, wages and preferences and we can shock both
- preferences and taxes.
- Other preferences dictate search behaviour.
- Reducing the disutility of search will in increase the number of matches
- per vacancy posted by the firms and will decrease the marginal costs of
- hiring and hence the unit cost of firms.
+ Hours worked depend on taxes, wages, and a preference shifter for hours.
+ Both preferences and taxes can be shocked.
+ In addition, there is a preference shifter specific to the disutility of
+ search.
+ Reducing the disutility of search will increase the number of matches per
+ vacancy posted by the firms and will decrease the marginal costs of hiring
+ and, hence, the unit cost of firms.
 \end_layout
 
 \begin_layout Subsubsection
@@ -508,8 +508,7 @@ Lower unit costs leads to lower output prices
 
 \begin_layout Standard
 Lower unit costs cause the firms to lower prices.
- The increase is gradual due to rigidity, which makes it costly for firms
- to change the price sharply in the short term.
+ The increase is gradual due to price adjustment costs.
  
 \end_layout
 
@@ -518,7 +517,7 @@ Lower output prices leads to lower demand prices
 \end_layout
 
 \begin_layout Standard
-The input / output system mechanically links lower output prices to lower
+The input/output system mechanically links lower output prices to lower
  demand prices based on input shares.
 \end_layout
 
@@ -528,11 +527,10 @@ Lower prices increases quantity demand over time
 
 \begin_layout Standard
 Lower prices increase the quantity demand.
- This is as described in the subsection 'Increased demand prices dampens
- demand over time primarily through 'foreign trade'' - but with the reversed
- sign.
- The effects from higher demand are described in the section 'Fundamental
- mechanisms when demand increases'.
+ As described in the subsection 'Increased demand,' prices dampen demand
+ over time primarily through foreign trade - but with the reversed sign.
+ The effects of higher demand are described in the section 'Fundamental
+ mechanisms when demand increase'.
 \end_layout
 
 \begin_layout Subsubsection
@@ -540,18 +538,19 @@ Full crowding out in the unemployment rate
 \end_layout
 
 \begin_layout Standard
-Some permanent supply shocks can change the structural rate of unemployment,
- but most shocks do not and none of the above mentioned do.
- Increased demand will over time increase employment until the structural
+Some permanent supply shocks can change the structural unemployment rate
+ (e.g., changing the compensation rate of unemployment), but most shocks do
+ not, and none of those mentioned above do.
+ Increased demand will, over time, increase employment until the structural
  unemployment rate is unchanged.
 \end_layout
 
 \begin_layout Standard
-If public consumption or foreign demand are exogenous, an increase in hours
- or participation will make domestic prices and real wages fall.
+Increasing hours or participation will make domestic prices and real wages
+ fall if public consumption or foreign demand is exogenous.
  The reason is similar to the mechanism described under the demand shocks.
- The larger labor supply will in the long run result in more domestic goods
- being produced.
+ The larger labor supply will result in more domestic goods being produced
+ in the long run.
  Domestic prices must fall to sell more goods in the export market.
  
 \end_layout
@@ -561,17 +560,38 @@ Increased supply will over time cause scale effects in exports
 \end_layout
 
 \begin_layout Standard
-MAKRO has a scale effect in exports as long-term growth in private structural
- gross value added (GVA) leads to a corresponding growth in exports over
- time.
- One would typically think of such supply effects as something that materializes
- on an extensive margin: Exports of new product types or to new markets.
- In other Danish macroeconomic models (eg DREAM, SMEC or MONA), there is
- typically a significant effect on real wages in the event of a shock to
- labor supply.
- This effect is smaller in MAKRO due to the scale effect in exports.
+MAKRO has a scale effect on exports
 \begin_inset Foot
-status collapsed
+status open
+
+\begin_layout Plain Layout
+That is, a reduced for modelling of 
+\begin_inset Quotes eld
+\end_inset
+
+supply creating its own demand
+\begin_inset Quotes erd
+\end_inset
+
+.
+ We assume that since Denmark is a small economy, there is insatiable demand
+ for Danish products abroad.
+ For further details, see Section 6 in the MAKRO documentation.
+\end_layout
+
+\end_inset
+
+ as long-term growth in private structural gross value added (GVA) leads
+ to a corresponding export growth over time.
+ One would typically think of such supply effects as materializing on an
+ extensive margin: Exports of new product types or to new markets.
+ In other Danish macroeconomic models (e.g., DREAM, SMEC, or MONA), there
+ is typically a significant effect on real wages in the event of a shock
+ to labor supply.
+ This effect is smaller in MAKRO due to the scale effect in exports.
+ 
+\begin_inset Foot
+status open
 
 \begin_layout Plain Layout
 Both ADAM and DREAM have scale effect in exports as an option.
@@ -604,7 +624,7 @@ textit{https://www.dst.dk/extranet/AdamMultiplikatorer/2020okt/Muleks20.html}
 \end_layout
 
 \begin_layout Subsection
-Fundamental mechanisms when foreign prices increase
+Fundamental mechanisms when foreign prices increases
 \end_layout
 
 \begin_layout Subsubsection
@@ -612,10 +632,12 @@ Initial shock increases import prices and/or export competing prices
 \end_layout
 
 \begin_layout Standard
-In MAKRO there are both import prices and export competing prices.
- They are both affected by the exogenous oil price and by an exogenous foreign
- pric,e which excludes direct and indirect effects from the oil price.
- It is possible to shock the oil price and/or the foreign price.
+In MAKRO, foreign prices can be divided into two main groups: Import prices
+ and prices on goods/services that compete with domestic exports, henceforth
+ called export competing prices.
+ They are both affected by the exogenous oil price and an exogenous foreign
+ price, excluding direct and indirect effects from the oil price.
+ It is possible to shock the oil and/or foreign prices.
  It is also possible to exogenize and shock some or all of the import and/or
  export competing prices directly.
 \end_layout
@@ -623,14 +645,15 @@ In MAKRO there are both import prices and export competing prices.
 \begin_layout Standard
 A higher oil price affects all import and export competing prices, but energy
  prices are affected more.
- A higher foreign price excluding oil also affects all import and export competing prices,
- but energy prices are affected less.
- Realistic shocks to the oil price or to the foreign price should affect
- the foreign demand market and foreign interest rates as movements in different
- foreign variables are correlated.
- In MAKRO these are exogenous and thought of as constant in the description
+ A higher foreign price excluding oil also affects all import and export
+ competing prices, but energy prices are affected less.
+ Realistic shocks to the oil price or foreign price should affect the foreign
+ demand market and interest rates as movements in different foreign variables
+ are correlated.
+ In MAKRO, these are exogenous and considered constant in the description
  of the shock effects.
- A realistic foreign shock moves all these components.
+ A realistic foreign shock (general equilibrium for the foreign economy)
+ moves all these components.
 \end_layout
 
 \begin_layout Subsubsection
@@ -638,10 +661,10 @@ Higher export competing prices increase exports
 \end_layout
 
 \begin_layout Standard
-The only effect from higher export competing prices is to increase demand
+The only effect of higher export competing prices is to increase demand
  for exports.
- For the danish economy this is a positive demand shock to exports and follows
- the mechanisms described above.
+ For the Danish economy, this is a positive demand shock to exports and
+ follows the mechanisms described above.
  
 \end_layout
 
@@ -652,13 +675,13 @@ Higher import prices reduce imports and increase domestic demand
 \begin_layout Standard
 Every type of demand has inputs from potentially all sectors and from imports
  or domestic production.
- These inputs are cells in the input-output matrix and are either positive
+ These inputs are cells in the input-output (IO) matrix, either positive
  or zero.
- Import shares are endogenous and respond to prices, unless imports are
- zero for a given product.
- If in a given sector the import price increases relative to the domestic
- price, all cells representing input from this sector (that are not 0 or
- 1) will have a lower import share.
+ Import shares are endogenous and respond to prices unless imports are zero
+ for a given product.
+ If the import price increases relative to the domestic price in a given
+ sector, all IO-cells representing input from this sector (that are not
+ 0 or 1) will have a lower import share.
  This substitution effect tends to increase domestic demand.
 \end_layout
 
@@ -684,7 +707,7 @@ Increased demand prices lead to lower domestic quantity demand
 
 \begin_layout Standard
 Increased prices affect domestic demand as described under the demand shocks
- in the subsection 'Increased demand prices dampens quantity demand over
+ in the subsection 'Increased demand' prices dampens quantity demand over
  time.
 \end_layout
 
@@ -721,15 +744,16 @@ Higher material prices increase unit costs and give substitution towards
 Demand prices increase when import prices increase.
  This includes the price of intermediate inputs.
  When these prices increase the unit costs of production increase in all
- sectors .The effects are the same as described in the section 'Fundamental
- mechanisms when supply increase' - just with the opposite sign.
+ sectors.
+ The effects are the same as described in the section 'Fundamental mechanisms
+ when supply increase' - with the opposite sign.
 \end_layout
 
 \begin_layout Standard
- Firms will substitute away from intermediate inputs as they are relatively
+Firms will substitute away from intermediate inputs as they are relatively
  more expensive compared to labor.
- Capital may become relatively more or less expensive as it is increased
- through investment that also has imported inputs.
+ Capital may become more or less costly as it is increased through investment
+ with imported inputs.
 \end_layout
 
 \begin_layout Subsubsection
@@ -737,8 +761,8 @@ Substitution towards labor dampens negative effects on wages and employment
 \end_layout
 
 \begin_layout Standard
-The negative general equilibrium effects on employment and wages from the
- higher prices are dampened by the substitution towards labor.
+The substitution towards labor dampens the opposing general equilibrium
+ effects on employment and wages from the higher prices.
 \begin_inset Newpage newpage
 \end_inset
 
@@ -757,24 +781,36 @@ Initial shock changes returns and asset prices
 Financial shocks affect firms and households.
  Changes in asset prices and asset returns affect private income, wealth,
  and consumption.
- Changes to the costs of finance affect firms immediately in all their forward
- looking decisions.
- Financial shocks can be shocks to the ECB key interest rate, to foreign
- stock prices, to asset specific risk premia, etc.
+ Changes to finance costs affect firms immediately in all their forward-looking
+ decisions.
+ Financial shocks can be shocks to the ECB key interest rate, foreign stock
+ prices, asset-specific risk premia, etc.
  Changes to interest rates and risk premia will work through the discount
- factors used by firms and households.
+ factors firms and households use.
  Jumps in foreign stock prices work first through a wealth effect but have
  other nonlinear effects through the specification of household utility.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Households have wealth in utility and bequest utility.
+ Refer also to the MAKRO documentation for more info.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
-Returns and asset prices are affected and will in turn affect household demand
+Returns and asset prices are affected and will in turn affect household
+ demand
 \end_layout
 
 \begin_layout Standard
 Higher returns on assets will increase net returns for agents with positive
  portfolios and can affect the savings behavior of households.
- This will in turn impact on private consumption and housing demand.
+ This will, in turn, impact private consumption and housing demand.
 \end_layout
 
 \begin_layout Subsubsection
@@ -786,31 +822,32 @@ An increase in the cost of finance will increase the user cost for the relevant
  real variables.
  Housing is financed primarily through real estate bonds, but also through
  other financial savings.
- The last is affected by the households marginal return on savings, which
- is determined by the return on assets and portfolio composition.
- Factors that increase housing finance i.e.
- the real estate bond rate and other rates of return (also through composition)
- will increase the user cost of housing.
- This will for given prices lead to lower housing demand.
+ The last is affected by the household's marginal return on savings, determined
+ by the return on assets and portfolio composition.
+ Factors that increase housing finance, i.e., the real estate bond rate and
+ other rates of return (also through composition), will increase the user
+ cost of housing.
+ This will, for given prices, lead to lower housing demand.
  This will then work like a negative shock to investments in housing through
  mechanisms described in the section 'Fundamental mechanisms when demand
- increase'.
+ increases'.
 \end_layout
 
 \begin_layout Subsubsection
 Increased finance costs of firm capital will increase unit costs and substitutio
 n will decrease firm investments
 \end_layout
+
 \begin_layout Standard
 The user cost for firm investments will also be affected by financial costs.
  Firm investments are financed partly by borrowing and partly by issuing
  new stock.
- The cost of finance is hence a weighted average of the interest rate and
- the return on stocks.
- A higher interest rate and/or a higher future return on domestic stocks
- will increase user cost of firm investments.
- This will increase the unit costs and act like a negative supply shock described
- in the section 'Fundamental mechanisms when supply increase'.
+ The cost of finance is, hence, a weighted average of the interest rate
+ and the return on stocks.
+ A higher interest rate and future return on domestic stocks will increase
+ the user cost of firm investments.
+ This will increase the unit costs and act like a negative supply shock
+ described in the section 'Fundamental mechanisms when supply increases.'
  Furthermore, there will be substitution away from capital.
  This will decrease firm investment for given production.
 \begin_inset Newpage newpage
@@ -826,30 +863,30 @@ The reaction of the public sector
 \begin_layout Standard
 The shocks analyzed below will change the basis of government revenue and
  expenditure.
- Given unchanged public consumption and transfer and tax rates this makes
+ Given unchanged public consumption and transfer and tax rates, this makes
  fiscal policy either sustainable or unsustainable.
- The public sector is therefore forced to react by either changing tax rates,
- transfer rates and public spending.
+ Therefore, the public sector is forced to react by changing tax rates,
+ transfer rates, and public spending.
  In many models, there is an endogenous public response function, such that
  the public sector automatically reconciles revenue and expenditure via
  pre-determined rules.
 \end_layout
 
 \begin_layout Standard
-MAKRO is to be used in connection with fiscal policy planning, and therefore
+MAKRO is to be used in connection with fiscal policy planning, and therefore,
  it does not contain an endogenous financing constraint.
  However, this does not mean that fiscal policy does not have to be sustainable.
- In analyzing shocks we often see the mechanisms more clearly in unfinanced
+ In analyzing shocks, we often see the mechanisms more clearly in unfinanced
  shocks.
  Financed shocks with fiscal policy balance are, however, more realistic.
- In MAKRO the default is to finance shocks so that the fiscal sustainability
+ In MAKRO, the default is to finance shocks so that the fiscal sustainability
  indicator is unchanged by making a permanent lump-sum transfer between
  the households and the public sector.
 \end_layout
 
 \begin_layout Standard
 Whether or not (and how) a budget balance is financed matters.
- MAKRO has forward looking households and firms, and therefore a degree
+ MAKRO has forward-looking households and firms and, therefore, a degree
  of Ricardian equivalence, which makes the effects of this choice far from
  trivial.
  
@@ -866,7 +903,7 @@ A brief note on the sectors in in MAKRO
 \begin_layout Standard
 There are 9 sectors in MAKRO.
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 This compares with the 12 sectors in ADAM.
@@ -886,31 +923,29 @@ This compares with the 12 sectors in ADAM.
 \end_layout
 
 \begin_layout Standard
- Some of the sectors are less central to shock analysis than others due
- to several factors.
- For example, the housing sector is driven solely by household demand, and
+Several factors make some sectors less central to shock analysis than others.
+ For example, the housing sector is driven solely by household demand and
  draws almost exclusively from the construction sector.
- The extraction industry is exogenously given and production is thus not
+ The extraction industry is exogenously given, and production is thus not
  affected by shocks.
  Maritime transport (shipping) and agriculture are small industries with
- a limited share of both GVA and employment, which means that their role
- is limited when describing the aggregate effects of shocks.
- This is especially true for maritime transport, where it is also the case
- that exports - due to high import content - are largely independent of
- Danish prices.
+ a limited share of GVA and employment, meaning their role is limited when
+ describing the aggregate effects of shocks.
+ This is especially true for maritime transport, where exports - due to
+ high import content - are largely independent of Danish prices.
  The energy sector is interesting when energy taxes change, while it does
- not play a major role in many other shocks.
+ not play a significant role in many other shocks.
  Although the public sector is large, it is exogenous and therefore only
- important if it is shocked directly.
- The two main sectors are therefore (private) services and manufacturing.
- Services are important by virtue of their size: they account for almost
- half of GVA and over half of employment as well as approximately one third
- of aggregate investment.
- The manufacturing sector is smaller, but it is still significant in terms
- of describing the response to various shocks.
+ vital if it is shocked directly.
+ Thus, the two main sectors are (private) services and manufacturing.
+ Services are essential because of their size: they account for almost half
+ of GVA, over half of employment, and approximately one-third of aggregate
+ investment.
+ The manufacturing sector is smaller, but it is still significant in describing
+ the response to various shocks.
  This is because the manufacturing sector is the largest supplier to exports,
- just as the majority of imports are from foreign manufacturing industries
- that substitute for domestic manufacturing.
+ just as most imports are from foreign manufacturing industries that substitute
+ for domestic manufacturing.
 \end_layout
 
 \begin_layout Standard
@@ -1996,10 +2031,10 @@ The two main endogenous sectors are thus manufacturing and services.
  In particular, the demand for manufacturing is sensitive to changes in
  prices.
  However, pricing is markedly different in the two sectors.
- In the short run, they are assumed to have identical price rigidity, but
- as their long run prices are determined based on costs, the long run price
- development in the two sectors is greatly affected by the different composition
- and evolution of their production inputs.
+ In the short run, they are assumed to have identical price rigidity.
+ However, as their long-run prices are determined based on costs, the long-run
+ price development in the two sectors is greatly affected by the different
+ composition and evolution of their production inputs.
  Their input composition and their pricing are shown in table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2011,11 +2046,12 @@ noprefix "false"
 \end_inset
 
 .
- The service sector is greatly affected by labor costs both directly and
- indirectly via input from the service sector.
- The manufacturing sector is affected to a lesser extent by labor costs
- both directly and indirectly, and has a larger import input, so that it
- is generally less affected by domestic wage and price changes.
+ The service sector is greatly affected directly and indirectly by labor
+ costs via input from the service sector.
+ The manufacturing sector is affected to a lesser extent by directly and
+ indirectly by labor costs.
+ It has a larger import input, so it is generally less affected by domestic
+ wage and price changes.
 \end_layout
 
 \begin_layout Standard
@@ -2344,30 +2380,29 @@ noprefix "false"
 \end_inset
 
  gives an overview of which sectoral output prices affect the prices of
- materials, private consumption, public consumption, investment and exports
- respectively.
- In general, intermediate input prices are mostly affected by services,
- imports and manufacturing.
+ materials, private consumption, public consumption, investment, and exports.
+ Generally, intermediate input prices are affected mainly by services, imports,
+ and manufacturing.
  The price of private consumption excl.
  housing is primarily affected by services and imports.
  The housing deflator - used in the empirical calculation of total private
- consumption - is determined on the basis of imputed regulated rents and
- is generally not affected by shocks.
- The deflator for public consumption is determined primarily on the basis
- of the output price of public production.
- The investment price of machinery capital is determined primarily on the
- basis of the prices of services, manufacturing and imports, while the price
- of building investments is primarily determined on the basis of the price
- of construction and services.
- The price of the construction sector is in isolation important for the
- investment price of buildings, but this price is in isolation not so important
- for the rest of the economy, as buildings only make up a small part of
- firm costs, and user costs in the short run primarily reflect installation
- costs.
- Export prices are primarily affected by prices for manufacturing, services
- and maritime shipping.
- However, as the price of shipping is almost not affected by domestic conditions
-, this is not so important for the volume of exports for most shocks.
+ consumption - is determined based on imputed regulated rents and is generally
+ unaffected by shocks.
+ The deflator for public consumption is determined primarily based on the
+ output price of public production.
+ The investment price of machinery capital is determined primarily based
+ on the prices of services, manufacturing, and imports.
+ In contrast, the price of building investments is primarily determined
+ based on the price of construction and services.
+ In isolation, the price of the construction sector is essential for the
+ investment price of buildings.
+ However, this price is, in isolation, not so important for the rest of
+ the economy, as buildings only make up a small part of firm costs, and
+ user costs in the short run primarily reflect installation costs.
+ Export prices are mainly affected by manufacturing, services, and maritime
+ shipping prices.
+ However, as the price of shipping is almost unaffected by domestic conditions,
+ this is not so important for the volume of exports for most shocks.
 \end_layout
 
 \begin_layout Standard

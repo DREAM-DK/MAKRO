@@ -11,7 +11,7 @@ $onMulti
 set activ "Arbejdsmarkedsstatus (FM definitioner)" /
   besk                    "Employed n.e.c."                                           # Beskæftigede uden nærmere angivelse
   beskuddsu               "Employed students with student aid"                        # Beskæftigede uddannelsessøgende med SU
-  beskuddxsu              "Employed students without student aid"                     # Beskæftigede uddannelsessøgende og børn med SU
+  beskuddxsu              "Employed students without student aid"                     # Beskæftigede uddannelsessøgende uden SU
   besksyge                "Employed receipients of sickness benefits"                 # Beskæftigede modtagere af sygedagpenge
   beskbarsel              "Beskæftiget på barsel"
   beskfortid              "Employed early pensioners, n.e.c."                         # Beskæftigede førtidspensionister u.n.a.
@@ -41,6 +41,7 @@ set activ "Arbejdsmarkedsstatus (FM definitioner)" /
   overg                   "Transitory voluntary early retirees"                       # Overgangsydelse
   fleksyd                 "Flexible early retirees"                                   # Fleksydelse
   efterl                  "Voluntary early retirees"                                  # Efterløn
+  # OBS: nSoc[pension] er ekskl. de over 100-årige: BFR[pension] = nSoc[pension] + nPop_Over100
   pension                 "Public pensioners"                                         # Folkepensionister
   tjmand                  "Civil servant pensioners"                                  # Tjenestemandspensionister
   jobafkl                                                                             # Jobafklaringsforløb
@@ -69,18 +70,78 @@ set soc "Arbejdsmarkedsstatus (FM definitioner) ekskl. totaler" /
 
 set boern[soc] / boern /;
 
+set socFraMAKROBK[soc] "Variable med data fra MAKROBK" /
+  besksyge # qms
+  beskbarsel# qmb
+  beskfortid # qpfo
+  beskpens # qpfp
+  besktidlpens # qptp
+  beskseniorpens # qpsp
+  sbeskrest # qltr
+  sbeskflex # qltf
+  sbeskskaane # qlts
+  sbeskreval # 0 
+  sbeskjobtdag # qltjd
+  sbeskjobtaktj # qltjkz = buakbr * qltjk
+  sbeskjobtaktij # qltjkw = (1-buakbr) * qltjk
+  dleddag # 0
+  dledkont # 0
+  leddag # uld
+  ledkont # ulk - ulki
+  orlov # umo
+  barsel # umbxa
+  syge # umsxa
+  aktdag # uad
+  reval # ury
+  ledigyd # uly
+  konthj # ukr
+  fortid # upfo
+  overg # upov
+  fleksyd # upfy
+  pension # upfp
+  tjmand # upt
+  aktkontudd # 0
+  aktkontj # for beregning jf. labor_market.gcm i data\makrobk-mappe
+  aktkontij # for beregning jf. labor_market.gcm i data\makrobk-mappe
+  ledarbj # 0
+  aktarbj # 0
+  intro # uki
+  ledintro # ulki
+  aktintroj # buakbi * Uaki
+  aktintroij # (1-buakbi) * Uaki
+  tidlpens # uptp
+  seniorpens # upsp
+/;
+set socFraFM[soc] "Variable med data fra MAKROBK" /
+  beskuddsu # qusu - beregnes af FM
+  beskuddxsu # qxsu - beregnes af FM
+  beskeft # qpef - beregnes af FM
+  uddsu # uusu - beregnes af FM
+  uddxsu # uuxsu - beregnes af FM
+  efterl # upef - qpef beregnes af FM
+  jobafkl # xxjob - beregnes af FM
+  boern # ub - beregnes af FM (ikke lig med Ub fra ADAMs databank!)
+  selvpens # upsvp - beregnes af FM
+  udvforlob # umr - xxjob - beregnes af FM
+
+  # Residual-beregnes og læses ikke ind
+  # besk # quna = q - (graens + sortarb + qusu + qxsu + qpfo + qpfp + qpef + qltr + qltf + qlts + qltjd + qltjkz + qltjkw + qptp + qpsp) - residual ud fra samlet beskæftigelse, grænsearbejdere inkl. sort arbejde og ikke-ordinært beskæftigede
+  # ovrige # urx = u - (q - (graens + sortarb)) - ul - (ub + uusu + uuxsu + umo + qmb + umbxa + qms + umsxa + ury + uly + umr + xxjob + ukr + uki + uad + uakkz + uakkw + uakiz + uakiw + upov + upfy + upef + upfo + upfp + upt + uptp + upsp) - residual ud fra befolkningen, grænsearbejdere inkl. sort arbejde og alle andre grupper i BFR
+/;
+
 set BruttoLedig[soc] "Bruttoledighed" /
   sbeskjobtdag            "Dagpengemodtagere i støttet beskæftigelse"
   sbeskjobtaktj           "Jobparate kontanthjælpsmodtagere i støttet beskæftigelse"
   leddag                  "Ledige, forsikrede"
   ledkont                 "Ledige, ikke-forsikrede"
   aktdag                  "Aktiverede, forsikrede"
-  aktkontudd              "Jobparate (i bruttoledigheden) aktiverede kontanthjælpsmodtagere i uddannelsesordning"
   aktkontj                "FM special: Jobparate aktiverede kontanthjælpsmodtagere"
-  ledarbj                 "FM special: Arbejdsmarkedsydelse - passive"
-  aktarbj                 "FM special: Arbejdsmarkedsydelse - aktive"
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
   aktintroj               "FM special: Jobparate aktiverede integrationsydelsesmodtagere"
+
+  aktkontudd              "Jobparate (i bruttoledigheden) aktiverede kontanthjælpsmodtagere i uddannelsesordning"
+  ledarbj                 "FM special: Arbejdsmarkedsydelse - passive"
+  aktarbj                 "FM special: Arbejdsmarkedsydelse - aktive"
 /;
 
 set NettoLedig[soc] "Nettoledighed" /
@@ -93,7 +154,7 @@ set NettoLedig[soc] "Nettoledighed" /
 set besktot[soc] "Beskæftigelse" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
-  beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
+  beskuddxsu              "Beskæftigede uddannelsessøgende uden SU"
   # besksyge                "Beskæftigede modtagere af sygedagpenge"
   # beskbarsel              "Beskæftiget på barsel"
   beskfortid              "Beskæftigede førtidspensionister u.n.a."
@@ -115,7 +176,7 @@ set besktot[soc] "Beskæftigelse" /
 set BruttoArbsty[soc] "Arbejdsstyrke" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
-  beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
+  beskuddxsu              "Beskæftigede uddannelsessøgende uden SU"
   # besksyge                "Beskæftigede modtagere af sygedagpenge"
   # beskbarsel              "Beskæftiget på barsel"
   beskfortid              "Beskæftigede førtidspensionister u.n.a."
@@ -146,7 +207,7 @@ set BruttoArbsty[soc] "Arbejdsstyrke" /
 set NettoArbsty[soc] "Nettoarbejdsstyrke" /
   besk                    "Beskæftigede uden nærmere angivelse"
   beskuddsu               "Beskæftigede uddannelsessøgende med SU"
-  beskuddxsu              "Beskæftigede uddannelsessøgende og børn med SU"
+  beskuddxsu              "Beskæftigede uddannelsessøgende uden SU"
   # besksyge                "Beskæftigede modtagere af sygedagpenge"
   # beskbarsel              "Beskæftiget på barsel"
   beskfortid              "Beskæftigede førtidspensionister u.n.a."
@@ -169,7 +230,7 @@ set NettoArbsty[soc] "Nettoarbejdsstyrke" /
   beskseniorpens          ""
 /;
 
-Set ovf_hh "Overførsler til husholdningerne" /
+Set ovf_til_husholdninger "Overførsler til husholdningerne" /
   ledigyd      "Ledighedsydelse"
   aktarbj      "Overførsler til aktiverede i arbejdsmarkedsydelsesordningen udenfor arbejdsstyrken"
   sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
@@ -205,48 +266,52 @@ Set ovf_hh "Overførsler til husholdningerne" /
   medie        "Mediecheck"
   lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
   tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
-#  seniorpens   "Seniorpension"
+  seniorpens   "Seniorpension"
 /;
 
-Set ovf_udl "Overførsler til udlandet" /
+Set ovf_til_udenlandske_husholdninger "Overførsler til udlandet" /
   udlpens   "Folkepension til udland"
   udlfortid "Førtidspension til udland"
   udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
-#  udlseniorpens "Seniorpension til udlandet"
+  udlseniorpens "Seniorpension til udlandet"
 /;
 
 Set ovf_ "Overførsler inkl. totaler" /
-  set.ovf_hh
-  set.ovf_udl
-  tot
-  hh
-  a18t100
-  a0t17
+  set.ovf_til_husholdninger
+  set.ovf_til_udenlandske_husholdninger
+  tot "Samlede overførsler"
+  HhTot "Samlede overførsler til husholdninger"
+  a18t100 "Overførsler som fordeles på alle personer i alderen 18-100 år"
+  a0t17 "Overførsler som fordeles på alle personer i alderen 0-17 år"
 /;
 
-Set ovftot[ovf_] "Subset bestående af tot" /
-  tot
-/;
+Set ovfTot[ovf_] "Subset bestående af tot" / tot /;
 
 Set ovf[ovf_] "Overførsler ekskl. totaler" /
-  set.ovf_hh
-  set.ovf_udl
+  set.ovf_til_husholdninger
+  set.ovf_til_udenlandske_husholdninger
 /;
 
-Set ovfhh[ovf] "Overførsler ekskl. totaler" /
-  set.ovf_hh
+Set ovfHh[ovf] "Overførsler ekskl. totaler" / set.ovf_til_husholdninger /;
+Set ovfUdl[ovf] "Overførsler ekskl. totaler" / set.ovf_til_udenlandske_husholdninger /;
+
+Set HhTot[ovf_] "Subset bestående af HhTot" / HhTot /;
+
+Set ureguleret[ovf] "Overførsler som ikke reguleres" /
+  groen   "Grøn check"
 /;
 
-Set hh[ovf_] "Subset bestående af hh" /
-  hh
+Set prisreg[ovf] "Prisregulerede overførsler" /
+  boernyd "Børnefamilieydelse"
+  boligst "Boligstøtte (boligsikring)"
 /;
 
-Set satsreg[ovf] "Overførsler ekskl. totaler" /
+Set satsreg[ovf] "Satsregulerede overførsler" /
   ledigyd      "Ledighedsydelse"
   aktarbj      "Overførsler til aktiverede i arbejdsmarkedsydelsesordningen udenfor arbejdsstyrken"
   sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
   aktdag       "Overførsler til AF aktiverede ekskl. arbejdsmarkedsydelse udenfor arbejdsstyrken (dagpenge)"
-  aktkont      "Overførsler til aktiverede kontantshjælpmodtagere"
+  aktkont      "Overførsler til aktiverede kontanthjælpsmodtagere"
   reval        "Revalideringsydelse"
   uddsu        "Statens uddannelsesstøtte"
   leddag       "Arbejdsløshedsdagpenge ekskl. arbejdsmarkedsydelse"
@@ -268,154 +333,29 @@ Set satsreg[ovf] "Overførsler ekskl. totaler" /
   kontflex     "Overførsler til kontanthjælp i øvrigt, skattepligtig del (primært fleksjobtilskud)"
   kontrest     "Overførsler til kontanthjælp i øvrigt, ikke-skattepligtig del (inkl. løntilskud, revalidering mv.)"
   intro        "Modtagere af integrationsydelse, kontanthjælp til flygtninge, introduktionsydelse (passiv periode)"
-  boernyd      "Børnefamilieydelse"
-  udlpens      "Folkepension til udland"
-  udlfortid    "Førtidspension til udland"
+  # boernyd      "Børnefamilieydelse"
   boligyd      "Boligydelse"
-  boligst      "Boligstøtte"
+  # boligst      "Boligstøtte"
   skatpl       "Øvrige indkomstoverførsler, skattepligtige"
   iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
-  tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
-  udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
-#  seniorpens   "Seniorpension"
-#  udlseniorpens "Seniorpension til udland"
+  # groen        "Grøn check"
   medie        "Mediecheck"
   lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
+  tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
+  seniorpens   "Seniorpension"
 
-#  groen        "Grøn check" - ikke satsreguleret
+  udlpens   "Folkepension til udland"
+  udlfortid "Førtidspension til udland"
+  udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
+  udlseniorpens "Seniorpension til udlandet"
 /;
 
 Set ubeskat[ovf] "Ubeskattede overførsler" /
   boernyd "Børnefamilieydelse"
   boligyd "Boligydelse"
-  boligst "Boligstøtte"
   iskatpl "Øvrige indkomstoverførsler, ikke skattepligtige"
   groen   "Grøn check"
-  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
-/;
-
-Parameter nOvf2Soc[ovf_, soc] "Mapping mellem overførsler og BFR-grupper" /  
-  ledigyd   . ledigyd         1 
-  aktarbj   . aktarbj         1
-  sbeskjobtdag . sbeskjobtdag 1
-  aktdag    . aktdag          1 
-  aktkont   . aktkontudd      1
-  aktkont   . aktkontj        1
-  aktkont   . aktkontij       1
-  aktkont   . aktintroj       0.5
-  aktkont   . aktintroij      0.5
-  reval     . reval           1
-  uddsu     . uddsu           1
-  uddsu     . beskuddsu       1
-  leddag    . leddag          1
-  ledarbj   . ledarbj         1
-  ferie     . leddag          1
-  syge      . syge            1
-  syge      . besksyge        1
-  barsel    . barsel          1
-  barsel    . beskbarsel      1
-  orlov     . orlov           1
-  udvforlob . udvforlob       1
-  udvforlob . jobafkl         1
-  pension   . pension         1
-  pension   . beskpens        1
-  pension   . seniorpens      1
-  pension   . beskseniorpens  1
-#  seniorpens . seniorpens     1
-#  seniorpens . beskseniorpens 1
-  tidlpens  . tidlpens        1
-  tidlpens  . besktidlpens    1
-  fortid    . fortid          1
-  fortid    . beskfortid      1
-  efterl    . efterl          1
-  efterl    . beskeft         1
-  tjmand    . tjmand          1
-  tillaeg   . pension         1
-  tillaeg   . beskpens        1
-  tillaeg   . tidlpens        1
-  tillaeg   . besktidlpens    1
-  tillaeg   . seniorpens      1
-  tillaeg   . beskseniorpens  1
-  tillaeg   . fortid          1
-  tillaeg   . beskfortid      1
-  tilbtrk   . pension         1
-  tilbtrk   . beskpens        1
-  tilbtrk   . tidlpens        1
-  tilbtrk   . besktidlpens    1
-  tilbtrk   . seniorpens      1
-  tilbtrk   . beskseniorpens  1
-  tilbtrk   . fortid          1
-  tilbtrk   . beskfortid      1
-  overg     . overg           1
-  fleksyd   . fleksyd         1
-  ledkont   . ledkont         1
-  ledkont   . konthj          1
-  ledkont   . ledintro        1
-  kontflex  . sbeskflex       1
-  kontrest  . sbeskreval      1
-  kontrest  . sbeskrest       1
-  intro     . intro           1
-  intro     . aktintroj       0.5
-  intro     . aktintroij      0.5
-  udlpens   . pension         1
-  udlpens   . beskpens        1
-  udlpens   . seniorpens      1
-  udlpens   . beskseniorpens  1
-#  udlseniorpens . seniorpens  1
-#  udlseniorpens . beskseniorpens  1
-  udltidlpens . tidlpens      1
-  udltidlpens . besktidlpens  1
-  udlfortid . fortid          1
-  udlfortid . beskfortid      1
-  boligyd   . pension         1
-  boligyd   . beskpens        1
-  boligyd   . tidlpens        1
-  boligyd   . besktidlpens    1
-  boligyd   . seniorpens      1
-  boligyd   . beskseniorpens  1
-  boligyd   . fortid          1
-  boligyd   . beskfortid      1
-  medie     . pension         1
-  medie     . beskpens        1
-  medie     . fortid          1
-  medie     . beskfortid      1
-  lumpsumovf . leddag         1
-  lumpsumovf . ledkont        1
-  lumpsumovf . uddsu          1
-  lumpsumovf . orlov          1
-  lumpsumovf . barsel         1
-  lumpsumovf . syge           1
-  lumpsumovf . aktdag         1
-  lumpsumovf . reval          1
-  lumpsumovf . ledigyd        1
-  lumpsumovf . konthj         1
-  lumpsumovf . fortid         1
-  lumpsumovf . overg          1
-  lumpsumovf . fleksyd        1
-  lumpsumovf . efterl         1
-  lumpsumovf . pension        1
-  lumpsumovf . tjmand         1
-  lumpsumovf . jobafkl        1
-  lumpsumovf . ovrige         1
-  lumpsumovf . aktkontudd     1
-  lumpsumovf . aktkontj       1
-  lumpsumovf . aktkontij      1
-  lumpsumovf . udvforlob      1
-  lumpsumovf . ledarbj        1
-  lumpsumovf . aktarbj        1
-  lumpsumovf . intro          1
-  lumpsumovf . ledintro       1
-  lumpsumovf . aktintroj      1
-  lumpsumovf . aktintroij     1
-  lumpsumovf . tidlpens       1
-  lumpsumovf . besktidlpens   1
-  lumpsumovf . seniorpens     1
-  lumpsumovf . beskseniorpens 1
-  #  boernyd   . a0t17        1
-  #  boligst   . a18t100      1
-  #  skatpl    . a18t100      1
-  #  iskatpl   . a18t100      1
-  #  groen     . a18t100      1
+  lumpsumovf "Skattefri lump sum overførsel til offentligt forsørgede"
 /;
 
 Set ovf_a18t100[ovf] "Overførsler som fordeles på alle over 18" /
