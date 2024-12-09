@@ -33,8 +33,17 @@
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
-\papersize a4
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -945,11 +954,38 @@ where
 \end_inset
 
  is the structural labor input and 
-\begin_inset Formula $\hat{K}_{t}\equiv\sum_{s\in s^{*}}K_{s,t}$
+\begin_inset Formula $\hat{K}_{t-1}$
 \end_inset
 
- is the actual capital input.
- The labor share parameter 
+ the aggregate capital stock.
+ We aggregate the stocks of capital across sectors and capital types as
+ a Laspeyres index based on the investment price:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{p}_{t}^{KI}\hat{K}_{t}\equiv\sum_{k}\sum_{s\in s^{*}}p_{k,s,t}^{I}K_{k,s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{p}_{t-1}^{KI}\hat{K}_{t}\equiv\sum_{k}\sum_{s\in s^{*}}p_{k,s,t-1}^{I}K_{k,s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The labor share parameter 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -989,7 +1025,7 @@ n).
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\hat{Y}_{t}=A_{t}\left(\hat{L}_{t}\right)^{\alpha}\left(\hat{u}_{t}^{K}\hat{K}_{t-1}\right)^{1-\alpha}\label{eq:TFP}
+\hat{Y}_{t}=A_{t}\left(\hat{u}_{t}^{L}\hat{L}_{t}\right)^{\alpha}\left(\hat{u}_{t}^{K}\hat{K}_{t-1}\right)^{1-\alpha}\label{eq:TFP}
 \end{equation}
 
 \end_inset
@@ -1008,19 +1044,53 @@ noprefix "false"
 
 \end_inset
 
-) depend on the variable rates of utilization (embodied in 
-\begin_inset Formula $\hat{\hat{L}_{t}\equiv\sum_{s\in s^{*}}L_{s,t}}$
-\end_inset
-
- and explicitly for 
-\begin_inset Formula $\hat{u}_{t}^{K}\hat{K}_{t}\equiv\sum_{s\in s^{*}}u_{s,t}^{K}K_{s,t-1}$
-\end_inset
-
-).
+) depend on the variable rates of utilization.
  Factor utilization varies significantly over the business cycle and is
  the source of the endogenous productivity gap in MAKRO.
  Utilization is modeled such that is always 1 in the long run and we define
  structural output conditional on utilization being 1 structurally.
+\end_layout
+
+\begin_layout Standard
+Aggregate labor in the 
+\begin_inset Formula $s^{*}$
+\end_inset
+
+sectors is simply 
+\begin_inset Formula $\hat{L}_{t}\equiv\sum_{s\in s^{*}}L_{s,t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilization rates are aggregated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{u}_{t}\hat{L}_{t}\equiv\sum_{s\in s^{*}}u_{s,t}^{L}L_{s,t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{u}_{t}^{K}\hat{K}_{t-1}\equiv\sum_{k}\sum_{s\in s^{*}}\hat{u}_{s,t}^{K}K_{s,t-1}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body

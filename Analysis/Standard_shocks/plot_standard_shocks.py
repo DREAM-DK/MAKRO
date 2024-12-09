@@ -1,24 +1,35 @@
 # coding: utf-8
 """
-Script to plot responses to standard shocks optionally comparing multiple model versions
+Script to plot responses to standard shocks, optionally comparing multiple model versions
 """
-
 import os
+import sys
 import dreamtools as dt
 import pandas as pd
 from math import ceil
+import dataframe_image as dfi
+import plotly.figure_factory as ff
+sys.path.insert(0, os.path.abspath("../Templates")) # Add the Templates folder to the path so we can import variables_to_plot
+
+# variables_to_plot.py currently requires dt.REFERENCE_DATABASE to be set
+dt.REFERENCE_DATABASE = dt.Gdx(fr"../../Model/Gdx/sets.gdx")
+
+import variables_to_plot as vtp
 
 t1 = 2030 # Shock year
-T = 2045 # Last year to plot
+T = 2050 # Last year to plot
 dt.time(t1-1, T)
 
 output_folder = r"Output"
+table_folder = r"Output\tables"
 fname = "standard_shocks"
 output_extension = ".png"
 
-# Create output folder if it does not exist
+# Create output folder and tables_html folder if it does not exist
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
+if not os.path.exists(table_folder):
+    os.makedirs(table_folder)
 
 DA = True # Should labels be in Danish or English? 
 
@@ -44,8 +55,45 @@ shock_variation_suffixes, shock_variation_labels_DA, shock_variation_labels_EN =
 from shocks_to_plot import shock_names, shock_labels_DA, shock_labels_EN, shock_specific_plot_info
 
 # Import information on which variables to plot and how to plot them
-from variables_to_plot import variable_labels_DK, variable_labels_EN, get_variable_functions, operators
 
+# Select which figures to plot
+figure_info = [
+    *vtp.page_1_figures,
+    # *vtp.page_2_figures,
+    # *vtp.public_production_figures,
+    # *vtp.aggregates_figures,
+    # *vtp.consumers_figures,
+    # *vtp.exports_figures,
+    # *vtp.government_figures,
+    # *vtp.HHIncome_figures,
+    # *vtp.IO_figures,
+    # *vtp.LaborMarket_figures,
+    # *vtp.Pricing_figures,
+    # *vtp.Productionprivate_figures,
+    # *vtp.finance_figures,
+    # *vtp.ekstra_figures,
+    # *vtp.sector_plot("tje"),
+    # *vtp.sector_plot("fre"),
+    # *vtp.sector_plot("byg"),
+    # *vtp.sector_plot("bol"),
+]
+
+variable_labels_DK, variable_labels_EN, get_variable_functions, operators = [list(t) for t in zip(*figure_info)]
+def append_spaces_to_make_unique(strings):
+    """Hack to make sure labels are also unique identifiers by adding spaces"""
+    unique_labels = []
+    for string in strings:
+        if string not in unique_labels:
+            unique_labels.append(string)
+        else:
+            new_string = string + ' '
+            while new_string in unique_labels:
+                new_string += ' '
+            unique_labels.append(new_string)
+    return unique_labels
+
+variable_labels_DK = append_spaces_to_make_unique(variable_labels_DK)
+variable_labels_EN = append_spaces_to_make_unique(variable_labels_EN)
 # Set labels depending on language
 variable_labels = variable_labels_DK if DA else variable_labels_EN
 shock_labels = shock_labels_DA if DA else shock_labels_EN
@@ -205,3 +253,113 @@ dt.figures_to_html(report_figures, f"{output_folder}/{fname}.html")
 # Export pdf report
 from pdf_report import figures_to_pdf
 figures_to_pdf(report_figures, f"{output_folder}/{fname}.pdf")
+
+
+"""
+Create tables with the values of the multipliers in different years
+"""
+styles = [
+    # General styling of the table
+    dict(
+        selector="tr",
+        props=[
+            ("background", "#E6E6E8"),
+            ("text-align", "left"),
+            ("font-family", "Arial, sans-serif"),
+        ],
+    ),
+    # Style the header
+    dict(
+        selector="th",
+        props=[
+            ("color", "White"),
+            ("padding", "30px 15px"),
+            ("background", "#0F837D"),
+            ("font-size", "12px"),
+            ("text-align", "left"),
+            ("font-weight", "bold"),
+        ],
+    ),
+    # Style the cells
+    dict(selector="td", props=[("padding", "13px 15px"), ("font-size", "12px")]),
+    # Style the caption
+    dict(
+        selector="caption",
+        props=[
+            ("caption-side", "Top"),
+            ("font-family", "Arial, sans-serif"),
+            ("font-size", "16px"),
+        ],
+    ),
+]
+
+# Create dictionaries to store styled tables
+tables = {}
+
+# Create tables with the values of the multipliers in different years
+for shock_name in df.shock_name.unique():
+    shock_data = df[df.shock_name == shock_name]
+    
+    # Create a dataframe for each variation
+    for suffix, variation_label_DA, variation_label_EN in variations_info:
+        variation_label = variation_label_DA if DA else variation_label_EN
+        variation_data = shock_data[shock_data.variation == suffix]
+        
+        # Pivot the data to get the desired table structure
+        table_data = variation_data.pivot_table(index="variable_label", columns="t", values="value", aggfunc="sum")
+        
+        # Select only the desired years
+        years = [t1, t1+1, t1+2]
+        if suffix in ["_perm", "_ufin"]:
+            years += [T]
+        table_data = table_data[[str(year) for year in years if str(year) in table_data.columns]]
+        
+        # Add the variable labels as the first column
+        table_data.reset_index(inplace=True)
+        
+        # Round the values to 2 decimal places and convert to string
+        table_data.iloc[:, 1:] = table_data.iloc[:, 1:].map(lambda x: str(round(x, 2)))
+
+        
+        # Add units to the values
+        for i, col in enumerate(table_data.columns[1:]):
+            for j, op in enumerate(operators):
+                if op == "pq":
+                    table_data.iloc[j, i+1] += " %"
+                elif op == "pm":
+                    table_data.iloc[j, i+1] += " %-point"
+        
+        # Apply the styles to the dataframe and style the first row (header)
+        table = table_data.style.set_table_styles(styles).set_properties(subset=pd.IndexSlice[:, :],**{
+                "background-color": "#E6E6E8",
+                "color": "Black",},).hide(axis="index").set_caption(f"{shock_name} - {variation_label}")
+        
+        tables[f"{shock_name} {variation_label}"] = table
+
+# Export the tables to html
+for key, table in tables.items():
+    table.to_html(f"{table_folder}/{key}.html")
+
+# Combine html files to one
+import glob
+from pyhtml2pdf import converter # Chrome must be installed on the machine
+
+html_files = glob.glob(f"{table_folder}/*.html")
+
+with open(f"{output_folder}/TablesCombined.html", "w") as outfile:
+    for file in html_files:
+        with open(file, "r") as infile:
+            outfile.write(infile.read())
+
+# Convert each html files into a pdf
+for file in html_files:
+    path = os.path.abspath(file)
+    converter.convert(f'{path}', f'{file[:-5]}.pdf')
+
+# Merge the pdf files into one
+from PyPDF2 import PdfMerger
+pdfs = glob.glob(f"{table_folder}/*.pdf")
+merger = PdfMerger()
+for pdf in pdfs:
+    merger.append(pdf)
+merger.write(f"{output_folder}/TablesCombined.pdf")

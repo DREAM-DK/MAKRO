@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------------------------------------------
 # Pension
 # ------------------------------------------------------------------------------------------------------------------
-parameter vHhPensIndb_sumtest[portf_,t]; vHhPensIndb_sumtest[pens,t]$(tx0[t] and t.val >= 1994) = vHhPensIndb.l[pens,aTot,t] - sum(a, vHhPensIndb.l[pens,a,t] * nPop.l[a,t]);
+parameter vHhPensIndb_sumtest[pens_,t]; vHhPensIndb_sumtest[pens,t]$(tx0[t] and t.val >= 1994) = vHhPensIndb.l[pens,aTot,t] - sum(a, vHhPensIndb.l[pens,a,t] * nPop.l[a,t]);
 abort$(smax(pens, smax(t, abs(vHhPensIndb_sumtest[pens,t]))) > 1e-7) "vHhPensIndb[#pens,tot] does not match sum of components", vHhPensIndb_sumtest;
 
 parameter vHhPensAfk_sumtest[pens,t]; vHhPensAfk_sumtest[pens,t]$tx0[t] = vHhPensAfk.l[pens,aTot,t] - sum(a, vHhPensAfk.l[pens,a,t] * nPop.l[a-1,t-1]);
@@ -14,40 +14,34 @@ parameter jvHhPensAfk_sumtest[pens,t]; jvHhPensAfk_sumtest[pens,t]$tx0[t] = jvHh
 abort$(smax([pens,t], abs(jvHhPensAfk_sumtest[pens,t])) > 1e-7) "jvHhPensAfk_tot does not match sum of jvHhPensAfk[#a]", jvHhPensAfk_sumtest;
 
 # ------------------------------------------------------------------------------------------------------------------
-# HH indkomst
+# Hh indkomst
 # ------------------------------------------------------------------------------------------------------------------
-parameter vHhxAfk_sumtest[t]; vHhxAfk_sumtest[t]$tx0[t] = vHhxAfk.l[aTot,t] - sum(a, vHhxAfk.l[a,t] * nPop.l[a-1,t-1]);
+parameter vHhxAfk_sumtest[t]; vHhxAfk_sumtest[t]$tx0[t] = vHhxAfk.l[aTot,t] - sum(a, vHhxAfk.l[a,t]/fMigration.l[a,t] * nPop.l[a-1,t-1]);
 abort$(smax(t, abs(vHhxAfk_sumtest[t])) > 1e-5) "vHhxAfk[tot] does not match sum of components", vHhxAfk_sumtest;
 
-parameter vOvf_sumtest[t]; vOvf_sumtest[t]$tx0[t] = vOvf.l['hh',t] - sum(a, vHhOvf.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vOvf_sumtest[t])) > 1e-7) "vOvf[hh] does not match sum of vHhOvf[#a]", vOvf_sumtest;
+parameter vOvf_sumtest[t]; vOvf_sumtest[t]$tx0[t] = vOvf.l['HhTot',t] - sum(a, vHhOvf.l[a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vOvf_sumtest[t])) > 1e-9) "vOvf[HhTot] does not match sum of vHhOvf[#a]", vOvf_sumtest;
 
 parameter vHhNFErest_sumtest[t]; vHhNFErest_sumtest[t]$tx0[t] = vHhNFErest.l[aTot,t] - sum(a, vHhNFErest.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-6) "vHhNFErest[tot] does not match sum of components", vHhNFErest_sumtest;
+abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-9) "vHhNFErest[tot] does not match sum of components", vHhNFErest_sumtest;
+
+parameter vtLukning_sumtest[t]; vtLukning_sumtest[t]$tx0[t] = vtLukning.l[aTot,t] - sum(a, vtLukning.l[a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vtLukning_sumtest[t])) > 1e-9) "vtLukning[tot] does not match sum of components", vtLukning_sumtest;
 
 parameter vtHhx_sumtest[t]; vtHhx_sumtest[t]$tx0[t] = vtHhx.l[aTot,t] - sum(a, vtHhx.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vtHhx_sumtest[t])) > 1e-4) "vtHhx[tot] does not match sum of components", vtHhx_sumtest;
+abort$(smax(t, abs(vtHhx_sumtest[t])) > 1e-9) "vtHhx[tot] does not match sum of components", vtHhx_sumtest;
 
-parameter vHhInd_sumtest[t]; vHhInd_sumtest[t]$tx0[t] = vHhInd.l[aTot,t] - sum(a, vHhInd.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhInd_sumtest[t])) > 1e-6) "vHhInd[tot] does not match sum of components", vHhInd_sumtest;
-
-parameter vHhFinAkt_sumtest[t]; vHhFinAkt_sumtest[t]$tx0[t] = sum(a, nPop.l[a,t] * vHhFinAkt.l[a,t])-vHh.l['Bank',atot,t]-vHh.l['IndlAktier',atot,t]-vHh.l['UdlAktier',atot,t]-vHh.l['obl',atot,t];
-abort$(smax(t, abs(vHhFinAkt_sumtest[t])) > 1e-6) "vHhFinAkt does not match sum of components", vHhFinAkt_sumtest;
+parameter vHhInd_sumtest[t]; vHhInd_sumtest[t]$(tx0[t]) = vHhInd.l[aTot,t] - sum(a, vHhInd.l[a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vHhInd_sumtest[t])) > 1e-9) "vHhInd[tot] does not match sum of components", vHhInd_sumtest;
 
 parameter vHhx_sumtest[t]; vHhx_sumtest[t]$tx0[t] = vHhx.l[aTot,t] - sum(a, vHhx.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhx_sumtest[t])) > 1e-7) "vHhx[tot] does not match sum of components", vHhx_sumtest;
+abort$(smax(t, abs(vHhx_sumtest[t])) > 1e-6) "vHhx[tot] does not match sum of components", vHhx_sumtest;
 
-parameter vHhxR_sumtest[t]; vHhxR_sumtest[t]$tx0[t] = vHhxR.l[aTot,t] - sum(a, vHhxR.l[a,t] * (1-rHtM.l) * nPop.l[a,t]);
-abort$(smax(t, abs(vHhxR_sumtest[t])) > 1e-4) "vHhxR[tot] does not match sum of components", vHhxR_sumtest;
-
-parameter vHhxHtM_sumtest[t]; vHhxHtM_sumtest[t]$tx0[t] = vHhxHtM.l[aTot,t] - sum(a, vHhxHtM.l[a,t] * rHtM.l * nPop.l[a,t]);
-abort$(smax(t, abs(vHhxHtM_sumtest[t])) > 1e-4) "vHhxHtM[tot] does not match sum of components", vHhxHtM_sumtest;
+parameter vHhx_h_sumtest[t]; vHhx_h_sumtest[t]$tx0[t] = sum(h, vHhx_h.l[h,aTot,t]) - sum((a,h), vHhx_h.l[h,a,t] * rHhAndel.l[h] * nPop.l[a,t]);
+abort$(smax(t, abs(vHhx_h_sumtest[t])) > 1e-4) "vHhx_h[jTot,aTot] does not match sum of components", vHhx_h_sumtest;
 
 parameter vRealiseretAktieOmv_sumtest[t]; vRealiseretAktieOmv_sumtest[t]$tx0[t] = vRealiseretAktieOmv.l[aTot,t] - sum(a, vRealiseretAktieOmv.l[a,t] * nPop.l[a-1,t-1]);
 abort$(smax(t, abs(vRealiseretAktieOmv_sumtest[t])) > 1e-4) "vRealiseretAktieOmv[tot] does not match sum of components", vRealiseretAktieOmv_sumtest;
-
-parameter jvHhxAfk_sumtest[t]; jvHhxAfk_sumtest[t]$tx0[t] = jvHhxAfk.l[aTot,t] - sum(a, jvHhxAfk.l[a,t] * nPop.l[a-1,t-1]);
-abort$(smax(t, abs(jvHhxAfk_sumtest[t])) > 1e-7) "jvHhxAfk_tot does not match sum of jvHhxAfk[#a]", jvHhxAfk_sumtest;
 
 parameter vHhNFErest_sumtest[t]; vHhNFErest_sumtest[t]$tx0[t] = vHhNFErest.l[aTot,t] - sum(a, vHhNFErest.l[a,t] * nPop.l[a,t]);
 abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-7) "vHhNFErest_tot does not match sum of vHhNFErest[#a]", vHhNFErest_sumtest;
@@ -55,11 +49,9 @@ abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-7) "vHhNFErest_tot does not matc
 # ------------------------------------------------------------------------------------------------------------------
 # Forbrug
 # ------------------------------------------------------------------------------------------------------------------
-parameter vCR_NR_sumtest[t]; vCR_NR_sumtest[t]$tx0[t] = vCR_NR.l[aTot,t] - sum(a, (1-rHtM.l) * vCR_NR.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vCR_NR_sumtest[t])) > 1e-7) "vCR_NR[aTot] does not match sum of components", vCR_NR_sumtest;
 
-parameter vCHtM_NR_sumtest[t]; vCHtM_NR_sumtest[t]$tx0[t] = vCHtM_NR.l[aTot,t] - sum(a, rHtM.l * vCHtM_NR.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vCHtM_NR_sumtest[t])) > 1e-7) "vCHtM_NR[aTot] does not match sum of components", vCHtM_NR_sumtest;
+parameter vC_NR_h_sumtest[t]; vC_NR_h_sumtest[t]$tx0[t] = sum(h, vC_NR_h.l[h,aTot,t]) - sum((a,h), rHhAndel.l[h] * vC_NR_h.l[h,a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vC_NR_h_sumtest[t])) > 1e-7) "vC_NR_h[jTot,aTot] does not match sum of components", vC_NR_h_sumtest;
 
 # ------------------------------------------------------------------------------------------------------------------
 # Overførsler mellem kohorter
@@ -77,20 +69,15 @@ abort$(smax(t$tx0[t],
 # ------------------------------------------------------------------------------------------------------------------
 # vHh
 # ------------------------------------------------------------------------------------------------------------------
-parameter vHh_sumtest[portf_,t];
-vHh_sumtest['NetFin',t]$tx0[t] = vHh.l['NetFin',aTot,t] - sum(a, vHh.l['NetFin',a,t] * nPop.l[a,t]);
-vHh_sumtest['RealKred',t]$tx0[t] = vHh.l['RealKred',aTot,t] - sum(a, vHh.l['RealKred',a,t] * nPop.l[a,t]);
-vHh_sumtest['BankGaeld',t]$tx0[t] = vHh.l['BankGaeld',aTot,t] - sum(a, vHh.l['BankGaeld',a,t] * nPop.l[a,t]);
-vHh_sumtest['Pens',t]$tx0[t] = vHh.l['Pens',aTot,t] - sum(a, vHh.l['Pens',a,t] * nPop.l[a,t]);
-vHh_sumtest[akt,t]$tx0[t] = vHh.l[akt,aTot,t] - sum(a, vHh.l[akt,a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHh_sumtest['NetFin',t])) > 1e-4) "vHh[NetFin,tot] does not match sum of components", vHh_sumtest;
-abort$(smax(t, abs(vHh_sumtest['RealKred',t])) > 1e-7) "vHh[RealKred,tot] does not match sum of components", vHh_sumtest;
-abort$(smax(t, abs(vHh_sumtest['BankGaeld',t])) > 1e-4) "vHh[BankGaeld,tot] does not match sum of components", vHh_sumtest;
-abort$(smax(pens, smax(t, abs(vHh_sumtest[pens,t]))) > 1e-7) "vHh[#pens,tot] does not match sum of components", vHh_sumtest;
-abort$(smax(akt, smax(t, abs(vHh_sumtest[akt,t]))) > 1e-6) "vHh[#akt,tot] does not match sum of components", vHh_sumtest;
-
-parameter vHhFinAkt_sumtest[t]; vHhFinAkt_sumtest[t]$tx1[t] = vHhFinAkt.l[aTot,t] - sum(a, vHhFinAkt.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhFinAkt_sumtest[t])) > 1e-7) "vHhFinAkt[tot] does not match sum of components", vHhFinAkt_sumtest;
+parameter vHhAkt_sumtest[portf_,t];
+parameter vHhPas_sumtest[portf_,t];
+vHhPas_sumtest['RealKred',t]$tx0[t] = vHhPas.l['RealKred',aTot,t] - sum(a, vHhPas.l['RealKred',a,t] * nPop.l[a,t]);
+vHhPas_sumtest['Bank',t]$tx0[t] = vHhPas.l['Bank',aTot,t] - sum(a, vHhPas.l['Bank',a,t] * nPop.l[a,t]);
+vHhAkt_sumtest['pensTot',t]$tx0[t] = vHhAkt.l['pensTot',aTot,t] - sum(a, vHhAkt.l['pensTot',a,t] * nPop.l[a,t]);
+vHhAkt_sumtest[portf,t]$tx0[t] = vHhAkt.l[portf,aTot,t] - sum(a, vHhAkt.l[portf,a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vHhPas_sumtest['RealKred',t])) > 1e-7) "vHhPas[RealKred,tot] does not match sum of components", vHhPas_sumtest;
+abort$(smax(t, abs(vHhAkt_sumtest['Bank',t])) > 1e-4) "vHhPas[Bank,tot] does not match sum of components", vHhPas_sumtest;
+abort$(smax(portf, smax(t, abs(vHhAkt_sumtest[portf,t]))) > 1e-6) "vHhAkt[#akt,tot] does not match sum of components", vHhAkt_sumtest;
 
 # ------------------------------------------------------------------------------------------------------------------
 # Labor_market
@@ -128,6 +115,15 @@ abort$(smax(t, abs(snSoegBaseHh_sumtest[t])) > 1e-6) "Strukturel nSoegBaseHh sum
 # ------------------------------------------------------------------------------------------------------------------
 # Sociogrupper 
 # ------------------------------------------------------------------------------------------------------------------
-abort$(smax(t$tx1[t], 
-        abs(vHhFinAkt.l[aTot,t] - sum(a, vHhFinAkt.l[a,t] * nPop.l[a,t]))
-      ) > 1e-7) "vHhFinAkt[tot] does not match sum of components";
+
+# ------------------------------------------------------------------------------------------------------------------
+# Aggregering af fremadskuende og hand-to-mouth-husholdninger
+# ------------------------------------------------------------------------------------------------------------------
+parameter vHhx_h_test[a,t]; vHhx_h_test[a,t]$(tx0[t]) = sum(h, rHhAndel.l[h] * vHhx_h.l[h,a,t]) - vHhx.l[a,t];
+abort$(smax([a,t], abs(vHhx_h_test[a,t])) > 1e-9) "vHhx_h do not sum to vHhx", vHhx_h_test;
+
+parameter vHhx_tot_h_test[t]; vHhx_tot_h_test[t]$(tx0[t]) = sum(h, vHhx_h.l[h,aTot,t]) - vHhx.l[aTot,t];
+abort$(smax(t, abs(vHhx_tot_h_test[t])) > 1e-9) "vHhx_h_aTot do not sum to vHhx", vHhx_tot_h_test;
+
+parameter vHhx_tot_test[t]; vHhx_tot_test[t]$(tx0[t]) = vHhx.l[aTot,t] - (vHhNet.l[t] - vHhAkt.l['pensTot',aTot,t] + vHhPas.l['RealKred',aTot,t]);
+abort$(smax(t, abs(vHhx_tot_test[t])) > 1e-7) "vHhx does not match tot-Pens+RealKred", vHhx_tot_test;

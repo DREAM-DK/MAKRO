@@ -1,16 +1,4 @@
 # ======================================================================================================================
-# Set exogenous parameters
-# ======================================================================================================================
-# Setting non module-specifik parameter values
-# Adjustment for inflation and growth
-fq = (1 + gq);
-fp = (1 + gp);
-fv = fq * fp;
-growth_factor[t] = 1/fq**(t.val - %base_year%);
-inf_factor[t]    = 1/fp**(t.val - %base_year%);
-inf_growth_factor[t] = inf_factor[t] * growth_factor[t];
-
-# ======================================================================================================================
 # Run exogenous_values part of each module
 # ======================================================================================================================
 @import_from_modules("exogenous_values")
@@ -56,7 +44,7 @@ $GROUP G_data  # Variables covered by data that should not be changed by the cal
   G_HHincome_data$(tData[t])
   G_struk_data$(tData[t])
 
-  G_imprecise_data
+  G_imprecise_data # Jeg tror, at denne er overfloedig!
 ;
 
 # ======================================================================================================================
@@ -66,4 +54,4 @@ $GROUP G_data  # Variables covered by data that should not be changed by the cal
 @unload_all(Gdx\data);
 
 # Save snapshot of all data, to check that all data is intact after calibration.
-@save_as(G_data, _data)
+@set(G_data, _data, .l)

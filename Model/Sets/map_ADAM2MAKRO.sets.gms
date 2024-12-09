@@ -69,14 +69,14 @@ SETS
   /
 
   mapai2i[i_,ai] "Mapping af investeringstyper fra ADAM til Makro" /
-    im   . (im)
+    iM   . (iM)
     iB   . (iB)
-    iL . (ikn, il, it)
-    iTot . (im, it, iB, ikn, il)
+    iL . (ikn, iL, it)
+    iTot . (iM, it, iB, ikn, iL)
   /
 
   mapak2k[k_,ak] "Mapping af investeringstyper fra ADAM til Makro" /
-    im   . (knm)
+    iM   . (knm)
     iB   . (knb)
     iTot . (knm, knb)
   /
@@ -88,7 +88,7 @@ SETS
     cBol . (ch)
     cTje . (cs)
     cTur . (ct)
-    cIkkeBol . (cb, cg, ce, cf, cv, cs, ct)
+    Cx . (cb, cg, ce, cf, cv, cs, ct)
     cTot . (set.acp)
   /
 
@@ -131,8 +131,8 @@ Set map_ADAM2ovf[ovf_,ADAM_variables]       "Mapper MAKRO og ADAM overførsler" 
   fleksyd.Typfy      "Overførsel til flexydelse"
   tidlpens.Typtp        "Tidlig pension"
   udltidlpens.Typtp_e   "Tidlig pension til udland"
-#  seniorpens.Typsp   "Seniorpension"
-#  udlseniorpens.Typsp_e "Seniorpension til udland"
+  seniorpens.Typsp   "Seniorpension"
+  udlseniorpens.Typsp_e "Seniorpension til udland"
   tjmand.Typt        "Overførsler til tjenestemandspension"
   tillaeg.Typpt      "Personlige tillæg"
   tilbtrk.Typq       "Pensioner og overførsler til personer på øvrige tilbagetrækningsordninger"

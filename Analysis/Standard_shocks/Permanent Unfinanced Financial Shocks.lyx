@@ -165,40 +165,41 @@ name "sec:Permanent unfinanced financial shock"
 In this chapter, we look at unfinanced financial shocks.
  Financial shocks all have elements of a negative supply shock, as increased
  costs of finance for investments shift production and make it more expensive.
- It is also a demand shock as it affects private consumption through asset
+ It is also a demand shock, affecting private consumption through asset
  prices and asset returns.
  The fundamental mechanisms of the shocks are given by:
 \end_layout
 
 \begin_layout Itemize
-Initial shock changes usercost, returns and asset prices through 'finance'
+In particular, shocks changes user costs, asset returns and prices.
 \end_layout
 
 \begin_layout Itemize
-Returns and asset prices are affected and in turn affect demand for private
- consumption
+Returns and asset prices in turn affect demand for private consumption through
+ the budget constraint
 \end_layout
 
 \begin_layout Itemize
-Increased finance costs of housing will decrease demand for housing investments
+Increased costs of housing (through the user cost) will decrease demand
+ for housing investments
 \end_layout
 
 \begin_layout Itemize
-Increased finance costs of firm capital works like a negative supply shock
+Increased financing costs of firm capital works like a negative supply shock
  to capital augmented productivity
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-More production inputs for given production
+Necessitates more production inputs for given production
 \end_layout
 
 \begin_layout Itemize
-Higher unit costs in production
+Increases unit costs in production
 \end_layout
 
 \begin_layout Itemize
-Higher unit costs leads to higher output prices
+Increased unit costs leads to higher output prices
 \end_layout
 
 \begin_layout Itemize
@@ -211,7 +212,9 @@ Higher prices decrease demand over time
 
 \end_deeper
 \begin_layout Itemize
-Decreased demand: Directly to investments and indeirectly to others
+Decreasing demand: Directly to investments and indirectly to other demand
+ components (e.g.
+ private consumption)
 \end_layout
 
 \begin_deeper
@@ -265,16 +268,17 @@ Decreased prices dampens fall in demand over time
 \end_layout
 
 \begin_layout Itemize
-Full crowding out in employment
+There is full crowding out in employment (no changes to structural employment)
 \end_layout
 
 \end_deeper
 \begin_layout Standard
 Note that all shocks are unfinanced - see 'The reaction of the public sector'
  in the introduction.
- It should also be noted that all the shocks are synthetic shocks as foreign
- demand and interest rates are unchanged.
- This helps analyzing the mechanisms at work, but is not very realistic.
+ It should also be noted that all the shocks are partial shocks from the
+ point of view of the foreign economy (rest of the world), as foreign demand
+ and interest rates are unchanged.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -290,12 +294,13 @@ Interest rate
 
 \begin_layout Standard
 The ECB key interest rate is increased permanently by 1 percentage point.
- This is a synthetic shock as foreign prices and foreign demand are unchanged.
+ This is a partial shock as foreign general equilibrium components are unchanged
+, namely foreign prices and foreign demand.
  
 \end_layout
 
 \begin_layout Standard
-Note:
+Note that:
 \end_layout
 
 \begin_layout Itemize
@@ -305,16 +310,17 @@ There is a strong negative effect on domestic stock prices in the first
 
 \begin_deeper
 \begin_layout Itemize
-As a higher discount rate lowers the value of the firm
+As a higher implied discount rate lowers the value of the firm
 \end_layout
 
 \begin_layout Itemize
-This lowers the real pension wealth and the real wealth of the households
+This in turn lowers the real pension wealth and the real wealth of the household
+s
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-User cost for housing increase in the long run as finance is more costly,
+The user-cost for housing increases in the long run as finance is more costly
  but is in the short run strongly affected by expected changes in future
  housing prices due to lower housing demand stemming from lower household
  income
@@ -322,8 +328,8 @@ User cost for housing increase in the long run as finance is more costly,
 
 \begin_layout Itemize
 The economy will react as if hit by a negative demand shock to investments,
- but with a large substitution effect away from capital the negative effects
- on GVA and GDP will be more severe
+ but with a significant substitution effect away from capital.
+ Thus, the negative effects on GVA and GDP will be more severe
 \end_layout
 
 \begin_layout Itemize
@@ -333,13 +339,13 @@ Scale effects in exports will set in as structural GVA is decreased.
 \end_layout
 
 \begin_layout Itemize
-Strong negative short run effect on government budget due to large temporary
- drop in employment
+There are strong negative short-run effect on the government budget due
+ to large temporary drop in employment
 \end_layout
 
 \begin_layout Itemize
-Long run effect on government budget and fiscal sustainability can very
- well be positive as lower expenses due to lower wages and higher revenue
+Long-run effects on the government budget and fiscal sustainability can
+ very well be positive as lower expenses due to lower wages and higher revenue
  from household and pension returns might outweigh the lower revenue from
  income taxes
 \end_layout

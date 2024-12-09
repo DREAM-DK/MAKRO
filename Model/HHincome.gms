@@ -8,177 +8,170 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_HHincome_prices_endo 
-    pBoligRigid[t]$(t.val > 2015) "Rigid boligpris til brug i rRealKred2Bolig."
+
+  $GROUP G_HHIncome_endo_a
+
+    # VALUES
+    vHhAkt[portf_,a_,t]$(0) "Husholdningernes finansielle aktiver, Kilde: jf. se for portefølje."
+    vHhPas[portf_,a_,t]$(0) "Husholdningernes finansielle passiver, Kilde: jf. se for portefølje."
+    vHhAktOmk[portf_,t]$(0) "Administrations- og investeringsomkostninger knyttet til finansielle aktiver"
+    vHhPas[portf_,a_,t]$(RealKred[portf_] and (a18t100[a_]) and t.val > %AgeData_t1%) ""
+    vHhPas[portf_,a_,t]$(Bank[portf_] and t.val > %AgeData_t1% and a[a_]) ""
+    vHhPas[portf_,a_,t]$(portfTot[portf_] and t.val > %AgeData_t1% and a[a_]) ""
+    vHhAkt[portf_,a_,t]$(fin_akt[portf_] and d1vHhAkt[portf_,t] and t.val > %AgeData_t1% and a[a_]) ""
+    vHhAkt[portf_,a_,t]$(pensTot[portf_] and a15t100[a_] and t.val > %AgeData_t1%) ""
+    vHhAkt[portf_,a_,t]$(portfTot[portf_] and t.val > %AgeData_t1% and a[a_]) ""
+    vHhPens[pens_,a_,t]$(pens[pens_] and a15t100[a_] and t.val > %AgeData_t1%) "Husholdningernes pensionsformue."
+    vHhPensAfk[pens_,a_,t]$(aVal[a_] >= 15 and t.val > %AgeData_t1%) "Afkast fra pensionsformue EFTER SKAT."
+    vHhPensIndb[pens_,a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Pensionsindbetalinger fra husholdningerne."
+    vHhPensUdb[pens_,a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Pensionsudbetalinger til husholdningerne."
+    vPensArv[pens_,a_,t]$(aVal[a_] >= 15 and t.val > %AgeData_t1%) "Pension udbetalt til arvinger i tilfælde af død."
+    vHhInd[a_,t]$((a0t100[a_] and t.val > %AgeData_t1%)) "Husholdningernes løbende indkomst efter skat (ekslusiv kapitalindkomst)."
+    vtHhx[a_,t]$(a0t100[a_] and t.val > %AgeData_t1%) "Skatter knyttet til husholdningerne ekskl. pensionsafkastskat, ejendomsværdiskat, dødsboskat og øvrig skat på kapitalindkomst."
+    vHhNFErest[a_,t]$(a0t100[a_] and t.val > %AgeData_t1%) "Kapitaloverførsler, direkte investeringer mv.."
+    vtHhxAfk[a_,t]$(aVal[a_] > 0 and t.val > %AgeData_t1%) "Imputeret kapitalbeskatning ekskl. pension, bolig og realkreditgæld."
+    vRealkreditFradrag[a_,t]$(aVal[a_] > 0 and t.val > %AgeData_t1%) "Imputeret fradrag fra realkreditgæld. Ikke databelagt!"
+    vHhFormue[a_,t]$((a0t100[a_] and t.val > %AgeData_t1%)) "Samlet formue inklusiv bolig."
+    vHhPensEfterSkat[a_,t]$(a0t100[a_]) "Pensionsformue EFTER SKAT"  
+    vHhFormue_h[h_,a_,t]$(a0t100[a_]) "Samlet formue inklusiv bolig for husholdninger."
+    vHhIndMv_h[h_,a_,t]$(a0t100[a_]) "Fremadskuende husholdningers indkomst og lån i friværdi."
+    vFrivaerdi_h[h_,a_,t]$(a0t100[a_]) "Friværdi (boligværdi fratrukket realkreditgæld) for husholdninger."
+    vHhIndMv[a_,t]$(a0t100[a_]) "Husholdningers indkomst og lån i friværdi."
+    vHhPensEfterSkat_h[h_,a_,t]$(a0t100[a_]) "Pensionsformue for husholdninger EFTER SKAT."
+    vHhFraMigration[a_,t]$(a[a_] and aVal[a_] > 0) "Nettoformue medbragt af netto-indvandrere."
+
+    # MISC.
+    rPensIndb[pens,a_,t]$((a15t100[a_]) and t.val > %AgeData_t1%) "Pensionsindbetalingsrate."
+    rPensUdb[pens,a_,t]$((a15t100[a_]) and t.val > %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1])) "Pensionsudbetalingsrate" # Alderspensionen eksisterer først fra 2013 og frem
+    rRealKred2Bolig[a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Husholdningernes realkreditgæld relativt til deres boligformue."
+    rHhAktOmk[portf_,t]$(0) "Administrations- og investeringsomkostningsrate knyttet til finansielle aktiver"
+    vBolig_h[h,a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Husholdningernes boligformue." # vBoligR ikke brugt, men jTot = vBolig 
   ;
 
-  $GROUP G_HHincome_quantities_endo 
-    empty_group_dummy[t]
+  $GROUP G_HHIncome_endo_a_tot
+    
+    # VALUES
+    jvHhPensAfk[pens_,a_,t]$(aTot[a_] and pens[pens_] and t.val > %AgeData_t1%) "Aldersfordelt additivt j-led"
+    vHhFormue_h[h_,aTot,t]
+    vHhIndMv_h[h_,aTot,t]
+    vFrivaerdi_h[h_,aTot,t]
+    vHhIndMv[aTot,t]
+    vHhPensEfterSkat_h[h_,a_,t]$(a0t100[a_] or aTot[a_]) "Pensionsformue for husholdninger EFTER SKAT."
+    vBolig_h[h,aTot,t]$(t.val > %AgeData_t1%)
+
+    # MISC.
+    cHh_a[portf_,a_,t]$(aTot[a_] and portf[portf_]) "Aldersafhængigt additivt led i husholdningens aktiv-beholdninger, vHhAkt."
+    rPensIndb[pens,aTot,t]
+    rPensUdb[pens,aTot,t]$(t.val > %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1])) "Pensionsudbetalingsrate" # Alderspensionen eksisterer først fra 2013 og frem
+    rPensArv[pens,a_,t]$(aTot[a_] and t.val > %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1])) "Andel af pensionsformue, som udbetales i tilfælde af død."
+    rRealKred2Bolig[aTot,t]$(t.val > %AgeData_t1%)
   ;
 
-  $GROUP G_HHincome_values_endo_a
-    vHh[portf_,a_,t]$(0) "Husholdningernes finansielle portefølje, Kilde: jf. se for portefølje."
-    vHh[portf_,a_,t]$(NetFin[portf_] and t.val > 2015 and a[a_]) ""
-    vHh[portf_,a_,t]$(RealKred[portf_] and (a18t100[a_]) and t.val > 2015) ""
-    vHh[portf_,a_,t]$(BankGaeld[portf_] and t.val > 2015 and a[a_]) ""
-    vHh[portf_,a_,t]$(fin_akt[portf_] and t.val > 2015 and a[a_]) ""
-    vHh[portf_,a_,t]$(pens[portf_] and (a15t100[a_]) and t.val > 2015) ""
-    vHh[portf_,a_,t]$(pensTot[portf_] and (a15t100[a_]) and t.val > 2015) ""
+  $GROUP G_HHincome_endo 
+    G_HHIncome_endo_a
+    G_HHIncome_endo_a_tot
 
-    vHhInd[a_,t]$((a0t100[a_] and t.val > 2015)) "Husholdningernes løbende indkomst efter skat (ekslusiv kapitalindkomst)."
-    vtHhx[a_,t]$(a0t100[a_] and t.val > 2015) "Skatter knyttet til husholdningerne ekskl. pensionsafkastskat, ejendomsværdiskat og dødsboskat."
-    vHhNFErest[a_,t]$(a0t100[a_] and t.val > 2015) "Kapitaloverførsler, direkte investeringer mv., som bliver residualt aldersfordelt."
-    vHhFinAkt[a_,t]$(t.val > 2015 and a[a_]) "Finansielle aktiver ejer af husholdningerne ekskl. pension."
-    vHhxAfk[a_,t]$((aVal[a_] > 0 and t.val > 2015)) "Imputeret afkast på husholdningernes formue ekskl. bolig og pension."
-    vHhPensAfk[portf_,a_,t]$((pens[portf_] or pensTot[portf_]) and (aVal[a_] >= 15) and t.val > 2015) "Afkast fra pensionsformue EFTER SKAT."
-    vHhPensIndb[portf_,a_,t]$(pens_[portf_] and (a15t100[a_]) and t.val > 2015) "Pensionsindbetalinger fra husholdningerne."
-    vHhPensUdb[portf_,a_,t]$(pens_[portf_] and (a15t100[a_]) and t.val > 2015) "Pensionsudbetalinger til husholdningerne."
-    vPensArv[portf_,a_,t]$(pens_[portf_] and (aVal[a_] >= 15) and t.val > 2015) "Pension udbetalt til arvinger i tilfælde af død."
-    vHhFormue[a_,t]$((a0t100[a_] and t.val > 2015)) "Samlet formue inklusiv bolig."
-    vHhPens[a_,t]$(a0t100[a_] or aTot[a_]) "Pensionsformue EFTER SKAT"  
-    vHhFormueR[a_,t]$(a0t100[a_] or aTot[a_]) "Samlet formue inklusiv bolig for fremadskuende husholdninger."
-    vHhPensR[a_,t]$(a0t100[a_] or aTot[a_]) "Pensionsformue for fremadskuende husholdninger EFTER SKAT."
-    vFrivaerdiR[a_,t]$(a0t100[a_] or aTot[a_]) "Friværdi (boligværdi fratrukket realkreditgæld) for fremadskuende husholdninger."
-    vHhIndMvR[a_,t]$(a0t100[a_] or aTot[a_]) "Fremadskuende husholdningers indkomst og lån i friværdi."
-    vHhNetFinR[a_,t]$(a0t100[a_] or aTot[a_]) "Finansiel nettoformue for fremadskuende husholdninger."
-    vBoligR[a_,t]$((a18t100[a_] or aTot[a_]) and t.val > 2015) "Fremadskuende husholdningernes boligformue."
-    vHhFormueHtM[a_,t]$(a0t100[a_] or aTot[a_]) "Samlet formue inklusiv bolig for HtM-husholdninger."
-    vHhPensHtM[a_,t]$(a0t100[a_] or aTot[a_]) "Pensionsformue for HtM-husholdninger EFTER SKAT."
-    vFrivaerdiHtM[a_,t]$(a0t100[a_] or aTot[a_]) "Friværdi (boligværdi fratrukket realkreditgæld) for HtM-husholdninger."
-    vHhIndMvHtM[a_,t]$(a0t100[a_] or aTot[a_]) "HtM-husholdningers indkomst og lån i friværdi."
-    vHhNetFinHtM[a_,t]$(a0t100[a_] or aTot[a_]) "Finansiel nettoformue for HtM-husholdninger."
-    vHhIndMv[a_,t]$(a0t100[a_] or aTot[a_]) "Husholdningers indkomst og lån i friværdi."
-
-    jvHhxAfk[a_,t]$(aTot[a_] and t.val > 2015) "J-led."
-    jvHhPensAfk[portf_,a_,t]$(pens[portf_] and aTot[a_] and t.val > 2015) "Aldersfordelt additivt j-led"
-  ;
-
-  $GROUP G_HHIncome_values_endo 
-    G_HHincome_values_endo_a
-
+    # PRICES
+    pBoligRigid[t] "Rigid boligpris til brug i rRealKred2Bolig."
+    
+    # VALUES
     vtHh[a_,t]$(aTot[a_]) "Skatter knyttet til husholdningerne."
-    vDispInd[t]$(t.val > 1994) "Disponibel bruttoindkomst i husholdninger og organisationer, Kilde: ADAM[Yd_h]"
+    vDispInd[t]$(t.val > %NettoFin_t1%) "Disponibel bruttoindkomst i husholdninger og organisationer, Kilde: ADAM[Yd_h]"
     vHhInd[a_,t]$(aTot[a_]) "Husholdningernes løbende indkomst efter skat (ekslusiv kapitalindkomst)."
-
-    vHhxAfk[a_,t]$((aTot[a_] and t.val > 1994)) "Imputeret afkast på husholdningernes formue ekskl. bolig og pension."
-    vtHhx[a_,t]$(aTot[a_]) "Skatter knyttet til husholdningerne ekskl. pensionsafkastskat, ejendomsværdiskat og dødsboskat."
-
-    vHhFinAkt[a_,t]$(aTot[a_]) "Finansielle aktiver ejer af husholdningerne ekskl. pension."
-
-    vHh[portf_,a_,t]$(NetFin[portf_] and t.val > 2015 and aTot[a_]) ""
-    vHh[portf_,a_,t]$(RealKred[portf_] and aTot[a_]) ""
-    vHh[portf_,a_,t]$(pens[portf_] and (aTot[a_]) and t.val > 2015) ""
-    vHh[portf_,a_,t]$(pensTot[portf_] and (aTot[a_]) and t.val > 2015) ""
-    vHh[portf_,a_,t]$((BankGaeld[portf_] and aTot[a_])) ""
-    vHh[portf_,a_,t]$(fin_akt[portf_] and t.val > 2015 and aTot[a_]) ""
-
-    vHhRenter[portf_,t]$(t.val > 1994) "Husholdningernes formueindkomst, Kilde: ADAM[Tin_h]"
-    vHhOmv[portf_,t]$(t.val > 1994) "Omvurderinger på husholdningernes finansielle nettoformue, Kilde: ADAM[Wn_h]-ADAM[Wn_h][-1]-ADAM[Tfn_h]"
-    vHhPensAfk[portf_,a_,t]$((pens[portf_] or pensTot[portf_]) and (aTot[a_]) and t.val > 2015) "Afkast fra pensionsformue EFTER SKAT."
-
-    vHhNFE[t]$(t.val > 1994) "Nettofordringserhvervelse for husholdningerne, Kilde: ADAM[Tfn_h]"
-    vHhNFErest[a_,t]$((aTot[a_] and t.val > 2015)) "Kapitaloverførsler, direkte investeringer mv., som bliver residualt aldersfordelt."
-
-    vHhPensIndb[portf_,a_,t]$(pens_[portf_] and (aTot[a_]) and t.val > 2015) "Pensionsindbetalinger fra husholdningerne."
-    vHhPensUdb[portf_,a_,t]$(pens_[portf_] and (aTot[a_]) and t.val > 2015) "Pensionsudbetalinger til husholdningerne."
-    vPensArv[portf_,a_,t]$(pens_[portf_] and (aTot[a_]) and t.val > 2015) "Pension udbetalt til arvinger i tilfælde af død."
-
+    vtHhxAfk[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%)
+    vRealkreditFradrag[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%)
+    vtHhx[a_,t]$(aTot[a_])
+    vHhNet[t]$(t.val > %AgeData_t1%) "Husholdningernes finansielle portefølje, Kilde: jf. se for portefølje."
+    vHhAkt[portf_,a_,t]$(portfTot[portf_] and t.val > %AgeData_t1% and aTot[a_]) ""
+    vHhPas[portf_,a_,t]$(portfTot[portf_] and t.val > %AgeData_t1% and aTot[a_]) ""
+    vHhPas[portf_,a_,t]$(RealKred[portf_] and aTot[a_]) ""
+    vHhAkt[portf_,a_,t]$(pensTot[portf_] and aTot[a_] and t.val > %NettoFin_t1%) ""
+    vHhPas[portf_,a_,t]$((Bank[portf_] and aTot[a_])) ""
+    vHhAkt[portf_,a_,t]$(fin_akt[portf_] and d1vHhAkt[portf_,t] and t.val > %AgeData_t1% and aTot[a_]) ""
+    vHhNetRenter[t]$(t.val > %NettoFin_t1%) "Husholdningernes nettoformueindkomst, Kilde: ADAM[Tin_h]"
+    vHhAktRenter[portf_,t]$(t.val > %NettoFin_t1% and d1vHhAkt[portf_,t] and portf[portf_]) "Husholdningernes formueindkomst fra aktiver"
+    vHhPasRenter[portf_,t]$(t.val > %NettoFin_t1% and d1vHhPas[portf_,t] and portf[portf_]) "Husholdningernes renteudgifter"
+    vHhOmv[portf_,t]$(t.val > %NettoFin_t1% and portfTot[portf_]) "Omvurderinger på husholdningernes finansielle nettoformue, Kilde: ADAM[Wn_h]-ADAM[Wn_h][-1]-ADAM[Tfn_h]"
+    vHhAktOmv[portf_,t]$(t.val > %NettoFin_t1% and d1vHhAkt[portf_,t] and portf[portf_]) "Omvurderinger på husholdningernes finansielle aktiver"
+    vHhPasOmv[portf_,t]$(t.val > %NettoFin_t1% and d1vHhPas[portf_,t] and portf[portf_]) "Omvurderinger på husholdningernes finansielle passiver"
+    jvHhOmv[t]$(t.val > %NettoFin_t1%) "Aggregeret J-led."
+    vHhPensEfterSkat[a_,t]$(aTot[a_]) "Pensionsformue EFTER SKAT"  
+    vHhAktOmk[portf_,t]$(pensTot[portf_] and t.val > %NettoFin_t1%) ""
+    vHhAktOmk[portf_,t]$(portfTot[portf_] and t.val > %NettoFin_t1%) ""
+    vHhPens[pens_,a_,t]$(pens[pens_] and aTot[a_] and t.val > %NettoFin_t1%) ""
+    vHhPensAfk[pens_,a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Afkast fra pensionsformue EFTER SKAT."
+    vHhPensIndb[pens_,a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Pensionsindbetalinger fra husholdningerne."
+    vHhPensUdb[pens_,a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Pensionsudbetalinger til husholdningerne."
+    vPensArv[pens_,a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Pension udbetalt til arvinger i tilfælde af død."
+    vHhNFE[t]$(t.val > %NettoFin_t1%) "Nettofordringserhvervelse for husholdningerne, Kilde: ADAM[Tfn_h]"
+    vHhNFErest[a_,t]$(aTot[a_]) "Kapitaloverførsler, direkte investeringer mv."
     vKolPensKor[t] "Korrektion til disponibel indkomst, da nettoudbetalinger til kolletiv pension og ikke afkast fra denne indgår"
     vLejeAfEjerBolig[t] "Imputeret værdi af lejeværdi af egen bolig, Kilde: ADAM[byrhh] * ADAM[Yrh]"
     vHhFraVirkKap[t] "Nettokapitaloverførsler fra virksomhederne til husholdningerne, Kilde: ADAM[Tknr_h]"
     vHhFraVirkOev[t] "Øvrige nettooverførsler fra virksomhederne til husholdningerne, Kilde: ADAM[Trn_h] - ADAM[Tr_o_h] + ADAM[Trks] + ADAM[Trr_hc_o]"
     vHhFraVirk[t] "Andre nettooverførsler fra virksomhederne til husholdningerne, Kilde: ADAM[Tknr_h] + ADAM[Trn_h] - ADAM[Tr_o_h] + ADAM[Trks] + ADAM[Trr_hc_o]"
-    vHhTilUdl[t] "Skat til udlandet og nettopensionsbetalinger til udlandet, Kilde: ADAM[Syn_e] + (ADAM[Typc_cf_e] - ADAM[Tpc_e_z]) - ADAM[Typc_e_h] - ADAM[Tpc_h_e]"
-
+    vHhTilUdl[t] "Skat til udlandet og nettopensionsbetalinger til udlandet, Kilde: ADAM[Syn_e] + (ADAM[Typc_cf_e] - ADAM[Tpc_e_z]) - ADAM[Typc_e_h] - ADAM[Tpc_h_e] + vtPALudl"
+    vHhFraMigration[aTot,t]
     vHhFormue[a_,t]$(aTot[a_]) "Samlet formue inklusiv bolig."
-  ;
-
-  $GROUP G_HHIncome_endo_a
-    G_HHincome_values_endo_a
-
-    cHh_a[akt,a_,t]$(aTot[a_]) "Aldersafhængigt additivt led i husholdningens aktiv-beholdninger, vHh[akt]."
-    rPensIndb[pens,a_,t]$((aTot[a_] or a15t100[a_]) and t.val > 2015) "Pensionsindbetalingsrate."
-    rPensUdb[pens,a_,t]$((aTot[a_] or a15t100[a_]) and t.val > 2015) "Pensionsudbetalingsrate" # Alderspensionen eksisterer først fra 2013 og frem
-    rPensArv[pens,a_,t]$(aTot[a_] and t.val > 2015) "Andel af pensionsformue, som udbetales i tilfælde af død."
-    rRealKred2Bolig[a_,t]$((aTot[a_] or a18t100[a_]) and t.val > 2015) "Husholdningernes realkreditgæld relativt til deres boligformue."
-    mrHhxAfk[t]$(t.val > 2015) "Marginalt afkast efter skat på vHhx (husholdningernes formue ekskl. pension, bolig og realkreditgæld)."
-    dvHhxAfk2dqBolig[t]$(t.val > 2015) "Marginal ændring i afkastet på vHhx efter skat, når boligværdien ændrer sig (lagget effekt via pBoligRigid)"
-  ;
-
-  $GROUP G_HHincome_endo 
-    G_HHIncome_endo_a
-    G_HHincome_prices_endo
-    G_HHincome_quantities_endo
-    G_HHIncome_values_endo
-
+    
+    # MISC.
+    mrHhAktAfk[portf_,t]$(portf[portf_]) "Husholdningens marginale afkast efter skat for aktive/passiv typen."
+    mrHhPasAfk[portf_,t]$(portf[portf_]) "Husholdningens marginale afkast efter skat for aktive/passiv typen."
+    mrHhxAfk[t] "Marginalt afkast efter skat på vHhx (husholdningernes formue ekskl. pension, bolig og realkreditgæld)."
+    dvHhxAfk2dqBolig[t]$(t.val > %NettoFin_t1%) "Marginal ændring i afkastet på vHhx efter skat, når boligværdien ændrer sig (lagget effekt via pBoligRigid)"
+    rHhAktAfk[portf_,t]$(portf[portf_]) "Husholdningens samlede afkastrate for aktiv/passiv typen."
+    rHhPasAfk[portf_,t]$(portf[portf_]) "Husholdningens samlede afkastrate for aktiv/passiv typen."
     rBoligOmkRest[t] "Øvrige ejerboligomkostninger ift. boligens værdi."
-    rHhAfk[portf_,t]$((not akt[portf_]) or (akt[portf_] and d1vHh[portf_, t])) "Husholdningens samlede afkast for aktive/passiv typen."
-    mrHhAfk[portf_,t] "Husholdningens marginale afkast efter skat for aktive/passiv typen."
-    mtAktie[t]$(t.val > 2015) "Marginal skat på aktieafkast."
+    jrHhAktOmv[portf_,t]$(PensTot[portf_]) "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige omvurdering på aktivet/passivet."
   ; 
+
   $GROUP G_HHincome_endo G_HHincome_endo$(tx0[t]); # Restrict endo group to tx0[t]
-
-  $GROUP G_HHincome_prices
-    G_HHincome_prices_endo
-  ;
-
-  $GROUP G_HHincome_quantities
-    G_HHincome_quantities_endo
-  ;
-
-  $GROUP G_HHincome_values
-    G_HHincome_values_endo
-    jvHhOmv[t] "J-led."
-    jvHhRenter[t] "J-led."
-    jvKolPensKor[t] "J-led."
-    jrHhPensAfk[portf_,t] "Ikke-aldersfordelt multiplikativt j-led"
-  ;
 
   $GROUP G_HHincome_exogenous_forecast
     ErAktieAfk_static[t] "Husholdningernes forventede aktieafkast i historisk periode."
     rPensArv[pens,a_,t]$(a[a_])
     rPensUdb_a[pens,a,t] "Aldersspecifikt led i pensionsudbetalingsrate."
-    rPensIndb2loensum[portf_,a_,t] "Pensionsindbetalinger ift. lønsum i pensionsmodel"
-    rPensAfk2Pens[portf_,a_,t] "Pensionsafkast ift. pensionsformue i pensionsmodel"
+    rPensIndb2loensum[pens_,a_,t] "Pensionsindbetalinger ift. lønsum i pensionsmodel"
+    rPensAfk2Pens[pens_,a_,t] "Pensionsafkast ift. pensionsformue i pensionsmodel"
+    rHhAktOmk[portf_,t]$(pensTot[portf_]) "Administrations- og investeringsomkostningsrate knyttet til finansielle aktiver"
+    vKolPensKorRest[t] "Rest-led i kollektiv pensionskorrektion - afspejler forskelle i forhold mellem hhv. ind- og udbetalinger og formue på individuelle og kollektive pensioner"
+    rPensIndb_a[pens,a,t] "Aldersspecifikt led i pensionsindbetalingsrate."
   ;
 
   $GROUP G_HHincome_forecast_as_zero
-    jvHhxAfk
-    jrHhxAfk[t] "Ikke-aldersfordelt multiplikativt j-led"
     jvHhPensAfk
-    jrHhPensAfk
-    jvHhOmv
-    jvHhRenter
-    jvKolPensKor
-    jlrPensIndb[pens,t] "J-led på log[rPensIndb]"
-    jlrPensUdb[pens,t] "J-led på log[rPensUdb]"
-
-    jmrHhAfk[t] "J-led."
-    jrHhRente[portf_,t] "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige rente på aktivet/passivet."
-    jrHhOmv[portf_,t] "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige omvurdering på aktivet/passivet."
+    jrHhPensAfk[pens_,t] "Ikke-aldersfordelt multiplikativt j-led"
+    jfrPensIndb[pens,t] "J-led på rPensIndb"
+    jfrPensUdb[pens,t] "J-led på rPensUdb"
+    jmrHhxAfk[t] "J-led."
+    jrHhAktRenter[portf_,t] "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige rente på aktivet/passivet."
+    jrHhPasRenter[portf_,t] "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige rente på aktivet/passivet."
+    jrHhAktOmv[portf_,t]$(not PensTot[portf_]) "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige omvurdering på aktivet/passivet."
+    jrHhPasOmv[portf_,t] "J-led som dækker forskel mellem husholdningens rente og den gennemsnitlige omvurdering på aktivet/passivet."
   ;
 
   $GROUP G_HHincome_constants
     rRealKredTraeg            "Træghed i pBoligRigid."
   ;
 
-  $GROUP G_HHincome_other
+  $GROUP G_HHincome_fixed_forecast
+    rPensUdb[pens,a_,t]$((aTot[a_] or a15t100[a_]) and sameas('Kap',pens))
+    vKolPensKorRest[t]
+
     # Portfolio
-    rtTopRenter[t] "Andel af renteindtægter, der betales topskat af."
-    mrNet2KapIndPos[t] "Marginal stigning i positiv nettokapitalindkomst ved stigning i kapitalindkomst"
     rKolPens[t] "Andel af pensionsformue i kollektive ordninger."
     rHhFraVirkKap[t] "Nettokapitaloverførsler fra virksomhederne til husholdningerne ift. BNP."
     rHhFraVirkOev[t] "Andre nettooverførsler fra virksomhederne til husholdningerne ift. BNP."
-    rHhTilUdl[t] "Andre nettooverførsler fra virksomhederne til udlandet ift. BNP."
-    cHh_t[akt,t] "Tidsvariant additivt led i husholdningens aktiv-beholdninger, vHh[akt]."
-    dvHh2dvHhx[portf_,t] "Ændring i husholdningens aktiv-beholdninger, vHh[akt], for en ændring i formuen vHhx (eksklusiv pension og bolig)."
-    dvHh2dvBoligR[portf_,t] "Ændring i fremadskuende husholdningers aktiv-beholdninger, vHh[akt], for en ændring i bolig-formuen vBolig."
+    rHhTilUdlRest[t] "Andre nettooverførsler fra virksomhederne til udlandet ift. BNP."
+    cHh_t[portf_,t] "Tidsvariant additivt led i husholdningens aktiv-beholdninger, vHhAkt."
+    dvHhAkt2dvHhx[portf_,t] "Ændring i husholdningens finansielle aktiver, vHhAkt, for en ændring i formuen vHhx (eksklusiv pension og bolig)."
+    dvHhPas2dvHhx[portf_,t] "Ændring i husholdningens passiver, vHhPas, for en ændring i formuen vHhx (eksklusiv pension og bolig)."    
+    dvHhAkt2dvBoligR[portf_,t] "Ændring i husholdningers finansielle aktiver, vHhAkt, for en ændring i bolig-formuen vBolig."
+    dvHhPas2dvBoligR[portf_,t] "Ændring i husholdningers passiver, vHhPas, for en ændring i bolig-formuen vBolig."
     rBoligOmkRestRes[t] "Øvrige ejerboligomkostninger ift. boligens værdi - residual efter materialer, løn og ejendomsværdiskat."
     rRealKred2Bolig_a[a,t] "Aldersspecifikt led i husholdningernes langsigtede realkreditgæld relativt til deres boligformue."
     rRealKred2Bolig_t[t] "Tidsvariant led i husholdningernes langsigtede realkreditgæld relativt til deres boligformue."
-    mtAktieRest[t] "Forskel mellem gennemsnitlig og marginal skat på aktieafkast."
     tPensKor[t] "Ca. skattesats på ubeskattet pensionsformue til beregning af vHhFormue."
-    rPensIndb_a[pens,a,t] "Aldersspecifikt led i pensionsindbetalingsrate."
   ;
 $ENDIF
 
@@ -186,86 +179,89 @@ $ENDIF
 # Equations
 # ======================================================================================================================
 $IF %stage% == "equations":
-  $BLOCK B_HHincome_aTot
+  $BLOCK B_HHincome_static$(tx0[t])
     # ==================================================================================================================
     # Household accounting aggregated over age
     # ==================================================================================================================
     # ------------------------------------------------------------------------------------------------------------------
     # Disposable income (gælder fra 2000 - residualer i ADAM fra før dette år)
     # ------------------------------------------------------------------------------------------------------------------
-    E_vDispInd[t]$(tx0[t] and t.val >= 2000)..
+    E_vDispInd[t]$(t.val >= 2000)..
       vDispInd[t] =E= vWHh[aTot,t] 
                     + vSelvstKapInd[aTot,t]
-                    + vOvf['hh',t]
+                    + vOvf['HhTot',t]
                     - vtHh[aTot,t] + vtArv[aTot,t]
-                    + vHhRenter['NetFin',t]
+                    + vHhNetRenter[t]
                     + vKolPensKor[t]
                     + vLejeAfEjerBolig[t]
                     + vOffTilHhNPISH[t] + vOffTilHhTillaeg[t] + vOffTilHhRest[t] - vOffFraHh[t]
                     + vHhFraVirkOev[t] - vHhTilUdl[t];
 
-    # Disponibel indkomst beregnes, hvor kollektive pensionsformue ikke medtages - dvs. nettoudbetalinger medtages i stedet for afkast
-    # Det antages, at indbetalinger, udbetalinger og afkast følger gns. - det er kun en approksimation historisk - derfor j-led
-    E_vKolPensKor[t]$(tx0[t])..
-      vKolPensKor[t] =E= rKolPens[t] * (vHhPensUdb['Pens',aTot,t] - vHhPensIndb['Pens',aTot,t] 
-                                        - vHh['Pens',aTot,t-1]/fv * (1 - tPAL[t] * ftPAL[t]) * rRente['Pens',t]) + jvKolPensKor[t]; 
+    # Disponibel indkomst beregnes, hvor kollektive pensionsformue ikke medtages - dvs. nettoudbetalinger medtages i stedet for afkast (afkast kun renter og dividender i NR)
+    # Det antages, at indbetalinger, udbetalinger og afkast følger gns. - det er kun en approksimation historisk - derfor vKolPensKorRest-led
+    # NB: Øgede omvurderinger påvirker vDispInd negativt via PAL-skat på individuel pension, da skat men ikke indkomst er med
+    # vKolPensKorRest afspejler primært, at individuelle pensioner bliver mere populære og har større indbetalingsrater og lavere udbetalingsrater end kollektiv pension
+    E_vKolPensKor[t]..
+      vKolPensKor[t] =E= rKolPens[t] * (vHhPensUdb['pensTot',aTot,t] - vHhPensIndb['pensTot',aTot,t] 
+                                        - vHhAkt['pensTot',aTot,t-1]/fv * rRente['pensTot',t] + (vtPAL[t] - vtPALudl[t])) + vKolPensKorRest[t]; 
 
     # ------------------------------------------------------------------------------------------------------------------
     # Housing
     # ------------------------------------------------------------------------------------------------------------------
-    E_vLejeAfEjerBolig[t]$(tx0[t])..
-      vLejeAfEjerBolig[t] =E= pC['cBol',t] * qC['cBol',t]
+    E_vLejeAfEjerBolig[t]..
+      vLejeAfEjerBolig[t] =E= vC['cBol',t]
                             - vCLejeBolig[aTot,t]
                             - rBoligOmkRest[t] * vBolig[aTot,t-1]/fv;
 
-    E_rBoligOmkRest[t]$(tx0[t])..
+    E_rBoligOmkRest[t]..
       rBoligOmkRest[t] =E= (vR['bol',t] + vLoensum['bol',t] + vSelvstLoen['bol',t] + vtGrund['bol',t])
                            * qKBolig[t-1] / qK['iB','bol',t-1] / (vBolig[aTot,t-1]/fv) 
                            + rBoligOmkRestRes[t];
 
-    E_vHh_RealKred_aTot[t]$(tx0[t])..
-      vHh['RealKred',aTot,t] =E= rRealKred2Bolig[aTot,t] * vBolig[aTot,t];
+    E_vHhPas_RealKred_aTot[t]..
+      vHhPas['RealKred',aTot,t] =E= rRealKred2Bolig[aTot,t] * vBolig[aTot,t];
 
-    E_pBoligRigid[t]$(tx0[t] and t.val > 2015)..
+    E_pBoligRigid[t]..
       pBoligRigid[t] =E= (1-rRealKredTraeg) * pBolig[t] + rRealKredTraeg * pBoligRigid[t-1]/fp;
 
     # ------------------------------------------------------------------------------------------------------------------
     # Net financial assets budget constraint
     # ------------------------------------------------------------------------------------------------------------------
-    E_vHh_NetFin_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHh['NetFin',aTot,t] =E= vHh['NetFin',aTot,t-1]/fv 
-                             + vHhRenter['NetFin',t] + vHhOmv['NetFin',t]
-                             + jvHhxAfk[aTot,t] + jrHhxAfk[t] * vHh['IndlAktier',aTot,t-1]/fv
-                             + vWHh[aTot,t]
-                             + vOvf['hh',t]
-                             + vHhNFErest[aTot,t]
-                             - vtHh[aTot,t]
-                             - (vC[cTot,t] - vLejeAfEjerBolig[t]) # = -(pC['cIkkeBol',t] * qC_a[aTot,t] + vCLejeBolig[aTot,t] + rBoligOmkRest[t] * vBolig[aTot,t-1]/fv)
-                             - vIBolig[t];    # Boliginvesteringer
+    E_vHhAkt_tot_aTot[t]$(t.val > %AgeData_t1%)..
+      vHhAkt['tot',aTot,t] =E= sum(portf, vHhAkt[portf,aTot,t]);
+
+    E_vHhPas_tot_aTot[t]$(t.val > %AgeData_t1%)..
+      vHhPas['tot',aTot,t] =E= sum(portf, vHhPas[portf,aTot,t]);
+
+    E_vHhNet[t]$(t.val > %AgeData_t1%)..
+      vHhNet[t] =E= vHhAkt['tot',aTot,t] - vHhPas['tot',aTot,t];
 
     # Household income net of taxes and capital income
-    E_vHhInd_aTot[t]$(tx0[t])..
+    E_vHhInd_aTot[t]..
       vHhInd[aTot,t] =E= vWHh[aTot,t]
-                       + vOvf['hh',t]
-                       + vHhPensUdb['Pens',aTot,t] - vHhPensIndb['Pens',aTot,t]
+                       + vOvf['HhTot',t]
+                       + vHhPensUdb['pensTot',aTot,t] - vHhPensIndb['pensTot',aTot,t]
                        - vtHhx[aTot,t]
                        + vArv[aTot,t] + vArvKorrektion[aTot,t]
-                       - vPensArv['Pens',aTot,t] # Pension udbetalt til afdødes arvinge indgår både i vHhPensUdb[pens,tot] og vArv[tot]
+                       - vPensArv['pensTot',aTot,t] # Pension udbetalt til afdødes arvinge indgår både i vHhPensUdb[pens,tot] og vArv[tot]
                        + vHhNFErest[aTot,t];
 
-    E_vtHh_aTot[t]$(tx0[t]).. vtHh[aTot,t] =E= vtKilde[t] 
+    E_vtHh_aTot[t].. vtHh[aTot,t] =E= vtKilde[t] 
                                              + vtHhAM[aTot,t]
                                              + vtPersRest[aTot,t]
                                              + vtHhVaegt[aTot,t]                
-                                             + vtPAL[t]
+                                             + (vtPAL[t] - vtPALudl[t])
                                              + vtMedie[t]
                                              + vtArv[aTot,t]
                                              + vBidrag[aTot,t]
                                              + vtKirke[aTot,t]
-                                             + vtDirekteRest[t] + vtLukning[aTot,t];
-    E_vtHhx_tot[t]$(tx0[t])..
+                                             + jvtDirekte[t] + vtLukning[aTot,t];
+
+    E_vtHhx_tot[t]..
       vtHhx[aTot,t] =E= vtBund[aTot,t] 
+                      + vtMellem[aTot,t] 
                       + vtTop[aTot,t] 
+                      + vtTopTop[aTot,t] 
                       + vtKommune[aTot,t] 
                       + vtAktie[aTot,t] 
                       + vtVirksomhed[aTot,t] 
@@ -277,141 +273,167 @@ $IF %stage% == "equations":
                       + vBidrag[aTot,t]
                       + vtKirke[aTot,t]
                       + vtLukning[aTot,t]
-                      + vtKildeRest[t] + vtDirekteRest[t];
+                      - vtHhxAfk[aTot,t]
+                      + vRealkreditFradrag[aTot,t] # Realkredit fradrag indgår i vBoligUdgift
+                      + jvtKilde[t] + jvtDirekte[t];
 
-    E_vHhNFErest_tot[t]$(tx0[t] and t.val > 2015)..
+    E_vHhNFErest_tot[t]..
       vHhNFErest[aTot,t] =E= vOffTilHh[t] - vOffFraHh[t]
                            - vHhInvestx[aTot,t] + vSelvstKapInd[aTot,t]
                            + vHhFraVirk[t]
-                           - vhhTilUdl[t];
+                           - vHhTilUdl[t];
 
     # Other transfers
-    E_vHhFraVirk[t]$(tx0[t]).. vHhFraVirk[t] =E= vHhFraVirkKap[t] + vHhFraVirkOev[t]; 
-    E_vHhFraVirkKap[t]$(tx0[t]).. vHhFraVirkKap[t] =E= rHhFraVirkKap[t] * vBNP[t]; 
-    E_vHhFraVirkOev[t]$(tx0[t]).. vHhFraVirkOev[t] =E= rHhFraVirkOev[t] * vBNP[t]; 
+    E_vHhFraVirk[t].. vHhFraVirk[t] =E= vHhFraVirkKap[t] + vHhFraVirkOev[t]; 
+    E_vHhFraVirkKap[t].. vHhFraVirkKap[t] =E= rHhFraVirkKap[t] * vBNP[t]; 
+    E_vHhFraVirkOev[t].. vHhFraVirkOev[t] =E= rHhFraVirkOev[t] * vBNP[t]; 
 
-    E_vHhTilUdl[t]$(tx0[t]).. vHhTilUdl[t] =E= rHhTilUdl[t] * vBNP[t]; 
+    E_vHhTilUdl[t].. vHhTilUdl[t] =E= - vHhFraMigration[aTot,t] + rHhTilUdlRest[t] * vBNP[t]; 
+
+    E_vHhFraMigration_aTot[t].. vHhFraMigration[aTot,t] =E= sum(a, vHhFraMigration[a,t] * nPop[a,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Marginal rates of return
     # ------------------------------------------------------------------------------------------------------------------
-    E_mrHhAfk_aktieafkast[akt,t]$(tx0[t] and (IndlAktier[akt] or UdlAktier[akt]) and t.val > 1994)..
-      mrHhAfk[akt,t] =E= (1-mtAktie[t]) * rHhAfk[akt,t];
+    E_mrHhPasAfk[portf,t]$(t.val > %NettoFin_t1%)..
+      mrHhPasAfk[portf,t] =E= (1 - mtHhPasAfk[portf,t]) * rHhPasAfk[portf,t];
+    E_mrHhAktAfk[portf,t]$(t.val > %NettoFin_t1%)..
+      mrHhAktAfk[portf,t] =E= (1 - mtHhAktAfk[portf,t]) * rHhAktAfk[portf,t];
 
-    E_mrHhAfk_renter[portf,t]$(tx0[t] and not (IndlAktier[portf] or UdlAktier[portf]) and t.val > 1994)..
-      mrHhAfk[portf,t] =E= (1 - tKommune[t] - mrNet2KapIndPos[t] * (tBund[t] + tTop[t] * rtTopRenter[t])) * rHhAfk[portf,t];
+    # Marginalt afkast efter skat på vHhx (husholdningernes formue ekskl. pension, bolig og realkreditgæld) 
+    E_mrHhxAfk[t]$(t.val > %NettoFin_t1%)..
+      mrHhxAfk[t] =E= sum(portf, dvHhAkt2dvHhx[portf,t-1] * mrHhAktAfk[portf,t]) 
+                    - dvHhPas2dvHhx['Bank',t-1] * mrHhPasAfk['Bank',t]
+                    + jmrHhxAfk[t];
 
-    E_mtAktie[t]$(tx0[t] and t.val > 2015)..
-      mtAktie[t] =E= tAktie[t] + mtAktieRest[t];
+    E_dvHhxAfk2dqBolig[t]$(t.val > %NettoFin_t1%)..
+      dvHhxAfk2dqBolig[t] =E= (sum(portf, dvHhAkt2dvBoligR[portf,t-1] * mrHhAktAfk[portf,t])
+                               - dvHhPas2dvBoligR['Bank',t-1] * mrHhPasAfk['Bank',t])
+                            * pBoligRigid[t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Portfolio and capital income
     # ------------------------------------------------------------------------------------------------------------------
     # vHhx opdeles i aktiver og bankgæld
-    E_vHh_BankGaeld_aTot[t]$(tx0[t] and t.val >= 1994)..
-      vHh['BankGaeld',aTot,t] =E= vHhFinAkt[aTot,t] - vHhx[aTot,t];
+    E_vHhPas_Bank_aTot[t]$(t.val >= %NettoFin_t1%)..
+      vHhPas['Bank',aTot,t] =E= sum(fin_akt, vHhAkt[fin_akt,aTot,t]) - vHhx[aTot,t];
 
-    # Samlede finansielle aktiver fordeles på portefølje-komponenter
-    E_vHhFinAkt_aTot[t]$(tx0[t])..
-      vHhFinAkt[aTot,t] =E= vHh['Bank',aTot,t] + vHh['IndlAktier',aTot,t] + vHh['UdlAktier',aTot,t] + vHh['obl',aTot,t];
+    E_vHhAkt_aTot[portf,t]$(fin_akt[portf] and d1vHhAkt[portf,t] and t.val > %AgeData_t1%)..
+      vHhAkt[portf,aTot,t] =E= (cHh_a[portf,aTot,t] + cHh_t[portf,t]) * vBVT2hLsnit[t]
+                        + dvHhAkt2dvHhx[portf,t] * vHhx[aTot,t]
+                        + dvHhAkt2dvBoligR[portf,t] * pBoligRigid[t] * qBolig[aTot,t];
 
-    E_vHh_aTot[akt,t]$(tx0[t] and fin_akt[akt] and t.val > 2015)..
-      vHh[akt,aTot,t] =E= (cHh_a[akt,aTot,t] + cHh_t[akt,t]) * vBVT2hLsnit[t]
-                        + dvHh2dvHhx[akt,t] * vHhx[aTot,t]
-                        + dvHh2dvBoligR[akt,t] * pBoligRigid[t] * qBoligR[aTot,t];
+    # Bemærk at afkastet til beskatning ikke er lig rHhAktAfk * vHhAkt[aTot,t-1] pga. død
+    E_vtHhxAfk_aTot[t]$(t.val > %NettoFin_t1%)..
+      vtHhxAfk[aTot,t] =E= sum(a, vtHhxAfk[a,t] * nPop[a,t]);
+    E_vRealkreditFradrag_aTot[t]$(t.val > %NettoFin_t1%)..
+      vRealkreditFradrag[aTot,t] =E= sum(a, vRealkreditFradrag[a,t] * nPop[a,t]);
 
-    # Net capital income
-    E_vHhxAfk_aTot[t]$(tx0[t] and t.val > 1994)..
-      vHhxAfk[aTot,t] =E= sum(akt$(not pensTot[akt]), rHhAfk[akt,t] * vHh[akt,aTot,t-1]/fv)
-                        - rHhAfk['BankGaeld',t] * vHh['BankGaeld',aTot,t-1]/fv 
-                        + jvHhxAfk[aTot,t] + jrHhxAfk[t] * vHh['IndlAktier',aTot,t-1]/fv;
+    E_rHhAktAfk[portf,t]$(t.val > %NettoFin_t1%)..
+      rHhAktAfk[portf,t] =E= rRente[portf,t] + rOmv[portf,t] + jrHhAktRenter[portf,t] + jrHhAktOmv[portf,t];
 
-    E_rHhAfk_akt[akt,t]$(tx0[t] and t.val > 1994 and  d1vHh[akt,t])..
-      rHhAfk[akt,t] =E= (vHhRenter[akt,t] + vHhOmv[akt,t]) / (vHh[akt,aTot,t-1]/fv);
+    # Vi bestemmer j-led på pensionsafkast nedefra - dvs. fordelt på alder og pensionstype
+    # J-leddet på omvurderingerne på pension fastsættes så pensionsafkastet ekskl. PAL-skat samt administrations- og investeringsomkostninger
+    # er ens uanset om det bestemmes nedefra eller som her 
+    E_jrHhAktOmv_PensTot[t]$(t.val > %NettoFin_t1%)..
+      vHhPensAfk['PensTot',aTot,t] =E= rHhAktAfk['PensTot',t] * vHhAkt['PensTot',aTot,t-1]/fv 
+                                     - rHhAktOmk['PensTot',t] * vHhAkt['PensTot',aTot,t-1]/fv
+                                     - (vtPAL[t] - vtPALudl[t]);
+    # Vi har ikke indsat j-led i ovenstående relation for rHhAktAfk['PensTot',t], da denne ikke er fordelt på pens og a
+#      (jrHhAktRenter['pensTot',t] + jrHhAktOmv['pensTot',t]) * vHhAkt['pensTot',aTot,t-1]/fv =E= 
+#      sum(pens, jvHhPensAfk[pens,aTot,t] + jrHhPensAfk[pens,t] * vHhPens[pens,aTot,t-1]/fv);
 
-    E_rHhAfk_BankGaeld[t]$(tx0[t] and t.val > 1994)..
-      rHhAfk['BankGaeld',t] =E= rRente['Bank',t] + jrHhRente['BankGaeld',t] + rOmv['BankGaeld',t] + jrHhOmv['BankGaeld',t];
+    E_rHhPasAfk[portf,t]$( t.val > %NettoFin_t1%)..
+      rHhPasAfk[portf,t] =E= rRente[portf,t] + rOmv[portf,t] + jrHhPasRenter[portf,t] + jrHhPasOmv[portf,t];
 
-    E_rHhAfk_RealKred[t]$(tx0[t] and t.val > 1994)..
-      rHhAfk['RealKred',t] =E= rRente['Obl',t] + jrHhRente['RealKred',t] + rOmv['RealKred',t] + jrHhOmv['RealKred',t];
+    E_vHhAktRenter[portf,t]$(d1vHhAkt[portf,t] and t.val > %NettoFin_t1%)..
+      vHhAktRenter[portf,t] =E= (rRente[portf,t] + jrHhAktRenter[portf,t]) * vHhAkt[portf,aTot,t-1]/fv;
 
-    E_vHhRenter_NetFin[t]$(tx0[t] and t.val > 1994)..
-      vHhRenter['NetFin',t] =E= sum(akt, vHhRenter[akt,t]) - sum(pas, vHhRenter[pas,t]) + jvHhRenter[t];
+    E_vHhPasRenter[portf,t]$(d1vHhPas[portf,t] and t.val > %NettoFin_t1%)..
+      vHhPasRenter[portf,t] =E= (rRente[portf,t] + jrHhPasRenter[portf,t]) * vHhPas[portf,aTot,t-1]/fv;
 
-    E_vHhOmv_NetFin[t]$(tx0[t] and t.val > 1994)..
-      vHhOmv['NetFin',t] =E= sum(akt, vHhOmv[akt,t]) - sum(pas, vHhOmv[pas,t]) + jvHhOmv[t];
+    E_vHhNetRenter[t]$(t.val > %NettoFin_t1%)..
+      vHhNetRenter[t] =E= sum(portf, vHhAktRenter[portf,t]) - sum(portf, vHhPasRenter[portf,t]);
 
-    E_vHhRenter_akt[akt,t]$(tx0[t] and t.val > 1994)..
-      vHhRenter[akt,t] =E= (rRente[akt,t] + jrHhRente[akt,t]) * vHh[akt,aTot,t-1]/fv;
+    E_vHhAktOmv[portf,t]$(d1vHhAkt[portf,t] and t.val > %NettoFin_t1%)..
+      vHhAktOmv[portf,t] =E= (rOmv[portf,t] + jrHhAktOmv[portf,t]) * vHhAkt[portf,aTot,t-1]/fv;
 
-    E_vHhRenter_BankGaeld[t]$(tx0[t] and t.val > 1994)..
-      vHhRenter['BankGaeld',t] =E= (rRente['Bank',t] + jrHhRente['BankGaeld',t]) * vHh['BankGaeld',aTot,t-1]/fv;
+    E_vHhPasOmv[portf,t]$(d1vHhPas[portf,t] and t.val > %NettoFin_t1%)..
+      vHhPasOmv[portf,t] =E= (rOmv[portf,t] + jrHhPasOmv[portf,t]) * vHhPas[portf,aTot,t-1]/fv;
 
-    E_vHhRenter_RealKred[t]$(tx0[t] and t.val > 1994)..
-      vHhRenter['RealKred',t] =E= (rRente['Obl',t] + jrHhRente['RealKred',t]) * vHh['RealKred',aTot,t-1]/fv;
+    E_jvHhOmv[t]$(t.val > %NettoFin_t1%)..
+      jvHhOmv[t] =E= sum(portf, jrHhAktOmv[portf,t] * vHhAkt[portf,aTot,t-1]/fv)
+                     - sum(portf, jrHhPasOmv[portf,t] * vHhPas[portf,aTot,t-1]/fv);
 
-    E_vHhOmv[portf,t]$(tx0[t] and t.val > 1994)..
-      vHhOmv[portf,t] =E= (rOmv[portf,t] + jrHhOmv[portf,t]) * vHh[portf,aTot,t-1]/fv;
+    E_vHhOmv_tot[t]$(t.val > %NettoFin_t1%)..
+      vHhOmv['Tot',t] =E= sum(portf, vHhAktOmv[portf,t]) - sum(portf, vHhPasOmv[portf,t]);
 
+    # Administrations- og investeringsomkostninger
+    E_vHhAktOmk_Pens[t]$(t.val > %NettoFin_t1%)..
+      vHhAktOmk['pensTot',t] =E= rHhAktOmk['pensTot',t] * vHhAkt['pensTot',aTot,t-1]/fv;
+
+    E_vHhAktOmk_portfTot[t]$(t.val > %NettoFin_t1%)..
+      vHhAktOmk['Tot',t] =E= sum(portf, vHhAktOmk[portf,t]);
     # ------------------------------------------------------------------------------------------------------------------
     # Pensions
     # ------------------------------------------------------------------------------------------------------------------
     # Pensionsakkumulation
-    E_vHh_pens_aTot[pens,t]$(tx0[t] and t.val > 2015)..
-      vHh[pens,aTot,t] =E= vHh[pens,aTot,t-1]/fv 
-                         + vHhPensAfk[pens,aTot,t]
-                         + vHhPensIndb[pens,aTot,t]
-                         - vHhPensUdb[pens,aTot,t];
+    E_vHhPens_aTot[pens,t]$(t.val > %NettoFin_t1%)..
+      vHhPens[pens,aTot,t] =E= vHhPens[pens,aTot,t-1]/fv 
+                             + vHhPensAfk[pens,aTot,t]
+                             + vHhPensIndb[pens,aTot,t]
+                             - vHhPensUdb[pens,aTot,t];
 
     # Pensionsafkast
-    E_vHhPensAfk_aTot[pens,t]$(tx0[t] and t.val > 2015)..
-      vHhPensAfk[pens,aTot,t] =E= rHhAfk['Pens',t] * vHh[pens,aTot,t-1]/fv
-                                  - vtPAL[t] * vHh[pens,aTot,t-1]/vHh['Pens',aTot,t-1]
-                                  + jvHhPensAfk[pens,aTot,t] + jrHhPensAfk[pens,t] * vHh[pens,aTot,t-1]/fv;
+    E_vHhPensAfk_aTot[pens,t]$(t.val > %NettoFin_t1%)..
+      vHhPensAfk[pens,aTot,t] =E= (rRente['PensTot',t] + rOmv['PensTot',t] - rHhAktOmk['PensTot',t]) * vHhPens[pens,aTot,t-1]/fv
+                                  - (vtPAL[t] - vtPALudl[t]) * vHhPens[pens,aTot,t-1]/vHhAkt['PensTot',aTot,t-1]
+                                  + jvHhPensAfk[pens,aTot,t] + jrHhPensAfk[pens,t] * vHhPens[pens,aTot,t-1]/fv;
 
     # Pensionsindbetalinger
-    E_vHhPensIndb_aTot[pens,t]$(tx0[t] and t.val > 2015)..
+    E_vHhPensIndb_aTot[pens,t]$(t.val > %NettoFin_t1%)..
       vHhPensIndb[pens,aTot,t] =E= rPensIndb[pens,aTot,t] * vWHh[aTot,t];
 
     # Samlede pensionsudbetalinger pr. pensionstype
-    E_vHhPensUdb_aTot[pens,t]$(tx0[t] and t.val > 2015 and d1vHh[pens,t])..
-      vHhPensUdb[pens,aTot,t] =E= rPensUdb[pens,aTot,t] * (vHh[pens,aTot,t-1]/fv + vHhPensAfk[pens,aTot,t]
+    E_vHhPensUdb_aTot[pens,t]$(t.val > %NettoFin_t1%)..
+      vHhPensUdb[pens,aTot,t] =E= rPensUdb[pens,aTot,t] * (vHhPens[pens,aTot,t-1]/fv + vHhPensAfk[pens,aTot,t]
                                                            + vHhPensIndb[pens,aTot,t]);
-    E_vHhPensUdb_aTot_xvHh[pens,t]$(tx0[t] and t.val > 2015 and not d1vHh[pens,t])..
-      rPensUdb[pens,aTot,t] =E= 1;
 
     # Pensionsudbetalinger som går til arvinge
-    E_vPensArv_aTot[pens,t]$(tx0[t] and t.val > 2015 and d1vHh[pens,t])..
-      vPensArv[pens,aTot,t] =E= rPensArv[pens,aTot,t] * (vHh[pens,aTot,t-1]/fv + vHhPensAfk[pens,aTot,t]);
-
-    E_vPensArv_aTot_xvHh[pens,t]$(tx0[t] and t.val > 2015 and not d1vHh[pens,t])..
-      rPensArv[pens,aTot,t] =E= 0;
+    E_vPensArv_aTot[pens,t]$(t.val > %AgeData_t1%)..
+      vPensArv[pens,aTot,t] =E= rPensArv[pens,aTot,t] * (vHhPens[pens,aTot,t-1]/fv + vHhPensAfk[pens,aTot,t]);
 
     # Samlet pensions- formue, indbetalinger, udbetalinger og afkast er sum af pensionstyper
-    E_vHh_pension_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHh['Pens',aTot,t] =E= sum(pens, vHh[pens,aTot,t]);
-    E_vHhPensIndb_pension_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHhPensIndb['Pens',aTot,t] =E= sum(pens, vHhPensIndb[pens,aTot,t]);
-    E_vHhPensUdb_pension_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHhPensUdb['Pens',aTot,t] =E= sum(pens, vHhPensUdb[pens,aTot,t]);
-    E_vPensArv_pension_aTot[t]$(tx0[t] and t.val > 2015)..
-      vPensArv['Pens',aTot,t]   =E= sum(pens, vPensArv[pens,aTot,t]);
-    E_vHhPensAfk_pension_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHhPensAfk['Pens',aTot,t] =E= sum(pens, vHhPensAfk[pens,aTot,t]);
+    E_vHhAkt_pens_aTot[t]$(t.val > %NettoFin_t1%)..
+      vHhAkt['pensTot',aTot,t] =E= sum(pens, vHhPens[pens,aTot,t]);
+    E_vHhPensIndb_pension_aTot[t]$(t.val > %NettoFin_t1%)..
+      vHhPensIndb['pensTot',aTot,t] =E= sum(pens, vHhPensIndb[pens,aTot,t]);
+    E_vHhPensUdb_pension_aTot[t]$(t.val > %NettoFin_t1%)..
+      vHhPensUdb['pensTot',aTot,t] =E= sum(pens, vHhPensUdb[pens,aTot,t]);
+    E_vPensArv_pension_aTot[t]$(t.val > %AgeData_t1%)..
+      vPensArv['pensTot',aTot,t]   =E= sum(pens, vPensArv[pens,aTot,t]);
+    E_vHhPensAfk_pension_aTot[t]$(t.val > %NettoFin_t1%)..
+      vHhPensAfk['pensTot',aTot,t] =E= sum(pens, vHhPensAfk[pens,aTot,t]);
+
+    # Pensionsformue efter skat-approksimation
+    E_vHhPensEfterSkat_tot[t].. 
+      vHhPensEfterSkat[aTot,t] =E= vHhAkt['pensTot',aTot,t] - tPensKor[t] * (vHhPens['PensX',aTot,t] + vHhPens['kap',aTot,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Nettofordringserhvervelse for husholdningerne
     # ------------------------------------------------------------------------------------------------------------------
-    E_vHhNFE[t]$(tx0[t] and t.val > 1994)..
-      vHhNFE[t] =E= vHh['NetFin',aTot,t] - vHh['NetFin',aTot,t-1]/fv - vHhOmv['NetFin',t];
+    E_vHhNFE[t]$(t.val > %NettoFin_t1%)..
+      vHhNFE[t] =E= vHhNet[t] - vHhNet[t-1]/fv - vHhOmv['tot',t];
 
     # Other post model equations
-    E_vHhFormue_tot[t]$(tx0[t])..
-      vHhFormue[aTot,t] =E= vHh['NetFin',aTot,t] + vBolig[aTot,t] - tPensKor[t] * (vHh['pensx',aTot,t] + vHh['kap',aTot,t]);
+    E_vHhFormue_tot[t]..
+      vHhFormue[aTot,t] =E= vHhNet[t] + vBolig[aTot,t] - tPensKor[t] * (vHhPens['PensX',aTot,t] + vHhPens['kap',aTot,t]);
   $ENDBLOCK
 
+  #  $BLOCK B_HHincome_forwardlooking
+  #  $ENDBLOCK
 
-  $BLOCK B_HHincome_a
+  $BLOCK B_HHincome_a$(tx0[t])
     # ==================================================================================================================
     # Household accounting disaggregated by age
     # ==================================================================================================================
@@ -419,37 +441,15 @@ $IF %stage% == "equations":
     # ==================================================================================================================
     # Composition effects and aggregate parameters tie together aggregate and disaggregate systems
     # ==================================================================================================================
-    # Portfolio
-    E_cHh_a_aTot[akt,t]$(tx0[t] and fin_akt[akt] and t.val > 2015)..
-      vHh[akt,aTot,t] =E= sum(a, vHh[akt,a,t] * nPop[a,t]);
+    E_rPensIndb[pens,a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      rPensIndb[pens,a,t] =E= rPensIndb_a[pens,a,t] * (1 + jfrPensIndb[pens,t])
+                           / (rPensIndb_a[pens,a,t] * (1 + jfrPensIndb[pens,t])
+                              + (1 - rPensIndb_a[pens,a,t]) * (1 - jfrPensIndb[pens,t]));
 
-    # Net capital income
-    E_jvHhxAfk_Tot[t]$(tx0[t] and t.val > 2015)..
-      vHhxAfk[aTot,t] =E= sum(a, vHhxAfk[a,t] * nPop[a-1,t-1]);
-
-    # Pensionsindbetalinger
-    E_rPensIndb[pens,a,t]$(tx0[t] and a15t100[a] and t.val > 2015)..
-      rPensIndb[pens,a,t] =E= rPensIndb_a[pens,a,t]**(1 - jlrPensIndb[pens,t]);
-
-    E_rPensIndb_aTot[pens,t]$(tx0[t] and t.val > 2015)..
-      vHhPensIndb[pens,aTot,t] =E= sum(a, vHhPensIndb[pens,a,t] * nPop[a,t]);
-
-    # Samlede pensionsudbetalinger
-    E_rPensUdb[pens,a,t]$(tx0[t] and a15t100[a] and t.val > 2015)..
-      rPensUdb[pens,a,t] =E= rPensUdb_a[pens,a,t]**(1 - jlrPensUdb[pens,t]);
-
-    E_rPensUdb_aTot[pens,t]$(tx0[t] and t.val > 2015)..  # Alderspensionen eksisterer først fra 2013 og frem
-      vHhPensUdb[pens,aTot,t] =E= sum(a, vHhPensUdb[pens,a,t] * nPop[a,t]) + vPensArv[pens,aTot,t];
-
-    # Pensionsudbetalinger som går til arvinge
-    E_rPensArv_aTot[pens,t]$(tx0[t] and t.val > 2015)..
-      vPensArv[pens,aTot,t] =E= sum(a, vPensArv[pens,a,t] * nPop[a-1,t-1] * (1-rOverlev[a-1,t-1]));
-
-    E_jvHhPensAfk_aTot[pens,t]$(tx0[t] and t.val > 2015)..
-      vHhPensAfk[pens,aTot,t] =E= sum(a, vHhPensAfk[pens,a,t] * nPop[a-1,t-1]);
-
-    E_rRealKred2Bolig_aTot[t]$(tx0[t] and t.val > 2015)..
-      vHh['RealKred',aTot,t] =E= sum(a, vHh['RealKred',a,t] * nPop[a,t]);
+    E_rPensUdb[pens,a,t]$(a15t100[a] and t.val > %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1]))..
+      rPensUdb[pens,a,t] =E= rPensUdb_a[pens,a,t] * (1 + jfrPensUdb[pens,t])
+                           / (rPensUdb_a[pens,a,t] * (1 + jfrPensUdb[pens,t])
+                              + (1 - rPensUdb_a[pens,a,t]) * (1 - jfrPensUdb[pens,t]));
 
     # ==================================================================================================================
     # Household accounting disaggregated by age
@@ -457,30 +457,29 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Housing
     # ------------------------------------------------------------------------------------------------------------------
-    E_rRealKred2Bolig[a,t]$(a18t100[a] and tx0[t] and t.val > 2015)..
+    E_rRealKred2Bolig[a,t]$(a18t100[a] and t.val > %AgeData_t1%)..
       rRealKred2Bolig[a,t] =E= (rRealKred2Bolig_a[a,t] + rRealKred2Bolig_t[t]) * pBoligRigid[t] / pBolig[t];
 
-    E_vHh_RealKred[a,t]$(a18t100[a] and tx0[t] and t.val > 2015)..
-      vHh['RealKred',a,t] =E= rRealKred2Bolig[a,t] * vBolig[a,t];
+    E_vHhPas_RealKred[a,t]$(a18t100[a] and t.val > %AgeData_t1%)..
+      vHhPas['RealKred',a,t] =E= rRealKred2Bolig[a,t] * vBolig[a,t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Net financial assets budget constraint
     # ------------------------------------------------------------------------------------------------------------------
-    E_vHh_NetFin[a,t]$(tx0[t] and t.val > 2015)..
-      vHh['NetFin',a,t] =E= vHhx[a,t] + vHh['Pens',a,t] - vHh['RealKred',a,t];
-
-    E_vHhInd[a,t]$(tx0[t] and a0t100[a] and t.val > 2015)..
-      vHhInd[a,t] =E= vWHh[a,t] * nLHh[a,t] / nPop[a,t]
+    E_vHhInd[a,t]$(a0t100[a] and t.val > %AgeData_t1%)..
+      vHhInd[a,t] =E= vWHh[a,t]
                     + vHhOvf[a,t]
-                    + vHhPensUdb['Pens',a,t] - vHhPensIndb['Pens',a,t]
+                    + vHhPensUdb['pensTot',a,t] - vHhPensIndb['pensTot',a,t]
                     - vtHhx[a,t]
                     + vArv[a,t] + vArvKorrektion[a,t]
                     + vHhNFErest[a,t];
 
-    # Aldersfordelt vtHh, dog er vtEjd, vtDoedsbo, vtPensArv og vtPAL fjernet, da de fratrækkes i vBoligUdgift, vArv og vHhPensUdb
-    E_vtHhx[a,t]$(tx0[t] and a0t100[a] and t.val > 2015)..
+    # Aldersfordelt vtHh, dog er vtEjd, vtDoedsbo, vtPensArv og vtPAL fjernet, da de fratrækkes i vBoligUdgift, vArv og vHhPensUdb. Endelig fjernes skat på kapitalindkomst vtHhxAfk.
+    E_vtHhx[a,t]$(a0t100[a] and t.val > %AgeData_t1%)..
       vtHhx[a,t] =E= vtBund[a,t] 
+                   + vtMellem[a,t] 
                    + vtTop[a,t] 
+                   + vtTopTop[a,t] 
                    + vtKommune[a,t] 
                    + vtAktie[a,t] 
                    + vtVirksomhed[a,t] 
@@ -492,207 +491,201 @@ $IF %stage% == "equations":
                    + vBidrag[a,t]
                    + vtKirke[a,t]
                    + vtLukning[a,t]
-                   + (vtKildeRest[t] + vtDirekteRest[t]) / nPop[aTot,t];
+                   - vtHhxAfk[a,t]
+                   + vRealkreditFradrag[a,t] # Realkredit fradrag indgår i vBoligUdgift
+                   + (jvtKilde[t] + jvtDirekte[t]) / nPop[aTot,t];
 
-    E_vHhNFErest[a,t]$(tx0[t] and a0t100[a] and t.val > 2015)..
-      vHhNFErest[a,t] =E= ( vOffTilHh[t] - vOffFraHh[t]
-                           - vHhInvestx[aTot,t] + vSelvstKapInd[aTot,t] + vHhFraVirk[t] - vhhTilUdl[t])
-                         * (vWHh[a,t] * nLHh[a,t] / nPop[a,t] + vHhOvf[a,t]) / (vWHh[aTot,t] + vOvf['hh',t]);
+    E_vHhNFErest[a,t]$(a0t100[a] and t.val > %AgeData_t1%)..
+      vHhNFErest[a,t] =E= vHhFraMigration[a,t]
+                        + (vHhNFErest[aTot,t] - vHhFraMigration[aTot,t]) * (vWHh[a,t] + vHhOvf[a,t]) / (vWHh[aTot,t] + vOvf['HhTot',t]);
 
-    # ------------------------------------------------------------------------------------------------------------------
-    # Marginal rates of return - The two following variables are not age dependent but are only used with age dependent
-    # variable
-    # ------------------------------------------------------------------------------------------------------------------
-    # Marginalt afkast efter skat på vHhx (husholdningernes formue ekskl. pension, bolig og realkreditgæld) 
-    E_mrHhxAfk[t]$(tx0[t] and t.val > 2015)..
-      mrHhxAfk[t] =E= sum(akt, dvHh2dvHhx[akt,t-1] * mrHhAfk[akt,t]) 
-                      - dvHh2dvHhx['BankGaeld',t-1] * mrHhAfk['BankGaeld',t]
-                      + jmrHhAfk[t];
-
-    E_dvHhxAfk2dqBolig[t]$(tx0[t] and t.val > 2015)..
-      dvHhxAfk2dqBolig[t] =E= (sum(akt, dvHh2dvBoligR[akt,t-1] * mrHhAfk[akt,t])
-                               - dvHh2dvBoligR['BankGaeld',t-1] * mrHhAfk['BankGaeld',t])
-                               * pBoligRigid[t];
+    # Vi antager at ind/ud-vandrere kommer og går med samme formue, som de øvrige i samme aldersgruppe
+    E_vHhFraMigration[a,t]$(a.val > 0)..
+      vHhFraMigration[a,t] =E= (1-fMigration[a,t]) # (nPop[a,t] - rOverlev[a-1,t-1] * nPop[a-1,t-1]) / nPop[a,t]
+                             * ((1+mrHhxAfk[t]) * vHhx[a-1,t-1]/fv + vArvBolig[a,t] + vHhPensEfterSkat[a,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Portfolio and capital income
     # ------------------------------------------------------------------------------------------------------------------
     # vHhx opdeles i aktiver og bankgæld
-    E_vHh_BankGaeld[a,t]$(tx0[t] and t.val > 2015)..
-      vHh['BankGaeld',a,t] =E= vHhFinAkt[a,t] - vHhx[a,t];
+    E_vHhPas_Bank[a,t]$(t.val > %AgeData_t1%)..
+      vHhPas['Bank',a,t] =E= sum(fin_akt, vHhAkt[fin_akt,a,t]) - vHhx[a,t];
 
-    # Financial assets are split into portfolio
-    E_vHhFinAkt[a,t]$(tx0[t] and t.val > 2015)..
-      vHhFinAkt[a,t] =E= vHh['Bank',a,t] + vHh['IndlAktier',a,t] + vHh['UdlAktier',a,t] + vHh['obl',a,t];
+    E_vHhAkt[portf,a,t]$(fin_akt[portf] and d1vHhAkt[portf,t] and t.val > %AgeData_t1%)..
+      vHhAkt[portf,a,t] =E= (cHh_a[portf,a,t] + cHh_t[portf,t]) * vBVT2hLsnit[t]
+                            + dvHhAkt2dvHhx[portf,t] * vHhx[a,t]
+                            + dvHhAkt2dvBoligR[portf,t] * pBoligRigid[t] * qBolig[a,t];
 
-    E_vHh_akt[akt,a,t]$(tx0[t] and fin_akt[akt] and t.val > 2015)..
-      vHh[akt,a,t] =E= (cHh_a[akt,a,t] + cHh_t[akt,t]) * vBVT2hLsnit[t]
-                     + dvHh2dvHhx[akt,t] * vHhx[a,t]
-                     + dvHh2dvBoligR[akt,t] * pBoligRigid[t] * qBoligR[a,t];
+    E_vtHhxAfk[a,t]$(a.val > 0 and t.val > %AgeData_t1%)..
+      vtHhxAfk[a,t] =E= sum(portf$(not pensTot[portf]), mtHhAktAfk[portf,t] * rHhAktAfk[portf,t] * vHhAkt[portf,a-1,t-1]/fv * fMigration[a,t])
+                      - mtHhPasAfk['Bank',t] * rHhPasAfk['Bank',t] * vHhPas['Bank',a-1,t-1]/fv * fMigration[a,t];
 
-    # Net capital income
-    E_vHhxAfk[a,t]$(tx0[t] and a.val > 0 and t.val > 2015)..
-      vHhxAfk[a,t] =E= sum(akt$(not pensTot[akt]), rHhAfk[akt,t] * vHh[akt,a-1,t-1]/fv)
-                       - rHhAfk['BankGaeld',t] * vHh['BankGaeld',a-1,t-1]/fv 
-                       + jvHhxAfk[a,t] + jrHhxAfk[t] * vHh['IndlAktier',a-1,t-1]/fv ;
+    E_vRealkreditFradrag[a,t]$(a.val > 0 and t.val > %AgeData_t1%)..
+      vRealkreditFradrag[a,t] =E= mtHhPasAfk['RealKred',t] * rHhPasAfk['RealKred',t] * vHhPas['RealKred',a-1,t-1]/fv * fMigration[a,t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Pensions
     # ------------------------------------------------------------------------------------------------------------------
     # Pensionsakkumulation
     # Formue og afkast ganges med nPop[a-1,t-1]/nPop[a,t], da der udbetales bonus alt efter, hvor mange der overlever
-    E_vHh_pens[pens,a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
-      vHh[pens,a,t] =E= (vHh[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t] - vPensArv[pens,a,t] * (1-rOverlev[a-1,t-1]))
-                      * nPop[a-1,t-1] / nPop[a,t]
-                      + vHhPensIndb[pens,a,t] - vHhPensUdb[pens,a,t];
+    E_vHhPens[pens,a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhPens[pens,a,t] =E= (vHhPens[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t] - vPensArv[pens,a,t] * (1-rOverlev[a-1,t-1]))
+                          * nPop[a-1,t-1] / nPop[a,t]
+                          + vHhPensIndb[pens,a,t] - vHhPensUdb[pens,a,t];
 
     # Pensionsafkast
-    E_vHhPensAfk[pens,a,t]$(a.val >= 15 and tx0[t] and t.val > 2015)..
-      vHhPensAfk[pens,a,t] =E= rHhAfk['Pens',t] * vHh[pens,a-1,t-1]/fv
-                               - vtPAL[t] * vHh[pens,a-1,t-1]/vHh['Pens',aTot,t-1]
-                               + jvHhPensAfk[pens,a,t] + jrHhPensAfk[pens,t] * vHh[pens,a-1,t-1]/fv;
+    E_vHhPensAfk[pens,a,t]$(a.val >= 15 and t.val > %AgeData_t1%)..
+      vHhPensAfk[pens,a,t] =E= (rRente['PensTot',t] + rOmv['PensTot',t] - rHhAktOmk['PensTot',t]) * vHhPens[pens,a-1,t-1]/fv
+                             - (vtPAL[t] - vtPALudl[t]) * vHhPens[pens,a-1,t-1]/vHhAkt['PensTot',aTot,t-1]
+                             + jvHhPensAfk[pens,a,t] + jrHhPensAfk[pens,t] * vHhPens[pens,a-1,t-1]/fv;
 
     # Pensionsindbetalinger
-    E_vHhPensIndb[pens,a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
-      vHhPensIndb[pens,a,t] =E= rPensIndb[pens,a,t] * vWHh[a,t] * nLHh[a,t] / nPop[a,t];
+    E_vHhPensIndb[pens,a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhPensIndb[pens,a,t] =E= rPensIndb[pens,a,t] * vWHh[a,t];
 
     # Pensionsudbetalinger til levende og døde
-    E_vHhPensUdb[pens,a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
+    E_vHhPensUdb[pens,a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       vHhPensUdb[pens,a,t] =E= rPensUdb[pens,a,t] 
-                              * ((vHh[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t] 
+                              * ((vHhPens[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t] 
                                   - vPensArv[pens,a,t] * (1-rOverlev[a-1,t-1])) * nPop[a-1,t-1] / nPop[a,t]
                                  + vHhPensIndb[pens,a,t]);
 
-    E_vPensArv[pens,a,t]$(a.val >= 15 and tx0[t] and t.val > 2015)..
-      vPensArv[pens,a,t] =E= rPensArv[pens,a,t] * (vHh[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t]);
+    E_vPensArv[pens,a,t]$(a.val >= 15 and t.val > %AgeData_t1%)..
+      vPensArv[pens,a,t] =E= rPensArv[pens,a,t] * (vHhPens[pens,a-1,t-1]/fv + vHhPensAfk[pens,a,t]);
 
     # Samlet pensions- formue, indbetalinger, udbetalinger og afkast er sum af pensionstyper
-    E_vHh_pension[a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
-      vHh['Pens',a,t] =E= sum(pens, vHh[pens,a,t]);
-    E_vHhPensIndb_pension[a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
-      vHhPensIndb['Pens',a,t] =E= sum(pens, vHhPensIndb[pens,a,t]);
-    E_vHhPensUdb_pension[a,t]$(a15t100[a] and tx0[t] and t.val > 2015)..
-      vHhPensUdb['Pens',a,t] =E= sum(pens, vHhPensUdb[pens,a,t]);
-    E_vPensArv_pension[a,t]$(a.val >= 15 and tx0[t] and t.val > 2015)..
-      vPensArv['Pens',a,t] =E= sum(pens, vPensArv[pens,a,t]);
-    E_vHhPensAfk_pension[a,t]$(a.val >= 15 and tx0[t] and t.val > 2015)..
-      vHhPensAfk['Pens',a,t] =E= sum(pens, vHhPensAfk[pens,a,t]);
+    E_vHhAkt_pens[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhAkt['pensTot',a,t] =E= sum(pens, vHhPens[pens,a,t]);
+    E_vHhPensIndb_pension[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhPensIndb['pensTot',a,t] =E= sum(pens, vHhPensIndb[pens,a,t]);
+    E_vHhPensUdb_pension[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhPensUdb['pensTot',a,t] =E= sum(pens, vHhPensUdb[pens,a,t]);
+    E_vPensArv_pension[a,t]$(a.val >= 15 and t.val > %AgeData_t1%)..
+      vPensArv['pensTot',a,t] =E= sum(pens, vPensArv[pens,a,t]);
+    E_vHhPensAfk_pension[a,t]$(a.val >= 15 and t.val > %AgeData_t1%)..
+      vHhPensAfk['pensTot',a,t] =E= sum(pens, vHhPensAfk[pens,a,t]);
 
     # Other post model equations
     # Formuebegreb
-    E_vHhFormue[a,t]$(a0t100[a] and tx0[t] and t.val > 2015)..
-      vHhFormue[a,t] =E= vHh['NetFin',a,t] + vBolig[a,t] - tPensKor[t] * (vHh['pensx',a,t] + vHh['kap',a,t]);
+    E_vHhAkt_tot[a,t]$(t.val > %AgeData_t1%)..
+      vHhAkt['tot',a,t] =E= sum(portf, vHhAkt[portf,a,t]);
 
-    E_vHhPens[a,t]$(a0t100[a] and tx0[t])..
-      vHhPens[a,t] =E= vHh['pens',a,t] - tPensKor[t] * (vHh['pensx',a,t] + vHh['kap',a,t]);
-    E_vHhPens_tot[t]$(tx0[t]).. vHhPens[aTot,t] =E= sum(a, vHhPens[a,t] * nPop[a,t]);
+    E_vHhPas_tot[a,t]$(t.val > %AgeData_t1%)..
+      vHhPas['tot',a,t] =E= sum(portf, vHhPas[portf,a,t]);
 
-    # Fremadskuende husholdninger
-    E_vHhFormueR[a,t]$(a0t100[a] and tx0[t])..
-      vHhFormueR[a,t] =E= (vHhFormue[a,t]
-                           - rHtM * (1- tPensKor[t]) * vHh['pensx',a,t]
-                           - rHtM * (1-rRealKred2Bolig[a,t]) * pBolig[t] * qBoligHtM[a,t]) / (1-rHtM);
+    E_vHhFormue[a,t]$(a0t100[a] and t.val > %AgeData_t1%)..
+      vHhFormue[a,t] =E= sum(portf, vHhAkt[portf,a,t] - vHhPas[portf,a,t]) + vBolig[a,t] - tPensKor[t] * (vHhPens['PensX',a,t] + vHhPens['kap',a,t]);
+  
+    E_vHhPensEfterSkat[a,t]$(a0t100[a])..
+      vHhPensEfterSkat[a,t] =E= vHhAkt['pensTot',a,t] - tPensKor[t] * (vHhPens['PensX',a,t] + vHhPens['kap',a,t]);
+ 
+    E_vHhFormue_h[h,a,t]$(a0t100[a])..
+      vHhFormue_h[h,a,t] =E= vHhFormue[a,t];
 
-    E_vHhFormueR_tot[t]$(tx0[t]).. vHhFormueR[aTot,t] =E= sum(a, (1-rHtM) * vHhFormueR[a,t] * nPop[a,t]);
+    E_vFrivaerdi_h[h,a,t]$(a0t100[a])..
+      vFrivaerdi_h[h,a,t] =E= (pBolig[t] * (1-rRealKred2Bolig[a,t]) * qBolig_h[h,a,t]); 
+    
+    E_vHhPensEfterSkat_h[h,a,t]$(a0t100[a])..
+      vHhPensEfterSkat_h[h,a,t] =E= (1 - tPensKor[t]) * (vHhPens['kap',a,t] + vHhPens['PensX',a,t]) + vHhPens['alder',a,t];
 
-    E_vHhPensR[a,t]$(a0t100[a] and tx0[t])..
-      vHhPensR[a,t] =E= ((1 - tPensKor[t]) * (vHh['kap',a,t] + ( 1 - rHtM) * vHh['pensx',a,t]) + vHh['alder',a,t]) / (1-rHtM);
+    E_vHhIndMv_h[h,a,t]$(a0t100[a])..
+      vHhIndMv_h[h,a,t] =E= vHhInd_h[h,a,t] + (rRealKred2Bolig[a,t] * pBolig[t] - rRealKred2Bolig[a-1,t-1] * pBolig[t-1]) 
+                                        * qBolig_h[h,a-1,t-1]/fv * fMigration[a,t];
 
+    E_vBolig_h[h,a,t]$(a18t100[a] and t.val > %AgeData_t1%).. vBolig_h[h,a,t] =E= pBolig[t] * qBolig_h[h,a,t];
 
-    E_vHhPensR_tot[t]$(tx0[t]).. vHhPensR[aTot,t] =E= sum(a, (1-rHtM) * vHhPensR[a,t] * nPop[a,t]);
-    E_vFrivaerdiR[a,t]$(a0t100[a] and tx0[t])..
-      vFrivaerdiR[a,t] =E= (pBolig[t] * (1-rRealKred2Bolig[a,t]) * qBoligR[a,t]);
-
-    E_vFrivaerdiR_tot[t]$(tx0[t]).. vFrivaerdiR[aTot,t] =E= sum(a, (1-rHtM) * vFrivaerdiR[a,t] * nPop[a,t]);
-
-    E_vHhIndMvR[a,t]$(a0t100[a] and tx0[t])..
-      vHhIndMvR[a,t] =E= vHhIndR[a,t] + (rRealKred2Bolig[a,t] * pBolig[t] - rRealKred2Bolig[a-1,t-1] * pBolig[t-1]) 
-                                        * qBoligR[a-1,t-1]/fv * fMigration[a,t];
-
-    E_vHhIndMvR_tot[t]$(tx0[t]).. vHhIndMvR[aTot,t] =E= sum(a, (1-rHtM) * vHhIndMvR[a,t] * nPop[a,t]);
-    E_vHhNetFinR[a,t]$(a0t100[a] and tx0[t])..
-      vHhNetFinR[a,t] =E= vHh['NetFin',a,t] - vHhNetFinHtM[a,t] * rHtM / (1-rHtM);
-
-
-    E_vHhNetFinR_tot[t]$(tx0[t]).. vHhNetFinR[aTot,t] =E= sum(a,  rHtM * vHhNetFinR[a,t] * nPop[a,t]);
-
-    E_vBoligR[a,t]$(a18t100[a] and tx0[t] and t.val > 2015).. vBoligR[a,t] =E= pBolig[t] * qBoligR[a,t];
-
-    E_vBoligR_tot[t]$(tx0[t] and t.val > 2015).. vBoligR[aTot,t] =E= pBolig[t] * qBoligR[aTot,t];
-
-    # HtM-husholdninger
-    E_vHhFormueHtM[a,t]$(a0t100[a] and tx0[t])..
-      vHhFormueHtM[a,t] =E=  (1 - tPensKor[t]) * vHh['pensx',a,t] + pBolig[t] * (1-rRealKred2Bolig[a,t]) * qBoligHtM[a,t];
-    E_vHhFormueHtM_tot[t]$(tx0[t]).. vHhFormueHtM[aTot,t] =E= sum(a, rHtM * vHhFormueHtM[a,t] * nPop[a,t]);
-
-
-    E_vHhPensHtM[a,t]$(a0t100[a] and tx0[t])..
-      vHhPensHtM[a,t] =E= (1 - tPensKor[t]) * vHh['pensx',a,t];
-    E_vHhPensHtM_tot[t]$(tx0[t]).. vHhPensHtM[aTot,t] =E= sum(a, rHtM * vHhPensHtM[a,t] * nPop[a,t]);
-    E_vFrivaerdiHtM[a,t]$(a0t100[a] and tx0[t])..
-      vFrivaerdiHtM[a,t] =E= (pBolig[t] * (1-rRealKred2Bolig[a,t]) * qBoligHtM[a,t]);
-    E_vFrivaerdiHtM_tot[t]$(tx0[t]).. vFrivaerdiHtM[aTot,t] =E= sum(a, rHtM * vFrivaerdiHtM[a,t] * nPop[a,t]);
-    E_vHhIndMvHtM[a,t]$(a0t100[a] and tx0[t])..
-      vHhIndMvHtM[a,t] =E= vHhIndR[a,t] + (rRealKred2Bolig[a,t] * pBolig[t] - rRealKred2Bolig[a-1,t-1] * pBolig[t-1]) 
-                                        * qBoligHtM[a-1,t-1]/fv * fMigration[a,t];
-    E_vHhIndMvHtM_tot[t]$(tx0[t]).. vHhIndMvHtM[aTot,t] =E= sum(a, rHtM * vHhIndMvHtM[a,t] * nPop[a,t]);
-    E_vHhNetFinHtM[a,t]$(a0t100[a] and tx0[t])..
-      vHhNetFinHtM[a,t] =E= vHh['PensX',a,t] - pBolig[t] * rRealKred2Bolig[a,t] * qBoligHtM[a,t];
-    E_vHhNetFinHtM_tot[t]$(tx0[t]).. vHhNetFinHtM[aTot,t] =E= sum(a,  rHtM * vHhNetFinHtM[a,t] * nPop[a,t]);
-
-    E_vHhIndMv[a,t]$(a0t100[a] and tx0[t])..
+    E_vHhIndMv[a,t]$(a0t100[a])..
       vHhIndMv[a,t] =E= vHhInd[a,t] + (rRealKred2Bolig[a,t] * pBolig[t] - rRealKred2Bolig[a-1,t-1] * pBolig[t-1]) 
                                       * qBolig[a-1,t-1]/fv * fMigration[a,t];
-    E_vHhIndMv_tot[t]$(tx0[t]).. vHhIndMv[aTot,t] =E= sum(a, vHhIndMv[a,t] * nPop[a,t]);
+  $ENDBLOCK
+
+  $BLOCK B_HHincome_a_tot$(tx0[t])
+     # Portfolio
+    E_cHh_a_aTot[portf,t]$(fin_akt[portf] and d1vHhAkt[portf,t] and t.val > %AgeData_t1%)..
+      vHhAkt[portf,aTot,t] =E= sum(a, vHhAkt[portf,a,t] * nPop[a,t]);
+
+    # Pensionsindbetalinger
+    E_rPensIndb_aTot[pens,t]$(t.val > %AgeData_t1%)..
+      vHhPensIndb[pens,aTot,t] =E= sum(a, vHhPensIndb[pens,a,t] * nPop[a,t]);
+
+    # Vi beregner kun med log j-ledet, hvis j-ledet er forskelligt fra 0 eller endogeniseret, da det er problematisk at løse
+    E_rPensUdb_aTot[pens,t]$(t.val > %AgeData_t1% and (d1vHhPens[pens,t-1] or d1vHhPens[pens,t-1]))..  # Alderspensionen eksisterer først fra 2013 og frem
+      vHhPensUdb[pens,aTot,t] =E= sum(a, vHhPensUdb[pens,a,t] * nPop[a,t]) + vPensArv[pens,aTot,t];
+
+    # Pensionsudbetalinger som går til arvinge
+    E_rPensArv_aTot[pens,t]$(t.val > %AgeData_t1% and (d1vHhPens[pens,t-1] or d1vHhPens[pens,t-1]))..
+      vPensArv[pens,aTot,t] =E= sum(a, vPensArv[pens,a,t] * nPop[a-1,t-1] * (1-rOverlev[a-1,t-1]));
+
+    E_jvHhPensAfk_aTot[pens,t]$(t.val > %AgeData_t1%)..
+      vHhPensAfk[pens,aTot,t] =E= sum(a, vHhPensAfk[pens,a,t] * nPop[a-1,t-1]);
+
+    E_rRealKred2Bolig_aTot[t]$(t.val > %AgeData_t1%)..
+      vHhPas['RealKred',aTot,t] =E= sum(a, vHhPas['RealKred',a,t] * nPop[a,t]);
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Pensions
+    # ------------------------------------------------------------------------------------------------------------------
+    # Other post model equations
+    # Formuebegreb
+    E_vHhFormue_h_tot[h,t].. 
+      vHhFormue_h[h,aTot,t] =E= sum(a, rHhAndel[h] * vHhFormue_h[h,a,t] * nPop[a,t]);
+
+    E_vFrivaerdi_h_tot[h,t].. vFrivaerdi_h[h,aTot,t] =E= sum(a, rHhAndel[h] * vFrivaerdi_h[h,a,t] * nPop[a,t]);
+    
+    E_vHhPensEfterSkat_h_tot[h,t].. vHhPensEfterSkat_h[h,aTot,t] =E= sum(a, rHhAndel[h] * vHhPensEfterSkat_h[h,a,t] * nPop[a,t]);
+    
+    E_vHhIndMv_h_tot[h,t].. vHhIndMv_h[h,aTot,t] =E= sum(a, rHhAndel[h] * vHhIndMv_h[h,a,t] * nPop[a,t]);
+    
+    E_vBolig_h_tot[h,t]$(t.val > %AgeData_t1%).. vBolig_h[h,aTot,t] =E= pBolig[t] * qBolig_h[h,aTot,t];
+
+    E_vHhIndMv_tot[t].. vHhIndMv[aTot,t] =E= sum(a, vHhIndMv[a,t] * nPop[a,t]);
 
   $ENDBLOCK
 
-
-
   MODEL M_HhIncome /
+    B_HHincome_static
+    #  B_HHincome_forwardlooking
     B_Hhincome_a
-    B_HHincome_aTot
+    B_HHincome_a_tot
   /; 
+
+  $GROUP G_HhIncome_static
+    G_HhIncome_endo
+   -G_HhIncome_endo_a # Påvirker alene aldersfordelte størrelser
+   -G_HhIncome_endo_a_tot
+  ;
 
   # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
   MODEL M_HHincome_post /
+    E_vHhAkt_tot
+    E_vHhPas_tot
     E_vDispInd
     E_vKolPensKor
-    E_vHh_aTot
     E_vHhFormue, E_vHhFormue_tot
-    E_vHhFormueR, E_vHhFormueR_tot
-    E_vHhFormueHtM, E_vHhFormueHtM_tot
-    E_vHhPensR, E_vHhPensR_tot
-    E_vHhPensHtM, E_vHhPensHtM_tot
-    E_vFrivaerdiR, E_vFrivaerdiR_tot
-    E_vFrivaerdiHtM, E_vFrivaerdiHtM_tot
+    E_vHhFormue_h
+    E_vHhFormue_h_tot
+    E_vHhPensEfterSkat_h
+    E_vHhPensEfterSkat_h_tot
+    E_vFrivaerdi_h, E_vFrivaerdi_h_tot
     E_vHhIndMv, E_vHhIndMv_tot
-    E_vHhIndMvR, E_vHhIndMvR_tot
-    E_vHhIndMvHtM, E_vHhIndMvHtM_tot
-    E_vHhNetFinR, E_vHhNetFinR_tot
-    E_vHhNetFinHtM, E_vHhNetFinHtM_tot
-    E_vBoligR, E_vBoligR_tot
+    E_vHhIndMv_h, E_vHhIndMv_h_tot
+    E_vBolig_h, E_vBolig_h_tot
   /;
 
   # Endogenous variables that are solved for only after the main model.
   # Note that these may not appear anywhere in the main model (this results in a model not square error).
   $GROUP G_HHincome_post
+    vHhAkt['tot',a,t]$(t.val > %AgeData_t1%)
+    vHhPas['tot',a,t]$(t.val > %AgeData_t1%)
     vDispInd[t]$(t.val >= 2000)
     vKolPensKor[t]
-    cHh_a$(aTot[a_])
-    vHhFormue[a_,t]$((a0t100[a_] and t.val > 2015) or aTot[a_]) 
-    vHhFormueR[a_,t]$(a0t100[a_] or aTot[a_])                   
-    vHhFormueHtM[a_,t]$(a0t100[a_] or aTot[a_])                 
-    vHhPensR[a_,t]$(a0t100[a_] or aTot[a_])                     
-    vHhPensHtM[a_,t]$(a0t100[a_] or aTot[a_])                   
-    vFrivaerdiR[a_,t]$(a0t100[a_] or aTot[a_])                  
-    vFrivaerdiHtM[a_,t]$(a0t100[a_] or aTot[a_])                
+    vHhFormue[a_,t]$((a0t100[a_] and t.val > %AgeData_t1%) or aTot[a_]) 
+    vHhFormue_h[h_,a_,t]$(a0t100[a_] or aTot[a_])                
+    vHhPensEfterSkat_h[h_,a_,t]$(a0t100[a_] or aTot[a_])                     
+    vFrivaerdi_h[h_,a_,t]$(a0t100[a_] or aTot[a_])                  
     vHhIndMv[a_,t]$(a0t100[a_] or aTot[a_])                     
-    vHhIndMvR[a_,t]$(a0t100[a_] or aTot[a_])                    
-    vHhIndMvHtM[a_,t]$(a0t100[a_] or aTot[a_])                  
-    vHhNetFinR[a_,t]$(a0t100[a_] or aTot[a_])                   
-    vHhNetFinHtM[a_,t]$(a0t100[a_] or aTot[a_])                 
-    vBoligR[a_,t]$((a18t100[a_] or aTot[a_]) and t.val > 2015)  
+    vHhIndMv_h[h_,a_,t]$(a0t100[a_] or aTot[a_])                    
+    vBolig_h[h_,a_,t]$((a18t100[a_] or aTot[a_]) and t.val > %AgeData_t1%)  
   ;
 
   $GROUP G_HHincome_post G_HHincome_post$(tx0[t]);
@@ -700,38 +693,48 @@ $IF %stage% == "equations":
 $ENDIF
 
 $IF %stage% == "exogenous_values":  
-# =============================================================================================½=========================
+# ======================================================================================================================
 # Load data
 # ======================================================================================================================
   # Totaler og aggregater fra makrobk indlæses
   $GROUP G_HhIncome_makrobk
-    vHh$(aTot[a_]), vHhxAfk$(aTot[a_])
-    vBolig$(aTot[a_]), vHhNFErest$(aTot[a_]), vHhFinAkt$(aTot[a_]), rRealKred2Bolig$(aTot[a_])
-    vHhRenter, vHhOmv, vHhNFE
+    vHhAkt$(aTot[a_] and t.val >= %NettoFin_t1%), vHhPas$(aTot[a_] and t.val >= %NettoFin_t1%), vHhNet
+    vHhAktOmk$(pensTot[portf_]), rHhAktOmk$(pensTot[portf_])
+    vBolig$(aTot[a_]), vHhNFErest$(aTot[a_]), rRealKred2Bolig$(aTot[a_])
+    vHhNetRenter, vHhAktRenter, vHhPasRenter, vHhOmv, vHhAktOmv, vHhPasOmv, vHhNFE
     vKolPensKor, rKolPens, vLejeAfEjerBolig
-    rHhFraVirkOev, rHhFraVirkKap, rHhTilUdl
-    vHhPensIndb$(aTot[a_] and t.val >= 1994), vHhPensUdb$(aTot[a_] and t.val >= 1994), vHhPensAfk$(aTot[a_] and t.val >= 1994)
+    vHhFraVirkOev, vHhFraVirkKap, vHhTilUdl, vHhPens$(aTot[a_])
+    vHhPensIndb$(aTot[a_] and t.val >= %NettoFin_t1%), vHhPensUdb$(aTot[a_] and t.val >= %NettoFin_t1%), vHhPensAfk$(aTot[a_] and t.val >= %NettoFin_t1%)
     vDispInd$(t.val >= 2000)
   ;
   @load(G_HHincome_makrobk, "..\Data\makrobk\makrobk.gdx")
 
   # Aldersfordelt data fra aldersprofiler indlæses
   $GROUP G_HHincome_aldersprofiler     
-    vHh$(a[a_]), vHhxAfk$(a[a_]), 
-    vBolig$(a[a_]), vHhNFErest$(a[a_]), vHhFinAkt$(a[a_]), rRealKred2Bolig$(a[a_])
-    dvHh2dvHhx
+    vHhAkt$(a[a_] and not PensTot[portf_]), vHhPas$(a[a_])
+    vBolig$(a[a_]), vHhNFErest$(a[a_]), rRealKred2Bolig$(a[a_])
+    dvHhAkt2dvHhx, dvHhPas2dvHhx
   ; 
   $GROUP G_HHincome_aldersprofiler
-    G_HHincome_aldersprofiler$(tAgeData[t])
-    # Pensionsvariable dækker alle datadækkede år
-    rPensArv, rPensUdb_a, vHhPensAfk$(a[a_]), vHhPensIndb$(a[a_]), vHhPensUdb$(a[a_]), vPensArv
+    G_HHincome_aldersprofiler$(t.val >= %AgeData_t1%)
   ;
   @load(G_HHincome_aldersprofiler, "..\Data\aldersprofiler\aldersprofiler.gdx")
   # Parametre fra aldersprofiler skal indlæses særskilt med execute_load
-  parameter dvHh2dvBolig[portf_,t];
+  parameter dvHh2dvBoligAkt[portf_,t];
+  parameter dvHh2dvBoligPas[portf_,t];
+
   execute_load "..\Data\Aldersprofiler\aldersprofiler.gdx"
-    dvHh2dvBolig
+    dvHh2dvBoligAkt
+    dvHh2dvBoligPas
   ;
+
+  $GROUP G_HHincome_pension
+    # Pensionsvariable dækker alle datadækkede år
+    vHhAkt$(a[a_] and PensTot[portf_]), vHhPens$(a[a_])
+    rPensArv, rPensUdb_a, vHhPensAfk$(a[a_]), vHhPensIndb$(a[a_]), vHhPensUdb$(a[a_]), vPensArv    
+  ;
+  @load(G_HHincome_pension, "..\Data\pension\pension.gdx")
+
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_HHincome_data 
@@ -740,41 +743,37 @@ $IF %stage% == "exogenous_values":
   ; 
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_HHincome_data_imprecise
-    vHh$(BankGaeld[portf_] and t.val = 1993)
     vHhNFErest$(aTot[a_])
     vHhNFE
-    vHhPensIndb$((t.val >= 1994 and aTot[a_]) or (a[a_] and tAgeData[t]))
-    vHhPensUdb$((t.val >= 1994 and aTot[a_]) or (a[a_] and tAgeData[t]))
-    vHhxAfk$(aTot[a_])
+#    vHhx$(aTot[a_])
+#    vHhPas$(Bank[portf_] and aTot[a_])
+#    vHhNet
+    vHhPensIndb$((t.val >= %NettoFin_t1% and aTot[a_]) or (a[a_] and tAgeData[t]))
+    vHhPensUdb$((t.val >= %NettoFin_t1% and aTot[a_]) or (a[a_] and tAgeData[t]))
     vDispInd$(t.val >= 2000)
+    vHhNetRenter$(t.val = 2001 or t.val = 2002 or t.val = 2006 or t.val = 2013 or t.val = 2017 or t.val = 2018)
   ;
 
 # ======================================================================================================================
 # Exogenous variables
 # ======================================================================================================================
-  # Skattesatser fra skm, arbitrær vægt på 0.2 til den høje skattesats
-  mtAktie.l[t]$(t.val>=2012) = 0.8 * 0.27 + 0.2 * 0.42; 
-  mtAktie.l[t]$(t.val>=2010 and t.val<2012) = 0.8 * 0.27 + 0.2 * 0.43; 
-  mtAktie.l[t]$(t.val>=2001 and t.val<2010) = 0.8 * 0.28 + 0.2 * 0.43; 
-  mtAktie.l[t]$(t.val>=2000 and t.val<2001) = 0.8 * 0.25 + 0.2 * 0.40; 
 
   # Ca. skattesats på ubeskattet pensionsformue til beregning af formue-variable
   tPensKor.l[t] = 0.4;
 
   rRealKredTraeg.l = 0.8;
 
-  # Initial skøn - skal datadækkes
-  mrNet2KapIndPos.l[t] = 0.5;
-  rtTopRenter.l[t] = 0.5;
-
 # ======================================================================================================================
 # Data assignment
 # ======================================================================================================================
-  #Set Dummy for household portfolio
-  d1vHh[portf_,t] = yes$(vHh.l[portf_,aTot,t] <> 0);
 
-  #I 2015 sættes pBoligRigid til boligprisen. 
-  pBoligRigid.l[t]$(t.val = 2015) = pBolig.l[t] ; 
+  #Set Dummy for household portfolio
+  d1vHhAkt[portf_,t] = yes$(vHhAkt.l[portf_,aTot,t] <> 0);
+  d1vHhPas[portf_,t] = yes$(vHhPas.l[portf_,aTot,t] <> 0);
+  d1vHhPens[pens,t] = yes$(vHhPens.l[pens,aTot,t] <> 0);
+  d1vHhPens['pensTot',t] = yes$(vHhAkt.l['pensTot',aTot,t] <> 0);
+  #Initialt sættes pBoligRigid til boligprisen. 
+  pBoligRigid.l[t] = pBolig.l[t] ; 
 
   qBolig.l[a,t]$(tData[t]) = vBolig.l[a,t] / pBolig.l[t];
 $ENDIF
@@ -785,68 +784,88 @@ $ENDIF
 $IF %stage% == "static_calibration":
   $GROUP G_HhIncome_static_calibration_base 
     G_HHincome_endo
-    -vKolPensKor[t], jvKolPensKor[t]
+    -vKolPensKor[t], vKolPensKorRest[t]
     -vLejeAfEjerBolig[t], rBoligOmkRestRes[t]
-    -vHhRenter[portf_,t], jrHhRente[portf_,t]$(t.val > 1994 and  d1vHh[portf_,t]), jvHhRenter[t]$(t.val > 1994)
-    -vHhOmv[portf_,t], jrHhOmv[portf_,t]$(t.val > 1994 and  d1vHh[portf_,t]), jvHhOmv[t]$(t.val > 1994)
-    mtAktieRest, -mtAktie
-    ErAktieAfk_static$(t.val > 1994) # E_ErAktieAfk_static
-    dvHh2dvBoligR[portf_,t]$((fin_akt[portf_] or BankGaeld[portf_]) and t.val > 2015) # E_dvHh2dvBoligR og E_dvHh2dvBoligR_BankGaeld
-  ;
-  $BLOCK B_HHincome_static_calibration_base
-    # Forventet marginalafkast beregnes ud fra forventede afkast ikke realiserede
-    E_ErAktieAfk_static[t]$(tx0[t] and t.val > 1994)..
-      ErAktieAfk_static[t] =E= rAfkastKrav[sTot,t] * vAktiex[sTot,t-1]/vAktie[t-1] 
-                               + rRente['Obl',t] * vVirk['Obl',t-1]/vAktie[t-1] 
-                               + rRente['Bank',t] * vVirk['Bank',t-1]/vAktie[t-1] 
-                               + ErAktieAfk_static[t] * (vVirk['IndlAktier',t-1]/fv+vVirk['UdlAktier',t-1]/vAktie[t-1])
-                               - rRente['Obl',t] * vVirk['RealKred',t-1]/vAktie[t-1];
+    -vHhAktRenter[portf,t], jrHhAktRenter[portf,t]$(t.val > %NettoFin_t1% and d1vHhAkt[portf,t]) 
+    -vHhPasRenter[portf,t], jrHhPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vHhPas[portf,t]) 
+    -vHhAktOmv[portf,t]$(not PensTot[portf]), jrHhAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vHhAkt[portf,t] and not PensTot[portf])
+    -vHhPasOmv[portf,t], jrHhPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vHhPas[portf,t])
 
-    E_dvHh2dvBoligR[portf_,t]$(tx0[t] and (t.val > 2015) and (fin_akt[portf_] or BankGaeld[portf_]))..
-      dvHh2dvBoligR[portf_,t] =E= pBolig[t] / pBoligRigid[t] * (1-rHtM) * qBoligR[aTot,t] / qBolig[aTot,t] * dvHh2dvBolig[portf_,t];
+    ErAktieAfk_static$(t.val > %NettoFin_t1%) # E_ErAktieAfk_static
+    dvHhAkt2dvBoligR[fin_akt,t]$(d1vHhAkt[fin_akt,t]) # E_dvHhAkt2dvBoligR
+    dvHhPas2dvBoligR[Bank,t] # E_dvHhPas2dvBoligR
+    -vHhFraVirkKap, rHhFraVirkKap
+    -vHhFraVirkOev, rHhFraVirkOev
+    -vHhTilUdl, rHhTilUdlRest
+  ;
+  $BLOCK B_HHincome_static_calibration_base$(tx0[t])
+    # Forventet marginalafkast beregnes ud fra forventede afkast ikke realiserede
+    E_ErAktieAfk_static[t]$(t.val > %NettoFin_t1%)..
+      ErAktieAfk_static[t] =E= rAktieDrift[t] * vAktieDrift[t-1]/vAktie[t-1] 
+                             + rRente['Obl',t] * vVirkAkt['Obl',t-1]/vAktie[t-1] 
+                             + rRente['Bank',t] * vVirkAkt['Bank',t-1]/vAktie[t-1] 
+                             + ErAktieAfk_static[t] * (vVirkAkt['IndlAktier',t-1] + vVirkAkt['UdlAktier',t-1]) / vAktie[t-1]
+                             - rRente['Realkred',t] * vVirkPas['RealKred',t-1] / vAktie[t-1];
+
+    # HACK: Problemer med effekt fra bolig til aktiver og passiver - derfor er effekt slået midlertidigt fra
+    # Forklaring : HtM burde have en del af bankgælden, da den er knyttet til bolig - ellers får fremadskuende over 100 pct. belåning
+    #              Realkredit særbehandles derfor påvirkes dette ikke af dette hack
+    #              Vi ser således bort fra, at der kan opkøbes aktier for friværdi, hvilket mindsker usercost
+    E_dvHhAkt2dvBoligR[portf_,t]$(fin_akt[portf_] and d1vHhAkt[portf_,t])..
+      dvHhAkt2dvBoligR[portf_,t] =E= 0;
+      #  dvHhAkt2dvBoligR[portf_,t] =E= pBolig[t] / pBoligRigid[t] * dvHh2dvBoligAkt[portf_,t];
+    E_dvHhPas2dvBoligR[portf_,t]$(Bank[portf_])..
+      dvHhPas2dvBoligR[portf_,t] =E= 0;
+      #  dvHhPas2dvBoligR[portf_,t] =E= pBolig[t] / pBoligRigid[t] * dvHh2dvBoligPas[portf_,t];
   $ENDBLOCK
 
-  $GROUP G_HhIncome_simple_static_calibration 
+  $GROUP G_HhIncome_static_calibration_newdata 
     G_HhIncome_static_calibration_base
     -G_HHincome_endo_a
   # Beregninger af led som er endogene i aldersdel (skal være uændret, når de beregnes endogent)
-    -vHh[portf_,a_,t]$(RealKred[portf_] and aTot[a_]), rRealKred2Bolig[a_,t]$(aTot[a_])
-    -vHhPensAfk[portf_,a_,t]$(aTot[a_] and pens[portf_]), jvHhPensAfk[portf_,t]$(aTot[a_] and pens[portf_])
-    -vHhPensIndb[portf_,a_,t]$(aTot[a_] and pens[portf_]), rPensIndb[pens,a_,t]$(aTot[a_])
-    -vHhPensUdb[portf_,a_,t]$(aTot[a_] and pens[portf_]), rPensUdb[pens,a_,t]$(aTot[a_])
-    -vHh[portf_,a_,t]$(fin_akt[portf_] and aTot[a_]), cHh_a[akt,a_,t]$(fin_akt[akt] and aTot[a_])
+    -vHhPas[RealKred,aTot,t], rRealKred2Bolig[aTot,t]
+    -vHhPensAfk[pens,aTot,t], jrHhPensAfk[pens,t]
+    -vHhPensIndb[pens,aTot,t], rPensIndb[pens,aTot,t]
+    -vHhPensUdb[pens,aTot,t]$(d1vHhPens[pens,t] or d1vHhPens[pens,t-1])
+      rPensUdb[pens,aTot,t]$(d1vHhPens[pens,t] or d1vHhPens[pens,t-1])
+    -vHhAkt[fin_akt,aTot,t]$(d1vHhAkt[fin_akt,t]), cHh_a[fin_akt,aTot,t]$(d1vHhAkt[fin_akt,t])
   ;
-  $GROUP G_HhIncome_simple_static_calibration
-    G_HhIncome_simple_static_calibration$(tx0[t])
+  $GROUP G_HhIncome_static_calibration_newdata
+    G_HhIncome_static_calibration_newdata$(tx0[t])
   ;
-  MODEL M_HhIncome_simple_static_calibration /
+  MODEL M_HhIncome_static_calibration_newdata /
     M_HHincome 
     -B_HHincome_a
+    #-B_HHincome_a_tot
     B_HHincome_static_calibration_base
   /;
 
   $GROUP G_HhIncome_static_calibration
     G_HhIncome_static_calibration_base
-    jmrHhAfk[t]$(t.val > 1994) # E_jmrHhAfk
-    -vHh[portf_,a_,t]$(RealKred[portf_] and a18t100[a_] and t.val > 2015), 
-    rRealKred2Bolig_a[a,t]$(a18t100[a] and t.val > 2015)
-    -vHhPensAfk[portf_,a_,t]$(a[a_] and pens[portf_]), jvHhPensAfk[portf_,a_,t]$(aVal[a_] >= 15 and t.val > 2015)
-    -vHhPensIndb$(a15t100[a_] and pens[portf_]), rPensIndb_a$(a15t100[a] and t.val > 2015)
-    -vHh[portf_,a_,t]$(fin_akt[portf_] and aVal[a_] <> 70), cHh_a[akt,a,t]$(fin_akt[akt] and t.val > 2015)  # Vi udlader én aldersgruppe, men eksogeniserer totalen       
+    jmrHhxAfk[t]$(t.val > %NettoFin_t1%) # E_jmrHhxAfk
+    -vHhPas[RealKred,a18t100,t]$(t.val > %AgeData_t1%), 
+    rRealKred2Bolig_a[a18t100,t]$(t.val > %AgeData_t1%)
+    -vHhPensAfk[pens,a,t], jvHhPensAfk[pens,a_,t]$(aVal[a_] >= 15 and t.val > %AgeData_t1%)
+    jrHhPensAfk[pens,t]$(t.val > %AgeData_t1%) # E_jvHhPensAfk_aTot_static
+    # Alderspension har afkast i 2013, men eksisterer ikke i 2012! - så vi bruger additivt j-led før AgeData_t1
+    -vHhPensAfk[pens,aTot,t]$(t.val <= %AgeData_t1%), jvHhPensAfk[pens,aTot,t]$(t.val <= %AgeData_t1%)
+    -vHhPensIndb[pens,a15t100,t]$(t.val > %AgeData_t1%), rPensIndb_a[pens,a15t100,t]$(t.val > %AgeData_t1%)
+    -vHhPensIndb[pens,aTot,t]$(t.val <= %AgeData_t1%), rPensIndb[pens,aTot,t]$(t.val <= %AgeData_t1%)
+    -vHhPensUdb[pens,aTot,t]$(t.val <= %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1]))
+      rPensUdb[pens,aTot,t]$(t.val <= %AgeData_t1% and (d1vHhPens[pens,t] or d1vHhPens[pens,t-1]))
+    -vHhAkt[fin_akt,a_,t]$(d1vHhAkt[fin_akt,t] and aVal[a_] <> 70), cHh_a[fin_akt,a,t]$(d1vHhAkt[portf_,t] and t.val > %AgeData_t1%)  # Vi udlader én aldersgruppe, men eksogeniserer totalen       
   ;
   $GROUP G_HhIncome_static_calibration
     G_HhIncome_static_calibration$(tx0[t])
   ;
-  $BLOCK B_HHIncome_Static_calibration
-    E_jmrHhAfk[t]$(tx0[t] and t.val > 2015)..
-      mrHhxAfk[t] =E= 
-      ( dvHh2dvHhx['IndlAktier',t-1] * ErAktieAfk_static[t]
-        + dvHh2dvHhx['UdlAktier',t-1] * ErAktieAfk_static[t]
-      ) * (1-tAktie[t])
-      + ( dvHh2dvHhx['Obl',t-1] * rRente['obl',t]
-        + dvHh2dvHhx['Bank',t-1] * rRente['Bank',t]
-        - dvHh2dvHhx['BankGaeld',t-1] * rRente['Bank',t]
-      ) * (1 - tKommune[t] - mrNet2KapIndPos[t] * (tBund[t] + tTop[t] * rtTopRenter[t]));
+  $BLOCK B_HHIncome_Static_calibration$(tx0[t])
+    E_jmrHhxAfk[t]$(t.val > %NettoFin_t1%)..
+      mrHhxAfk[t] =E= sum(portf$(IndlAktier[portf] or UdlAktier[portf]), dvHhAkt2dvHhx[portf,t-1] * (1-mtHhAktAfk[portf,t]) * ErAktieAfk_static[t])
+                    + sum(portf$(Obl[portf] or Bank[portf]), dvHhAkt2dvHhx[portf,t-1] * (1-mtHhAktAfk[portf,t]) * rRente[portf,t]) 
+                    - dvHhPas2dvHhx['Bank',t-1] * (1-mtHhPasAfk['Bank',t]) * rRente['Bank',t];
+
+    E_jvHhPensAfk_aTot_static[pens,t]$(t.val > %AgeData_t1%)..
+      jvHhPensAfk[pens,aTot,t] =E= 0;
   $ENDBLOCK
   MODEL M_HhIncome_static_calibration /
     M_HHincome
@@ -861,7 +880,7 @@ $ENDIF
 $IF %stage% == "deep_dynamic_calibration":
   $GROUP G_HHincome_deep
     G_HHincome_endo
-    rPensIndb_a$(a15t100[a] and tx1[t]) # E_rPensIndb_a_forecast
+    rPensIndb_a[pens,a15t100,tx1] # E_rPensIndb_a_forecast
   ;
   $GROUP G_HHincome_deep G_HHincome_deep$(tx0[t]);
 
@@ -869,8 +888,8 @@ $IF %stage% == "deep_dynamic_calibration":
     E_rPensIndb_a_forecast[pens,a,t]$(a15t100[a] and tx1[t])..
       rPensIndb[pens,a,t] =E= rPensIndb2loensum[pens,a,t] * vLoensum[sTot,t] / vWHh[aTot,t];
 
-      #  vHhPensAfk[pens,a,t] =E= rHhAfk['Pens',t] * vHh[pens,a-1,t-1]/fv
-      #                           - vtPAL[t] * vHh[pens,a-1,t-1]/vHh['Pens',aTot,t-1]
+      #  vHhPensAfk[pens,a,t] =E= rHhAfk['pensTot',t] * vHhNet[pens,a-1,t-1]/fv
+      #                           - vtPAL[t] * vHh[pens,a-1,t-1]/vHh['pensTot',aTot,t-1]
       #                           + jvHhPensAfk[pens,a,t];
 
       #  vHhPensAfk[pens,a,t] =E= rPensAfk2Pens[pens,a,t] * vHh[pens,aa-1,t-1]/fv / sum(aa, rPensAfk2Pens[pens,aa,t] * vHh[pens,aa-1,t-1]/fv);
@@ -882,26 +901,29 @@ $IF %stage% == "deep_dynamic_calibration":
 $ENDIF
 
 # ======================================================================================================================
-# Simple dynamic calibration
+# Dynamic calibration for new data years
 # ======================================================================================================================
-$IF %stage% == "simple_dynamic_calibration":
+$IF %stage% == "dynamic_calibration_newdata":
   $GROUP G_HHincome_dynamic_calibration
     G_HHincome_endo
-    cHh_t[akt,t]$(fin_akt[akt] and t1[t]), -vHh[portf_,a_,t]$(t1[t] and aTot[a_] and fin_akt[portf_])
-    -vHhPensAfk[portf_,a_,t]$(aTot[a_] and pens[portf_] and t1[t]), jrHhPensAfk[portf_,t]$(pens[portf_] and t1[t])
-    -vHhPensIndb$(aTot[a_] and pens[portf_] and t1[t]), jlrPensIndb$(t1[t])
-    rPensIndb_a$(a15t100[a] and t1[t] and sameas['kap',pens]) # E_rPensIndb_a_simple
-    -vHhPensUdb$(aTot[a_] and pens[portf_] and t1[t]), jlrPensUdb$(t1[t])
-    -vHh[portf_,a_,t]$(t1[t] and RealKred[portf_] and aTot[a_]), rRealKred2Bolig_t[t]$(t1[t])
-    -vHh$(aTot[a_] and NetFin[portf_] and t1[t]), jrHhxAfk$(t1[t])
+
+    -vHhTilUdl[t1], rHhTilUdlRest[t1]
+
+    # Følgende kunne nok i princippet beregnes i static
+    cHh_t[fin_akt,t1]$(d1vHhAkt[fin_akt,t1]), -vHhAkt[fin_akt,aTot,t1]$(d1vHhAkt[fin_akt,t1])
+
+    # Følgende optræder kun i _a
+    -vHhPas[RealKred,aTot,t1], rRealKred2Bolig_t[t1]
+
+    # Vi matcher til data i foreløbige år
+    -vHhPensAfk[pens,aTot,t1], jrHhPensAfk[pens,t1]
+    -vHhPensIndb[pens,aTot,t1]$(vHhPensIndb.l[pens,aTot,t1] <> 0), jfrPensIndb[pens,t1]$(vHhPensIndb.l[pens,aTot,t1] <> 0) # Ved nul samlede indbetalinger er j-led ikke velbestemt, da indbetalingsrater for alle aldre også er 0
+    -vHhPensUdb[pens,aTot,t1], jfrPensUdb[pens,t1]
   ;
-  # Indbetalinger til kapitalpension er 0 i FMs fremskrivning, men har en værdi i data - derfor denne korrektion
-  $BLOCK B_HHincome_dynamic_calibration
-    E_rPensIndb_a_dynamic_calibration[a,t]$(a15t100[a] and t1[t])..
-      rPensIndb_a['kap',a,t] =E= rPensIndb_a['kap',a,t0];
-  $ENDBLOCK
+  #  $BLOCK B_HHincome_dynamic_calibration
+  #  $ENDBLOCK
   MODEL M_HHincome_dynamic_calibration /
     M_HHincome - M_HHincome_post
-    B_HHincome_dynamic_calibration
+    #  B_HHincome_dynamic_calibration
   /;
 $ENDIF
