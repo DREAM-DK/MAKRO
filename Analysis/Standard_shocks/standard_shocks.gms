@@ -32,11 +32,11 @@ $ENDBLOCK
 # Shock profiles that we can easily switch between
 # --------------------------------------------------------------------------------------------------------------------
 $PGROUP PG_shock_profiles
-  permanent_profile[t]
-  linear_profile[t]
-  AR_profile[t]
-  blip_profile[t]
-  s_profile[t]
+  permanent_profile[t] "Stød profil for permanente stød."
+  linear_profile[t] "Stød profil for midlertidige stød aftrappet lineært over 4 år."
+  AR_profile[t] "Stød profil for midlertidige stød aftrappet eksponentielt."
+  blip_profile[t] "Stød profil for 1-periode stød."
+  s_profile[t] "Stød profil for midlertidige stød aftrappet med sigmoid funktion."
 ;
 permanent_profile[t]$(tx0[t]) = 1;
 linear_profile[t]$(tx0[t]) = max(1 - 0.25 * dt[t], 0);
