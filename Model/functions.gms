@@ -382,7 +382,7 @@ $FUNCTION compare({group}, {gdx1}, {gdx2}):
   # Set NAs and other special values to zero
   $LOOP {group}:
     {name}_gdx1{sets}$(mapVal({name}_gdx1{sets}) > 0) = 0;
-    {name}_gdx2{sets}$(mapVal({name}_gdx1{sets}) > 0) = 0;
+    {name}_gdx2{sets}$(mapVal({name}_gdx2{sets}) > 0) = 0;
   $ENDLOOP
 
   $LOOP {group}:
@@ -449,7 +449,7 @@ $FUNCTION min({x}, {y}): (({x} + {y} - Sqrt(Sqr({x} - {y}) + Sqr(smooth_min_delt
 $FUNCTION solve({model}):
   {model}.optfile = 1;
   {model}.holdFixed = 1;
-  {model}.workfactor = 2;
+  # {model}.workfactor = 2;
   #  {model}.workspace = 8000;
   #  {model}.tolinfeas = 1e-12;
   @print("---------------------------------------- Solve start ----------------------------------------")
@@ -472,7 +472,12 @@ $FUNCTION set_initial_levels_to_nonzero({group}):
   # Set better initial levels for that are zero
   $offlisting
 
-  $LOOP {group}:
+  $GROUP G_set_initial_levels_to_nonzero
+    {group}
+    -jfpIOy_s, -jfpIOm_s
+  ;
+
+  $LOOP G_set_initial_levels_to_nonzero:
     # Set NAs and other special values to zero
     {name}.l{sets}$({conditions} and mapVal({name}.l{sets}) > 0) = 0;
 
@@ -523,25 +528,30 @@ $ENDFUNCTION
 # HP-filter
 # ----------------------------------------------------------------------------------------------------------------------
 # Apply an HP-filter to the input variable
-$FUNCTION HPfilter({name}, {lambda})
+$FUNCTION HPfilter({name}, {lamb}, start_year, end_year)
 embeddedCode Python:
   import dreamtools as dt
   import pandas as pd
   from statsmodels.tsa.filters.hp_filter import hpfilter
 
+  name = "{name}"
   db = dt.GamsPandasDatabase(gams.db)
 
-  levels = db['{name}'].index.names
-  if len(levels) > 1: # Hvis fleres indeks grupperer vi efter alle sets undtagen det sidste, som er tidsdimensionen
-    db['{name}'] = db['{name}'].groupby(levels[:-1]).transform(lambda x: hpfilter(x.values, lamb={lambda})[1])
-  else:
-    x = db['{name}']
-    x = x[pd.notna(x)]
-    db['{name}'][x.index] = hpfilter(x, lamb=6.25)[1]
+  assert isinstance(start_year, int), "Start year must be an integer"
+  assert isinstance(end_year, int), "End year must be an integer"
 
+  mask = (db[name].index.get_level_values("t") >= start_year) & \
+        (db[name].index.get_level_values("t") <= end_year)
+  data_to_filter = db[name][mask]
+  levels = data_to_filter.index.names
+
+  if len(levels) == 1:
+      filtered_values = hpfilter(data_to_filter, {lamb})[1]
+  else:
+      filtered_values = data_to_filter.groupby(levels[:-1]).transform(lambda x: hpfilter(x.values, {lamb})[1])
+
+  db[name][mask] = filtered_values
   db.save_series_to_database()
-  gams.set('{name}', db.symbols['{name}'])
+  gams.set(name, db.symbols[name])
 endEmbeddedCode {name}
 $ENDFUNCTION
-
-

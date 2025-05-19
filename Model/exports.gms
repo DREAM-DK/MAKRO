@@ -36,6 +36,9 @@ $IF %stage% == "variables":
     fXmPriser[t] "Aggregeret effekt af relative priser på import til re-eksport."
     fXy[t] "Sammensætnings-effekter i direkte eksport."
     fXm[t] "Sammensætnings-effekter i import til re-eksport."
+    rpX[t] "Relative laggede priser i eksport vægtet med nutidige mængder."
+    rpXy[t] "Relative laggede priser i direkte eksport vægtet med nutidige mængder."
+    rpXm[t] "Relative laggede priser i import til reeksport vægtet med nutidige mængder."
   ;
   $GROUP G_exports_endo G_exports_endo$(tx0[t]); # Restrict endo group to tx0[t]
 
@@ -93,6 +96,9 @@ $IF %stage% == "equations":
     # Aggregate version
     # ------------------------------------------------------------------------------------------------------------------
     # Total exports
+    E_qX_via_rpX[t]..
+      qX[xTot,t] =E= rpX[t] * (qXy[xTot,t] + qXm[xTot,t]);
+
     E_qX_xTot[t]..
       qX[xTot,t] * pX[xTot,t-1] =E= qXy[xTot,t] * pXy[xTot,t-1] + qXm[xTot,t] * pXm[xTot,t-1];
 
@@ -126,9 +132,13 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Composition effects are calculated by aggregating the disaggregate version with chain indices
     # ------------------------------------------------------------------------------------------------------------------
+    E_qXy_via_rpXy[t]..
+      qXy[xTot,t] =E= rpXy[t] * sum(x, qXy[x,t]);
+    E_qXm_via_rpXm[t]..
+      qXm[xTot,t] =E= rpXm[t] * sum(x$(d1Xm[x,t]), qXm[x,t]);
+
     E_qXy_xTot[t]..
       pXy[xTot,t-1] * qXy[xTot,t] =E= sum(x, pXy[x,t-1] * qXy[x,t]);
-
     E_qXm_xTot[t]..
       pXm[xTot,t-1] * qXm[xTot,t] =E= sum(x$(d1Xm[x,t]), pXm[x,t-1] * qXm[x,t]);
 
@@ -210,28 +220,6 @@ $IF %stage% == "equations":
     -qXy$(x[x_])
     -rpXy2pXUdl$(not xSoe[x]), -dpXyTraeghed
   ;
-
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_exports_post /
-    E_qXy_xTot_via_fXy
-    E_qXm_xTot_via_fXm
-    E_uXy_xTot
-    E_uXm_xTot
-    E_fXyPriser
-    E_fXmPriser
-  /;
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_exports_post
-    fXy
-    fXm
-    uXy$(xTot[x_])
-    uXm$(xTot[x_])
-    fXyPriser
-    fXmPriser
-  ;
-  $Group G_exports_post G_exports_post$(tx0[t]);
-
 $ENDIF
 
 
@@ -304,7 +292,7 @@ $IF %stage% == "static_calibration":
                         + dpXyTraeghed[x,t]*fv / 2;
   $ENDBLOCK
   MODEL M_exports_static_calibration /
-    M_exports - M_exports_post
+    M_exports
     B_exports_static_calibration
     -E_rpXy2pXUdl -E_rpXy2pXUdl_tEnd # E_rpXy2pXUdl_static
   /;
@@ -335,7 +323,7 @@ $IF %stage% == "deep_dynamic_calibration":
   $ENDBLOCK
 
   MODEL M_exports_deep /
-    M_exports - M_exports_post
+    M_exports
     B_exports_deep
   /;
 $ENDIF
@@ -352,12 +340,10 @@ $IF %stage% == "dynamic_calibration_newdata":
     uXy[x_,tx1]$(not xSoe[x_]) # E_uXy_dynamic
   ;
 $BLOCK B_exports_dynamic_calibration
-    E_uXy_xSoe_dynamic[x_,t]$(xSoe[x_] and tx1[t]).. @gradual_return_to_baseline(uXy)
-
-    E_uXy_dynamic[x_,t]$(tx1[t] and x[x_] and not xSoe[x_]).. @gradual_return_to_baseline(uXy);
+  E_uXy_dynamic[x_,t]$(tx1[t] and x[x_]).. uXy[x_,t] =E= uXy_baseline[x_,t] / uXy_baseline[x_,t1] * uXy[x_,t1];
 $ENDBLOCK
   MODEL M_exports_dynamic_calibration /
-    M_exports - M_exports_post
+    M_exports
     B_exports_dynamic_calibration
   /;
 $ENDIF

@@ -1,5 +1,5 @@
 # Change the paths to the GAMS installation on your system.
-gams_path = r"C:/GAMS/46"
+gams_path = r"C:/GAMS/49"
 
 
 import os

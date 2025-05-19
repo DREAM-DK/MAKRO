@@ -23,10 +23,10 @@ parameter fordringsbalance[t]; fordringsbalance[t]$(tx0[t] and t.val >= 1996) =
   - sum(ovfUdl, vOvf.l[ovfUdl,t])
   # Residual foreign transfer to households
   # Rest: Syn_e + Tpc_h_e - Tpc_e_z + (Typc_cf_e-Typc_e_h) + (Tr_hc_e - Tr_e_hc) + (Tknr_e) - Ikn_e - Izn_e  
-  - vHhTilUdl.l[t] + vtPALudl.l[t]
+  - vHhTilUdl.l[t] + vtPALudl.l[t] + vtAktieUdl.l[t]
   + vVirkIndRest.l[t]
   # Fejl i 2016 betyder, at der er en kæmpe overførsel fra et ukendt sted - det er ikke i betalingsbalancen
-  + jrOmv_IndlAktier.l[t]*(vAktie.l[t-1]/fv)
+  + jrOmv_IndlAktier.l[t] * vAktie.l[t-1]/fv
 ;
 abort$(smax(t$(tData[t] and t.val >= 2000), abs(fordringsbalance[t])) > 0.01) "Fejl i fordringsbalancen", fordringsbalance;
 abort$(smax(t$(tForecast[t]), abs(fordringsbalance[t])) > 0.001) "Fejl i fordringsbalancen", fordringsbalance;
@@ -85,4 +85,18 @@ $GROUP G_no_negatives G_no_negatives$(tx0[t]);
 $LOOP G_no_negatives:
   {name}_test{sets}${conditions} = min({name}_test{sets}, 0);
   abort$sum({sets}, {name}_test{sets} < -1e-15) "{name} er negativ (hvis historisk data slå fra i test og kontakt modelgruppen i DST)", {name}_test;
+$ENDLOOP
+
+# ------------------------------------------------------------------------------------------------------------------
+# Variable begrænset mellem 0 og 1
+# ------------------------------------------------------------------------------------------------------------------
+$GROUP G_zero_to_one
+  rPensUdb, rPensindb
+;
+$GROUP G_zero_to_one G_zero_to_one$(tx0[t]);
+$LOOP G_zero_to_one:
+  parameter {name}_test{sets};
+  {name}_test{sets} = {name}.l{sets}$({name}.l{sets} > 1+1e-9 or {name}.l{sets} < -1e-9);
+  abort$(sum({sets}, {name}_test{sets} > 1)) "{name} er over 1 og bør være mellem 0 og 1", {name}_test;
+  abort$(sum({sets}, {name}_test{sets} < 0)) "{name} er negativ og bør være mellem 0 og 1", {name}_test;
 $ENDLOOP

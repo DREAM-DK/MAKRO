@@ -84,6 +84,8 @@ $IF %stage% == "variables":
 
     hLHh[a_,t]$(aTot[a_] and t.val >= %BFR_t1%) "Aldersfordelt arbejdstid, Kilde: FMs Befolkningsregnskab."
     hL[s_,t]$(sTot[s_] or spTot[s_] or sByTot[s_]) "Erlagte arbejdstimer fordelt på brancher, Kilde: ADAM[hq] eller ADAM[hq<i>]"
+    hLSelvst[s_,t]$(s[s_] or sTot[s_]) "Erlagte arbejdstimer for selvstændige fordelt på brancher, Kilde: Residualt fra hL og hLLoenmodtager"
+    hLLoenmodtager[s_,t]$(s[s_] or sTot[s_]) "Erlagte arbejdstimer for lønmodtagere fordelt på brancher, Kilde: ADAM[Hqw] eller ADAM[Qw<i>]*ADAM[Hgw<i>]"
     hLxDK[t] "Samlede erlagte arbejdstimer for grænsearbejdere."
 
     rJobFinding[a_,t]$(aTot[a_]) "Andel af jobsøgende som får et job."
@@ -93,6 +95,8 @@ $IF %stage% == "variables":
     rSoeg2Opslag[t] "Labor market tightness (nSoeg / nOpslag)."
 
     nL[s_,t] "Beskæftigelse fordelt på brancher, Kilde: ADAM[Q] eller ADAM[Q<i>]"
+    nLSelvst[s_,t]$(s[s_] or sTot[s_]) "Beskæftigede selvstændige fordelt på brancher, Kilde: ADAM[Qs] eller ADAM[Qs<i>]"
+    nLLoenmodtager[s_,t]$(s[s_] or sTot[s_]) "Beskæftigede lønmodtagere fordelt på brancher, Kilde: ADAM[Qw] eller ADAM[Qw<i>]"
     nPop[a_,t]$(not a[a_] and t.val > 1991) "Befolkningen op til 100 år."
     nPop_inklOver100[t]$(t.val >= %BFR_t1%) "Befolkningen inkl. personer over 100 år. Kilde: BFR eller ADAM[U]."
     nSoc[soc,t]$(t.val >= %BFR_t1%) "Befolkning fordelt på socio-grupper, antal 1.000 personer, Kilde: BFR."
@@ -105,6 +109,8 @@ $IF %stage% == "variables":
     rNettoLedig[t]$(t.val >= %BFR_t1%) "Nettoledighedsrate."
     rNettoLedigGab[t]$(t.val >= %BFR_t1%) "Gab i nettoledighedsrate."
     rLoenkvote[s_,t] "Sektorfordelt lønkvote"
+    hLSelvst2hL[s_,t]$(sTot[s_]) "Selvstændiges andel af erlagte timer."
+    nLSelvst2nL[s_,t]$(sTot[s_]) "Selvstændiges andel af beskæftigelse."
 
     nL_inklOrlov[s_,t]$(s[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Beskæftigede i alt inkl. orlov fordelt på brancher, Kilde: ADAM[Qb1] eller ADAM[Qb<i>]."
     nOrlov[s_,t]$(sp[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Personer som er midlertidigt fraværende fra beskæftigelse, Kilde: ADAM[Qm] eller ADAM[Qm<i>]."
@@ -163,7 +169,7 @@ $IF %stage% == "variables":
     juDeltag_t[t] "J-led"
   ;
   $GROUP G_labor_market_ARIMA_forecast
-    rSelvst[s_,t] "Andel af beskæftigede, som er selvstændige."
+    hLSelvst2hL[s_,t]$(s[s_])
     hL2nL0[s,t] "Parameter som styrer branchespecifik arbejdstid."
     uProd[s_,t] "Parameter til at styre branchespecifik produktivitet for arbejdskraft."
   ;
@@ -278,16 +284,24 @@ $IF %stage% == "equations":
     # Branche-fordelte lønninger
     # ----------------------------------------------------------------------------------------------------------------------
     # Vi antager at forskellige i timeløn mellem brancher skyldes selektion og følger individerne ved brancheskift
-    E_qProd_sp[sp,t].. qProd[sp,t] =E= (uProd[sp,t] + juProd[sp,t]) * qProd[spTot,t] * hL[spTot,t] / sum(ssp, (uProd[ssp,t] + juProd[ssp,t]) * hL[ssp,t]);
+    E_qProd_sp[sp,t].. qProd[sp,t] =E= (uProd[sp,t] + juProd[sp,t]) * qProd[spTot,t] * hL[spTot,t]
+                                     / sum(ssp, (uProd[ssp,t] + juProd[ssp,t]) * hL[ssp,t]);
     E_qProd_off[t].. qProd['off',t] =E= (uProd['off',t] + juProd['off',t]) * sqProd[sTot,t];
 
-    # Lønudbetaling til selvstændige
-    E_vSelvstLoen[s,t].. vSelvstLoen[s,t] =E= rSelvst[s,t] * pW[t] * qProd[s,t] * hL[s,t];
+    # Erlagte timer og lønudbetaling til selvstændige
+    E_hLSelvst[s,t].. hLSelvst[s,t] =E= hLSelvst2hL[s,t] * hL[s,t];
+    E_hLSelvst_via_hLSelvst2hL_sTot[t].. hLSelvst[sTot,t] =E= hLSelvst2hL[sTot,t] * hL[sTot,t];
+    E_hLSelvst_sTot[t].. hLSelvst[sTot,t] =E= sum(s, hLSelvst[s,t]);
+
+    E_vSelvstLoen[s,t].. vSelvstLoen[s,t] =E= pW[t] * qProd[s,t] * hLSelvst[s,t];
     E_vSelvstLoen_sTot[t].. vSelvstLoen[sTot,t] =E= sum(s, vSelvstLoen[s,t]);
     E_vSelvstLoen_spTot[t].. vSelvstLoen[spTot,t] =E= sum(sp, vSelvstLoen[sp,t]);
 
     # Lønsum eksklusiv selvstændige
-    E_vLoensum[s,t].. vLoensum[s,t] =E= (1-rSelvst[s,t]) * pW[t] * qProd[s,t] * hL[s,t];
+    E_hLLoenmodtager[s,t].. hLLoenmodtager[s,t] =E= (1 - hLSelvst2hL[s,t]) * hL[s,t];
+    E_hLLoenmodtager_sTot[t].. hLLoenmodtager[sTot,t] =E= (1 - hLSelvst2hL[sTot,t]) * hL[sTot,t];
+
+    E_vLoensum[s,t].. vLoensum[s,t] =E= pW[t] * qProd[s,t] * hLLoenmodtager[s,t];
     E_vLoensum_sTot[t].. vLoensum[sTot,t] =E= sum(s, vLoensum[s,t]);
     E_vLoensum_spTot[t].. vLoensum[spTot,t] =E= sum(sp, vLoensum[sp,t]);
     E_vLoensum_sByTot[t].. vLoensum[sByTot,t] =E= sum(sBy, vLoensum[sBy,t]);
@@ -352,6 +366,17 @@ $IF %stage% == "equations":
     # Befolkningen inkl. personer over 100 år (disse er ikke en del af modellen, men indgår for at kunne sammenligne med eksterne totaler.)
     # ----------------------------------------------------------------------------------------------------------------------     
     E_nPop_inklOver100[t]$(t.val >= %BFR_t1%).. nPop_inklOver100[t] =E= nPop[aTot,t] + nPop_Over100[t];
+
+    # ----------------------------------------------------------------------------------------------------------------------
+    # Lønmodtagere og selvstændige - tabelvariable
+    # ----------------------------------------------------------------------------------------------------------------------     
+    # Man kan rykke i andelen af selvstændige, men man rykker ikke i egenskaberne, da den gennemsnitlige arbejdstid er upåvirket
+    E_nLSelvst[s,t].. nLSelvst[s,t] =E= nLSelvst2nL[s,t] * nL[s,t];
+    E_nLSelvst_via_nLSelvst2nL_sTot[t].. nLSelvst[sTot,t] =E= nLSelvst2nL[sTot,t] * nL[sTot,t];
+    E_nLSelvst_sTot[t].. nLSelvst[sTot,t] =E= sum(s, nLSelvst[s,t]);
+
+    E_nLLoenmodtager[s,t].. nLLoenmodtager[s,t] =E= (1 - nLSelvst2nL[s,t]) * nL[s,t];
+    E_nLLoenmodtager_sTot[t].. nLLoenmodtager[sTot,t] =E= (1 - nLSelvst2nL[sTot,t]) * nL[sTot,t];
 $ENDBLOCK
 
 $BLOCK B_labor_market_forwardlooking$(tx0[t])
@@ -516,40 +541,6 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
     B_labor_market_a
   /;
 
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_labor_market_post /
-    E_nSoegBase
-    E_vSelvstLoen_sTot, E_vSelvstLoen_spTot
-    E_vLoensum_sByTot
-    E_nLFuldtid, E_nLFuldtid_sTot, E_nLFuldtid_spTot, E_nLFuldtid_sByTot
-    E_rLoenkvote, E_rLoenkvote_sTot, E_rLoenkvote_spTot, E_rLoenkvote_sByTot
-    E_nOrlov_sTot, E_nOrlov_spTot, E_nOrlov_sByTot, E_nOrlov
-    E_jnOrlov_spTot
-    E_nL_inklOrlov
-    E_nPop_inklOver100
-    E_tL_spTot
-    E_pL_spTot
-    E_fpL_spTot
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_labor_market_post
-    nSoegBase[t]$(t.val > %AgeData_t1%)
-    vSelvstLoen[s_,t]$(sTot[s_] or spTot[s_])
-    vLoensum[s_,t]$(sByTot[s_])
-    nLFuldtid
-    rLoenkvote
-    nOrlov$(sTot[s_] or spTot[s_] or sByTot[s_] or sp[s_])
-    jnOrlov$(spTot[s_])
-    nL_inklOrlov
-    nPop_inklOver100
-    tL$(spTot[s_])
-    pL$(spTot[s_])
-    fpL_spTot
-  ;
-  $GROUP G_labor_market_post G_labor_market_post$(tx0[t]);
-
   $GROUP G_labor_market_static
     G_labor_market_endo
     -G_Labor_market_endo_a # Påvirker alene aldersfordelte størrelser
@@ -561,7 +552,6 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
     -dqL2dnL, -dqL2dnLlag, -dOpslagOmk2dnL, -dOpslagOmk2dnLLag # Bliver bestemt i hjælpeligninger til E_pL
   ;
   $GROUP G_labor_market_static G_labor_market_static$(tx0[t]);
-
 $ENDIF
 
 # ======================================================================================================================
@@ -574,6 +564,7 @@ $IF %stage% == "exogenous_values":
   # Totaler og aggregater fra makrobk indlæses
   $GROUP G_labor_market_makrobk
     nL[s], nL[sTot], hL[s], hL[sTot], vWxDK
+    hLSelvst[s], hLSelvst[sTot], nLSelvst[s], nLSelvst[sTot]
     vWHh[aTot]
     vhW_DA, vhWIndustri, vhW, vSelvstLoen[s], vSelvstLoen[sTot], vLoensum[s], vLoensum[sTot]
     nOrlov, rAKULedig
@@ -664,7 +655,6 @@ $IF %stage% == "static_calibration":
     # Branchespecifik løn, arbejdstid, og ansættelsesomkostninger
     -vLoensum[s,t], uProd[s,t] # E_uProd, -E_qProd_sp
     -nL[s,t], hL2nL0 # E_hL2nL0, -E_hL2nL
-    -vSelvstLoen[s,t], rSelvst[s,t]
     jrOpslagOmkSqr # E_jrOpslagOmkSqr
 
     # Diskonteringsfaktorer mv., som vi holder eksogent ved stød
@@ -690,6 +680,10 @@ $IF %stage% == "static_calibration":
     -vhW_DA, uhW_DA
 
     -pW, rLoenNash
+
+    # Selvstændige og lønmodtagere
+    -hLSelvst[s,t], hLSelvst2hL[s,t]
+    -nLSelvst[s,t], nLSelvst2nL[s,t]
   ;
 
   $GROUP G_labor_market_static_calibration_newdata
@@ -776,6 +770,8 @@ $IF %stage% == "deep_dynamic_calibration":
 
     -rProdVaekst, qProdHh_t # Vi sætter samlet produktivitetsvækst direkte og ser dermed bort fra sammensætningseffekter fra demografi
     qProdxDK[tx1] # E_qProdxDK
+
+    nLSelvst2nL[s,tx1]$(nLSelvst2nL.l[s,t1] > 0) # E_nLSelvst2nL_forecast
   ;
   $GROUP G_labor_market_deep G_labor_market_deep$(tx0[t]);
 
@@ -789,9 +785,13 @@ $IF %stage% == "deep_dynamic_calibration":
     E_qProdxDK[t]$(tx1[t]).. qProdxDK[t] / qProdxDK[t-1] =E= qProd[sTot,t] / qProd[sTot,t-1];
 
     @copy_equation_to_period(E_fDiskpL, tx0)
+
+    # Vi antager at andelen af selvstændige i beskæftigelsen følger andelen af erlagte timer
+    E_nLSelvst2nL_forecast[s,t]$(tx1[t] and nLSelvst2nL.l[s,t1] > 0)..
+      nLSelvst2nL[s,t] / nLSelvst2nL[s,t1] =E= hLSelvst2hL[s,t] / hLSelvst2hL[s,t1];
   $ENDBLOCK
   MODEL M_labor_market_deep /
-    M_labor_market - M_labor_market_post    
+    M_labor_market
     B_labor_market_deep
     E_rAMDISK
   /;
@@ -833,7 +833,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     E_qProdxDK[t]$(tx1[t]).. qProdxDK[t] / qProdxDK[t-1] =E= qProd[sTot,t] / qProd[sTot,t-1];
   $ENDBLOCK
   MODEL M_labor_market_dynamic_calibration /
-    M_labor_market - M_labor_market_post
+    M_labor_market
     B_labor_market_dynamic_calibration
   /;
 $ENDIF

@@ -26,7 +26,6 @@ $GROUP G_prices # Variables that should be adjusted for steady state inflation
 ;
 
 $GROUP G_quantities # Variables that should be adjusted for steady state productivity growth
-  dvHhxAfk2dqBolig
   dvVirk2dpW
   sdvVirk2dpW
   jsqBVT

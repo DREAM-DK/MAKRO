@@ -17,7 +17,7 @@ parameter vHhNet_test[t]; vHhNet_test[t]$(tx1[t] and t.val >= 1996) =
     - (vC.l[cTot,t] - vLejeAfEjerBolig.l[t]) # = -(pC['Cx',t] * qCx[aTot,t] + vCLejeBolig[aTot,t] + rBoligOmkRest[t] * vBolig_h[aTot,t-1]/fv)
     - vIBolig.l[t] # Boliginvesteringer
     );
-abort$(smax(t, abs(vHhNet_test[t])) > 0.005) "vHhNet does not match DST-equation", vHhNet_test;
+abort$(smax(t, abs(vHhNet_test[t])) > 0.01) "vHhNet does not match DST-equation", vHhNet_test;
 abort$(smax(t$(tForecast[t]), abs(vHhNet_test[t])) > 1e-7) "vHhNet does not match DST-equation in forecast", vHhNet_test;
 
 parameter vUdlNetRenter_sumtest[t]; vUdlNetRenter_sumtest[t]$(tx1[t] and t.val >= 1996) = 

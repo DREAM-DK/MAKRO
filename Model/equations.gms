@@ -10,53 +10,21 @@
 # We define the model as the combination of equation blocks from each imported module
 MODEL M_base /
   M_aggregates
-  M_consumers - M_consumers_post
-  M_exports - M_exports_post
-  M_finance - M_finance_post
-  M_government - M_Government_post
-  M_GovExpenses - M_GovExpenses_post
-  M_GovRevenues - M_GovRevenues_post
-  M_HHincome - M_HHincome_post
-  M_IO - M_IO_post
-  M_labor_market - M_labor_market_post
-  M_pricing - M_pricing_post
-  M_production_private - M_production_private_post
+  M_consumers
+  M_exports
+  M_finance
+  M_government 
+  M_GovExpenses 
+  M_GovRevenues 
+  M_HHincome
+  M_IO
+  M_labor_market
+  M_pricing
+  M_production_private
   M_production_public
   M_struk
-  B_taxes - M_taxes_post
+  B_taxes
 /;
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Post model
-# ----------------------------------------------------------------------------------------------------------------------
-MODEL M_post /
-  M_consumers_post
-  M_exports_post
-  M_finance_post
-  M_Government_post
-  M_GovExpenses_post
-  M_GovRevenues_post
-  M_HHincome_post
-  M_IO_post
-  M_labor_market_post
-  M_production_private_post
-  M_pricing_post
-  M_taxes_post
-/;
-$GROUP G_post
-  G_consumers_post
-  G_exports_post
-  G_finance_post
-  G_Government_post
-  G_GovExpenses_post
-  G_GovRevenues_post
-  G_HHincome_post
-  G_IO_post
-  G_labor_market_post
-  G_production_private_post
-  G_pricing_post
-  G_taxes_post
-;
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Model without age

@@ -85,6 +85,8 @@ $IF %stage% == "variables":
     rBVTGab[t] "Outputgab."
     rBeskGab[t] "Beskæftigelsesgab."
     rNettoArbstyGab[t] "Arbejdsstyrkegab."
+
+    rspBVT[t] "Relative laggede priser for strukturelt BVT vægtet med nutidige mængder."
   ;
   $GROUP G_struk_endo G_struk_endo$(tx0[t]);
 
@@ -145,6 +147,8 @@ $IF %stage% == "equations":
     # Vi antager, at der ikke er konjunkturgab i den offentlige branche.
     E_spBVT_sTot[t]..
       spBVT[sTot,t] * sqBVT[sTot,t] =E= pBVT[spTot,t] * sqBVT[spTot,t] + vBVT['off',t];
+    E_sqBVT_via_rspBVT[t]..
+      sqBVT[sTot,t] =E= rspBVT[t] * (sqBVT[spTot,t] + qBVT['off',t]);
     E_sqBVT_sTot[t]..
       spBVT[sTot,t-1]/fp * sqBVT[sTot,t] =E= pBVT[spTot,t-1]/fp * sqBVT[spTot,t] + pBVT['off',t-1]/fp * qBVT['off',t];
    
@@ -411,19 +415,36 @@ $IF %stage% == "exogenous_values":
     G_struk_BFR
     G_struk_FM
     -srSeparation$(aTot[a_] and t.val >= %cal_deep%)
-    -rNettoArbstyGab$(t.val <= 2016) # Det skal undersøges, hvorfor denne ikke rammer præcist i 2016
+    -rNettoArbstyGab # Det skal undersøges, hvorfor denne ikke rammer præcist
   ;
 
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_struk_data_imprecise      
     srSeparation$(aTot[a_] and t.val < %cal_deep%)
-    rNettoArbstyGab$(t.val <= 2016)
+    rNettoArbstyGab
     rBeskGab
   ; 
 
 # ======================================================================================================================
 # Data assignment
 # ======================================================================================================================
+  
+  # Outside BFR years, use employment gap from FM to calculate structural employment
+  shL.l[sTot,t] = shLHh.l[aTot,t] + shLxDK.l[t];
+  snL.l[sTot,t] = snLHh.l[aTot,t] + snLxDK.l[t];
+  snL.l[sTot,t]$(t.val < %BFR_t1%) = (1 - rBeskGab.l[t]) * nL.l[sTot,t];
+  shL.l[sTot,t]$(t.val < %BFR_t1%) = hL.l[sTot,t];
+  snNettoArbsty.l[t]$(t.val < %BFR_t1%) = (1 - rNettoArbstyGab.l[t]) * nNettoArbsty.l[t];
+
+  snLHh.l[aTot,t]$(t.val < %BFR_t1%) = snL.l[sTot,t] / snL.l[sTot,'%BFR_t1%'] * snLHh.l[aTot,'%BFR_t1%'];
+  shLHh.l[aTot,t]$(t.val < %BFR_t1%) = shL.l[sTot,t] / shL.l[sTot,'%BFR_t1%'] * shLHh.l[aTot,'%BFR_t1%'];
+
+  #Nedgangen i arbejdstid i 2020 bør ikke anses som strukturel ift. kalibrering af MAKRO
+  #Lignende justering fortages på shLHh i BFR2GDX
+  shL.l[sTot,'2020'] = (shL.l[sTot,'2019'] + shL.l[sTot,'2021']) /2;
+
+  snLxDK.l[t] = snL.l[sTot,t] - snLHh.l[aTot,t];
+  shLxDK.l[t] = shL.l[sTot,t] - shLHh.l[aTot,t];
   spBVT.l[s_,t]$(tBase[t]) = 1;
 
   # Asymptotisk maksimum for arbejdsmarkedsdeltagelse sættes til 3 gange strukturel beskæftigelse
@@ -445,7 +466,7 @@ $IF %stage% == "static_calibration":
     -snLHh[a,t]$(t.val > %AgeData_t1%) # -E_srSoegBaseHh -E_srSoegBaseHh_tEnd -E_srSoegBaseHh_aEnd
     -snLHh[aTot,t] # -E_srSeparation_aTot
     snSoegBaseHh[aTot,t] # E_snSoegBaseHh_aTot_static
-    -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc])
+    -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc] and t.val >= %BFR_t1%)
   ;
   $GROUP G_struk_static_calibration_newdata G_struk_static_calibration$(tx0[t]);
 
@@ -537,7 +558,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     -snLHh[a15t100,t]$(t.val < %cal_end%+1), jsnSoegHh[a15t100,t]$(t.val < %cal_end%+1)
     -snLHh[a15t100,t]$(t.val >= %cal_end%+1), uDeltag[a15t100,t]$(t.val >= %cal_end%+1)
 
-    -snSoegBaseHh[aTot,t], rLoenNash[t]
+    -snSoegBaseHh[aTot,t]$(t.val <> 2020), rLoenNash[t]$(t.val <> 2020) # I 2020 er arbejdsstyrke ikke et godt mål for det reelle arbejdsudbud (pga. corona-nedlukning)
 
     -snLxDK[t]$(t.val < %cal_end%+1), jsnSoegxDK[t]$(t.val < %cal_end%+1)
 
@@ -546,7 +567,7 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     -shLxDK[t1], uhLxDK[t1]
 
-    -rBVTGab[t1], jfrLUdn_t[t1]
+    -rBVTGab[t1], jfrLUdn_t[t1]$(t1.val<>2020), jsqBVT[spTot,t1]$(t1.val=2020)
 
     -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc])
   ;

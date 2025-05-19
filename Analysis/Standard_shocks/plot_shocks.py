@@ -16,9 +16,9 @@ output_folder_base = r"Output"
 output_extension = ".png"
 
 shock_folder = "Gdx"
-baseline_path = f"{shock_folder}/deep_calibration.gdx"
+baseline_path = f"{shock_folder}/baseline.gdx"
 
-DA = True # Should labels be in Danish or English? 
+DA = False # Should labels be in Danish or English? 
 
 """
 List of tuples each containing information about a figure to plot. Each tuple contains:
@@ -42,7 +42,7 @@ plot_info = [
    "GDP (qBNP)": lambda s, b: (s.qBNP - b.qBNP) / b.qBNP,
    "Private consumption (qC)": lambda s, b: (s.qC["cTot"] - b.qC["cTot"]) / b.qBNP,
    "Government consumption (qG)": lambda s, b: (s.qG["gTot"] - b.qG["gTot"]) / b.qBNP,
-   "Investments (qI)": lambda s, b: (s.qI["iTot"] - b.qI["iTot"]) / b.qBNP,
+   "investment (qI)": lambda s, b: (s.qI["iTot"] - b.qI["iTot"]) / b.qBNP,
    "Exports (qX)": lambda s, b: (s.qX["xTot"] - b.qX["xTot"]) / b.qBNP,
    "Minus imports (-qM)": lambda s, b: -(s.qM["tot"] - b.qM["tot"]) / b.qBNP,
    },
@@ -100,17 +100,17 @@ plot_info = [
    ("Wage",
    "Løn",
    {
-   "Marginal product of labor in services (pL)": lambda s, b: s.pL["tje"],
+   "Marginal product of labor (pL)": lambda s, b: s.pL["spTot"],
    "Hourly wage (vHw)": lambda s, b: s.vhW,
-   "Output price of services (pY)": lambda s, b: s.pY["tje"],
-   "Import price of services (pM)": lambda s, b: s.pM["tje"],
+   "Output price, total (pY)": lambda s, b: s.pY["spTot"],
+   "Import price, total (pM)": lambda s, b: s.pM["spTot"],
    "Consumer prices (pC)": lambda s, b: s.pC["cTot"],
    },
    {
-   "Marginale produkt af arbejdskraft i servicesektoren (pL)": lambda s, b: s.pL["tje"],
+   "Marginalprodukt af arbejdskraft (pL)": lambda s, b: s.pL["spTot"],
    "Timeløn (vHw)": lambda s, b: s.vhW,
-   "Outputpris for services (pY)": lambda s, b: s.pY["tje"],
-   "Importpris for services (pM)": lambda s, b: s.pM["tje"],
+   "Outputpris, total (pY)": lambda s, b: s.pY["spTot"],
+   "Importpris, total (pM)": lambda s, b: s.pM["spTot"],
    "Forbrugerpriser (pC)": lambda s, b: s.pC["cTot"],
    },
    "pq",
@@ -120,7 +120,7 @@ plot_info = [
    "Budgetsaldo",
    {
    "Primary government budget (vPrimSaldo)": lambda s, b: (s.vPrimSaldo-b.vPrimSaldo)/b.vBNP,
-   "Government budget surplus (vSaldo+vtLukning)": lambda s, b: (s.vSaldo+s.vtLukning-b.vSaldo-b.vtLukning)/b.vBNP,
+#    "Government budget surplus (vSaldo+vtLukning)": lambda s, b: (s.vSaldo+s.vtLukning-b.vSaldo-b.vtLukning)/b.vBNP,
    "Household budget surplus (vHhNFE)": lambda s, b: (s.vHhNFE-b.vHhNFE)/b.vBNP,
    "Firm budget surplus (vVirkNFE)": lambda s, b: (s.vVirkNFE-b.vVirkNFE)/b.vBNP,
    "Foreign budget surplus (vUdlNFE)": lambda s, b: (s.vUdlNFE-b.vUdlNFE)/b.vBNP,
@@ -158,11 +158,11 @@ plot_info = [
    "pm", 
    "Change relative<br>to baseline GVA (in %-points)",
    "Ændring i forhold<br>til baseline BVT (i procentpoint)"),
-   ("Investments",
+   ("investment",
    "Investeringer", 
    {
-   "Business investments in machines (qI_s)": lambda s, b: (s.qI_s["iM","spTot"]-b.qI_s["iM","spTot"])/b.qBNP,
-   "Business investments in buildings (qI_s)": lambda s, b: (s.qI_s["iB","spTot"]-b.qI_s["iB","spTot"])/b.qBNP,
+   "Private investment in equipment (qI_s)": lambda s, b: (s.qI_s["iM","spTot"]-b.qI_s["iM","spTot"])/b.qBNP,
+   "Private investment in structures (qI_s)": lambda s, b: (s.qI_s["iB","spTot"]-b.qI_s["iB","spTot"])/b.qBNP,
    "Housing investment (qI_s)": lambda s, b: (s.qI_s["iB","bol"]-b.qI_s["iB","bol"])/b.qBNP,
    "Government investment (qI_s)": lambda s, b: (s.qI_s["iTot","off"]-b.qI_s["iTot","off"])/b.qBNP,
    }, {
@@ -174,20 +174,20 @@ plot_info = [
    "pm", 
    "Change relative<br>to baseline GDP (in %-points)",
    "Ændring i forhold<br>til baseline BNP (i procentpoint)"),
-   ("Production inputs to services", 
-   "Produktionsinput til services",
+   ("Production inputs private sector", 
+   "Produktionsinput til privat sektor",
    {
-   "Production (qY)": lambda s, b: s.qY["tje"],
-   "Intermediates (qR)": lambda s, b: s.qR["tje"],
-   "Labor (qL)": lambda s, b: s.qL["tje"],
-   "Machinery capital, primo (qK)": lambda s, b: s.qK["iM","tje"][:-1],
-   "Building capital, primo (qK)": lambda s, b: s.qK["iB","tje"][:-1],
+   "Production (qY)": lambda s, b: s.qY["spTot"],
+   "Intermediates (qR)": lambda s, b: s.qR["spTot"],
+   "Labor (qL)": lambda s, b: s.qL["spTot"],
+   "Equipment capital, primo (qK)": lambda s, b: s.qK["iM","spTot"][:-1],
+   "Structures capital, primo (qK)": lambda s, b: s.qK["iB","spTot"][:-1],
    }, {
-   "Produktion (qY)": lambda s, b: s.qY["tje"],
-   "Materialeinput (qR)": lambda s, b: s.qR["tje"],
-   "Arbejdskraft (qL)": lambda s, b: s.qL["tje"],
-   "Maskinkapital, primo (qK)": lambda s, b: s.qK["iM","tje"][:-1],
-   "Bygningskapital, primo (qK)": lambda s, b: s.qK["iB","tje"][:-1],
+   "Produktion (qY)": lambda s, b: s.qY["spTot"],
+   "Materialeinput (qR)": lambda s, b: s.qR["spTot"],
+   "Arbejdskraft (qL)": lambda s, b: s.qL["spTot"],
+   "Maskinkapital, primo (qK)": lambda s, b: s.qK["iM","spTot"][:-1],
+   "Bygningskapital, primo (qK)": lambda s, b: s.qK["iB","spTot"][:-1],
    },
    "pq", 
    "Change relative<br>to baseline (in %)",
@@ -195,19 +195,13 @@ plot_info = [
    ("Prices", 
    "Priser",
    {
-   "Unit costs for services (pKELBR)": lambda s, b: s.pKELBR["tje"],
-   "Output price for services (pY)": lambda s, b: s.pY["tje"],
-   "Export price for services (pXy)": lambda s, b: s.pXy["xTje"],
-   "Output price for manufacturing (pY)": lambda s, b: s.pY["fre"],
-   "Unit costs for manufacturing (pKELBR)": lambda s, b: s.pKELBR["fre"],
-   "Export price for goods (pXy)": lambda s, b: s.pXy["xVar"],
+   "Unit costs, total(pKELBR)": lambda s, b: s.pKELBR["spTot"],
+   "Output price, total (pY)": lambda s, b: s.pY["spTot"],
+   "Export price, total (pXy)": lambda s, b: s.pXy["xTot"],
    }, {
-   "Enhedsomkostninger for services (pKELBR)": lambda s, b: s.pKELBR["tje"],
-   "Outputpris for services (pY)": lambda s, b: s.pY["tje"],
-   "Eksportpris for services (pXy)": lambda s, b: s.pXy["xTje"],
-   "Outputpris for fremstilling (pY)": lambda s, b: s.pY["fre"],
-   "Enhedsomkostninger for fremstilling (pKELBR)": lambda s, b: s.pKELBR["fre"],
-   "Eksportpris for varer (pXy)": lambda s, b: s.pXy["xVar"],
+   "Enhedsomkostninger, total (pKELBR)": lambda s, b: s.pKELBR["spTot"],
+   "Outputpris total (pY)": lambda s, b: s.pY["spTot"],
+   "Eksportpris total (pXy)": lambda s, b: s.pXy["xTot"],
    },
    "pq", 
    "Change relative<br>to baseline (in %)",
@@ -219,14 +213,14 @@ plot_info = [
    "Services (excl. sea transport) (qXy)": lambda s, b: (s.qXy["xTje"]-b.qXy["xTje"])/b.qBNP,
    "Energy (qXy)": lambda s, b: (s.qXy["xEne"]-b.qXy["xEne"])/b.qBNP,
    "Sea transport (qXy)": lambda s, b: (s.qXy["xSoe"]-b.qXy["xSoe"])/b.qBNP, 
-   "Turism (qX)": lambda s, b: (s.qX["xTur"]-b.qX["xTur"])/b.qBNP,
+   "Tourism (qX)": lambda s, b: (s.qX["xTur"]-b.qX["xTur"])/b.qBNP,
    "Import to re-exports (qXm)": lambda s, b: (s.qXm[s.x].groupby(level=1).sum() - b.qXm[b.x].groupby(level=1).sum())/b.qBNP
    }, {
    "Varer (ekskl. energi) (qXy)": lambda s, b: (s.qXy["xVar"]-b.qXy["xVar"])/b.qBNP,
    "Services (ekskl. søtransport) (qXy)": lambda s, b: (s.qXy["xTje"]-b.qXy["xTje"])/b.qBNP,
    "Energi (qXy)": lambda s, b: (s.qXy["xEne"]-b.qXy["xEne"])/b.qBNP,
    "Søtransport (qXy)": lambda s, b: (s.qXy["xSoe"]-b.qXy["xSoe"])/b.qBNP,
-   "Turisme (qX)": lambda s, b: (s.qX["xTur"]-b.qX["xTur"])/b.qBNP,
+   "Tourisme (qX)": lambda s, b: (s.qX["xTur"]-b.qX["xTur"])/b.qBNP,
    "Import til reeksport (qXm)": lambda s, b: (s.qXm[s.x].groupby(level=1).sum() - b.qXm[b.x].groupby(level=1).sum())/b.qBNP
    },
    "pm", 
@@ -279,13 +273,13 @@ plot_info = [
    "Income after taxes excl. capital income (vHhInd)": lambda s, b: s.vHhInd["tot"],
    "Wealth excl. housing, mortgage and pension (vHhx)": lambda s, b: s.vHhx["tot"],
    "Housing wealth (vBolig)": lambda s, b: s.vBolig["tot"],
-   "Pension wealth after taxes (vHhPens)": lambda s, b: s.vHhPens["tot"],
+   "Pension wealth after taxes (vHhPens)": lambda s, b: s.vHhPens["pensTot","tot"],
    "Wealth incl. housing, mortgage and pension": lambda s, b: s.vHhFormue["tot"],
    }, {
    "Indkomst efter skat ekskl. kapitalindkomst (vHhInd)": lambda s, b: s.vHhInd["tot"],
    "Formue ekskl. bolig, realkredit og pension (vHhx)": lambda s, b: s.vHhx["tot"],
    "Formue i bolig (vBolig)": lambda s, b: s.vBolig["tot"],
-   "Pensionsformue efter skat (vHhPens)": lambda s, b: s.vHhPens["tot"],
+   "Pensionsformue efter skat (vHhPens)": lambda s, b: s.vHhPens["pensTot","tot"],
    "Formue inkl. bolig, realkredit og pension": lambda s, b: s.vHhFormue["tot"],
    },
    "pq", 
@@ -326,7 +320,7 @@ shock_info = [
    "Wage income before taxes (vWHh)": lambda s, b: (s.vWHh["tot"] - b.vWHh["tot"]) / b.vBNP,
    "Income transfers before taxes (vOvf)": lambda s, b: (s.vOvf["tot"] - b.vOvf["tot"]) / b.vBNP,
    "Minus taxes and other transfers (-vtHhx)": lambda s, b: -(s.vtHhx["tot"] - b.vtHhx["tot"]) / b.vBNP,
-   "Net pension income (vHhPensUdb-vHhPensIndb)": lambda s, b: (s.vHhPensUdb["Pens","tot"] - s.vHhPensIndb["Pens","tot"] - (b.vHhPensUdb["Pens","tot"] - b.vHhPensIndb["Pens","tot"])) / b.vBNP,
+   "Net pension income (vHhPensUdb-vHhPensIndb)": lambda s, b: (s.vHhPensUdb["pensTot","tot"] - s.vHhPensIndb["pensTot","tot"] - (b.vHhPensUdb["pensTot","tot"] - b.vHhPensIndb["pensTot","tot"])) / b.vBNP,
    "Capital income excl. pension, housing and mortgages (vHhxAfk)": lambda s, b: (s.vHhxAfk["tot"] - b.vHhxAfk["tot"]) / b.vBNP,
    }, 
    {
@@ -335,7 +329,7 @@ shock_info = [
    "Lønindkomst før skat (vWHh)": lambda s, b: (s.vWHh["tot"] - b.vWHh["tot"]) / b.vBNP,
    "Indkomstoverførsler før skat (vOvf)": lambda s, b: (s.vOvf["tot"] - b.vOvf["tot"]) / b.vBNP,
    "Minus skatter og andre overførsler (-vtHhx)": lambda s, b: -(s.vtHhx["tot"] - b.vtHhx["tot"]) / b.vBNP,
-   "Nettopensionsindkomst (vHhPensUdb-vHhPensIndb)": lambda s, b: (s.vHhPensUdb["Pens","tot"] - s.vHhPensIndb["Pens","tot"] - (b.vHhPensUdb["Pens","tot"] - b.vHhPensIndb["Pens","tot"])) / b.vBNP,
+   "Nettopensionsindkomst (vHhPensUdb-vHhPensIndb)": lambda s, b: (s.vHhPensUdb["pensTot","tot"] - s.vHhPensIndb["pensTot","tot"] - (b.vHhPensUdb["pensTot","tot"] - b.vHhPensIndb["pensTot","tot"])) / b.vBNP,
    "Kapitalindkomst ekskl. pension, bolig og realkredit (vHhxAfk)": lambda s, b: (s.vHhxAfk["tot"] - b.vHhxAfk["tot"]) / b.vBNP,
    },
    "pm", 
@@ -348,7 +342,7 @@ shock_info = [
    # "Government employment (hL)": lambda s, b: s.hL["off"],
    "Government consumption (qG)": lambda s, b: s.qG["gTot"],
    # "Government input of intermediates (qR)": lambda s, b: s.qR["off"],
-   # "Government investments (qI_s)": lambda s, b: s.qI_s["iTot","off"],
+   # "Government investment (qI_s)": lambda s, b: s.qI_s["iTot","off"],
    # "Government capital (qK)": lambda s, b: s.qK["iM","off"] + s.qK["iB","off"],
    "Government production (qY)": lambda s, b: s.qY["off"],
    }, {
@@ -367,7 +361,7 @@ shock_info = [
    ("Offentlig_beskaeftigelse", "Government employment",
    ({"Government employment (hL)": lambda s, b: s.hL["off"],
    # "Government input of intermediates (qR)": lambda s, b: s.qR["off"],
-   # "Government investments (qI_s)": lambda s, b: s.qI_s["iTot","off"],
+   # "Government investment (qI_s)": lambda s, b: s.qI_s["iTot","off"],
    # "Government capital (qK)": lambda s, b: s.qK["iM","off"] + s.qK["iB","off"],
    "Government production (qY)": lambda s, b: s.qY["off"],
    }, 
@@ -388,7 +382,7 @@ shock_info = [
    # "Government employment (hL)": lambda s, b: s.hL["off"],
    "Government wages (vLoensum[off])": lambda s, b: (s.vLoensum["off"] - b.vLoensum["off"]) / b.vLoensum["off"],
    # "Government input of intermediates (qR)": lambda s, b: s.qR["off"],
-   # "Government investments (qI_s)": lambda s, b: s.qI_s["iTot","off"],
+   # "Government investment (qI_s)": lambda s, b: s.qI_s["iTot","off"],
    # "Government capital (qK)": lambda s, b: s.qK["iM","off"] + s.qK["iB","off"],
    # "Government production (qY)": lambda s, b: s.qY["off"],
    },
@@ -409,7 +403,7 @@ shock_info = [
    ({
    # "Government employment (hL)": lambda s, b: s.hL["off"],
    "Government input of intermediates (qR)": lambda s, b: s.qR["off"],
-   # "Government investments (qI_s)": lambda s, b: s.qI_s["iTot","off"],
+   # "Government investment (qI_s)": lambda s, b: s.qI_s["iTot","off"],
    # "Government capital (qK)": lambda s, b: s.qK["iM","off"] + s.qK["iB","off"],
    "Government production (qY)": lambda s, b: s.qY["off"],
    },
@@ -425,11 +419,11 @@ shock_info = [
    "Ændring i forhold<br>til baseline (i %)")
    ),
    # Offentlige investeringer
-   ("Offentlige_investeringer", "Government investments", 
+   ("Offentlige_investeringer", "Government investment", 
    ({
    # "Government employment (hL)": lambda s, b: s.hL["off"],
    # "Government input of intermediates (qR)": lambda s, b: s.qR["off"],
-   "Government investments (qI_s)": lambda s, b: s.qI_s["iTot","off"],
+   "Government investment (qI_s)": lambda s, b: s.qI_s["iTot","off"],
    "Government capital (qK)": lambda s, b: s.qK["iM","off"] + s.qK["iB","off"],
    "Government production (qY)": lambda s, b: s.qY["off"],
    }, 
@@ -511,27 +505,27 @@ shock_info = [
    "Change relative<br>to baseline (in %)",
    "Ændring i forhold<br>til baseline (i %)")
    ),
-   #   # KapitalProd - stød virker ikke i standard_shocks.gms
-   #     ("KapitalProd", "Capital productivity", 
-   #       ({"Searchers plus employed (nSoegBaseHh)": lambda s, b: s.nSoegBaseHh["tot"],
-   #         "Structural household employment (snLHh)": lambda s, b: s.snLHh["tot"],
-   #         "Total household employment (nLHh)": lambda s, b: s.nLHh["tot"],
-   #         # "Hours per worker (hL2nL)": lambda s, b: s.hL2nL["tot"],
-   #         "GVA per worker (qBVT/nL)": lambda s, b: s.qBVT["tot"] / s.nL["tot"],
-   #         "Supply effect (qXSkala)": lambda s, b: s.qXSkala,
-   #        }, 
-   #        {
-   #         "Jobsøgende og beskæftigede (nSoegBaseHh)": lambda s, b: s.nSoegBaseHh["tot"],
-   #         "Strukturel beskæftigelse (snLHh)": lambda s, b: s.snLHh["tot"],
-   #         "Samlet beskæftigelse (nLHh)": lambda s, b: s.nLHh["tot"],
-   #         # "Arbejdstid pr. beskæftiget (hL2nL)": lambda s, b: s.hL2nL["tot"],
-   #         "BVT pr. beskæftiget (qBVT/nL)": lambda s, b: s.qBVT["tot"] / s.nL["tot"],
-   #         "Udbudseffekt (qXSkala)": lambda s, b: s.qXSkala,
-   #        },
-   #         "pq", 
-   #         "Change relative<br>to baseline (in %)",
-   #         "Ændring i forhold<br>til baseline (i %)")
-   #      ),
+    # KapitalProd
+    ("KapitalProd", "Capital productivity", 
+        ({"Searchers plus employed (nSoegBaseHh)": lambda s, b: s.nSoegBaseHh["tot"],
+        "Structural household employment (snLHh)": lambda s, b: s.snLHh["tot"],
+        "Total household employment (nLHh)": lambda s, b: s.nLHh["tot"],
+        # "Hours per worker (hL2nL)": lambda s, b: s.hL2nL["tot"],
+        "GVA per worker (qBVT/nL)": lambda s, b: s.qBVT["tot"] / s.nL["tot"],
+        "Supply effect (qXSkala)": lambda s, b: s.qXSkala,
+        }, 
+        {
+        "Jobsøgende og beskæftigede (nSoegBaseHh)": lambda s, b: s.nSoegBaseHh["tot"],
+        "Strukturel beskæftigelse (snLHh)": lambda s, b: s.snLHh["tot"],
+        "Samlet beskæftigelse (nLHh)": lambda s, b: s.nLHh["tot"],
+        # "Arbejdstid pr. beskæftiget (hL2nL)": lambda s, b: s.hL2nL["tot"],
+        "BVT pr. beskæftiget (qBVT/nL)": lambda s, b: s.qBVT["tot"] / s.nL["tot"],
+        "Udbudseffekt (qXSkala)": lambda s, b: s.qXSkala,
+        },
+        "pq", 
+        "Change relative<br>to baseline (in %)",
+        "Ændring i forhold<br>til baseline (i %)")
+    ),
    # Importpris
    ("Importpris", "Import prices", 
    ({
@@ -630,12 +624,31 @@ shock_info = [
    ("Diskontering", "Household discount factor", 
    ({"Household discount factor (fDisk in 1/10 %-points)": lambda s, b: 10*(s.fDisk[40] - b.fDisk[40]),
    "Private consumption (qC)": lambda s, b: (s.qC["cTot"] - b.qC["cTot"]) /  b.qC["cTot"],
-   "Housing investments (qI_s)": lambda s, b: (s.qI_s["iB","bol"] - b.qI_s["iB","bol"]) / b.qI_s["iB","bol"],
+   "Housing investment (qI_s)": lambda s, b: (s.qI_s["iB","bol"] - b.qI_s["iB","bol"]) / b.qI_s["iB","bol"],
    "Wealth excl. housing, mortgage and pension (vHhx)": lambda s, b: (s.vHhx["tot"] - b.vHhx["tot"]) / b.vHhx["tot"],
    "Housing wealth (vBolig)": lambda s, b: (s.vBolig["tot"] - b.vBolig["tot"]) / b.vBolig["tot"],
    }, 
    {
    "Husholdningens diskonteringsfaktor (fDisk in 1/10 %-points)": lambda s, b: 10*(s.fDisk[40] - b.fDisk[40]),
+   "Privatforbrug (qC)": lambda s, b: (s.qC["cTot"] - b.qC["cTot"]) /  b.qC["cTot"],
+   "Boliginvesteringer (qI_s)": lambda s, b: (s.qI_s["iB","bol"] - b.qI_s["iB","bol"]) / b.qI_s["iB","bol"],
+   "Formue ekskl. bolig, realkredit og pension (vHhx)": lambda s, b: (s.vHhx["tot"] - b.vHhx["tot"]) / b.vHhx["tot"],
+   "Formue i bolig (vBolig)": lambda s, b: (s.vBolig["tot"] - b.vBolig["tot"]) / b.vBolig["tot"],
+   },
+   "pm", 
+   "Change relative<br>to baseline (in %)",
+   "Ændring i forhold<br>til baseline (i %)")
+   ),
+   # rSplurge
+   ("rSplurge", "Splurge factor", 
+   ({"Household splurge factor (rSplurge and rSplurgeBolig in 1/10 %-points)": lambda s, b: s.rSplurge['R',40],
+   "Private consumption (qC)": lambda s, b: (s.qC["cTot"] - b.qC["cTot"]) /  b.qC["cTot"],
+   "Housing investment (qI_s)": lambda s, b: (s.qI_s["iB","bol"] - b.qI_s["iB","bol"]) / b.qI_s["iB","bol"],
+   "Wealth excl. housing, mortgage and pension (vHhx)": lambda s, b: (s.vHhx["tot"] - b.vHhx["tot"]) / b.vHhx["tot"],
+   "Housing wealth (vBolig)": lambda s, b: (s.vBolig["tot"] - b.vBolig["tot"]) / b.vBolig["tot"],
+   }, 
+   {
+   "Husholdningens splurgefaktor (rSplurge og rSplurgeBolig i 1/10 %-points)": lambda s, b: s.rSplurge['R',40],
    "Privatforbrug (qC)": lambda s, b: (s.qC["cTot"] - b.qC["cTot"]) /  b.qC["cTot"],
    "Boliginvesteringer (qI_s)": lambda s, b: (s.qI_s["iB","bol"] - b.qI_s["iB","bol"]) / b.qI_s["iB","bol"],
    "Formue ekskl. bolig, realkredit og pension (vHhx)": lambda s, b: (s.vHhx["tot"] - b.vHhx["tot"]) / b.vHhx["tot"],
@@ -879,7 +892,7 @@ shock_info = [
    "Change relative<br>to baseline (in %)",
    "Ændring i forhold<br>til baseline (i %)")
    ),
-   ("Udenlandske_priser_exo", "Foreign prices",
+   ("Udenlandske_priser", "Foreign prices",
    ({
    "Import price of manufacturing (pM)": lambda s, b: s.pM["tot"],
    "Export competing price of manufacturing (pXUdl[xTot])": lambda s, b: s.pXUdl["xTot"],
@@ -892,7 +905,7 @@ shock_info = [
    "Change relative<br>to baseline (in %)",
    "Ændring i forhold<br>til baseline (i %)")
    ),
-   ("Arbejdsudbud - beskæftigelse", "Labor supply - employment",
+   ("Arbejdsudbud_beskaeftigelse", "Labor supply - employment",
    ({
    "Structural household employment (snLHh)": lambda s, b: s.snLHh["tot"],
    },
@@ -903,7 +916,7 @@ shock_info = [
    "Change relative<br>to baseline (in %)",
    "Ændring i forhold<br>til baseline (i %)")
    ),
-   ("Arbejdsudbud - timer", "Labor supply - hours",
+   ("Arbejdsudbud_timer", "Labor supply - hours",
    ({
    "Structural household hours (shLHh)": lambda s, b: s.shLHh["tot"],
    },
@@ -1015,6 +1028,7 @@ yaxis_title_from_operator = {
     "pm": "Change in %-points",
     "": "",
 }
+
 
 dt.REFERENCE_DATABASE = dt.Gdx(baseline_path)
 for shock_name, shock_label, shock_plot_info in shock_info:

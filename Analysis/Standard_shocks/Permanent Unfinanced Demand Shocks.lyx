@@ -1,5 +1,5 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -69,11 +69,11 @@
 \numberwithin{table}{subsection}
 \end_preamble
 \use_default_options true
-\maintain_unincluded_children false
+\maintain_unincluded_children no
 \language american
 \language_package default
-\inputencoding auto
-\fontencoding global
+\inputencoding auto-legacy
+\fontencoding auto
 \font_roman "lmodern" "default"
 \font_sans "cmbr" "default"
 \font_typewriter "default" "default"
@@ -81,7 +81,9 @@
 \font_default_family sfdefault
 \use_non_tex_fonts false
 \font_sc false
-\font_osf false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
@@ -104,7 +106,7 @@
 \pdf_colorlinks false
 \pdf_backref section
 \pdf_pdfusetitle true
-\papersize a4paper
+\papersize a4
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -125,7 +127,9 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_formatted_ref 0
 \use_minted 0
+\use_lineno 0
 \index Index
 \shortcut idx
 \color #008000
@@ -141,11 +145,16 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tablestyle default
 \tracking_changes false
 \output_changes false
+\change_bars false
+\postpone_fragile_content false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
 \end_header
 
 \begin_body
@@ -162,8 +171,10 @@ name "sec:Permanent unfinanced demand shocks"
 \end_layout
 
 \begin_layout Standard
-In this chapter, we look at unfinanced demand shocks.
- These are all classic demand shocks, as described in the introduction.
+In this chapter,
+ we look at unfinanced demand shocks.
+ These are all classic demand shocks,
+ as described in the introduction.
  The following mechanisms are described in the introduction:
 \end_layout
 
@@ -180,8 +191,7 @@ Increased sectoral production leads to increased demand for production inputs
 \end_layout
 
 \begin_layout Itemize
-Increased demand for intermediate inputs raises imports and domestic sectoral
- output
+Increased demand for intermediate inputs raises imports and domestic sectoral output
 \end_layout
 
 \begin_layout Itemize
@@ -189,27 +199,24 @@ Increased capital demand also raises imports and domestic sectoral output
 \end_layout
 
 \begin_layout Itemize
-Increased labor demand leads to increased wages, employment and labor supply
+Increased labor demand leads to increased wages,
+ employment and labor supply
 \end_layout
 
 \begin_layout Itemize
-Increased employment and wages leads to higher household income and increased
- demand for private consumption and housing
+Increased employment and wages leads to higher household income and increased demand for private consumption and housing
 \end_layout
 
 \begin_layout Itemize
-Increased housing demand leads to increased housing prices and housing investmen
-t
+Increased housing demand leads to increased housing prices and housing investment
 \end_layout
 
 \begin_layout Itemize
-Increased housing prices and leverage allowed by mortgages lead to increased
- liquidity and additional household demand
+Increased housing prices and leverage allowed by mortgages lead to increased liquidity and additional household demand
 \end_layout
 
 \begin_layout Itemize
-Increased production raises unit costs and pushes output prices up from
- the cost side
+Increased production raises unit costs and pushes output prices up from the cost side
 \end_layout
 
 \begin_layout Itemize
@@ -225,10 +232,9 @@ There is full crowding out in employment (as structural employment is unchanged)
 \end_layout
 
 \begin_layout Standard
-The first shock we look at is a shock to government lump-sum transfers to
- the households.
- Since financed shocks by default occur via lump-sum transfers, understanding
- this shock is essential in relation to all financed shocks.
+The first shock we look at is a shock to government lump-sum transfers to the households.
+ Since financed shocks by default occur via lump-sum transfers,
+ understanding this shock is essential in relation to all financed shocks.
  The other shocks are other demand shocks.
  Note that all shocks are unfinanced.
 \end_layout
@@ -245,14 +251,12 @@ Lump sum transfers to households
 \end_layout
 
 \begin_layout Standard
-Lump-sum transfers to households are increased by 1 percent relative to
- the baseline GDP level.
+Lump-sum transfers to households are increased by 1 percent relative to the baseline GDP level.
  
 \end_layout
 
 \begin_layout Standard
-Private consumption and housing investment increase through increased household
- income.
+Private consumption and housing investment increase through increased household income.
 \end_layout
 
 \begin_layout Standard
@@ -260,16 +264,12 @@ Note:
 \end_layout
 
 \begin_layout Itemize
-The initial effect on private consumption is less than 1 percent if dampening
- effects from consumption smoothing and habit formation dominate the acceleratin
-g effects from increased income through employment, wages and increased
- liquidity through mortgages because of increased house prices
+The initial effect on private consumption is less than 1 percent if dampening effects from consumption smoothing and habit formation dominate the accelerating effects from increased income through employment,
+ wages and increased liquidity through mortgages because of increased house prices
 \end_layout
 
 \begin_layout Itemize
-The long-run effect on private consumption is higher than 1 percent of GDP
- if the effect from higher long-run real wages dominates adverse savings
- effects from increased liquidity
+The long-run effect on private consumption is higher than 1 percent of GDP if the effect from higher long-run real wages dominates adverse savings effects from increased liquidity
 \end_layout
 
 \begin_layout Itemize
@@ -291,7 +291,8 @@ Private demand has more duties than exports
 \end_layout
 
 \begin_layout Itemize
-Duties are part of GDP, but not a part of GVA
+Duties are part of GDP,
+ but not a part of GVA
 \end_layout
 
 \end_deeper
@@ -302,20 +303,19 @@ The long-run GVA is higher as the economy becomes more capital-intensive.
 
 \begin_deeper
 \begin_layout Itemize
-Private consumption of housing has increased, and exports decreased (primary
- effect)
+Private consumption of housing has increased,
+ and exports decreased (primary effect)
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Private consumption of housing draws on the housing sector, which has a
- very high output per worker
+Private consumption of housing draws on the housing sector,
+ which has a very high output per worker
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Increased real wage relative to the user cost of capital make firms substitute
- from labor to capital (secondary effect)
+Increased real wage relative to the user cost of capital make firms substitute from labor to capital (secondary effect)
 \end_layout
 
 \end_deeper
@@ -343,6 +343,7 @@ graphicspath{{Output/Overforsel_privat/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 
@@ -361,13 +362,11 @@ Government employment
 \end_layout
 
 \begin_layout Standard
-Government employment is increased by permanently increasing government
- payroll with 1 percent of baseline GDP.
+Government employment is increased by permanently increasing government payroll with 1 percent of baseline GDP.
 \end_layout
 
 \begin_layout Standard
-Government consumption and production are increased through increased government
- employment.
+Government consumption and production are increased through increased government employment.
 \end_layout
 
 \begin_layout Standard
@@ -393,13 +392,11 @@ Lower exports decrease production in manufacturing and services
 \end_layout
 
 \begin_layout Itemize
-Production in manufacturing and services has higher output per worker than
- government production
+Production in manufacturing and services has higher output per worker than government production
 \end_layout
 
 \begin_layout Itemize
-An isolated shock to government employment decrease the capital intensity
- and output per worker in government production
+An isolated shock to government employment decreases the capital intensity and output per worker in government production
 \end_layout
 
 \end_deeper
@@ -427,6 +424,7 @@ graphicspath{{Output/Offentlig_beskaeftigelse/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 
@@ -446,29 +444,23 @@ Govenment purchases
 \end_layout
 
 \begin_layout Standard
-Government purchases of intermediate inputs are permanently increased by
- 1 percent of baseline GDP.
+Government purchases of intermediate inputs are permanently increased by 1 percent of baseline GDP.
  
 \end_layout
 
 \begin_layout Standard
-Government consumption and production increase through higher government
- purchases.
+Government consumption and production increase through higher government purchases.
  
 \end_layout
 
 \begin_layout Standard
-The main difference between this shock and the government employment shock
- is that here private production increases through intermediate inputs going
- into government production.
- The main input to government purchases is domestic input from the service
- sector.
- In the domestic service sector, increased production can be met by increased
- intermediate inputs, capital and labor, and in the short run also by increased
- factor utilization.
- This means employment needs to increase less in this shock since imports,
- capital, and in the short run utilization, can satisfy the need for increased
- production.
+The main difference between this shock and the government employment shock is that here private production increases through intermediate inputs going into government production.
+ The main input to government purchases is domestic input from the service sector.
+ In the domestic service sector,
+ increased production can be met by increased intermediate inputs,
+ capital and labor,
+ and in the short run also by increased factor utilization.
+ This means employment needs to increase less in this shock since other factors of production can be used to increase the quantity of intermediate inputs in the public sector.
 \end_layout
 
 \begin_layout Standard
@@ -480,8 +472,7 @@ There is a negative effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
-The long-run effect on GDP is positive as higher duties on government purchases
- than exports increase GDP for a given GVA
+The long-run effect on GDP is positive as higher duties on government purchases than exports increase GDP for a given GVA
 \end_layout
 
 \begin_layout Standard
@@ -509,6 +500,7 @@ graphicspath{{Output/Offentlig_varekoeb/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 
@@ -528,13 +520,11 @@ Government investments
 \end_layout
 
 \begin_layout Standard
-Government investments are permanently increased by 1 percent of baseline
- GDP.
+Government investments are permanently increased by 1 percent of baseline GDP.
 \end_layout
 
 \begin_layout Standard
-The main shock concerns government investments that draw primarily on domestic
- construction and services.
+The main shock concerns government investments that draw primarily on domestic construction and services.
  
 \end_layout
 
@@ -547,8 +537,8 @@ There is a negative effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Itemize
-Increased government investments lead to a gradual increase in government
- capital, government production and government consumption
+Increased government investments lead to a gradual increase in government capital,
+ government production and government consumption
 \end_layout
 
 \begin_layout Itemize
@@ -557,8 +547,7 @@ The long-run effect on GDP is strong and positive
 
 \begin_deeper
 \begin_layout Itemize
-There is increased government GVA due to higher capital stock - no resources
- moved from private to government sector
+There is increased government GVA due to higher capital stock - no resources moved from private to government sector
 \end_layout
 
 \end_deeper
@@ -586,6 +575,7 @@ graphicspath{{Output/Offentlige_investeringer/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 
@@ -603,13 +593,13 @@ Foreign demand
 \end_layout
 
 \begin_layout Standard
-The export market size is permanently increased, raising exports by 1 percent
- of baseline GDP for given prices.
+The export market size is permanently increased,
+ raising exports by 1 percent of baseline GDP for given prices.
 \end_layout
 
 \begin_layout Standard
-The main shock is directly on exports, which draw primarily on domestic
- manufacturing and services and imports to re-exports of manufacturing.
+The main shock is directly on exports,
+ which draw primarily on domestic manufacturing and services and imports to re-exports of manufacturing.
  
 \end_layout
 
@@ -632,27 +622,22 @@ Long-run effects are mainly due to interest revenue from initial surpluses
 
 \end_deeper
 \begin_layout Itemize
-Exports increase less than 1 percent in the short run due to investment
- adjustment costs (rigidities) and in the long run due to higher domestic
- wages and prices
+Exports increase less than 1 percent in the short run due to investment adjustment costs (rigidities) and in the long run due to higher domestic wages and prices
 \end_layout
 
 \begin_layout Itemize
-There is a positive long-run effect on GDP as sea transport has a large
- export share:
+There is a positive long-run effect on GDP as maritime transport has a large export share:
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Sea transport has very little input of labor and domestic production so
- it is affected very little by higher wages.
- It does have capital input, which increases and makes long run GVA and
- GDP increase.
+Maritime transport has very little input of labor and domestic production so it is affected very little by higher wages.
+ It does have capital input,
+ which increases and makes long run GVA and GDP increase.
 \end_layout
 
 \begin_layout Itemize
-There is also a small effect from increased housing demand to increased
- capital and GVA in the housing sector
+There is also a small effect from increased housing demand to increased capital and GVA in the housing sector
 \end_layout
 
 \end_deeper
@@ -680,6 +665,7 @@ graphicspath{{Output/Eksportmarkedsvaekst/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 

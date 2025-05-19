@@ -16,3 +16,4 @@
 !Data/*.gdx
 !Data/*/*.gdx
 !Konjunktur/Gdx/previous_konjunktur
+.Rproj.user

@@ -26,6 +26,7 @@ $IF %stage% == "variables":
     rEffValKurs[t] "Effektiv valutakurs"
     pYfixed[sp,t] "Faste omkostninger, som ikke indgår i prisdannelse."
     rYfixed[sp,t] "Andelsparameter for fast del af pY."
+    pOlieBrent[t] "Prisnotering på råolie, Brent (dollar/tønde), Kilde: ADAM[boil]"
   ;
   $GROUP G_pricing_forecast_as_zero
     jpY_bol[t] "j-led."
@@ -36,6 +37,7 @@ $IF %stage% == "variables":
     srMarkup[sp,t]
     pY[bol,t]
     upYUdv[t] "Skalaparameter for eksogen pris på udvinding."
+    pM[s_,t]$(m[s_]) "Importdeflator fordelt på importgrupper, Kilde: ADAM[pM] eller ADAM[pM<i>]"
   ;
   $GROUP G_pricing_constants
     upYTraeghed[sp] "Parameter for Rotemberg omkostning."
@@ -44,8 +46,6 @@ $IF %stage% == "variables":
     eY[sp,t] "Substitutionselasticitet mellem intermediate goods og final goods i produktionen."
     rDollarKurs[t] "Dollarkursen, DKK/Dollar, Kilde: ADAM[ewus]"
     rEuroKurs[t] "Eurokursen, DKK/Euro, Kilde: ADAM[eweu]."
-    pOlieBrent[t] "Prisnotering på råolie, Brent (dollar/tønde), Kilde: ADAM[boil]"
-    pM[s_,t]$(m[s_]) "Importdeflator fordelt på importgrupper, Kilde: ADAM[pM] eller ADAM[pM<i>]"
   ;
 
   set sMarkup[s_] "Brancher som fremskrives med en eksogen strukturel markup forskellig fra 0" /tje, fre, byg, soe/;
@@ -113,26 +113,12 @@ $IF %stage% == "equations":
     B_pricing_forwardlooking
   /;
 
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.   
-  MODEL M_pricing_post /
-    #  E_rMarkup 
-    E_rMarkup_spTot
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_pricing_post
-    rMarkup[s_,t]$(spTot[s_]) "Markup."
-  ;
-  $GROUP G_pricing_post G_pricing_post$(tx0[t]);
-
   $GROUP G_pricing_static
     G_pricing_endo
     -pY$(tx0[t] and sp[s_] and not bol[s_] and not udv[s_]) # Fastlæg eksogent gode bud pY
     -srMarkup$(tx0[t] and soe[s_]), pY$(tx0[t] and soe[s_])
     -dpYTraeghed
   ;
-
 $ENDIF
   # $GROUP G_pricing_static G_pricing_static$(tx0[t]);
 
@@ -238,7 +224,7 @@ $IF %stage% == "deep_dynamic_calibration":
   $ENDBLOCK
 
   MODEL M_pricing_deep /
-    M_pricing - M_pricing_post
+    M_pricing
     B_pricing_deep
   /;
 $ENDIF

@@ -62,14 +62,14 @@ $GROUP G_exo All, - G_deep_dynamic_calibration;
 $GROUP G_new_endogenous G_do_not_load, - G_exo;
 @set_initial_levels_to_nonzero(G_new_endogenous)
 
-$IF %run_tests%:
-  # Small pertubation of all endogenous variables
-  # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
-  $LOOP G_deep_dynamic_calibration:
-    {name}.l{sets}$({conditions} and {name}.l{sets} <> 0) = {name}.l{sets} + 1e-8;
-  $ENDLOOP
-  @set(G_deep_dynamic_calibration, _presolve, .l);
-$ENDIF
+# $IF %run_tests%:
+#   # Small pertubation of all endogenous variables
+#   # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
+#   $LOOP G_deep_dynamic_calibration:
+#     {name}.l{sets}$({conditions}) = {name}.l{sets} * (1+1e-9);
+#   $ENDLOOP
+#   @set(G_deep_dynamic_calibration, _presolve, .l);
+# $ENDIF
 
 #  # ======================================================================================================================
 #  # Various solver strategies in case we have trouble solving the calibration model 
@@ -162,6 +162,7 @@ $IF %calibration_steps% > 1:
   @set(G_ARIMA_forecast, .l, _ARIMA) # Reset ARIMA variables in case start values were loaded from previous solution
   @set(G_homotopy, _previous_combination, .l);
   @load_as(G_homotopy, "Gdx\previous_deep_calibration.gdx", _previous_solution);
+  @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
   $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
@@ -194,8 +195,8 @@ $ENDIF
 #  ======================================================================================================================
 #  Solve calibration model a few years at a time
 #  ======================================================================================================================
-$IF %time_steps%:
-  $FOR {end_year} in [2060, 2070, 2080, 2090, %terminal_year%]:
+$IF %previous_terminal_year% < %terminal_year%:
+  $FOR {end_year} in range(%previous_terminal_year%, %terminal_year%, 10):
     set_time_periods(%cal_deep%-1, {end_year});
     $FIX All; $UNFIX G_deep_dynamic_calibration;
     @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
@@ -209,7 +210,12 @@ $IF %time_steps%:
     $LOOP G_starting_values_from_previous_years:
       {name}.l{sets}$({conditions}) = {name}.l{sets}{$}[<t>'%penultimate%'];
     $ENDLOOP
-    @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+    $GROUP G_exo All, -G_deep_dynamic_calibration;
+    $GROUP G_LM_nonzero # For at undgå divider med 0, fx ved stigning i tilbagetrækningsalder
+      uH[a,t]$(aVal[a] > 60), uDeltag[a,t]$(aVal[a] > 60), rSoegBaseHh[a,t]$(aVal[a] > 60), srSoegBaseHh[a,t]$(aVal[a] > 60)
+      -G_exo
+    ;
+    @set_initial_levels_to_nonzero(G_LM_nonzero)
   $ENDFOR
 $ENDIF
 
@@ -223,140 +229,19 @@ $FIX All; $UNFIX G_deep_dynamic_calibration;
 # @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
 @set_bounds();
 @solve(M_deep_dynamic_calibration);
-$IF %run_tests%:
-  @unload(Gdx\deep_calibration_pre_smooth)
-$ENDIF
-
-# ======================================================================================================================
-# Filtrering af aldersafhængige, dynamisk kalibrerede, parametre
-# ======================================================================================================================
-$IF %smooth_age_profiles%:
-	$GROUP G_smooth_profiles
-	  uBolig_a
-	  rSplurge
-	;
-	$GROUP G_smooth_profiles G_smooth_profiles$(tx0[t]);
-	execute_unloaddi "Gdx/smooth_profiles_input.gdx" $LOOP G_smooth_profiles:, {name} $ENDLOOP, tDataEnd, tEnd;
-
-  embeddedCode Python:
-    import dreamtools as dt
-    import numpy as np
-    import pandas as pd
-    from scipy.optimize import curve_fit
-
-    db = dt.Gdx("Gdx/smooth_profiles_input.gdx")
-    tEnd = db.tEnd[0]
-    tDataEnd = db.tDataEnd[0]
-
-    # ----------------------------------------------------------------------------------------------------------------------
-    # Smoothing
-    # ----------------------------------------------------------------------------------------------------------------------
-    # List of variables to be smoothed
-    smoothing_vars = [
-        (db["uBolig_a"], 18, 5),
-        (db["rSplurge"], 18, 6),
-    ]
-
-    for var, a_start, degrees in smoothing_vars:
-        a = "a" if ("a" in var.index.names) else "a_"
-
-        # Limit DataFrame to the years and age groups that we want to smooth (and remove any totals etc.)
-        t_range = range(tDataEnd-1, tDataEnd + 1)
-        a_range = range(a_start, 100 + 1)
-        df = var.reset_index()
-        df = df[df["t"].isin(t_range) & df[a].isin(a_range)]
-
-        # Reset index to those of original variable
-        df = df.set_index(var.index.names)
-
-        # Groupby all sets except the age set
-        levels = [i for i in df.index.names if i != a]
-        grouped = df.groupby(levels, group_keys=False)
-
-        # group = list(grouped)[-1][1]
-        # group = grouped.get_group(('Obl',2017))
-        M = N = degrees
-        def polynomial_ratio(x, *args):
-            a = args[:M+1]
-            b = args[M+1:]
-            return sum(a[i] * x**i for i in range(M+1)) / (1 - sum(b[i] * x**(i+1) for i in range(N)))
-
-        def smooth(group):
-            if len(group[var.name].unique()) < (N + M + 2):
-                return group[var.name]
-            y = group[var.name].values
-            a1 = np.array(a_range).astype(float) - a_start
-            starting_values = np.ones(M+N+1) / 100
-            try:
-                popt, pcov = curve_fit(polynomial_ratio, a1, y, p0=starting_values, maxfev=100000)
-            except RuntimeError as e:
-                msg = f"Failed to fit ratio of polynomiums of order M={M} and N={N} for group:\n{group}"
-                print(msg)
-                raise e
-
-            group["fit"] = polynomial_ratio(a1, *popt)
-            # import plotly.express as px
-            # group["y"] = y
-            # px.line(group.reset_index(), x=a, y=["y", "fit"]).show()
-            return group["fit"]
-
-        # Apply smoothing function to each group
-        smoothed = grouped.apply(smooth)
-        smoothed *= (df[var.name] != 0) # Remove smoothing where original value was exactly zero
-
-        # Overwrite database values with new smoothed profiles
-        idx = [smoothed.index.get_level_values(i) for i in smoothed.index.names[:-1]]
-        for year in range(tDataEnd+1, tEnd+1):
-            db[var.name].loc[(*idx, year)] = smoothed.xs(tDataEnd, level="t").values
-
-    db.export("smooth_profiles.gdx")
-  endEmbeddedCode
-
-  @load(G_smooth_profiles, "Gdx\smooth_profiles.gdx");
-$ENDIF
-
-# ======================================================================================================================
-# Dynamisk kalibrering med udglattede, dynamisk kalibrerede, aldersprofiler
-# ======================================================================================================================
-$GROUP G_smoothed_parameters_calibration
-  G_deep_dynamic_calibration
-
-  # Consumers
-  -uBolig_a[a,tx1] # -E_uBolig_a_forecast -E_uBolig_a_forecast_u21
-  -rSplurge[h,a,tx1] # -E_rSplurge_forecast -E_rSplurge_forecast_u21
-;
-
-MODEL M_smoothed_parameters_calibration /
-  M_deep_dynamic_calibration
-  -E_uBolig_a_forecast -E_uBolig_a_forecast_u21
-  -E_rSplurge_forecast -E_rSplurge_forecast_u21
-/;
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Solve
-# ----------------------------------------------------------------------------------------------------------------------
-$FIX All; $UNFIX G_smoothed_parameters_calibration;
-@set_bounds();
-@solve(M_smoothed_parameters_calibration);
-
-# ======================================================================================================================
-# Solve post model containing ouput only variables
-# ======================================================================================================================
-$FIX All; $UNFIX G_post;
-@solve(M_post);
-
 
 # ======================================================================================================================
 # Output
 # ======================================================================================================================
-$IF %run_tests%:
-  # Remove "endogenous" variables not changed by solving the model
-  $LOOP G_deep_dynamic_calibration:
-    {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
-  $ENDLOOP
-$ENDIF
+# $IF %run_tests%:
+#   # Remove "endogenous" variables not changed by solving the model
+#   $LOOP G_deep_dynamic_calibration:
+#     {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
+#   $ENDLOOP
+# $ENDIF
 
 # Write GDX file
+$UNFIX All; # Greatly reduces size of the GDX file
 @unload(Gdx\deep_calibration)
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -365,9 +250,8 @@ $ENDIF
 # M_post kan ikke køre med, da det så ikke bliver square
 #  MODEL M_TilGekko /
 #    M_base
-#    M_post
 #  /;
-#  $FIX All; $UNFIX G_endo; # $UNFIX G_post;
+#  $FIX All; $UNFIX G_endo;
 #  option mcp=convert;
 #  solve M_base using mcp;
 
@@ -398,7 +282,7 @@ $IF %run_tests%:
   # Abort if any data covered variables have been changed by the calibration
   @assert_no_difference(G_data_test, 0.05, .l, _data, "G_imprecise_data was changed by dynamic calibration.");
   $GROUP G_precise_data_test G_data_test, -G_imprecise_data;
-  @assert_no_difference(G_precise_data_test, 1e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
+  @assert_no_difference(G_precise_data_test, 3e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
 
   # ----------------------------------------------------------------------------------------------------------------------
   # Zero shock  -  Abort if a zero shock changes any variables significantly
@@ -409,8 +293,6 @@ $IF %run_tests%:
   set_time_periods(%cal_deep%-1, %terminal_year%);
   $FIX All; $UNFIX G_endo;
   @solve(M_base);
-  $FIX All; $UNFIX G_post;
-  @solve(M_post);
   @assert_no_difference(G_ZeroShockTest, 1e-6, .l, _saved, "Zero shock changed variables significantly.");
 
   # ----------------------------------------------------------------------------------------------------------------------

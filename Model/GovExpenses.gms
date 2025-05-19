@@ -8,15 +8,17 @@
 # ======================================================================================================================
 $IF %stage% == "variables":
   $GROUP G_GovExpenses_prices_endo
-    pGxAfskr[t]$(tx0[t]) "Deflator for offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[pCov]"
+    pGxAfskr[t]$(tx0[t]) "Deflator for offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[pCoz]"
     # Tabel-variable
     pG_input[t] "Offentligt forbrugsdeflator beregnet med inputmetode, Kilde: ADAM[pCogl]"
+    pGxAfskr_input[t] "Deflator for offentligt forbrug fratrukket offentlige afskrivninger beregnet med inputmetode, Kilde: ADAM[pCozgl]"
   ;
   $GROUP G_GovExpenses_quantities_endo
-    qGxAfskr[t] "Offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[fCov]"
+    qGxAfskr[t] "Offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[fCoz]"
     qG[g_,t]$(not gTot[g_]) "Offentligt forbrug, Kilde: ADAM[fCo]"
     # Tabel-variable
     qG_input[t] "Offentligt forbrug beregnet med inputmetode, Kilde: ADAM[fCogl]"
+    qGxAfskr_input[t] "Offentligt forbrug fratrukket offentlige afskrivninger beregnet med inputmetode, Kilde: ADAM[fCozgl]"
   ;
   $GROUP G_GovExpenses_values_a_endo
     vOvfUbeskat[a_,t]$(a0t100[a_] and t.val > %AgeData_t1%) "Ubeskattede indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
@@ -26,7 +28,7 @@ $IF %stage% == "variables":
   $GROUP G_GovExpenses_values_endo
     G_GovExpenses_values_a_endo
 
-    vGxAfskr[t] "Offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[Cov]"
+    vGxAfskr[t] "Offentligt forbrug fratrukket offentlige afskrivninger, Kilde: ADAM[Coz]"
     vG_ind[t] "Individuelt offentligt forbrug. Kilde: ADAM[coi]"
     vG_kol[t]$(t.val >= %BFR_t1%) "Kollektivt offentligt forbrug. Kilde: ADAM[co]-ADAM[coi]"
     vOffPrimUd[t] "Primære offentlige udgifter, Kilde: ADAM[Tf_o_z]-ADAM[Ti_o_z]"
@@ -42,9 +44,8 @@ $IF %stage% == "variables":
     vOvfSats[ovf,t]$(t.val >= %BFR_t1%) "Sociale overførsler fra offentlig forvaltning og service til husholdninger pr. person i basen (mio. kr.)"
     vGLukning[t] "Udgift til beregningsteknisk stigning i offentligt forbrug til lukning af offentlig budgetrestriktion. Indgår IKKE i offentlig saldo."
     vOffTilUdl[t] "Samlede overførsler fra offentlig sektor til udlandet, Kilde: ADAM[Tr_o_e]+ADAM[tK_o_e]"
-    vOffTilVirk_rest[t] "Kapitaloverførsler til selskaber (øvrige) (Tk_o_cr)"
-    vOffTilHhKap_rest[t] "Kapitaloverførsler til husholdningerne ekskl. skattefri efterlønspræmie og reserve (Tk_o_hr_rest))"
-    vOffTilHhKap_xpraemie[t] "Kapitaloverførsler til husholdningerne ekskl. skattefri efterlønspræmie (Tk_o_hr))"
+    vOffTilVirkRest[t] "Kapitaloverførsler til selskaber (øvrige) (Tk_o_cr)"
+    vOffTilHhKapRest[t] "Kapitaloverførsler til husholdningerne ekskl. skattefri efterlønspræmie (Tk_o_hr)"
 
     jvOvf[ovf_,t]$(ovftot[ovf_] and t.val >= %BFR_t1%) "J-led som fanger at nogle grupper har en overførsel, men ingen modtagere. Fordeles til husholdningerne gennem fHhOvf."
     dvOvf2dnBesk[ovf_,t]$(ovf[ovf_] or HhTot[ovf_]) "Marginal ændring i udgifter til overførsel ovf ved ændring i den samlede beskæftigelse."
@@ -71,48 +72,27 @@ $IF %stage% == "variables":
     dnOvf2dnPop[ovf,t]$(t.val >= 1992) "Marginal ændring i antal modtagere af overførsel ovf ved ændring i den samlede befolkningsstørrelse."
     rOffLandKoeb2BNP[t] "Nettoopkob af jord og rettigheder relativt til BNP."
     rOffTilUdlKap2BNP[t] "Kapitaloverførsler fra offentlige sektor til udlandet relativt til BNP."
-    rOffTilUdlMoms2BNP[t] "Moms bidrag fra offentlig sektor til EU relativt til BNP."
-    rOffTilUdlBNI2BNP[t] "BNI-bidrag fra offentlig sektor til EU relativt til BNP."
+    rOffTilUdlMoms2Moms[t] "Moms bidrag fra offentlig sektor til EU relativt til moms."
+    rOffTilUdlBNI2BNI[t] "BNI-bidrag fra offentlig sektor til EU relativt til BNI."
     rOffTilUdlEU2BNP[t] "Øvrige overførsler fra offentlig sektor til EU relativt til BNP."
     rOffTilUdlFO2BNP[t] "Residuale overførsler fra offentlig sektor til Færøerne relativt til BNP."
     rOffTilUdlGL2BNP[t] "Residuale overførsler fra offentlig sektor til Grønland relativt til BNP."
-    rOffTilUdlBistand2BNP[t] "Offentlige overførsler til udlandet relativt til BNP."
+    rOffTilUdlBistand2BNI[t] "Offentlige overførsler til udlandet relativt til BNI."
     rOffTilVirk2BNP[t] "Offentlige overførsler til selskaber relativt til BNP."
+    rOffTilVirkInvesttilskud2BNP[t] "Kapitaloverførsler til selskaber (investeringstilskud) relativt til BNP."
     rOffTilHhKap2BNP[t] "Offentlige kapitaloverførsler til husholdninger relativt til BNP."
-    rOffTilHhNPISH2BNP[t] "Offentlige overførsler til NPISH relativt til BNP."
+    rOffTilHhKapPraemie2BNP[t] "Skattefriefterlønspræmie relativt til BNP"
+    rOffTilHhNPISH2vG[t] "Offentlige overførsler til NPISH relativt til BNP."
     rOffTilHhTillaeg2BNP[t] "Indekstillæg relativt til BNP."
-    rOffTilHhRest2BNP[t] "Residuale øvrige offentlige overførsler til husholdninger relativt til BNP."
+    uOffTilHhRest[t] "Skalaparameter for øvrige offentlige overførsler til husholdninger."
     rSubEU2BNP[t] "Subsidier finansieret af EU relativt til BNP."
     rSubYRest[s_,t]$(sTot[s_]) "Sats for produktionssubsidier ekskl. løntilskud."
+    uvGxAfskr[t] "Niveauparameter for vGxAfskr"
+    rpGxAfskr[t] "Relative laggede priser i offentligt forbrug ekskl. afskrivninger vægtet med nutidige mængder."
   ;
   
   $GROUP G_GovExpenses_endo
     G_GovExpenses_endo$(tx0[t]) # Restrict endo group to tx0[t]
-
-    # Nutidsværdi af offentlige udgifter - Beregnes i post modellen
-    nvOffPrimUd[t]$(tHBI.val <= t.val) "Nutidsværdi af offentlige udgifter."
-    nvG[t]$(tHBI.val <= t.val) "Nutidsværdi af samlet offentligt forbrug"
-    nvOvf[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfHh[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfPens[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    
-    nvOvftjmand[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvffortid[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfuddsu[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfsyge[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfboernyd[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfbarsel[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    nvOvfleddag[t]$(tHBI.val <= t.val) "Nutidsværdi af samlede overførsler"
-    
-    nvOffInv[t]$(tHBI.val <= t.val) "Nutidsværdi af offentlige investeringer"
-    nvOffSub[t]$(tHBI.val <= t.val) "Nutidsværdi af dansk finansieret subsidier ialt"
-    nvOffUdRest[t]$(tHBI.val <= t.val) "Nutidsværdi af øvrige offentlige udgifter"
-    nvPunktSub[t]$(tHBI.val <= t.val) "Nutidsværdi af øvrige offentlige udgifter"
-    nvSubY[t]$(tHBI.val <= t.val) "Nutidsværdi af produktionssubsidier"
-    nvOffLandkoeb[t]$(tHBI.val <= t.val) "Nutidsværdi af offentlig landkøb"
-    nvofftiludl[t]$(tHBI.val <= t.val) "Nutidsværdi af overførsler til udlandet"
-    nvOffTilHh[t]$(tHBI.val <= t.val) "Nutidsværdi af residuale overførsler til husholdninger"
-    nvOffTilVirk[t]$(tHBI.val <= t.val) "Nutidsværdi af residuale overførsler til virksomheder"
   ;
 
   $GROUP G_GovExpenses_prices
@@ -134,11 +114,9 @@ $IF %stage% == "variables":
     vOffTilUdlGL[t] "Residuale overførsler fra offentlig sektor til Grønland, Kilde: ADAM[Tr_o_eg] "
     vOffTilUdlBistand[t] "Udlandsbistand mv., Kilde: ADAM[Trr_o_e] "
     vOffTilVirk[t] "Residuale overførsler fra offentlig sektor til indenlandske selskaber, Kilde: ADAM[tK_o_c]"
-    vOffTilVirk_investeringstilskud[t] "Kapitaloverførsler til selskaber (investeringstilskud) (Tk_o_ci)"
-    vOffTilVirk_fly[t] "Indkøb af kampfly (Tk_o_fly)"
+    vOffTilVirkInvesttilskud[t] "Kapitaloverførsler til selskaber (investeringstilskud) (Tk_o_ci)"
     vOffTilHhKap[t] "Residuale kapitaloverførsler fra offentlig sektor til husholdningerne, Kilde: ADAM[tK_o_h])"
-    vOffTilHhKap_praemie[t] "Skattefri efterlønspræmie til husholdningerne (Tk_o_hsp))"
-    vOffTilHhKap_reserve[t] "Kapitaloverførsler til husholdningerne ekskl. skattefri efterlønspræmie, reservepost inkl. tilbageløb (Tk_o_hr_reserve))"
+    vOffTilHhKapPraemie[t] "Skattefri efterlønspræmie til husholdningerne (Tk_o_hsp))"
     vOffTilHhNPISH[t] "Residuale øvrige overførsler fra offentlig sektor til NPISH, Kilde: ADAM[Tr_o_hnpis])"
     vOffTilHhTillaeg[t] "Indekstillæg, Kilde: ADAM[Typi])"
     vOffTilHhRest[t] "Residuale øvrige overførsler fra offentlig sektor til husholdningerne, Kilde: ADAM[Trr_o_h])"
@@ -150,20 +128,13 @@ $IF %stage% == "variables":
     uG[g_,t] "Skalaparameter i det offentlige forbrugsnest."
 
     # Endogene i stødforløb:
-    uvG_ind
-    rOffLandKoeb2BNP
     rOffTilUdlKap2BNP
-    rOffTilUdlMoms2BNP
-    # rOffTilUdlBNI2BNP # Denne bliver ARIMA-fremskrevet som 0 - skal tjekkes
+    rOffTilUdlMoms2Moms
     rOffTilUdlEU2BNP
     rOffTilUdlFO2BNP
     rOffTilUdlGL2BNP
-    rOffTilUdlBistand2BNP
-    rOffTilVirk2BNP
-    rOffTilHhKap2BNP
-    rOffTilHhNPISH2BNP
+    rOffTilUdlBistand2BNI
     rOffTilHhTillaeg2BNP
-    rOffTilHhRest2BNP
     rSubEU2BNP
   ;
   $GROUP G_GovExpenses_constants
@@ -172,12 +143,20 @@ $IF %stage% == "variables":
   $GROUP G_GovExpenses_fixed_forecast
     rGLukning[t] "Beregningsteknisk stigning i offentligt forbrug til lukning af offentlig budgetrestriktion."
     uvG_kol[t] "Skalaparameter for kollektivt offentligt forbrug."
+    uvG_ind[t]
 
     fqG_input[t] "Korrektionsfaktor. Fremskrives uændret til tabelvariabel qG_input"
-    rOffTilUdlBNI2BNP
+    rOffTilUdlBNI2BNI
+    rOffTilVirk2BNP
+    rOffTilVirkInvesttilskud2BNP
+    rOffTilHhKap2BNP
+    rOffTilHhKapPraemie2BNP
+    rOffTilHhNPISH2vG
+    rOffLandKoeb2BNP
   ;
   $GROUP G_GovExpenses_newdata_forecast
-    uvOvfSats[ovf,t]$(satsreg[ovf] or prisreg[ovf]) "Skalaparameter for overførselssatser."
+    uvOvfSats[ovf,t]$(satsreg[ovf] or prisreg[ovf] or intro[ovf]) "Skalaparameter for overførselssatser."
+    uOffTilHhRest
     uHhOvfPop[a,t] "Aldersmæssig fordelingsnøgle knyttet til dvOvf2dnPop."
     uOvfUbeskat[a,t] "Aldersmæssig fordelingsnøgle knyttet til vOvfUbeskat."
     vOvfSats[ovf,t]
@@ -190,12 +169,11 @@ $IF %stage% == "variables":
 
     rPensAlder[a,t] "Andel i folkepensionsalderen (0, 0.5, eller 1)."
     rEfterlAlder[a,t] "Andel i efterlønsalderen (0, 0.5, eller 1)."
-    nOvf2nSoc[ovf_,soc,t] "Mapping mellem modtagere af overførsler og BFR-grupper.";
+    nOvf2nSoc[ovf_,soc,t] "Mapping mellem modtagere af overførsler og BFR-grupper."
   ;
   $GROUP G_GovExpenses_forecast_as_zero
     jvOvf
     uvOvfSats[ovf,t]$(sameas['groen',ovf])
-    jfvOvfSats[ovf,t] "J-led til overførselssatser"
     uHhOvfRest[a,t] "Residual som sikrer at samlede overførselsindkomster til en aldersgruppe passer til aldersprofil."
   ;
 $ENDIF
@@ -210,18 +188,22 @@ $IF %stage% == "equations":
     # Offentligt forbrug
     # ----------------------------------------------------------------------------------------------------------------------
     E_vGxAfskr[t].. vGxAfskr[t] =E= vG[gTot,t] - vOffAfskr[kTot,t];
-    E_pGxAfskr[t].. pGxAfskr[t] * qGxAfskr[t] =E= vGxAfskr[t];
+    E_qGxAfskr_via_rpGxAfskr[t].. qGxAfskr[t] =E=  rpGxAfskr[t] * (qG[gTot,t] - qOffAfskr[kTot,t]);
     E_qGxAfskr[t]..
       qGxAfskr[t] * pGxAfskr[t-1]/fp =E= pG[gTot,t-1]/fp * qG[gTot,t] - pOffAfskr[kTot,t-1]/fp * qOffAfskr[kTot,t];
+    E_pGxAfskr[t].. pGxAfskr[t] * qGxAfskr[t] =E= vGxAfskr[t];
     
     E_fDemoTraek_tot[t]$(t.val >= %BFR_t1%)..
       fDemoTraek[aTot,t] =E= sum(a, nPop[a,t] * fDemoTraek[a,t]) + nPop_Over100[t] * fDemoTraek_Over100[t];
 
     # Kollektivt offentligt forbrug følger løn og befolkningstal. Det individuelle følger demografi og løn
-    E_vG_kol[t]$(t.val >= %BFR_t1%).. vG_kol[t] =E= uvG_kol[t] * vhW[t] * nPop[atot,t];
-    E_uvG_ind[t]$(t.val >= %BFR_t1%).. vG_ind[t] =E= uvG_ind[t] * fDemoTraek[aTot,t] * vhW[t];
+    E_uvGxAfskr[t].. vGxAfskr[t] =E= uvGxAfskr[t] * vhW_DA[t];
+    E_uvG_ind[t]$(t.val >= %BFR_t1%)..
+      uvGxAfskr[t] =E= (uvG_kol[t] * nPop_inklOver100[t] + uvG_ind[t] * fDemoTraek[aTot,t]) * (1+rGLukning[t]);
 
-    E_vG_ind[t].. vG[gTot,t] =E= (1+rGLukning[t]) * (vG_kol[t] + vG_ind[t]);
+    E_vG_ind[t].. vG[gTot,t] =E= vG_kol[t] + vG_ind[t];
+    E_vG_kol[t]$(t.val >= %BFR_t1%)..
+      vG_kol[t] / vG_ind[t] =E= uvG_kol[t] * nPop_inklOver100[t] / (uvG_ind[t] * fDemoTraek[aTot,t]);
 
     # CES demand
     # there is currently only one type of government consumption, i.e. qG['gTot'] = qG['g'] 
@@ -231,9 +213,13 @@ $IF %stage% == "equations":
     # Input-baseret offentligt forbrug (tabel-variabel)
     E_qG_input[t].. qG_input[t] =E= fqG_input[t] * qG[gTot,t];
     E_pG_input[t].. pG_input[t] * qG_input[t] =E= vG[gTot,t];
+    E_qGxAfskr_input[t]..
+      qGxAfskr_input[t] * pGxAfskr_input[t-1]/fp =E= pG_input[t-1]/fp * qG_input[t] 
+                                                     - pOffAfskr[kTot,t-1]/fp * qOffAfskr[kTot,t];
+    E_pGxAfskr_input[t].. pGxAfskr_input[t] * qGxAfskr_input[t] =E= vGxAfskr[t];
 
     # A technical adjustment to government spending can be used to close the government intertemporal budget constraint
-    E_vGLukning[t].. vGLukning[t] =E= rGLukning[t] / (1+rGLukning[t]) * vG[gTot,t];
+    E_vGLukning[t].. vGLukning[t] =E= rGLukning[t] / (1+rGLukning[t]) * vGxAfskr[t];
 
     # ----------------------------------------------------------------------------------------------------------------------
     # Primære offentlige udgifter
@@ -247,13 +233,16 @@ $IF %stage% == "equations":
 
     # Indkomstoverførsler - satser
     E_vOvfSats_satsreg[satsreg,t]$(t.val >= %BFR_t1%)..
-      vOvfSats[satsreg,t] =E= vSatsIndeks[t] * uvOvfSats[satsreg,t] * (1 + jfvOvfSats[satsreg,t]);
+      vOvfSats[satsreg,t] =E= vSatsIndeks[t] * uvOvfSats[satsreg,t];
 
     E_vOvfSats_prisreg[prisreg,t]$(t.val >= %BFR_t1%)..
       vOvfSats[prisreg,t] =E= vPrisIndeks[t] * uvOvfSats[prisreg,t];
 
-    E_vOvfSats_groen[t]$(t.val >= %BFR_t1%)..
-      vOvfSats['groen',t] =E= vNulvaekstIndeks[t] * uvOvfSats['groen',t];
+    E_vOvfSats_ureguleret[ureguleret,t]$(t.val >= %BFR_t1%)..
+      vOvfSats[ureguleret,t] =E= vNulvaekstIndeks[t] * uvOvfSats[ureguleret,t];
+
+    E_vOvfSats_intro[intro,t]$(t.val >= %BFR_t1%)..
+      vOvfSats[intro,t] =E= vSatsIndeksIntro[t]  * uvOvfSats[intro,t];
 
     # Antal modtagere af overførsler knyttet til sociogrupper
     E_nOvf[ovf,t]$(not (ovf_a0t17[ovf] or ovf_a18t100[ovf]) and t.val >= %BFR_t1%)..
@@ -321,137 +310,29 @@ $IF %stage% == "equations":
       vOffTilUdl[t] =E= vOffTilUdlKap[t] + vOffTilUdlMoms[t] + vOffTilUdlBNI[t] + vOffTilUdlEU[t]
                       + vOffTilUdlFO[t] + vOffTilUdlGL[t] + vOffTilUdlBistand[t];
     E_rOffTilUdlKap2BNP[t].. vOffTilUdlKap[t] =E= vBNP[t] * rOffTilUdlKap2BNP[t];
-    E_rOffTilUdlMoms2BNP[t].. vOffTilUdlMoms[t] =E= vBNP[t] * rOffTilUdlMoms2BNP[t];
-    E_rOffTilUdlBNI2BNP[t].. vOffTilUdlBNI[t] =E= vBNP[t] * rOffTilUdlBNI2BNP[t];
+    E_rOffTilUdlMoms2Moms[t].. vOffTilUdlMoms[t] =E= vtMoms[dTot,sTot,t] * rOffTilUdlMoms2Moms[t];
+    E_rOffTilUdlBNI2BNI[t].. vOffTilUdlBNI[t] =E= vBNI[t] * rOffTilUdlBNI2BNI[t];
     E_rOffTilUdlEU2BNP[t].. vOffTilUdlEU[t] =E= vBNP[t] * rOffTilUdlEU2BNP[t];
     E_rOffTilUdlFO2BNP[t].. vOffTilUdlFO[t] =E= vBNP[t] * rOffTilUdlFO2BNP[t];
     E_rOffTilUdlGL2BNP[t].. vOffTilUdlGL[t] =E= vBNP[t] * rOffTilUdlGL2BNP[t];
-    E_rOffTilUdlBistand2BNP[t].. vOffTilUdlBistand[t] =E= vBNP[t] * rOffTilUdlBistand2BNP[t];
+    E_rOffTilUdlBistand2BNI[t].. vOffTilUdlBistand[t] =E= vBNI[t] * rOffTilUdlBistand2BNI[t];
 
     E_vOffTilHh[t].. vOffTilHh[t] =E= vOffTilHhKap[t] + vOffTilHhNPISH[t] + vOffTilHhTillaeg[t] + vOffTilHhRest[t];
-    E_rOffTilHhKap2BNP[t].. vOffTilHhKap[t] =E= vBNP[t] * rOffTilHhKap2BNP[t];
-    E_rOffTilHhNPISH2BNP[t].. vOffTilHhNPISH[t] =E= vBNP[t] * rOffTilHhNPISH2BNP[t];
+    E_rOffTilHhNPISH2vG[t].. vOffTilHhNPISH[t] =E= vG[gTot,t] * rOffTilHhNPISH2vG[t];
     E_rOffTilHhTillaeg2BNP[t].. vOffTilHhTillaeg[t] =E= vBNP[t] * rOffTilHhTillaeg2BNP[t];
-    E_rOffTilHhRest2BNP[t].. vOffTilHhRest[t] =E= vBNP[t] * rOffTilHhRest2BNP[t];
+    E_uOffTilHhRest[t].. vOffTilHhRest[t] =E= uOffTilHhRest[t] * vSatsindeks[t] * nPop_inklOver100[t];
 
-    E_vOffTilHhKap_rest[t].. vOffTilHhKap[t] =E= vOffTilHhKap_praemie[t] + vOffTilHhKap_reserve[t] + vOffTilHhKap_rest[t];
-    E_vOffTilHhKap_xpraemie[t].. vOffTilHhKap_xpraemie[t] =E= vOffTilHhKap[t] - vOffTilHhKap_praemie[t];
+    E_vOffTilHhKapRest[t].. vOffTilHhKap[t] =E= vOffTilHhKapPraemie[t] + vOffTilHhKapRest[t];
+    E_rOffTilHhKap2BNP[t].. vOffTilHhKap[t] =E= vBNP[t] * rOffTilHhKap2BNP[t];
+    E_rOffTilHhKapPraemie2BNP[t].. vOffTilHhKapPraemie[t] =E= rOffTilHhKapPraemie2BNP[t] * vBNP[t];
 
-    E_rOffTilVirk[t].. vOffTilVirk[t] =E= vBNP[t] * rOffTilVirk2BNP[t];
-    E_vOffTilVirk_rest[t].. 
-      vOffTilVirk[t] =E= vOffTilVirk_investeringstilskud[t] + vOffTilVirk_rest[t] + vOffTilVirk_fly[t];
-
+    E_vOffTilVirkRest[t].. vOffTilVirk[t] =E= vOffTilVirkInvesttilskud[t] + vOffTilVirkRest[t];
+    E_rOffTilVirk[t].. vOffTilVirk[t] =E= rOffTilVirk2BNP[t] * vBNP[t];
+    E_rOfftilVirkInvesttilskud2BNP[t].. vOffTilVirkInvesttilskud[t] =E= rOfftilVirkInvesttilskud2BNP[t] * vBNP[t];
   $ENDBLOCK
 
-  $BLOCK B_GovExpenses_forwardlooking
-    # ------------------------------------------------------------------------------------------------------------------
-    #   Ligninger til beregning af nutidsværdien af offentlige udgifter 
-    # ------------------------------------------------------------------------------------------------------------------  
-    E_nvOffPrimUd[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffPrimUd[t] =E= vOffPrimUd[t] + nvOffPrimUd[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffPrimUd_tEnd[t]$(tEnd[t])..
-      nvOffPrimUd[t] =E= vOffPrimUd[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvG[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvG[t] =E= vG[gTot,t] + nvG[t+1]*fv / (1+mrOffRente[t]);
-    E_nvG_tEnd[t]$(tEnd[t])..
-      nvG[t] =E= vG[gTot,t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvf[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvf[t] =E= vOvf['tot',t] + nvOvf[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvf_tEnd[t]$(tEnd[t])..
-      nvOvf[t] =E= vOvf['tot',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfpens[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfpens[t] =E= vOvf['pension',t] + nvOvfpens[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfpens_tEnd[t]$(tEnd[t])..
-      nvOvfpens[t] =E= vOvf['pension',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfHh[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfHh[t] =E= vOvf['HhTot',t] + nvOvfHh[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfHh_tEnd[t]$(tEnd[t])..
-      nvOvfHh[t] =E= vOvf['HhTot',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvftjmand[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvftjmand[t] =E= vOvf['tjmand',t] + nvOvftjmand[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvftjmand_tEnd[t]$(tEnd[t])..
-      nvOvftjmand[t] =E= vOvf['tjmand',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvffortid[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvffortid[t] =E= vOvf['fortid',t] + nvOvffortid[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvffortid_tEnd[t]$(tEnd[t])..
-      nvOvffortid[t] =E= vOvf['fortid',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfuddsu[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfuddsu[t] =E= vOvf['uddsu',t] + nvOvfuddsu[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfuddsu_tEnd[t]$(tEnd[t])..
-      nvOvfuddsu[t] =E= vOvf['uddsu',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfsyge[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfsyge[t] =E= vOvf['syge',t] + nvOvfsyge[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfsyge_tEnd[t]$(tEnd[t])..
-      nvOvfsyge[t] =E= vOvf['syge',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfboernyd[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfboernyd[t] =E= vOvf['boernyd',t] + nvOvfboernyd[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfboernyd_tEnd[t]$(tEnd[t])..
-      nvOvfboernyd[t] =E= vOvf['boernyd',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfbarsel[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfbarsel[t] =E= vOvf['barsel',t] + nvOvfbarsel[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfbarsel_tEnd[t]$(tEnd[t])..
-      nvOvfbarsel[t] =E= vOvf['barsel',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOvfleddag[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOvfleddag[t] =E= vOvf['leddag',t] + nvOvfleddag[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOvfleddag_tEnd[t]$(tEnd[t])..
-      nvOvfleddag[t] =E= vOvf['leddag',t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffInv[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffInv[t] =E= vOffInv[t] + nvOffInv[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffInv_tEnd[t]$(tEnd[t])..
-      nvOffInv[t] =E= vOffInv[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffSub[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffSub[t] =E= vOffSub[t] + nvOffSub[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffSub_tEnd[t]$(tEnd[t])..
-      nvOffSub[t] =E= vOffSub[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffUdRest[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffUdRest[t] =E= vOffUdRest[t] + nvOffUdRest[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffUdRest_tEnd[t]$(tEnd[t])..
-      nvOffUdRest[t] =E= vOffUdRest[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvPunktSub[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvPunktSub[t] =E= vSub[dTot,sTot,t] + nvPunktSub[t+1]*fv / (1+mrOffRente[t]);
-    E_nvPunktSub_tEnd[t]$(tEnd[t])..
-      nvPunktSub[t] =E= vSub[dTot,sTot,t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvSubY[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvSubY[t] =E= vSubY[t] + nvSubY[t+1]*fv / (1+mrOffRente[t]);
-    E_nvSubY_tEnd[t]$(tEnd[t])..
-      nvSubY[t] =E= vSubY[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffLandkoeb[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffLandkoeb[t] =E= vOffLandkoeb[t] + nvOffLandkoeb[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffLandkoeb_tEnd[t]$(tEnd[t])..
-      nvOffLandkoeb[t] =E= vOffLandkoeb[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffTilUdl[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffTilUdl[t] =E= vOffTilUdl[t] + nvOffTilUdl[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffTilUdl_tEnd[t]$(tEnd[t])..
-      nvOffTilUdl[t] =E= vOffTilUdl[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffTilHh[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffTilHh[t] =E= vOffTilHh[t] + nvOffTilHh[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffTilHh_tEnd[t]$(tEnd[t])..
-      nvOffTilHh[t] =E= vOffTilHh[t] / ((1+mrOffRente[t]) / fv - 1);
-
-    E_nvOffTilVirk[t]$((tHBI.val <= t.val)  and (t.val < tEnd.val))..
-      nvOffTilVirk[t] =E= vOffTilVirk[t] + nvOffTilVirk[t+1]*fv / (1+mrOffRente[t]);
-    E_nvOffTilVirk_tEnd[t]$(tEnd[t])..
-      nvOffTilVirk[t] =E= vOffTilVirk[t] / ((1+mrOffRente[t]) / fv - 1);
-  $ENDBLOCK
+  # $BLOCK B_GovExpenses_forwardlooking
+  # $ENDBLOCK
 
   $BLOCK B_GovExpenses_a$(tx0[t])
     # Korrektionsfaktor som sikre afbalancering af overførsler-indkomster fordelt på henholdsvis alder og overførselstype.
@@ -475,75 +356,15 @@ $IF %stage% == "equations":
 
   MODEL M_GovExpenses /
     B_GovExpenses_static
-    B_GovExpenses_forwardlooking
+    # B_GovExpenses_forwardlooking
     B_GovExpenses_a
   /;
-
-  # Definerer gruppe med nutidsværdi
-  MODEL M_GovExpenses_nv /
-    E_nvOffPrimUd, E_nvOffPrimUd_tEnd
-    E_nvG, E_nvG_tEnd
-    E_nvOvf, E_nvOvf_tEnd
-    E_nvOvfpens, E_nvOvfpens_tEnd
-    E_nvOvfHh, E_nvOvfHh_tEnd
-    E_nvOffInv, E_nvOffInv_tEnd
-    E_nvOffSub, E_nvOffSub_tEnd
-    E_nvOffUdRest, E_nvOffUdRest_tEnd
-    E_nvPunktSub, E_nvPunktSub_tEnd
-    E_nvSuby, E_nvSuby_tEnd
-    E_nvOffLandkoeb, E_nvOffLandkoeb_tEnd
-    E_nvOffTilUdl, E_nvOffTilUdl_tEnd
-    E_nvOffTilHh, E_nvOffTilHh_tEnd
-    E_nvOffTilVirk, E_nvOffTilVirk_tEnd
-    E_nvOvftjmand, E_nvOvftjmand_tEnd
-    E_nvOvffortid, E_nvOvffortid_tEnd
-    E_nvOvfuddsu, E_nvOvfuddsu_tEnd
-    E_nvOvfsyge, E_nvOvfsyge_tEnd
-    E_nvOvfboernyd, E_nvOvfboernyd_tEnd
-    E_nvOvfbarsel, E_nvOvfbarsel_tEnd
-    E_nvOvfleddag, E_nvOvfleddag_tEnd
-  /;
-  $GROUP G_GovExpenses_nv
-    nvOffPrimUd
-    nvG
-    nvOvf
-    nvOvfpens
-    nvOvftjmand
-    nvovffortid
-    nvovfuddsu
-    nvovfsyge
-    nvovfboernyd
-    nvovfbarsel
-    nvovfleddag
-    nvOvfHh
-    nvOffInv
-    nvOffSub
-    nvOffUdRest
-    nvSubY
-    nvPunktSub
-    nvOffLandkoeb
-    nvOffTilUdl
-    nvOffTilHh
-    nvOffTilVirk
-  ;
 
   $GROUP G_GovExpenses_static
     G_GovExpenses_endo
     -G_GovExpenses_endo_a
-    -G_GovExpenses_nv
   ;
 
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_GovExpenses_post /
-    M_GovExpenses_nv
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_GovExpenses_post
-    G_GovExpenses_nv
-  ;
-  $GROUP G_GovExpenses_post G_GovExpenses_post$(tHBI.val <= t.val and t.val <= tEnd.val);
 $ENDIF
 
 $IF %stage% == "exogenous_values":
@@ -561,14 +382,14 @@ $IF %stage% == "exogenous_values":
     vOffPrimUd$(t.val > 2006)
     vOffInv$(t.val > 2006)
     # Øvrige variable
-    qG, qG_input
+    qG, qG_input, qGxAfskr, qGxAfskr_input
+    pG_input, pGxAfskr, pGxAfskr_input
   ;
   @load(G_GovExpenses_makrobk, "..\Data\makrobk\makrobk.gdx" )
 
-  $GROUP G_GovExpenses_FM
-    vOffTilVirk_investeringstilskud, vOffTilVirk_fly, vOffTilHhKap_praemie, vOffTilHhKap_reserve
-  ;
-  @load(G_GovExpenses_FM, "..\Data\FM_exogenous_forecast.gdx")
+  execute_load "..\Data\FM_exogenous_forecast.gdx" vOffTilVirkInvesttilskud.l=vOffTilVirk_investeringstilskud.l
+  execute_load "..\Data\FM_exogenous_forecast.gdx" vOffTilHhKapPraemie.l=vOffTilHhKap_praemie.l
+  $GROUP G_GovExpenses_FM vOffTilVirkInvesttilskud, vOffTilHhKapPraemie;
 
   # Demografisk træk
   $GROUP G_GovExpenses_DemoTraek
@@ -616,13 +437,17 @@ $IF %stage% == "exogenous_values":
     vOffInv$(t.val > 2006)
     vOvf$(ovftot[ovf_] or sameas['pension',ovf_])
     jvOvf$(sameas[ovf_,'pension'])
+    vOffTilUdl$(t.val = 1994)
+    vOffTilUdl$(t.val = 1993)
+    vOffTilUdl$(t.val = 1992)
+    vOffTilUdl$(t.val = 1991)
+    qGxAfskr, qGxAfskr_input, pGxAfskr_input
   ;
 
 # ======================================================================================================================
 # Exogenous variables
 # ======================================================================================================================
   vNulvaekstIndeks.l[t] = 1;
-  pGxAfskr.l[t]$(tBase[t]) = 1; 
 
 # ======================================================================================================================
 # Data management
@@ -681,7 +506,6 @@ $IF %stage% == "static_calibration":
   ;
   $GROUP G_GovExpenses_static_calibration 
     G_GovExpenses_static_calibration$(tx0[t])
-    pGxAfskr[t0], -pGxAfskr[tBase]
   ;
 
   MODEL M_GovExpenses_static_calibration /
@@ -699,19 +523,21 @@ $IF %stage% == "deep_dynamic_calibration":
     G_GovExpenses_endo
     -rOffLandKoeb2BNP, vOffLandKoeb
     -rOffTilUdlKap2BNP, vOffTilUdlKap
-    -rOffTilUdlMoms2BNP, vOffTilUdlMoms
-    -rOffTilUdlBNI2BNP, vOffTilUdlBNI
+    -rOffTilUdlMoms2Moms, vOffTilUdlMoms
+    -rOffTilUdlBNI2BNI, vOffTilUdlBNI
     -rOffTilUdlEU2BNP, vOffTilUdlEU
     -rOffTilUdlFO2BNP, vOffTilUdlFO
     -rOffTilUdlGL2BNP, vOffTilUdlGL
-    -rOffTilUdlBistand2BNP, vOffTilUdlBistand
+    -rOffTilUdlBistand2BNI, vOffTilUdlBistand
     -rOffTilVirk2BNP, vOffTilVirk
+    -rOffTilVirkInvesttilskud2BNP, vOffTilVirkInvesttilskud
     -rOffTilHhKap2BNP, vOffTilHhKap
-    -rOffTilHhNPISH2BNP, vOffTilHhNPISH
+    -rOffTilHhKapPraemie2BNP, vOffTilHhKapPraemie
+    -rOffTilHhNPISH2vG, vOffTilHhNPISH
     -rOffTilHhTillaeg2BNP, vOffTilHhTillaeg
-    -rOffTilHhRest2BNP, vOffTilHhRest
+    -uOffTilHhRest, vOffTilHhRest
     -rSubEU2BNP, vSubEU
-    hL[off,t], -uvG_ind
+    hL[off,t], -uvGxAfskr
   ;
   $GROUP G_GovExpenses_deep G_GovExpenses_deep$(tx0[t]);
 
@@ -719,7 +545,7 @@ $IF %stage% == "deep_dynamic_calibration":
 #  $ENDBLOCK
 
 MODEL M_GovExpenses_deep /
-  M_GovExpenses - M_GovExpenses_post
+  M_GovExpenses
   #  B_Govexpenses_deep
 /;
 
@@ -733,21 +559,22 @@ $GROUP G_GovExpenses_dynamic_calibration
   G_GovExpenses_endo
   -rOffLandKoeb2BNP, vOffLandKoeb
   -rOffTilUdlKap2BNP, vOffTilUdlKap
-  -rOffTilUdlMoms2BNP, vOffTilUdlMoms
-  -rOffTilUdlBNI2BNP, vOffTilUdlBNI
+  -rOffTilUdlMoms2Moms, vOffTilUdlMoms
+  -rOffTilUdlBNI2BNI, vOffTilUdlBNI
   -rOffTilUdlEU2BNP, vOffTilUdlEU
   -rOffTilUdlFO2BNP, vOffTilUdlFO
   -rOffTilUdlGL2BNP, vOffTilUdlGL
-  -rOffTilUdlBistand2BNP, vOffTilUdlBistand
+  -rOffTilUdlBistand2BNI, vOffTilUdlBistand
   -rOffTilVirk2BNP, vOffTilVirk
   -rOffTilHhKap2BNP, vOffTilHhKap
-  -rOffTilHhNPISH2BNP, vOffTilHhNPISH
+  -rOffTilHhNPISH2vG, vOffTilHhNPISH
   -rOffTilHhTillaeg2BNP, vOffTilHhTillaeg
-  -rOffTilHhRest2BNP, vOffTilHhRest
+  -uOffTilHhRest, vOffTilHhRest
   -rSubEU2BNP, vSubEU
-  hL[off,t], -uvG_ind
+  hL[off,t], -uvGxAfskr
 ;
+$GROUP G_GovExpenses_dynamic_calibration G_GovExpenses_dynamic_calibration$(tx0[t]);
 MODEL M_GovExpenses_dynamic_calibration /
-  M_GovExpenses - M_GovExpenses_post 
+  M_GovExpenses
 /;
 $ENDIF

@@ -31,7 +31,6 @@ $FUNCTION import_from_modules(stage_key):
   $IMPORT consumers.gms;
   $IMPORT exports.gms;
   $IMPORT finance.gms;
-  $IMPORT government.gms;
   $IMPORT GovRevenues.gms;
   $IMPORT GovExpenses.gms;
   $IMPORT HHincome.gms;  
@@ -42,13 +41,14 @@ $FUNCTION import_from_modules(stage_key):
   $IMPORT production_public.gms;
   $IMPORT struk.gms;
   $IMPORT taxes.gms;
+  $IMPORT government.gms;
 $ENDFUNCTION
 
 # ======================================================================================================================
 # Growth and inflation adjustment
 # ======================================================================================================================
 parameters
-  gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.01/
+  gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.011/
   gp "Long run rate of foreign inflation" /0.018/
   terminal_rente "Obligationsrente på lang sigt" /0.04/
 ;
@@ -60,11 +60,11 @@ parameters
 # Time periods
 # ----------------------------------------------------------------------------------------------------------------------
 $SETGLOBAL base_year 2020 # Basis year for growth and inflation adjustments
-$SETGLOBAL cal_start 2001 # Calibration start year
+$SETGLOBAL cal_start 1985 # Calibration start year
 $SETGLOBAL cal_deep 2019 # Last calibration year used for structural parameters
-$SETGLOBAL cal_end 2023 # Last calibration year with full national accounting data, but no data on age profiles
-$SETGLOBAL terminal_year 2099 # The terminal year
-$SETGLOBAL rHBI_eval 2030 # Year in which rHBI is evaluated
+$SETGLOBAL cal_end 2024 # Last calibration year with full national accounting data, but no data on age profiles
+$SETGLOBAL terminal_year 2130 # The terminal year
+$SETGLOBAL rHBI_eval %cal_deep% # Year in which rHBI is evaluated
 
 $SETGLOBAL NettoFin_t1 1994 # First year with net financial data
 $SETGLOBAL BruttoFin_t1 2016 # First year with gross financial data

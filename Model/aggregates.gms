@@ -9,22 +9,23 @@
 # ======================================================================================================================
 $IF %stage% == "variables":
   $GROUP G_aggregates_endo
-    qBVT2hL[t] "BVT pr. arbejdstime i mængde."
+    qBVT2hL[s_,t]$(s[s_] or sTot[s_]) "BVT pr. arbejdstime i mængde."
     qBVT2hLsnit[t] "Glidende gennemsnit af BVT pr. arbejdstime i mængde."
 
     vVirkBVT5aarSnit[t] "Centreret 5-års glidende gennemsnit af privat BVT."
-    vBVT2hL[t] "BVT pr. arbejdstime i værdi."
+    vBVT2hL[s_,t]$(s[s_] or sTot[s_]) "BVT pr. arbejdstime i værdi."
     vBVT2hLsnit[t] "Glidende gennemsnit af BVT pr. arbejdstime i værdi."
     vBNI[t] "Bruttonationalindkomst, Kilde: ADAM[Yi]"
     vUdlNet[t]$(t.val >= %NettoFin_t1%) "Udlandets finansielle nettoportefølje ift. DK, Kilde: ADAM[Wn_e]."
-    vUdlAkt[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlAkt[portf_,t]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
+    vUdlAkt[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlAkt[portf_,t] and not pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
+    vUdlAkt[portf_,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf_,t] and pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
     vUdlPas[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlPas[portf_,t]) "Udlandets finansielle passiver ift. DK, Kilde: jf. portfolio set."
     jvUdlNFE[t]$(t.val > %NettoFin_t1%) "J-led"
     vUdlNFE[t]$(t.val >= %NettoFin_t1%) "Udlandets nettofordringserhvervelse, Kilde: ADAM[Tfn_e]"
     vBetalingsbalance[t]$(t.val >= %NettoFin_t1%) "Saldo på den officelle betalingsbalances løbende poster. Kilde: ADAM[Enl]."
 
     vUdlPensUdb[t]$(t.val > %NettoFin_t1%) "Pensionsudbetalinger til udlandet, Kilde: ADAM[Typc_cf_e]"
-    vUdlPensIndb[t]$(t.val >= %NettoFin_t1%) "Pensionsindbetalinger fra udlandet, Kilde: ADAM[Tpc_e_z]"
+    vUdlPensIndb[t]$(t.val > %NettoFin_t1%) "Pensionsindbetalinger fra udlandet, Kilde: ADAM[Tpc_e_z]"
     vtPALudl[t]$(t.val > %NettoFin_t1%) "PAL-skat betalt af udlændinge"
     vUdlPensAfk[t]$(t.val > %NettoFin_t1%) "Afkast fra pensionsformue EFTER SKAT for udlændinge."
     vPens[pens_,t]$(t.val >= %NettoFin_t1%) "Samlet pensionsformue fordelt på pensionstype"
@@ -72,15 +73,17 @@ $ENDIF
 # ======================================================================================================================
 $IF %stage% == "equations":
   $BLOCK B_aggregates_static$(tx0[t])
-    E_vBVT2hL[t].. vBVT2hL[t] =E= vBVT[sTot,t] / hL[sTot,t];
+    E_vBVT2hL[s,t].. vBVT2hL[s,t] =E= vBVT[s,t] / hL[s,t];
+    E_vBVT2hL_sTot[t].. vBVT2hL[sTot,t] =E= vBVT[sTot,t] / hL[sTot,t];
 
     E_vBVT2hLsnit[t]..
-      vBVT2hLsnit[t] =E= vBVT2hLsnit[t-1] * 0.8 + 0.2 * vBVT2hL[t];
+      vBVT2hLsnit[t] =E= vBVT2hLsnit[t-1] * 0.8 + 0.2 * vBVT2hL[sTot,t];
 
-    E_qBVT2hL[t].. qBVT2hL[t] =E= qBVT[sTot,t] / hL[sTot,t];
+    E_qBVT2hL[s,t].. qBVT2hL[s,t] =E= qBVT[s,t] / hL[s,t];
+    E_qBVT2hL_sTot[t].. qBVT2hL[sTot,t] =E= qBVT[sTot,t] / hL[sTot,t];
 
     E_qBVT2hLsnit[t]..
-      qBVT2hLsnit[t] =E= qBVT2hLsnit[t-1] * 0.8 + 0.2 * qBVT2hL[t];
+      qBVT2hLsnit[t] =E= qBVT2hLsnit[t-1] * 0.8 + 0.2 * qBVT2hL[sTot,t];
 
     E_rpCInflSnit[t]..
       rpCInflSnit[t] =E= 0.8 * rpCInflSnit[t-1] + 0.2 * (pC['cTot',t] / (pC['cTot',t-1]/fp) - 1);
@@ -97,7 +100,7 @@ $IF %stage% == "equations":
       vUdlPas['RealKred',t] =E= rUdlRealkred[t] * vHhPas['RealKred',aTot,t];
 
     # Udlandets pensionsindbetalinger følger indlandets
-    E_vUdlPensIndb[t]$(t.val >= %NettoFin_t1%)..
+    E_vUdlPensIndb[t]$(t.val > %NettoFin_t1%)..
       vUdlPensIndb[t] =E= rUdlPensIndb[t] * vHhPensIndb['PensTot',aTot,t];
 
     # Udlandets PAL-skattebetalinger
@@ -106,8 +109,7 @@ $IF %stage% == "equations":
 
     # Udlandets pensionsafkast
     E_vUdlPensAfk[t]$(t.val > %NettoFin_t1%).. 
-      vUdlPensAfk[t] =E= vUdlAktRenter['PensTot',t] + vUdlAktOmv['PensTot',t] - vtPALudl[t]
-                         - rHhAktOmk['PensTot',t] * vUdlAkt['PensTot',t-1]/fv;
+      vUdlPensAfk[t] =E= vUdlAktRenter['PensTot',t] + vUdlAktOmv['PensTot',t] - vtPALudl[t];
 
     # Udlandets pensionsudbetalingsrate følger indlandets
     E_rUdlPensUdb[t]$(t.val > %NettoFin_t1%)..
@@ -119,7 +121,7 @@ $IF %stage% == "equations":
                                            + vUdlAktOmv['PensTot',t] + vUdlPensIndb[t]);
 
    # Udlandets pensionsbeholdning
-    E_vUdlAkt_PensTot[t]$(t.val >= %NettoFin_t1%).. 
+    E_vUdlAkt_PensTot[t]$(t.val > %NettoFin_t1%).. 
       vUdlAkt['PensTot',t] =E= vUdlAkt['PensTot',t-1]/fv + vUdlPensAfk[t] + vUdlPensIndb[t] - vUdlPensUdb[t];
 
     # Samlede pensionsindbetalinger, -udbetalinger og -afkast
@@ -156,7 +158,6 @@ $IF %stage% == "equations":
     E_vUdlAkt_residual[portf,t]$(t.val >= %NettoFin_t1% and (IndlAktier[portf] or RealKred[portf]))..
       vUdlAkt[portf,t] =E= - vHhAkt[portf,aTot,t] - vVirkAkt[portf,t] - vOffAkt[portf,t] - vPensionAkt[portf,t]
                            + vHhPas[portf,aTot,t] + vVirkPas[portf,t] + vOffPas[portf,t] + vUdlPas[portf,t];
-
     # Udlandets passivbeholdning er residualt givet (bortset fra realkredit og indenlandske aktier, hvor der for sidstnævnte ikke er nogen passiver)
     E_vUdlPas_residual[portf,t]$(t.val >= %NettoFin_t1% and d1vUdlPas[portf,t] and not RealKred[portf])..
       vUdlPas[portf,t] =E= vHhAkt[portf,aTot,t] + vVirkAkt[portf,t] + vOffAkt[portf,t] + vPensionAkt[portf,t] + vUdlAkt[portf,t]
@@ -257,16 +258,16 @@ $IF %stage% == "exogenous_values":
     vBetalingsbalance
     vUdlNet, vUdlAkt, vUdlPas
     vUdlOmv
-    vUdlAktRenter, vUdlPasRenter
+    vUdlAktRenter$(t.val <> 2005 and t.val <> 2007), vUdlPasRenter #!!! Tjek hvorfor vUdlAktRenter ikke rammer i 2005 og 2007
     vUdlAktOmv, vUdlPasOmv
     vtPALudl, vUdlPensIndb, vUdlPensUdb
-    ;
+  ;
 
   $GROUP G_aggregates_data_imprecise
     vUdlNet, vUdlAkt, vUdlPas
-    vUdlOmv, vUdlAktRenter, vUdlAktOmv
+    vUdlOmv, vUdlAktRenter$(t.val <> 2005 and t.val <> 2007), vUdlAktOmv
     vBVT[spTot,t]
-    vUdlPasOmv$(UdlAktier[portf_] and (t.val = 2004))
+    vUdlPasOmv$(UdlAktier[portf_] and (t.val = 2004 or t.val = 1999 or t.val=1998 or t.val=1997 or t.val=1996))
   ;
 
   $GROUP G_aggregates_data_load 
@@ -284,6 +285,17 @@ $IF %stage% == "exogenous_values":
 
   d1vUdlAkt['tot',t] = yes$(sum(portf,vUdlAkt.l[portf,t]) <> 0);
   d1vUdlPas['tot',t] = yes$(sum(portf,vUdlPas.l[portf,t]) <> 0);
+
+  # Midlertidigt hack pga. problemer i data - PK 2025-02-19
+  # vUdlPasOmv.l[UdlAktier,'1995'] = vHhAktOmv.l[UdlAktier,'1995'] + vOffAktOmv.l[UdlAktier,'1995'] + vVirkAktOmv.l[UdlAktier,'1995'] + vPensionAktOmv.l[UdlAktier,'1995'];
+  # vUdlAktOmv.l[IndlAktier,'1995'] = - vHhAktOmv.l[IndlAktier,'1995'] - vOffAktOmv.l[IndlAktier,'1995'] - vVirkAktOmv.l[IndlAktier,'1995'] 
+  #   - vPensionAktOmv.l[IndlAktier,'1995'] + vVirkPasOmv.l[IndlAktier,'1995'] + vUdlPasOmv.l[IndlAktier,'1995'];
+  vUdlPasOmv.l[UdlAktier,'1995'] = 3.949;
+  vUdlAktOmv.l[IndlAktier,'1995'] = -2.051;
+  vUdlAkt.l[IndlAktier,'1994'] = 127.196;
+  vUdlAkt.l['tot','1994'] = 1392.39;
+  vUdlPas.l[UdlAktier,'1994'] = 156.755;
+  vUdlPas.l['tot','1994'] = 826.896;
 $ENDIF
 
 # ======================================================================================================================
@@ -295,12 +307,12 @@ $IF %stage% == "static_calibration":
     -vBNI, jvBNI
     -vtPALudl$(t.val > %NettoFin_t1%), jvtPALudl$(t.val > %NettoFin_t1%)
     -vUdlPas[RealKred,t], rUdlRealkred$(t.val >= %NettoFin_t1%)
-    -vUdlAkt[Obl,t]$(t.val > %NettoFin_t1%), rUdlAkt2IndlPas[Obl,t]$(t.val > %NettoFin_t1%)
-    -vUdlAkt[Bank,t]$(t.val > %NettoFin_t1%), rUdlAkt2IndlPas[Bank,t]$(t.val > %NettoFin_t1%)
+    -vUdlAkt[Obl,t]$(t.val >= %NettoFin_t1%), rUdlAkt2IndlPas[Obl,t]$(t.val >= %NettoFin_t1%)
+    -vUdlAkt[Bank,t]$(t.val >= %NettoFin_t1%), rUdlAkt2IndlPas[Bank,t]$(t.val >= %NettoFin_t1%)
     -vUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jrUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
     -vUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jrUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
     -vBetalingsbalance$(t.val >= %NettoFin_t1%), vBetalingsbalanceRest$(t.val >= %NettoFin_t1%)
-    -vUdlPensIndb$(t.val >= %NettoFin_t1%), rUdlPensIndb$(t.val >= %NettoFin_t1%)
+    -vUdlPensIndb$(t.val > %NettoFin_t1%), rUdlPensIndb$(t.val > %NettoFin_t1%)
     -vUdlPensUdb$(t.val > %NettoFin_t1%), jrUdlPensUdb$(t.val > %NettoFin_t1%)
    ;
   $GROUP G_aggregates_static_calibration G_aggregates_static_calibration$(tx0[t])
@@ -311,8 +323,8 @@ $IF %stage% == "static_calibration":
 
   $BLOCK B_aggregates_static_calibration
      E_vUdlNet_t0[t]$(t0[t]).. vUdlNet[t] =E= sum(portf, vUdlAkt[portf,t]) - sum(portf, vUdlPas[portf,t]);
-     E_vBVT2hLsnit_t0[t]$(t1[t]).. vBVT2hLsnit[t] =E= vBVT2hL[t];
-     E_qBVT2hLsnit_t0[t]$(t1[t]).. qBVT2hLsnit[t] =E= qBVT2hL[t];
+     E_vBVT2hLsnit_t0[t]$(t1[t]).. vBVT2hLsnit[t] =E= vBVT2hL[sTot,t];
+     E_qBVT2hLsnit_t0[t]$(t1[t]).. qBVT2hLsnit[t] =E= qBVT2hL[sTot,t];
   $ENDBLOCK
   MODEL M_aggregates_static_calibration /
     M_aggregates

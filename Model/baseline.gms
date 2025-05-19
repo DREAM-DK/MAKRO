@@ -26,7 +26,5 @@ $GROUP G_ZeroShockTest All, -dArv;
 
 $FIX All; $UNFIX G_endo;
 @solve(M_base);
-$FIX All; $UNFIX G_post;
-@solve(M_post);
 
 @assert_no_difference(G_ZeroShockTest, 1e-6, .l, _saved, "Zero shock changed variables significantly.");

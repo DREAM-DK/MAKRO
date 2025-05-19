@@ -21,13 +21,11 @@ shock_info = [
         ("Offentlige investeringer<br>(qI_s[iTot,off])", "Public investments (qI_s[iTot,off])", lambda s: s.qI_s["iTot","off"], "pq")),
     ("Skattepligtig_indkomstoverforsel", "Skattepligtige overførselsindkomster", "Taxable transfer incomes",
         (" "*4, "", lambda s: s.qBNP*0, "pq")),
-        # ("Skattepligtige indkomsteroverførsler<br>(∑vOvf[!ubeskat])", "Taxable transfer incomes<br>(∑vOvf[!ubeskat])", lambda s: s.vOvf[s.ovf].groupby("t").sum() - s.vOvf[s.ubeskat].groupby("t").sum(), "pq")),
     ("Ikke_skattepligtig_indkomstoverforsel", "Ikke-skattepligtige overførselsindkomster", "Non-taxable transfer incomes",
-        # ("Ikke-skattepligtige indkomsteroverførsler<br>(∑vOvf[ubeskat])", "Non-taxable transfer incomes<br>(∑vOvf[ubeskat])", lambda s: s.vOvf[s.ubeskat].groupby("t").sum(), "pq")),
         (" "*5, "", lambda s: s.qBNP*0, "pq")),
   # Subsidier
     ("Produktsubsidier", "Produktsubsidier", "Product subsidies",
-        ("Produktsubsidier (vSub[dTot,tot])", "Product subsidies (vSub[dTot,tot])", lambda s: s.vSub["dTot","tot"], "pq")),
+        ("Produktsubsidier (vSub[dTot,sTot])", "Product subsidies (vSub[dTot,sTot])", lambda s: s.vSub['tot','tot'], "pq")),
     ("Lontilskud", "Løntilskud", "Wage subsidies",
         ("Løntilskud (vSubLoen)", "Wage subsidies (vSubLoen)", lambda s: s.vSubLoen, "pq")),
     ("Produktionssubsidier", "Produktionssubsidier ekskl. løntilskud", "Production subsidies excl. wage subsidies",
@@ -70,7 +68,7 @@ shock_info = [
         ("Eksportkonkurrerende priser<br>(pXUdl)", "Export-competing prices", lambda s: s.pXUdl, "pq")),
     ("Oliepris", "Oliepris", "Oil prices",
         ("Oliepris (pOlie)", "Oil price (pOlie)", lambda s: s.pOlie, "pq")),
-    ("Udenlandske_priser", "Udenlandske priser (trægt gennemslag)", "Foreign prices (sluggish pass-through)",
+    ("Udenlandske_priser", "Udenlandske priser", "Foreign prices (sluggish pass-through)",
         ("Importpriser (pM)", "Import prices (pM)", lambda s: s.pM, "pq")),
     ("Udenlandske_priser_exo", "Udenlandske priser (øjeblikkeligt gennemslag)", "Foreign prices (instant pass-through)",
         ("Importpriser (pM)", "Import prices (pM)", lambda s: s.pM, "pq")),
@@ -78,7 +76,7 @@ shock_info = [
         ("Rente (rRenteECB)", "Interest rate (rRenteECB)", lambda s: s.rRenteECB, "pm")),
 
   # Øvrige udbudsstød
-    ("Arbejdsudbud - beskæftigelse", "Arbejdsudbud, beskæftigelse", "Labor supply, employment",
+    ("Arbejdsudbud_beskaeftigelse", "Arbejdsudbud, beskæftigelse", "Labor supply, employment",
         ("Strukturel bruttoarbejdsstyrke<br>(snBruttoArbsty)", "Structural labor force<br>(snBruttoArbsty)", lambda s: s.snBruttoArbsty, "pq")),
     
     ("Arbejdsudbud - timer", "Arbejdsudbud, timer", "Labor supply, hours",

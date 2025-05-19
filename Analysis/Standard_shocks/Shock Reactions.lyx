@@ -1,5 +1,5 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -69,11 +69,11 @@
 \numberwithin{table}{subsection}
 \end_preamble
 \use_default_options true
-\maintain_unincluded_children false
+\maintain_unincluded_children no
 \language american
 \language_package default
-\inputencoding auto
-\fontencoding global
+\inputencoding auto-legacy
+\fontencoding auto
 \font_roman "lmodern" "default"
 \font_sans "cmbr" "default"
 \font_typewriter "default" "default"
@@ -81,7 +81,9 @@
 \font_default_family sfdefault
 \use_non_tex_fonts false
 \font_sc false
-\font_osf false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
@@ -104,7 +106,7 @@
 \pdf_colorlinks false
 \pdf_backref section
 \pdf_pdfusetitle true
-\papersize a4paper
+\papersize a4
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -125,7 +127,9 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_formatted_ref 0
 \use_minted 0
+\use_lineno 0
 \index Index
 \shortcut idx
 \color #008000
@@ -141,11 +145,16 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tablestyle default
 \tracking_changes false
 \output_changes false
+\change_bars false
+\postpone_fragile_content false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
 \end_header
 
 \begin_body
@@ -156,11 +165,13 @@ Shock Reactions in MAKRO
 
 \begin_layout Author
 Grane H.
- Høegh m.fl.
+ Høegh,
+ Emil H.
+ Partsch m.fl.
 \end_layout
 
 \begin_layout Date
-2023
+Januar 2025
 \end_layout
 
 \begin_layout Standard
@@ -182,6 +193,7 @@ LatexCommand tableofcontents
 \begin_inset CommandInset include
 LatexCommand include
 filename "Introduction.lyx"
+literal "true"
 
 \end_inset
 
@@ -200,6 +212,7 @@ filename "Introduction.lyx"
 \begin_inset CommandInset include
 LatexCommand include
 filename "Permanent Unfinanced Demand Shocks.lyx"
+literal "true"
 
 \end_inset
 
@@ -218,6 +231,7 @@ filename "Permanent Unfinanced Demand Shocks.lyx"
 \begin_inset CommandInset include
 LatexCommand include
 filename "Permanent Unfinanced Supply Shocks.lyx"
+literal "true"
 
 \end_inset
 
@@ -233,6 +247,7 @@ filename "Permanent Unfinanced Supply Shocks.lyx"
 \begin_inset CommandInset include
 LatexCommand include
 filename "Permanent Unfinanced Price Shocks.lyx"
+literal "true"
 
 \end_inset
 
@@ -247,22 +262,8 @@ filename "Permanent Unfinanced Price Shocks.lyx"
 
 \begin_inset CommandInset include
 LatexCommand include
-filename "Permanent Unfinanced Financial Shocks.lyx"
-
-\end_inset
-
-
-\lang american
-
-\begin_inset Newpage newpage
-\end_inset
-
-
-\lang english
-
-\begin_inset CommandInset include
-LatexCommand include
-filename "Permanent Unfinanced Preference Shocks.lyx"
+filename "Permanent Unfinanced Miscellaneous Shocks.lyx"
+literal "true"
 
 \end_inset
 

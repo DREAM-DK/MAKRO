@@ -7,6 +7,7 @@ import sys
 import dreamtools as dt
 import pandas as pd
 from math import ceil
+import dataframe_image as dfi
 import plotly.figure_factory as ff
 sys.path.insert(0, os.path.abspath("../Templates")) # Add the Templates folder to the path so we can import variables_to_plot
 
@@ -43,10 +44,10 @@ gdx_folders, gdx_labels = zip(*gdx_folders_info)
 # The suffix is used to distinguish between different versions of the same shock
 # For each variation, we also supply a label
 variations_info = [
-    ("_blip", "Blip", "Blip"),
+    # ("_blip", "Blip", "Blip"),
     ("_midl", "Midlertidig", "Transitory"),
-    ("_perm", "Permanent", "Permanent"),
-    ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
+    # ("_perm", "Permanent", "Permanent"),
+    # ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
 ]
 shock_variation_suffixes, shock_variation_labels_DA, shock_variation_labels_EN = zip(*variations_info)
 
@@ -311,7 +312,7 @@ for shock_name in df.shock_name.unique():
         years = [t1, t1+1, t1+2]
         if suffix in ["_perm", "_ufin"]:
             years += [T]
-        table_data = table_data[[str(year) for year in years if str(year) in table_data.columns]]
+        table_data = table_data[[int(year) for year in years]]
         
         # Add the variable labels as the first column
         table_data.reset_index(inplace=True)
@@ -341,6 +342,7 @@ for key, table in tables.items():
 
 # Combine html files to one
 import glob
+from pyhtml2pdf import converter # Chrome must be installed on the machine
 
 html_files = glob.glob(f"{table_folder}/*.html")
 
@@ -348,3 +350,16 @@ with open(f"{output_folder}/TablesCombined.html", "w") as outfile:
     for file in html_files:
         with open(file, "r") as infile:
             outfile.write(infile.read())
+
+# Convert each html files into a pdf
+for file in html_files:
+    path = os.path.abspath(file)
+    converter.convert(f'{path}', f'{file[:-5]}.pdf')
+
+# Merge the pdf files into one
+from PyPDF2 import PdfMerger
+pdfs = glob.glob(f"{table_folder}/*.pdf")
+merger = PdfMerger()
+for pdf in pdfs:
+    merger.append(pdf)
+merger.write(f"{output_folder}/TablesCombined.pdf")

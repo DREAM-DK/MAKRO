@@ -156,7 +156,7 @@ $IF %stage% == "variables":
     uIOXy[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse indenlandske input."
     uIOXm[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse importerede input."
 
-    fpI_s[i,t]$(tForecast[t] and not iL[i]) "Korrektionsfaktor som sørger for at vI_s summerer til vI."
+    fpI_s[i,t]$(tForecast[t]) "Korrektionsfaktor som sørger for at vI_s summerer til vI."
 
     fpIVaerdi[t] "Korrektionsfaktor som sørger for at lagerinvesteringskomponenter kædeaggregerer"
 
@@ -171,12 +171,37 @@ $IF %stage% == "variables":
     qC[c_,t]$(cbol[c_])
 
     rpIOm2pIOy[d_,s,t] "Relativ pris mellem import og egenproduktion."
-    rqIOm2qIO[d_,s_,t]$(dux[d_] and d1IOm[d_,s_,t] and not iL[d_] and s[s_]) "Importandel af IO-celle"
-    frqIO[d_,s_,t]$(dux[d_] and d1IOy[d_,s_,t] and not iL[d_] and s[s_]) "Hjælpevariabel til static-modellen"
-    rqIOm2qIO0[d_,s_,t]$(dux[d_] and d1IOm[d_,s_,t] and not iL[d_] and udv[s_]) "Relativt forhold mellem import og input-aggregat for j-led"
+    rqIOm2qIO[d_,s_,t]$(dux[d_] and d1IOm[d_,s_,t] and s[s_]) "Importandel af IO-celle"
+    frqIO[d_,s_,t]$(dux[d_] and d1IOy[d_,s_,t] and s[s_]) "Hjælpevariabel til static-modellen"
+    rqIOm2qIO0[d_,s_,t]$(dux[d_] and d1IOm[d_,s_,t] and udv[s_]) "Relativt forhold mellem import og input-aggregat for j-led"
     qG$(gTot[g_]) "Total offentligt forbrug, Kilde: ADAM[fCo]"
 
     dpM2pYTraeghed[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and d1IOy[dux,s,t-1] and d1IOm[dux,s,t-1]) "Hjælpevariabel til beregning af effekt fra pristræghed."
+
+    rpI[i_,s_,t]$((i[i_] and (sTot[s_] or spTot[s_] or sByTot[s_])) or (iTot[i_] and (s[s_] or sTot[s_]))) "Relative laggede priser i investeringer vægtet med nutidige mængder."
+    rpCDK[c_,t]$(c[c_] or cTot[c_]) "Relative laggede priser i forbrug inkl. turisters vægtet med nutidige mængder."
+    rpBNP[t] "Relative laggede priser i BNP vægtet med nutidige mængder."
+    rpBVT[s_,t]$(s[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Relative laggede priser i BVT vægtet med nutidige mængder."
+    rpY[s_,t]$(sTot[s_] or spTot[s_] or sByTot[s_]) "Relative laggede output-priser vægtet med nutidige mængder."
+    rpM[t] "Relative laggede import-priser vægtet med nutidige mængder."
+    rpR[s_,t]$(sTot[s_] or spTot[s_] or sByTot[s_]) "Relative laggede materiale-input-priser vægtet med nutidige mængder."
+    rpE[s_,t]$(sTot[s_] or spTot[s_] or sByTot[s_]) "Relative laggede energi-input-priser vægtet med nutidige mængder."
+    rpC[t] "Relative laggede priser i privat forbrug vægtet med nutidige mængder."
+    rpBruttoHandel[t] "Relative laggede priser i sum af eksport og import vægtet med nutidige mængder."
+    rpRE[r_,t]$(r[r_] or rTot[r_]) "Relative laggede priser for aggregeret materiale- og energiinput vægtet med nutidige mængder."
+    rpCGIX[t] "Relative laggede priser på samlet efterspørgsel vægtet med nutidige mængder."
+    rpCGI[t] "Relative laggede priser på indenlandsk efterspørgsel vægtet med nutidige mængder."
+    rpCGIxLager[t] "Relative laggede priser for indenlandsk efterspørgsel ekskl. lagerinvesteringer vægtet med nutidige mængder."
+    rpIbErhverv[t] "Relative laggede priser for bygningserhvervsinvesteringer vægtet med nutidige mængder."
+    rpXvarer[t] "Relative laggede priser for vareeksport vægtet med nutidige mængder."
+    rpXtjenester[t] "Relative laggede priser for tjenesteeksport vægtet med nutidige mængder."
+    rpMvarer[t] "Relative laggede vareimport-priser vægtet med nutidige mængder."
+    rpMenergi[t] "Relative laggede energiimport-priser vægtet med nutidige mængder."
+    rpMtjenester[t] "Relative laggede tjenesteimport-priser vægtet med nutidige mængder."
+    rpMx[t] "Relative laggede priser på import af fremstilling og tjenester ekskl. søfart vægtet med nutidige mængder."
+    rpBVTspxudv[t] "Relative laggede priser i BVT ekskl. udvinding vægtet med nutidige mængder."
+    rpIVaerdi[t] "Relative laggede priser i værdigenstande vægtet med nutidige mængder."
+    rpIErhverv[t] "Relative laggede priser for erhvervsinvesteringer vægtet med nutidige mængder."
   ;
   $GROUP G_IO_endo G_IO_endo$(tx0[t]); # Restrict endo group to tx0[t]
 
@@ -194,25 +219,26 @@ $IF %stage% == "variables":
   $GROUP G_IO_exogenous_forecast
     qY[s_,t]$(udv[s_])
     uIOXy0[x,s,t]$(udv[s]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
+    uIO0[d_,s_,t]$(iL[d_]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
+    uIOm0[dux,s,t]$(iL[dux]) "Importandel i efterspørgselskomponent."
+    fuIO[d_,t]$(iL[d_]) "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
+    fuIOym[dux,s,t]$(iL[d_]) "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse hhv. indenlandske og importerede input."
   ;
   $GROUP G_IO_forecast_as_zero
     jfpIOy[d_,t] "Pristillæg fra mermarkup fordelt på efterspørgseler - er 0 historisk."
     jfpIOm[d_,t] "Pristillæg fra mermarkup fordelt på efterspørgseler - er 0 historisk."
     jfpIO[d_,t] "Pristillæg - fælles for indlandsk og import."
-    jfqIO_iL[s,t] "J-led."
     jfrqIOm2qIO[s,t] "j-led"
     jpILager[t] "J-led"
     jpIStam[t] "J-led"
     jpIOm2pIOy[dux,s,t] "J-led"
   ;
   $GROUP G_IO_ARIMA_forecast
-    uIO0[d_,s_,t] "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
-    uIOm0[dux,s,t] "Importandel i efterspørgselskomponent."
+    uIO0[d_,s_,t]$(not iL[d_]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
+    uIOm0[dux,s,t]$(not iL[dux]) "Importandel i efterspørgselskomponent."
     uIOXy0[x,s,t]$(not udv[s]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
     uIOXm0[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse importerede input før endelig skalering."
     uIOXyUdv0[x,t] "Skalaparameter for eksportkomponents vægt på indenlandsk udvinding før skalering til samlet indenlandsk udvinding."
-    rILy2Y[s_,t] "Andel af samlet produktion, som går til lagerinvesteringer."
-    rILm2Y[s_,t] "Andel af samlet import til lagerinvesteringer ift. samlet produktion."
   ;
   $GROUP G_IO_constants
     rpMTraeghed[d_,s] "Parameter til at styre kortsigtet priselasticitet."
@@ -229,9 +255,9 @@ $IF %stage% == "variables":
 
     qGrus[t]
 
-    fuIO[d_,t] "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
+    fuIO[d_,t]$(not iL[d_]) "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
     fuIOe[r,t] "Korrektionsfaktor for skalaparametrene for energiinputs vægt på diverse input."
-    fuIOym[dux,s,t] "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse hhv. indenlandske og importerede input."
+    fuIOym[dux,s,t]$(not iL[dux]) "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse hhv. indenlandske og importerede input."
     fuIOXm[x,t] "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
     fuIOXy[x,t] "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
     fpCTurist[c,t] "Korrektion som fanger at turisters forbrug har anden deflator end indenlandske husholdninger."
@@ -253,7 +279,7 @@ $IF %stage% == "equations":
     E_qIO_R[r,s,t]$(d1IO[r,s,t] and sMat[s]).. qIO[r,s,t] =E= uIO[r,s,t] * qR[r,t];
     E_qIO_E[r,s,t]$(d1IO[r,s,t] and sEne[s]).. qIO[r,s,t] =E= uIO[r,s,t] * qE[r,t];
     E_qIO_c[c,s,t]$(d1IO[c,s,t]).. qIO[c,s,t] =E= uIO[c,s,t] * qCDK[c,t];
-    E_qIO_i[k,s,t]$(d1IO[k,s,t]).. qIO[k,s,t] =E= uIO[k,s,t] * qI[k,t];
+    E_qIO_i[i,s,t]$(d1IO[i,s,t]).. qIO[i,s,t] =E= uIO[i,s,t] * qI[i,t];
     E_qIO_g[g,s,t]$(d1IO[g,s,t]).. qIO[g,s,t] =E= uIO[g,s,t] * qG[g,t];
 
     # Offentlige leverancer til privat forbrug (fx privatfinansieret del af børnehaver) følger offentligt og ikke privat forbrug
@@ -270,19 +296,14 @@ $IF %stage% == "equations":
     E_qIOm_x[x,s,t]$(d1IOm[x,s,t]).. qIOm[x,s,t] =E= uIOXm[x,s,t] * qXm[x,t];
 
     # Aggregat af import og indenlandsk input fordelt på import og indenlandske input (modellering under behavior)
-    E_rqIOm2qIO[dux,s,t]$(d1IOm[dux,s,t] and not iL[dux]).. 
+    E_rqIOm2qIO[dux,s,t]$(d1IOm[dux,s,t]).. 
       qIOm[dux,s,t] =E= rqIOm2qIO[dux,s,t] * qIO[dux,s,t];
 
-    E_rqIOm2qIO0_udv[dux,s,t]$(udv[s] and d1IOm[dux,s,t] and not iL[dux]).. 
+    E_rqIOm2qIO0_udv[dux,s,t]$(udv[s] and d1IOm[dux,s,t]).. 
       rqIOm2qIO[dux,s,t] =E= rqIOm2qIO0[dux,s,t] * (1 + jfrqIOm2qIO[s,t]);
 
-    E_frqIO[dux,s,t]$(d1IOy[dux,s,t] and not iL[dux])..
+    E_frqIO[dux,s,t]$(d1IOy[dux,s,t])..
       qIO[dux,s,t] =E= frqIO[dux,s,t] * (qIOy[dux,s,t] + qIOm[dux,s,t]);
-
-    # Lagerinvesteringer (inkl. værdigenstande og stambesætninger) særbehandles
-    E_qIOm_iL[s,t]$(d1IOm['iL',s,t]).. qIOm['iL',s,t] =E= rILm2Y[s,t] * qY[s,t];
-    E_qIOy_iL[s,t]$(d1IOy['iL',s,t]).. qIOy['iL',s,t] =E= rILy2Y[s,t] * qY[s,t];
-    E_qIO_iL[s,t]$(d1IO['iL',s,t]).. qIO['iL',s,t] =E= (1+jfqIO_iL[s,t]) * (qIOy['iL',s,t] + qIOm['iL',s,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Markedsligevægt - produktion og import fordelt på brancher er summen af efterspørgsel givet fra IO-celler
@@ -357,13 +378,12 @@ $IF %stage% == "equations":
     # Særlige forhold for investeringer og forbrug
     # ------------------------------------------------------------------------------------------------------------------
     # Investeringer er fordelt på brancher i production_private.gms - her fås de totale
+    E_qI_via_rpI[i,t].. qI[i,t] =E= rpI[i,sTot,t] * sum(s, qI_s[i,s,t]);
     E_qI[i,t].. pI[i,t-1]/fp * qI[i,t] =E= sum(s, pI_s[i,s,t-1]/fp * qI_s[i,s,t]);
     # De branche-fordelte investeringspriser er proportionale med den samlede investeringspris
-    E_pI_s[i,s,t]$(d1I_s[i,s,t] and not iL[i]).. pI_s[i,s,t] =E= fpI_s[i,t] * upI_s[i,s,t] * pI[i,t];
-    # Investeringspris på lagerinvesteringer er givet fra IO-celle
-    E_pI_s_inventory[s,t]$(d1I_s['iL',s,t]).. pI_s['iL',s,t] =E= pIO['iL',s,t];
+    E_pI_s[i,s,t]$(d1I_s[i,s,t]).. pI_s[i,s,t] =E= fpI_s[i,t] * upI_s[i,s,t] * pI[i,t];
     # Der afstemmes for konsistens - dette overholdes ikke dataår pga. manglende numerisk præcision i datainput
-    E_fpI_s[k,t]$(tForecast[t]).. vI[k,t] =E= sum(s, vI_s[k,s,t]);
+    E_fpI_s[i,t]$(tForecast[t]).. vI[i,t] =E= sum(s, vI_s[i,s,t]);
     # Værdier på branchefordelte investeringer
     E_vI_s_sp[i,sp,t]$(d1I_s[i,sp,t]).. pI_s[i,sp,t] * qI_s[i,sp,t] =E= vI_s[i,sp,t];
 
@@ -374,10 +394,12 @@ $IF %stage% == "equations":
     # Forbrug i Danmark er summen af turisters og husholdningers forbrug
     E_vCDK[c,t].. vCDK[c,t] =E= vC[c,t] + vCTurist[c,t];
     E_pCDK[c,t].. pCDK[c,t] * qCDK[c,t] =E= vCDK[c,t];
+    E_qCDK_via_rpCDK[c,t].. qCDK[c,t] =E= rpCDK[c,t] * (qC[c,t] + qCTurist[c,t]);
     E_qCDK[c,t].. qCDK[c,t] * pCDK[c,t-1]/fp =E= pC[c,t-1]/fp * qC[c,t] + pCTurist[c,t-1]/fp * qCTurist[c,t];
 
     E_vCDK_tot[t].. vCDK[cTot,t] =E= sum(c, vCDK[c,t]);
     E_pCDK_tot[t].. pCDK[cTot,t] * qCDK[cTot,t] =E= vCDK[cTot,t];
+    E_qCDK_tot_via_rpCDK[t].. qCDK[cTot,t] =E= rpCDK[cTot,t] * sum(c, qCDK[c,t]);
     E_qCDK_tot[t].. qCDK[cTot,t] * pCDK[cTot,t-1]/fp =E= sum(c, pCDK[c,t-1]/fp * qCDK[c,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -385,11 +407,14 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------   
     E_vBNP[t].. vBNP[t] =E= vC[cTot,t] + vG[gTot,t] + vI[iTot,t] + vX[xTot,t] - vM[sTot,t];
 
+    E_qBNP_via_rpBNP[t].. 
+      qBNP[t] =E= rpBNP[t] * (qC[cTot,t] + qG[gTot,t] + qI[iTot,t] + qX[xTot,t] - qM[sTot,t]);
+  
     E_qBNP[t].. qBNP[t] * pBNP[t-1]/fp =E= pC[cTot,t-1]/fp * qC[cTot,t]
-                                                  + pG[gTot,t-1]/fp * qG[gTot,t] 
-                                                  + pI[iTot,t-1]/fp * qI[iTot,t]
-                                                  + pX[xTot,t-1]/fp * qX[xTot,t] 
-                                                  - pM[sTot,t-1]/fp * qM[sTot,t];
+                                         + pG[gTot,t-1]/fp * qG[gTot,t] 
+                                         + pI[iTot,t-1]/fp * qI[iTot,t]
+                                         + pX[xTot,t-1]/fp * qX[xTot,t] 
+                                         - pM[sTot,t-1]/fp * qM[sTot,t];
 
     E_pBNP[t].. pBNP[t] * qBNP[t] =E= vBNP[t];
 
@@ -398,9 +423,11 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------   
     E_vBVT[s,t].. vBVT[s,t] =E= vY[s,t] - vE[s,t] - vR[s,t];
 
+    E_qBVT_via_rpBVT[s,t].. qBVT[s,t] =E= rpBVT[s,t] * (qY[s,t] - qR[s,t] - qE[s,t]);
+
     E_qBVT[s,t].. qBVT[s,t] * pBVT[s,t-1]/fp =E= pY[s,t-1]/fp * qY[s,t] 
-                                                        - pR[s,t-1]/fp * qR[s,t]
-                                                        - pE[s,t-1]/fp * qE[s,t];
+                                               - pR[s,t-1]/fp * qR[s,t]
+                                               - pE[s,t-1]/fp * qE[s,t];
 
     E_pBVT[s,t].. pBVT[s,t] * qBVT[s,t] =E= vBVT[s,t];
   $ENDBLOCK
@@ -448,30 +475,30 @@ $IF %stage% == "equations":
       qIOy[dux,s,t] =E= uIOy[dux,s,t] * qIO[dux,s,t] * (pIOy[dux,s,t] / pIO[dux,s,t])**(-eIO[dux,s]);
 
     # Equations in cases of zero substitutability
-    E_qIOy_e0[dux,s,t]$(d1IOy[dux,s,t] and eIO.l[dux,s] = 0 and not iL[dux])..
+    E_qIOy_e0[dux,s,t]$(d1IOy[dux,s,t] and eIO.l[dux,s] = 0)..
       qIOy[dux,s,t] =E= uIOy[dux,s,t] * qIO[dux,s,t];
-    E_qIOm_e0[dux,s,t]$(d1IOm[dux,s,t] and eIO.l[dux,s] = 0 and not iL[dux])..
+    E_qIOm_e0[dux,s,t]$(d1IOm[dux,s,t] and eIO.l[dux,s] = 0)..
       qIOm[dux,s,t] =E= uIOm[dux,s,t] * qIO[dux,s,t];
 
     # --------------------------------------------------------------------------------------------------------------------
     # Endogen balancering af skala-parametre
     # --------------------------------------------------------------------------------------------------------------------
-    E_uIO[cgi,s,t]$(d1IO[cgi,s,t] and not iL[cgi])..
+    E_uIO[cgi,s,t]$(d1IO[cgi,s,t])..
       uIO[cgi,s,t] =E= fuIO[cgi,t] * uIO0[cgi,s,t] / sum(ss, uIO0[cgi,ss,t]);
     E_uIO_R[r,s,t]$(d1IO[r,s,t] and sMat[s])..
       uIO[r,s,t] =E= fuIO[r,t] * uIO0[r,s,t] / sum(ss$sMat[ss], uIO0[r,ss,t]);
     E_uIO_E[r,s,t]$(d1IO[r,s,t] and sEne[s])..
       uIO[r,s,t] =E= fuIOe[r,t] * uIO0[r,s,t] / sum(ss$sEne[ss], uIO0[r,ss,t]);
 
-    E_uIOy[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and not iL[dux])..
+    E_uIOy[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t])..
       uIOy[dux,s,t] =E= fuIOym[dux,s,t] - uIOm[dux,s,t];
     E_uIOy_NoM[dux,s,t]$(d1IOy[dux,s,t] and not d1IOm[dux,s,t])..
       uIOy[dux,s,t] =E= fuIOym[dux,s,t];
 
-    E_uIOm_jluIOm[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and not iL[dux] and jluIOm.up[s,t] <> 0)..
+    E_uIOm_jluIOm[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and jluIOm.up[s,t] <> 0)..
       uIOm[dux,s,t] =E= fuIOym[dux,s,t] * uIOm0[dux,s,t] * (1 + jluIOm[s,t])
                       / (uIOm0[dux,s,t] * (1 + jluIOm[s,t]) + (1 - uIOm0[dux,s,t]) * (1 - jluIOm[s,t]));
-    E_uIOm[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and not iL[dux] and jluIOm.up[s,t] = 0)..
+    E_uIOm[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and jluIOm.up[s,t] = 0)..
       uIOm[dux,s,t] =E= fuIOym[dux,s,t] * uIOm0[dux,s,t];
 
     E_uIOm_NoY[dux,s,t]$(d1IOm[dux,s,t] and not d1IOy[dux,s,t])..
@@ -489,42 +516,49 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------   
     # Samlet BVT
     E_vBVT_tot[t].. vBVT[sTot,t] =E= vY[sTot,t] - vR[rTot,t] - vE[rTot,t];
+    E_qBVT_tot_via_rpBVT[t].. qBVT[sTot,t] =E= rpBVT[sTot,t] * (qY[sTot,t] - qR[rTot,t] - qE[rTot,t]);
     E_qBVT_tot[t].. qBVT[sTot,t] * pBVT[sTot,t-1]/fp =E= pY[sTot,t-1]/fp * qY[sTot,t] 
-                                                                - pR[rTot,t-1]/fp * qR[rTot,t]
-                                                                - pE[rTot,t-1]/fp * qE[rTot,t];
+                                                       - pR[rTot,t-1]/fp * qR[rTot,t]
+                                                       - pE[rTot,t-1]/fp * qE[rTot,t];
     E_pBVT_tot[t].. pBVT[sTot,t] * qBVT[sTot,t] =E= vBVT[sTot,t];
-
+  
     # Privat BVT
     E_vBVT_spTot[t].. vBVT[spTot,t] =E= vY[spTot,t] - vE[spTot,t] - vR[spTot,t];
+    E_qBVT_spTot_via_rpBVT[t].. qBVT[spTot,t] =E= rpBVT[spTot,t] * (qY[spTot,t] - qR[spTot,t] - qE[spTot,t]);
     E_qBVT_spTot[t].. qBVT[spTot,t] * pBVT[spTot,t-1]/fp =E= pY[spTot,t-1]/fp * qY[spTot,t] 
-                                                                    - pR[spTot,t-1]/fp * qR[spTot,t] 
-                                                                    - pE[spTot,t-1]/fp * qE[spTot,t];
+                                                           - pR[spTot,t-1]/fp * qR[spTot,t] 
+                                                           - pE[spTot,t-1]/fp * qE[spTot,t];
     E_pBVT_spTot[t].. pBVT[spTot,t] * qBVT[spTot,t] =E= vBVT[spTot,t];
 
     # BVT i private byerhverv
     E_vBVT_sByTot[t].. vBVT[sByTot,t] =E= vY[sByTot,t] - vE[sByTot,t] - vR[sByTot,t];
+    E_qBVT_sBytot_via_rpBVT[t].. qBVT[sByTot,t] =E= rpBVT[sByTot,t] * (qY[sByTot,t] - qR[sByTot,t] - qE[sByTot,t]);
     E_qBVT_sByTot[t].. pBVT[sByTot,t-1]/fp * qBVT[sByTot,t] =E= pY[sByTot,t-1]/fp * qY[sByTot,t]
-                                                                       - pE[sByTot,t-1]/fp * qE[sByTot,t]
-                                                                       - pR[sByTot,t-1]/fp * qR[sByTot,t];
+                                                              - pE[sByTot,t-1]/fp * qE[sByTot,t]
+                                                              - pR[sByTot,t-1]/fp * qR[sByTot,t];
     E_pBVT_sByTot[t].. pBVT[sByTot,t] * qBVT[sByTot,t] =E= vBVT[sByTot,t];
 
     # Samlet produktion
     E_vY_tot[t].. vY[sTot,t] =E= sum(s, vY[s,t]);
+    E_qY_tot_via_rpY[t].. qY[sTot,t] =E= rpY[sTot,t] * sum(s, qY[s,t]);
     E_qY_tot[t].. qY[sTot,t] * pY[sTot,t-1]/fp =E= sum(s, pY[s,t-1]/fp * qY[s,t]);
     E_pY_tot[t].. pY[sTot,t] * qY[sTot,t] =E= vY[sTot,t];
 
     # Privat produktion
     E_vY_spTot[t].. vY[spTot,t] =E= sum(sp, vY[sp,t]);
+    E_qY_spTot_via_rpY[t].. qY[spTot,t] =E= rpY[spTot,t] * sum(sp, qY[sp,t]);
     E_qY_spTot[t].. qY[spTot,t] * pY[spTot,t-1]/fp =E= sum(sp, pY[sp,t-1]/fp * qY[sp,t]);
     E_pY_spTot[t].. pY[spTot,t] * qY[spTot,t] =E= vY[spTot,t];
 
     # Produktion i private byerhverv
     E_vY_sByTot[t].. vY[sByTot,t] =E= sum(sBy, vY[sBy,t]);
+    E_qY_sBytot_via_rpY[t].. qY[sByTot,t] =E= rpY[sByTot,t] * sum(sBy, qY[sBy,t]);
     E_qY_sByTot[t].. qY[sByTot,t] * pY[sByTot,t-1]/fp =E= sum(sBy, pY[sBy,t-1]/fp * qY[sBy,t]);
     E_pY_sByTot[t].. pY[sByTot,t] * qY[sByTot,t] =E= vY[sByTot,t];
 
     # Samlet import
     E_vM_tot[t].. vM[sTot,t] =E= sum(s, vM[s,t]);
+    E_qM_via_rpM[t].. qM[sTot,t] =E= rpM[t] * sum(s, qM[s,t]);
     E_qM_tot[t].. qM[sTot,t] * pM[sTot,t-1]/fp =E= sum(s, pM[s,t-1]/fp * qM[s,t]);
     E_pM_tot[t].. pM[sTot,t] * qM[sTot,t] =E= vM[sTot,t];
 
@@ -542,41 +576,49 @@ $IF %stage% == "equations":
 
     # Samlede investeringer
     E_vI_iTot[t].. vI[iTot,t] =E= sum(i, vI[i,t]);
+    E_qI_iTot_via_rpI[t].. qI[iTot,t] =E= rpI[iTot,sTot,t] * sum(i, qI[i,t]);
     E_qI_iTot[t].. qI[iTot,t] * pI[iTot,t-1]/fp =E= sum(i, pI[i,t-1]/fp * qI[i,t]);
     E_pI_iTot[t].. pI[iTot,t] * qI[iTot,t] =E= vI[iTot,t];
 
     # Samlet materialeinput til produktion ekskl. energi
     E_vR_tot[t].. vR[rTot,t] =E= sum(r, vR[r,t]);
+    E_qR_tot_via_rpR[t].. qR[rTot,t] =E= rpR[rTot,t] * sum(r, qR[r,t]);
     E_qR_tot[t].. qR[rTot,t] * pR[rTot,t-1]/fp =E= sum(r, pR[r,t-1]/fp * qR[r,t]);
     E_pR_tot[t].. pR[rTot,t] * qR[rTot,t] =E= vR[rTot,t];
 
     # Materialeinput ekskl. energi til private brancher
     E_vR_spTot[t].. vR[spTot,t] =E= sum(sp, vR[sp,t]);
+    E_qR_spTot_via_rpR[t].. qR[spTot,t] =E= rpR[spTot,t] * sum(sp, qR[sp,t]);
     E_qR_spTot[t].. qR[spTot,t] * pR[spTot,t-1]/fp =E= sum(sp, pR[sp,t-1]/fp * qR[sp,t]);
     E_pR_spTot[t].. pR[spTot,t] * qR[spTot,t] =E= vR[spTot,t];
 
     # Materialeinput ekskl. energi til private byerhverv
     E_vR_sByTot[t].. vR[sByTot,t] =E= sum(sBy, vR[sBy,t]);
+    E_qR_sBytot_via_rpR[t].. qR[sByTot,t] =E= rpR[sByTot,t] * sum(sBy, qR[sBy,t]);
     E_qR_sByTot[t].. qR[sByTot,t] * pR[sByTot,t-1]/fp =E= sum(sBy, pR[sBy,t-1]/fp * qR[sBy,t]);
     E_pR_sByTot[t].. pR[sByTot,t] * qR[sByTot,t] =E= vR[sByTot,t];
 
     # Samlet energiinput til produktion
     E_vE_tot[t].. vE[rTot,t] =E= sum(r, vE[r,t]);
+    E_qE_tot_via_rpE[t].. qE[rTot,t] =E= rpE[rTot,t] * sum(r, qE[r,t]);
     E_qE_tot[t].. qE[rTot,t] * pE[rTot,t-1]/fp =E= sum(r, pE[r,t-1]/fp * qE[r,t]);
     E_pE_tot[t].. pE[rTot,t] * qE[rTot,t] =E= vE[rTot,t];
 
     # Samlet energiinput til produktion til private brancher
     E_vE_spTot[t].. vE[spTot,t] =E= sum(sp, vE[sp,t]);
+    E_qE_spTot_via_rpE[t].. qE[spTot,t] =E= rpE[spTot,t] * sum(sp, qE[sp,t]);
     E_qE_spTot[t].. qE[spTot,t] * pE[spTot,t-1]/fp =E= sum(sp, pE[sp,t-1]/fp * qE[sp,t]);
     E_pE_spTot[t].. pE[spTot,t] * qE[spTot,t] =E= vE[spTot,t];
 
     # Samlet energiinput til produktion til private byerhverv
     E_vE_sByTot[t].. vE[sByTot,t] =E= sum(sBy, vE[sBy,t]);
+    E_qE_sByTot_via_rpE[t].. qE[sByTot,t] =E= rpE[sByTot,t] * sum(sBy, qE[sBy,t]);
     E_qE_sByTot[t].. qE[sByTot,t] * pE[sByTot,t-1]/fp =E= sum(sBy, pE[sBy,t-1]/fp * qE[sBy,t]);
     E_pE_sByTot[t].. pE[sByTot,t] * qE[sByTot,t] =E= vE[sByTot,t];
 
     # Samlet privat forbrug (til danske husholdninger)
     E_vC_tot[t].. vC[cTot,t] =E= sum(c, vC[c,t]);
+    E_qC_tot_via_rpC[t].. qC[cTot,t] =E= rpC[t] * sum(c, qC[c,t]);
     E_qC_tot[t].. qC[cTot,t] * pC[cTot,t-1]/fp =E= sum(c, pC[c,t-1]/fp * qC[c,t]);
     E_pC_tot[t].. pC[cTot,t] * qC[cTot,t] =E= vC[cTot,t];
 
@@ -602,10 +644,12 @@ $IF %stage% == "equations":
 
     # Branchevise samlede investeringer
     E_vI_s_iTot[s,t].. vI_s[iTot,s,t] =E= sum(i, vI_s[i,s,t]);
+    E_qI_s_iTot_via_rpI[s,t].. qI_s[iTot,s,t] =E= rpI[iTot,s,t] * sum(i, qI_s[i,s,t]);
     E_qI_s_iTot[s,t].. qI_s[iTot,s,t] * pI_s[iTot,s,t-1]/fp =E= sum(i, pI_s[i,s,t-1]/fp * qI_s[i,s,t]);
     E_pI_s_iTot[s,t].. pI_s[iTot,s,t] * qI_s[iTot,s,t] =E= vI_s[iTot,s,t];
 
     # Investeringer i private brancher
+    E_qI_s_spTot_via_rpI[i,t]$(not iL[i]).. qI_s[i,spTot,t] =E= rpI[i,spTot,t] * sum(sp, qI_s[i,sp,t]);
     E_qI_s_spTot[i,t]$(not iL[i]).. qI_s[i,spTot,t] * pI_s[i,spTot,t-1]/fp =E= sum(sp, pI_s[i,sp,t-1]/fp * qI_s[i,sp,t]);
     E_pI_s_spTot[i,t]$(not iL[i]).. pI_s[i,spTot,t] * qI_s[i,spTot,t] =E= vI_s[i,spTot,t];
     E_vI_s_spTot[i,t]$(not iL[i]).. vI_s[i,spTot,t] =E= sum(sp, vI_s[i,sp,t]);
@@ -614,6 +658,7 @@ $IF %stage% == "equations":
     E_vI_s_iTot_spTot[t].. vI_s[iTot,spTot,t] =E= sum(sp, vI_s[iTot,sp,t]);
 
     # Investeringer i private byerhverv
+    E_qI_s_sByTot_via_rpI_i[i,t]$(not iL[i]).. qI_s[i,sByTot,t] =E= rpI[i,sByTot,t] * sum(sBy, qI_s[i,sBy,t]);
     E_qI_s_sByTot[i,t]$(not iL[i]).. qI_s[i,sByTot,t] * pI_s[i,sByTot,t-1]/fp =E= sum(sBy, pI_s[i,sBy,t-1]/fp * qI_s[i,sBy,t]);
     E_pI_s_sByTot[i,t]$(not iL[i]).. pI_s[i,sByTot,t] * qI_s[i,sByTot,t] =E= vI_s[i,sByTot,t];
     E_vI_s_sByTot[i,t]$(not iL[i]).. vI_s[i,sByTot,t] =E= sum(sBy, vI_s[i,sBy,t]);
@@ -622,30 +667,37 @@ $IF %stage% == "equations":
     # Ligninger til tabel-variable
     # -------------------------------------------------------------------------------------------------------------------
     E_pBruttoHandel[t].. pBruttoHandel[t] * qBruttoHandel[t] =E= vX[xTot,t] + vM[sTot,t]; 
+    E_qBruttoHandel_via_rpBruttoHandel[t]..
+      qBruttoHandel[t] =E= rpBruttoHandel[t] * (qX[xTot,t] + qM[sTot,t]);
     E_qBruttoHandel[t]..
-      pBruttoHandel[t-1]/fp * qBruttoHandel[t] =E= pX[xTot,t-1]/fp * qX[xTot,t] + pM[sTot,t-1]/fp * qM[sTot,t]; 
+      qBruttoHandel[t] * pBruttoHandel[t-1]/fp =E= pX[xTot,t-1]/fp * qX[xTot,t] + pM[sTot,t-1]/fp * qM[sTot,t]; 
     E_qHandelsbalance[t].. qHandelsbalance[t] =E= vHandelsbalance[t] / pBruttoHandel[t];
     E_vHandelsbalance[t].. vHandelsbalance[t] =E= vX[xTot,t] - vM[sTot,t];
 
     # Materialeinput inkl. energi
     E_vRE[r,t].. vRE[r,t] =E= vR[r,t] + vE[r,t];
+    E_qRE_via_rpRE[r,t].. qRE[r,t] =E= rpRE[r,t] * (qR[r,t] + qE[r,t]);
     E_qRE[r,t].. qRE[r,t] * pRE[r,t-1]/fp =E= pR[r,t-1]/fp * qR[r,t] + pE[r,t-1]/fp * qE[r,t];
     E_pRE[r,t].. pRE[r,t] * qRE[r,t] =E= vRE[r,t];
 
     E_vRE_rTot[t].. vRE[rTot,t] =E= vR[rTot,t] + vE[rTot,t];
+    E_qRE_rTot_via_rpRE[t].. qRE[rTot,t] =E= rpRE[rTot,t] * (qR[rTot,t] + qE[rTot,t]);
     E_qRE_rTot[t].. qRE[rTot,t] * pRE[rTot,t-1]/fp =E= pR[rTot,t-1]/fp * qR[rTot,t] + pE[rTot,t-1]/fp * qE[rTot,t];
     E_pRE_rTot[t].. pRE[rTot,t] * qRE[rTot,t] =E= vRE[rTot,t];
 
     # Samlet efterspørgsel
     E_vCGIX[t]$(t.val >= 1995).. vCGIX[t] =E= vC[cTot,t] + vG[gTot,t] + vI[iTot,t] + vX[xTot,t];
+    E_qCGIX_via_rpCGIX[t]$(t.val >= 1995).. 
+      qCGIX[t] =E= rpCGIX[t] * (qC[cTot,t] + qG[gTot,t] + qI[iTot,t] + qX[xTot,t]);
     E_qCGIX[t]$(t.val >= 1995).. qCGIX[t] * pCGIX[t-1]/fp =E= pC[cTot,t-1]/fp * qC[cTot,t]
-                                                                       + pG[gTot,t-1]/fp * qG[gTot,t] 
-                                                                       + pI[iTot,t-1]/fp * qI[iTot,t]
-                                                                       + pX[xTot,t-1]/fp * qX[xTot,t];
+                                                            + pG[gTot,t-1]/fp * qG[gTot,t] 
+                                                            + pI[iTot,t-1]/fp * qI[iTot,t]
+                                                            + pX[xTot,t-1]/fp * qX[xTot,t];
     E_pCGIX[t]$(t.val >= 1995).. pCGIX[t] * qCGIX[t] =E= vCGIX[t];
  
     # Indenlandsk efterspørgsel
     E_vCGI[t].. vCGI[t] =E= vC[cTot,t] + vG[gTot,t] + vI[iTot,t];
+    E_qCGI_via_rpCGI[t].. qCGI[t] =E= rpCGI[t] * (qC[cTot,t] + qG[gTot,t] + qI[iTot,t]);
     E_qCGI[t]..
       qCGI[t] * pCGI[t-1]/fp =E= pC[cTot,t-1]/fp * qC[cTot,t]
                                + pG[gTot,t-1]/fp * qG[gTot,t] 
@@ -654,6 +706,7 @@ $IF %stage% == "equations":
 
     # Indenlandsk efterspørgsel ekskl. lagerinvesteringer
     E_vCGIxLager[t].. vCGIxLager[t] =E= vCGI[t] - vILager[t];
+    E_qCGIxLager_via_rpCGIxLager[t].. qCGIxLager[t] =E= rpCGIxLager[t] * (qCGI[t] - qILager[t]);
     E_qCGIxLager[t].. 
       qCGIxLager[t] * pCGIxLager[t-1]/fp =E= pCGI[t-1]/fp * qCGI[t] - pILager[t-1]/fp * qILager[t];
     E_pCGIxLager[t].. pCGIxLager[t] * qCGIxLager[t] =E= vCGIxLager[t];
@@ -663,47 +716,57 @@ $IF %stage% == "equations":
     E_qIbm[t].. qIbm[t] * pIbm[t-1]/fp =E= pI['iB',t-1]/fp * qI['iB',t] + pI['iM',t-1]/fp * qI['iM',t];
     E_pIbm[t].. pIbm[t] * qIbm[t] =E= vIbm[t];
     E_vIbErhverv[t].. vIbErhverv[t] =E= vI['iB',t] - vI_s['iB','off',t] - vI_s['iB','bol',t];
+    E_qIbErhverv_via_rqIbErhverv[t].. 
+      qIbErhverv[t] =E= rpIbErhverv[t] * (qI['iB',t] - qI_s['iB','off',t] - qI_s['iB','bol',t]);
     E_qIbErhverv[t].. qIbErhverv[t] * pIbErhverv[t-1]/fp =E= pI['iB',t-1]/fp * qI['iB',t]
-                                                                 - pI_s['iB','off',t-1]/fp * qI_s['iB','off',t]
-                                                                 - pI_s['iB','bol',t-1]/fp * qI_s['iB','bol',t];
+                                                           - pI_s['iB','off',t-1]/fp * qI_s['iB','off',t]
+                                                           - pI_s['iB','bol',t-1]/fp * qI_s['iB','bol',t];
     E_pIbErhverv[t].. pIbErhverv[t] * qIbErhverv[t] =E= vIbErhverv[t];
 
     # Eksport-aggregater
     E_vXvarer[t].. vXvarer[t] =E= vX['xVar',t] + vX['xEne',t];
+    E_qXvarer_via_rpXvarer[t].. qXvarer[t] =E= rpXVarer[t] * (qX['xVar',t] + qX['xEne',t]);
     E_qXvarer[t].. qXvarer[t] * pXvarer[t-1]/fp =E= pX['xVar',t-1]/fp * qX['xVar',t] 
-                                                           + pX['xEne',t-1]/fp * qX['xEne',t];
+                                                  + pX['xEne',t-1]/fp * qX['xEne',t];
     E_pXvarer[t].. pXvarer[t] * qXvarer[t] =E= vXvarer[t];
     E_vXtjenester[t].. vXtjenester[t] =E= vX['xTje',t] + vX['xSoe',t] + vX['xTur',t];
+    E_qXtjenester_via_rpXtjenester[t].. 
+      qXtjenester[t] =E= rpXtjenester[t] * (qX['xTje',t] + qX['xSoe',t] + qX['xTur',t]);
     E_qXtjenester[t].. qXtjenester[t] * pXtjenester[t-1]/fp =E= pX['xTje',t-1]/fp * qX['xTje',t]
-                                                                       + pX['xSoe',t-1]/fp * qX['xSoe',t]
-                                                                       + pX['xTur',t-1]/fp * qX['xTur',t];
+                                                              + pX['xSoe',t-1]/fp * qX['xSoe',t]
+                                                              + pX['xTur',t-1]/fp * qX['xTur',t];
     E_pXtjenester[t].. pXtjenester[t] * qXtjenester[t] =E= vXtjenester[t];
 
     # Import-aggregater
     E_vMvarer[t].. vMvarer[t] =E= vM['fre',t] + vM['ene',t] + vM['udv',t];
+    E_qMvarer_via_rpMvarer[t].. qMvarer[t] =E= rpMvarer[t] * (qM['fre',t] + qM['ene',t] + qM['udv',t]);
     E_qMvarer[t].. qMvarer[t] * pMvarer[t-1]/fp =E= pM['fre',t-1]/fp * qM['fre',t] 
                                                            + pM['ene',t-1]/fp * qM['ene',t]
                                                            + pM['udv',t-1]/fp * qM['udv',t];
     E_pMvarer[t].. pMvarer[t] * qMvarer[t] =E= vMvarer[t];
 
     E_vMenergi[t].. vMenergi[t] =E= vM['ene',t] + vM['udv',t];
+    E_qMenergi_via_rpMenergi[t].. qMenergi[t] =E= rpMenergi[t] * (qM['ene',t] + qM['udv',t]);
     E_qMenergi[t].. qMenergi[t] * pMenergi[t-1]/fp =E= pM['ene',t-1]/fp * qM['ene',t]
-                                                              + pM['udv',t-1]/fp * qM['udv',t];
+                                                     + pM['udv',t-1]/fp * qM['udv',t];
     E_pMenergi[t].. pMenergi[t] * qMenergi[t] =E= vMenergi[t];
 
     E_vMtjenester[t].. vMtjenester[t] =E= vM['tje',t] + vM['soe',t];
+    E_qMtjenester_via_rpMtjenester[t].. qMtjenester[t] =E= rpMtjenester[t] * (qM['tje',t] + qM['soe',t]);
     E_qMtjenester[t].. qMtjenester[t] * pMtjenester[t-1]/fp =E= pM['tje',t-1]/fp * qM['tje',t] 
-                                                                       + pM['soe',t-1]/fp * qM['soe',t];
+                                                              + pM['soe',t-1]/fp * qM['soe',t];
     E_pMtjenester[t].. pMtjenester[t] * qMtjenester[t] =E= vMtjenester[t];
 
     E_vMx[t].. vMx[t] =E= vM['tje',t] + vM['fre',t];
+    E_qMx_via_rpMx[t].. qMx[t] =E= rpMx[t] * (qM['tje',t] + qM['fre',t]);
     E_qMx[t].. qMx[t] * pMx[t-1]/fp =E= pM['tje',t-1]/fp * qM['tje',t] + pM['fre',t-1]/fp * qM['fre',t];
     E_pMx[t].. pMx[t] * qMx[t] =E= vMx[t];
 
     # BVT-aggregater
     E_vBVTspxudv[t].. vBVTspxudv[t] =E= vBVT[spTot,t] - vBVT['udv',t];
+    E_qBVTspxudv_via_rpBVTspxudv[t].. qBVTspxudv[t] =E= rpBVTspxUdv[t] * (qBVT[spTot,t] - qBVT['udv',t]);
     E_qBVTspxudv[t].. qBVTspxudv[t] * pBVTspxudv[t-1]/fp =E= pBVT[spTot,t-1]/fp * qBVT[spTot,t]
-                                                                    - pBVT['udv',t-1]/fp * qBVT['udv',t];
+                                                           - pBVT['udv',t-1]/fp * qBVT['udv',t];
     E_pBVTspxudv[t].. pBVTspxudv[t] * qBVTspxudv[t] =E= vBVTspxudv[t];
 
     # Lagerinvesteringer fordelt på rene lagerinvesteringer, stambesætninger og værdigenstande
@@ -716,16 +779,21 @@ $IF %stage% == "equations":
     E_qIStam[t].. vIStam[t] =E= pIStam[t] * qIStam[t];
 
     E_vIVaerdi[t].. vI['iL',t] =E= vIStam[t] + vIVaerdi[t] + vILager[t];    
-    E_pIVaerdi[t].. pIVaerdi[t] =E= fpIVaerdi[t] * pI['iL',t];
-    E_qIVaerdi[t].. vIVaerdi[t] =E= pIVaerdi[t] * qIVaerdi[t];
+    E_qIVaerdi_via_rpIVaerdi[t].. qIVaerdi[t] =E= rpIVaerdi[t] * (qI['iL',t] - qIStam[t] - qILager[t]);
+    E_qIVaerdi[t].. pI['iL',t-1]/fp * qI['iL',t] =E= pIStam[t-1]/fp * qIStam[t]
+                                                   + pIVaerdi[t-1]/fp * qIVaerdi[t]
+                                                   + pILager[t-1]/fp * qILager[t];
+    E_pIVaerdi[t].. vIVaerdi[t] =E= pIVaerdi[t] * qIVaerdi[t];
+    E_fpIVaerdi[t].. pIVaerdi[t] =E= fpIVaerdi[t] * pI['iL',t];
 
-    E_fpIVaerdi[t].. pI['iL',t-1]/fp * qI['iL',t] =E= pIStam[t-1]/fp * qIStam[t] + pIVaerdi[t-1]/fp * qIVaerdi[t] + pILager[t-1]/fp * qILager[t];
     E_vIErhverv[t].. vIErhverv[t] =E= vIbm[t] - vI_s['iM','off',t] - vI_s['IB','off',t] - vI_s['IB','bol',t] + vIStam[t];
+    E_qIErhverv_via_rpIErhverv[t].. 
+      qIErhverv[t] =E= rpIErhverv[t] * (qIbm[t] - qI_s['iM','off',t] - qI_s['iB','off',t] - qI_s['iB','bol',t] + qIStam[t]);
     E_qIErhverv[t].. qIErhverv[t] * pIErhverv[t-1]/fp =E= pIbm[t-1]/fp * qIbm[t]
-                                                                    - pI_s['iM','off',t-1]/fp * qI_s['iM','off',t]
-                                                                    - pI_s['iB','off',t-1]/fp * qI_s['iB','off',t]
-                                                                    - pI_s['iB','bol',t-1]/fp * qI_s['iB','bol',t]
-                                                                    + pIStam[t-1]/fp * qIStam[t];
+                                                        - pI_s['iM','off',t-1]/fp * qI_s['iM','off',t]
+                                                        - pI_s['iB','off',t-1]/fp * qI_s['iB','off',t]
+                                                        - pI_s['iB','bol',t-1]/fp * qI_s['iB','bol',t]
+                                                        + pIStam[t-1]/fp * qIStam[t];
     E_pIErhverv[t].. pIErhverv[t] * qIErhverv[t] =E= vIErhverv[t];
   $ENDBLOCK
 
@@ -738,12 +806,9 @@ $IF %stage% == "equations":
     B_IO_bookkeep
     #  B_IO_forwardlooking
     pCTurist(d1CTurist)
-    pI_s(d1I_s)
     qIO(d1IO)
     qIOy(d1IOy)
     qIOm(d1IOm)
-    qI_s(d1I_s)
-    vI_s(d1I_s)
     vIO(d1IO)
     vIOy(d1IOy)
     vIOm(d1IOm)
@@ -771,71 +836,11 @@ $IF %stage% == "equations":
   ;
 
   $GROUP G_IO_static G_IO_static$(tx0[t]);
-
-
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_IO_post /
-    E_pI_s_spTot, E_pI_s_iTot, E_pI_s_sByTot
-    E_qI_s_spTot, E_qI_s_iTot, E_qI_s_sByTot
-    E_vI_s_spTot, E_vI_s_sByTot
-    E_vIOy_sTot, E_vIOy_dTots
-    E_vIOm_sTot, E_vIOm_dTots
-    # Tabel-variable
-    E_qHandelsbalance,  E_vHandelsbalance, E_pBruttoHandel, E_qBruttoHandel
-    E_vRE, E_qRE, E_pRE
-    E_vRE_rTot, E_qRE_rTot, E_pRE_rTot
-    E_pCGIX, E_qCGIX, E_vCGIX
-    E_pCGI, E_qCGI, E_vCGI
-    E_pCGIxLager, E_vCGIxLager, E_qCGIxLager
-    E_pMvarer, E_qMvarer, E_vMvarer
-    E_pMenergi, E_qMenergi, E_vMenergi
-    E_pMtjenester, E_qMtjenester, E_vMtjenester
-    E_pXvarer, E_qXvarer, E_vXvarer
-    E_pXtjenester, E_qXtjenester, E_vXtjenester
-    E_pIbm, E_qIbm, E_vIbm
-    E_pIErhverv, E_qIErhverv, E_vIErhverv
-    E_pIbErhverv, E_qIbErhverv, E_vIbErhverv
-    E_pBVTspxudv, E_qBVTspxudv, E_vBVTspxudv
-    E_pILager, E_qILager, E_vILager
-    E_pIStam, E_qIStam, E_vIStam
-    E_pIVaerdi, E_qIVaerdi, E_vIVaerdi
-    E_fpIVaerdi
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_IO_post
-    pI_s[i_,s_,t]$(spTot[s_] or sByTot[s_] or iTot[i_])
-    qI_s[i_,s_,t]$(spTot[s_] or sByTot[s_] or iTot[i_])
-    vI_s[i_,s_,t]$(spTot[s_] or sByTot[s_])
-    vIOy$(d1IOy[d_,s_,t] and (sTot[s_] or dTots[d_]))
-    vIOm$(d1IOm[d_,s_,t] and (sTot[s_] or dTots[d_]))
-    # Tabel-variable
-    vHandelsbalance, qHandelsbalance, pBruttoHandel, qBruttoHandel
-    vRE, qRE, pRE
-    pCGIX$(t.val >= 1995), qCGIX$(t.val >= 1995), vCGIX$(t.val >= 1995)
-    pCGI, qCGI, vCGI
-    pCGIxLager, vCGIxLager, qCGIxLager
-    pMvarer, qMvarer, vMvarer
-    pMenergi, qMenergi, vMenergi
-    pMtjenester, qMtjenester, vMtjenester
-    pXvarer, qXvarer, vXvarer
-    pXtjenester, qXtjenester, vXtjenester
-    pIbm, qIbm, vIbm
-    pIErhverv, qIErhverv, vIErhverv
-    pIbErhverv, qIbErhverv, vIbErhverv
-    pILager, qILager, vILager
-    pIStam, qIStam, vIStam
-    pIVaerdi, qIVaerdi, vIVaerdi
-    fpIVaerdi
-    pBVTspxudv, qBVTspxudv, vBVTspxudv
-  ;
-  $GROUP G_IO_post G_IO_post$(tx0[t]);
 $ENDIF
 
 
 $IF %stage% == "exogenous_values":
-# =============================================================================================½=========================
+# ======================================================================================================================
 # Load data
 # ======================================================================================================================
   # Totaler og aggregater fra makrobk indlæses
@@ -891,7 +896,7 @@ $IF %stage% == "exogenous_values":
     -pIOy$(not d1IOy[d_,s_,t])
     -pIOm$(not d1IOm[d_,s_,t])
     pXUdl$(x[x_] and not xVar[x_] and not xTur[x_]) # Disse laves nedenfor og skal læses ind i fx foreløbige år
-    fpI_s[k,t] 
+    fpI_s[i,t] 
   ;
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_IO_data_imprecise
@@ -1016,21 +1021,19 @@ $IF %stage% == "static_calibration":
   $GROUP G_IO_static_calibration_base
     G_IO_endo
 
-    -pIO[dux_,s_,t]$(not iL[d_]), uIO0[dux,s_,t]$(d1IO[dux,s_,t]), rqIO2qYoff, rqIO2qG
+    -pIO[dux_,s_,t], uIO0[dux,s_,t]$(d1IO[dux,s_,t]), rqIO2qYoff, rqIO2qG
     fuIO # E_fuIO, E_fuIO_r
     fuIOe[r,t] # E_fuIOe
 
-    -qIOy, fuIOym[dux,s,t]$(d1IO[dux,s,t] and not iL[dux]), rILy2Y[s,t] , uIOXy0[x,s,t]$(d1IOy[x,s,t])
+    -qIOy, fuIOym[dux,s,t]$(d1IO[dux,s,t]), uIOXy0[x,s,t]$(d1IOy[x,s,t])
     fuIOXy[x,t] # E_fuIOXy
 
-    -qIOm, uIOm0[dux,s,t]$(d1IOm[dux,s,t] and not iL[dux]), rILm2Y[s,t], uIOXm0[x,s,t]$(d1IOm[x,s,t])
+    -qIOm, uIOm0[dux,s,t]$(d1IOm[dux,s,t]), uIOXm0[x,s,t]$(d1IOm[x,s,t])
     fuIOXm[x,t] # E_fuIOXm
-
-    jfqIO_iL, -qIO[iL,s,t]
 
     -pCTurist, fpCTurist
 
-    -pI_s[k,s,t], upI_s[k,s,t]
+    -pI_s[i,s,t], upI_s[i,s,t]
 
     -qC[cBol,t], qY[bol,t]
     -jluIOm[udv,t], qY[udv,t]
@@ -1056,7 +1059,7 @@ $IF %stage% == "static_calibration":
   ;
 
   $BLOCK B_IO_static_calibration   
-    E_fuIO[cgi,t]$(tx0[t] and sum(s, d1IO[cgi,s,t]) and not iL[cgi]).. sum(s, uIO0[cgi,s,t]) =E= 1;
+    E_fuIO[cgi,t]$(tx0[t] and sum(s, d1IO[cgi,s,t])).. sum(s, uIO0[cgi,s,t]) =E= 1;
     E_fuIO_r[r,t]$(tx0[t] and sum(s$sMat[s], d1IO[r,s,t])).. sum(s$sMat[s], uIO0[r,s,t]) =E= 1;
     E_fuIOe[r,t]$(tx0[t] and sum(s$sEne[s], d1IO[r,s,t])).. sum(s$sEne[s], uIO0[r,s,t]) =E= 1;
     E_fuIOXy[x,t]$(tx0[t] and not xTur[x]).. sum(s, uIOXy0[x,s,t]) =E= 1;
@@ -1102,7 +1105,7 @@ $IF %stage% == "deep_dynamic_calibration":
   # $ENDBLOCK
 
   MODEL M_IO_deep /
-    M_IO - M_IO_post
+    M_IO
     # B_IO_deep
   /;
 $ENDIF
@@ -1130,7 +1133,7 @@ $IF %stage% == "dynamic_calibration_newdata":
   #     uIOm0[dux,s,t] =E= uIOm0[dux,s,t1] * uIOm0_baseline[dux,s,t] / uIOm0_baseline[dux,s,t1];
   # $ENDBLOCK
   MODEL M_IO_dynamic_calibration /
-    M_IO - M_IO_post
+    M_IO
     # B_IO_dynamic_calibration
   /;
 $ENDIF

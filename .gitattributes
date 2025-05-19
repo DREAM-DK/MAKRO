@@ -5,6 +5,7 @@
 *.mdb filter=lfs -diff merge=lfs -text
 *.pkl filter=lfs -diff merge=lfs -text
 *.gtb filter=lfs -diff merge=lfs -text
+*.zip filter=lfs -diff merge=lfs -text
 
 # Images
 *.png filter=lfs -diff merge=lfs -text

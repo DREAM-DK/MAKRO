@@ -40,9 +40,6 @@ abort$(smax(t, abs(vHhx_sumtest[t])) > 1e-6) "vHhx[tot] does not match sum of co
 parameter vHhx_h_sumtest[t]; vHhx_h_sumtest[t]$tx0[t] = sum(h, vHhx_h.l[h,aTot,t]) - sum((a,h), vHhx_h.l[h,a,t] * rHhAndel.l[h] * nPop.l[a,t]);
 abort$(smax(t, abs(vHhx_h_sumtest[t])) > 1e-4) "vHhx_h[jTot,aTot] does not match sum of components", vHhx_h_sumtest;
 
-parameter vRealiseretAktieOmv_sumtest[t]; vRealiseretAktieOmv_sumtest[t]$tx0[t] = vRealiseretAktieOmv.l[aTot,t] - sum(a, vRealiseretAktieOmv.l[a,t] * nPop.l[a-1,t-1]);
-abort$(smax(t, abs(vRealiseretAktieOmv_sumtest[t])) > 1e-4) "vRealiseretAktieOmv[tot] does not match sum of components", vRealiseretAktieOmv_sumtest;
-
 parameter vHhNFErest_sumtest[t]; vHhNFErest_sumtest[t]$tx0[t] = vHhNFErest.l[aTot,t] - sum(a, vHhNFErest.l[a,t] * nPop.l[a,t]);
 abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-7) "vHhNFErest_tot does not match sum of vHhNFErest[#a]", vHhNFErest_sumtest;
 

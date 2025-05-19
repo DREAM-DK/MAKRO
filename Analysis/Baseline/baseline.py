@@ -155,28 +155,20 @@ def plot_baseline(
     # sectoral movement figures
     # lump together smaller sectors
     smaller_sectors = ["udv", "ene", "lan", "soe", "byg"]
-
-    fig_sector = vtp.plot_groups(database_dict=database_dict, operator="", variable="vBVT", set="s", title="GVA shares" ,denom_var = "vBVT", denom_index="tot", ref_base=dt.REFERENCE_DATABASE, lump_group = smaller_sectors)
-    fig_sector_emp = vtp.plot_groups(database_dict=database_dict, operator="", variable="nL", set="s", title="Employment shares", denom_var = "nL", denom_index="tot", ref_base=dt.REFERENCE_DATABASE, lump_group = smaller_sectors)
-    fig_export = vtp.plot_groups(database_dict=database_dict, operator="", variable="vXy", set="x", denom_var = "vXy",title="Export shares", denom_index="xTot", ref_base=dt.REFERENCE_DATABASE)
-    fig_cons = vtp.plot_groups(database_dict=database_dict, operator="", variable="vC", set="c", denom_var = "vC", title = "Consumption shares", denom_index="cTot", ref_base=dt.REFERENCE_DATABASE)
-
-    # Append figure sinto figure list. Comment out the lines below if you only want some of the figures
-    figures.append(fig_sector) # Movements in shares of GVA across sectors
-    figures.append(fig_sector_emp) # Movements in employment between sectors
-    figures.append(fig_export) # Movements in exports across export types
-    figures.append(fig_cons) # Movements in consumption across consumption types
-
-    cons_fig_age = vtp.age_profiles(database_dict, "vCx", [2016, 2030, 2060], "Consumption by age")
-    wealth_fig_age = vtp.age_profiles(database_dict, "vHhx", [2016, 2030, 2060], "Wealth excluding pensions by age")
-    housing_fig_age = vtp.age_profiles(database_dict, "vBolig", [2016, 2030, 2060], "Housing by age")
-    income_fig_age = vtp.age_profiles(database_dict, "vHhInd", [2016, 2030, 2060], "Income by age")
+    figures += [
+        vtp.plot_groups(database_dict=database_dict, operator="", variable="vBVT", set="s", title="GVA shares" ,denom_var = "vBVT", denom_index="tot", ref_base=dt.REFERENCE_DATABASE, lump_group = smaller_sectors),
+        vtp.plot_groups(database_dict=database_dict, operator="", variable="nL", set="s", title="Employment shares", denom_var = "nL", denom_index="tot", ref_base=dt.REFERENCE_DATABASE, lump_group = smaller_sectors),
+        # vtp.plot_groups(database_dict=database_dict, operator="", variable="vXy", set="x", denom_var = "vXy",title="Export shares", denom_index="xTot", ref_base=dt.REFERENCE_DATABASE),
+        # vtp.plot_groups(database_dict=database_dict, operator="", variable="vC", set="c", denom_var = "vC", title = "Consumption shares", denom_index="cTot", ref_base=dt.REFERENCE_DATABASE),
+    ]
 
     # Age plots
-    figures.append(cons_fig_age) # Consumption by age
-    figures.append(wealth_fig_age) # Wealth by age
-    figures.append(housing_fig_age) # Housing by age
-    figures.append(income_fig_age) # Income by age
+    figures += [
+        vtp.age_profiles(database_dict, "vCx", [2016, 2030, 2060], "Consumption by age"),
+        vtp.age_profiles(database_dict, "vHhx", [2016, 2030, 2060], "Wealth excluding pensions by age"),
+        vtp.age_profiles(database_dict, "vBolig", [2016, 2030, 2060], "Housing by age"),
+        vtp.age_profiles(database_dict, "vHhInd", [2016, 2030, 2060], "Income by age"),
+    ]
 
     output_extension = os.path.splitext(output_path)[1]
     if output_extension == ".html":

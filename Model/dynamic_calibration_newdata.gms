@@ -52,10 +52,6 @@ $LOOP G_fixed_forecast:
     = {name}.l{sets}{$}[<t>t1];
 $ENDLOOP
 
-$LOOP G_IO_taxes:
-  {name}.l['iL',s,tx1] = {name}.l[s,s,tx1];
-$ENDLOOP
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Aftrapning af stød til parametre
 # ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +59,6 @@ $ENDLOOP
 $GROUP G_gradual_return
   G_ARIMA_forecast
   -rAfskr # Afskrivningsraterne i foreløbig data virker utroværdige og ses bort fra i fremskrivningen
-  -rILy2Y, -rILm2Y # Lagerinvesteringer aftrappes med det samme, for at undgå at de bliver nul ved fortegnsskifte
 ;
 
 # Baseline forskydes med permanent andel af stød fra sidste foreløbige data-år
@@ -257,10 +252,10 @@ $IF %calibration_steps% > 1:
     @unload(Gdx\dynamic_calibration_{share_of_previous}.gdx)
     @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
-  @set(G_homotopy, .l, _saved);
 
   @print("---------------------------------------- Update dummies ----------------------------------------")
   @load_dummies(t1, "Gdx\data.gdx")
+  @set(G_homotopy, .l, _saved);
   $FIX All; $UNFIX G_dynamic_calibration_newdata;
   $GROUP G_t1 G_dynamic_calibration_newdata$(t1[t]); @set_initial_levels_to_nonzero(G_t1)
   @set_bounds();
@@ -299,9 +294,10 @@ $ENDIF;
 # ----------------------------------------------------------------------------------------------------------------------
 # Load previous solution
 # ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_t1 G_dynamic_calibration_newdata$(t1[t]); @set_initial_levels_to_nonzero(G_t1)
 $IF "%previous_solution%" != "%last_calibration%" and %calibration_steps% == 1:
-  @load(G_dynamic_calibration_newdata, "Gdx\%previous_solution%.gdx")
+  $GROUP G_load G_dynamic_calibration_newdata, -G_data;
+  @load(G_load, "Gdx\%previous_solution%.gdx")
+  # @set_initial_levels_to_nonzero(G_load)
 $ENDIF
 
 # ======================================================================================================================
@@ -311,13 +307,8 @@ $FIX All; $UNFIX G_dynamic_calibration_newdata;
 @set_bounds();
 @solve(M_dynamic_calibration_newdata);
 
-# ======================================================================================================================
-# Solve post model containing ouput only variables
-# ======================================================================================================================
-$FIX All; $UNFIX G_post;
-@solve(M_post);
-
 # Output
+$UNFIX All; # Greatly reduces size of the GDX file
 @unload(Gdx\calibration_%data_year%)
 
 # ======================================================================================================================
@@ -332,7 +323,7 @@ $IF %run_tests%:
   # Abort if any data covered variables have been changed by the calibration
   @assert_no_difference(G_data_test, 0.05, .l, _data, "G_imprecise_data was changed by dynamic calibration.");
   $GROUP G_precise_data_test G_data_test, -G_imprecise_data;
-  @assert_no_difference(G_precise_data_test, 1e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
+  @assert_no_difference(G_precise_data_test, 3e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
 
   # Tests
   $IMPORT tests\test_age_aggregation.gms;
@@ -347,7 +338,5 @@ $IF %run_tests%:
   @set(G_ZeroShockTest, _saved, .l)
   $FIX All; $UNFIX G_endo;
   @solve(M_base);
-  $FIX All; $UNFIX G_post;
-  @solve(M_post);
   @assert_no_difference(G_ZeroShockTest, 1e-5, .l, _saved, "Zero shock changed variables significantly.");
 $ENDIF

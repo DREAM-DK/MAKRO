@@ -1,4 +1,4 @@
-# MAKRO 2024-December
+# MAKRO 2025-May
 MAKRO is an economic model built to provide a good description of the Danish economy in both the short and the long run.
 In addition, the model is used to analyze how economic policy initiatives affect the economy, including the gradual transition to a long-run path.
 
@@ -6,7 +6,7 @@ The model is developed by the MAKRO model group at [DREAM (Danish Research Insti
 
 The model parameters, equations, and data as a whole have been selected such that the short and long-run properties are as empirically and theoretically well-founded as possible. Any changes to parameters, equations, or data are solely the user's responsibility, and we request that any changes be explicitly presented in any publication using MAKRO.
 
-## 2024-December version
+## 2025-May version
 This is the second publicly available non-beta release of MAKRO.
 
 It comes with batteries in the form of a stylized baseline starting in 2029, so users can simulate marginal policy experiments without requiring a data subscription or calibrating the model. Note that the stylized baseline is based on several simplified projection assumptions. As such, the baseline should only be used for marginal experiments rather than as a forecast on its own.
@@ -87,7 +87,7 @@ For reporting, and other purposes, we make use of several python packages in add
 To install pip and all the packages that we use, simply run the code in install.py
 
 ## Text editor
-The recommended text editor for working with gamY is [Visual Studio Code](https://code.visualstudio.com/) (VSCode), used with the GAMS installation of Python to run run.py files. You need to install the Python and Jupyter extensions to be able to run the run.py files. To activate the GAMS Python environment in VSCode, use ```ctrl+shift+p``` and select ```Python: Select interpreter```. If the GAMS Python environment is not found, enter the path manually (can be found in your GAMS installation, typically ```C:\GAMS\48\GMSPython```) and select python.exe as interpreter.
+The recommended text editor for working with gamY is [Visual Studio Code](https://code.visualstudio.com/) (VSCode), used with the GAMS installation of Python to run run.py files. You need to install the Python and Jupyter extensions to be able to run the run.py files. To activate the GAMS Python environment in VSCode, use ```ctrl+shift+p``` and select ```Python: Select interpreter```. If the GAMS Python environment is not found, enter the path manually (can be found in your GAMS installation, typically ```C:\GAMS\49\GMSPython```) and select python.exe as interpreter.
 
 In addition, we use the "gamY-syntax-highlighting" package for syntax compatability and the "Ayu" package for color theme. Note that in the MAKRO installation, there is a VSCode workspace, [MAKRO.code-workspace](MAKRO.code-workspace), from which it is recommended to open VSCode. 
 
@@ -97,4 +97,9 @@ The [Analysis/Standard_shocks](Analysis/Standard_shocks) subdirectory contains f
 For reporting on responses to shocks, we include a python script, [plot_standard_shocks.py](Analysis/Standard_shocks/plot_standard_shocks.py), for making a combined report with many plots of responses to one or more shocks, comparing shock responses from one or more model versions, and/or multiple variations of the same shock. Shocks to be plotted can be added inside [shocks_to_plot.py](shocks_to_plot.py) and [variables_to_plot.py](variables_to_plot.py) controls which variables are plotted.
 
 [plot_shocks.py](Analysis/Standard_shocks/plot_shocks.py) is set up for making many detailed figures that illustrate the effects of a particular shock (without comparison between model versions or shock variations).
+
+### Foreign economy
+In the sub-directory "Foreign_Economy" is a "rest of world" model that can be used for e.g. monetary policy and oil (price/supply) shocks, see [Foreign_Economy](foreign_economy.gms). Inside this code is the definition of the model, and at the bottom are pre-defined shocks for the user to play with that can easily be edited. To run the shocks, one runs the run.py file in the "Foreign_Economy" folder. 
+
+Note that the model is estimated on U.S. quarterly data, and that aggregation for input into MAKRO happens automatically (by averaging to years). Inside [Analysis/Standard_shocks](Analysis/Standard_shocks) there is currently an example of how the foreign economy model maps to MAKRO for an interest rate shock. Documentation for the foreign model is also found in the foreign economy folder, [Foreign_Economy](foreign_economy.pdf).
   

@@ -1,8 +1,8 @@
   // "F55252", # DREAM
-  // "14AFA6", # REFORM
+  // "42B4E0", # REFORM
   // "FF9B4B", # SMILE
   // "5CD272", # Grøn REFORM
-  // "42B4E0", # MAKRO
+  // "14AFA6", # MAKRO
   // "BCADDD", # Plum
   // "005F97", # Dark blue
   // "893070", # Maroon
@@ -17,10 +17,7 @@
 	],
 	"settings": {
 		"editor.codeActionsOnSave": {},
-		"editor.rulers": [120],
 		"git.autofetch": true,
-		"jupyter.interactiveWindow.textEditor.executeSelection": true,
-		"jupyter.interactiveWindow.creationMode": "multiple",
 		"editor.tabSize": 2,
 		"search.useIgnoreFiles": false,
 		"search.exclude": {
@@ -30,6 +27,7 @@
 			"**/*.gdx": true,
 			"**/*.emf": true,
 			"**/*.pyc": true,
+			"**/code_generated_from_excel.gms": true,
 		},
 		"workbench.colorCustomizations": {
 			"titleBar.activeBackground": "#14AFA6",
@@ -40,13 +38,14 @@
 		"editor.rulers": [120],
 		"jupyter.interactiveWindow.textEditor.executeSelection": true,
 		"jupyter.interactiveWindow.creationMode": "multiple",
+		"jupyter.askForKernelRestart": false,
+		"notebook.output.scrolling": true,
 	},
   "extensions": {
     "recommendations": [
-			"jeppekinslev.gamY-syntax-highlighting", // gamY syntax highlighting
-      "teabyii.ayu", // Color themes, inludes dark, light and mirage themes
-			"ms-toolsai.jupyter", // Jupyter notebook support
-			"ms-python.python" // Python support
+		"jeppekinslev.gamY-syntax-highlighting", // gamY syntax highlighting
+		"ms-toolsai.jupyter", // Jupyter notebook support
+		"ms-python.python" // Python support
     ]
   },
 }

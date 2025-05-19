@@ -73,6 +73,18 @@ $GROUP G_set_to_zero
   All, -G_constants
   -G_newdata_forecast
   -G_fixed_forecast
+  # Lagerinvesteringerne fremskrives ud fra static_calibration i tBase for at få korrekte priser på piom og pioy
+  -uIO0[d_,s_,t]$(iL[d_] and t.val <= tBase.val)
+  -uIOm0[dux,s,t]$(iL[dux] and t.val <= tBase.val)
+  -fuIO[d_,t]$(iL[d_] and t.val <= tBase.val)
+  -fuIOym[dux,s,t]$(iL[dux] and t.val <= tBase.val)
+  -tAfg_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -tAfg_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -rSub_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -rSub_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -tTold[d_,s_,t]$(iL[d_] and t.val <= tBase.val)
+  -tMoms_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -tMoms_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
 ;
 $FIX(0) G_set_to_zero$(tx1[t]);
 
@@ -108,10 +120,6 @@ uXy_ARIMA[x,t]$(xTur[x] and tx1[t]) = uXy_ARIMA[x,t1];
 # Rentespændet sættes til 0
 rRenteSpaend_ARIMA[t]$(tx1[t]) = 0;
 
-# Markupper fremskrives som gennemsnit af ARIMAer og historisk gennemsnit
-srMarkup_ARIMA[sp,t]$(tx1[t]) = 0.5 * @mean(tt$[t1.val - 20 < tt.val and tt.val <= t1.val], srMarkup_ARIMA[sp,tt])
-                              + 0.5 * srMarkup_ARIMA[sp,t];
-###
 
 # Hvis ARIMA_forecasts.gdx ikke er opdateret niveau-forskydes tidligere fremskrivning for at passe med kalibrerede t1-værdier 
 $IF not %ARIMAs_updated%:
@@ -164,9 +172,6 @@ $GROUP G_exogenous_forecast_pension
 $GROUP G_exogenous_forecast_pension G_exogenous_forecast_pension$(tx1[t]);
 @load(G_exogenous_forecast_pension, "..\Data\pension\pension.gdx") ;
 
-# HACK - der er gået noget helt galt i FMs fremskrivning af udbetalingsrater for personer over 90 år
-rPensUdb_a.l[pens,a,t]$(tx1[t] and a.val > 90) = rPensUdb_a.l[pens,a,t1];
-
 # Investerings- og administrationsomkostninger antages fremadrettet at udgøre ½ pct.
 rHhAktOmk.l['pensTot',t]$(tx1[t]) = 0.005;
 
@@ -182,7 +187,7 @@ qBVTUdl_forecast[t] = qBVTUdl_forecast[t] / fqt[t];
 # Smooth forecast growth rates to avoid using actual data as forecast
 $LOOP G_world_output_forecast:
   {name}_forecast[t] = log({name}_forecast[t]);
-  @HPfilter({name}_forecast, 6.25);
+  @HPfilter({name}_forecast, 6.25, %cal_start%, %terminal_year%);
   {name}_forecast[t] = exp({name}_forecast[t]);
   {name}.l[t]$(tx1[t]) = {name}_forecast[t] / {name}_forecast[t1] * {name}.l[t1];
 $ENDLOOP
@@ -222,21 +227,11 @@ fSoegBaseHh.l[a,t]$(tx1[t] and nPop.l[a,t] <> 0) = min(nPop.l[a,t], 3 * snLHh.l[
 qLand.l[t]$(tx1[t]) = qLand.l[t1] * fqt[t1] / fqt[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Inventory investments
-# ----------------------------------------------------------------------------------------------------------------------
-# In forecast years tax rates on net inventory investments follow the tax on material inputs.
-# As inventory investments are net, but tax revenue is gross, the imputed tax rates are nonsense. 
-$LOOP G_IO_taxes:
-  {name}.l['iL',s,tx1]$({conditions}) = {name}.l[s,s,tx1];
-$ENDLOOP
-# ARIMA-fremskrivning for lagerinvesteringer i landbrug er fejlbehæftet og erstattes
-rILy2Y.l['lan',tx1] = rILy2Y.l['fre',tx1];
-
-# ----------------------------------------------------------------------------------------------------------------------
 # Interest rates and risk premia
 # ---------------------------------------------------------------------------------------------------------------------- 
 # Forecast of interest rate:
-rRente.l['Obl',t]$(tx1[t] and t.val <= 2050) = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] - terminal_rente) + terminal_rente;
+rRente.l['Obl',t]$(tx1[t] and t.val <= 2050)
+  = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] - terminal_rente) + terminal_rente;
 rRente.l['Obl',t]$(t.val > 2050) = terminal_rente;  
 
 # Den eksogene EU-obligationsrente beregnes for at få den ønskede effekt på den gns. obligationsrenten
@@ -251,6 +246,9 @@ crRenteBankIndskud.l[t]$(t.val > 2050) = -0.01;
 rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
 rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] + 0.07 - rRenteECB.l[tEnd], 0.07);
 rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] + 0.08 - rRenteECB.l[tEnd], 0.08);
+
+# Offentligt ejede aktier giver lavere afkast end øvrige aktier
+jrOffAktOmv.l[portf,t]$(tx1[t] and (IndlAktier[portf] or UdlAktier[portf])) = -0.02;
 
 # Realrente er endogen men bruges nedenfor og skal beregnes
 rRente.l['RealKred',t]$(tx1[t]) = rRente.l['Obl',t] + crRenteRealKred.l[t];
@@ -292,10 +290,6 @@ vNulvaekstIndeks.l[t]$(tx1[t]) = 1/fvt[t];
 # baseret på gennemsnit af de seneste 10 år op til det dybe kalibreringsår
 set t10[t];
 t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep% and t.val >= %cal_start%);
-rvtAktie2BVT.l[t]$(tx1[t]) = @mean(t10, rvtAktie2BVT.l[t10]);
-
-# Korrektionsfaktor på selskabsskat fremskrives direkte (pga. ændringer i selskabsskattesats)
-ftSelskab.l[t]$(tx1[t]) = @mean(t10, ftSelskab.l[t10]); 
 
 # Mellemskat og top-top-skat
 tMellem.l[t]$(tx1[t] and t.val >= 2026) = 0.075;
@@ -303,13 +297,62 @@ tTopTop.l[t]$(tx1[t] and t.val >= 2026) = 0.05;
 
 # Demografisk træk
 $GROUP G_GovExpenses_DemoTraek
-    fDemoTraek[a,t]$(tx1[t])
-    fDemoTraek_Over100[t]$(tx1[t])
-  ;
+  fDemoTraek[a,t]$(tx1[t])
+  fDemoTraek_Over100[t]$(tx1[t])
+;
 @load(G_GovExpenses_DemoTraek, "..\Data\Befolkningsregnskab\DemoTraek.gdx" )
 
+$GROUP G_FM_Demo
+  fDemoTraek[aTot,t]
+;
+@load_as(G_FM_demo, "..\Data\FM_exogenous_forecast.gdx", _demo)
+uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_demo[aTot,t] / fDemoTraek_demo[aTot,t1];
+
 # ----------------------------------------------------------------------------------------------------------------------
-# Exogenous forecasts re-uses from previous forecast
+# Inventory investments
+# ----------------------------------------------------------------------------------------------------------------------
+# Det giver ikke mening at have permanent negative lagerinvesteringer, og de svinger meget
+rIL2Y.l[s,t]$(tx1[t]) = max((@mean(t10, rIL2Y.l[s,t10])), 0.005);
+
+parameter qIO_iL_sum[t];
+parameter qIOym_iL_sum[t];
+parameter pnCPI_1[t];
+qIO_iL_sum[t] = sum(s, qIO.l['iL',s,t]);
+qIOym_iL_sum[t] = sum(s, qIOy.l['iL',s,t] + qIOm.l['iL',s,t]);
+pnCPI_1[t] = pnCPI.l[cTot,t-1]/fp;
+
+uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) = max(@mean(t10, qIO.l['iL',s,t10]) / (@mean(t10, qIO_iL_sum[t10])), 0);
+uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) 
+                 = min(max(@mean(t10, qIOm.l['iL',s,t10]) / (@mean(t10, qIOym_iL_sum[t10])), 0), 1);
+fuIOym.l['iL',s,t]$(tx1[t] and t.val > tBase.val) = 1;
+fuIO.l['iL',t]$(tx1[t] and t.val > tBase.val) = 1;
+
+# Afgifterne på lagerinvesteringer svinger meget - så vi vil ikke bare fremskrive sidste års skattesats
+  tTold.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                   = max(@mean(t10, vtTold.l['iL',s,t10]) 
+                         / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10])), 0);
+  tAfg_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vtAfg_y.l['iL',s,t10]) 
+                          / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
+  tAfg_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vtAfg_m.l['iL',s,t10]) 
+                          / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
+  rSub_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vSub_y.l['iL',s,t10]) 
+                          / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
+  rSub_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vSub_m.l['iL',s,t10]) 
+                          / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
+  tMoms_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                     = max(@mean(t10, vtMoms_y.l['iL',s,t10]) 
+                          / (@mean(t10, vIOy.l['iL',s,t10] - vtIOy.l['iL',s,t10] + vtNetAfg_y.l['iL',s,t10])), 0);
+  tMoms_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                     = max(@mean(t10, vtMoms_m.l['iL',s,t10]) 
+                           / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10] 
+                                         + vtNetAfg_m.l['iL',s,t10] + vtTold.l['iL',s,t10])), 0);
+                                                 
+# ----------------------------------------------------------------------------------------------------------------------
+# Exogenous forecast of oil and gas extraction
 # ----------------------------------------------------------------------------------------------------------------------  
 $GROUP G_load_udv
   qY['udv',t]
@@ -333,17 +376,16 @@ uL_ARIMA['udv',t] = uL_ARIMA['udv',t1];
 # ----------------------------------------------------------------------------------------------------------------------
 # Set scale parameters to zero and dummy out very small cells
 # Dummy out cells where:
-# 1) value of IO cell is below 1mn in all years
-# 2) value of IO cell is 0 in last calibration year, or
-# 3) The forecasted scale parameter is below 0.001
+# 1) value of IO cell is 0 in last calibration year, or
+# 2) The forecasted scale parameter is below 0.001
 d1IOm[dux,s,t]$tx1[t] = (
-  (uIO0.l[dux,s,t] > 0.001 or iL[dux])
+  (uIO0.l[dux,s,t] > 0.001)
   and uIOm0.l[dux,s,t] > 0.001 
   and sum(tData, abs(vIOm.l[dux,s,tData])) > 0.001
   and vIOm.l[dux,s,t1] <> 0
 );
 d1IOy[dux,s,t]$tx1[t] = (
-  (uIO0.l[dux,s,t] > 0.001 or iL[dux])
+  (uIO0.l[dux,s,t] > 0.001)
   and uIOm0.l[dux,s,t] <= 1-0.001
   and sum(tData, abs(vIOy.l[dux,s,tData])) > 0.001
   and vIOy.l[dux,s,t1] <> 0
@@ -358,13 +400,10 @@ d1IOm[x,s,t]$tx1[t] = (
   and sum(tData, vIOm.l[x,s,tData]) > 0.001
   and vIOm.l[x,s,t1] >= 0
 );
-# Do not allow negative inventory investments in forecast
-rILy2Y.l[s,t]$(tx1[t] and rILy2Y.l[s,t] < 0) = 0.001;
-rILm2Y.l[s,t]$(tx1[t] and rILm2Y.l[s,t] < 0) = 0.001;
-d1I_s['iL',s,t]$(tx1[t]) = d1IOy['iL',s,t] or d1IOm['iL',s,t];
-d1IO['iL',s,t]$(not d1I_s['iL',s,t]) = No;
-d1IOy['iL',s,t]$(not d1I_s['iL',s,t]) = No;
-d1IOm['iL',s,t]$(not d1I_s['iL',s,t]) = No;
+# If a cell is dummied out, we do not let it re-appear later (even if the scale parameter is above 0.001)
+d1IOy[d,s,t]$tx1[t] = smin(tt$(t1.val <= tt.val and tt.val <= t.val), d1IOy[d,s,tt]);
+d1IOm[d,s,t]$tx1[t] = smin(tt$(t1.val <= tt.val and tt.val <= t.val), d1IOm[d,s,tt]);
+
 # Aggregate dummies
 d1IO[d,s,t]$tx1[t] = d1IOy[d,s,t] or d1IOm[d,s,t];
 d1IOy[dTots,s,t]$tx1[t] = sum(d$dTots2d[dTots,d], d1IOy[d,s,t]);
@@ -410,6 +449,7 @@ execute_load "Gdx/qProdHh_a_forecast.gdx" qProdHh_a;
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_smooth_profiles
   ftBund_a
+  ftAktieHh_a
   ftKommune_a
   rTopSkatInd_a
   uPersIndRest_a$(a[a_])
@@ -420,6 +460,7 @@ $GROUP G_smooth_profiles
   mtIndRest
   mrKomp
   vHhx
+  rRealiseringAktieOmv_a
 ;
 @set(G_smooth_profiles, _presmooth, .l)
 execute_unloaddi "Gdx/smooth_profiles_input.gdx" $LOOP G_smooth_profiles:, {name} $ENDLOOP, tDataEnd, tEnd;
@@ -430,7 +471,7 @@ embeddedCode Python:
   import pandas as pd
   from scipy.optimize import curve_fit
 
-  db = dt.Gdx("Gdx/smooth_profiles_input.gdx")
+  db = dt.Gdx("Gdx/smooth_profiles_input.gdx", sparse=False)
   tEnd = db.tEnd[0]
   tDataEnd = db.tDataEnd[0]
 
@@ -440,6 +481,7 @@ embeddedCode Python:
   # List of variables to be smoothed
   smoothing_vars = [
       (db["ftBund_a"], 15, 5),
+      (db["ftAktieHh_a"], 15, 4),
       (db["ftKommune_a"], 15, 5),
       (db["rTopSkatInd_a"], 15, 5),
       (db["uPersIndRest_a"], 15, 5),
@@ -450,6 +492,7 @@ embeddedCode Python:
       (db["mtIndRest"], 15, 5),
       (db["mrKomp"], 15, 5),
       (db["vHhx"], 0, 5),
+      (db["rRealiseringAktieOmv_a"], 15, 5),
   ]
 
   for var, a_start, degrees in smoothing_vars:
@@ -514,9 +557,10 @@ embeddedCode Python:
 endEmbeddedCode
 
 @load(G_smooth_profiles, "Gdx\smooth_profiles.gdx");
-jqFormueBase.l[a,t1] = (vHhx.l[a,t1] - vHhx_presmooth[a,t1]) / pC.l['Cx',t1];
+jvFormueBase.l[a,t1] = vHhx.l[a,t1] - vHhx_presmooth[a,t1];
 $GROUP G_reset G_smooth_profiles$(t1[t]);
 @set(G_reset, .l, _presmooth);
+rRealiseringAktieOmv_a.l[a,t]$(tx1[t]) = max(0, rRealiseringAktieOmv_a.l[a,t]); # Vi begrænser realiseringsgrad til at være 0 mindst
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Clear large objects that we no longer need from memory

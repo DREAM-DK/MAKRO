@@ -26,14 +26,14 @@ $IF %stage% == "variables":
     vtReg[d_,s_,t] "Registreringsafgiftsprovenu, Kilde: ADAM[Spr_<d_>]"
     vtReg_y[d_,s,t]$(d1IOy[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og indenlandske brancher."
     vtReg_m[d_,s,t]$(d1IOm[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og import-grupper."
-    vtTold[d_,s_,t] "Toldprovenu fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spm_<i>]"
+    vtTold[d_,s_,t]$(d1IOm[d_,s_,t]) "Toldprovenu fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spm_<i>]"
 
     vtGrund[s_,t]$(d1K['iB',s_,t]) "Ejendomsskatter fordelt på brancher, Kilde: ADAM[Spzej], ADAM[Spzejh] og ADAM[bspzej_x<i>]*ADAM[Spzejxh]"
     vtVirkVaegt[s_,t]$(d1K['iM',s_,t]) "Vægtafgifter fra erhvervene fordelt på brancher, Kilde: ADAM[Spzv] og ADAM[bspzv_x<i>]"
     vtVirkAM[s_,t] "Provenu af arbejdsmarkedsbidrag (AMBI) vedr. værditilvækst eller lønsum, Kilde: ADAM[Spzam] og ADAM[bspzam_x<i>]"
     vtAUB[s_,t] "Provenu fra AUB - arbejdsgivernes uddannelsesbidrag mv. fra erhvervene, Kilde: ADAM[Spzaud] og ADAM[bspzaud_x<i>]"
     vtCO2[s_,t] "Grøn afgift, bortauktionering af CO2 kvoter fra 2013, Kilde: ADAM[Spzco2] og ADAM[bspzco2_x<i>]"
-    vSubLoen[s_,t] "Provenu fra løntilskud fordelt på brancher, Kilde: ADAM[Spzul] og ADAM[bspzul_x<i>]"
+    vSubLoen[s_,t]$(t.val >= %BFR_t1%) "Provenu fra løntilskud fordelt på brancher, Kilde: ADAM[Spzul] og ADAM[bspzul_x<i>]"
     vtNetLoenAfg[s_,t] "Ikke-varefordelte indirekte afgifter vedrørende lønsum, Kilde: ADAM[Spzl] og ADAM[Spzl_x<i>]"
     vtNetY[s_,t] "Andre produktionsskatter (ikke-varefordelte indirekte skatter), netto, Kilde: ADAM[Spz]"
     vtNetYRest[s_,t]$(s[s_] or sTot[s_] or spTot[s_]) "Andre produktionsskatter, Restdel, Kilde: ADAM[Spzr]-(ADAM[Spzu]-ADAM[Spzul])"
@@ -41,43 +41,51 @@ $IF %stage% == "variables":
     vtY[s_,t]$(sTot[s_] or s[s_]) "Produktionsskatter, brutto, Kilde: ADAM[Spz]-ADAM[Spzu] og imputeret branchefordeling"
     vtYRest[s_,t]$(sTot[s_] or s[s_]) "Øvrige produktionsskatter, Kilde: ADAM[Spzr]"
 
-    tNetAfg_y[d_,s,t]$(d1IOy[d_,s,t]) "Punktafgiftssats inkl. subsidier og registreringsafgift fordelt på efterspørgsels og indenlandske brancher."
-    tNetAfg_m[d_,s,t]$(d1IOm[d_,s,t]) "Punktafgiftssats inkl. subsidier og registreringsafgift fordelt på efterspørgsels og import-grupper."
-
     tIOy[d_,s,t]$(d1IOy[d_,s,t]) "Samlet afgiftssats for moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og indenlandske brancher."
     tIOm[d_,s,t]$(d1IOm[d_,s,t]) "Samlet afgiftssats for moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og import-grupper."
 
-    tK[k,s_,t]$(sTot[s_] or spTot[s_]) "Kapitalafgiftssats (hhv. ejendomsskatter og vægtafgift)"
+    tGrund[s_,t]$(sTot[s_]) "Implicit sats for ejendomsskatter"
+    tK[k,s_,t]$(s[s_] or sTot[s_] or spTot[s_]) "Kapitalafgiftssats (hhv. ejendomsskatter og vægtafgift)"
     tVirkAM[s_,t]$(sTot[s_]) "Afgiftssats for AM-bidrag betalt af virksomheder "
     tAUB[s_,t]$(sTot[s_]) "Afgiftssats for AUB-bidrag betalt af virksomheder."
-    rSubLoen[s_,t]$(sTot[s_]) "Sats for løntilskud."
+    rSubLoen[s_,t]$(sTot[s_] and t.val >= %BFR_t1%) "Sats for løntilskud."
 
     tYRest[s_,t]$(sTot[s_]) "Øvrige produktionsskatter."
     tE[s_,t]$(spTot[s_]) "Energiafgiftssats - grøn afgift og bortauktionering af CO2 kvoter"
 
     tMoms[d_,t]$(d[d_]) "Implicit aggregeret momssats fordelt på efterspørgselskomponenter."
+
+    nSubLoen[t] "Antal personer på lønstilskud"
   ;
   $GROUP G_taxes_endo G_taxes_endo$(tx0[t]); # Restrict endo group to tx0[t]
   
-  $GROUP G_taxes_exogenous_forecast ;
+  $GROUP G_taxes_exogenous_forecast
+    tAfg_y[d_,s,t]$(iL[d_]) "Punktafgiftssats ekskl. subsidier og registreringsafgift fra indenlandske brancher"
+    tAfg_m[d_,s,t]$(iL[d_]) "Punktafgiftssats ekskl. subsidier og registreringsafgift fra import-grupper"
+    rSub_y[d_,s,t]$(iL[d_]) "Sats for produktsubsidier fra indenlandske brancher."
+    rSub_m[d_,s,t]$(iL[d_]) "Sats for produktsubsidier fra import-grupper."
+    tTold[d_,s_,t]$(iL[d_]) "Toldsats fordelt på efterspørgselskomponenter og input fra import-grupper."
+    tMoms_y[d_,s,t]$(iL[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
+    tMoms_m[d_,s,t]$(iL[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
+  ;
   $GROUP G_taxes_forecast_as_zero ;
   $GROUP G_taxes_ARIMA_forecast 
-    tMoms_y[d_,s,t]$(d[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
-    tMoms_m[d_,s,t]$(d[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
+    tMoms_y[d_,s,t]$(d[d_] and not iL[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
+    tMoms_m[d_,s,t]$(d[d_] and not iL[d_]) "Momssats fordelt på efterspørgselskomponenter og input fra indenlandske brancher."
   ;
   $GROUP G_taxes_newdata_fixed_forecast
     rSubLoen[s_,t]$(s[s_])
-    tK[k,s_,t]$(s[s_])
+    tVirkVaegt[s_,t] "Implicit sats for vægtafgift."
+    tGrund[s_,t] "Implicit sats for ejendomsskatter."
     tVirkAM[s_,t]$(s[s_])
     tAUB[s_,t]$(s[s_])
     tE[s,t]
-    vtVirkVaegt[s_,t]$(bol[s_])
 
-    tAfg_y[d_,s,t] "Punktafgiftssats ekskl. subsidier og registreringsafgift fra indenlandske brancher"
-    tAfg_m[d_,s,t] "Punktafgiftssats ekskl. subsidier og registreringsafgift fra import-grupper"
-    rSub_y[d_,s,t] "Sats for produktsubsidier fra indenlandske brancher."
-    rSub_m[d_,s,t] "Sats for produktsubsidier fra import-grupper."
-    tTold[d_,s_,t]$(d[d_]) "Toldsats fordelt på efterspørgselskomponenter og input fra import-grupper."
+    tAfg_y[d_,s,t]$(not iL[d_]) "Punktafgiftssats ekskl. subsidier og registreringsafgift fra indenlandske brancher"
+    tAfg_m[d_,s,t]$(not iL[d_]) "Punktafgiftssats ekskl. subsidier og registreringsafgift fra import-grupper"
+    rSub_y[d_,s,t]$(not iL[d_]) "Sats for produktsubsidier fra indenlandske brancher."
+    rSub_m[d_,s,t]$(not iL[d_]) "Sats for produktsubsidier fra import-grupper."
+    tTold[d_,s_,t]$(d[d_] and not iL[d_]) "Toldsats fordelt på efterspørgselskomponenter og input fra import-grupper."
     tReg_y[d_,s,t]$(d[d_]) "Registreringsafgiftssats for biler."
     tReg_m[d_,s,t]$(d[d_]) "Registreringsafgiftssats for biler."
 
@@ -85,13 +93,6 @@ $IF %stage% == "variables":
 
     rSub0_t[t] "Hjælpevariabel til at kalibrere de samlede produktsubsidier."
     rSub0_s[s,t] "Hjælpevariabel til at kalibrere de samlede produktsubsidier."
-  ;
-  $GROUP G_IO_taxes # Bruges til at fremsrkive skatter på lagerinvesteringer
-    tMoms_y, tMoms_m
-    tAfg_y, tAfg_m
-    rSub_y, rSub_m
-    tTold
-    tReg_y, tReg_m
   ;
 $ENDIF
 
@@ -125,7 +126,8 @@ $IF %stage% == "equations":
       vtNetAfg_m[d,s,t] =E= vtAfg_m[d,s,t] - vSub_m[d,s,t];
 
     # Provenu fra told
-    E_vtTold[d,s,t].. vtTold[d,s,t] =E= tTold[d,s,t] * (vIOm[d,s,t] - vtIOm[d,s,t]);
+    E_vtTold[d,s,t]$(d1IOm[d,s,t]).. 
+      vtTold[d,s,t] =E= tTold[d,s,t] * (vIOm[d,s,t] - vtIOm[d,s,t]);
 
     # Provenu fra punktafgifter 
     E_vtAfg[d,s,t].. vtAfg[d,s,t] =E= vtAfg_y[d,s,t] + vtAfg_m[d,s,t];
@@ -163,24 +165,22 @@ $IF %stage% == "equations":
     E_vtReg_m[d,s,t]$(d1IOm[d,s,t])..
       vtReg_m[d,s,t] =E= tReg_m[d,s,t] * (vIOm[d,s,t] - vtIOm[d,s,t] + vtNetAfg_m[d,s,t] + vtMoms_m[d,s,t] + vtTold[d,s,t]);
 
-    # Nettoskattesatser - bruges p.t. til at kalibrere
-    # De kan fjernes ved at vtNetAfg_y og vtNetAfg_m indlæses fra data istedet (kræver ændring i makrobk)
-    E_tNetAfg_y[d,s,t]$(d1IOy[d,s,t])..
-      tNetAfg_y[d,s,t] =E= (tAfg_y[d,s,t] - rSub_y[d,s,t]) * pnCPI[cTot,t-1]/fp / pIOy[d,s,t] * (1 + tIOy[d,s,t]);
-    E_tNetAfg_m[d,s,t]$(d1IOm[d,s,t])..
-      tNetAfg_m[d,s,t] =E= (tAfg_m[d,s,t] - rSub_m[d,s,t]) * pnCPI[cTot,t-1]/fp / pIOm[d,s,t] * (1 + tIOm[d,s,t]);
-
     # PRODUCTION TAXES - brancheniveau
-    E_vtGrund[s,t]$(d1K['iB',s,t])..
-      vtGrund[s,t] =E= tK['iB',s,t] * pI_s['iB',s,t] * qK['iB',s,t-1]/fq;
-    E_vtVirkVaegt[s,t]$(d1K['iM',s,t])..
-      vtVirkVaegt[s,t] =E= tK['iM',s,t] * pI_s['iM',s,t] * qK['iM',s,t-1]/fq;
+    E_vtGrund_not_bol[s,t]$(d1K['iB',s,t] and not bol[s]).. vtGrund[s,t] =E= tGrund[s,t] * pI_s['iB',s,t] * qK['iB',s,t-1]/fq;
+    E_vtGrund_bol[s,t]$(bol[s]).. vtGrund[s,t] =E= tGrund[s,t] * (1 + rKLeje2Bolig[t]) * vLand[t];
+
+    E_vtVirkVaegt[s,t]$(d1K['iM',s,t]).. vtVirkVaegt[s,t] =E= tVirkVaegt[s,t] * pnCPI[cTot,t-1]/fp * qK['iM',s,t-1]/fq;
+    
+    E_tK_iB[s,t]$(d1K['iB',s,t]).. tK['iB',s,t] * pI_s['iB',s,t] * qK['iB',s,t-1]/fq =E= vtGrund[s,t];
+
+    E_tK_iM[s,t]$(d1K['iM',s,t]).. tK['iM',s,t] * pI_s['iM',s,t] =E= tVirkVaegt[s,t] * pnCPI[cTot,t-1]/fp;
 
     E_vtVirkAM[s,t].. vtVirkAM[s,t] =E= tVirkAM[s,t] * vLoensum[s,t];
 
     E_vtAUB[s,t].. vtAUB[s,t] =E= tAUB[s,t] * vLoensum[s,t];
 
-    E_vSubLoen[s,t].. vSubLoen[s,t] =E= rSubLoen[s,t] * vLoensum[s,t];
+    E_vSubLoen[s,t]$(t.val >= %BFR_t1%)..
+      vSubLoen[s,t] =E= rSubLoen[s,t] * vSatsIndeks[t] * nSubLoen[t];   
 
     E_vtNetLoenAfg[s,t].. vtNetLoenAfg[s,t] =E= vtVirkAM[s,t] + vtAUB[s,t] - vSubLoen[s,t];
 
@@ -199,15 +199,25 @@ $IF %stage% == "equations":
 
     # PRODUCTION TAXES - aggregater
     E_vtGrund_sTot[t]..       
-      vtGrund[sTot,t] =E= tK['iB',sTot,t] * pKI['iB',sTot,t] * qK['iB',sTot,t-1]/fq;
+      vtGrund[sTot,t] =E= tGrund[sTot,t] * sum(s, vtGrund[s,t]/tGrund[s,t]);
+
     E_vtVirkVaegt_sTot[t]..
-      vtVirkVaegt[sTot,t] =E= tK['iM',sTot,t] * pKI['iM',sTot,t] * qK['iM',sTot,t-1]/fq;
+      vtVirkVaegt[sTot,t] =E= tK['iM',sTot,t] * pnCPI[cTot,t-1]/fp * qK['iM',sTot,t-1]/fq;
 
     E_vtVirkAM_sTot[t].. vtVirkAM[sTot,t] =E= tVirkAM[sTot,t] * vLoensum[sTot,t];
 
     E_vtAUB_sTot[t].. vtAUB[sTot,t] =E= tAUB[sTot,t] * vLoensum[sTot,t];
 
-    E_vSubLoen_sTot[t].. vSubLoen[sTot,t] =E= rSubLoen[sTot,t] * vLoensum[sTot,t];
+    E_vSubLoen_sTot[t]$(t.val >= %BFR_t1%)..
+      vSubLoen[sTot,t] =E= rSubLoen[sTot,t] * vSatsIndeks[t] * nSubLoen[t];
+
+    E_nLoenSub[t]$(t.val >= %BFR_t1%)..
+      nSubLoen[t] =E= nSoc['sbeskflex',t]
+                    - nOvf['kontflex',t]
+                    + nSoc['sbeskskaane',t]
+                    + nSoc['sbeskrest',t]
+                    + nSoc['sbeskjobtaktj',t]
+                    + nSoc['sbeskjobtaktij',t];
 
     E_vtNetLoenAfg_sTot[t].. vtNetLoenAfg[sTot,t] =E= vtVirkAM[sTot,t] + vtAUB[sTot,t] - vSubLoen[sTot,t];
 
@@ -224,11 +234,12 @@ $IF %stage% == "equations":
       vtY[sTot,t] =E= vtGrund[sTot,t] + vtVirkVaegt[sTot,t] + vtCO2[sTot,t] + vtVirkAM[sTot,t] + vtAUB[sTot,t] + vtYRest[sTot,t];
 
     # PRODUCTION TAXES - aggregerede implicitte skattesatser
-    E_tK_iB_sTot[t].. vtGrund[sTot,t] =E= sum(s, vtGrund[s,t]);
+    E_tK_iB_sTot[t].. tK['iB',sTot,t] * pKI['iB',sTot,t] * qK['iB',sTot,t-1]/fq =E= vtGrund[sTot,t];
+    E_tGrund_sTot[t].. vtGrund[sTot,t] =E= sum(s, vtGrund[s,t]);
     E_tK_iM_sTot[t].. vtVirkVaegt[sTot,t] =E= sum(s, vtVirkVaegt[s,t]);
     E_tVirkAM_sTot[t].. vtVirkAM[sTot,t] =E= sum(s, vtVirkAM[s,t]);
     E_tAUB_sTot[t].. vtAUB[sTot,t] =E= sum(s, vtAUB[s,t]);
-    E_tSubLoen_sTot[t].. vSubLoen[sTot,t] =E= sum(s, vSubLoen[s,t]);
+    E_rSubLoen_sTot[t]$(t.val >= %BFR_t1%).. vSubLoen[sTot,t] =E= sum(s, vSubLoen[s,t]);
     E_tYRest_sTot[t].. vtYRest[sTot,t] =E= sum(s, vtYRest[s,t]);
 
     E_tK_spTot[k,t]..
@@ -260,7 +271,7 @@ $IF %stage% == "equations":
     E_vtVirkAM_spTot[t]..      vtVirkAM[spTot,t]     =E= sum(sp, vtVirkAM[sp,t]);
     E_vtAUB_spTot[t]..         vtAUB[spTot,t]        =E= sum(sp, vtAUB[sp,t]);
     E_vtCO2_spTot[t]..         vtCO2[spTot,t]        =E= sum(sp, vtCO2[sp,t]);
-    E_vSubLoen_spTot[t]..      vSubLoen[spTot,t]     =E= sum(sp, vSubLoen[sp,t]);
+    E_vSubLoen_spTot[t]$(t.val >= %BFR_t1%)..      vSubLoen[spTot,t]     =E= sum(sp, vSubLoen[sp,t]);
     E_vtNetLoenAfg_spTot[t]..  vtNetLoenAfg[spTot,t] =E= sum(sp, vtNetLoenAfg[sp,t]);
     E_vtNetY_spTot[t]..        vtNetY[spTot,t]       =E= sum(sp, vtNetY[sp,t]);
 
@@ -339,33 +350,6 @@ $IF %stage% == "equations":
       tMoms[dux,t] =E= vtMoms[dux,sTot,t] / sum(s, vIO[dux,s,t] - (vtIOy[dux,s,t] + vtIOm[dux,s,t])
                                                    + vtNetAfg_y[dux,s,t] + vtNetAfg_m[dux,s,t] + vtTold[dux,s,t]);
   $ENDBLOCK
-
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_taxes_post /
-    #  E_tK_spTot
-    E_vtGrund_spTot
-    E_vtVirkVaegt_spTot
-    E_vtVirkAM_spTot
-    E_vtAUB_spTot
-    E_vSubLoen_spTot
-    E_vtNetLoenAfg_spTot
-    E_vtNetY_spTot
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_taxes_post
-    #  tK[k,s_,t]$(spTot[s_])
-    vtGrund$(spTot[s_])
-    vtVirkVaegt$(spTot[s_])
-    vtVirkAM$(spTot[s_])
-    vtAUB$(spTot[s_])
-    vSubLoen$(spTot[s_])
-    vtNetLoenAfg$(spTot[s_])
-    vtNetY$(spTot[s_])
-  ;
-  $GROUP G_taxes_post G_taxes_post$(tx0[t]);
-
 $ENDIF
 
 $IF %stage% == "exogenous_values":
@@ -375,12 +359,12 @@ $IF %stage% == "exogenous_values":
   # Totaler og aggregater fra makrobk indlæses
   $GROUP G_taxes_makrobk
     vtReg, vSub[dTot,sTot,t], vSub[dTot,ene,t]
-    tNetAfg_y$(d1IOy[d_,s,t]), tNetAfg_m$(d1IOm[d_,s,t]), 
-    tReg_y, tReg_m
-    tTold, tMoms_y, tMoms_m, 
-    tK$(s[s_]), tVirkAM$(s[s_]), tAUB$(s[s_]), rSubLoen$(s[s_]), vtNetY$(s[s_] or sTot[s_]), vtNetYRest$(s[s_] or sTot[s_]),
+    vtNetAfg_y$(d1IOy[d_,s,t]), vtNetAfg_m$(d1IOm[d_,s,t]), 
+    vtReg_y, vtReg_m
+    vtTold, vtMoms_y, vtMoms_m, 
+    tK$(s[s_]), tVirkAM$(s[s_]), tAUB$(s[s_]), vtNetY$(s[s_] or sTot[s_]), vtNetYRest$(s[s_] or sTot[s_]),
     vtY$(sTot[s_]), vtYRest
-    vtTold, vtGrund$(s[s_] or sTot[s_]), vtVirkVaegt$(s[s_] or sTot[s_]), vtAUB$(s[s_] or sTot[s_]), vtCO2$(s[s_] or sTot[s_]), 
+    vtGrund$(s[s_] or sTot[s_]), vtVirkVaegt$(s[s_] or sTot[s_]), vtAUB$(s[s_] or sTot[s_]), vtCO2$(s[s_] or sTot[s_]), 
     vtVirkAM$(s[s_] or sTot[s_]), vSubLoen$(s[s_] or sTot[s_]), vtNetLoenAfg$(s[s_] or sTot[s_])
     vtMoms$(not sameas[d_,'tot']), vtNetAfg$(not sameas[d_,'tot']) # Der beregnes ikke en samlet total for energi og ikke-energi i data
   ;
@@ -412,8 +396,13 @@ $IF %stage% == "static_calibration":
   $GROUP G_taxes_static_calibration 
     G_taxes_endo
 
-    tAfg_y[d_,s,t]$(d1IOy[d_,s,t]), -tNetAfg_y[d_,s,t]$(d1IOy[d_,s,t])
-    tAfg_m[d_,s,t]$(d1IOm[d_,s,t]), -tNetAfg_m[d_,s,t]$(d1IOm[d_,s,t])
+    tTold[d_,s,t]$(d1IOm[d_,s,t]), -vtTold[d_,s,t]$(d1IOm[d_,s,t])
+    tAfg_y[d_,s,t]$(d1IOy[d_,s,t]), -vtNetAfg_y[d_,s,t]$(d1IOy[d_,s,t])
+    tAfg_m[d_,s,t]$(d1IOm[d_,s,t]), -vtNetAfg_m[d_,s,t]$(d1IOm[d_,s,t])
+    tMoms_y[d_,s,t]$(d1IOy[d_,s,t]), -vtMoms_y[d_,s,t]$(d1IOy[d_,s,t])
+    tMoms_m[d_,s,t]$(d1IOm[d_,s,t]), -vtMoms_m[d_,s,t]$(d1IOm[d_,s,t])
+    tReg_y[d_,s,t]$(d1IOy[d_,s,t]), -vtReg_y[d_,s,t]$(d1IOy[d_,s,t])
+    tReg_m[d_,s,t]$(d1IOm[d_,s,t]), -vtReg_m[d_,s,t]$(d1IOm[d_,s,t])
 
     rSub_y[d_,s,t]$(d1IOy[d_,s,t]) # E_rSub_y
     rSub_m[d_,s,t]$(d1IOm[d_,s,t]) # E_rSub_m
@@ -425,17 +414,21 @@ $IF %stage% == "static_calibration":
     tYRest[s,t], -vtYRest[s,t]
 
     -vtNetY[off,t], vSubYRest[off,t]
+
+    -tK['iB',s,t], tGrund[s,t]
+    -tK['iM',s,t], tVirkVaegt[s,t]
+    -vSubLoen[s,t], rSubLoen[s,t]
   ;
   $GROUP G_taxes_static_calibration G_taxes_static_calibration$(tx0[t]);
 
   $BLOCK B_taxes_static_calibration$(tx0[t])
     E_rSub_y[d,s,t]$(d1IOy[d,s,t])..
-      rSub_y[d,s,t] =E= (-tNetAfg_y[d,s,t] * pIOy[d,s,t] / (1+tIOy[d,s,t]) / (pnCPI[cTot,t-1]/fp)) $ (tNetAfg_y.l[d,s,t] < 0)
-                      + (rSub0_t[t] + rSub0_s[s,t]) $ (tNetAfg_y.l[d,s,t] <> 0 and not i_[d]);
+      vSub_y[d,s,t] =E= (-vtNetAfg_y[d,s,t]) $ (vtNetAfg_y.l[d,s,t] < 0)
+                      + ((rSub0_t[t] + rSub0_s[s,t]) * pnCPI[cTot,t-1]/fp * qIOy[d,s,t])$ (vtNetAfg_y.l[d,s,t] <> 0 and not i_[d]);
 
     E_rSub_m[d,s,t]$(d1IOm[d,s,t])..
-      rSub_m[d,s,t] =E= (-tNetAfg_m[d,s,t] * pIOm[d,s,t] / (1+tIOm[d,s,t]) / (pnCPI[cTot,t-1]/fp)) $ (tNetAfg_m.l[d,s,t] < 0)
-                      + (rSub0_t[t] + rSub0_s[s,t]) $ (tNetAfg_m.l[d,s,t] <> 0 and not i_[d]);
+      vSub_m[d,s,t] =E= (-vtNetAfg_m[d,s,t]) $ (vtNetAfg_m.l[d,s,t] < 0)
+                      + ((rSub0_t[t] + rSub0_s[s,t]) * (1 + tTold[d,s,t]) * pnCPI[cTot,t-1]/fp * qIOm[d,s,t])$ (vtNetAfg_m.l[d,s,t] <> 0 and not i_[d]);
   $ENDBLOCK
   MODEL M_taxes_static_calibration /
     B_taxes

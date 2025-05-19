@@ -10,7 +10,6 @@
 $IF %stage% == "variables":
 
   $GROUP G_consumers_endo_a
-
     # PRICES
     EpC[t] "Forventet prisindeks for næste periodes forbrug ekskl. bolig."
 
@@ -28,6 +27,7 @@ $IF %stage% == "variables":
     # Vigtige størrelser, hvor aggregatet er sum af aldersfordelte
     qC[c_,t]$(Cx[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig."
     qBolig[a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Ejerboliger ejet af husholdningerne (aggregat af kapital og land)" 
+    qKLejeBolig_a[a,t] "Kapitalapparat i lejeboliger fordelt på alder."
 
     # VALUES
     vCx[a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Individuelt forbrug ekskl. bolig og finansielle omkostninger."
@@ -94,8 +94,9 @@ $IF %stage% == "variables":
     # MISC.
     rSplurge[h,a_,t]$(aTot[a_]) "splurge factor"
     rSplurgeBolig[h,a_,t]$(aTot[a_]) "splurge factor"
-        rvCLejeBolig[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Andel af samlet lejeboligmasse i basisåret."
-    ;
+
+    rvCLejeBolig[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Andel af samlet lejeboligmasse i basisåret."
+  ;
   
   $GROUP G_consumers_endo
     G_consumers_endo_a
@@ -110,7 +111,7 @@ $IF %stage% == "variables":
     pC[c_,t]$(cNest[c_]) "Imputeret prisindeks for forbrugskomponenter for husholdninger - dvs. ekskl. turisters forbrug."
     pCPI[c_,t]$(t.val >= 2000) "Forbrugerprisindeks (CPI), Kilde: FMBANK[pfp] og FMBANK[pfp<i>]."
     pHICP[t] "Harmoniseret forbrugerprisindeks (HICP), Kilde: FMBANK[pfphicp]."
-    pnCPI[c_,t] "Nettoforbrugerprisindeks (nCPI), Kilde: FMBANK[pnp] og FMBANK[pnp<i>]."
+    pnCPI[c_,t]$(t.val >= 1996) "Nettoforbrugerprisindeks (nCPI), Kilde: FMBANK[pnp] og FMBANK[pnp<i>]."
  
     #  QUANTITIES
     qC[c_,t]$(not cTot[c_] and not Cx[c_] and not cBol[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig."
@@ -131,6 +132,7 @@ $IF %stage% == "variables":
     vBoligUdgift[a_,t]$(t.val > %NettoFin_t1% and aTot[a_]) "Cash-flow-udgift til ejerbolig - dvs. inkl. afbetaling på gæld og inkl. øvrige omkostninger fx renter og bidragssats på realkreditlån."
     vBolig[a_,t]$(atot[a_]) "Husholdningernes boligformue."
     vKBolig[t] "Værdi af kapitalmængde af ejerboliger."
+    vLand[t] "Værdi af land til ejerboligbenyttelse"
     vIBolig[t] "Værdi af ejerbolig-investeringer."
     vHhInvestx[a_,t]$(atot[a_]) "Husholdningernes direkte investeringer ekskl. bolig - imputeret."
     vSelvstKapInd[a_,t]$(atot[a_]) "Selvstændiges kapitalindkomst - imputeret."
@@ -159,7 +161,7 @@ $IF %stage% == "variables":
     rBoligPrem[t] "Risikopræmie for boliger."
     qLand[t] "Mål for land anvendt til ejerboliger."
     qILejeBolig[t] "Investeringer i lejeboligkapital."
-    jqFormueBase[a,t] "J-led"
+    jvFormueBase[a,t] "J-led"
     uFormue[t] "Nytte af formue parameter 0."
     uArv[t] "Arve-nytteparameter 0."
     uBolig_a[a,t] "Alders-specifikt led i uBolig."
@@ -245,7 +247,7 @@ $IF %stage% == "equations":
                      - vCx[aTot,t]
                      - vCLejebolig[aTot,t] 
                      - vBoligUdgift[aTot,t] 
-                     - (vArv[aTot,t] + vArvKorrektion[aTot,t] + vtDoedsbo[aTot,t] - vPensArv['pensTot',aTot,t] + vtKapPensArv[aTot,t]);
+                     - (vArv[aTot,t] + vArvKorrektion[aTot,t] + vtDoedsbo[aTot,t] - vPensArv['pensTot',aTot,t] + vtPersRestPensArv[aTot,t]);
 
     # Net capital income
     E_vHhxAfk_aTot[t]$(tx0[t] and t.val > %NettoFin_t1%)..
@@ -277,7 +279,7 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Budget constraint
     E_pC_cTurTjex[t]..
-      pC['cTurTjex',t] * qC['cTurTjex',t] =E= pC['cTur',t] * qC['cTur',t] + pC['cTje',t] * qC['cTje',t] - vHhAktOmk['Tot',t];
+      pC['cTurTjex',t] * qC['cTurTjex',t] =E= pC['cTur',t] * qC['cTur',t] + pC['cTje',t] * qC['cTje',t] - vHhAktOmk['Tot',t] - vHhPasOmk['Tot',t];
 
     E_pC_cTurTjexVar[t]..
       pC['cTurTjexVar',t] * qC['cTurTjexVar',t] =E= pC['cTurTjex',t] * qC['cTurTjex',t] + pC['cVar',t] * qC['cVar',t];
@@ -312,7 +314,7 @@ $IF %stage% == "equations":
 
     E_qC_cTje[t]..
       qC['cTje',t] =E= uC['cTje',t] * qC['cTurTjex',t] * (pC['cTurTjex',t] / pC['cTje',t])**eC('cTurTjex')
-                       + vHhAktOmk['Tot',t] / pC['cTje',t]; # Finansieringsomkostninger er forbrug af tjenester, som kommer ud over de tjenester, der giver nytte
+                       + (vHhAktOmk['Tot',t] + vHhPasOmk['Tot',t]) / pC['cTje',t]; # Finansieringsomkostninger er forbrug af tjenester, som kommer ud over de tjenester, der giver nytte
 
     E_qC_cTur[t]..
       qC['cTur',t] =E= (1 - uC['cTje',t]) * qC['cTurTjex',t] * (pC['cTurTjex',t] / pC['cTur',t])**eC('cTurTjex');
@@ -356,6 +358,9 @@ $IF %stage% == "equations":
     E_pLand[t]..
       pBolig[t] * (qYBolig[t] - qIBoligInstOmk[t]) =E= pLand[t] * qLandSalg[t] + pI_s['iB','bol',t] * qIBolig[t];
 
+    E_vLand[t]..
+      vLand[t] =E= pLand[t] * qLand[t];
+
     # ------------------------------------------------------------------------------------------------------------------
     # Biler - kapitalapparat til beregning vægtafgift 
     # ------------------------------------------------------------------------------------------------------------------
@@ -379,10 +384,10 @@ $IF %stage% == "equations":
 
     E_pHICP[t]$(tx0[t] and t.val >= 2000).. pHICP[t] =E= fpHICP[t] * sum(c, rHICP[c,t] * pCPI[c,t]);
 
-    E_pnCPI[c,t].. 
+    E_pnCPI[c,t]$(t.val >= 1996).. 
       pnCPI[c,t] =E= fpnCPI[c,t] * (vCDK[c,t] - vtTold[c,sTot,t] - vtNetAfg[c,sTot,t] - vtMoms[c,sTot,t] - vtReg[c,sTot,t]) / qCDK[c,t];
 
-    E_pnCPI_cTot[t].. pnCPI[cTot,t] =E= fpnCPI[cTot,t] * sum(c, rnCPI[c,t] * pnCPI[c,t]);
+    E_pnCPI_cTot[t]$(t.val >= 1996).. pnCPI[cTot,t] =E= fpnCPI[cTot,t] * sum(c, rnCPI[c,t] * pnCPI[c,t]);
   $ENDBLOCK
 
   $BLOCK B_consumers_forwardlooking$(tx0[t])
@@ -412,8 +417,8 @@ $IF %stage% == "equations":
                                             + tEjd[t+1] # Ejendomsværdiskat
                                             + rBoligOmkRest[t+1] # Resterende udgifter
                                             + rBoligPrem[t+1] # Risikopræmie
+                                           - dvHhxAfk2dvBolig[t+1]
                                         ) * pBolig[t]
-                                        - dvHhxAfk2dqBolig[t+1]
                                         + jpBoligUC[t]; # Ændring i afkast på husholdningens frie formue (vHhx) pga. at portefølje afhænger af boligmænge (sker via højere bankgæld, da en del finansieres via dette)
 
     E_pBoligUC_tEnd[t]$(tEnd[t])..
@@ -425,8 +430,8 @@ $IF %stage% == "equations":
                                           + tEjd[t] # Ejendomsværdiskat
                                           + rBoligOmkRest[t] # Resterende udgifter
                                           + rBoligPrem[t] # Risikopræmie
+                                          - dvHhxAfk2dvBolig[t]
                                       ) * pBolig[t]
-                                      - dvHhxAfk2dqBolig[t]
                                       + jpBoligUC[t]; # Ændring i afkast på husholdningens frie formue (vHhx) pga. at portefølje afhænger af boligmænge (sker via højere bankgæld, da en del finansieres via dette)
 
     # Boligpris-træghed fra disnytte ved boligprisændringer 
@@ -562,6 +567,8 @@ $IF %stage% == "equations":
     E_vCLejeBolig[a,t]$(a18t100[a] and tx0[t] and t.val > %AgeData_t1%)..
       vCLejeBolig[a,t] / vCLejeBolig[aTot,t] =E= rvCLejeBolig[a,t] / rvCLejeBolig[aTot,t];
 
+    E_qKLejeBolig_a[a,t]$(a18t100[a] and tx0[t] and t.val > %AgeData_t1%)..
+      qKLejeBolig_a[a,t] =E= vCLejebolig[a,t] / vCLejebolig[aTot,t] * qKLejeBolig[t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Individual non-housing consumption decision by age
@@ -597,33 +604,35 @@ $IF %stage% == "equations":
 
     E_vSplurgeInd[a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%)..
       vSplurgeInd[a,t] =E= vHhInd[a,t]
-                         - (vHhPensUdb['Kap',a,t] - vHhPensIndb['Kap',a,t] - vtKapPens[a,t])
+                         - (vHhPensUdb['Kap',a,t] - vHhPensIndb['Kap',a,t] - vtPersRestPens[a,t])
                          - (vHhPensUdb['Alder',a,t] - vHhPensIndb['Alder',a,t])
                          - vArvKorrektion[a,t] - vHhFraMigration[a,t]
-                         - vCLejeBolig[a,t] - vHhTilBoern[a,t];
-    
+                         - vCLejeBolig[a,t] - vHhTilBoern[a,t]
+                         + (rRealKred2Bolig[a,t] * pBolig[t] - rRealKred2Bolig[a-1,t-1] * pBolig[t-1]/fp)
+                         * qBolig[a-1,t-1]/fq;
+
     E_vSplurge[h,a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%)..
       vSplurge[h,a,t] =E= rSplurge[h,a,t] * vSplurgeInd[a,t];
 
     E_vSplurgeBolig[h,a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%)..
       vSplurgeBolig[h,a,t] =E= rSplurgeBolig[h,a,t] * vSplurgeInd[a,t];
 
+    # Konstant har ingen betydning udover at gøre at problemet lettere at løse numerisk pga. bedre skalering
     E_qCxRef[h,a,t]$(tx0[t] and a18t100[a] and a.val <> 18 and t.val > %AgeData_t1%)..
-      qCxRef[h,a,t] =E= qCx_h[h,a,t] / fHh[a,t]
-                      - rRef[a-1,t-1] * qCx_h[h,a-1,t-1]/fq / fHh[a-1,t-1]
-					            - vSplurge[h,a,t] / pC['Cx',t];
+      qCxRef[h,a,t]/100 =E= qCx_h[h,a,t] / fHh[a,t]
+                          - rRef[a-1,t-1] * qCx_h[h,a-1,t-1]/fq / fHh[a-1,t-1]
+					                - vSplurge[h,a,t] / pC['Cx',t];
 
     E_qCxRef_a18[h,a,t]$(tx0[t] and a.val = 18 and t.val > %AgeData_t1%)..
-      qCxRef[h,a,t] =E= qCx_h[h,a,t] / fHh[a,t]
-                      - vSplurge[h,a,t] / pC['Cx',t];
+      qCxRef[h,a,t]/100 =E= qCx_h[h,a,t] / fHh[a,t]
+                          - vSplurge[h,a,t] / pC['Cx',t];
 
     E_mUC[h,a,t]$(tx0[t] and a18t100[a])..
       mUC[h,a,t] =E= qNytte[h,a,t]**(-eHh) * (qNytte[h,a,t] * uCx[h,a,t] / qCxRef[h,a,t])**(1/eNytte) / fHh[a,t];
 
     # Cobb-Douglas for eNytte = 1
-    # Konstant har ingen betydning udover at gøre at problemet lettere at løse numerisk pga. bedre skalering
     E_qNytte[h,a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%)..
-      qNytte[h,a,t] =E= 10 * qCxRef[h,a,t]**uCx[h,a,t] * qBoligxRef[h,a,t]**uBolig[h,a,t];
+      qNytte[h,a,t] =E= qCxRef[h,a,t]**uCx[h,a,t] * qBoligxRef[h,a,t]**uBolig[h,a,t];
 
     # Forventet marginal nytte af forbrug
     E_EmUC[h,a,t]$(18 <= a.val and a.val < 100 and tx0E[t])..
@@ -645,14 +654,16 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Bolig-efterspørgsel
     # ------------------------------------------------------------------------------------------------------------------
+    # Konstant har ingen betydning udover at gøre at problemet lettere at løse numerisk pga. bedre skalering
     E_qBoligxRef[h,a,t]$(a18t100[a] and a.val <> 18 and tx0[t] and t.val > %AgeData_t1%)..
-      qBoligxRef[h,a,t] =E= qBolig_h[h,a,t] / fHh[a,t]
-                          - rRefBolig[a-1,t-1] * qBolig_h[h,a-1,t-1]/fq / fHh[a-1,t-1] * (1+jrRefBolig[t])
-                          - vSplurgeBolig[h,a,t] / (pBolig[t]*(1-mrRealKred2Bolig[t]));
+      qBoligxRef[h,a,t]/100 =E= (qBolig_h[h,a,t] + qKLejeBolig_a[a,t]) / fHh[a,t]
+                              - (rRefBolig[a-1,t-1] + jrRefBolig[t]) * (qBolig_h[h,a-1,t-1] + qKLejeBolig_a[a-1,t-1])/fq / fHh[a-1,t-1]
+                              - vSplurgeBolig[h,a,t] / (pBolig[t]*(1-mrRealKred2Bolig[t]));
 
     E_qBoligxRef_a18[h,a,t]$(a.val = 18 and tx0[t] and t.val > %AgeData_t1%)..
-      qBoligxRef[h,a,t] =E= qBolig_h[h,a,t] / fHh[a,t]
-                          - vSplurgeBolig[h,a,t] / (pBolig[t]*(1-mrRealKred2Bolig[t]));
+      qBoligxRef[h,a,t]/100 =E= (qBolig_h[h,a,t] + qKLejeBolig_a[a,t]) / fHh[a,t]
+                              - (rRefBolig[a-1,t-1] + jrRefBolig[t]) * (qBolig_h[h,a,t] + qKLejeBolig_a[a,t])/fq / fHh[a,t]
+                              - vSplurgeBolig[h,a,t] / (pBolig[t]*(1-mrRealKred2Bolig[t]));
 
     # Merging of FOC for housing with FOC for net assets
     E_qBolig_h[h,a,t]$(a18t100[a] and tx0E[t] and t.val > %AgeData_t1%)..
@@ -686,7 +697,7 @@ $IF %stage% == "equations":
     # Arv videregivet pr kohorte
     E_vArvGivet[a,t]$(tx0[t] and t.val > %AgeData_t1%)..
       vArvGivet[a,t] =E= (vHhx[a-1,t-1]/fv + vHhxAfk[a,t]/fMigration[a,t] + vArvBolig[a,t]) * rArvKorrektion[a]
-                       - vtDoedsbo[a,t] + vPensArv['pensTot',a,t] - vtKapPensArv[a,t];
+                       - vtDoedsbo[a,t] + vPensArv['pensTot',a,t] - vtPersRestPensArv[a,t];
 
     E_vArvKorrektion[a,t]$(tx0[t] and a0t100[a] and t.val > %AgeData_t1%)..
       vArvKorrektion[a,t] =E= (vHhx[a-1,t-1]/fv + vHhxAfk[a,t]/fMigration[a,t] + vArvBolig[a,t])
@@ -698,16 +709,16 @@ $IF %stage% == "equations":
     # Hjælpevariabel som skal være strengt positiv
     E_qArvBase[h,a,t]$(a18t100[a] and tx0E[t] and t.val > %AgeData_t1%)..
       qArvBase[h,a,t] =E= (1-tArv[t+1]) * (vHhx_h[h,a,t]
-                                       + pBolig[t] * qBolig_h[h,a,t] * (1 - rRealKred2Bolig[a,t])
-                                       + vPensArv['pensTot',a,t]  # Samlet pension, som gives videre i tilfælde af død
-                                       ) / EpC[t]
-                        + jqFormueBase[a,t];
+                                            + pBolig[t] * qBolig_h[h,a,t] * (1 - rRealKred2Bolig[a,t])
+                                            + vPensArv['pensTot',a,t]  # Samlet pension, som gives videre i tilfælde af død
+                                            + jvFormueBase[a,t]
+                                          ) / EpC[t];
     E_qArvBase_tEnd[h,a,t]$(a18t100[a] and tEnd[t])..
       qArvBase[h,a,t] =E= (1-tArv[t]) * (vHhx_h[h,a,t]
-                                       + pBolig[t] * qBolig_h[h,a,t] * (1 - rRealKred2Bolig[a,t])
-                                       + vPensArv['pensTot',a,t]  # Samlet pension, som gives videre i tilfælde af død
-                                       ) / EpC[t]
-                        + jqFormueBase[a,t];
+                                          + pBolig[t] * qBolig_h[h,a,t] * (1 - rRealKred2Bolig[a,t])
+                                          + vPensArv['pensTot',a,t]  # Samlet pension, som gives videre i tilfælde af død
+                                          + jvFormueBase[a,t]
+                                        ) / EpC[t];
  
     # Derivative of bequest utility with respect to net assets 
     E_dArv[h,a,t]$(a18t100[a] and d1Arv[a,t] and tx0E[t] and t.val > %AgeData_t1%)..
@@ -722,8 +733,8 @@ $IF %stage% == "equations":
       qFormueBase[h,a,t] =E= (vHhx_h[h,a,t]
                             + pBolig[t] * qBolig_h[h,a,t] * (1 - rRealKred2Bolig[a,t])
                             + (1-tKapPens[t]) * vHhPens['Kap',a,t] + vHhPens['Alder',a,t]
-                           ) / EpC[t]
-                           + jqFormueBase[a,t];
+                            + jvFormueBase[a,t]
+                           ) / EpC[t];
 
     # Derivative of wealth utility with respect to net assets
     E_dFormue[h,a,t]$(a18t100[a] and tx0[t] and t.val > %AgeData_t1%)..
@@ -789,7 +800,6 @@ $IF %stage% == "equations":
     E_vC_NR[a,t]$(a0t100[a] and tx0[t] and t.val > %AgeData_t1%).. vC_NR[a,t] =E= sum(h, rHhAndel[h] * vC_NR_h[h,a,t]);
 
     E_qC_NR[a,t]$(a0t100[a] and tx0[t] and t.val > %AgeData_t1%).. qC_NR[a,t] =E= vC_NR[a,t] / pC['cTot',t];
-
    $ENDBLOCK
 
   MODEL M_consumers / 
@@ -805,35 +815,7 @@ $IF %stage% == "equations":
    -qIBolig, -pBolig # Disse fastlægges til rimelige værdier
    -pIBoligUC, -pBoligUC, -dpBoligTraeghed, -dIBoligInstOmkLead2dI
   ;
-
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_consumers_post /
-    E_qC_NR_h, E_qC_NR_h_tot
-    E_vC_NR_h, E_vC_NR_h_tot
-    E_vC_NR, E_vC_NR_tot
-    E_qC_NR, E_qC_NR_tot
-    E_vHhx_h_aTot,
-    E_vHhInd_h_tot
-    E_vHhxAfk_h_aTot
-    E_vBoligUdgift_h_tot
-    E_pHICP
-  /;
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_consumers_post
-    vC_NR_h$(aTot[a_] or (a0t100[a_] and t.val > %AgeData_t1%))
-    qC_NR_h$(aTot[a_] or (a0t100[a_] and t.val > %AgeData_t1%))
-    vC_NR$(aTot[a_] or (a0t100[a_] and t.val > %AgeData_t1%))
-    qC_NR$(aTot[a_] or (a0t100[a_] and t.val > %AgeData_t1%))
-    vHhx_h[h,a_,t]$(aTot[a_] and t.val > %AgeData_t1%), 
-    vHhxAfk_h$(aTot[a_] and t.val > %AgeData_t1%)
-    vHhInd_h[h,aTot,t]$(t.val > %AgeData_t1%)
-    vBoligUdgift_h[h,a_,t]$(aTot[a_] and t.val > %AgeData_t1%)
-    pHICP
-  ;
-  $GROUP G_consumers_post G_consumers_post$(tx0[t]);
-  $ENDIF
+$ENDIF
 
 
 $IF %stage% == "exogenous_values":  
@@ -894,9 +876,8 @@ $IF %stage% == "exogenous_values":
 
   # Andele for vanedannelse i forbrug er som udgangspunkt konstant,
   # men reduceres for de ældste kohorter (som har en væsentlig dødssandsynlighed) og dermed tyndere data og større variation
-  rRef.l[a,t] = 0.368524 * ErOverlev.l[a,t]**2; # Matching parameter
-  rRefBolig.l[a,t] = 0.855057 * ErOverlev.l[a,t]**2; # Matching parameter
-  # rRefBolig.l[a,t] = 0.8 * ErOverlev.l[a,t]**2; # Matching parameter
+  rRef.l[a,t] = 0.368524; # Matching parameter
+  rRefBolig.l[a,t] = 0.855057; # Matching parameter
 
   # Housing
   eBolig.l = 1.16; # Epple et al (2010)
@@ -939,8 +920,8 @@ $IF %stage% == "static_calibration":
     -qC[c,t]$(not cBol[c]), uC[c,t]$(not cBol[c]) # I endelige år bestemmes vCx konsistent med data for qC - og qC[cTur] bestemmes residualt (vCx bestemmer qCx og qCx som bestemmer qC[Cx] givet pC[Cx] som er en endogen CES-pris)
     -pCPI[c,t], fpCPI[c,t] 
     -pCPI[cTot,t], fpCPI[cTot,t] 
-    -pnCPI[c,t], fpnCPI[c,t] 
-    -pnCPI[cTot,t], fpnCPI[cTot,t] 
+    -pnCPI[c,t], fpnCPI[c,t]$(t.val >= 1996) 
+    -pnCPI[cTot,t], fpnCPI[cTot,t]$(t.val >= 1996) 
     -pHICP[t], fpHICP[t]
   ;    
   $BLOCK B_consumers_static_calibration_base$(tx0[t])
@@ -1051,7 +1032,7 @@ $IF %stage% == "deep_dynamic_calibration":
 
     rSplurgeBolig[h,a18t100,t] # E_rSplurgeBolig
 
-    jqFormueBase[a18t100,tx1] # E_jqFormueBase_forecast
+    jvFormueBase[a18t100,tx1] # E_jvFormueBase_forecast
 
     -qBolig[a18t100,t1], uBolig_a[a18t100,t1]
     uBolig_a[a18t100,tx1] # E_uBolig_a_forecast
@@ -1073,10 +1054,10 @@ $IF %stage% == "deep_dynamic_calibration":
   ;
 
   $BLOCK B_consumers_deep$(tx0[t])
-    E_rSplurge_forecast[h,a,t]$(a18t100[a] and tx1[t] and a.val >= 21)..
+    E_rSplurge_forecast[h,a,t]$(a18t100[a] and tx1[t] and a.val >= 23)..
       rSplurge[h,a,t] =E= sum(aa$(a.val-2 <= aa.val and aa.val <= a.val+2 and a18t100[aa]), rSplurge[h,aa,t1])
                         / sum(aa$(a.val-2 <= aa.val and aa.val <= a.val+2 and a18t100[aa]), 1);
-    E_rSplurge_forecast_u21[h,a,t]$(a18t100[a] and tx1[t] and a.val < 21)..
+    E_rSplurge_forecast_u23[h,a,t]$(a18t100[a] and tx1[t] and a.val < 23)..
       rSplurge[h,a,t] =E= rSplurge[h,a,t1];
 
     # Vi antager samme aldersfordeling af splurge på bolig og ikke-bolig, korrigeret for preferencen for bolig- vs ikke-bolig-forbrug
@@ -1094,14 +1075,16 @@ $IF %stage% == "deep_dynamic_calibration":
 
     E_uArv_forecast[t]$(tx1[t]).. uArv[t] =E= uArv[t1];
 
-    # Residual i opsparingsadfærd følger kohorter. For negativ jqFormueBase svarer dette til at en del af kohortens formue er lagt til side og ikke indgår i forbrugsbeslutninger før formuen går i arv.
-    E_jqFormueBase_forecast[a,t]$(tx1[t] and a18t100[a]).. jqFormueBase[a,t] =E= jqFormueBase[a-1,t-1] * (rOverlev[a-1,t-1] + (1-rOverlev[a-1,t-1]) * rArvKorrektion[a]);
+    # Residual i opsparingsadfærd følger kohorter. For negativ jvFormueBase svarer dette til at en del af kohortens formue er lagt til side og ikke indgår i forbrugsbeslutninger før formuen går i arv.
+    E_jvFormueBase_forecast[a,t]$(tx1[t] and a18t100[a])..
+      jvFormueBase[a,t] / vHhAkt['tot',a,t] =E= jvFormueBase[a-1,t-1] / vHhAkt['tot',a-1,t-1]
+                                              * (rOverlev[a-1,t-1] + (1-rOverlev[a-1,t-1]) * rArvKorrektion[a]);
 
     # Vi tager gennemsnit over 5 aldersgrupper for at udglatte støj. Dette overskrives af mere kompleks udglatning i M_smoothed_parameters_calibration
-    E_uBolig_a_forecast[a,t]$(a18t100[a] and tx1[t] and a.val >= 21)..
+    E_uBolig_a_forecast[a,t]$(a18t100[a] and tx1[t] and a.val >= 22)..
       uBolig_a[a,t] =E= sum(aa$(a.val-2 <= aa.val and aa.val <= a.val+2 and a18t100[aa]), uBolig_a[aa,t1])
                       / sum(aa$(a.val-2 <= aa.val and aa.val <= a.val+2 and a18t100[aa]), 1);
-    E_uBolig_a_forecast_u21[a,t]$(a18t100[a] and tx1[t] and a.val < 21)..
+    E_uBolig_a_forecast_u22[a,t]$(a18t100[a] and tx1[t] and a.val < 22)..
       uBolig_a[a,t] =E= uBolig_a[a,t1];
 
     E_vArvPrArving[a,t]$(tx0[t] and a.val > 0)..
@@ -1115,7 +1098,7 @@ $IF %stage% == "deep_dynamic_calibration":
     E_fIBoligInstOmk_forecast[t]$(tx1[t]).. fIBoligInstOmk[t] =E= fq;
   $ENDBLOCK
   MODEL M_consumers_deep /
-    M_consumers - M_consumers_post
+    M_consumers
     B_consumers_deep
   /;
 $ENDIF
@@ -1158,7 +1141,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     # @copy_equation_to_period(E_jrBoligTraeghed, t2)
   $ENDBLOCK
   MODEL M_consumers_dynamic_calibration / 
-    M_consumers - M_consumers_post
+    M_consumers
     B_consumers_dynamic_calibration
   /;
 $ENDIF

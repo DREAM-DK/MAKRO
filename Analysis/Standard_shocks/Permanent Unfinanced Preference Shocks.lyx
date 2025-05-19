@@ -1,5 +1,5 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -69,11 +69,11 @@
 \numberwithin{table}{subsection}
 \end_preamble
 \use_default_options true
-\maintain_unincluded_children false
+\maintain_unincluded_children no
 \language american
 \language_package default
-\inputencoding auto
-\fontencoding global
+\inputencoding auto-legacy
+\fontencoding auto
 \font_roman "lmodern" "default"
 \font_sans "cmbr" "default"
 \font_typewriter "default" "default"
@@ -81,7 +81,9 @@
 \font_default_family sfdefault
 \use_non_tex_fonts false
 \font_sc false
-\font_osf false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
@@ -104,7 +106,7 @@
 \pdf_colorlinks false
 \pdf_backref section
 \pdf_pdfusetitle true
-\papersize a4paper
+\papersize a4
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -125,7 +127,9 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_formatted_ref 0
 \use_minted 0
+\use_lineno 0
 \index Index
 \shortcut idx
 \color #008000
@@ -141,11 +145,16 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tablestyle default
 \tracking_changes false
 \output_changes false
+\change_bars false
+\postpone_fragile_content false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
 \end_header
 
 \begin_body
@@ -162,7 +171,8 @@ name "sec:Permanent unfinanced preference shock"
 \end_layout
 
 \begin_layout Standard
-In this chapter, we look at unfinanced preference shocks.
+In this chapter,
+ we look at unfinanced preference shocks.
  
 \end_layout
 
@@ -174,21 +184,21 @@ In this chapter, we look at unfinanced preference shocks.
 \end_layout
 
 \begin_layout Subsection
-Household discount factor
+Household hand-to-mouth factor (splurge-factor)
 \end_layout
 
 \begin_layout Standard
-The household discount factor is permanently decreased by 1 percentage point.
+The households' hand-to-mouth consumption shares (over durables and non-durables) are permanently increased by 1 percentage point.
 \end_layout
 
 \begin_layout Itemize
-Households are more impatient (discount the future less) and increase their
- consumption
+Households now use a larger share of their liquid income on consumption.
+ 
 \end_layout
 
 \begin_layout Itemize
-In the short and medium term, this it works as a positive (but gradually
- declining) shock to private consumption and housing demand
+In the short and medium term,
+ this works as a positive (but gradually declining) shock to private consumption and housing demand
 \end_layout
 
 \begin_layout Itemize
@@ -197,93 +207,86 @@ This sets in motion the following equilibrium responses:
 
 \begin_deeper
 \begin_layout Itemize
-Increased demand leads to increased production
+Increased demand leads to increased production.
 \end_layout
 
 \begin_layout Itemize
-Increased sectoral production leads to increased sectoral production inputs
+Increased sectoral production leads to increased sectoral production inputs.
 \end_layout
 
 \begin_layout Itemize
-Increased material inputs leads to increased imports and domestic sectoral
- output
+Increased material inputs leads to increased imports and domestic sectoral output.
 \end_layout
 
 \begin_layout Itemize
-Increased capital demand leads to increased investmens from imports and
- domestic sectoral output
+Increased capital demand leads to increased investments from imports and domestic sectoral output.
 \end_layout
 
 \begin_layout Itemize
-Increased labor demand leads to increased wages, employment and labor supply
+Increased labor demand leads to increased wages,
+ employment and labor supply.
 \end_layout
 
 \begin_layout Itemize
-Increased employment and wages leads to higher household income and increased
- demand for private consumption and housing
+Increased employment and wages leads to higher household income and increased demand for private consumption and housing.
 \end_layout
 
 \begin_layout Itemize
-Increased housing demand leads to increased housing prices and investments
- in housing
+Increased housing demand leads to increased housing prices and investments in housing.
 \end_layout
 
 \begin_layout Itemize
-Increased housing prices lead to increased liquidity and demand for private
- consumption and housing
+Increased housing prices lead to increased liquidity and demand for private consumption and housing.
 \end_layout
 
 \begin_layout Itemize
-Increased production leads to higher output prices
+Increased production leads to higher output prices.
 \end_layout
 
 \begin_layout Itemize
-Higher output prices lead to higher demand prices
+Higher output prices lead to higher demand prices.
 \end_layout
 
 \begin_layout Itemize
-Increased demand prices dampen demand over time
+Increased demand prices dampen demand over time.
 \end_layout
 
 \begin_layout Itemize
-Full crowding out in employment
+Full crowding out in employment.
 \end_layout
 
 \begin_layout Itemize
-Positive short run effect on government budget
+Positive short run effect on government budget.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-The increased short and medium term consumption will reduce household wealth
- and long-run consumption
+The increased short and medium term consumption will reduce household wealth and long-run consumption.
 \end_layout
 
 \begin_layout Itemize
-55 years after the shock the negative effect on wealth has not stabilized.
- This is because of slow generational effects arising from our overlapping-gener
-ations structure.
+Even after many years (50+),
+ the negative effect on wealth has not stabilized.
+ This is because of slow generational effects arising from our overlapping-generations structure.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-We do see the negative effect on consumption, but this has also not stabilized
+We do see the negative effect on consumption,
+ but this has also not stabilized.
 \end_layout
 
 \begin_layout Itemize
-Households live many years and give inheritance - so it will stabilize very
- slowly
+Households live many years and give inheritance - so it will stabilize very slowly.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-In the long run it works as a negative shock to private consumption and
- housing demand
+In the long run it works as a negative shock to private consumption and housing demand.
 \end_layout
 
 \begin_layout Itemize
-There are negative long-run effect on the government budget and fiscal sustainab
-ility
+There are negative long-run effect on the government budget and fiscal sustainability.
 \end_layout
 
 \begin_layout Standard
@@ -296,7 +299,7 @@ status open
 
 
 \backslash
-graphicspath{{Output/Diskontering/}}
+graphicspath{{Output/rSplurge/}}
 \end_layout
 
 \end_inset
@@ -310,6 +313,7 @@ graphicspath{{Output/Diskontering/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 
@@ -327,39 +331,38 @@ Wages through the Nash Negotiation Weight
 \end_layout
 
 \begin_layout Standard
-The Nash negotiation weight is decreased permanently by 1 percentage point
- (workers bargaining power goes up).
+The Nash negotiation weight is decreased permanently by 1 percentage point (workers bargaining power goes up).
 \end_layout
 
 \begin_layout Itemize
-Workers receive a larger share of the surplus
+Workers receive a larger share of the surplus.
 \end_layout
 
 \begin_layout Itemize
-On one hand, this increases household income and works as a positive demand
- shock to private consumption and housing - for an isolated analysis of
- this shock, refer to the demand shock via lump-sum transfers
+On one hand,
+ this increases household income and works as a positive demand shock to private consumption and housing - for an isolated analysis of this shock,
+ refer to the demand shock via lump-sum transfers.
 \end_layout
 
 \begin_layout Itemize
-On the other hand, it tightens the wedge between the marginal product of
- labor and the wage
+On the other hand,
+ it tightens the wedge between the marginal product of labor and the wage.
 \end_layout
 
 \begin_layout Itemize
-This wedge needs to pay for hiring costs so firms reduce their labor demand
+This wedge needs to pay for hiring costs so firms reduce their labor demand.
 \end_layout
 
 \begin_layout Itemize
-For most other shocks, reduced labor demand lowers the wages, but here,
- the higher wages are the cause of the lower labor demand and structural
- unemployment increase
+For most other shocks,
+ reduced labor demand lowers the wages,
+ but here,
+ the higher wages are the cause of the lower labor demand and structural unemployment increase.
 \end_layout
 
 \begin_layout Itemize
-The shock also works as a negative supply shock to labor - for an isolated
- analysis of this shock, refer to the supply shock to labor via participation
- (with the opposite sign)
+The shock also works as a negative supply shock to labor - for an isolated analysis of this shock,
+ refer to the supply shock to labor via participation (with the opposite sign).
 \end_layout
 
 \begin_layout Itemize
@@ -378,13 +381,11 @@ Real household income increases
 
 \begin_deeper
 \begin_layout Itemize
-The effect from higher wages and lower employment makes the net-effect from
- wage income very small
+The effect from higher wages and lower employment makes the net-effect from wage income very small
 \end_layout
 
 \begin_layout Itemize
-Larger unemployment is compensated and this increase household income this
- dominates effect from higher prices
+Larger unemployment is compensated and this increase household income this dominates effect from higher prices
 \end_layout
 
 \end_deeper
@@ -394,26 +395,23 @@ The shock is contractionary in employment
 
 \begin_deeper
 \begin_layout Itemize
-In the short run the employment gap is positive as actual employment rigidly
- decrease to its structural level
+In the short run the employment gap is positive as actual employment rigidly decrease to its structural level
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-In the short run, the shock is expansionary in GVA and GDP, as a large permanent
- shift to more capital intensive production increases short term investments
- a lot and firms can increase utilization on labor and capital in the short
- run
+In the short run,
+ the shock is expansionary in GVA and GDP,
+ as a large permanent shift to more capital intensive production increases short term investments a lot and firms can increase utilization on labor and capital in the short run
 \end_layout
 
 \begin_layout Itemize
-In the medium and long term, the shock is also contractionary in GVA and
- GDP as labor input is permanently lower
+In the medium and long term,
+ the shock is also contractionary in GVA and GDP as labor input is permanently lower
 \end_layout
 
 \begin_layout Itemize
-There is a negative long run effect on the government budget and fiscal
- sustainability
+There is a negative long run effect on the government budget and fiscal sustainability
 \end_layout
 
 \begin_layout Standard
@@ -440,6 +438,7 @@ graphicspath{{Output/Loen/}}
 \begin_inset CommandInset include
 LatexCommand input
 filename "Figures.lyx"
+literal "true"
 
 \end_inset
 

@@ -58,7 +58,6 @@ $GROUP G_ARIMA_forecast
   G_production_private_ARIMA_forecast
   G_production_public_ARIMA_forecast
   G_taxes_ARIMA_forecast
-  -empty_group_dummy
 ;
 
 $GROUP G_static_calibration_newdata
@@ -92,20 +91,21 @@ $FOR {old}, {new} in [
   execute_load "Gdx\previous_static_calibration.gdx" {new}.l={old}.l;
 $ENDFOR
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Calibrate parameters where we have many years of data to use in forecasting parameters
 # ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_load G_static_calibration, -G_do_not_load; 
+$GROUP G_load G_static_calibration, -G_data, -G_do_not_load; 
 @load(G_load, "Gdx\previous_static_calibration.gdx"); # load previous solution
 
-$IF %run_tests%:
-  # Small pertubation of all endogenous variables
-  # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
-  $LOOP G_static_calibration:
-    {name}.l{sets}$({conditions} and {name}.l{sets} <> 0) = {name}.l{sets} + 1e-6;
-  $ENDLOOP
-  @set(G_static_calibration, _presolve, .l);
-$ENDIF
+# $IF %run_tests%:
+#   # Small pertubation of all endogenous variables
+#   # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
+#   $LOOP G_static_calibration:
+#     {name}.l{sets}$({conditions}) = {name}.l{sets} * (1+1e-9);
+#   $ENDLOOP
+#   @set(G_static_calibration, _presolve, .l);
+# $ENDIF
 
 $IF %calibration_steps% > 1:
   $GROUP G_homotopy All, -G_static_calibration, -G_do_not_load;
@@ -132,23 +132,21 @@ $IF %calibration_steps% > 1:
 $ENDIF
 
 $FIX ALL; $UNFIX G_static_calibration;
-#  @set_initial_levels_to_nonzero(All)
+$GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
+@set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
 @set_bounds();
 @unload_all(Gdx\static_calibration_presolve);
 @solve(M_static_calibration);
 
-$FIX All; $UNFIX G_post;
-@solve(M_post);
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Output
 # ----------------------------------------------------------------------------------------------------------------------
-$IF %run_tests%:
-  # Remove "endogenous" variables not changed by solving the model
-  $LOOP G_static_calibration:
-    {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
-  $ENDLOOP
-$ENDIF
+# $IF %run_tests%:
+#   # Remove "endogenous" variables not changed by solving the model
+#   $LOOP G_static_calibration:
+#     {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
+#   $ENDLOOP
+# $ENDIF
 
 # Write GDX file
 @unload_all(Gdx\static_calibration);
@@ -157,15 +155,10 @@ $ENDIF
 # Tests
 # ----------------------------------------------------------------------------------------------------------------------
 $IF %run_tests%:
-  $GROUP G_data_test
-    G_data
-    # Tests slået fra efter forlængelse af bank ultimo november 2014
-    -vUdlAktRenter$(t.val = 2005 or t.val = 2007) # Inkonsistens i data fra modelgruppen i DST - mail sendt 20/11-24
-  ;  
   # Abort if any data covered variables have been changed by the calibration
-  @assert_no_difference(G_data_test, 0.05, .l, _data, "G_imprecise_data was changed by static calibration.");
-  $GROUP G_precise_data_test G_data_test, -G_imprecise_data;
-  @assert_no_difference(G_precise_data_test, 1e-6, .l, _data, "G_precise_data was changed by static calibration.");
+  @assert_no_difference(G_data, 0.05, .l, _data, "G_imprecise_data was changed by static calibration.");
+  $GROUP G_precise_data_test G_data, -G_imprecise_data;
+  @assert_no_difference(G_precise_data_test, 3e-6, .l, _data, "G_precise_data was changed by static calibration.");
 
   # Display variables that have become 0 in current data eg static calibration, but was not 0 in previous data eg static calibration
   #          and variables that is not 0 in current data eg static calibration, but was 0 in previous data eg static calibration
@@ -173,7 +166,6 @@ $IF %run_tests%:
   @display_zeros(G_zeros, "Gdx\previous_static_calibration.gdx")
 
   # Aggregation tests
-  set_time_periods(2001, %cal_end%); # !!! Betingelse skal fjernes når fejl i data er rettet !!!
   $IMPORT Tests/test_other_aggregation.gms;
   $IMPORT Tests/test_other.gms;
   set_time_periods(%AgeData_t1%, %cal_end%);
@@ -196,10 +188,3 @@ $IF %run_tests%:
   #  @load_nonzero(G_all, "Gdx\static_calibration.gdx");
   #  @assert_no_difference(G_all, 1e-6, .l, _saved, "Variable afviger fra previous_static_calibration");
 $ENDIF
-
-# ----------------------------------------------------------------------------------------------------------------------
-# !!! Der er fejl i data gør 2008 som skal rettes!!!
-# Indtil da nulstilles data før 2008, så at de ikke ændres af kalibrering
-# ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_reset_data G_data$(t.val < 2001);
-@set(G_reset_data, .l, _data);

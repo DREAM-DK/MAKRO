@@ -263,7 +263,7 @@ For
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{aligned}V_{a,t}\left(B_{a-1,t-1},D_{a-1,t-1}\right) & =\max_{C_{a,t},D_{a,t}}U\left(C_{a,t},D_{a,t}\right)\\
+\begin{aligned}V_{a,t}keyne\left(B_{a-1,t-1},D_{a-1,t-1}\right) & =\max_{C_{a,t},D_{a,t}}U\left(C_{a,t},D_{a,t}\right)\\
  & +\beta V_{a,t}^{Wealth}\left(B_{a,t},D_{a,t}\right)\\
  & +\beta\mathbb{W}_{a+1,t+1}\left(B_{a,t},D_{a,t}\right)
 \end{aligned}
@@ -2150,7 +2150,7 @@ noprefix "false"
 \begin_layout Subsubsection
 
 \series bold
-Reference consumption - Keynesian consumption and habits
+Reference consumption - HtM consumption and habits
 \end_layout
 
 \begin_layout Standard
@@ -2162,8 +2162,8 @@ Recent evidence on inter-temporal consumption behavior shows that following
  2021.
  This is inconsistent with the typical business cycle models; the standard
  way to match high on-impact MPC's has been to combine a share of Ricardian
- agents with a share of “hand-to-mouth” agents who consume all income in
- every period (e.g.
+ agents with a share of “hand-to-mouth” (HtM) agents who consume all income
+ in every period (e.g.
  Bilbiie 2008).
  This, however, only generates high on-impact marginal propensities to consume
  but no effects in the following periods (as the Ricardian agents have close
@@ -2193,7 +2193,7 @@ ty (e.g.
 
  Here, we implement a solution that does not rely on stochasticity.
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Note that it is possible to solve a particular class of HANK models without
@@ -2202,6 +2202,12 @@ Note that it is possible to solve a particular class of HANK models without
  Bilbiie 2020.
  This is not possible in our case, since we want to match the model to the
  rich features of wealth in data.
+ Also note that a recent strand of literature obtains empirically realistic
+ inter-temporal MPC's, see e.g.
+ Angeletos et al.
+ (2024), by building on a perpetual youth OLG model alla Blanchard (1985)
+ with very high probabilities of death.
+ 
 \end_layout
 
 \end_inset
@@ -2218,13 +2224,13 @@ Note that it is possible to solve a particular class of HANK models without
  The idea of including income as a term in reference consumption was first
  presented in Carroll et al.
  (2023).
- We refer to this component as Keynesian consumption.
+ We refer to this component as HtM consumption.
  The resulting high MPC behavior can be interpreted in various ways.
  For example, high on-impact spending of a transitory income shock is typically
  explained by liquidity constraints in the two-agent New-Keynesian literature
  (TANK), e.g., models with hand-to-mouth consumers and the HANK literature.
  A different contender for high first-period excess spending that does not
- rely on liquidity is durable (non-housing) purchases.
+ rely on liquidity constraints is durable (non-housing) purchases.
  Durables have layouts that are more front-loaded due to the long-lasting
  consumption flow of the stock cf.
  Laibson et al.
@@ -2255,7 +2261,7 @@ where
  denotes consumption net of a reference quantity:
 \begin_inset Formula 
 \[
-\tilde{C}_{a,t}=\frac{C_{a,t}}{\zeta_{a,t}}-\chi^{C}\frac{C_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{KC},a,t}}{P_{t}^{C}}
+\tilde{C}_{a,t}=\frac{C_{a,t}}{\zeta_{a,t}}-\chi^{C}\frac{C_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P_{t}^{C}}
 \]
 
 \end_inset
@@ -2273,7 +2279,7 @@ denotes the (external) reference share of consumption and
 \end_inset
 
  is the reference share on income with 
-\begin_inset Formula $y_{\text{KC},a,t}$
+\begin_inset Formula $y_{\text{HtM},a,t}$
 \end_inset
 
  being a liquid income term defined as
@@ -2282,7 +2288,7 @@ denotes the (external) reference share of consumption and
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-y_{\text{KC},a,t} & =y_{a,t}\label{eq:KC_income}\\
+y_{\text{KC},a,t} & =y_{a,t}\label{eq:HtM_income}\\
  & -\text{capital pensions}-\text{age pension}\nonumber \\
  & -\text{inheritance adjustment}\nonumber 
 \end{align}
@@ -2344,7 +2350,7 @@ The reference quantity
 We do the same for housing by considering the following object inside utility
 \begin_inset Formula 
 \[
-\tilde{D}_{a,t}=\frac{D_{a,t}}{\zeta_{a,t}}-\chi^{D}\frac{D_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{KC},a,t}}{P_{t}^{C}}
+\tilde{D}_{a,t}=\frac{D_{a,t}}{\zeta_{a,t}}-\chi^{D}\frac{D_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P_{t}^{C}}
 \]
 
 \end_inset

@@ -107,7 +107,7 @@ name "sec:Introduction"
 
 \begin_layout Standard
 The documentation contained in the subsequent chapters is a description
- of the model version 2023-March.
+ of the model version 2024-December.
  Although it is written mainly for model users to understand the background
  of the computational code, each chapter contains a description of the relevant
  theoretical part that a wider audience can understand.
@@ -120,8 +120,7 @@ Households.
 
 \begin_layout Standard
 This chapter lays out the household problem.
- There are two types of households in the model.
- Optimizing households and Hand-To-Mouth (HTM) households.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -143,18 +142,23 @@ Optimizing households solve a dynamic life cycle problem within an overlapping
  The optimal choice of the non-durable consumption bundle is a static decision
  organized in a sequence of cost-minimization problems.
  The optimal job search decision is also a dynamic, forward-looking decision.
-\end_layout
+ Bells and whistles are added to the utility function so as to be consistent
+ with empirical data.
+ We add reference consumption in utility for both durable and non-durable
+ consumption.
+ More precisely, we add both habits as to be consistent with hump-shaped
+ responses as typically observed in macro-data, and a reference consumption
+ part we coin 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Standard
-Hand-to-mouth agents have zero financial assets and allocate their income
- between non-durable consumption and housing every period.
- This is a proxy for an explicit model of financial constraints.
- The presence of HTM households helps aggregate consumption track income
- over the life cycle, and increases the aggregate marginal propensity to
- consume out of transitory income shocks, as changes in income are fully
- transmitted to expenditure for these agents.
- The proportion of HTM agents in the model is estimated to match these targets
- in the data.
+HtM
+\begin_inset Quotes erd
+\end_inset
+
+ (hand-to-mouth) consumption which tracks liquid income as to be consistent
+ with micro-data evidence on inter-temporal MPC's.
+ 
 \end_layout
 
 \begin_layout Standard

@@ -49,7 +49,6 @@ $IF %stage% == "variables":
     qL[s_,t]$(s[s_] or spTot[s_] or sTot[s_]) "Arbejdskraft i effektive enheder før kapacitetsudnyttelse."
   ;
 	$GROUP G_production_private_values_endo
-    empty_group_dummy
   ;
 
 	$GROUP G_production_private_endo
@@ -59,7 +58,6 @@ $IF %stage% == "variables":
 
     rLUdn[s_,t]$(not off[s_]) "Kapacitetsudnyttelse af arbejdskraft."
     rKUdn[i_,s_,t]$(d1K[i_,s_,t-1] and eKUdn.l[i_,s_] <> 0 or spTot[s_] or sTot[s_]) "Kapacitetsudnyttelse af sidste periodes qK."
-    ErSkatAfskr[k,s_,t]$(sp[s_]) "Skyggepris for skatteværdien af bogført kapitalapparat."
     hL[s_,t]$(sp[s_]) "Erlagte arbejdstimer fordelt på brancher, Kilde: ADAM[hq] eller ADAM[hq<i>]"
     dKInstOmk2dK[k,s_,t]$(d1K[k,s_,t] and sp[s_]) "qKInstOmk[t] differentieret ift. qK[t]"
     dKInstOmk2dKLag[k,s_,t]$(d1K[k,s_,t] and sp[s_]) "qKInstOmk[t] differentieret ift. qK[t-1]"
@@ -109,7 +107,7 @@ $IF %stage% == "variables":
   ;
 
   $GROUP G_production_private_exogenous_forecast
-    empty_group_dummy[t] ""
+    rIL2Y[s_,t]$(sp[s_] and d1I_s['iL',sp,t]) "Lagerinvesteringer ift. samlet produktion."
   ;
   $GROUP G_production_private_forecast_as_zero
     jfrLUdn[sp,t] "J-led."
@@ -154,7 +152,7 @@ $IF %stage% == "equations":
     E_qI_sp[k,sp,t]$(d1I_s[k,sp,t]).. qI_s[k,sp,t] =E= qK[k,sp,t] - (1 - rAfskr[k,sp,t]) * qK[k,sp,t-1]/fq;
 
     # Inventory investments
-    E_qI_s_iL_private[sp,t]$(d1IO['iL',sp,t]).. qI_s['iL',sp,t] =E= qIO['iL',sp,t];      
+    E_qI_s_iL_private[sp,t]$(d1I_s['iL',sp,t]).. qI_s['iL',sp,t] =E= rIL2Y[sp,t] * qY[sp,t];
   $ENDBLOCK
 
   $BLOCK B_production_private_forwardlooking$(tx0[t])
@@ -340,8 +338,8 @@ $IF %stage% == "equations":
     E_pK[k,sp,t]$((tx0E[t] and not bol[sp]) and d1K[k,sp,t])..
       pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t]
-      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t+1]) * pI_s[k,sp,t+1]*fp
+        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp
       # Production tax on capital
       + tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp
       # Tax shield and collateral value on capital
@@ -361,12 +359,6 @@ $IF %stage% == "equations":
     # Terminal condition for capital stock
     E_qK_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t] and not bol[sp])..
       qI_s[k,sp,t] =E= fq * qI_s[k,sp,t-1]/fq;
-
-		# First order condition with respect to tax deductible capital ('Shadows price')
-    E_ErSkatAfskr[k,sp,t]$(tx0E[t] and d1K[k,sp,t])..
-      ErSkatAfskr[k,sp,t] =E= ((1-rSkatAfskr[k,t+1]) * ErSkatAfskr[k,sp,t+1] + mtVirk[sp,t+1] * rSkatAfskr[k,t+1]) * fVirkDisk[sp,t+1];
-    E_ErSkatAfskr_tEnd[k,sp,t]$(tEnd[t] and d1K[k,sp,t])..
-      ErSkatAfskr[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Hjælpe-ligninger til faktor-efterspørgsel
@@ -637,8 +629,8 @@ $IF %stage% == "equations":
     E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t])..
       pK[k,spTot,t+1]*fp * qK[k,spTot,t] =E= fpK_spTot[k,t] *(
       # Tobin's q today and tomorrow
-      sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
-      - sum(sp$(not bol[sp]), (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-ErSkatAfskr[k,sp,t+1]) * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
+      sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
+      - sum(sp$(not bol[sp]), (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
       # Production tax on capital
       + sum(sp$(not bol[sp]), tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
       # Tax shield and collateral value on capital
@@ -663,10 +655,8 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # sTot aggregates
     # ------------------------------------------------------------------------------------------------------------------
-    # Kan evt. komme i post-model
     E_qL_sTot[t].. qL[sTot,t] =E= sum(s, qL[s,t]);
 
-    # Kan evt. komme i post-model
     E_rKUdn_sTot[k,t].. rKUdn[k,sTot,t] * sum(s, qKUdn[k,s,t] / rKUdn[k,s,t]) =E= sum(s, qKUdn[k,s,t]);
 
     E_rLUdn_sTot[t]..
@@ -685,94 +675,6 @@ $IF %stage% == "equations":
     qI_s[i_,s_,t]$(d1I_s[i_,s_,t] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
   ;
   $GROUP G_production_private_static G_production_private_static$(tx0[t]);
-
-  # Equations that do not need to be solved together with the full model and can instead be solved afterwards.
-  MODEL M_production_private_post /
-    E_pY0_spTot
-    E_pKELBR_spTot
-    E_qKELBR_spTot
-    E_qKELBR_spTot_via_fuY_spTot
-    E_qR_spTot_via_fR_spTot
-    E_qR_via_fR
-    E_rR2KELBR_spTot
-    E_rPrisEffekt_R_spTot
-    E_rPrisEffekt_R
-    E_qKUdn_iB_spTot
-    E_qKUdn_iB_spTot_via_fB_spTot
-    E_qKUdn_iB_via_fB
-    E_rB2KELBR_spTot
-    E_rPrisEffekt_B_spTot
-    E_rPrisEffekt_B
-    E_qLUdn_spTot
-    E_qLUdn_spTot_via_fL_spTot
-    E_qLUdn_via_fL
-    E_rL2KELBR_spTot
-    E_rPrisEffekt_L_spTot
-    E_rPrisEffekt_L
-    E_pLUdn_spTot
-    E_qE_spTot_via_fE_spTot
-    E_qE_via_fE
-    E_rE2KELBR_spTot
-    E_rPrisEffekt_E_spTot
-    E_rPrisEffekt_E
-    E_qKUdn_iM_spTot
-    E_qKUdn_iM_spTot_via_fK_spTot
-    E_qKUdn_iM_via_fK
-    E_rK2KELBR_spTot
-    E_rPrisEffekt_K_spTot
-    E_rPrisEffekt_K
-    E_pKUdn_spTot
-    E_qKInstOmk_spTot
-    E_qKInstOmk_kTot_spTot
-
-    E_rAfskr_spTot
-
-#    E_rLUdn_sTot
-#    E_rKUdn_sTot
-#    E_qL_sTot
-  /;
-
-
-  # Endogenous variables that are solved for only after the main model.
-  # Note that these may not appear anywhere in the main model (this results in a model not square error).
-  $GROUP G_production_private_post
-    pY0[s_,t]$((spTot[s_] and t.val > %cal_start%))
-    pKELBR[s_,t]$(spTot[s_] and t.val > %cal_start%)
-    qKELBR[s_,t]$(spTot[s_] and t.val > %cal_start%)
-    fuY_spTot[t]$(t.val > %cal_start%)
-    fR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    rR2KELBR[spTot,t]$(t.val > %cal_start%)
-    rPrisEffekt_R[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    qKUdn[i_,s_,t]$(iB[i_] and spTot[s_] and t.val > %cal_start%)
-    fB[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    rB2KELBR[spTot,t]$(t.val > %cal_start%)
-    rPrisEffekt_B[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    qLUdn[s_,t]$(spTot[s_] and t.val > %cal_start%)
-    fL[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    rL2KELBR[spTot,t]$(t.val > %cal_start%)
-    rPrisEffekt_L[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    pLUdn[s_,t]$(spTot[s_] and t.val > %cal_start%)
-    fE[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    rE2KELBR[spTot,t]$(t.val > %cal_start%)
-    rPrisEffekt_E[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%))
-    qKUdn[i_,s_,t]$(iM[i_] and spTot[s_] and t.val > %cal_start%)
-    fK[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%))
-    rK2KELBR[spTot,t]$(t.val > %cal_start%)
-    rPrisEffekt_K[s_,t]$((sp[s_] and d1K['iM',s_,t]) or (spTot[s_] and t.val > %cal_start%))
-    pKUdn[k,s_,t]$(spTot[s_] and t.val > %cal_start%)
-    qKInstOmk[i_,s_,t]$(spTot[s_] and t.val > %cal_start%)
-
-    rAfskr[k,s_,t]$(spTot[s_])
-
-#    E_rLUdn_sTot
-#    E_rKUdn_sTot
-#    E_qL_sTot
-  ;
-
-
-
-
-  $GROUP G_production_private_post G_production_private_post$(tx0[t]);
 $ENDIF
 
 
@@ -792,7 +694,6 @@ $IF %stage% == "exogenous_values":
   ;
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_production_private_data_imprecise 
-    empty_group_dummy
   ;
 
 # ======================================================================================================================
@@ -878,7 +779,7 @@ $IF %stage% == "exogenous_values":
   set_data_periods(1967, %cal_end%);
 
   rAfskr_static.l[k,sp,t]$(tDataX1[t] and d1I_s[k,sp,t]) = max(0, (qI_s.l[k,sp,t] - (qK.l[k,sp,t] - qK.l[k,sp,t-1])) / qK.l[k,sp,t-1]);
-  @HPfilter(rAfskr_static, 100);
+  @HPfilter(rAfskr_static, 100, %cal_start%, %cal_end%);
 
   gpI_s_static.l[k,sp,t]$(tDataX1[t] and d1I_s[k,sp,t]) = pI.l[k,t] / pI.l[k,t-1] - 1;
   gpI_s_static.l[k,sp,t] = @mean(tt$[t.val-5 < tt.val and tt.val <= t.val], gpI_s_static.l[k,sp,tt]);  # MA5
@@ -906,6 +807,7 @@ $IF %stage% == "static_calibration":
     -qK[k,sp,tEnd]$(not bol[sp]) # -E_qK_tEnd
     jfrLUdn_t[t], -rLUdn[spTot,t]
     jrKInstOmk[k,sp,t]
+    -qI_s['iL',sp,t], rIL2Y[sp,t]
   ;
 
   $GROUP G_production_private_static_calibration
@@ -942,14 +844,11 @@ $IF %stage% == "static_calibration":
     # og derved skal stige yderligere fremadrettet (ved at andelsparameteren skal være højere)
     E_jrKInstOmk[k,sp,t]$(d1K[k,sp,t]).. rKInstOmk[k,sp,t] =E= 1;
 
-    E_ErSkatAfskr_static[k,sp,t]$(d1K[k,sp,t])..
-      ErSkatAfskr[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
-
     E_pK_static[k,sp,t]$(tx0E[t] and not bol[sp] and d1K[k,sp,t])..
       pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rVirkDisk[sp,t]) / (1-mtVirk[sp,t]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t]
-      - (1-rAfskr_static[k,sp,t]) / (1-mtVirk[sp,t]) * (1-ErSkatAfskr[k,sp,t]) * pI_s[k,sp,t] * (1+gpI_s_static[k,sp,t])
+        (1+rVirkDisk[sp,t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr_static[k,sp,t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * (1+gpI_s_static[k,sp,t])
       # Production tax on capital
       + tK[k,sp,t] * pI_s[k,sp,t]*(1+gpI_s_static[k,sp,t])
       # Tax shield and collateral value on capital
@@ -976,7 +875,6 @@ $IF %stage% == "static_calibration":
   MODEL M_production_private_static_calibration /
     M_production_private
     B_production_private_static_calibration_base
-    -E_ErSkatAfskr - E_ErSkatAfskr_tEnd  # E_ErSkatAfskr_static
     -E_pK - E_qK_tEnd  # E_pK_static
     -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
     -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
@@ -990,7 +888,6 @@ $IF %stage% == "static_calibration":
   MODEL M_production_private_static_calibration_newdata /
     M_production_private
     B_production_private_static_calibration_base
-    -E_ErSkatAfskr - E_ErSkatAfskr_tEnd  # E_ErSkatAfskr_static
     -E_pK - E_qK_tEnd  # E_pK_static
     -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
     -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
@@ -1054,7 +951,7 @@ $IF %stage% == "deep_dynamic_calibration":
       rL2KEL[sp,t] =E= rL2KEL_ARIMA[sp,t] * rL2KEL[sp,t1] / rL2KEL_ARIMA[sp,t1];
   $ENDBLOCK
   MODEL M_production_private_deep /
-    M_production_private - M_production_private_post
+    M_production_private
     B_production_private_deep
     E_uK
   /;
@@ -1070,8 +967,6 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     uL[sp,t1], -qE[sp,t1]
     uL[sp,tx1] # E_uL_forecast
-
-    uK[k,sp,tx0]$(d1K[k,sp,t] and not harrod_neutral[sp]) # E_uK
 
     rR2KELBR[sp,t1], -qR[sp,t1]
     rR2KELBR[sp,tx1] # E_rR2KELBR_forecast
@@ -1099,7 +994,8 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     # Afskrivningsraterne i foreløb data virker utroværdige.
     # Vi sætter uK således at ændringen i effektivt kapitalapparat baseres på afskrivningsrater fra endelig data.
-    uK[k,sp,tx0]$(d1K[k,sp,t] and harrod_neutral[sp]) # E_uK_forecast
+    uK[k,sp,tx0]$(d1K[k,sp,t] and harrod_neutral[sp]) # E_uK_harrod_neutral
+    uK[k,sp,tx0]$(d1K[k,sp,t] and not harrod_neutral[sp]) # E_uK_not_harrod_neutral
   ;
   $BLOCK B_production_private_dynamic_calibration$(tx0[t] )
     E_uL_forecast[sp,t]$(tx1[t]).. uL[sp,t] =E= uL_baseline[sp,t] * uL[sp,t1] / uL_baseline[sp,t1];
@@ -1112,13 +1008,18 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     # @copy_equation_to_period(E_jrKInstOmk, t2)
 
-    E_uK_forecast[k,sp,t]$(d1K[k,sp,t] and harrod_neutral[sp])..
-      uK[k,sp,t] * qK[k,sp,t-1]/fq =E= (1-rAfskr_baseline[k,sp,t]) * uK[k,sp,t-1] * qK[k,sp,t-2]/fq/fq + qI_s[k,sp,t-1]/fq;
+    E_uK_harrod_neutral[k,sp,t]$(d1K[k,sp,t] and harrod_neutral[sp])..
+      uK[k,sp,t] * qK[k,sp,t-1]/fq =E= (1-rAfskr_baseline[k,sp,t]) * uK[k,sp,t-1] * qK[k,sp,t-2]/fq/fq
+                                     + qI_s[k,sp,t-1]/fq;
+
+    E_uK_not_harrod_neutral[k,sp,t]$(d1K[k,sp,t] and not harrod_neutral[sp])..
+      uK[k,sp,t] * qK[k,sp,t-1]/fq =E= (1-rAfskr_baseline[k,sp,t]) * uK[k,sp,t-1] * qK[k,sp,t-2]/fq/fq
+                                     * uL[sp,t] / uL[sp,t-1] # uK antages at følge uL, på nær korrektion for afskrivningsrate
+                                     + qI_s[k,sp,t-1]/fq;
   $ENDBLOCK
 
   MODEL M_production_private_dynamic_calibration /
-    M_production_private - M_production_private_post
+    M_production_private
     B_production_private_dynamic_calibration
-    E_uK
   /;
 $ENDIF

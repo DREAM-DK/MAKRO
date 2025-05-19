@@ -72,7 +72,7 @@ page_1_figures = [
 
     ("Primær saldo, andel af BNP<br>(vPrimSaldo / vBNP)", "Primary budget surplus, share of GDP<br<br>(vPrimSaldo / vBNP)", lambda s: s.vPrimSaldo / s.vBNP, "pm"),
     ("Holdbarhedsindikator (rHBI)", "", lambda s: s.rHBI, "pm"),
-    ("Skatte-reaktion (tLukning)", "Tax reaction (tLukning)", lambda s: s.tLukning, ""),
+    ("Skatte-reaktion (tLukning)", "Tax reaction (tLukning)", lambda s: s.tLukning, "pm"),
 
     ("Bruttoledighedsgrad<br>(nBruttoLedig/nBruttoArbsty)", "Unemployment rate<br>(nBruttoLedig/nBruttoArbsty)", lambda s: s.nBruttoLedig / s.nBruttoArbsty, "pm"),
     ("Outputgab (qBVT / sqBVT - 1)", "Output gap (qBVT / sqBVT - 1)", lambda s: s.qBVT / s.sqBVT - 1, "pm"),
@@ -454,6 +454,24 @@ ekstra_figures = [
     ("", "", lambda s: s.qBNP*0, ""),
     ("", "", lambda s: s.qBNP*0, ""),
     ("", "", lambda s: s.qBNP*0, ""),
+]
+
+standard_IRF_check_figures = [
+    ("BNP (qBNP)", "Gross national product (qBNP)", lambda s: s.qBNP, "pq"),
+    ("Beskæftigelse (nL)", "Employment (nL)", lambda s: s.nL, "pq"),
+
+    ("Privat forbrug (qC)", "Private consumption (qC)", lambda s: s.qC, "pq"),
+    ("Eksport (qXy)", "Exports (qXy)", lambda s: s.qXy, "pq"),
+    ("Import (qM)", "Imports (qM)", lambda s: s.qM, "pq"),
+
+    ("Private investeringer<br>(qI_s[iM,spTot]+qIbErhverv)", "Private investments<br>(qI_s[iM,spTot])", lambda s: s.qI_s["iM","spTot"]+s.qIbErhverv, "pq"), # slå sammen
+    ("Boliginvesteringer (qI_s[iB,bol])", "Housing investments (qI_s[iB,bol])", lambda s: s.qI_s["iB","bol"], "pq"),
+
+    ("BVT-deflator (pBVT)", "Prices index, GrossValueAdded<br>(pBVT)", lambda s: s.pBVT, "pq"),
+    ("Nominelle lønninger (vhW_DA)", "Nominal wages (vhW_DA)", lambda s: s.vhW_DA, "pq"),
+    ("Boligpriser (pBolig)", "Housing prices (pBolig)", lambda s: s.pBolig, "pq"),
+
+    ("Primær saldo, andel af BNP<br>(vPrimSaldo / vBNP)", "Primary budget surplus, share of GDP<br<br>(vPrimSaldo / vBNP)", lambda s: s.vPrimSaldo / s.vBNP, "pm"),
 ]
 
 def sector_plot(sector):

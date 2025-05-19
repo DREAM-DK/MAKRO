@@ -280,7 +280,7 @@ Note:
 
 \begin_layout Itemize
 The shock is to domestic labor productivity only - i.e.
- foreign demand market growth, foreign prices, and interest rates unchanged
+ foreign demand market growth, foreign prices, and interest rates are unchanged
 \end_layout
 
 \begin_layout Itemize
@@ -389,8 +389,7 @@ Compared to the labor productivity shock
 
 \begin_deeper
 \begin_layout Itemize
-There is a negative effect from less unemployment compensation on wages,
- government budget, etc.
+There is a negative effect from less unemployment compensation on wages.
 \end_layout
 
 \begin_deeper
@@ -428,7 +427,7 @@ Lower unemployment and unemployment compensation decrease income
 
 \end_deeper
 \begin_layout Itemize
-There are small effect on investments as production increases, but lower
+There are small effects on investments as production increases, but lower
  real wages induces substitution away from capital in production
 \end_layout
 
@@ -467,7 +466,7 @@ status open
 
 
 \backslash
-graphicspath{{Output/Arbejdsudbud/}}
+graphicspath{{Output/Arbejdsudbud_beskaeftigelse/}}
 \end_layout
 
 \end_inset
@@ -509,7 +508,7 @@ Note:
 
 \begin_layout Itemize
 The shock is to domestic capital productivity only - i.e.
- foreign demand market growth, foreign prices and interest rates are unchanged
+ foreign demand market growth, foreign prices and interest rates are unchanged.
 \end_layout
 
 \begin_layout Itemize
@@ -520,67 +519,67 @@ Compared to the labor productivity shock:
 \begin_layout Itemize
 There are smaller long-run effects on GVA as the non-reproducible input
  (effective labor) is unchanged and significantly smaller as substitution
- elasticities in production are small
+ elasticities in production are small.
 \end_layout
 
 \begin_layout Itemize
-Long run price effects are positive
+Long run price effects are positive.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Qualitatively, most effects are as in the shock to labor productivity
+Qualitatively, most effects are as in the shock to labor productivity.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Wages per hour worked increase and real wages increase
+Wages per hour worked increase and real wages increase.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 There is a positive effect on income, private consumption and housing investment
-s
+s.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-There are small net effects on employment
+There are small net effects on employment.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 In the short run, less employment for given production and increased production
- keeps employment relative stable
+ keeps employment relative stable.
 \end_layout
 
 \begin_layout Itemize
-In the long run employment is unchanged
+In the long run employment is unchanged.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 Productivity in public sector is unchanged - so government production and
- consumption is unchanged
+ consumption is unchanged.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Private GVA increase close to 1 percent, but total GVA and GDP less
+Private GVA increase close to 1 percent, but total GVA and GDP less.
 \end_layout
 
 \begin_layout Itemize
 Government production deflator grows as public sector wages follow private
- sector wages 
+ sector wages.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Scale effects in exports follow private GVA
+Scale effects in exports follow private GVA.
 \end_layout
 
 \begin_layout Itemize
-Positive effect on government budget and fiscal sustainability
+There is a positive effect on government budget and fiscal sustainability.
 \end_layout
 
 \end_deeper
