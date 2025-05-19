@@ -77,19 +77,15 @@ The [paths.py](paths.py) file should be adjusted with the path to your local GAM
 gamY is included in the dream-tools python package - see notes on installation below.
 
 ## Python packages
-The packages needed to run MAKRO can be installed in python using pip and the command
-```
-pip install gamsapi[transfer]==46.5.0 dream-tools==2.5.0 numpy pandas scipy statsmodels
-```
+The packages needed to run MAKRO can be installed in python using pip.
 
-We recommend using the python installation that comes with your GAMS installation.
-For reporting, and other purposes, we make use of several python packages in addition to the ones listed above.
-To install pip and all the packages that we use, simply run the code in install.py
+On Windows, we recommend running the script [install.cmd](install.cmd) and using the python installation that comes with your GAMS installation.
 
 ## Text editor
 The recommended text editor for working with gamY is [Visual Studio Code](https://code.visualstudio.com/) (VSCode), used with the GAMS installation of Python to run run.py files. You need to install the Python and Jupyter extensions to be able to run the run.py files. To activate the GAMS Python environment in VSCode, use ```ctrl+shift+p``` and select ```Python: Select interpreter```. If the GAMS Python environment is not found, enter the path manually (can be found in your GAMS installation, typically ```C:\GAMS\49\GMSPython```) and select python.exe as interpreter.
 
-In addition, we use the "gamY-syntax-highlighting" package for syntax compatability and the "Ayu" package for color theme. Note that in the MAKRO installation, there is a VSCode workspace, [MAKRO.code-workspace](MAKRO.code-workspace), from which it is recommended to open VSCode. 
+Note that in the MAKRO installation, there is a VSCode workspace, [MAKRO.code-workspace](MAKRO.code-workspace), from which it is recommended to open VSCode.
+The workspace includes package recommendations, such as "gamY-syntax-highlighting" package for syntax compatibility.
 
 ## Running shocks
 The [Analysis/Standard_shocks](Analysis/Standard_shocks) subdirectory contains files for running a large number of pre-defined shocks, and it is straightforward to disable existing shocks and add new custom shocks instead. This is done by editing [standard_shocks.gms](Analysis/Standard_shocks/standard_shocks.gms). The run file, [Analysis/Standard_shocks/run.py](Analysis/Standard_shocks/run.py), is set up to run this file, followed by two python reporting files.
