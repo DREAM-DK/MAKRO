@@ -63,7 +63,7 @@ $SETGLOBAL base_year 2020 # Basis year for growth and inflation adjustments
 $SETGLOBAL cal_start 1985 # Calibration start year
 $SETGLOBAL cal_deep 2019 # Last calibration year used for structural parameters
 $SETGLOBAL cal_end 2024 # Last calibration year with full national accounting data, but no data on age profiles
-$SETGLOBAL terminal_year 2130 # The terminal year
+$SETGLOBAL terminal_year 2129 # The terminal year
 $SETGLOBAL rHBI_eval %cal_deep% # Year in which rHBI is evaluated
 
 $SETGLOBAL NettoFin_t1 1994 # First year with net financial data

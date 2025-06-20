@@ -58,7 +58,7 @@ $IF %stage% == "variables":
   ;
   $GROUP G_IO_quantities_endo
     qY[s_,t]$(not (udv[s_] or bol[s_]) and not off[s_]) "Produktion fordelt på brancher, Kilde: ADAM[fX]"
-    qM[s_,t] "Import fordelt på importgrupper, Kilde: ADAM[fM] eller ADAM[fM<i>]"
+    qM[s_,t]$(s[s_] or sTot[s_]) "Import fordelt på importgrupper, Kilde: ADAM[fM] eller ADAM[fM<i>]"
     qBVT[s_,t] "BVT, Kilde: ADAM[fYf] eller ADAM[fYf<i>]"
     qBNP[t] "BNP, Kilde: ADAM[fY]"
 
@@ -160,13 +160,9 @@ $IF %stage% == "variables":
 
     fpIVaerdi[t] "Korrektionsfaktor som sørger for at lagerinvesteringskomponenter kædeaggregerer"
 
-    # vI fastholder en eksogen fordeling af offentlige nyinvesteringer på investeringstyper.
-    # De tilhørende skalaparametre er endogene.
-    uIO0[d_,s_,t]$(i_[d_] and not iL[d_] and off[s_] and d1IO[d_,s_,t]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
-
-    # Alt offentligt salg til privat forbrug antages at gå til forbrug af øvrige tjenester.
-    # Den tilhørende skalaparameter er endogen.
-    uIO0[d_,s_,t]$(c_[d_] and off[s_] and d1IO[d_,s_,t]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
+    # Alt offentligt salg til private er udbudsdrevet og uIO0 hhv. uIOXy0 giver sig.
+    uIO0[d_,s_,t]$((r_[d_] or c_[d_] or i_[d_]) and off[s_] and d1IOy[d_,s_,t]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
+    uIOXy0[x,s,t]$(off[s] and d1IOy[x,s,t]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
 
     qC[c_,t]$(cbol[c_])
 
@@ -244,12 +240,11 @@ $IF %stage% == "variables":
     rpMTraeghed[d_,s] "Parameter til at styre kortsigtet priselasticitet."
     upM2YTraeghed[dux,s] "Parameter til at styre kortsigtet import-priselasticitet."
     eIO[d_,s_] "Substitutionselasticitet mellem import og indenlandsk produktion for diverse input for efterspørgselskomponenterne."
-    tIOy_tBase[d,s] "Lig tIOy[d,s,tBase] i statisk kalibrering - nødvendigt når basisår er efter dyb kalibreringsår."
-    tIOm_tBase[d,s] "Lig tIOm[d,s,tBase] i statisk kalibrering - nødvendigt når basisår er efter dyb kalibreringsår."
+    tIOy_tBase[d_,s] "Lig tIOy[d_,s,tBase] i statisk kalibrering - nødvendigt når basisår er efter dyb kalibreringsår."
+    tIOm_tBase[d_,s] "Lig tIOm[d_,s,tBase] i statisk kalibrering - nødvendigt når basisår er efter dyb kalibreringsår."
   ;
   $GROUP G_IO_fixed_forecast
-    rqIO2qG[c,t] "Offentlige leverancer til privat forbrug som andel af samlet offentligt forbrug."
-    rqIO2qYoff[i,t] "Offentlige leverancer til investeringer (F&U) som andel af samlet offentlig produktion."
+    rqIOy2qYoff[d_,t] "Offentlige leverancer til salg og til direkte investeringer som andel af samlet offentlig produktion."
     rvILager2iL[t] "Lagerinvesteringers andel af lagerinvesteringer, værdigenstande og stambesætninger."
     rvIstam2iL[t] "Stambesætningers andel af lagerinvesteringer, værdigenstande og stambesætninger."
 
@@ -282,13 +277,13 @@ $IF %stage% == "equations":
     E_qIO_i[i,s,t]$(d1IO[i,s,t]).. qIO[i,s,t] =E= uIO[i,s,t] * qI[i,t];
     E_qIO_g[g,s,t]$(d1IO[g,s,t]).. qIO[g,s,t] =E= uIO[g,s,t] * qG[g,t];
 
-    # Offentlige leverancer til privat forbrug (fx privatfinansieret del af børnehaver) følger offentligt og ikke privat forbrug
+    # Offentligt salg til private og direkte investeringer følger offentligt produktion (fremfor at følge efterspørgsel)
     # Øvrige leverencer tager tilpasning via. skalering i E_uIO.
-    E_uIO0_c_pub_via_qIO[c,t]$(d1IO[c,'off',t]).. qIO[c,'off',t] =E= rqIO2qG[c,t] * qG[gTot,t];
+    E_uIO0_pub_via_qIOy[d_,t]$((r_[d_] or c_[d_] or i_[d_]) and d[d_] and d1IOy[d_,'off',t])..
+      qIOy[d_,'off',t] =E= rqIOy2qYoff[d_,t] * (1 + tIOy_tBase[d_,'off']) * qY['off',t];
 
-    # Offentlige direkte investeringer følger offentligt produktion (fremfor at følge samlede investeringer)
-    # Øvrige leverencer tager tilpasning via. skalering i E_uIO.
-    E_uIO0_i_pub_via_qIO[i,t]$(d1IO[i,'off',t] and not iL[i]).. qIO[i,'off',t] =E= rqIO2qYoff[i,t] * qY['off',t];
+    E_uIOXy0_pub_via_qIOy[x,t]$(d1IOy[x,'off',t])..
+      qIOy[x,'off',t] =E= rqIOy2qYoff[x,t] * (1 + tIOy_tBase[x,'off']) * qY['off',t];
 
     # Eksport særbehandles, da vi ikke har substitution mellem direkte eksport og import til reeksport
     # Vi har opdelt efterspørgslen på direkte eksport og import til reeksport i export.gms
@@ -335,10 +330,10 @@ $IF %stage% == "equations":
     # Only used if the user wishes to deviate from law of one price in the IO system.
     # IO system should ensure that demand equals supply. If you shock the demand prices through jfpIOy or jfpIOm
     # then these equations ensure that this is still the case.
-    E_jfpIOy_s[s,t]..
+    E_pY_via_jfpIOy_s[s,t]..
       pY[s,t] * qY[s,t] =E= sum(d, pIOy[d,s,t] / (1 + tIOy[d,s,t]) * qIOy[d,s,t]);
 
-    E_jfpIOm_s[s,t]$(m[s])..
+    E_pM_via_jfpIOm_s[s,t]$(m[s])..
       pM[s,t] * qM[s,t] =E= sum(d, pIOm[d,s,t] / (1 + tIOm[d,s,t]) * qIOm[d,s,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -869,7 +864,7 @@ $IF %stage% == "exogenous_values":
     vBVT$(sTot[s_] or s[s_])
     vBNP
     # Quantities
-    qIO$(s[s_] and d[d_]), qIOy$(s[s_]), qIOm$(s[s_]), qM, 
+    qIO$(s[s_] and d[d_]), qIOy$(s[s_]), qIOm$(s[s_]), qM[s,t], qM[sTot,t] 
     qY$(s[s_] or sTot[s_])
     qX, qR$(r[r_] or rtot[r_]), qE$(r[r_] or rtot[r_])
     qI_s$(s[s_] and i[i_] or (k[i_] and sByTot[s_]))
@@ -988,7 +983,7 @@ $IF %stage% == "exogenous_values":
   d1IOm[d,s,t] = abs(vIOm.l[d,s,t]) > min_cell_size[t];
 
   d1I_s[i_,s,t] = abs(vI_s.l[i_,s,t]) > min_cell_size[t];
-  d1K[k,s,t]    = (qK.l[k,s,t] > 0);
+  d1K[k,s,t]    = (qK.l[k,s,t] > min_cell_size[t]);
 
   d1IOy[dTots,s,t] = sum(d$dTots2d[dTots,d], d1IOy[d,s,t]);
   d1IOm[dTots,s,t] = sum(d$dTots2d[dTots,d], d1IOm[d,s,t]);
@@ -1021,7 +1016,7 @@ $IF %stage% == "static_calibration":
   $GROUP G_IO_static_calibration_base
     G_IO_endo
 
-    -pIO[dux_,s_,t], uIO0[dux,s_,t]$(d1IO[dux,s_,t]), rqIO2qYoff, rqIO2qG
+    -qIO[dux_,s_,t], uIO0[dux,s_,t]$(d1IO[dux,s_,t]), rqIOy2qYoff[d_,t]$(r_[d_] or c_[d_] or i_[d_] or x_[d_])
     fuIO # E_fuIO, E_fuIO_r
     fuIOe[r,t] # E_fuIOe
 
@@ -1039,6 +1034,9 @@ $IF %stage% == "static_calibration":
     -jluIOm[udv,t], qY[udv,t]
     qY[off,t], -qG[gTot,t]
 
+    -jfpIOy_s # -E_pY_via_jfpIOy_s
+    -jfpIOm_s # -E_pM_via_jfpIOm_s
+    
     # Tabelvariable
     -vILager, rvILager2iL
     -vIStam, rvIStam2iL
@@ -1066,8 +1064,8 @@ $IF %stage% == "static_calibration":
     E_fuIOXm[x,t]$(tx0[t] and d1Xm[x,t]).. sum(s, uIOXm0[x,s,t]) =E= 1;
     E_uIOm0_NoM[dux,s,t]$(tx0[t] and d1IOy[dux,s,t] and not d1IOm[dux,s,t]).. uIOm0[dux,s,t] =E= 0;
     E_uIOm0_NoY[dux,s,t]$(tx0[t] and d1IOm[dux,s,t] and not d1IOy[dux,s,t]).. uIOm0[dux,s,t] =E= 1;
-    E_tIOy_tBase[d,s]$(d1IOy[d,s,tBase]).. tIOy_tBase[d,s] =E= tIOy[d,s,tBase];
-    E_tIOm_tBase[d,s]$(d1IOm[d,s,tBase]).. tIOm_tBase[d,s] =E= tIOm[d,s,tBase];
+    E_nores_tIOy_tBase[d,s]$(d1IOy[d,s,tBase]).. tIOy_tBase[d,s] =E= tIOy[d,s,tBase];
+    E_nores_tIOm_tBase[d,s]$(d1IOm[d,s,tBase]).. tIOm_tBase[d,s] =E= tIOm[d,s,tBase];
     E_rpIOm2pIOy_static[dux,s,t]$(tx0[t] and d1IOy[dux,s,t] and d1IOm[dux,s,t] and eIO.l[dux,s] > 0)..
       rpIOm2pIOy[dux,s,t] =E= pIOm[dux,s,t] / pIOy[dux,s,t]
                             - dpM2pYTraeghed[dux,s,t]
@@ -1077,6 +1075,7 @@ $IF %stage% == "static_calibration":
     M_IO
     B_IO_static_calibration
     -E_rpIOm2pIOy -E_rpIOm2pIOy_tEnd # E_rpIOm2pIOy_static
+    -E_pY_via_jfpIOy_s -E_pM_via_jfpIOm_s
   /;
 
   $GROUP G_IO_static_calibration_newdata

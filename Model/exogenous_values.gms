@@ -51,8 +51,9 @@ $GROUP G_data  # Variables covered by data that should not be changed by the cal
   G_HHincome_data$(tData[t])
   G_struk_data$(tData[t])
 
-  G_imprecise_data # Jeg tror, at denne er overfloedig!
+  G_imprecise_data # Denne bør være overflødig
 ;
+$GROUP G_precise_data G_data, -G_imprecise_data;
 
 # ======================================================================================================================
 # Unload data

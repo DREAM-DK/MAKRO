@@ -9,7 +9,6 @@ parameter vHhNet_test[t]; vHhNet_test[t]$(tx1[t] and t.val >= 1996) =
   - (
   vHhNet.l[t-1]/fv 
    + vHhNetRenter.l[t] + vHhOmv.l['tot',t]
-   + jvHhxAfk.l[aTot,t] + jrHhxAfk.l[t] * vHhAkt.l['IndlAktier',aTot,t-1]/fv
     + vWHh.l[aTot,t]
     + vOvf.l['HhTot',t]
     + vHhNFErest.l[aTot,t]
@@ -18,7 +17,8 @@ parameter vHhNet_test[t]; vHhNet_test[t]$(tx1[t] and t.val >= 1996) =
     - vIBolig.l[t] # Boliginvesteringer
     );
 abort$(smax(t, abs(vHhNet_test[t])) > 0.01) "vHhNet does not match DST-equation", vHhNet_test;
-abort$(smax(t$(tForecast[t]), abs(vHhNet_test[t])) > 1e-7) "vHhNet does not match DST-equation in forecast", vHhNet_test;
+# t2 kan ikke testes med eksakt, da vhhx afstemmes i t2.
+abort$(smax(t$(tForecast[t] and not t2[t]), abs(vHhNet_test[t])) > 1e-7) "vHhNet does not match DST-equation in forecast", vHhNet_test;
 
 parameter vUdlNetRenter_sumtest[t]; vUdlNetRenter_sumtest[t]$(tx1[t] and t.val >= 1996) = 
   vUdlNetRenter.l[t] + vVirkNetRenter.l[t] + vHhNetRenter.l[t] + vOffNetRenter.l[t];

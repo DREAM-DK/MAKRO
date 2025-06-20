@@ -173,13 +173,9 @@ $IF %stage% == "variables":
   ;
   $GROUP G_GovRevenues_ARIMA_forecast
     # Endogene i stødforløb:
-    rOffFraUdlKap2BNP
-    rOffFraUdlEU2BNP
-    rOffVirk2BNP
     rvtAfgEU2vtAfg[t] "Andel af produktskatter som går til EU."
     rtKirke[t] "Andel af skatteydere som betaler kirkeskat, ADAM[bks]"
     ftVirksomhed[t] "Korrektionsfaktor fra faktisk til implicit skattesats"
-    ftAktieUdl[t] "Belastningsgrad for udbytter til udenlandske aktionærer."
     rUdlUdbytteDirekte[t] "Udbytter af udlandets direkte investeringer, som andel af samlet udbytte til udland."
   ;
   $GROUP G_GovRevenues_newdata_forecast
@@ -243,6 +239,7 @@ $IF %stage% == "variables":
     ftBund_a[a,t] "Alders-specifikt led i ftBund."
     ftAktieHh_t[t] "Tids-afhængigt led i ftAktieHh."
     ftAktieHh_a[a,t] "Alders-specifikt led i ftAktieHh."
+    ftAktieUdl[t] "Belastningsgrad for udbytter til udenlandske aktionærer."
     ftKommune_t[t] "Tids-afhængigt led i ftKommune."
     ftKommune_a[a,t] "Alders-specifikt led i ftKommune."
     jrvKapIndPos_a[a_,t]$(a[a_])
@@ -266,6 +263,9 @@ $IF %stage% == "variables":
     rOffFraVirk2BNP
     rOffFraHh2BNP
     rOffFraUdlRest2BNP
+    rOffFraUdlKap2BNP
+    rOffFraUdlEU2BNP
+    rOffVirk2BNP
   ;
 $ENDIF
 
@@ -407,7 +407,7 @@ $IF %stage% == "equations":
     E_vOffIndRest[t]..
       vOffIndRest[t] =E= vtArv[aTot,t] + vOffAfskr[kTot,t] + vBidrag[aTot,t]
                        + vOffFraUdlKap[t] + vOffFraUdlEU[t] + vOffFraUdlRest[t] + vOffFraHh[t] + vOffFraVirk[t]
-                       + vtKirke[aTot,t] + vJordrente[t] + vOffVirk[t] + jvOffPrimInd[t];
+                       + vtKirke[aTot,t] + vJordrente[t] + vOffVirk[t];
 
     # Sociale bidrag
     E_vBidrag_tot[t]..
@@ -445,7 +445,7 @@ $IF %stage% == "equations":
 # ----------------------------------------------------------------------------------------------------------------------
 #   Indkomstbegreber og fradrag
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vPersIndx_tot[t]$(t.val >= %BFR_t1%)..
+    E_vPersIndx_tot_via_vPersIndRest[t]$(t.val >= %BFR_t1%)..
       vPersIndx[aTot,t] =E= vWHh[aTot,t]
                           + vOvfSkatPl[aTot,t]
                           + vHhPensUdb['PensX',aTot,t]
@@ -453,7 +453,7 @@ $IF %stage% == "equations":
                           - vHhPensIndb['Kap',aTot,t]
                           + vPersIndRest[aTot,t];
 
-    E_vPersInd_tot[t]$(t.val >= %BFR_t1%)..
+    E_vPersInd_tot_via_vPersIndx[t]$(t.val >= %BFR_t1%)..
       vPersInd[aTot,t] =E= vPersIndx[aTot,t] - vtHhAM[aTot,t];
 
     E_vSkatteplInd_tot[t]..
@@ -665,7 +665,7 @@ $IF %stage% == "equations":
     E_vPersIndRest[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. vPersIndRest[a,t] =E= (uPersIndRest_a[a,t] + uPersIndRest_t[t]) * vSatsIndeks[t];
 
     # vPersIndRest[aTot,t] vil ikke være lig sum(a, vPersIndRest[a,t] * nPop[a,t]), da de 0-14-åriges personindkomst ikke beregnes og vi ikke ønsker at korrigere for dette i totalen
-    E_vPersIndRest_tot[t]$(t.val > %AgeData_t1%).. vPersInd[aTot,t] =E= sum(a, vPersInd[a,t] * nPop[a,t]);
+    E_vPersInd_tot[t]$(t.val > %AgeData_t1%).. vPersInd[aTot,t] =E= sum(a, vPersInd[a,t] * nPop[a,t]);
 
     # Rentefradrag
     E_vKapIndPos[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
@@ -773,7 +773,7 @@ $IF %stage% == "exogenous_values":
     #Øvrige
     tKapPens, tPAL, tAMbidrag, tBund, tTop, tMellem, tTopTop, tKirke, tKommune, tSelskab, rtKirke
     vtSelskabTillaeg, vtAfgEU
-    vtEU, jvOffPrimInd
+    vtEU
     vHhAktieInd$(aTot[a_])
   ;
   @load(G_GovRevenues_makrobk, "..\Data\makrobk\makrobk.gdx" )
@@ -807,7 +807,6 @@ $IF %stage% == "exogenous_values":
   $GROUP G_GovRevenues_data_imprecise  # Variables covered by data
     vtIndirekte
     vtEU # Små afrundinger i ADAM
-    jvOffPrimInd
     tBund$(t.val = 2017)
     tTop$(t.val = 2017)
     tKommune$(t.val = 2017)
@@ -857,7 +856,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_GovRevenues_static_calibration_base
     G_GovRevenues_endo
   # Primære indtægter
-    jvOffPrimInd, -vOffPrimInd
     utHhVaegt, -vtHhVaegt[aTot,t]
     tEjd, -vtEjd[aTot,t]
     ftVirksomhed$(t.val > 1986), -vtVirksomhed[aTot,t]
@@ -882,7 +880,7 @@ $IF %stage% == "static_calibration":
     tKulbrinte, -vtKulbrinte  
     uBidragOblTjm$(t.val >= %BFR_t1%), -vBidragOblTjm
     uBidragATP$(t.val >= %BFR_t1%), -vBidragATP
-    uBidragOblRest$(t.val >= %BFR_t1%), -vBidragObl
+    uBidragOblRest$(t.val >= %BFR_t1%), -vBidragOblRest
     uBidragEL$(t.val >= %BFR_t1%), -vBidragEL
     uBidragFri$(t.val >= %BFR_t1%), -vBidragFri
     uBidragTjmp$(t.val >= %BFR_t1%), -vBidragTjmp

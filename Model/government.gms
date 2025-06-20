@@ -113,13 +113,12 @@ $IF %stage% == "variables":
     vOffFraUdlKap
     vOffFraUdlEU
     vOffFraUdlRest
-    jvOffPrimInd
     vOffFraVirk
     vOffFraHh
     vOffPrimUd
     vG['gTot']
-    vG_ind
-    vG_kol
+    vGInd
+    vGKol
     vOffInv
     vOvf['tot']
     vOvf['pension']
@@ -250,10 +249,10 @@ $IF %stage% == "equations":
 # Renter, formuer og saldo
 # ----------------------------------------------------------------------------------------------------------------------
     E_vPrimSaldo[t].. vPrimSaldo[t] =E= vOffPrimInd[t] - vOffPrimUd[t];
-    E_vSaldo[t].. vSaldo[t] =E= vPrimSaldo[t] + vOffNetRenterx[t];
+    E_vSaldo[t].. vSaldo[t] =E= vPrimSaldo[t] + vOffNetRenterx[t] + vtLukning[aTot,t];
 
     E_vOffNet[t]$(t.val > %NettoFin_t1%)..
-      vOffNet[t] =E= vOffNet[t-1]/fv + vSaldo[t] + vOffOmv[t] + vtLukning[aTot,t] - vGLukning[t];
+      vOffNet[t] =E= vOffNet[t-1]/fv + vSaldo[t] + vOffOmv[t] - vGLukning[t];
 
     E_vOffAktRenter[portf,t]$(d1vOffAkt[portf,t] and t.val > %NettoFin_t1%)..
       vOffAktRenter[portf,t] =E= (rRente[portf,t] + jrOffAktRenter[portf,t]) * vOffAkt[portf,t-1]/fv;
@@ -363,11 +362,13 @@ $IF %stage% == "equations":
     E_rHBIxMerafkast[t]$(t.val < tEnd.val)..
       rHBIxMerafkast[t] =E= (nvPrimSaldo[t+1]*fv / (1+mrOffRente[t+1]) + vOff13Net[t]) / nvBNP[t];
 
+    # Nutidsværdier til beregning og dekomponering af HBI.
+    # Som terminalbetingelse anvendes gennemsnit af de 5 sidste år.
     $LOOP G_government_nv_variables:
       E_n{name}{sets}$({conditions} and t.val < tEnd.val)..
         n{name}{sets} =E= {name}{sets} + n{name}{sets}{$}[<t>t+1] * fv / (1+mrOffRente[t+1]);
       E_n{name}_tEnd{sets}$({conditions} and tEnd[t])..
-        n{name}{sets} =E= {name}{sets} + n{name}{sets} * fv / (1+mrOffRente[t]);
+        n{name}{sets} =E= @mean(tt$[tt.val > t.val-5], {name}{sets}{$}[<t>tt]) / (1 - fv / (1+mrOffRente[t]));
     $ENDLOOP
 
     E_vRenteMarginal[t]$(t.val <= tEnd.val)..

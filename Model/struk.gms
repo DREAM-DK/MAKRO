@@ -216,7 +216,7 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Husholdningernes samlede arbejdsudbud
     # ------------------------------------------------------------------------------------------------------------------
-    E_srJobFinding_aTot[t]..
+    E_snLHh_aTot_via_srSeparation[t]..
       snLHh[aTot,t] =E= (1-srSeparation[aTot,t]) * snLHh[aTot,t] + srJobFinding[aTot,t] * snSoegHh[aTot,t];
 
     E_snSoegHh_tot[t]..
@@ -262,7 +262,7 @@ $IF %stage% == "equations":
     E_sdvVirk2dpW[t]..
       sdvVirk2dpW[t] =E= - sum(sp, (1-mtVirk[sp,t]) * (1 + tL[sp,t]) * shL[sp,t] * sqProd[sp,t] * (1-srOpslagOmk[t]));
 
-    E_snLHh_tot[t]..
+    E_snLHh_aTot_via_srJobFinding[t]..
       1 =E= (1-rLoenNash[t]) * svVirkLoenPos2w[t] / (-sdvVirk2dpW[t]) + rLoenNash[t] * rFFLoenAlternativ * srJobFinding[aTot,t];
       #  1 =E= (1-rLoenNash[t]) * svVirkLoenPos2w[t] / (-sdvVirk2dpW[t]) + rLoenNash[t] * svFFOutsideOption2w[t] / sdFF2dLoen[t];
 
@@ -308,7 +308,7 @@ $IF %stage% == "equations":
     E_shLHh_tot[t]$(t.val > %AgeData_t1%)..
       shLHh[atot,t] =E= sum(a, shLHh[a,t] * snLHh[a,t]);
 
-    E_srSeparation_aTot[t]$(t.val > %AgeData_t1%).. snLHh[aTot,t] =E= sum(a, snLHh[a,t]);
+    E_snLHh_aTot[t]$(t.val > %AgeData_t1%).. snLHh[aTot,t] =E= sum(a, snLHh[a,t]);
 
     E_snSoegBaseHh_aTot[t]$(t.val > %AgeData_t1%).. snSoegBaseHh[aTot,t] =E= sum(a, snSoegBaseHh[a,t]);
 
@@ -326,7 +326,7 @@ $IF %stage% == "equations":
     E_srJobFinding[a,t]$(a15t100[a])..
       srJobFinding[a,t] =E= srJobFinding[aTot,t] - jsrJobFinding[aTot,t] + jsrJobFinding[a,t];
 
-    E_jsrJobFinding_aTot[t]$(t.val > %AgeData_t1%)..
+    E_srJobFinding_tot_via_jsrJobFinding[t]$(t.val > %AgeData_t1%)..
       srJobFinding[aTot,t] * snSoegHh[aTot,t] =E= sum(a, srJobFinding[a,t] * snSoegHh[a,t]);
 
     E_snLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
@@ -461,10 +461,10 @@ $IF %stage% == "static_calibration":
     -rBVTGab[t], rLUdn[spTot,t]
     -snLxDK, jsnSoegxDK # Number of foreign job searchers calibrated to match total employment
     -shLxDK, uhLxDK # Hours of foreign workers calibrated to match total hours worked
-    -snLHh[aTot,t] # -E_snLHh_tot
+    -snLHh[aTot,t] # -E_snLHh_aTot_via_srJobFinding
     -shLHh[a15t100,t], uh[a15t100,t]
     -snLHh[a,t]$(t.val > %AgeData_t1%) # -E_srSoegBaseHh -E_srSoegBaseHh_tEnd -E_srSoegBaseHh_aEnd
-    -snLHh[aTot,t] # -E_srSeparation_aTot
+    -snLHh[aTot,t] # -E_snLHh_aTot
     snSoegBaseHh[aTot,t] # E_snSoegBaseHh_aTot_static
     -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc] and t.val >= %BFR_t1%)
   ;
@@ -485,10 +485,10 @@ $IF %stage% == "static_calibration":
   MODEL M_struk_static_calibration /
     M_struk
     B_struk_static_calibration
-    -E_snLHh_tot
+    -E_snLHh_aTot_via_srJobFinding
     -E_spL2pW -E_spL2pW_tEnd # E_spL2pW_static
     - E_srSoegBaseHh - E_srSoegBaseHh_tEnd - E_srSoegBaseHh_aEnd
-    - E_srSeparation_aTot
+    - E_snLHh_aTot
   /;
 $ENDIF
 
@@ -553,7 +553,6 @@ $ENDIF
 $IF %stage% == "dynamic_calibration_newdata":
   $GROUP G_struk_dynamic_calibration
     G_struk_endo
-    -shLHh[a15t100,t1], uH[a15t100,t1]
 
     -snLHh[a15t100,t]$(t.val < %cal_end%+1), jsnSoegHh[a15t100,t]$(t.val < %cal_end%+1)
     -snLHh[a15t100,t]$(t.val >= %cal_end%+1), uDeltag[a15t100,t]$(t.val >= %cal_end%+1)
@@ -561,11 +560,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     -snSoegBaseHh[aTot,t]$(t.val <> 2020), rLoenNash[t]$(t.val <> 2020) # I 2020 er arbejdsstyrke ikke et godt mål for det reelle arbejdsudbud (pga. corona-nedlukning)
 
     -snLxDK[t]$(t.val < %cal_end%+1), jsnSoegxDK[t]$(t.val < %cal_end%+1)
-
-    -snLxDK[t]$(t.val < %cal_end%+1), jsnSoegxDK[t]$(t.val < %cal_end%+1)
     -snLxDK[t]$(t.val >= %cal_end%+1), nSoegBasexDK[t]$(t.val >= %cal_end%+1)
-
-    -shLxDK[t1], uhLxDK[t1]
 
     -rBVTGab[t1], jfrLUdn_t[t1]$(t1.val<>2020), jsqBVT[spTot,t1]$(t1.val=2020)
 

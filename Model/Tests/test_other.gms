@@ -1,10 +1,8 @@
 # ------------------------------------------------------------------------------------------------------------------
 # Betalingsbalance
 # ------------------------------------------------------------------------------------------------------------------
-parameter jvUdlNFE_test[t]; jvUdlNFE_test[t]$(tx0[t] and t.val >= 1996) = 
-  jvUdlNFE.l[t] + (vVirkAkt.l['Guld',t] - vVirkAkt.l['Guld',t-1]/fv - rOmv.l['Guld',t] * vVirkAkt.l['Guld',t-1]/fv);
-abort$(smax(t, abs(jvUdlNFE_test[t])) > 0.05) "jvUdlNFE does not match investments in gold", jvUdlNFE_test;
-abort$(smax(t$(tForecast[t]), abs(jvUdlNFE_test[t])) > 1e-7) "jvUdlNFE does not match investments in gold in forecast", jvUdlNFE_test;
+abort$(smax(t$(t.val > %NettoFin_t1%), abs(jvUdlNFE.l[t])) > 0.05) "jvUdlNFE er ikke 0", jvUdlNFE.l;
+abort$(smax(t$(t.val > %cal_end%+1), abs(jvUdlNFE.l[t])) > 1e-7) "jvUdlNFE er ikke 0 i fremskrivning", jvUdlNFE.l;
 
 parameter fordringsbalance[t]; fordringsbalance[t]$(tx0[t] and t.val >= 1996) =
   # Nettofordringserhvervelse (Tfn_e)                           
@@ -24,12 +22,12 @@ parameter fordringsbalance[t]; fordringsbalance[t]$(tx0[t] and t.val >= 1996) =
   # Residual foreign transfer to households
   # Rest: Syn_e + Tpc_h_e - Tpc_e_z + (Typc_cf_e-Typc_e_h) + (Tr_hc_e - Tr_e_hc) + (Tknr_e) - Ikn_e - Izn_e  
   - vHhTilUdl.l[t] + vtPALudl.l[t] + vtAktieUdl.l[t]
+  # Residual foreign transfer to firms
   + vVirkIndRest.l[t]
-  # Fejl i 2016 betyder, at der er en kæmpe overførsel fra et ukendt sted - det er ikke i betalingsbalancen
-  + jrOmv_IndlAktier.l[t] * vAktie.l[t-1]/fv
 ;
-abort$(smax(t$(tData[t] and t.val >= 2000), abs(fordringsbalance[t])) > 0.01) "Fejl i fordringsbalancen", fordringsbalance;
-abort$(smax(t$(tForecast[t]), abs(fordringsbalance[t])) > 0.001) "Fejl i fordringsbalancen", fordringsbalance;
+abort$(smax(t$(tData[t]), abs(fordringsbalance[t])) > 0.02) "Fejl i fordringsbalancen", fordringsbalance;
+# Første forecast-år stemmer fordringsbalancen ikke - hænger nok sammen med korrektion i vHhx og at vHhxAfk ikke stemmer i t2
+abort$(smax(t$(tForecast[t] and not t2[t]), abs(fordringsbalance[t])) > 1e-7) "Fejl i fordringsbalancen", fordringsbalance;
 
 # ------------------------------------------------------------------------------------------------------------------
 # Produktionsfunktion

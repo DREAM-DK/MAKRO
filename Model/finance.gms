@@ -46,6 +46,8 @@ $IF %stage% == "variables":
     vVirkLaan[i_,s_,t]$(k[i_] or kTot[i_]) "Lån til gældsfinansierede investeringer."
     vAktieFin[t]$(t.val >= %NettoFin_t1%) "Samlet værdi af virksomhedernes finansielle nettoaktiver ikke knyttet til investeringer og virksomhedsdriftd"
 
+    rVirkAkt[portf,t]$(Guld[portf] and tForecast[t]) "Virksomhedens finansielle aktiver, som andel af virksomhedens værdi ekskl. finansielle aktiver og residual."
+
     vPensionAkt[portf_,t]$(t.val >= %NettoFin_t1% and d1vPensionAkt[portf_,t]) "Porteføljen af pensionsformuen."
     vPensionAktRenter[portf_,t]$(t.val > %NettoFin_t1% and d1vPensionAkt[portf_,t] and portf[portf_]) "Formueindkomst fra pensionsaktiver"
     vPensionRenter[t]$(t.val > %NettoFin_t1%) "Formueindkomst fra pensionsaktiver"
@@ -70,15 +72,15 @@ $IF %stage% == "variables":
     mrLaan2K[i_,s_,t]$((k[i_] or kTot[i_]) and sTot[s_]) "Marginal gældsfinansieringsandel for investeringer."
     rAktieDrift[t]$(tx1[t]) "Investorernes forventede afkast på vAktieDrift. I fravær af stød er den lig afkastet på vAktieDrift."
     rAktieFinAfk[t]$(t.val > %NettoFin_t1%) "Afkastrate på virksomhedernes finansielle aktiver."
-    rRente[portf_,t]$((pensTot[portf_] and t.val > %NettoFin_t1%) or (Bank[portf_] and t.val >= 1985) or (Obl[portf_] and t.val >= 1985) or (RealKred[portf_] and t.val >= 1985)) "Renter og dividender på finansiel portefølje."
+    rRente[portf_,t]$((pensTot[portf_] and t.val > %NettoFin_t1%) or (Bank[portf_] and t.val >= 1985) or (Obl[portf_] and t.val >= 1985) or (RealKred[portf_] and t.val >= 2001)) "Renter og dividender på finansiel portefølje."
     rOmv[portf_,t]$((IndlAktier[portf_] or pensTot[portf_]) and t.val > %NettoFin_t1%) "Omvurderinger på finansiel portefølje."
     rAfk[portf,t]$(t.val > %NettoFin_t1%) "Sum af omvurderinger og renter på finansielt aktiv eller passiv."
     rFinAccelPrem[s_,t]$((sp[s_] or spTot[s_]) and tx1[t]) "Ændring i risikopræmie fra finansiel friktion."
     dFinFriktion[sp,t]$(tx1[t]) "Afledt af finansiel friktion ift. fri pengestrøm."
     rRenteOblEU[t] "EU effektive rente af langfristede obligationer. Kilde: ADAM[iwbeu]"
     rRenteOblDK[t]$(t.val >= 1985) "Effektiv rente på 10-årig statsobligation (stående lån), årsgennemsnit. Kilde: ADAM[iwbos]"
-    rRenteBankGaeld[t] "Pengeinstitutternes effektive udlånsrente. Kilde: ADAM[iwlo]"
-    rRenteBankIndskud[t] "Pengeinstitutternes effektive indskudsrente. Kilde: ADAM[iwde]"
+    rRenteFlex[t] "Flexlånerente. Kilde: ADAM[iwbflx]"
+    rRenteFast[t] "30-årig byggeobligation. Kilde: ADAM[iwb30]"
     mrRenteVirkLaan[i_,t]$(k[i_]) "Gennemsnitlig marginalrente til virksomhedsinvesteringer (imputeret)"
   ;
   $GROUP G_finance_endo G_finance_endo$(tx0[t]);  # Restrict endo group to tx0[t]
@@ -90,14 +92,11 @@ $IF %stage% == "variables":
     vFCFExRefRest[sp,t] "Restled i vFCFExRef - kalibreres til at slå finansiel friktion fra i grundforløb."
     rVirkDiskPrem[s_,t] "Risikopræmie i diskonteringsraten for virksomhedens beslutningstagere."
     uFinAccel[sp,t] "Hældning af den approksimerede afledte af omkostnings-funktionen fra finansielle friktioner i steady state."
-    rVirkAkt[portf_,t] "Virksomhedens finansielle aktiver, som andel af virksomhedens værdi ekskl. finansielle aktiver og residual."
     vVirkIndRest[t] "Rest-led i virksomheden indtjening."
 
     # Eksogene tabel-variable uden endogene effekter i MAKRO
     rRenteUSA[t] "USAs effektive rente af langfristede obligationer. Kilde: ADAM[iwbus]"
     rRente3mdr[t] "3 måneders pengemarkedsrente (CIBOR) årsgennemsnit. Kilde: ADAM[iw3m]"
-    rRenteFlex[t] "Flexlånerente. Kilde: ADAM[iwbflx]"
-    rRenteFast[t] "30-årig byggeobligation. Kilde: ADAM[iwb30]"
     rRenteOblDKUltimo[t] "Effektiv rente på 10-årig statsobligation (stående lån), ultimo. Kilde: ADAM[iwbosu]"
     rDiskontoen[t] "Diskontoen. Kilde: ADAM[iwdi]"
   ;
@@ -113,19 +112,19 @@ $IF %stage% == "variables":
 
     jvKskat[i_,s_,t] "J-led."
 
-    rOmv$(not (IndlAktier[portf_] or UdlAktier[portf_] or pensTot[portf_]))
+    rOmv[portf,t]$(Obl[portf] or Bank[portf] or RealKred[portf])
+
+    rRenteSpaend[t] "Forskel på renten på danske statsobligationer og obligationer ustedt af ECB" 
   ;
   $GROUP G_finance_ARIMA_forecast
     mrLaan2K_portf[i_,portf,t] "Marginal gældsfinansieringsandel for investeringer fordelt på porteføljeelementer."
     rRente$(IndlAktier[portf_] or UdlAktier[portf_])
     rOblPrem[t] "Risikopræmie på obligationer ift. pengemarkedsrente."
-    rBidragsSats[t] "Gennemsnitlig bidragssats på realkreditlån, ultimo året. Kilde: ADAM[iwbid]"
-    rRenteSpaend[t] "Forskel på renten på danske statsobligationer og obligationer ustedt af ECB" 
     crRenteObl[t] "Forskel på gennemsnitlig obligationsrente og statsobligationsrente"
     crRenteBank[t] "Forskel på ECBs og Danmarks pengemarkedsrente."
-    crRenteRealKred[t] "Forskel på renten på realkreditobligationer og danske statsobligationer"
-    crRenteBankGaeld[t] "Forskel på pengemarkedsrente og udlånsrente for bankerne."
-    crRenteBankIndskud[t] "Forskel på pengemarkedsrente og indskudsrente for bankerne."
+    crRenteFlex[t] "Forskel på renten på flexlån og gns. obligationer"
+    crRenteFast[t] "Forskel på renten på 30-årige realkreditlån og gns. obligationer"
+    crRenteRealKred[t] "Forskel på gns. rente på realkreditlån og vægtet gns. af flex og fast forrentet"
     rVirkIndRest[t] "Parameter for rest-led i virksomheden indtjening."
   ;
   $GROUP G_finance_constants
@@ -138,10 +137,12 @@ $IF %stage% == "variables":
     rKskat[k,t] "Andel af investering er fradragsberettiget."
     rSkatAfskr[k,t] "Skattemæssig afskrivningsrate."
     rSkatAfskr0[k,t] "Skattemæssig straksafskrivningsrate."
-    rVirkPasRest[portf_,t] "Fast del af obligationsgæld ikke direkte knyttet til investeringer, som andel af virksomhedens værdi ekskl. finansielle aktiver og residual."
     rPensionAkt[portf_,t]$(UdlAktier[portf_] or RealKred[portf_]) "Andel af aktiver ud af samlede aktiver."
     rVirkRealiseringAktieOmv[t] "Andel af omvurderinger på virksomheders aktier som realiseres hvert år."
     rVirkAktieFradrag[t] "Virksomheders aktie fradrag"
+    rVirkPasRest[portf_,t] "Fast del af obligationsgæld ikke direkte knyttet til investeringer, som andel af virksomhedens værdi ekskl. finansielle aktiver og residual."
+    rVirkAkt[portf,t]$(not Guld[portf]) "Virksomhedens finansielle aktiver, som andel af virksomhedens værdi ekskl. finansielle aktiver og residual."
+    rOmv[Guld,t]
   ;
 $ENDIF
 
@@ -207,6 +208,10 @@ $IF %stage% == "equations":
     E_vAktieFin[t]$(t.val >= %NettoFin_t1%)..
       vAktieFin[t] =E= vVirkNet[t] + vVirkLaan[kTot,sTot,t] + vAktie[t];
 
+    # Vi antager nul handel af monetært guld i fremskrivningen
+    E_rVirkAkt_Guld[t]$(tForecast[t])..
+      vVirkAkt['Guld',t] =E= (1+rOmv['Guld',t]) * vVirkAkt['Guld',t-1]/fv;
+
     # Omvurderinger på aktier - bemærk at udstedelser øger vAktie 1-til-1 og derfor ikke påvirker omvurderinger
     E_rOmv_IndlAktier[t]$(t.val > %NettoFin_t1%)..
       rOmv['IndlAktier',t] =E= (vAktie[t] - vUdstedelser[t]) / (vAktie[t-1]/fv) - 1;
@@ -221,7 +226,6 @@ $IF %stage% == "equations":
                      + vFCFE[sTot,t]
                      - vDividender[t]
                      + vUdstedelser[t];
-
     
     E_rVirkIndRest[t]$(t.val > %NettoFin_t1%)..
       vVirkIndRest[t] =E= rVirkIndRest[t] * vI_s['iM',spTot,t];
@@ -312,8 +316,10 @@ $IF %stage% == "equations":
     E_vAfskrFradrag_kTot_sTot[t].. vAfskrFradrag[kTot,sTot,t] =E= sum(sp, vAfskrFradrag[kTot,sp,t]);
 
     E_mrRenteVirkLaan[k,t].. 
-      mrRenteVirkLaan[k,t] =E= (mrLaan2K_portf[k,'Bank',t] / mrLaan2K[k,sTot,t] * rRenteBankGaeld[t]) +
-                               (mrLaan2K_portf[k,'RealKred',t] / mrLaan2K[k,sTot,t] * rRente['RealKred',t]);
+      mrRenteVirkLaan[k,t] =E= (mrLaan2K_portf[k,'Bank',t] / mrLaan2K[k,sTot,t]
+                                * (rRente['Bank',t] + jrVirkPasRenter['Bank',t])) +
+                               (mrLaan2K_portf[k,'RealKred',t] / mrLaan2K[k,sTot,t] 
+                                * (rRente['RealKred',t] + jrVirkPasRenter['RealKred',t]));
 
     E_mrLaan2K_kTot[sp,t].. 
       mrLaan2K[kTot,sp,t] * vVirkK[kTot,sp,t] =E= sum(k, mrLaan2K[k,sp,t] * vVirkK[k,sp,t]);
@@ -427,24 +433,25 @@ $IF %stage% == "equations":
 
     # Den danske pengemarkedsrente følger ECB-renten plus et rentespænd
     E_rRenteOblDK[t]$(t.val >= 1985)..
-      rRenteOblDK[t] =E= rRenteOblEU[t] + rRenteSpaend[t]; 
+      rRenteOblDK[t] =E= rRenteECB[t] + rOblPrem[t] + rRenteSpaend[t]; 
 
     E_rRente_Obl[t]$(t.val >= 1985)..
-      rRente['Obl',t] =E= rRenteOblDK[t] + crRenteObl[t]; 
+      rRente['Obl',t] =E= rRenteECB[t] + rOblPrem[t] + rRenteSpaend[t] + crRenteObl[t]; 
 
     E_rRente_Bank[t]$(t.val >= 1985)..
       rRente['Bank',t] =E= rRenteECB[t] + rRenteSpaend[t] + crRenteBank[t];
 
-    # Udlånsrenten og pengemarkedsrenten er korreleret
-    E_rRenteBankGaeld[t]..
-      rRenteBankGaeld[t] =E= rRente['Bank',t] + crRenteBankGaeld[t];
+    # Groft skøn for fremskrivning - gennemsnitsrenten er gennemsnit over alle typer af flex og fastforrentede fra 
+    # de seneste 29 år - nedenstående er en grov approksimation til fremskrivning
+    E_rRente_RealKred[t]$(t.val >= 2001)..
+      rRente['RealKred',t] =E= 0.4 * rRenteFlex[t] + 0.3 * rRenteFast[t] + 0.2 * rRenteFast[t-1] + 0.1 * rRenteFast[t-2]
+                               + crRenteRealKred[t];
 
-    E_rRenteBankIndskud[t]..
-      rRenteBankIndskud[t] =E= rRente['Bank',t] + crRenteBankIndskud[t]; 
+    E_rRenteFlex[t]$(t.val >= 2000)..
+      rRenteFlex[t] =E= rRente['Obl',t] + crRenteFlex[t];
 
-    # Realkreditrenten er korreleret med den gennemsnitlige obligationsrente
-    E_rRente_RealKred[t]..
-      rRente['RealKred',t] =E= rRente['Obl',t] + crRenteRealKred[t];
+    E_rRenteFast[t]..
+      rRenteFast[t] =E= rRente['Obl',t] + crRenteFast[t];
 
     E_rAfk[portf,t]$(t.val > %NettoFin_t1%).. rAfk[portf,t] =E= rRente[portf,t] + rOmv[portf,t];
   $ENDBLOCK
@@ -494,9 +501,9 @@ $IF %stage% == "exogenous_values":
     vVirkAktRenter, vVirkPasRenter, vVirkAktOmv, vVirkPasOmv, vPensionAktRenter, vPensionAktOmv
     vAktie, vUdstedelser, vPensionAkt
     rPensionAkt, vVirkK$((sTot[s_] or sp[s_]) and kTot[i_]), vVirkNFE, vDividender
-    rRenteECB, rRenteOblDK, rRenteOblEU, rRenteBankIndskud, rRenteBankGaeld
+    rRenteECB, rRenteOblDK, rRenteOblEU
     rRenteUSA, rRenteFlex, rRenteFast, rRente3mdr, rRenteOblDKUltimo, rDiskontoen
-    rBidragsSats, vAfskrFradrag$(k[i_] and t.val < 2023), rSkatAfskr, rSkatAfskr0, rKskat, vKskat$(k[i_] and t.val < 2023)
+    vAfskrFradrag$(k[i_] and t.val < 2023), rSkatAfskr, rSkatAfskr0, rKskat, vKskat$(k[i_] and t.val < 2023)
     jvKskat$(k[i_] and sp[s_] and t.val <= 1991)
   ;
   @load(G_finance_makrobk, "..\Data\makrobk\makrobk.gdx" )
@@ -586,7 +593,7 @@ $IF %stage% == "static_calibration":
 
     -vUdstedelser$(t.val > %NettoFin_t1%), vVirkIndRest$(t.val > %NettoFin_t1%)
     # Aktiver bestemmes af en andelsparameter
-    -vVirkAkt[portf,t]$(d1vVirkAkt[portf_,t]), rVirkAkt[portf,t]$(d1vVirkAkt[portf_,t])
+    -vVirkAkt[portf,t]$(d1vVirkAkt[portf_,t]), rVirkAkt[portf,t]$(d1vVirkAkt[portf,t])
     # Realkreditlån bestemmes af den marginale realkreditbelåningsgrad for bygningskapital
     -vVirkPas[Realkred,t]$(d1vVirkPas[Realkred,t]), mrLaan2K_portf[iB,RealKred,t]$(d1vVirkPas[RealKred,t])
     # Øvrige lån bestemmes af den resterende låneresidual ikke knyttet til investeringer
@@ -602,12 +609,12 @@ $IF %stage% == "static_calibration":
     -vPensionAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vPensionAkt[portf,t]), jrPensionAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vPensionAkt[portf,t])
 
     -rRente[Bank,t], crRenteBank$(t.val >= 1985)
-    -rRenteBankIndskud, crRenteBankIndskud
-    -rRenteBankGaeld, crRenteBankGaeld
-    -rRente[RealKred,t], crRenteRealKred
+    -rRenteFlex, crRenteFlex
+    -rRenteFast, crRenteFast
     -rRenteOblEU, rOblPrem
     -rRenteOblDK, rRenteSpaend$(t.val >= 1985)
     -rRente[Obl,t], crRenteObl$(t.val >= 1985)
+    -rRente[RealKred,t], crRenteRealKred$(t.val >= 2001)
     vFCFExRefRest, -vFCFExRef
     uFinAccel # E_uFinAccel
     rAktieDriftPrem[t], -rAktieDrift[t] # E_rAktieDrift_t1
@@ -625,11 +632,11 @@ $IF %stage% == "static_calibration":
     E_uFinAccel[sp,t]$(tx0[t]).. uFinAccel[sp,t] =E= 500 / vVirkK[kTot,sp,t];
 
     E_mrLaan2K_portf_bank[k,t]$(tx0[t]).. 
-      mrLaan2K[k,sTot,t] =E= sum(portf, mrLaan2K_portf[k,portf,t]);
+      mrLaan2K[k,sTot,t] =E= mrLaan2K_portf[k,'Bank',t] + mrLaan2K_portf[k,'RealKred',t];
 
     # Kapital efter 2023 beskattes med den nye sats, mens kapitalapparat før 2023 beskattes med den gamle sats
     # Vi korrigerer kapitalapparatet fra før 2023, så det effektivt beskattes med den gamle sats
-    E_jvKskat[k,sp,t]$(t.val = 2023).. 
+    E_jvKskat[k,sp,t]$(t.val = 2023 and tx0[t]).. 
       jvKskat[k,sp,t] =E= (vKskat[k,sp,t-1]/fv - vAfskrFradrag[k,sp,t]) * (rSkatAfskr[k,t] / rSkatAfskr[k,t-1] - 1); 
 
     E_dnvKskat2dvI_s_static[k,sp,t]$(d1K[k,sp,t])..
@@ -670,13 +677,6 @@ $IF %stage% == "deep_dynamic_calibration":
     rAktieDriftPrem[t]$(t.val > t2.val), -rAfk['IndlAktier',tEnd] # E_rAktieDriftPrem
 
     -rVirkDisk[sp,tx1], rVirkDiskPrem[sp,tx1]
-
-    -vVirkAkt[portf,t1]$(d1vVirkAkt[portf,t]), rVirkAkt[portf,t1]$(d1vVirkAkt[portf,t])
-    rVirkAkt[portf,tx1]$(d1vVirkAkt[portf,t]) # E_rVirkAkt
-    -vVirkPas[obl,t1], rVirkPasRest[obl,t1]
-    -vVirkPas[bank,t1], rVirkPasRest[bank,t1]
-    rVirkPasRest[obl,tx1], rVirkPasRest[bank,tx1] # E_rVirkPasRest
-
     -rVirkIndRest[t], vVirkIndRest[t]
   ;
   $GROUP G_finance_deep G_finance_deep$(tx0[t]);
@@ -684,10 +684,6 @@ $IF %stage% == "deep_dynamic_calibration":
   $BLOCK B_finance_deep  
     E_rAktieDriftPrem[t]$(t2.val < t.val and t.val < tEnd.val)..
       rAfk['IndlAktier',t] =E= 0.7 * rAfk['IndlAktier',t-1] + 0.3 * rAfk['IndlAktier',tEnd];
-
-    E_rVirkAkt[portf,t]$(tx1[t] and d1vVirkAkt[portf,t]).. rVirkAkt[portf,t] =E= rVirkAkt[portf,t1];
-
-    E_rVirkPasRest[portf,t]$(tx1[t] and (obl[portf] or bank[portf])).. rVirkPasRest[portf,t] =E= rVirkPasRest[portf,t1];
   $ENDBLOCK
   MODEL M_finance_deep /
     M_finance
@@ -711,13 +707,6 @@ $IF %stage% == "dynamic_calibration_newdata":
     rVirkDiskPrem[sp,t], -rVirkDisk[sp,t]
     rOmv['UdlAktier',tx1], -rAfk['UdlAktier',tx1]
     mrLaan2K[k,sp,tx1]
-    # Har behov for at rekalibrere aktiver og passiver, da vAktieDrift ændrer sig
-    -vVirkAkt[portf,t1]$(d1vVirkAkt[portf,t1]), rVirkAkt[portf,t1]$(d1vVirkAkt[portf,t1])
-    rVirkAkt[portf,tx1]$(d1vVirkAkt[portf,tx1]) # E_rVirkAkt
-    -vVirkPas[obl,t1], rVirkPasRest[obl,t1]
-    -vVirkPas[bank,t1], rVirkPasRest[bank,t1]
-    rVirkPasRest[obl,tx1], rVirkPasRest[bank,tx1] # E_rVirkPasRest
-    -rVirkIndRest[t], vVirkIndRest[t]
   ;
   $BLOCK B_finance_dynamic_calibration
     E_rRenteECB[t]$(tx1[t] and t.val <= 2050).. 
@@ -733,9 +722,6 @@ $IF %stage% == "dynamic_calibration_newdata":
     # Der er en aftagende tendes og data er endelige, så vi vil ikke vende tilbage til 2019 niveau.
     E_mrLaan2K[k,sp,t]$(tx1[t]).. mrLaan2K[k,sp,t] =E= mrLaan2K[k,sp,t1];
     @copy_equation_to_period(E_mrLaan2K_portf_bank, t1);
-
-    E_rVirkAkt[portf,t]$(tx1[t] and d1vVirkAkt[portf,t]).. rVirkAkt[portf,t] =E= rVirkAkt[portf,t1];
-    E_rVirkPasRest[portf,t]$(tx1[t] and (obl[portf] or bank[portf])).. rVirkPasRest[portf,t] =E= rVirkPasRest[portf,t1];
   $ENDBLOCK
   MODEL M_finance_dynamic_calibration /
     M_finance

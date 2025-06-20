@@ -78,16 +78,16 @@ $IF %stage% == "variables":
     jfpOffNyInv[t] "J-led"
   ;
   $GROUP G_production_public_ARIMA_forecast
-    rvOffIndirInv2vBVT[t] "Offentligt opkøb af eksisterende kapital relativt til BVT."
-
-    rOffLoensum2R
-    rOffLoensum2E
-    vOffDirInv2vBNP
   ;
   $GROUP G_production_public_fixed_forecast
     fqLOff_input[t] "Korrektionsfaktor for input-baseret offentlig lønsum i faste priser"
     fpOffDirInv[t] "Korrektionsfaktor"
     fpOffIndirInv[t] "Korrektionsfaktor"
+    rOffDirInv[t] "Andel af offentlig produktion til maskininvesteringer, der går direkte til offentlige investeringer."
+    rvOffIndirInv2vBVT[t] "Offentligt opkøb af eksisterende kapital relativt til BVT."
+    rOffLoensum2R
+    rOffLoensum2E
+    vOffDirInv2vBNP
   ;
 $ENDIF
 
@@ -97,7 +97,7 @@ $ENDIF
 # ======================================================================================================================
 $IF %stage% == "equations":
 	$BLOCK B_production_public_static$(tx0[t])
-    E_vI_off[i,t]$(d1I_s[i,'off',t]).. vI_s[i,'off',t] =E= pI_s[i,'off',t] * qI_s[i,'off',t];
+    E_vI_s_off[i,t]$(d1I_s[i,'off',t]).. vI_s[i,'off',t] =E= pI_s[i,'off',t] * qI_s[i,'off',t];
 
     # Capital accumulation
     E_qK_off[k,t]$(d1K[k,'off',t])..
@@ -119,7 +119,7 @@ $IF %stage% == "equations":
     E_qOffAfskr_tot_via_rpOffAfskr[t]..
       qOffAfskr[kTot,t] =E= rpOffAfskr[t] * sum(k, qOffAfskr[k,t]);
 
-    E_qOffAfskr_tot[t]..
+    E_qOffAfskr_kTot[t]..
       qOffAfskr[kTot,t] * pOffAfskr[kTot,t-1]/fp =E= sum(k, pOffAfskr[k,t-1]/fp * qOffAfskr[k,t]);
 
     E_pOffAfskr_tot[t]..
@@ -149,8 +149,8 @@ $IF %stage% == "equations":
     # Purchases of existing capital follow gross value added (BVT)
     E_vOffIndirInv[t].. vOffIndirInv[t] =E= rvOffIndirInv2vBVT[t] * vBVT[sTot,t];
 
-    # Direkte investeringer kommer fra IO-system, men er fast andel af output (qIO[i,'off',t] =E= rqIO2qYoff[i,t] * qY['off',t])
-    E_vOffDirInv[t].. vOffDirInv[t] =E= sum(i, vIO[i,'off',t]);
+    # Direkte investeringer kommer fra IO-system, men er fast andel af output (qIO[i,'off',t] =E= rqIOy2qYoff[i,t] * qY['off',t])
+    E_vOffDirInv[t].. vOffDirInv[t] =E= rOffDirInv[t] * vIO['iM','off',t];
 
     # Samlede offentlige investeringer = ny + direkte + indirekte (vI_s['iM','off',t] + vI_s['iB','off',t] =E= vOffNyInv[t] + vOffDirInv[t] + vOffIndirInv[t])
     # Ny-investeringer fordeles mellem bygninger og maskiner. Direkte investeringer går til maskiner, indirekte til bygninger.
@@ -224,6 +224,7 @@ $IF %stage% == "exogenous_values":
     qK$(off[s_])
     qOffIndirInv, pOffIndirInv, vOffIndirInv
     qLOff_input
+    vY[off,t], vtNetY[off,t]
   ;
   @load(G_production_public_makrobk, "..\Data\makrobk\makrobk.gdx" )
 
@@ -259,13 +260,13 @@ $IF %stage% == "static_calibration":
   $GROUP G_production_public_static_calibration
     G_production_public_endo
 
-    jfpOffAfskr[k,t], -pOffAfskr[iTot,t], -pOffAfskr[iB,t]
-    jfqOffAfskr[k,t], -qOffAfskr[iTot,t], -qOffAfskr[iB,t]
+    jfpOffAfskr[k,t], -pOffAfskr[k,t]
+    jfqOffAfskr[k,t], -qOffAfskr[k,t]
     rvOffIndirInv2vBVT[t], -vOffIndirInv[t]
+    rOffDirInv[t], -vOffDirInv[t]
     fpOffIndirInv[t], -pOffIndirInv[t]
     rAfskr[k,off,t], -qK[k,off,t]
     fpYOff, -qY[off,t]
-    vtNetY[off,t], -vY[off,t]
 
     fqLOff_input$(t.val > %cal_start%), -qLOff_input$(t.val > %cal_start%)
     fpOffDirInv, -pOffDirInv
@@ -302,7 +303,7 @@ $IF %stage% == "deep_dynamic_calibration":
 
     # Offentlige direkte investeringer i forskning og udvikling holdes konstant som andel af BNP
     # Andelen af nyinvesteringer som er bygninger endogeniseres
-    rqIO2qYoff[iM,t], -vOffDirInv2vBNP[t]
+    rqIOy2qYoff[iM,t], -vOffDirInv2vBNP[t]
 
     qE[off,t], -rOffLoensum2E[t] # Beskæftigelse vælges ud fra fast forhold mellem lønsum og materialekøb
     qR[off,t], -rOffLoensum2R[t] # Beskæftigelse vælges ud fra fast forhold mellem lønsum og materialekøb
@@ -328,7 +329,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     qI_s[k,off,tx1] # E_qI_s_forecast 
     # Offentlige direkte investeringer i forskning og udvikling holdes konstant som andel af BNP
     # Andelen af nyinvesteringer som er bygninger endogeniseres
-    rqIO2qYoff[iM,t], -vOffDirInv2vBNP[t]
+    rqIOy2qYoff[iM,t], -vOffDirInv2vBNP[t]
 
     # Offentlige investeringer hopper direkte til baseline - fast K2Y giver dårlig fremskrivning på kort sigt 
 

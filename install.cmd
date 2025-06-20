@@ -10,7 +10,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 :: Install python modules
 %pip% install ipykernel
 %pip% install numpy scipy statsmodels
-%pip% install gamsapi[all]==49.6.0 dream-tools==3.3.1 plotly 
+%pip% install gamsapi[all]==49.6.0 dream-tools==3.4.1 plotly 
 %pip% install xlwings
 %pip% install dataframe_image pyhtml2pdf PyPDF2
 %pip% install kaleido==0.1.0.post1

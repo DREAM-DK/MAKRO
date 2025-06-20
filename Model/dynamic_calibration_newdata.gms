@@ -15,7 +15,12 @@ set_time_periods(%data_year%-1, %terminal_year%);
 @load_dummies(t, "Gdx\%last_calibration%.gdx")
 @load_dummies(tData, "gdx\data.gdx")
 
-$GROUP G_load All, -G_static_calibration_newdata$(tData[t]), -G_data$(tData[t]), -G_constants, G_constants;
+$GROUP G_load
+  All
+  -G_static_calibration_newdata$(tData[t])
+  -G_data$(tData[t]), -G_data_residuals$(tData[t])
+  -G_constants, G_constants
+;
 @load(G_load, "Gdx\%last_calibration%.gdx");
 
 # Indbetalinger til kapitalpension er 0 i FMs fremskrivning, men har en værdi i data - derfor denne korrektion
@@ -233,8 +238,9 @@ $IF %calibration_steps% > 1:
   @print("---------------------------------------- Update data gradually through linear combinations ----------------------------------------")
   @set(All, _saved, .l) # Save all values prior to trouble-shooting
   @load_dummies(t1, "Gdx\%previous_solution%.gdx")
-  $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a;
-  @load_as(All, "Gdx\%previous_solution%.gdx", _previous_solution);
+  $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a, -res_;
+  $GROUP G_load G_dynamic_calibration_newdata, G_homotopy;
+  @load_as(G_load, "Gdx\%previous_solution%.gdx", _previous_solution);
   @set(G_homotopy, _previous_combination, _previous_solution);
   @set_linear_combination(G_dynamic_calibration_newdata, 0.99, _previous_solution, .l) # Set starting values for first iteration
   $FOR {share_of_previous} in [

@@ -117,10 +117,6 @@ uXy_ARIMA[x,t]$(xTje[x] and tx1[t]) = uXy_ARIMA[x,t1];
 # Turisme-eksport fremskrives uændret
 uXy_ARIMA[x,t]$(xTur[x] and tx1[t]) = uXy_ARIMA[x,t1];
 
-# Rentespændet sættes til 0
-rRenteSpaend_ARIMA[t]$(tx1[t]) = 0;
-
-
 # Hvis ARIMA_forecasts.gdx ikke er opdateret niveau-forskydes tidligere fremskrivning for at passe med kalibrerede t1-værdier 
 $IF not %ARIMAs_updated%:
   $LOOP G_ARIMA_forecast:
@@ -149,7 +145,7 @@ $GROUP G_exogenous_forecast_BFR
   rSeparation, srSeparation,
   snLHh, shLHh, snLxDK
   dSoc2dBesk, snSoc
-  nPop, nLxDK, nPop_inklOver100, nPop_Over100, rBoern
+  nPop, nLxDK, nPop_Over100, rBoern
   nOvf2nSoc
 ;
 $GROUP G_exogenous_forecast_BFR G_exogenous_forecast_BFR$(tx1[t]);
@@ -240,8 +236,8 @@ rRenteOblEU.l[t]$(tx1[t]) = rRenteOblDK.l[t] - rRenteSpaend.l[t];
 rRenteECB.l[t]$(tx1[t]) = rRenteOblEU.l[t] - rOblPrem.l[t];
 
 # Indlånsrenten har været højere end pengemarkedsrenten i perioden med negative renter - vi ønsker ikke at fremskrive dette og slår ARIMA fra
-crRenteBankIndskud.l[t]$(tx1[t] and t.val <= 2050) = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] + 0.01) - 0.01;
-crRenteBankIndskud.l[t]$(t.val > 2050) = -0.01;  
+rHhAktOmk.l['Bank',t]$(tx1[t] and t.val <= 2050) = 0.01 - (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] + 0.01);
+rHhAktOmk.l['Bank',t]$(t.val > 2050) = 0.01;  
 
 rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
 rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] + 0.07 - rRenteECB.l[tEnd], 0.07);
@@ -251,7 +247,12 @@ rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] + 0.08 - rRenteECB.l[tEnd], 0.08
 jrOffAktOmv.l[portf,t]$(tx1[t] and (IndlAktier[portf] or UdlAktier[portf])) = -0.02;
 
 # Realrente er endogen men bruges nedenfor og skal beregnes
-rRente.l['RealKred',t]$(tx1[t]) = rRente.l['Obl',t] + crRenteRealKred.l[t];
+rRenteFast.l[t]$(tx1[t]) = rRente.l['Obl',t] + crRenteFast.l[t];
+rRenteFlex.l[t]$(tx1[t]) = rRente.l['Obl',t] + crRenteFlex.l[t];
+rRente.l['RealKred',t]$(tx1[t]) = 0.5 * rRenteFast.l[t] + 0.5 * rRenteFlex.l[t];
+
+# Prisstigning på guld tilsvarer obligationsrenten
+rOmv.l['Guld',t]$(tx1[t]) = rRente.l['Obl',t];
 
 # Pensionsformuen har en aktieandel, som sikrer et afkast på 4½ pct. (før skat) på sigt
 parameter rPensionAfk_target;

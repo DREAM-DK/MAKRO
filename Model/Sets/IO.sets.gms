@@ -141,7 +141,7 @@ SETS
   sBy[s_] "Private byerhverv" / tje, fre, byg, ene /
   sTold[s_] "Toldbelagte import-brancher" / lan, byg, ene, udv, fre /
 
-  sMat[s_] "Subset bestående af sektorer der producerer materialer" / tje, fre, byg, lan , soe, bol /
+  sMat[s_] "Subset bestående af sektorer der producerer materialer" / tje, fre, byg, lan, soe, bol, off /
   sEne[s_] "Subset bestående af sektorer der producerer energi" / ene, udv /
 
   m[s_] "Brancher med import." / tje, fre, soe, udv, ene /

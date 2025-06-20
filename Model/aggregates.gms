@@ -21,8 +21,8 @@ $IF %stage% == "variables":
     vUdlAkt[portf_,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf_,t] and pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
     vUdlPas[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlPas[portf_,t]) "Udlandets finansielle passiver ift. DK, Kilde: jf. portfolio set."
     jvUdlNFE[t]$(t.val > %NettoFin_t1%) "J-led"
-    vUdlNFE[t]$(t.val >= %NettoFin_t1%) "Udlandets nettofordringserhvervelse, Kilde: ADAM[Tfn_e]"
-    vBetalingsbalance[t]$(t.val >= %NettoFin_t1%) "Saldo på den officelle betalingsbalances løbende poster. Kilde: ADAM[Enl]."
+    vUdlNFE[t]$(t.val > %NettoFin_t1%) "Udlandets nettofordringserhvervelse, Kilde: ADAM[Tfn_e]"
+    vBetalingsbalance[t]$(t.val > %NettoFin_t1%) "Saldo på den officelle betalingsbalances løbende poster. Kilde: ADAM[Enl]."
 
     vUdlPensUdb[t]$(t.val > %NettoFin_t1%) "Pensionsudbetalinger til udlandet, Kilde: ADAM[Typc_cf_e]"
     vUdlPensIndb[t]$(t.val > %NettoFin_t1%) "Pensionsindbetalinger fra udlandet, Kilde: ADAM[Tpc_e_z]"
@@ -173,57 +173,57 @@ $IF %stage% == "equations":
       vUdlNet[t] =E= vUdlAkt['tot',t] - vUdlPas['tot',t];
 
     # Renter og omvurderinger for udlandet
-    E_vUdlAktRenter[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
+    E_vUdlAktRenter_via_jrUdlAktRenter[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
       vUdlAktRenter[portf,t] =E= (rRente[portf,t] + jrUdlAktRenter[portf,t]) * vUdlAkt[portf,t-1]/fv;
 
-    E_vUdlPasRenter[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
+    E_vUdlPasRenter_via_jrUdlPasRenter[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
       vUdlPasRenter[portf,t] =E= (rRente[portf,t] + jrUdlPasRenter[portf,t]) * vUdlPas[portf,t-1]/fv;
 
     E_vUdlNetRenter[t]$(t.val > %NettoFin_t1%)..
       vUdlNetRenter[t] =E= sum(portf, vUdlAktRenter[portf,t]) - sum(portf, vUdlPasRenter[portf,t]);
 
-    E_vUdlAktOmv[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
+    E_vUdlAktOmv_via_jrUdlAktOmv[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
       vUdlAktOmv[portf,t] =E= (rOmv[portf,t] + jrUdlAktOmv[portf,t]) * vUdlAkt[portf,t-1]/fv;
 
-    E_vUdlPasOmv[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
+    E_vUdlPasOmv_via_jrUdlPasOmv[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
       vUdlPasOmv[portf,t] =E= (rOmv[portf,t] + jrUdlPasOmv[portf,t]) * vUdlPas[portf,t-1]/fv;
 
     E_vUdlOmv[t]$(t.val > %NettoFin_t1%)..
       vUdlOmv[t] =E= sum(portf, vUdlAktOmv[portf,t]) - sum(portf, vUdlPasOmv[portf,t]);
 
     # Renter og omvurderingerne til udlandets pensionsbeholdning er residualt givet ud fra husholdningernes renter og omvurderinger til pension
-    E_jrUdlAktRenter_Pens[portf,t]$(t.val > %NettoFin_t1% and PensTot[portf])..
+    E_vUdlAktRenter_Pens[portf,t]$(t.val > %NettoFin_t1% and PensTot[portf])..
       vUdlAktRenter[portf,t] =E= vPensionRenter[t] - vHhAktRenter[portf,t];
-    E_jrUdlAktOmv_Pens[portf,t]$(t.val > %NettoFin_t1% and PensTot[portf])..
+    E_vUdlAktOmv_Pens[portf,t]$(t.val > %NettoFin_t1% and PensTot[portf])..
       vUdlAktOmv[portf,t] =E= vPensionOmv[t] - vHhAktOmv[portf,t];
 
     # Udenlandske renter og omvurderinger på aktiver og passiver er residualt givet
     # Udgangspunktet er, at residualet ligger på aktiv-siden
-    E_jrUdlAktRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
+    E_vUdlAktRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
       vUdlAktRenter[portf,t] =E= - vHhAktRenter[portf,t] - vOffAktRenter[portf,t] - vVirkAktRenter[portf,t] - vPensionAktRenter[portf,t]
                                  + vHhPasRenter[portf,t] + vOffPasRenter[portf,t] + vVirkPasRenter[portf,t] + vUdlPasRenter[portf,t];
-    E_jrUdlAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
+    E_vUdlAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
       vUdlAktOmv[portf,t] =E= - vHhAktOmv[portf,t] - vOffAktOmv[portf,t] - vVirkAktOmv[portf,t] - vPensionAktOmv[portf,t]
                               + vHhPasOmv[portf,t] + vOffPasOmv[portf,t] + vVirkPasOmv[portf,t] + vUdlPasOmv[portf,t];
 
     # Findes ingen aktiv-side, så er udlandets passiv-side residual (dette gælder for udenlandske aktier)
-    E_jrUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
+    E_vUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
       vUdlPasRenter[portf,t] =E= vHhAktRenter[portf,t] + vOffAktRenter[portf,t] + vVirkAktRenter[portf,t] + vPensionAktRenter[portf,t]
                                - vHhPasRenter[portf,t] - vOffPasRenter[portf,t] - vVirkPasRenter[portf,t];
-    E_jrUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
+    E_vUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
       vUdlPasOmv[portf,t] =E= vHhAktOmv[portf,t] + vOffAktOmv[portf,t] + vVirkAktOmv[portf,t] + vPensionAktOmv[portf,t]
                             - vHhPasOmv[portf,t] - vOffPasOmv[portf,t] - vVirkPasOmv[portf,t];
 
-    E_vUdlNFE[t]$(t.val >= %NettoFin_t1%).. 
-      vUdlNFE[t] =E= vUdlNet[t] - vUdlNet[t-1]/fv - vUdlOmv[t] + jvUdlNFE[t];
-      # Jeg forstår pt. ikke hvorfor der skal være et j-led - det svarer dog helt til (vVirkAkt['Guld',t] - vVirkAkt['Guld',t-1]/fv - rOmv['Guld',t] * vVirkAkt['Guld',t-1]/fv)
-      # Jeg har kontaktet ADAM-gruppen for at få en forklaring / GHH 30/7-24
+    E_vUdlNFE_via_jvUdlNFE[t]$(t.val > %NettoFin_t1%).. 
+      vUdlNFE[t] =E= vUdlNet[t] - vUdlNet[t-1]/fv - vUdlOmv[t]
+                   - vVirkAkt['Guld',t] + (1+rOmv['Guld',t]) * vVirkAkt['Guld',t-1]/fv
+                   + jvUdlNFE[t];
 
-    E_jvUdlNFE[t]$(t.val > %NettoFin_t1%)..
+    E_vUdlNFE[t]$(t.val > %NettoFin_t1%)..
       vHhNFE[t] + vVirkNFE[t] + vSaldo[t] + vUdlNFE[t] =E= 0; 
       # Svarer til relationen i ADAM
 
-    E_vBetalingsbalance[t]$(t.val >= %NettoFin_t1%)..
+    E_vBetalingsbalance[t]$(t.val > %NettoFin_t1%)..
       vBetalingsbalance[t] =E= vOffTilUdlKap[t] - vOffFraUdlKap[t] - vUdlNFE[t] + vBetalingsbalanceRest[t];
 
     E_rArbProd[t].. rArbProd[t] =E= qBVT[sTot,t] / nL[sTot,t];
@@ -261,6 +261,7 @@ $IF %stage% == "exogenous_values":
     vUdlAktRenter$(t.val <> 2005 and t.val <> 2007), vUdlPasRenter #!!! Tjek hvorfor vUdlAktRenter ikke rammer i 2005 og 2007
     vUdlAktOmv, vUdlPasOmv
     vtPALudl, vUdlPensIndb, vUdlPensUdb
+    vUdlNFE, vUdlNetRenter
   ;
 
   $GROUP G_aggregates_data_imprecise

@@ -51,7 +51,7 @@ $GROUP G_ARIMA_forecast
   G_government_ARIMA_forecast
   G_GovExpenses_ARIMA_forecast
   G_GovRevenues_ARIMA_forecast
-  #  G_HHincome_ARIMA_forecast  
+  G_HHincome_ARIMA_forecast  
   G_IO_ARIMA_forecast
   G_labor_market_ARIMA_forecast
   G_pricing_ARIMA_forecast
@@ -85,12 +85,53 @@ $GROUP G_static_calibration_newdata
 $GROUP G_do_not_load
 ;
 # Use obsolete variables to give good starting values for newly defined variables
-$FOR {old}, {new} in [
-  #  ("Old name",              "New name"),
+$FOR {new}, {old} in [
+  #  ("New name",              "Old name"),
 ]:
   execute_load "Gdx\previous_static_calibration.gdx" {new}.l={old}.l;
 $ENDFOR
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Define group of endogenous residuals needed to test data
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_static_exo All, -G_static_calibration;
+$GROUP G_unfixed_data 
+  G_data
+  -G_static_exo
+  -G_constants
+  # Undtagelser:
+
+  # Variable hvor aggregat er endogent, men ikke databelagt, mens komponenter er databelagt men eksogene
+  -srSeparation
+  -tAUB, -tVirkAM
+
+  # Variable som ikke korrekt matches til ligninger
+  -fpI_s
+  -snSoc['boern',t]
+
+  # Skal tjekkes / rettes
+  -pI_s, -qI_s, -vI_s # Planlægges omdøbt til pI, qI, og vI i senere modelversion
+
+  # Giver fejl i nul-stød !!!
+  -qY[tje,t]
+;
+$GROUP G_unfixed_precise_data G_unfixed_data, -G_imprecise_data;
+$GROUP G_unfixed_imprecise_data G_unfixed_data, -G_precise_data;
+
+$GROUP G_unfixed_precise_data_residuals
+  $LOOP G_unfixed_precise_data:
+    res_{name}{sets}${conditions}
+  $ENDLOOP
+;
+$GROUP G_unfixed_imprecise_data_residuals
+  $LOOP G_unfixed_imprecise_data:
+    res_{name}{sets}${conditions}
+  $ENDLOOP
+;
+$GROUP G_data_residuals G_unfixed_precise_data_residuals, G_unfixed_imprecise_data_residuals;
+
+# Add residuals to static calibration group and remove previously unfixed data
+$GROUP G_static_calibration G_static_calibration, -G_unfixed_data, G_data_residuals;
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Calibrate parameters where we have many years of data to use in forecasting parameters
@@ -101,10 +142,10 @@ $GROUP G_load G_static_calibration, -G_data, -G_do_not_load;
 # $IF %run_tests%:
 #   # Small pertubation of all endogenous variables
 #   # any variable not actually changed from this starting value after solving the model does not actually exist and should be removed from the database
-#   $LOOP G_static_calibration:
+#   $LOOP G_load:
 #     {name}.l{sets}$({conditions}) = {name}.l{sets} * (1+1e-9);
 #   $ENDLOOP
-#   @set(G_static_calibration, _presolve, .l);
+#   @set(G_load, _presolve, .l);
 # $ENDIF
 
 $IF %calibration_steps% > 1:
@@ -132,8 +173,8 @@ $IF %calibration_steps% > 1:
 $ENDIF
 
 $FIX ALL; $UNFIX G_static_calibration;
-$GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
-@set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
+# $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
+# @set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
 @set_bounds();
 @unload_all(Gdx\static_calibration_presolve);
 @solve(M_static_calibration);
@@ -143,44 +184,78 @@ $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm
 # ----------------------------------------------------------------------------------------------------------------------
 # $IF %run_tests%:
 #   # Remove "endogenous" variables not changed by solving the model
-#   $LOOP G_static_calibration:
+#   $LOOP G_load:
 #     {name}.l{sets}$({conditions} and {name}.l{sets} = {name}_presolve{sets}) = 0;
 #   $ENDLOOP
 # $ENDIF
 
 # Write GDX file
+$UNFIX All; # Greatly reduces size of the GDX file
 @unload_all(Gdx\static_calibration);
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Print significant residuals
+# ----------------------------------------------------------------------------------------------------------------------
+@set(G_data_residuals, _saved, .l);
+scalar residual_abs_threshold "Absolute threshold for residuals" /1e-6/;
+scalar residual_rel_threshold "Relative threshold for residuals" /1e-6/;
+$LOOP G_unfixed_precise_data:
+  res_{name}.l{sets}$(
+        {conditions}
+    and abs(res_{name}.l{sets}) < residual_abs_threshold
+    and (
+          abs({name}.l{sets}) < residual_rel_threshold * residual_abs_threshold
+      or (abs(res_{name}.l{sets} / {name}.l{sets}) < residual_rel_threshold)$({name}.l{sets} <> 0)
+    )
+  ) = 0;
+$ENDLOOP
+scalar residual_abs_threshold "Absolute threshold for residuals" /0.05/;
+scalar residual_rel_threshold "Relative threshold for residuals" /0.05/;
+$LOOP G_unfixed_imprecise_data:
+  res_{name}.l{sets}$(
+        {conditions}
+    and abs(res_{name}.l{sets}) < residual_abs_threshold
+    and (
+          abs({name}.l{sets}) < residual_rel_threshold * residual_abs_threshold
+      or (abs(res_{name}.l{sets} / {name}.l{sets}) < residual_rel_threshold)$({name}.l{sets} <> 0)
+    )
+  ) = 0;
+$ENDLOOP
+$display G_data_residuals;
+@set(G_data_residuals, .l, _saved); # Reset residuals
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Tests
 # ----------------------------------------------------------------------------------------------------------------------
 $IF %run_tests%:
-  # Abort if any data covered variables have been changed by the calibration
-  @assert_no_difference(G_data, 0.05, .l, _data, "G_imprecise_data was changed by static calibration.");
-  $GROUP G_precise_data_test G_data, -G_imprecise_data;
-  @assert_no_difference(G_precise_data_test, 3e-6, .l, _data, "G_precise_data was changed by static calibration.");
-
-  # Display variables that have become 0 in current data eg static calibration, but was not 0 in previous data eg static calibration
-  #          and variables that is not 0 in current data eg static calibration, but was 0 in previous data eg static calibration
-  $GROUP G_zeros G_data, -G_do_not_load; 
-  @display_zeros(G_zeros, "Gdx\previous_static_calibration.gdx")
-
-  # Aggregation tests
   $IMPORT Tests/test_other_aggregation.gms;
   $IMPORT Tests/test_other.gms;
   set_time_periods(%AgeData_t1%, %cal_end%);
   $IMPORT Tests/test_age_aggregation.gms;
   set_time_periods(%cal_start%-1, %cal_end%);
 
- # ----------------------------------------------------------------------------------------------------------------------
- # Zero shock  -  Abort if a zero shock changes any variables significantly
- # ----------------------------------------------------------------------------------------------------------------------
- @set(All, _saved, .l)
- set_time_periods(%cal_start%-1, %cal_end%);
- $FIX All; $UNFIX G_static;
- @solve(M_static);
- @assert_no_difference(G_Static, 1e-6, .l, _saved, "Zero shock changed variables significantly.");
+  # ----------------------------------------------------------------------------------------------------------------------
+  # Zero shock  -  Abort if a zero shock changes any variables significantly
+  # ----------------------------------------------------------------------------------------------------------------------
+  @set(All, _saved, .l)
+  set_time_periods(%cal_start%-1, %cal_end%);
+  $FIX All; $UNFIX G_static;
+  @solve(M_static);
+  @assert_no_difference(G_Static, 1e-6, .l, _saved, "Zero shock changed variables significantly.");
 
+  # ----------------------------------------------------------------------------------------------------------------------
+  # Check if data residuals have changed
+  # ----------------------------------------------------------------------------------------------------------------------
+  @load_as(G_data_residuals, "Gdx\previous_static_calibration.gdx", _previous_solution);
+  $LOOP G_data_residuals:
+    loop({sets}{$}[+t]${conditions},
+      if(abs({name}.l{sets})-1e-6 > abs({name}_previous_solution{sets}),
+        display {name}.l, {name}_previous_solution;
+        abort 'Increase in residual: {name} is bigger than in previous_static_calibration.gdx';
+      );
+    );
+  $ENDLOOP
+  
   # Tjekker om noget har ændret sig - kræver at tidligere static_calibration gemt som previous_...
   #  $GROUP G_all All;
   #  @load_nonzero(G_all, "Gdx\previous_static_calibration.gdx");

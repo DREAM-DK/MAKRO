@@ -198,17 +198,20 @@ $IF %stage% == "equations":
       vtY[s,t] =E= vtGrund[s,t] + vtVirkVaegt[s,t] + vtCO2[s,t] + vtVirkAM[s,t] + vtAUB[s,t] + vtYRest[s,t];
 
     # PRODUCTION TAXES - aggregater
-    E_vtGrund_sTot[t]..       
+    E_vtGrund_sTot_via_tGrund[t]..       
       vtGrund[sTot,t] =E= tGrund[sTot,t] * sum(s, vtGrund[s,t]/tGrund[s,t]);
 
-    E_vtVirkVaegt_sTot[t]..
+    E_vtVirkVaegt_sTot_via_tK[t]..
       vtVirkVaegt[sTot,t] =E= tK['iM',sTot,t] * pnCPI[cTot,t-1]/fp * qK['iM',sTot,t-1]/fq;
 
-    E_vtVirkAM_sTot[t].. vtVirkAM[sTot,t] =E= tVirkAM[sTot,t] * vLoensum[sTot,t];
+    E_vtGrund_iB_sTot_via_tK[t]..
+      vtGrund[sTot,t] =E= tK['iB',sTot,t] * pKI['iB',sTot,t] * qK['iB',sTot,t-1]/fq;
 
-    E_vtAUB_sTot[t].. vtAUB[sTot,t] =E= tAUB[sTot,t] * vLoensum[sTot,t];
+    E_vtVirkAM_sTot_via_tVirkAM[t].. vtVirkAM[sTot,t] =E= tVirkAM[sTot,t] * vLoensum[sTot,t];
 
-    E_vSubLoen_sTot[t]$(t.val >= %BFR_t1%)..
+    E_vtAUB_sTot_via_tAUB[t].. vtAUB[sTot,t] =E= tAUB[sTot,t] * vLoensum[sTot,t];
+
+    E_vSubLoen_sTot_via_rSubLoen[t]$(t.val >= %BFR_t1%)..
       vSubLoen[sTot,t] =E= rSubLoen[sTot,t] * vSatsIndeks[t] * nSubLoen[t];
 
     E_nLoenSub[t]$(t.val >= %BFR_t1%)..
@@ -225,7 +228,7 @@ $IF %stage% == "equations":
     
     E_vtNetYRest_sTot[t].. vtNetYRest[sTot,t] =E= vtYRest[sTot,t] - vSubYRest[sTot,t]; 
 
-    E_vtYRest_sTot[t].. vtYRest[sTot,t] =E= tYRest[sTot,t] * vY[sTot,t];
+    E_vtYRest_sTot_via_tYRest[t].. vtYRest[sTot,t] =E= tYRest[sTot,t] * vY[sTot,t];
 
     E_vtNetY_sTot[t]..
       vtNetY[sTot,t] =E= vtGrund[sTot,t] + vtVirkVaegt[sTot,t] + vtCO2[sTot,t] + vtNetLoenAfg[sTot,t] + vtNetYRest[sTot,t];
@@ -233,14 +236,12 @@ $IF %stage% == "equations":
     E_vtY_sTot[t]..
       vtY[sTot,t] =E= vtGrund[sTot,t] + vtVirkVaegt[sTot,t] + vtCO2[sTot,t] + vtVirkAM[sTot,t] + vtAUB[sTot,t] + vtYRest[sTot,t];
 
-    # PRODUCTION TAXES - aggregerede implicitte skattesatser
-    E_tK_iB_sTot[t].. tK['iB',sTot,t] * pKI['iB',sTot,t] * qK['iB',sTot,t-1]/fq =E= vtGrund[sTot,t];
-    E_tGrund_sTot[t].. vtGrund[sTot,t] =E= sum(s, vtGrund[s,t]);
-    E_tK_iM_sTot[t].. vtVirkVaegt[sTot,t] =E= sum(s, vtVirkVaegt[s,t]);
-    E_tVirkAM_sTot[t].. vtVirkAM[sTot,t] =E= sum(s, vtVirkAM[s,t]);
-    E_tAUB_sTot[t].. vtAUB[sTot,t] =E= sum(s, vtAUB[s,t]);
-    E_rSubLoen_sTot[t]$(t.val >= %BFR_t1%).. vSubLoen[sTot,t] =E= sum(s, vSubLoen[s,t]);
-    E_tYRest_sTot[t].. vtYRest[sTot,t] =E= sum(s, vtYRest[s,t]);
+    E_vtGrund_sTot[t].. vtGrund[sTot,t] =E= sum(s, vtGrund[s,t]);
+    E_vtVirkVaegt_sTot[t].. vtVirkVaegt[sTot,t] =E= sum(s, vtVirkVaegt[s,t]);
+    E_vtVirkAM_sTot[t].. vtVirkAM[sTot,t] =E= sum(s, vtVirkAM[s,t]);
+    E_vtAUB_sTot[t].. vtAUB[sTot,t] =E= sum(s, vtAUB[s,t]);
+    E_vSubLoen_sTot[t]$(t.val >= %BFR_t1%).. vSubLoen[sTot,t] =E= sum(s, vSubLoen[s,t]);
+    E_vtYRest_sTot[t].. vtYRest[sTot,t] =E= sum(s, vtYRest[s,t]);
 
     E_tK_spTot[k,t]..
       tK[k,spTot,t] * pKI[k,spTot,t] * qK[k,spTot,t-1]/fq =E= sum(sp, tK[k,sp,t] * pI_s[k,sp,t] * qK[k,sp,t-1]/fq);
@@ -346,7 +347,7 @@ $IF %stage% == "equations":
     # Implicitte skattesatser for aggregater
     # ----------------------------------------------------------------------------------------------------------------------
     # Ingen moms på eksport - så ingen implicitte momssatser for disse - derfor benyttes dux
-    E_tMoms[dux,t].. 
+    E_tMoms[dux,t]..
       tMoms[dux,t] =E= vtMoms[dux,sTot,t] / sum(s, vIO[dux,s,t] - (vtIOy[dux,s,t] + vtIOm[dux,s,t])
                                                    + vtNetAfg_y[dux,s,t] + vtNetAfg_m[dux,s,t] + vtTold[dux,s,t]);
   $ENDBLOCK
@@ -362,7 +363,7 @@ $IF %stage% == "exogenous_values":
     vtNetAfg_y$(d1IOy[d_,s,t]), vtNetAfg_m$(d1IOm[d_,s,t]), 
     vtReg_y, vtReg_m
     vtTold, vtMoms_y, vtMoms_m, 
-    tK$(s[s_]), tVirkAM$(s[s_]), tAUB$(s[s_]), vtNetY$(s[s_] or sTot[s_]), vtNetYRest$(s[s_] or sTot[s_]),
+    tVirkAM$(s[s_]), tAUB$(s[s_]), vtNetY$(s[s_] or sTot[s_]), vtNetYRest$(s[s_] or sTot[s_]),
     vtY$(sTot[s_]), vtYRest
     vtGrund$(s[s_] or sTot[s_]), vtVirkVaegt$(s[s_] or sTot[s_]), vtAUB$(s[s_] or sTot[s_]), vtCO2$(s[s_] or sTot[s_]), 
     vtVirkAM$(s[s_] or sTot[s_]), vSubLoen$(s[s_] or sTot[s_]), vtNetLoenAfg$(s[s_] or sTot[s_])
@@ -377,7 +378,7 @@ $IF %stage% == "exogenous_values":
 
   $GROUP G_taxes_data_imprecise
     vtNetYRest$(s[s_] or sTot[s_])
-    vtY$(sTot[s_]), vtYRest, vtNetY$(s[s_] or sTot[s_])
+    vtY$(sTot[s_]), vtYRest, vtNetY$(s[s_] or sTot[s_]), vtTold$(sameas[d_,'tot'] or dTot[d_]), vtMoms$(dTot[d_])
   ;
 
 # ======================================================================================================================
@@ -413,10 +414,8 @@ $IF %stage% == "static_calibration":
 
     tYRest[s,t], -vtYRest[s,t]
 
-    -vtNetY[off,t], vSubYRest[off,t]
-
-    -tK['iB',s,t], tGrund[s,t]
-    -tK['iM',s,t], tVirkVaegt[s,t]
+    -vtGrund[s,t], tGrund[s,t]
+    -vtVirkVaegt[s,t], tVirkVaegt[s,t]
     -vSubLoen[s,t], rSubLoen[s,t]
   ;
   $GROUP G_taxes_static_calibration G_taxes_static_calibration$(tx0[t]);

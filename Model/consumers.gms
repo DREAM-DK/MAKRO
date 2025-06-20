@@ -68,8 +68,6 @@ $IF %stage% == "variables":
  ;
 
   $GROUP G_consumers_endo_a_tot
-    
-    # QUANTITIES
     qCx_h[h,aTot,t]$(t.val > %AgeData_t1%) 
     qCxRef[h,aTot,t]$(t.val > %AgeData_t1%) 
     qBoligxRef[h,aTot,t]$(t.val > %AgeData_t1%) 
@@ -77,11 +75,9 @@ $IF %stage% == "variables":
     qC_NR_h[h,aTot,t]
     qBolig[aTot,t]$(t.val > %AgeData_t1%) 
 
-    # VALUES
     vArv[aTot,t]$(t.val > %AgeData_t1%)
     vHhx_h[h,aTot,t]
     vHhxAfk_h[h,aTot,t]
-    jvHhxAfk[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "J-led."
     vHhInd_h[h,aTot,t]
     vArvBolig[aTot,t]
     vHhTilBoern[aTot,t]
@@ -91,10 +87,8 @@ $IF %stage% == "variables":
     vSplurge[h,aTot,t]
     vSplurgeBolig[h,aTot,t]
 
-    # MISC.
     rSplurge[h,a_,t]$(aTot[a_]) "splurge factor"
     rSplurgeBolig[h,a_,t]$(aTot[a_]) "splurge factor"
-
     rvCLejeBolig[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Andel af samlet lejeboligmasse i basisåret."
   ;
   
@@ -102,7 +96,6 @@ $IF %stage% == "variables":
     G_consumers_endo_a
     G_consumers_endo_a_tot
     
-    # PRICES
     pBolig[t] "Kontantprisen på enfamiliehuse, Kilde: ADAM[phk]"
     mpLand[t] "Imputeret marginal pris på grundværdien af land til boligbenyttelse."
     pLand[t] "Imputeret gennemsnitlig pris på grundværdien af land til boligbenyttelse."
@@ -113,7 +106,6 @@ $IF %stage% == "variables":
     pHICP[t] "Harmoniseret forbrugerprisindeks (HICP), Kilde: FMBANK[pfphicp]."
     pnCPI[c_,t]$(t.val >= 1996) "Nettoforbrugerprisindeks (nCPI), Kilde: FMBANK[pnp] og FMBANK[pnp<i>]."
  
-    #  QUANTITIES
     qC[c_,t]$(not cTot[c_] and not Cx[c_] and not cBol[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig."
     qBiler[t] "Kapitalmængde for køretøjer i husholdningerne, Kilde: ADAM[fKncb]"
     qYBolig[t] "Bruttoproduktion af ejerboliger inkl. installationsomkostninger (aggregat af kapital og land)"
@@ -124,7 +116,6 @@ $IF %stage% == "variables":
     qKLejeBolig[t] "Kapitalapparat i lejeboliger."
     qC_NR[a_,t]$(aTot[a_]) "Gns. husholdningers forbrug som defineret i Nationalregnskabet - dvs. ud fra qC[cTot,t]"
 
-    # VALUES
     vCx[a_,t]$(aTot[a_]) "Forbrug ekskl. bolig og finansielle omkostninger."
     vHhx[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Husholdningernes formue ekskl. pension, bolig og realkreditgæld (vægtet gns. af Hand-to-Mouth og fremadskuende forbrugere)"
     vHhxAfk[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Imputeret afkast på husholdningernes formue ekskl. bolig og pension."
@@ -138,7 +129,6 @@ $IF %stage% == "variables":
     vSelvstKapInd[a_,t]$(atot[a_]) "Selvstændiges kapitalindkomst - imputeret."
     vC_NR[a_,t]$(aTot[a_]) "Gns. husholdningers forbrug som defineret i Nationalregnskabet - dvs. ud fra qC[cTot,t]"
 
-    # MISC.
     rKLeje2Bolig[t] "Forholdet mellem qKbolig og qKlejebolig."
     fMigration[a_,t]$((atot[a_] and t.val > 1991)) "Korrektion for migrationer (= 1/(1+migrationsrate) eftersom formue deles med ind- og udvandrere)."
     dpBoligTraeghed[t]$(tx0[t] and t.val > %AgeData_t1%) "Disnytte-effekt fra omstillingsomkostninger på boligpriser."
@@ -169,8 +159,7 @@ $IF %stage% == "variables":
     rArv[a,t] "Andel af den samlede arv som tilfalder hver arving med alderen a."
   ;
   $GROUP G_consumers_forecast_as_zero
-    jvHhxAfk[a,t] # Defineret tidligere
-    jrHhxAfk[t] "Ikke-aldersfordelt multiplikativt j-led"
+    jvHhxAfk[a_,t] "J-led."
     jfEpC[t] "J-led."
     jfuBolig[t] "J-led"
     jfDisk_t[t] "J-led"
@@ -252,8 +241,7 @@ $IF %stage% == "equations":
     # Net capital income
     E_vHhxAfk_aTot[t]$(tx0[t] and t.val > %NettoFin_t1%)..
       vHhxAfk[aTot,t] =E= sum(portf$(not pensTot[portf]), rHhAktAfk[portf,t] * vHhAkt[portf,aTot,t-1]/fv)
-                        - rHhPasAfk['Bank',t] * vHhPas['Bank',aTot,t-1]/fv 
-                        + jvHhxAfk[aTot,t] + jrHhxAfk[t] * vHhAkt['IndlAktier',aTot,t-1]/fv;
+                        - rHhPasAfk['Bank',t] * vHhPas['Bank',aTot,t-1]/fv;
 
     E_vBoligUdgift_tot[t]$(tx0[t] and t.val > %NettoFin_t1%)..
       vBoligUdgift[aTot,t] =E= vIBolig[t]
@@ -452,9 +440,7 @@ $IF %stage% == "equations":
     E_vArvBolig_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
       vArvBolig[aTot,t] =E= sum(a, (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1] * vArvBolig[a,t]);
     E_rvCLejeBolig_tot[t]$(tx0[t] and t.val > %AgeData_t1%).. rvCLejeBolig[aTot,t] =E= sum(aa, rvCLejeBolig[aa,t] * nPop[aa,t]);
-    # Net capital income
-    E_jvHhxAfk_Tot[t]$(tx0[t] and t.val > %AgeData_t1%)..
-      vHhxAfk[aTot,t] =E= sum(a, vHhxAfk[a,t]/fMigration[a,t] * nPop[a-1,t-1]);
+
     # ------------------------------------------------------------------------------------------------------------------
     # Individual non-housing consumption decision by age
     # ------------------------------------------------------------------------------------------------------------------  
@@ -464,7 +450,7 @@ $IF %stage% == "equations":
     E_vHhInd_h_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. vHhInd_h[h,aTot,t] =E= vHhInd[aTot,t] * rHhAndel[h];
     # Ikke-bolig forbrug
     E_qCx_h_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%)..
-    qCx_h[h,aTot,t] =E= sum(a, rHhAndel[h] * qCx_h[h,a,t] * nPop[a,t]);  
+      qCx_h[h,aTot,t] =E= sum(a, rHhAndel[h] * qCx_h[h,a,t] * nPop[a,t]);  
     E_qCxRef_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. qCxRef[h,aTot,t] =E= sum(a, rHhAndel[h] * qCxRef[h,a,t] * nPop[a,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -479,7 +465,8 @@ $IF %stage% == "equations":
     E_vArvKorrektion_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
       vArvKorrektion[aTot,t] =E= sum(a, vArvKorrektion[a,t] * nPop[a,t]);
 
-    E_vArv_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. vArv[aTot,t] =E= sum(a, vArvGivet[a,t] * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1]);
+    E_vArv_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
+      vArv[aTot,t] =E= sum(a, vArvGivet[a,t] * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1]);
     
     # -------------------------------------------------------------------
     # Coupling of consumption by household type and CES tree
@@ -500,7 +487,7 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Overførsler mellem børn og forældre som redegør for ændringer i børns opsparing. 
     # ------------------------------------------------------------------------------------------------------------------
-    E_vHhTilBorn_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. vHhTilBoern[aTot,t] =E= sum(aa, vBoernFraHh[aa,t] * nPop[aa,t]);
+    E_vHhTilBoern_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. vHhTilBoern[aTot,t] =E= sum(aa, vBoernFraHh[aa,t] * nPop[aa,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Post model equations
@@ -516,8 +503,6 @@ $IF %stage% == "equations":
 
     E_vBoligUdgift_h_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%)..
       vBoligUdgift_h[h,aTot,t] =E= (vBoligUdgift[aTot,t] + vArvBolig[aTot,t]);
-
-
   $ENDBLOCK
 
   $BLOCK B_consumers_a
@@ -542,10 +527,9 @@ $IF %stage% == "equations":
 
     # Net capital income
     E_vHhxAfk[a,t]$(tx0[t] and a.val > 0 and t.val > %AgeData_t1%)..
-      vHhxAfk[a,t] / fMigration[a,t]
-        =E= sum(portf$(not pensTot[portf]), rHhAktAfk[portf,t] * vHhAkt[portf,a-1,t-1]/fv)
-          - rHhPasAfk['Bank',t] * vHhPas['Bank',a-1,t-1]/fv 
-          + jvHhxAfk[a,t] + jrHhxAfk[t] * vHhAkt['IndlAktier',a-1,t-1]/fv;
+      vHhxAfk[a,t]
+        =E= sum(portf$(not pensTot[portf]), rHhAktAfk[portf,t] * vHhAkt[portf,a-1,t-1]/fv) * fMigration[a,t]
+          - rHhPasAfk['Bank',t] * vHhPas['Bank',a-1,t-1]/fv * fMigration[a,t] + jvHhxAfk[a,t];
 
     # Samlet post for ejerbolig som fratrækkes i budgetrestriktion.
     E_vBoligUdgift[a,t]$(tx0[t] and t.val > %AgeData_t1%)..
@@ -819,7 +803,7 @@ $ENDIF
 
 
 $IF %stage% == "exogenous_values":  
-# =============================================================================================½=========================
+# ======================================================================================================================
 # Load data
 # ======================================================================================================================
   # Totaler og aggregater fra makrobk indlæses
@@ -832,7 +816,7 @@ $IF %stage% == "exogenous_values":
 
   # Aldersfordelt data fra aldersprofiler indlæses
   $GROUP G_consumers_aldersprofiler
-    vHhx$(a[a_]), vHhxAfk$(a[a_]), vCLejeBolig$(a[a_]), vCx$(a[a_])
+    vHhx$(a[a_]), vCLejeBolig$(a[a_]), vCx$(a[a_])
   ;
   $GROUP G_consumers_aldersprofiler
     G_consumers_aldersprofiler$(t.val >= %AgeData_t1%)
@@ -853,7 +837,6 @@ $IF %stage% == "exogenous_values":
   ;
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_consumers_data_imprecise
-    vHhxAfk$(aTot[a_])
   ;
 
 # ======================================================================================================================
@@ -915,7 +898,7 @@ $IF %stage% == "static_calibration":
     -qBiler, rBilAfskr
     -vHhInvestx[aTot,t], rHhInvestx
     -vSelvstKapInd[aTot,t], rSelvstKapInd
-    -qKBolig, uYBolig
+    -qIBolig, uYBolig
     -qKLejeBolig, qILejeBolig
     -qC[c,t]$(not cBol[c]), uC[c,t]$(not cBol[c]) # I endelige år bestemmes vCx konsistent med data for qC - og qC[cTur] bestemmes residualt (vCx bestemmer qCx og qCx som bestemmer qC[Cx] givet pC[Cx] som er en endogen CES-pris)
     -pCPI[c,t], fpCPI[c,t] 
@@ -937,8 +920,6 @@ $IF %stage% == "static_calibration":
     G_consumers_static_calibration_base
     -G_consumers_endo_a, -G_consumers_endo_a_tot
     qC[Cx,t] # (qC['Cx',t] bestemmes residualt ud fra qC['cTur',t]) - Der ser ud til at være en fejl her, qC[cTur] er allerede eksogen
-    -vHhx[aTot,t]$(t.val > %AgeData_t1%), jvHhxAfk[aTot,t]$(t.val > %AgeData_t1%)
-
   ;    
   $GROUP G_consumers_static_calibration_newdata G_consumers_static_calibration_newdata$(tx0[t]);
 
@@ -985,7 +966,8 @@ $IF %stage% == "static_calibration":
     E_fHh_AgeData_t1[a,t]$(tx0[t] and a18t100[a] and t.val = %AgeData_t1%).. fHh[a,t] =E= 1 + 0.5 * rBoern[a,t] * nPop['a0t17',t];
 
     E_rArv_static[a,t]$(tx0[t] and t.val > %AgeData_t1%)..
-      vArv[a,t] =E= sum(aa$(aa.val > 0), vArvGivet[aa,t] * (1-rOverlev[aa-1,t-1]) * nPop[aa-1,t-1] / nArvinger[aa,t] * rArv_a[aa-1,a-1]);
+      rArv[a,t] * vArv[aTot,t] / nPop[aTot,t] =E= sum(aa$(aa.val > 0),
+        vArvGivet[aa,t] * (1-rOverlev[aa-1,t-1]) * nPop[aa-1,t-1] / nArvinger[aa,t] * rArv_a[aa-1,a-1]);
 
     E_rvCLejeBolig[a,t]$(a18t100[a] and tx0[t] and t.val > %AgeData_t1%)..
       rvCLejeBolig[a,t] =E= vCLejeBolig[a,t] / vCLejeBolig[aTot,t];
@@ -1111,7 +1093,6 @@ $IF %stage% == "dynamic_calibration_newdata":
     G_consumers_endo
     -vCx[aTot,t1], jfDisk_t[t1]
     jfDisk_t[tx1] # E_jfDisk_t
-   -vHhx[aTot,t1], jrHhxAfk[t1]
 
      -qBolig[aTot,t1], jrRefBolig[t1]
      jrRefBolig$(tx1[t]) # E_jrRefBolig
@@ -1126,6 +1107,8 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     -qLandSalg, qLand[tx0] # Afskrivningsrater for bolig er ekstremt lave i 2022 og 2023 foreløbig data - vi justerer land-mængde så at den frigivne mængde holdes konstant
 
+    Res_vHhx[aTot,t]$(t2[t]) # E_Res_vHhx - denne er underforstået og ikke direkte modelleret i t1[t] - jf. kommentar nedenfor
+
     # jrBoligTraeghed[t2] # E_jrBoligTraeghed_t2
   ;
   $BLOCK B_consumers_dynamic_calibration
@@ -1137,6 +1120,10 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     E_rLand2YBolig_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(rLand2YBolig);
     E_uYBolig_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(uYBolig);
+
+    # Residual i vHhx[aTot,t1] betyder, at denne ikke er lig sum(a, vHhx[a,t1] * nPop[a,t1])
+    # Dette vil fortsætte i vHhx[aTot,t2] ift. sum(a, vHhx[a,t2] * nPop[a,t2]), hvis vi ikke korrigerer i vHhx[aTot,t2]  
+    E_Res_vHhx_aTot[t]$(t2[t]).. vHhx[aTot,t] =E= sum(a, vHhx[a,t] * nPop[a,t]);
 
     # @copy_equation_to_period(E_jrBoligTraeghed, t2)
   $ENDBLOCK
