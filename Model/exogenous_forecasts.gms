@@ -230,18 +230,21 @@ rRente.l['Obl',t]$(tx1[t] and t.val <= 2050)
   = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] - terminal_rente) + terminal_rente;
 rRente.l['Obl',t]$(t.val > 2050) = terminal_rente;  
 
+rRenteECB.l[t]$(tx1[t] and t.val <= 2050)
+  = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRenteECB.l[t1] - terminal_ECB_rente) + terminal_ECB_rente;
+rRenteECB.l[t]$(t.val > 2050) = terminal_ECB_rente;
+
 # Den eksogene EU-obligationsrente beregnes for at få den ønskede effekt på den gns. obligationsrenten
 rRenteOblDK.l[t]$(tx1[t]) = rRente.l['Obl',t] - crRenteObl.l[t]; 
 rRenteOblEU.l[t]$(tx1[t]) = rRenteOblDK.l[t] - rRenteSpaend.l[t];
-rRenteECB.l[t]$(tx1[t]) = rRenteOblEU.l[t] - rOblPrem.l[t];
 
 # Indlånsrenten har været højere end pengemarkedsrenten i perioden med negative renter - vi ønsker ikke at fremskrive dette og slår ARIMA fra
 rHhAktOmk.l['Bank',t]$(tx1[t] and t.val <= 2050) = 0.01 - (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] + 0.01);
 rHhAktOmk.l['Bank',t]$(t.val > 2050) = 0.01;  
 
 rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
-rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] + 0.07 - rRenteECB.l[tEnd], 0.07);
-rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] + 0.08 - rRenteECB.l[tEnd], 0.08);
+rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.07;
+rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.08;
 
 # Offentligt ejede aktier giver lavere afkast end øvrige aktier
 jrOffAktOmv.l[portf,t]$(tx1[t] and (IndlAktier[portf] or UdlAktier[portf])) = -0.02;
@@ -271,16 +274,9 @@ rPensionAkt.l['Obl',t]$(tx1[t]) = 1 - rPensionAkt.l['RealKred',t] - rPensionAkt.
 rBoligPrem.l[t]$(tx1[t]) = max(0.03, 0.07 - rRente.l["Obl",t]);
 
 # Sammensætningseffekt af ændrede uddannelsesbaggrunde etc. for offentligt ansatte
-fpYoff.l[t]$(tx1[t]) = 1.0008;
+fqLOffInput.l[t]$(tx1[t]) = fqLOffInput.l[t1] * (1.0008)**(t.val - t1.val);
 
 vNulvaekstIndeks.l[t]$(tx1[t]) = 1/fvt[t];
-
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  # Markupper går til historisk gennemsnit, dog mindst 0
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  parameter aftrapprofil[t] "Profil for aftrapning af vissekalibrerede parametre til strukturelt niveau.";
-#  aftrapprofil[t]$(tx0[t]) = 0.8**(dt[t]**1.5);
-#  srMarkup.l[sp,t]$(tx0[t]) = srMarkup.l[sp,t1] * aftrapprofil[t] + (1-aftrapprofil[t]) * max(@mean(tData, srMarkup.l[sp,tData]), 0);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Public finances
@@ -304,27 +300,41 @@ $GROUP G_GovExpenses_DemoTraek
 @load(G_GovExpenses_DemoTraek, "..\Data\Befolkningsregnskab\DemoTraek.gdx" )
 
 $GROUP G_FM_Demo
-  fDemoTraek[aTot,t]
+  fDemoTraek_FM[t]  "Finansministeriets opgørelse af det demografisk træk"
 ;
-@load_as(G_FM_demo, "..\Data\FM_exogenous_forecast.gdx", _demo)
-uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_demo[aTot,t] / fDemoTraek_demo[aTot,t1];
+@load(G_FM_demo, "..\Data\FM_exogenous_forecast.gdx")
+uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_FM.l[t] / fDemoTraek_FM.l[t1];
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Inventory investments
 # ----------------------------------------------------------------------------------------------------------------------
 # Det giver ikke mening at have permanent negative lagerinvesteringer, og de svinger meget
-rIL2Y.l[s,t]$(tx1[t]) = max((@mean(t10, rIL2Y.l[s,t10])), 0.005);
+parameter rIL2Y_mean10[s,t];
+rIL2Y_mean10[s,t] = sum(t10, rIL2Y.l[s,t10]) / sum(t10, 1) ;
+rIL2Y.l[s,t]$(tx1[t] and fre[s]) = max(rIL2Y_mean10[s,t1], 0.005);
+rIL2Y.l[s,t]$(tx1[t] and not fre[s]) = max(rIL2Y_mean10[s,t1], 0);
 
+parameter qIO_iL_mean10[s,t];
 parameter qIO_iL_sum[t];
-parameter qIOym_iL_sum[t];
+parameter qIO_iL_sum_mean10[t];
+parameter qIOm_iL_mean10[s,t];
+parameter qIOym_iL_sum[s,t];
+parameter qIOym_iL_sum_mean10[s,t];
 parameter pnCPI_1[t];
+qIO_iL_mean10[s,t] = sum(t10, qIO.l['iL',s,t10]) / sum(t10, 1) ;
 qIO_iL_sum[t] = sum(s, qIO.l['iL',s,t]);
-qIOym_iL_sum[t] = sum(s, qIOy.l['iL',s,t] + qIOm.l['iL',s,t]);
+qIO_iL_sum_mean10[t] = sum(t10, qIO_iL_sum[t10]) / sum(t10, 1) ;
+qIOm_iL_mean10[s,t] = sum(t10, qIOm.l['iL',s,t10]) / sum(t10, 1) ;
+qIOym_iL_sum[s,t] = qIOy.l['iL',s,t] + qIOm.l['iL',s,t];
+qIOym_iL_sum_mean10[s,t] = sum(t10, qIOym_iL_sum[s,t10]) / sum(t10, 1) ;
 pnCPI_1[t] = pnCPI.l[cTot,t-1]/fp;
 
-uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) = max(@mean(t10, qIO.l['iL',s,t10]) / (@mean(t10, qIO_iL_sum[t10])), 0);
-uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) 
-                 = min(max(@mean(t10, qIOm.l['iL',s,t10]) / (@mean(t10, qIOym_iL_sum[t10])), 0), 1);
+uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = max(qIO_iL_mean10[s,t1] / qIO_iL_sum_mean10[t1], 0);
+uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = min(max(qIOm_iL_mean10[s,t1] / qIOym_iL_sum_mean10[s,t1], 0), 1);
+# HACK
+uIOm0.l['iL','tje',t]$(tx1[t]) = 0;
+uIOm0.l['iL','udv',t]$(tx1[t]) = 0;
+
 fuIOym.l['iL',s,t]$(tx1[t] and t.val > tBase.val) = 1;
 fuIO.l['iL',t]$(tx1[t] and t.val > tBase.val) = 1;
 
@@ -453,6 +463,7 @@ $GROUP G_smooth_profiles
   ftAktieHh_a
   ftKommune_a
   rTopSkatInd_a
+  rNet2KapIndPos
   uPersIndRest_a$(a[a_])
   cHh_a
   rRealKred2Bolig_a
@@ -485,6 +496,7 @@ embeddedCode Python:
       (db["ftAktieHh_a"], 15, 4),
       (db["ftKommune_a"], 15, 5),
       (db["rTopSkatInd_a"], 15, 5),
+      (db["rNet2KapIndPos"], 15, 5),
       (db["uPersIndRest_a"], 15, 5),
       (db["cHh_a"], 0, 4),
       (db["rRealKred2Bolig_a"], 18, 5),

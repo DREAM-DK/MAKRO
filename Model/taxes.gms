@@ -437,9 +437,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_taxes_static_calibration_newdata
     G_taxes_static_calibration
    ;
-  MODEL M_taxes_static_calibration_newdata /
-    M_taxes_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

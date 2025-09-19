@@ -310,7 +310,8 @@ $IF %stage% == "equations":
 
     E_snLHh_aTot[t]$(t.val > %AgeData_t1%).. snLHh[aTot,t] =E= sum(a, snLHh[a,t]);
 
-    E_snSoegBaseHh_aTot[t]$(t.val > %AgeData_t1%).. snSoegBaseHh[aTot,t] =E= sum(a, snSoegBaseHh[a,t]);
+    E_snSoegBaseHh_aTot[t]$(t.val > %AgeData_t1%).. 
+      snSoegBaseHh[aTot,t] =E= sum(a$(a15t100[a]), snSoegBaseHh[a,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Husholdningernes arbejdsudbud fordelt på alder
@@ -326,8 +327,8 @@ $IF %stage% == "equations":
     E_srJobFinding[a,t]$(a15t100[a])..
       srJobFinding[a,t] =E= srJobFinding[aTot,t] - jsrJobFinding[aTot,t] + jsrJobFinding[a,t];
 
-    E_srJobFinding_tot_via_jsrJobFinding[t]$(t.val > %AgeData_t1%)..
-      srJobFinding[aTot,t] * snSoegHh[aTot,t] =E= sum(a, srJobFinding[a,t] * snSoegHh[a,t]);
+    E_jsrJobFinding_aTot[t]$(t.val > %AgeData_t1%)..
+      srJobFinding[aTot,t] * snSoegHh[aTot,t] =E= sum(a$(a15t100[a]), srJobFinding[a,t] * snSoegHh[a,t]);
 
     E_snLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       snLHh[a,t] =E= (1-srSeparation[a,t]) * snLHh[a-1,t] / nPop[a-1,t] * nPop[a,t] + srJobFinding[a,t] * snSoegHh[a,t];
@@ -336,7 +337,7 @@ $IF %stage% == "equations":
       snSoegHh[a,t] =E= (snSoegBaseHh[a,t] - snLHh[a,t]) / (1-srJobFinding[a,t]) + jsnSoegHh[a,t];
 
     E_jsnSoegHh_aTot[t]$(t.val > %AgeData_t1%)..
-      snSoegHh[aTot,t] =E= sum(a, snSoegHh[a,t]);
+      snSoegHh[aTot,t] =E= sum(a$(a15t100[a]), snSoegHh[a,t]);
 
     E_snSoegBaseHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       snSoegBaseHh[a,t] =E= fSoegBaseHh[a,t] * srSoegBaseHh[a,t] * nPop[a,t];

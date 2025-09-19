@@ -124,7 +124,7 @@ $IF %stage% == "variables":
     rL2KEL[sp,t] "L-andel i KEL-nest."
     rB2KELB[sp,t] "B-andel i KELB-nest."
     rR2KELBR[s_,t]$(sp[s_]) "R-andel i KELBR-nest."
-    uL[s_,t]$(sp[s_]) "Arbejdskraft-besparende produktivitet."
+    uL[s_,t] "Arbejdskraft-besparende produktivitet."
   ;
   $GROUP G_production_private_fixed_forecast
     rAfskr_static[k,sp,t] "Udglattet afskrivningsrate til statisk kalibrering."
@@ -252,7 +252,7 @@ $IF %stage% == "equations":
                 * (1-rOpslagOmk['off',t]) # Matching friction
                 * hL['off',t]; # Number of hours worked
 
-    E_qLUdn_off[t].. qLUdn['off',t] =E= qL['off',t];
+    E_qLUdn_off[t].. qLUdn['off',t] =E= uL['off',t] * qL['off',t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # 4) bottom level of CES tree: KE-aggregate (equipment capital and Energy)
@@ -626,7 +626,7 @@ $IF %stage% == "equations":
 
     # Definition of user cost
     # User cost på spTot er defineret uden boliger, da usercost på boliger er defineret ved pBoligUC
-    E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t])..
+    E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t] and t.val > %NettoFin_t1%)..
       pK[k,spTot,t+1]*fp * qK[k,spTot,t] =E= fpK_spTot[k,t] *(
       # Tobin's q today and tomorrow
       sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
@@ -885,13 +885,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_production_private_static_calibration_newdata
     G_production_private_static_calibration_base$(tx0[t])
   ;
-  MODEL M_production_private_static_calibration_newdata /
-    M_production_private
-    B_production_private_static_calibration_base
-    -E_pK - E_qK_tEnd  # E_pK_static
-    -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
-    -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
-  /; 
 $ENDIF
 
 

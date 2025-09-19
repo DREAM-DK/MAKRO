@@ -62,6 +62,7 @@ sets
   a_ "Cohort ages and aggregates over age groups" /a15t100, a0t17, a18t100, tot, 0 * 110/
   a[a_] "All age groups" /0 * 101/  
   a0t100[a_] "Aller levende personer." /0 * 100/
+  a1t100[a_] "Alle levende personer undtagen nyfødte." /1 * 100/
   a0t14[a_] "Børn" /0 * 14/
   a0t17[a_] "Alle levende personer under 18." /0 * 17/
   a15t100[a_] "Aller levende personer, som kan være på arbejdsmarkedet." /15 * 100/

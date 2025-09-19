@@ -767,7 +767,7 @@ $FOR1 {shock} in [
   
   # ====================================================================================================================
   # For stød, som ikke påvirker inputs i offentlig produktion, rykker qG sig kun pga. fejl i kædeindeks.
-  # Vi eksogeniser derfor offentligt forbrug (og slår kædeligning fra med fpYOff).
+  # Vi eksogeniser derfor offentligt forbrug (og slår kædeligning fra med uL['off',t]).
   # ====================================================================================================================
   parameter public_inputs_fixed "Dummy, som er 1 hvis offentlige investeringer, beskæftigelse, og materialekøb er eksogene og unændrede i alle år.";
   public_inputs_fixed = prod(t$(tx0[t]),
@@ -782,7 +782,7 @@ $FOR1 {shock} in [
     qE.up['off',t] = qE_baseline['off',t]
   );
   $FIX qG$(gTot[g_] and tx0[t] and public_inputs_fixed);
-  $UNFIX fpYOff$(tx0[t] and public_inputs_fixed);
+  $UNFIX uL$(off[s_] and tx0[t] and public_inputs_fixed);
 
   # --------------------------------------------------------------------------------------------------------------------
   # Endogen udenlandsk økonomi shocks

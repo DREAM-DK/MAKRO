@@ -63,14 +63,14 @@ $ENDLOOP
 # Parameters forecast with ARIMAs are gradually returned to baseline values
 $GROUP G_gradual_return
   G_ARIMA_forecast
-  -rAfskr # Afskrivningsraterne i foreløbig data virker utroværdige og ses bort fra i fremskrivningen
+  -pM # Særbehandles i pricing.gms
 ;
 
 # Baseline forskydes med permanent andel af stød fra sidste foreløbige data-år
 # Stød som skifter fortegn på parameter aftrappes fuldt (herunder stød væk fra 0)
 $LOOP G_gradual_return:
   {name}_baseline{sets}$(
-    tx0[t]
+    tx0[t] and {conditions}
     and {name}_baseline{sets}{$}[<t>tEnd] <> 0
     and sign({name}_baseline{sets}{$}[<t>tEnd]) = sign({name}_last_calibration{sets}{$}[<t>tEnd])
     and abs({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd] - 1)
@@ -301,7 +301,7 @@ $ENDIF;
 # Load previous solution
 # ----------------------------------------------------------------------------------------------------------------------
 $IF "%previous_solution%" != "%last_calibration%" and %calibration_steps% == 1:
-  $GROUP G_load G_dynamic_calibration_newdata, -G_data;
+  $GROUP G_load G_dynamic_calibration_newdata, -G_data, -G_do_not_load;
   @load(G_load, "Gdx\%previous_solution%.gdx")
   # @set_initial_levels_to_nonzero(G_load)
 $ENDIF

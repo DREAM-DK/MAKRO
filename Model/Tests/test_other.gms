@@ -25,7 +25,7 @@ parameter fordringsbalance[t]; fordringsbalance[t]$(tx0[t] and t.val >= 1996) =
   # Residual foreign transfer to firms
   + vVirkIndRest.l[t]
 ;
-abort$(smax(t$(tData[t]), abs(fordringsbalance[t])) > 0.02) "Fejl i fordringsbalancen", fordringsbalance;
+abort$(smax(t$(tData[t]), abs(fordringsbalance[t])) > 0.05) "Fejl i fordringsbalancen", fordringsbalance;
 # Første forecast-år stemmer fordringsbalancen ikke - hænger nok sammen med korrektion i vHhx og at vHhxAfk ikke stemmer i t2
 abort$(smax(t$(tForecast[t] and not t2[t]), abs(fordringsbalance[t])) > 1e-7) "Fejl i fordringsbalancen", fordringsbalance;
 

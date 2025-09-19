@@ -172,10 +172,16 @@ $IF %calibration_steps% > 1:
   @set(G_homotopy, .l, _new_data);
 $ENDIF
 
+# Sæt substitutionselasticiteter til 1 for at gøre løsning lettere
+# eKELBR.l[sp] = 1;
+# eKELB.l[sp] = 1;
+# eKEL.l[sp] = 1;
+# eKE.l[sp] = 1;
+
 $FIX ALL; $UNFIX G_static_calibration;
 # $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
 # @set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
-@set_bounds();
+# @set_bounds();
 @unload_all(Gdx\static_calibration_presolve);
 @solve(M_static_calibration);
 
@@ -247,14 +253,7 @@ $IF %run_tests%:
   # Check if data residuals have changed
   # ----------------------------------------------------------------------------------------------------------------------
   @load_as(G_data_residuals, "Gdx\previous_static_calibration.gdx", _previous_solution);
-  $LOOP G_data_residuals:
-    loop({sets}{$}[+t]${conditions},
-      if(abs({name}.l{sets})-1e-6 > abs({name}_previous_solution{sets}),
-        display {name}.l, {name}_previous_solution;
-        abort 'Increase in residual: {name} is bigger than in previous_static_calibration.gdx';
-      );
-    );
-  $ENDLOOP
+  @assert_abs_smaller(G_data_residuals, 1e-6, .l, _previous_solution, "Data residuals have increased from previous_static_calibration.gdx.");
   
   # Tjekker om noget har ændret sig - kræver at tidligere static_calibration gemt som previous_...
   #  $GROUP G_all All;

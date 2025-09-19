@@ -13,7 +13,9 @@ $IF %stage% == "variables":
     pOffNyInvx[t]$(t.val > 1995) "Deflator for offentlige nyinvesteringer ekskl. direkte investeringer, Kilde: ADAM[pifro1ny]"
     # Tabel-variable
     pOffNyInv[t]$(t.val > 1995) "Deflator for offentlige nyinvesteringer inkl. direkte investeringer, Kilde: ADAM[pifo1ny]"
-    pLOff_input[t]$(t.val > %cal_start%) "Deflator for offentlig lønsum ved input-metoden, Kilde: ADAM[pywo1gl]"
+    pYOffInput[t]$(t.val > %cal_start% and t.val > 1993) "Deflator for offentlig produktion ved input-metoden, Kilde: ADAM[pxo1gl]"
+    pLOffInput[t]$(t.val > %cal_start%) "Deflator for offentlig lønsum ved input-metoden, Kilde: ADAM[pywo1gl]"
+    ptNetYOff[t]$(t.val > %cal_start% and t.val >= 1993) "Deflator for offentlige produktionsskatter i faste priser, Kilde: ADAM[pspz_xo1]"
     pOffDirInv[t] "Pris på egenproduktion til investering i offentlig forvaltning og service, Kilde: ADAM[pxo1i]"
     pOffIndirInv[t] "Pris på den offentlige sektors nettokøb af bygninger o.a. eksisterende investeringsgoder"
 	;    
@@ -25,7 +27,9 @@ $IF %stage% == "variables":
     qOffNyInv[t]$(t.val > 1995) "Offentlige nyinvesteringer inkl. direkte investeringer, Kilde: ADAM[fIfo1ny]"
     qOffIndirInv[t]$(t.val > 1995) "Den offentlige sektors nettokøb af bygninger o.a. eksisterende investeringsgoder"
     qOffDirInv[t] "Direkte offentlige investeringer i forskning og udvikling, Kilde: ADAM[fXo1i]"
-    qLOff_input[t]$(t.val > %cal_start%) "Offentlig lønsum i faste priser ved input-metoden, Kilde: ADAM[fYwo1gl]"
+    qYOffInput[t]$(t.val > %cal_start% and t.val > 1993) "Offentlig produktion i faste priser ved input-metoden, Kilde: ADAM[fXo1gl]"
+    qLOffInput[t]$(t.val > %cal_start%) "Offentlig lønsum i faste priser ved input-metoden, Kilde: ADAM[fYwo1gl]"
+    qtNetYOff[t]$(t.val > %cal_start% and t.val >= 1993) "Offentlige produktionsskatter i faste priser, Kilde: ADAM[fSpz_xo1]"
     qY[off,t]$(t.val > %cal_start%) "Produktion fordelt for offentlig sektor, Kilde: ADAM[fX]"
   ;
 	$GROUP G_production_public_values_endo
@@ -34,6 +38,7 @@ $IF %stage% == "variables":
     vOffDirInv[t] "Direkte offentlige investeringer i forskning og udvikling, Kilde: ADAM[Xo1i]"
     vOffIndirInv[t] "Den offentlige sektor nettokøb af bygninger o.a. eksisterende investeringsgoder, Kilde: ADAM[Io1a]"
     vOffNyInvx[t]$(t.val > 1995) "Faste nyinvesteringer i off. sektor, ekskl. investeringer i forskning og udvikling, Kilde: ADAM[Ifro1ny]"
+    vfYOffInput[t]$(t.val > %cal_start% and t.val > 1993) "Offentlig produktion i foregående års priser ved input-metoden, Kilde: ADAM[pXo1gl][-1]*ADAM[fXo1gl]"
     # Tabel-variable
     vOffNyInv[t]$(t.val > 1995) "Offentlige nyinvesteringer inkl. direkte investeringer, Kilde: ADAM[Ifo1ny]"
     vY[s_,t]$(off[s_]) "Produktionsværdi fordeltfor offentlig sektor, Kilde: ADAM[X] eller ADAM[X<i>]"
@@ -68,8 +73,8 @@ $IF %stage% == "variables":
   ;
 
   $GROUP G_production_public_exogenous_forecast
-    fpYOff[t] "Sammensætningseffekter i offentlig ansattes uddannelsesbaggrund mv. I data fanges også forskelle mellem input-metode og nationalregnskabets outputmål"
     rOffK2Y
+    fqLOffInput[t] "Korrektionsfaktor - dækker over uddannelsessammensætning af offentligt ansatte"
   ;
   $GROUP G_production_public_forecast_as_zero
     jfpOffAfskr[k,t] "J-led, som afspejler forskel mellem deflatoren for offentlige afskrivninger og investeringer."
@@ -80,7 +85,7 @@ $IF %stage% == "variables":
   $GROUP G_production_public_ARIMA_forecast
   ;
   $GROUP G_production_public_fixed_forecast
-    fqLOff_input[t] "Korrektionsfaktor for input-baseret offentlig lønsum i faste priser"
+    fqtNetYOff[t] "Korrektionsfaktor - dækker over sammensætningseffekter på produktionsskatter"
     fpOffDirInv[t] "Korrektionsfaktor"
     fpOffIndirInv[t] "Korrektionsfaktor"
     rOffDirInv[t] "Andel af offentlig produktion til maskininvesteringer, der går direkte til offentlige investeringer."
@@ -124,24 +129,39 @@ $IF %stage% == "equations":
 
     E_pOffAfskr_tot[t]..
       pOffAfskr[kTot,t] * qOffAfskr[kTot,t] =E= vOffAfskr[kTot,t];
-  
+
     # Offentlige materialekøb er eksogene som udgangspunkt, kan endogeniseres ved at eksogenisere dette forhold
     E_rOffLoensum2R[t].. rOffLoensum2R[t] =E= vLoensum['off',t] / vR['off',t];
     E_rOffLoensum2E[t].. rOffLoensum2E[t] =E= vLoensum['off',t] / vE['off',t];
 
     # Offentligt forbrug opgøres ved input metoden, dvs. kædeindeks af input-mængder
-    # fpYoff fanger sammensætningseffekter i offentlig ansattes uddannelsesbaggrund mv. I data fanger fpYoff også forskelle mellem input-metode og nationalregnskabets outputmål.
+    E_vfYOffInput[t]$(t.val > %cal_start% and t.val > 1993)..
+      vfYOffInput[t] =E= qOffAfskr[kTot,t] * pOffAfskr[kTot,t-1]/fp 
+                       + qR['off',t] * pR['off',t-1]/fp
+                       + qE['off',t] * pE['off',t-1]/fp
+                       + qLOffInput[t] * pLOffInput[t-1]/fp
+                       + qtNetYOff[t] * ptNetYOff[t-1]/fp;
+    E_pYOffInput[t]$(t.val > %cal_start% and t.val > 1993)..
+      pYOffInput[t] * vfYOffInput[t] =E= vY['off',t] * pYOffInput[t-1]/fp;
+    E_qYOffInput[t]$(t.val > %cal_start% and t.val > 1993)..
+      qYOffInput[t] * pYOffInput[t] =E= vY['off',t];
+
+    E_qLOffInput[t]$(t.val > %cal_start%).. qLOffInput[t] =E= fqLOffInput[t] * hL['off',t] / fqt[t];
+    E_pLOffInput[t]$(t.val > %cal_start%).. pLOffInput[t] =E= vLoensum['off',t] / qLOffInput[t];
+
+    E_qtNetYOff[t]$(t.val > %cal_start% and t.val >= 1993).. qtNetYOff[t] =E= fqtNetYOff[t] * qY['off',t];
+    E_ptNetYOff[t]$(t.val > %cal_start% and t.val >= 1993).. ptNetYOff[t] =E= vtNetY['off',t] / qtNetYOff[t];
+
     E_qY_off[t]$(t.val > %cal_start%)..
-      qY['off',t] * pY['off',t-1]/fp =E= qOffAfskr[kTot,t] * pOffAfskr[kTot,t-1]/fp 
-                                       + qR['off',t] * pR['off',t-1]/fp
-                                       + qE['off',t] * pE['off',t-1]/fp
-                                       + (fpYOff[t] * hL['off',t]) * (pW[t-1]/fp * qProd['off',t-1]/fq)
-                                       + (vtNetY['off',t-1] / qY['off',t-1])/fp * qY['off',t];
+      qY['off',t] * (pY['off',t-1] - vtNetY['off',t-1] / qY['off',t-1])/fp
+      =E= qOffAfskr[kTot,t] * pOffAfskr[kTot,t-1]/fp 
+        + qR['off',t] * pR['off',t-1]/fp
+        + qE['off',t] * pE['off',t-1]/fp
+        + (uL['off',t] * qProd['off',t] * hL['off',t]) * (pW[t-1]/uL['off',t-1])/fp;
 
     E_qY_off_via_rpY[t]$(t.val > %cal_start%)..
       qY['off',t] =E= rpY['off',t] * (qOffAfskr[kTot,t] + qR['off',t] + qE['off',t] 
-                                      + (fpYOff[t] * hL['off',t]) * (pW[tBase] * qProd['off',tBase])
-                                      + (vtNetY['off',tBase] / qY['off',tBase]) * qY['off',t] );
+                                      + uL['off',t] * qProd['off',t] * hL['off',t]);
 
     # Beskæftigelse, materialekøbe og investeringer er alle eksogene i mængder ved stød.
     E_vY_off[t].. vY['off',t] =E= vOffAfskr[kTot,t] + vLoensum['off',t] + vR['off',t] + vE["off",t] + vtNetY['off',t];
@@ -189,9 +209,6 @@ $IF %stage% == "equations":
       qOffNyInv[t] * pOffNyInv[t-1]/fv =E= qOffNyInvx[t] * pOffNyInvx[t-1]/fv 
                                          + qOffDirInv[t] * pOffDirInv[t-1]/fv;
     E_pOffNyInv[t]$(t.val > 1995).. pOffNyInv[t] * qOffNyInv[t] =E= vOffNyInv[t];
-
-    E_qLOff_input[t]$(t.val > %cal_start%).. qLOff_input[t] =E= fqLOff_input[t] * fpYOff[t] * hL['off',t];
-    E_pLOff_input[t]$(t.val > %cal_start%).. pLOff_input[t] =E= vLoensum['off',t] / qLOff_input[t];
   $ENDBLOCK
 
   $BLOCK B_production_public_forwardlooking$(tx0[t])
@@ -223,7 +240,7 @@ $IF %stage% == "exogenous_values":
     pOffNyInv, vOffNyInv, qOffNyInv
     qK$(off[s_])
     qOffIndirInv, pOffIndirInv, vOffIndirInv
-    qLOff_input
+    qLOffInput, qtNetYOff, qYOffInput, pLOffInput, ptNetYOff, pYOffInput
     vY[off,t], vtNetY[off,t]
   ;
   @load(G_production_public_makrobk, "..\Data\makrobk\makrobk.gdx" )
@@ -236,7 +253,6 @@ $IF %stage% == "exogenous_values":
   $GROUP G_production_public_data_imprecise 
     pOffNyInvx, qOffNyInvx, vOffNyInvx
     pOffNyInv$(t.val >= 2021), qOffNyInv$(t.val >= 2021), vOffNyInv$(t.val >= 2021)
-
     vOffAfskr
     qOffAfskr$(iM[i_])
     pOffAfskr$(iM[i_] and t.val >= %cal_start%)
@@ -245,6 +261,7 @@ $IF %stage% == "exogenous_values":
   # ======================================================================================================================
   # Exogenous variables
   # ======================================================================================================================
+  uL.l[off,tBase] = 1;
 
   # ======================================================================================================================
   # Data assignment
@@ -266,30 +283,27 @@ $IF %stage% == "static_calibration":
     rOffDirInv[t], -vOffDirInv[t]
     fpOffIndirInv[t], -pOffIndirInv[t]
     rAfskr[k,off,t], -qK[k,off,t]
-    fpYOff, -qY[off,t]
-
-    fqLOff_input$(t.val > %cal_start%), -qLOff_input$(t.val > %cal_start%)
+    uL[off,t], -qY[off,t]
+    fqLOffInput$(t.val > %cal_start%), -qLOffInput$(t.val > %cal_start%)
+    fqtNetYOff$(t.val > %cal_start%), -qtNetYOff$(t.val > %cal_start%)
     fpOffDirInv, -pOffDirInv
   ;
   $GROUP G_production_public_static_calibration
     G_production_public_static_calibration$(tx0[t])
+    uL[off,t0], -uL[off,tBase]
   ;
-  #  $BLOCK B_production_public_static_calibration
-  #  $ENDBLOCK
+  # $BLOCK B_production_public_static_calibration
+  # $ENDBLOCK
 
   MODEL M_production_public_static_calibration /
     M_production_public
-    #  B_production_public_static_calibration
+    # B_production_public_static_calibration
   /;
 
   $GROUP G_production_public_static_calibration_newdata
     G_production_public_static_calibration
    ;
-  MODEL M_production_public_static_calibration_newdata /
-    M_production_public_static_calibration
-  /;
 $ENDIF
-
 
 # ======================================================================================================================
 # Dynamic calibration
@@ -326,6 +340,9 @@ $ENDIF
 $IF %stage% == "dynamic_calibration_newdata":
   $GROUP G_production_public_dynamic_calibration
     G_production_public_endo
+
+    uL[off,t1], -qY[off,t1]
+
     qI_s[k,off,tx1] # E_qI_s_forecast 
     # Offentlige direkte investeringer i forskning og udvikling holdes konstant som andel af BNP
     # Andelen af nyinvesteringer som er bygninger endogeniseres

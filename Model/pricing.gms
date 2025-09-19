@@ -186,9 +186,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_pricing_static_calibration_newdata
     G_pricing_static_calibration
    ;
-  MODEL M_pricing_static_calibration_newdata /
-    M_pricing_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

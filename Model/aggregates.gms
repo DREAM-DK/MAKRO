@@ -15,7 +15,7 @@ $IF %stage% == "variables":
     vVirkBVT5aarSnit[t] "Centreret 5-års glidende gennemsnit af privat BVT."
     vBVT2hL[s_,t]$(s[s_] or sTot[s_]) "BVT pr. arbejdstime i værdi."
     vBVT2hLsnit[t] "Glidende gennemsnit af BVT pr. arbejdstime i værdi."
-    vBNI[t] "Bruttonationalindkomst, Kilde: ADAM[Yi]"
+    vBNI[t]$(t.val > %NettoFin_t1%) "Bruttonationalindkomst, Kilde: ADAM[Yi]"
     vUdlNet[t]$(t.val >= %NettoFin_t1%) "Udlandets finansielle nettoportefølje ift. DK, Kilde: ADAM[Wn_e]."
     vUdlAkt[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlAkt[portf_,t] and not pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
     vUdlAkt[portf_,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf_,t] and pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
@@ -88,7 +88,7 @@ $IF %stage% == "equations":
     E_rpCInflSnit[t]..
       rpCInflSnit[t] =E= 0.8 * rpCInflSnit[t-1] + 0.2 * (pC['cTot',t] / (pC['cTot',t-1]/fp) - 1);
 
-    E_vBNI[t]..
+    E_vBNI[t]$(t.val > %NettoFin_t1%)..
       vBNI[t] =E= vBNP[t]                               
                 - vtEU[t] + vSubEU[t]  # Told og subsidier til og fra EU 
                 - vWxDK[t]  # Lønninger til grænsearbejdere
@@ -335,9 +335,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_aggregates_static_calibration_newdata
     G_aggregates_static_calibration
    ;
-  MODEL M_aggregates_static_calibration_newdata /
-    M_aggregates_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

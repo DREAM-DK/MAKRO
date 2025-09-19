@@ -107,10 +107,10 @@ $IF %stage% == "equations":
     E_qXm_xTot_via_fXm[t]..
       qXm[xTot,t] =E= uXm[xTot,t] * qXMarked[t] * fXmPriser[t] * fXm[t];
 
-    E_uXm_xTot[t].. uXm[xTot,t] =E= sum(x, uXm[x,t]);
+    E_uXm_xTot[t].. uXm[xTot,t] =E= sum(x$(d1Xm[x,t]), uXm[x,t]);
 
     E_fXmPriser[t]..
-      uXm[xTot,t] * fXmPriser[t] =E= sum(x, uXm[x,t] * (1 + tXm[x,t])**(-eXUdl[x]));
+      uXm[xTot,t] * fXmPriser[t] =E= sum(x$(d1Xm[x,t]), uXm[x,t] * (1 + tXm[x,t])**(-eXUdl[x]));
 
     # Rigidity in spill over from increased foreign activity (qXMarked) to increased demand for domestically produced exports
     E_qXTraek[t]..
@@ -164,7 +164,7 @@ $IF %stage% == "equations":
       qCTurist[c,t] =E= uCturisme[c,t] * qXy['xTur',t];
 
     E_uCturisme[c,t]$(d1CTurist[c,t])..
-      uCturisme[c,t] =E= fuCturisme[t] * uCturisme0[c,t] / sum(cc, uCturisme0[cc,t]);
+      uCturisme[c,t] =E= fuCturisme[t] * uCturisme0[c,t] / sum(cc$(d1CTurist[cc,t]), uCturisme0[cc,t]);
   $ENDBLOCK
 
   $BLOCK B_exports_forwardlooking $(tx0[t])
@@ -281,7 +281,7 @@ $IF %stage% == "static_calibration":
   ;
 
   $BLOCK B_exports_static_calibration
-    E_fuCturisme[t]$(tx0[t]).. sum(c, uCturisme0[c,t]) =E= 1;
+    E_fuCturisme[t]$(tx0[t]).. sum(c$(d1CTurist[c,t]), uCturisme0[c,t]) =E= 1;
 
     E_qXSkala_t0[t]$(t0[t]).. qXSkala[t] =E= qXSkala[t+1]*fq / fq;
     E_qXTraek_t0[t]$(t0[t]).. qXTraek[t] =E= qXTraek[t+1]*fq / fq;
@@ -300,9 +300,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_exports_static_calibration_newdata
     G_exports_static_calibration
    ;
-  MODEL M_exports_static_calibration_newdata /
-    M_exports_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

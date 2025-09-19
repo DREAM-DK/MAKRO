@@ -151,6 +151,7 @@ $IF %stage% == "variables":
     nSoegBasexDK[t] "Sum af grænsearbejdere og jobsøgende potentielle grænsearbejdere."
     uDeltag[a,t] "Præferenceparameter for arbejdsstyrke-deltagelse."
     uh[a,t] "Præferenceparameter for timer."
+    ADAM_BFR[ADAM_BFR_LIST,t] "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret"
   ;
 
   $GROUP G_labor_market_forecast_as_zero
@@ -444,7 +445,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
 
     E_rWTraeghed[t].. rWTraeghed[t] =E= pW[t]/pW[t-1] / (pW[t-1]/pW[t-2]) + jrWTraeghed[t];
 
-    E_vFFOutsideOption[t]..
+    E_vFFOutsideOption[t]$(t.val > %AgeData_t1%)..
       vFFOutsideOption[t] =E= rFFLoenAlternativ * dFF2dLoen[t] * rJobFinding[aTot,t] * pW[t];
 
     E_rOpslagOmk[s,t]..
@@ -471,7 +472,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
 
     # Wage total                   
     E_vWHh_tot[t]$(t.val > %AgeData_t1%).. vWHh[aTot,t] =E= sum(a, vWHh[a,t] * nPop[a,t]);
-    E_qProdHh[a,t]$(t.val > %AgeData_t1%).. qProdHh[a,t] =E= qProdHh_t[t] * qProdHh_a[a,t];
+    E_qProdHh[a,t]$(t.val > %AgeData_t1% and a15t100[a]).. qProdHh[a,t] =E= qProdHh_t[t] * qProdHh_a[a,t];
 
     # ----------------------------------------------------------------------------------------------------------------------
     # Household First-order Conditions
@@ -517,10 +518,10 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
       rJobFinding[a,t] =E= rJobFinding[aTot,t] - jrJobFinding[aTot,t] + jrJobFinding[a,t] + jrJobFinding_t[t];
 
     E_jrJobFinding_aTot[t]$(t.val > %AgeData_t1%)..
-      rJobFinding[aTot,t] * nSoegHh[aTot,t] =E= sum(a, rJobFinding[a,t] * nSoegHh[a,t]);
+      rJobFinding[aTot,t] * nSoegHh[aTot,t] =E= sum(a$(a15t100[a]), rJobFinding[a,t] * nSoegHh[a,t]);
 
     E_rSeparation_tot[t]$(t.val > %AgeData_t1%)..
-      nSoegHh[aTot,t] =E= sum(a, nSoegHh[a,t]);
+      nSoegHh[aTot,t] =E= sum(a$(a15t100[a]), nSoegHh[a,t]);
 
     E_nLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       nLHh[a,t] =E= (1-rSeparation[a,t]) * nLHh[a-1,t-1] * nPop[a,t]/nPop[a-1,t-1] + rJobFinding[a,t] * nSoegHh[a,t];
@@ -570,6 +571,7 @@ $IF %stage% == "exogenous_values":
     nOrlov, rAKULedig
     nNettoLedig, nBruttoLedig, nNettoArbsty, nSoc[socFraMAKROBK]
     nPopInklOver100$(t.val < %BFR_t1%) # Hentes først ind før BFR_t1, da BFR ikke rammer befolkning fra MAKROBK
+    ADAM_BFR
   ;
   @load(G_labor_market_makrobk, "..\Data\makrobk\makrobk.gdx" )
 

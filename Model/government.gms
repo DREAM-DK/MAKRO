@@ -368,7 +368,7 @@ $IF %stage% == "equations":
       E_n{name}{sets}$({conditions} and t.val < tEnd.val)..
         n{name}{sets} =E= {name}{sets} + n{name}{sets}{$}[<t>t+1] * fv / (1+mrOffRente[t+1]);
       E_n{name}_tEnd{sets}$({conditions} and tEnd[t])..
-        n{name}{sets} =E= @mean(tt$[tt.val > t.val-5], {name}{sets}{$}[<t>tt]) / (1 - fv / (1+mrOffRente[t]));
+        n{name}{sets} =E= {name}{sets} + @mean(tt$[tt.val > t.val-5], {name}{sets}{$}[<t>tt]) / (1 - fv / (1+mrOffRente[t]));
     $ENDLOOP
 
     E_vRenteMarginal[t]$(t.val <= tEnd.val)..
@@ -485,9 +485,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_government_static_calibration_newdata
     G_government_static_calibration
    ;
-  MODEL M_government_static_calibration_newdata /
-    M_government_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

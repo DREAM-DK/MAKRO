@@ -51,6 +51,7 @@ parameters
   gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.011/
   gp "Long run rate of foreign inflation" /0.018/
   terminal_rente "Obligationsrente på lang sigt" /0.04/
+  terminal_ECB_rente "ECB-rente på lang sigt" /0.035/
 ;
 
 # ======================================================================================================================

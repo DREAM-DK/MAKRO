@@ -4,11 +4,15 @@
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
   pI$(iL[i_]), pI_s$(iL[i_]), pIO$(iL[d_]), pIOy$(iL[d_])
+  pILager, pIStam, pIVaerdi
+
   pCPI, pnCPI # Disse bør fjernes med dummies i modulet istedet
   pBoligUC
   pBVT
   
   qBolig, qBolig_h
+  qCx[a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%) # Negative aldersfordelte tal kan forekomme i statisk kalibrering, uden for år med aldersfordelt data
+  qCx_h[h,a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%)
   qI, qI_s, qIBolig, qILager, qIStam, qIVaerdi
   qOffIndirInv, pOffIndirInv, fpOffIndirInv
   qIO$(i_[d_]), qIOy$(i_[d_]), qIOm$(i_[d_])
@@ -20,6 +24,7 @@ $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
   qIO$(sameas('bol',d_) and sameas('byg',s_) and t.val = 1973) # Negativ IO-celle
   dvVirk2dpW
   sdvVirk2dpW
+  ptNetYOff, qtNetYOff
 
   $LOOP G_forecast_as_zero: # Typisk j-led som gerne må være negative
     {name}
@@ -46,7 +51,6 @@ $GROUP G_well_scaled # Variables bounded close to 1 (prices are included here by
   G_prices, -G_negative_allowed, -G_lower_bound
   rKUdn, rpIOm2pIOy,
   rSoeg2Opslag, srSoeg2Opslag
-  -pILager, -pIStam, -pIVaerdi
 ;
 $GROUP G_zero_bound  # Variables with a lower bound very close to zero
   G_quantities, -G_negative_allowed, -G_well_scaled, -G_lower_bound

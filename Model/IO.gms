@@ -158,8 +158,6 @@ $IF %stage% == "variables":
 
     fpI_s[i,t]$(tForecast[t]) "Korrektionsfaktor som sørger for at vI_s summerer til vI."
 
-    fpIVaerdi[t] "Korrektionsfaktor som sørger for at lagerinvesteringskomponenter kædeaggregerer"
-
     # Alt offentligt salg til private er udbudsdrevet og uIO0 hhv. uIOXy0 giver sig.
     uIO0[d_,s_,t]$((r_[d_] or c_[d_] or i_[d_]) and off[s_] and d1IOy[d_,s_,t]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
     uIOXy0[x,s,t]$(off[s] and d1IOy[x,s,t]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
@@ -228,12 +226,13 @@ $IF %stage% == "variables":
     jpILager[t] "J-led"
     jpIStam[t] "J-led"
     jpIOm2pIOy[dux,s,t] "J-led"
+    qILagerDiskripans[t] "Diskripans i kædeaggregatet for lagerinvesteringer - kan sikre rimelige priser i fremskrivning"
   ;
   $GROUP G_IO_ARIMA_forecast
-    uIO0[d_,s_,t]$(not iL[d_]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
-    uIOm0[dux,s,t]$(not iL[dux]) "Importandel i efterspørgselskomponent."
-    uIOXy0[x,s,t]$(not udv[s]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
-    uIOXm0[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse importerede input før endelig skalering."
+    uIO0[d,s,t]$(d1IO[d,s,t] and not iL[d])
+    uIOm0[dux,s,t]$(d1IO[dux,s,t] and not iL[dux])
+    uIOXy0[x,s,t]$(d1IO[x,s,t] and not udv[s])
+    uIOXm0[x,s,t]$(d1IO[x,s,t]) "Skalaparameter for eksportkomponents vægt på diverse importerede input før endelig skalering."
     uIOXyUdv0[x,t] "Skalaparameter for eksportkomponents vægt på indenlandsk udvinding før skalering til samlet indenlandsk udvinding."
   ;
   $GROUP G_IO_constants
@@ -766,20 +765,20 @@ $IF %stage% == "equations":
 
     # Lagerinvesteringer fordelt på rene lagerinvesteringer, stambesætninger og værdigenstande
     E_vILager[t].. vILager[t] =E= rvILager2iL[t] * vI['iL',t];
-    E_pILager[t].. pILager[t] =E= fpIVaerdi[t] * pI['iL',t] + jpILager[t];
+    E_pILager[t].. pILager[t] =E= pI['iL',t] + jpILager[t];
     E_qILager[t].. vILager[t] =E= pILager[t] * qILager[t];
 
     E_vIStam[t].. vIStam[t] =E= rvIstam2iL[t] * vI['iL',t];
-    E_pIStam[t].. pIStam[t] =E= fpIVaerdi[t] * pI['iL',t] + jpIStam[t];
+    E_pIStam[t].. pIStam[t] =E= pI['iL',t] + jpIStam[t];
     E_qIStam[t].. vIStam[t] =E= pIStam[t] * qIStam[t];
 
     E_vIVaerdi[t].. vI['iL',t] =E= vIStam[t] + vIVaerdi[t] + vILager[t];    
     E_qIVaerdi_via_rpIVaerdi[t].. qIVaerdi[t] =E= rpIVaerdi[t] * (qI['iL',t] - qIStam[t] - qILager[t]);
     E_qIVaerdi[t].. pI['iL',t-1]/fp * qI['iL',t] =E= pIStam[t-1]/fp * qIStam[t]
                                                    + pIVaerdi[t-1]/fp * qIVaerdi[t]
-                                                   + pILager[t-1]/fp * qILager[t];
+                                                   + pILager[t-1]/fp * qILager[t]
+                                                   + pI['iL',t-1]/fp * qILagerDiskripans[t];
     E_pIVaerdi[t].. vIVaerdi[t] =E= pIVaerdi[t] * qIVaerdi[t];
-    E_fpIVaerdi[t].. pIVaerdi[t] =E= fpIVaerdi[t] * pI['iL',t];
 
     E_vIErhverv[t].. vIErhverv[t] =E= vIbm[t] - vI_s['iM','off',t] - vI_s['IB','off',t] - vI_s['IB','bol',t] + vIStam[t];
     E_qIErhverv_via_rpIErhverv[t].. 
@@ -1081,9 +1080,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_IO_static_calibration_newdata
     G_IO_static_calibration_base$(tx0[t])
    ;
-  MODEL M_IO_static_calibration_newdata /
-    M_IO_static_calibration
-  /;
 $ENDIF
 
 
@@ -1113,7 +1109,7 @@ $ENDIF
 # Dynamic calibration for new data years
 # ======================================================================================================================
 $IF %stage% == "dynamic_calibration_newdata":
-  uIOm0.l[dux,s,t]$(tx1[t] and d1IOm[dux,s,t] and d1IOy[dux,s,t])
+  uIOm0.l[dux,s,t]$(tx1[t] and d1IOm[dux,s,t] and d1IOy[dux,s,t] and not iL[dux])
     = min(0.999, max(0.001, uIOm0.l[dux,s,t1] * uIOm0_baseline[dux,s,t] / uIOm0_baseline[dux,s,t1]));
 
   $GROUP G_IO_dynamic_calibration

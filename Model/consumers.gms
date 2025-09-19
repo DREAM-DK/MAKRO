@@ -35,7 +35,7 @@ $IF %stage% == "variables":
     vHhx_h[h,a_,t]$((a0t100[a_]) and t.val > %AgeData_t1%) "Husholdningernes formue ekskl. pension, bolig og realkreditgæld."
     vHhxAfk[a_,t]$(aVal[a_] > 0 and t.val > %AgeData_t1%) "Imputeret afkast på husholdningernes formue ekskl. bolig og pension."
     vHhxAfk_h[h,a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Imputeret afkast på husholdningernes formue ekskl. bolig og pension."
-    vHhInd_h[h,a_,t]$((a0t100[a_]) and t.val > %AgeData_t1%) "Husholdningernes løbende indkomst efter skat (ekslusiv kapitalindkomst)."
+    vHhInd_h[h,a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Husholdningernes løbende indkomst efter skat (ekslusiv kapitalindkomst)."
     vCLejeBolig[a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Forbrug af lejeboliger."
     vArvGivet[a,t]$(t.val > %AgeData_t1%) "Arv givet af hele kohorten med alder a."
     vArv[a_,t]$(a[a_] and t.val > %AgeData_t1%) "Arv modtaget af en person med alderen a."
@@ -45,7 +45,7 @@ $IF %stage% == "variables":
     vBoernFraHh[a,t]$(a0t17[a] and t.val > %AgeData_t1%) "Finansielle nettooverførsler fra forældre modtaget af børn i alder a."
     vHhTilBoern[a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Finansielle nettooverførsler til børn givet af forældre i alder a."
     vBolig[a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Husholdningernes boligformue."
-    vArvKorrektion[a_,t]$((tx0[t] and t.val > %AgeData_t1%) and a0t100[a_]) "Arv som tildeles afdødes kohorte for at korregerer for selektionseffekt (formue og døds-sandsynlighed er mod-korreleret)."
+    vArvKorrektion[a_,t]$((tx0[t] and t.val > %AgeData_t1%) and a18t100[a_]) "Arv som tildeles afdødes kohorte for at korregerer for selektionseffekt (formue og døds-sandsynlighed er mod-korreleret)."
     vC_NR_h[h,a_,t]$((a0t100[a_] and t.val > %AgeData_t1%)) "Husholdningers forbrug som defineret i Nationalregnskabet - dvs. ud fra qC[cTot,t]"
     vC_NR[a_,t]$(a0t100[a_] and t.val > %AgeData_t1%) "Gns. husholdningers forbrug som defineret i Nationalregnskabet - dvs. ud fra qC[cTot,t]"
     vSplurgeInd[a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Splurge indkomstbegreb."
@@ -100,7 +100,7 @@ $IF %stage% == "variables":
     mpLand[t] "Imputeret marginal pris på grundværdien af land til boligbenyttelse."
     pLand[t] "Imputeret gennemsnitlig pris på grundværdien af land til boligbenyttelse."
     pIBoligUC[t] "Usercost for kapitalinvesteringer i nybyggeri af ejerboliger (investeringspris plus installationsomkostninger)."
-    pBoligUC[t]$(t.val > %NettoFin_t1%) "User cost for ejerbolig."
+    pBoligUC[t]$(t.val > %AgeData_t1%) "User cost for ejerbolig."
     pC[c_,t]$(cNest[c_]) "Imputeret prisindeks for forbrugskomponenter for husholdninger - dvs. ekskl. turisters forbrug."
     pCPI[c_,t]$(t.val >= 2000) "Forbrugerprisindeks (CPI), Kilde: FMBANK[pfp] og FMBANK[pfp<i>]."
     pHICP[t] "Harmoniseret forbrugerprisindeks (HICP), Kilde: FMBANK[pfphicp]."
@@ -239,11 +239,11 @@ $IF %stage% == "equations":
                      - (vArv[aTot,t] + vArvKorrektion[aTot,t] + vtDoedsbo[aTot,t] - vPensArv['pensTot',aTot,t] + vtPersRestPensArv[aTot,t]);
 
     # Net capital income
-    E_vHhxAfk_aTot[t]$(tx0[t] and t.val > %NettoFin_t1%)..
+    E_vHhxAfk_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
       vHhxAfk[aTot,t] =E= sum(portf$(not pensTot[portf]), rHhAktAfk[portf,t] * vHhAkt[portf,aTot,t-1]/fv)
                         - rHhPasAfk['Bank',t] * vHhPas['Bank',aTot,t-1]/fv;
 
-    E_vBoligUdgift_tot[t]$(tx0[t] and t.val > %NettoFin_t1%)..
+    E_vBoligUdgift_tot[t]$(tx0[t] and t.val > %AgeData_t1%)..
       vBoligUdgift[aTot,t] =E= vIBolig[t]
                              + rHhPasAfk['RealKred',t] * vHhPas['RealKred',aTot,t-1]/fv - vRealkreditFradrag[aTot,t] # Rentefradrag er ikke er lig mtHhPasAfk * rHhPasAfk * vHhPas pga. død
                              + vHhPas['RealKred',aTot,t-1]/fv - vHhPas['RealKred',aTot,t]
@@ -396,7 +396,7 @@ $IF %stage% == "equations":
       pBolig[t] * qYBolig[t] =E= mpLand[t] * qLandSalg[t] + pIBoligUC[t] * qIBolig[t];
 
     # Usercost
-    E_pBoligUC[t]$(tx0E[t] and t.val > %NettoFin_t1%)..
+    E_pBoligUC[t]$(tx0E[t] and t.val > %AgeData_t1%)..
       (1+mrHhxAfk[t+1]) * pBoligUC[t] =E= pBolig[t]
                                         - (1-rAfskr['iB','bol',t+1]) * pBolig[t+1]*fp # Værdi næste periode
                                         - pLand[t+1]*fp * qLandSalg[t+1]*fq / qBolig[atot,t] # Forventet udbytte af landsalg i næste periode
@@ -463,31 +463,40 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Arv videregivet pr kohorte
     E_vArvKorrektion_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
-      vArvKorrektion[aTot,t] =E= sum(a, vArvKorrektion[a,t] * nPop[a,t]);
+      vArvKorrektion[aTot,t] =E= sum(a$(a18t100[a]), vArvKorrektion[a,t] * nPop[a,t]);
 
     E_vArv_aTot[t]$(tx0[t] and t.val > %AgeData_t1%)..
-      vArv[aTot,t] =E= sum(a, vArvGivet[a,t] * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1]);
+      vArv[aTot,t] =E= sum(a$(a.val > 0), vArvGivet[a,t] * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1]);
     
     # -------------------------------------------------------------------
     # Coupling of consumption by household type and CES tree
     # ------------------------------------------------------------------------------------------------------------------
     # Aggregater
-    E_qC_Cx[t]$(tx0[t] and t.val > %AgeData_t1%).. qC['Cx',t] =E= sum(h,qCx_h[h,aTot,t]);
+    E_qC_Cx[t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      qC['Cx',t] =E= sum(h,qCx_h[h,aTot,t]);
 
-    E_qBolig_h_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. qBolig_h[h,aTot,t] =E= sum(a, rHhAndel[h] * qBolig_h[h,a,t] * nPop[a,t]);
-    E_qBolig_tot[t]$(tx0[t] and t.val > %AgeData_t1%).. qBolig[aTot,t] =E= sum(h, qBolig_h[h,aTot,t]);
+    E_qBolig_h_tot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      qBolig_h[h,aTot,t] =E= sum(a, rHhAndel[h] * qBolig_h[h,a,t] * nPop[a,t]);
+    E_qBolig_tot[t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      qBolig[aTot,t] =E= sum(h, qBolig_h[h,aTot,t]);
 
-    E_vSplurgeInd_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. vSplurgeInd[aTot,t] =E= sum(a, vSplurgeInd[a,t] * nPop[a,t]);
-    E_vSplurge_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. vSplurge[h,aTot,t] =E= sum(a, vSplurge[h,a,t] * nPop[a,t]);
-    E_vSplurgeBolig_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. vSplurgeBolig[h,aTot,t] =E= sum(a, vSplurgeBolig[h,a,t] * nPop[a,t]);
+    E_vSplurgeInd_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      vSplurgeInd[aTot,t] =E= sum(a$(a18t100[a]), vSplurgeInd[a,t] * nPop[a,t]);
+    E_vSplurge_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      vSplurge[h,aTot,t] =E= sum(a$(a18t100[a]), vSplurge[h,a,t] * nPop[a,t]);
+    E_vSplurgeBolig_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      vSplurgeBolig[h,aTot,t] =E= sum(a$(a18t100[a]), vSplurgeBolig[h,a,t] * nPop[a,t]);
 
-    E_rSplurge_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. rSplurge[h,aTot,t] * vSplurgeInd[aTot,t] =E= vSplurge[h,aTot,t];
-    E_rSplurgeBolig_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. rSplurgeBolig[h,aTot,t] * vSplurgeInd[aTot,t] =E= vSplurgeBolig[h,aTot,t];
+    E_rSplurge_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      rSplurge[h,aTot,t] * vSplurgeInd[aTot,t] =E= vSplurge[h,aTot,t];
+    E_rSplurgeBolig_aTot[h,t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      rSplurgeBolig[h,aTot,t] * vSplurgeInd[aTot,t] =E= vSplurgeBolig[h,aTot,t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Overførsler mellem børn og forældre som redegør for ændringer i børns opsparing. 
     # ------------------------------------------------------------------------------------------------------------------
-    E_vHhTilBoern_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. vHhTilBoern[aTot,t] =E= sum(aa, vBoernFraHh[aa,t] * nPop[aa,t]);
+    E_vHhTilBorn_aTot[t]$(tx0[t] and t.val > %AgeData_t1%).. 
+      vHhTilBoern[aTot,t] =E= sum(aa$(a0t17[aa]), vBoernFraHh[aa,t] * nPop[aa,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Post model equations
@@ -518,12 +527,12 @@ $IF %stage% == "equations":
     # Aggregeret budgetrestriktion (vægtet gennemsnit af fremadskuende og hånd-til-mund husholdninger)
     # ------------------------------------------------------------------------------------------------------------------
     E_vHhx[a,t]$(tx0[t] and a0t100[a] and t.val > %AgeData_t1%)..
-      vHhx[a,t] =E= vHhx[a-1,t-1]/fv * fMigration[a,t] + vHhxAfk[a,t] - vtHhxAfk[a,t]
+      vHhx[a,t] =E= (vHhx[a-1,t-1]/fv * fMigration[a,t] + vHhxAfk[a,t] - vtHhxAfk[a,t])$(a1t100[a])
                   + vHhInd[a,t]
                   - vCx[a,t]            # Ikke-bolig-forbrugsudgift 
                   - vCLejeBolig[a,t]     # Lejebolig-forbrugsudgift
                   - vBoligUdgift[a,t]    # Cashflow til ejerbolig inkl. realkreditafbetaling
-                  + vBoernFraHh[a,t] - vHhTilBoern[a,t];  # Overførsler mellem voksne og børn
+                  + vBoernFraHh[a,t]$(a0t17(a)) - vHhTilBoern[a,t]$(a18t100(a));  # Overførsler mellem voksne og børn
 
     # Net capital income
     E_vHhxAfk[a,t]$(tx0[t] and a.val > 0 and t.val > %AgeData_t1%)..
@@ -567,7 +576,7 @@ $IF %stage% == "equations":
                       - vHhTilBoern[a,t];  # Overførsler til (fra) børn  
     E_vHhx_h_0t17[h,a,t]$(tx0[t] and a0t17[a] and t.val > %AgeData_t1%).. vHhx_h[h,a,t] =E= vHhx[a,t];
     E_vHhxAfk_h[h,a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%).. vHhxAfk_h[h,a,t] =E= vHhxAfk[a,t];
-    E_vHhInd_h[h,a,t]$(tx0[t] and a0t100[a] and t.val > %AgeData_t1%).. vHhInd_h[h,a,t] =E= vHhInd[a,t]; 
+    E_vHhInd_h[h,a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%).. vHhInd_h[h,a,t] =E= vHhInd[a,t]; 
     E_vBoligUdgift_h[h,a,t]$(tx0[t] and t.val > %AgeData_t1%).. vBoligUdgift_h[h,a,t] =E= vBoligUdgift[a,t];
 
     # Diskontering
@@ -680,10 +689,10 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------
     # Arv videregivet pr kohorte
     E_vArvGivet[a,t]$(tx0[t] and t.val > %AgeData_t1%)..
-      vArvGivet[a,t] =E= (vHhx[a-1,t-1]/fv + vHhxAfk[a,t]/fMigration[a,t] + vArvBolig[a,t]) * rArvKorrektion[a]
+      vArvGivet[a,t] =E= (vHhx[a-1,t-1]/fv + vHhxAfk[a,t]/fMigration[a,t] + vArvBolig[a,t])$(a.val > 0) * rArvKorrektion[a]
                        - vtDoedsbo[a,t] + vPensArv['pensTot',a,t] - vtPersRestPensArv[a,t];
 
-    E_vArvKorrektion[a,t]$(tx0[t] and a0t100[a] and t.val > %AgeData_t1%)..
+    E_vArvKorrektion[a,t]$(tx0[t] and a18t100[a] and t.val > %AgeData_t1%)..
       vArvKorrektion[a,t] =E= (vHhx[a-1,t-1]/fv + vHhxAfk[a,t]/fMigration[a,t] + vArvBolig[a,t])
                             * (1-rArvKorrektion[a]) * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1] / nPop[a,t];
 
@@ -906,6 +915,11 @@ $IF %stage% == "static_calibration":
     -pnCPI[c,t], fpnCPI[c,t]$(t.val >= 1996) 
     -pnCPI[cTot,t], fpnCPI[cTot,t]$(t.val >= 1996) 
     -pHICP[t], fpHICP[t]
+    -qArvBase
+    -dArv
+    -qFormueBase, -dFormue
+    -uBolig
+    -uCx
   ;    
   $BLOCK B_consumers_static_calibration_base$(tx0[t])
     E_fIBoligInstOmk[t].. qIBolig[t] / qIBolig[t-1]*fq - fIBoligInstOmk[t] =E= 0;
@@ -922,13 +936,6 @@ $IF %stage% == "static_calibration":
     qC[Cx,t] # (qC['Cx',t] bestemmes residualt ud fra qC['cTur',t]) - Der ser ud til at være en fejl her, qC[cTur] er allerede eksogen
   ;    
   $GROUP G_consumers_static_calibration_newdata G_consumers_static_calibration_newdata$(tx0[t]);
-
-  MODEL M_consumers_static_calibration_newdata /
-      M_consumers
-      - B_consumers_a 
-      # - B_consumers_a_tot
-      B_consumers_static_calibration_base - E_pIBoligUC # E_pIBoligUC_static
-  /;
 
   $GROUP G_consumers_static_calibration
     G_consumers_static_calibration_base
@@ -992,6 +999,11 @@ $IF %stage% == "static_calibration":
     - E_muBolig
     - E_dpBoligTraeghed - E_dpBoligTraeghed_tEnd
     - E_qCx_h - E_qCx_h_tEnd
+    - E_qArvBase -E_qArvBase_tEnd
+    - E_dArv -E_dArv_tEnd
+    - E_qFormueBase -E_dFormue
+    - E_uBolig
+    - E_uCx
   /;
 $ENDIF
 
