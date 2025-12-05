@@ -465,7 +465,7 @@ B_foreign_economy_to_MAKRO_deviations
 
 $IF %matching%:
   # Load matching parameters
-  @load(All, "Gdx\new_parameter_values.gdx");
+  @load(All, "Gdx/new_parameter_values.gdx");
 $ENDIF
 
 $GROUP G_steady_state
@@ -487,7 +487,7 @@ rk_tEnd_plus = rk['%end_foreign%']; # set rk_tEnd_plus to steady-state real inte
 $offDotL
 
 ## output gdx file
-execute_unloaddi 'Gdx\steady_state_calibration.gdx';
+execute_unloaddi 'Gdx/steady_state_calibration.gdx';
 @set(All, _ss, .l);
 
 # ======================================================================================================================
@@ -514,7 +514,7 @@ $IF "%shockname%" == "rstar":
   rstar.fx[t]$(t.val > %shock_period_foreign%) =  rstar.l[t] + 0.01*0.76**dt[t];
   $FIX All; $UNFIX G_Endo_shock, rk_tEnd_plus;
   solve M_shock using CNS;
-  execute_unloaddi 'Gdx\%shockname%shock.gdx';
+  execute_unloaddi 'Gdx/%shockname%shock.gdx';
   $IMPORT VAR_model/shock_var_and_smooth.gms
 $ENDIF
 
@@ -522,7 +522,7 @@ $IF "%shockname%" == "jMC":
   jMC.fx[t]$(t.val > %shock_period_foreign%) =  0.01*0.85**dt[t]; # approximative typical persistence of oil price shock cf Känzig
   $FIX All; $UNFIX G_Endo_shock, rk_tEnd_plus;
   solve M_shock using CNS;
-  execute_unloaddi 'Gdx\%shockname%shock.gdx';
+  execute_unloaddi 'Gdx/%shockname%shock.gdx';
   $IMPORT VAR_model/shock_var_and_smooth.gms
 $ENDIF
 
@@ -530,7 +530,7 @@ $IF "%shockname%" == "jOutput":
   jOutput.fx[t]$(t.val > %shock_period_foreign%) =  0.01*0.5**dt[t];
   $FIX All; $UNFIX G_Endo_shock, rk_tEnd_plus;
   solve M_shock using CNS;
-  execute_unloaddi 'Gdx\%shockname%shock.gdx';
+  execute_unloaddi 'Gdx/%shockname%shock.gdx';
   $IMPORT VAR_model/shock_var_and_smooth.gms
 $ENDIF
 
@@ -538,7 +538,7 @@ $IF "%shockname%" == "Z":
   Z.fx[t]$(t.val > %shock_period_foreign%) =  Z.l[t] + 0.01*0.5**dt[t]; # Z = 1 in s.s.
   $FIX All; $UNFIX G_Endo_shock, rk_tEnd_plus;
   solve M_shock using CNS;
-  execute_unloaddi 'Gdx\%shockname%shock.gdx';
+  execute_unloaddi 'Gdx/%shockname%shock.gdx';
   $IMPORT VAR_model/shock_var_and_smooth.gms
 $ENDIF
 
@@ -549,13 +549,13 @@ $IF "%shockname%" == "oilsupply": # shocks originating in the energy sector are 
   @set(All, _shock, .l);
   $FIX All; $UNFIX G_VAR;
   solve B_VAR_STANDARDIZE using CNS;
-  execute_unloaddi 'Gdx\VAR%shockname%.gdx';
+  execute_unloaddi 'Gdx/VAR%shockname%.gdx';
   $IMPORT VAR_model/smooth_var.gms
   # get the nominal rate from the Taylor rule 
-  @load(All, "Gdx\VAR%shockname%.gdx");
+  @load(All, "Gdx/VAR%shockname%.gdx");
   y.fx[t]$(t.val > %shock_period_foreign%) =  y.l[t]*(1 + qUSInd.l[t]);
   pi.fx[t]$(t.val > %shock_period_foreign%) =  pUSCPI.l[t]; # s.s. inflation is zero
   $FIX All; $UNFIX i[t]$(tx1[t]), dRFq[t]$(tx1[t]);
   solve M_taylor_rule using CNS;
-  execute_unloaddi 'Gdx\%shockname%shock.gdx';
+  execute_unloaddi 'Gdx/%shockname%shock.gdx';
 $ENDIF

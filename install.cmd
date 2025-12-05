@@ -1,5 +1,5 @@
 :: Set path to GAMS
-set GAMSDIR=C:/GAMS/49
+set GAMSDIR=C:/GAMS/51
 set python=%GAMSDIR%/GMSPython/python.exe
 set pip=%GAMSDIR%/GMSPython/Scripts/pip
 
@@ -10,10 +10,10 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 :: Install python modules
 %pip% install ipykernel
 %pip% install numpy scipy statsmodels
-%pip% install gamsapi[all]==49.6.0 dream-tools==3.4.1 plotly 
+%pip% install dream-tools==3.4.1
 %pip% install xlwings
+%pip% install plotly kaleido==0.1.0.post1
 %pip% install dataframe_image pyhtml2pdf PyPDF2
-%pip% install kaleido==0.1.0.post1
 
 :: Installing svglib (needed for xhtml2pdf) fails as the installer looks for .pyd files in the wrong directory
 :: Workaround: create a symlink to the correct directory

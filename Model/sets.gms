@@ -4,9 +4,9 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Import sets
 # ----------------------------------------------------------------------------------------------------------------------
-$IMPORT Sets\age&time.sets.gms;
-$IMPORT Sets\IO.sets.gms;
-$IMPORT Sets\befolkning.sets.gms;
-$IMPORT Sets\finans.sets.gms;
+$IMPORT Sets/age&time.sets.gms;
+$IMPORT Sets/IO.sets.gms;
+$IMPORT Sets/befolkning.sets.gms;
+$IMPORT Sets/finans.sets.gms;
 
-execute_unloaddi "Gdx\sets";
+execute_unloaddi "Gdx/sets";

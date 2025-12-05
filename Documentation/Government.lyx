@@ -2730,79 +2730,52 @@ name "subsec:The-fiscal-sustainability"
 \begin_layout Standard
 The fiscal sustainability indicator, in the model called HBI (holdbarhedsindikat
 or), is equal to the net present value of all future government revenues
- minus expenditures (primary budget) minus the initial government net debt
- (or plus net wealth) relative to the net present value of future GDP:
+ minus expenditures relative to the net present value of future GDP.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-HBI_{t}=\frac{\sum_{s=0}^{\infty}\left(\Pi_{q=0}^{s}\frac{1+r_{t}}{1+r_{t+q}}\right)\left(\underset{\text{Primary budget}}{\underbrace{T_{t+s}-Exp_{t+s}^{G}}}+Correction_{t+s}\right)+W_{t-1}^{G}}{\sum_{s=0}^{\infty}\left(\Pi_{q=0}^{s}\frac{1+r_{t}}{1+r_{t+q}}\right)GDP_{t+s}}
+HBI_{t}=\frac{S_{t}+O_{t}-R_{t}^{Marginal}+(1+r_{t})\times GovNetAssets_{t-1}}{Y_{t}}
 \]
 
 \end_inset
 
-where we discount both GDP and primary budgets using the government bonds
- rate - as the marginal government return in the forecast is given by 
-\begin_inset Formula $r_{t}=r_{\text{Bonds},t}^{Interest}+r_{\text{Bonds},t}^{Reval}=r_{\text{Bonds},t}^{Interest}$
-\end_inset
 
-.
- There is also a small correction for returns on assets different from the
- bond rate.
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-This correction is given by extra return on revaluations plus interests
- on government assets and liabilities: 
-\begin_inset Formula $Correction_{t+s}=\underset{\text{Revaluations}}{\underbrace{\left(\sum_{i}A_{i,t+s-1}^{G}r_{i,t+s}^{Reval}-\sum_{j}L_{j,t+s-1}^{G}r_{j,t+s}^{Reval}\right)}}-\underset{\text{Interest margin}}{\underbrace{\left(\sum_{i}A_{i,t+s-1}^{G}\left(r_{t+s}-r_{i,t+s}^{Interest}\right)-\sum_{j}L_{j,t+s-1}^{G}\overset{=0}{\left(\overbrace{r_{t+s}-r_{j,t+s}^{Interest}}\right)}\right)}}$
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
- Investing in assets with a higher return than bonds will in the current
- version of MAKRO as a benchmark increase the fiscal sustainability.
- It is assumed that the primary budget balance and GDP both grow at the
- same constant rate after a terminal year (currently set to 2099).
 \end_layout
 
 \begin_layout Standard
-\begin_inset Branch AgeDistributionOfTransfers
-inverted 0
-status collapsed
-
-\begin_layout Subsection
-Appendix
-\end_layout
-
-\begin_layout Subsubsection
-Modeling age specific income transfers
-\end_layout
-
-\begin_layout Standard
-From the demographic projections we have a full age-specific socio-economic
- matrices for both actual and structural levels, 
-\begin_inset Formula $n_{soc,a,t}$
+In this formula, 
+\begin_inset Formula $GovNetAssets_{t-1}$
 \end_inset
 
- and 
-\begin_inset Formula $n_{soc,a,t}^{*}$
+ is the value of government net financial assets.
+ 
+\begin_inset Formula $S_{t}$
 \end_inset
 
-.
- For most transfer types there is a mapping from socio-economic groups and
- to the base and we can use this mapping to generate an age-specific actual
- and structural base:
+, 
+\begin_inset Formula $O_{t}$
+\end_inset
+
+, 
+\begin_inset Formula $R_{t}^{Marginal}$
+\end_inset
+
+, and 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+ represent the respective net present values of the primary balance, public
+ revaluations, interest margin, and GDP for all future periods.
+ These values are determined by the following forward-looking difference
+ equations:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Base_{j,a,t}=\sum_{soc}S2T_{j,soc}n_{soc,a,t}
+S_{t}=PrimBalance_{t}+\frac{S_{t+1}}{1+r_{t}}\left(=\sum_{s=t}^{\infty}\Gamma_{s-1}\times PrimBalance_{s}\right)
 \]
 
 \end_inset
@@ -2813,59 +2786,29 @@ Base_{j,a,t}=\sum_{soc}S2T_{j,soc}n_{soc,a,t}
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Base_{j,a,t}^{*}=\sum_{soc}S2T_{j,soc}n_{soc,a,t}^{*}
+O_{t}=PubReval_{t}+\frac{O_{t+1}}{1+r_{t}}\left(=\sum_{s=t}^{\infty}\Gamma_{s-1}\times PubReval_{s}\right)
 \]
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Insert the age-dependent base in the equation for structural age-dependent
- transfers and use that 
-\begin_inset Formula $s_{t}^{reg}\mu_{j,t}^{Rate}$
-\end_inset
-
-:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-y_{a,t}^{G*}N_{a,t}=\sum_{j}TR_{j,a,t}^{*}=s_{t}^{reg}\underset{\equiv\hat{y}_{a,t}^{G*}}{\underbrace{\sum_{j}\left(\mu_{j,t}^{Rate}\sum_{soc}S2T_{j,soc}n_{soc,a,t}^{*}\right)}}+\text{Other}
+R_{t}^{Marginal}=IntMarg_{t}+\frac{R_{t+1}^{Marginal}}{1+r_{t}}\left(=\sum_{s=t}^{\infty}\Gamma_{s-1}\times IntMarg_{s}\right)
 \]
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-The 
-\begin_inset Quotes eld
-\end_inset
-
-Other
-\begin_inset Quotes erd
-\end_inset
-
- term is income transfers with a base of children (age 0-17) and adults
- (age 18-100).
- The latter income transfers are simply divided equally among the adults
- while the transfers with children as a base is directed to the age of their
- parents through a matrix mapping age of parents and children.
-\end_layout
-
-\begin_layout Standard
-We assume that the relationship between the unemployment gap and socio-economic
- groups also holds for the individual age groups:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-n_{soc,a,t}=n_{soc,a,t}^{*}+\lambda_{soc,t}^{dS2dE}\left(n_{a,t}^{e}-n_{a,t}^{e*}\right)
+Y_{t}=GDP_{t}+\frac{Y_{t+1}}{1+r_{t}}\left(=\sum_{s=t}^{\infty}\Gamma_{s-1}\times GDP_{s}\right)
 \]
 
 \end_inset
@@ -2874,19 +2817,84 @@ n_{soc,a,t}=n_{soc,a,t}^{*}+\lambda_{soc,t}^{dS2dE}\left(n_{a,t}^{e}-n_{a,t}^{e*
 \end_layout
 
 \begin_layout Standard
-From this we can get:
+Where 
+\begin_inset Formula $PrimBalance_{t}$
+\end_inset
+
+ is the primary balance, 
+\begin_inset Formula $PubReval_{t}$
+\end_inset
+
+ is the public revaluation, 
+\begin_inset Formula $IntMarg_{t}$
+\end_inset
+
+ is the interest margin, and 
+\begin_inset Formula $GDP_{t}$
+\end_inset
+
+ is the gross domestic product.
+ The discount factor 
+\begin_inset Formula $\Gamma_{t}$
+\end_inset
+
+ is given by the backward looking difference equation:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-y_{a,t}^{G}=s_{t}^{reg}\hat{y}_{a,t}^{G*}+\sum_{j}\left(Rate_{j,t}\sum_{soc}S2T_{j,soc}\lambda_{soc,t}^{dS2dE}\right)\frac{n_{a,t}^{e}-n_{a,t}^{e*}}{N_{a,t}}
+\Gamma_{t}=\frac{1}{1+r_{t}}\Gamma_{t-1}
 \]
 
 \end_inset
 
 
 \end_layout
+
+\begin_layout Standard
+In the terminal period (currently set to 2130) stationary state is assumed
+ such that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S_{T}=PrimBalance_{T}+\frac{S_{T}}{1+r_{T}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+O_{T}=PubReval_{T}+\frac{O_{T}}{1+r_{T}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+R_{T}^{Marginal}=IntMarg_{T}+\frac{R_{T}^{Marginal}}{1+r_{T}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{T}=GDP_{T}+\frac{Y_{T}}{1+r_{T}}
+\]
 
 \end_inset
 

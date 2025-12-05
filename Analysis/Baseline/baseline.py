@@ -15,7 +15,7 @@ def plot_baseline(
         end_year=2040,
         xlines=[],
         operator="",
-        output_path=r"Output\baseline.html",
+        output_path=r"Output/baseline.html",
         DA=True,
 ):
     """
@@ -164,10 +164,10 @@ def plot_baseline(
 
     # Age plots
     figures += [
-        vtp.age_profiles(database_dict, "vCx", [2016, 2030, 2060], "Consumption by age"),
-        vtp.age_profiles(database_dict, "vHhx", [2016, 2030, 2060], "Wealth excluding pensions by age"),
-        vtp.age_profiles(database_dict, "vBolig", [2016, 2030, 2060], "Housing by age"),
-        vtp.age_profiles(database_dict, "vHhInd", [2016, 2030, 2060], "Income by age"),
+        vtp.age_profiles(database_dict, "vCx", [2019, 2030, 2060], "Consumption by age",),
+        vtp.age_profiles(database_dict, "vHhx", [2019, 2030, 2060], "Wealth excluding pensions by age"),
+        vtp.age_profiles(database_dict, "vBolig", [2019, 2030, 2060], "Housing by age"),
+        vtp.age_profiles(database_dict, "vHhInd", [2019, 2030, 2060], "Income by age"),
     ]
 
     output_extension = os.path.splitext(output_path)[1]

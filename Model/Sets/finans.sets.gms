@@ -72,3 +72,32 @@ SETS
   d1vUdlAkt[portf_,t] "vUdlAkt portefølje dummy" //
   d1vUdlPas[portf_,t] "vUdlPas portefølje dummy" //
 ;
+
+Set ADAM_pension_LIST "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret" /
+ wpcr_bf
+ wpir_bf
+ tpcr_bf
+ tpir_bf
+ typcr_bf
+ typir_bf
+ wpco1_bf
+ wpio1_bf
+ tpco1_bf
+ tpio1_bf
+ typco1_bf
+ typio1_bf
+ wpco2_bf
+ wpio2_bf
+ tpco2_bf
+ tpio2_bf
+ typco2_bf
+ typio2_bf
+ wpcr_atp
+ tpcr_atp
+ typcr_atp
+ wpco1_ld
+ typco1_ld
+ wpco2_ld
+ tpco2_ld
+ typco2_ld
+/;

@@ -43,9 +43,11 @@
 	},
   "extensions": {
     "recommendations": [
-		"jeppekinslev.gamY-syntax-highlighting", // gamY syntax highlighting
-		"ms-toolsai.jupyter", // Jupyter notebook support
-		"ms-python.python" // Python support
+			"jeppekinslev.gamY-syntax-highlighting", // gamY syntax highlighting (VSCode)
+			"jonathanwpedersen.gamy-syntax-highlighting", // gamY syntax highlighting (Cursor)
+      "teabyii.ayu", // Color themes, inludes dark, light and mirage themes
+			"ms-toolsai.jupyter", // Jupyter notebook support
+			"ms-python.python" // Python support
     ]
   },
 }

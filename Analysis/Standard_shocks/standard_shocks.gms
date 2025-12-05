@@ -4,10 +4,10 @@
 $SETLOCAL shock_year 2030;
 tHBI[t] = t.val = 2030; 
 set_time_periods(%shock_year%-1, %terminal_year%);
-@load_as(All, "Gdx\baseline.gdx", _baseline)
+@load_as(All, "Gdx/baseline.gdx", _baseline)
 $GROUP All_ All; # to avoid foreign variables 
-@unload(gdx\shock_year.gdx); # to load in shock year for foreign model
-@load_dummies(t, "Gdx\baseline.gdx")
+@unload(Gdx/shock_year.gdx); # to load in shock year for foreign model
+@load_dummies(t, "Gdx/baseline.gdx")
 
 OPTION SOLVELINK=0, NLP=CONOPT4;
 
@@ -54,7 +54,7 @@ s_profile[t]$(tx0[t] and t.val < 5) = 1 / ((5 / dt[t] - 1)**(-1.5) + 1); # Where
 # List of pre-defined shocks. Comment out or delete those that you do not wish to run.
 # --------------------------------------------------------------------------------------------------------------------
 $FOR1 {shock} in [
-  #  "Nulstoed",
+  "Nulstoed",
 
   # # Offentligt forbrug
   "Offentligt_forbrug",
@@ -98,6 +98,8 @@ $FOR1 {shock} in [
   # Øvrige udbudsstød
   "Arbejdsudbud_beskaeftigelse",
   # "Arbejdsudbud_timer",
+  # "Arbejdsudbud_timer_kohort_30",
+  # "Arbejdsudbud_timer_alder_30",
   # "Befolkning",
   # "KapitalProd",
   # "ArbejdsProd",
@@ -443,6 +445,25 @@ $FOR1 {shock} in [
     $UNFIX uh[a,t]$(tx0[t] and a15t100[a]); 
   $ENDIF
 
+  # --------------------------------------------------------------------------------------------------------------------
+  # Arbejdsudbud,timer - kohort for 30-årige - 1 pct.
+  # --------------------------------------------------------------------------------------------------------------------
+  $IF "{shock}" == "Arbejdsudbud_timer_kohort_30":
+      parameter target_birth_year;
+      target_birth_year = %shock_year% - 30;
+      shLHh.fx[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70) 
+          = shLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
+      $UNFIX uh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70);
+  $ENDIF
+
+  # --------------------------------------------------------------------------------------------------------------------
+  # Arbejdsudbud,timer - alder 30 - 1 pct.
+  # --------------------------------------------------------------------------------------------------------------------
+  $IF "{shock}" == "Arbejdsudbud_timer_alder_30":
+      shLHh.fx[a,t]$(tx0[t] and a.val = 30) 
+          = shLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
+      $UNFIX uh[a,t]$(tx0[t] and a.val = 30);
+  $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Befolkning - 1 pct.
@@ -767,7 +788,7 @@ $FOR1 {shock} in [
   
   # ====================================================================================================================
   # For stød, som ikke påvirker inputs i offentlig produktion, rykker qG sig kun pga. fejl i kædeindeks.
-  # Vi eksogeniser derfor offentligt forbrug (og slår kædeligning fra med fpYOff).
+  # Vi eksogeniser derfor offentligt forbrug (og slår kædeligning fra med uL['off',t]).
   # ====================================================================================================================
   parameter public_inputs_fixed "Dummy, som er 1 hvis offentlige investeringer, beskæftigelse, og materialekøb er eksogene og unændrede i alle år.";
   public_inputs_fixed = prod(t$(tx0[t]),
@@ -782,7 +803,7 @@ $FOR1 {shock} in [
     qE.up['off',t] = qE_baseline['off',t]
   );
   $FIX qG$(gTot[g_] and tx0[t] and public_inputs_fixed);
-  $UNFIX fpYOff$(tx0[t] and public_inputs_fixed);
+  $UNFIX uL$(off[s_] and tx0[t] and public_inputs_fixed);
 
   # --------------------------------------------------------------------------------------------------------------------
   # Endogen udenlandsk økonomi shocks
@@ -805,12 +826,12 @@ $FOR1 {shock} in [
       dPF_[t] "Price level deviations foreign economy"
       qUSImports_[t] "Imports foreign (US) economy"  
     ;
-    execute_load "..\..\Foreign_Economy\Gdx\rstar_deviations.gdx"
+    execute_load "../../Foreign_Economy/Gdx/rstar_deviations.gdx"
       dYF_=dYF
       dRF_=dRF
       dPF_=dPF
     ;
-    execute_load "..\..\Foreign_Economy\Gdx\VARrstar_yearly.gdx"
+    execute_load "../../Foreign_Economy/Gdx/VARrstar_yearly.gdx"
       qUSImports_=qUSImports
     ;
     # $IMPORT ../../Foreign_Economy/VAR_model/CPI_to_foreign_prices.gms
@@ -818,7 +839,7 @@ $FOR1 {shock} in [
     rRenteECB.fx[t]$(tx0[t]) = rRenteECB.l[t] + dRF_[t];
     uXMarked.fx[t]$(tx0[t]) = uXMarked.l[t]*(1 + qUSImports_[t]);
     pXUdl.fx[x,t]$(tx0[t]) = pXUdl.l[x,t] + dPF_[t]; # inflation i udlandet
-    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] + dPF_[t]; # inflation i udlandet 
+    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] + dPF_[t]; # inflation i udlandet             
   $ENDIF
   # ====================================================================================================================
   # Solve shock (with or without tax reaction function)
@@ -832,7 +853,7 @@ $FOR1 {shock} in [
 
   @solve(M_{shock}_{variation_label})
 
-  @unload(gdx\{shock}_{variation_label});
+  @unload(Gdx/{shock}_{variation_label});
 
   # ====================================================================================================================
   # Nulstød

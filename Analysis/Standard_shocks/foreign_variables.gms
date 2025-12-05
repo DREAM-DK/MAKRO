@@ -5,7 +5,7 @@ embeddedCode Python:
     import glob
     # loop over deviations
     shock_files = [file for file in glob.glob(r"../../Foreign_Economy/Gdx/*deviation*.gdx")]
-    sets = dt.Gdx(r"..\..\Model\Gdx\sets.gdx")
+    sets = dt.Gdx(r"../../Model/Gdx/sets.gdx")
 
     for shock_file in shock_files:
         db = dt.Gdx(shock_file)

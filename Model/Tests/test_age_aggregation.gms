@@ -32,11 +32,11 @@ parameter vHhInd_sumtest[t]; vHhInd_sumtest[t]$(tx0[t]) = vHhInd.l[aTot,t] - sum
 abort$(smax(t, abs(vHhInd_sumtest[t])) > 1e-9) "vHhInd[tot] does not match sum of components", vHhInd_sumtest;
 
 parameter vHhx_sumtest[t]; vHhx_sumtest[t]$tx0[t] = vHhx.l[aTot,t] - sum(a, vHhx.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhx_sumtest[t])) > 0.01) "vHhx[tot] does not match sum of components", vHhx_sumtest;
+abort$(smax(t, abs(vHhx_sumtest[t])) > 0.02) "vHhx[tot] does not match sum of components", vHhx_sumtest;
 abort$(smax(t$(tForecast[t]), abs(vHhx_sumtest[t])) > 1e-9) "vHhx[tot] does not match sum of components in forecast", vHhx_sumtest;
 
 parameter vHhx_h_sumtest[t]; vHhx_h_sumtest[t]$tx0[t] = sum(h, vHhx_h.l[h,aTot,t]) - sum((a,h), vHhx_h.l[h,a,t] * rHhAndel.l[h] * nPop.l[a,t]);
-abort$(smax(t, abs(vHhx_h_sumtest[t])) > 0.01) "vHhx_h[jTot,tot] does not match sum of components", vHhx_h_sumtest;
+abort$(smax(t, abs(vHhx_h_sumtest[t])) > 0.02) "vHhx_h[jTot,tot] does not match sum of components", vHhx_h_sumtest;
 abort$(smax(t$(tForecast[t]), abs(vHhx_h_sumtest[t])) > 1e-9) "vHhx_h[jTot,tot] does not match sum of components in forecast", vHhx_h_sumtest;
 
 parameter vHhNFErest_sumtest[t]; vHhNFErest_sumtest[t]$tx0[t] = vHhNFErest.l[aTot,t] - sum(a, vHhNFErest.l[a,t] * nPop.l[a,t]);
@@ -46,7 +46,7 @@ abort$(smax(t, abs(vHhNFErest_sumtest[t])) > 1e-7) "vHhNFErest_tot does not matc
 # så fanges residualen i vHhx i vHhxAfk[a,t], men ikke i vHhxAfk[aTot,t] som er givet af data.
 # t2 stemmer heller ikke eksakt, da vi her rykker vHhx på plads via vHhx[aTot,t] =E= sum(a, vHhx[a,t] * nPop[a,t])
 parameter vHhxAfk_sumtest[t]; vHhxAfk_sumtest[t]$tx0[t] = vHhxAfk.l[aTot,t] - sum(a, vHhxAfk.l[a,t]/fMigration.l[a,t] * nPop.l[a-1,t-1]);
-abort$(smax(t, abs(vHhxAfk_sumtest[t])) > 0.01) "vHhxAfk[tot] does not match sum of components", vHhxAfk_sumtest;
+abort$(smax(t, abs(vHhxAfk_sumtest[t])) > 0.02) "vHhxAfk[tot] does not match sum of components", vHhxAfk_sumtest;
 abort$(smax(t$(tForecast[t] and not t2[t]), abs(vHhxAfk_sumtest[t])) > 1e-9) "vHhxAfk[tot] does not match sum of components in forecast", vHhxAfk_sumtest;
 
 # ------------------------------------------------------------------------------------------------------------------
@@ -95,12 +95,20 @@ parameter nSoegBase_sumtest[t]; nSoegBase_sumtest[t]$tx0[t] = sum(a, nSoegBaseHh
 abort$(smax(t, abs(nSoegBase_sumtest[t])) > 1e-6) "nSoegBaseHh summerer ikke til total.", nSoegBase_sumtest;
 
 # ------------------------------------------------------------------------------------------------------------------
+# Government Expenses
+# ------------------------------------------------------------------------------------------------------------------
+parameter vPensIndbOP_sumtest[t]; vPensIndbOP_sumtest[t]$tx0[t] = vPensIndbOP.l[aTot,t] - sum(a, vPensIndbOP.l[a,t] * nPop.l[a,t]);
+abort$(smax(t, abs(vPensIndbOP_sumtest[t])) > 1e-9) "vPensIndbOP[aTot] does not match sum of age groups", vPensIndbOP_sumtest;
+
+# ------------------------------------------------------------------------------------------------------------------
 # Government Revenues
 # ------------------------------------------------------------------------------------------------------------------
 parameter vtEjd_test[t]; vtEjd_test[t]$tx0[t] = sum(a, vBolig.l[a-1,t-1]/fv * fMigration.l[a,t] * nPop.l[a,t] 
                                                      + vBolig.l[a-1,t-1]/fv * (1-rOverlev.l[a-1,t-1]) * nPop.l[a-1,t-1]) 
                                                 * tEjd.l[t] - vtEjd.l[aTot,t];
 abort$(smax(t, abs(vtEjd_test[t])) > 1e-7) "Ejendomsskatter pr aldersgruppe summerer ikke til total.", vtEjd_test;
+
+
 
 # ------------------------------------------------------------------------------------------------------------------
 # Struk

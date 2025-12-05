@@ -20,7 +20,7 @@ $GROUP G_Endo
   G_consumers_endo
   G_exports_endo
   G_finance_endo
-  G_government_endo
+  # G_government_endo
   G_GovExpenses_endo
   G_GovRevenues_endo
   G_HHincome_endo 

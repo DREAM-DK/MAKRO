@@ -58,8 +58,8 @@ $GROUP G_precise_data G_data, -G_imprecise_data;
 # ======================================================================================================================
 # Unload data
 # ======================================================================================================================
-@unload_all_nominal(Gdx\data_nominal);
-@unload_all(Gdx\data);
+@unload_all_nominal(Gdx/data_nominal);
+@unload_all(Gdx/data);
 
 # Save snapshot of all data, to check that all data is intact after calibration.
 @set(G_data, _data, .l)

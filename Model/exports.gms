@@ -8,8 +8,7 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_exports_prices_endo ;
-  $GROUP G_exports_quantities_endo
+  $GROUP G_exports_endo
     qX[x_,t] "Eksport, Kilde: ADAM[fE] og ADAM[fE<i>]"
     qXy[x_,t] "Direkte eksport."
     qXm[x_,t]$(d1Xm[x_,t]) "Import til reeksport."
@@ -18,13 +17,6 @@ $IF %stage% == "variables":
     sqXSkala[t]$(t.val > 1969) "Hjælpevariabel - skaleeffekt i fravær af træghed."
     qXTraek[t] "Eksporttræk fra eksportmarkederne."
     qXMarked[t] "Eksportmarkedsstørrelse, Kilde: ADAM[fEe<i>]"
-  ;
-  $GROUP G_exports_values_endo ;
-
-  $GROUP G_exports_endo
-    G_exports_prices_endo
-    G_exports_quantities_endo
-    G_exports_values_endo
 
     uXy[x_,t]$(xTot[x_]) "Skalaparameter for direkte eksport."
     uXm[x_,t]$(xTot[x_]) "Skalaparameter for import til re-eksport."
@@ -42,20 +34,8 @@ $IF %stage% == "variables":
   ;
   $GROUP G_exports_endo G_exports_endo$(tx0[t]); # Restrict endo group to tx0[t]
 
-  $GROUP G_exports_prices
-    G_exports_prices_endo
-  ;
-  $GROUP G_exports_quantities
-    G_exports_quantities_endo
-    qBVTUdl[t] "BVT i verden, Kilde: World Bank, jf. makrobk"
-    qBNPUdl_vaegt[t] "Handelsvægtede gennemsnit af BNP-væksten i 36 af Danmarks vigtigste samhandelslande, Kilde: ADAM[fYe]"
-  ;
-  $GROUP G_exports_values
-    G_exports_values_endo
-  ;
-
   $GROUP G_exports_exogenous_forecast
-    qBVTUdl[t]
+    qBVTUdl[t] "BVT i verden, Kilde: World Bank, jf. makrobk"
     uXMarked[t] "Parameter som knytter udenlandsk BVT og import"
   ;
   $GROUP G_exports_constants
@@ -74,8 +54,11 @@ $IF %stage% == "variables":
   ;
 
   $GROUP G_exports_fixed_forecast
-    qBNPUdl_vaegt[t]
     rpXy2pXUdl[x,t]$(xSoe[x])
+  ;
+
+  $GROUP G_exports_data_only
+    qBNPUdl_vaegt[t] "Handelsvægtede gennemsnit af BNP-væksten i 36 af Danmarks vigtigste samhandelslande, Kilde: ADAM[fYe]"
   ;
 $ENDIF
 
@@ -107,10 +90,10 @@ $IF %stage% == "equations":
     E_qXm_xTot_via_fXm[t]..
       qXm[xTot,t] =E= uXm[xTot,t] * qXMarked[t] * fXmPriser[t] * fXm[t];
 
-    E_uXm_xTot[t].. uXm[xTot,t] =E= sum(x, uXm[x,t]);
+    E_uXm_xTot[t].. uXm[xTot,t] =E= sum(x$(d1Xm[x,t]), uXm[x,t]);
 
     E_fXmPriser[t]..
-      uXm[xTot,t] * fXmPriser[t] =E= sum(x, uXm[x,t] * (1 + tXm[x,t])**(-eXUdl[x]));
+      uXm[xTot,t] * fXmPriser[t] =E= sum(x$(d1Xm[x,t]), uXm[x,t] * (1 + tXm[x,t])**(-eXUdl[x]));
 
     # Rigidity in spill over from increased foreign activity (qXMarked) to increased demand for domestically produced exports
     E_qXTraek[t]..
@@ -153,7 +136,8 @@ $IF %stage% == "equations":
       qXm[x,t] =E= uXm[x,t] * qXTraek[t] * qXSkala[t] * (1 + tXm[x,t])**(-eXUdl[x]);
 
     E_tXm[x,t]$(d1Xm[x,t])..
-      tXm[x,t] =E= sum(s, (1 + tIOm[x,s,t]) * vIOm[x,s,t]) / sum(s, vIOm[x,s,t]) - 1;
+      tXm[x,t] =E= sum(s$(d1IOm[x,s,t]), (1 + tIOm[x,s,t]) * vIOm[x,s,t])
+                 / sum(s$(d1IOm[x,s,t]), vIOm[x,s,t]) - 1;
 
     # Domestic production and imports to exports are aggregated in a Laspeyres index 
     E_qX[x,t]..
@@ -164,7 +148,7 @@ $IF %stage% == "equations":
       qCTurist[c,t] =E= uCturisme[c,t] * qXy['xTur',t];
 
     E_uCturisme[c,t]$(d1CTurist[c,t])..
-      uCturisme[c,t] =E= fuCturisme[t] * uCturisme0[c,t] / sum(cc, uCturisme0[cc,t]);
+      uCturisme[c,t] =E= fuCturisme[t] * uCturisme0[c,t] / sum(cc$(d1CTurist[cc,t]), uCturisme0[cc,t]);
   $ENDBLOCK
 
   $BLOCK B_exports_forwardlooking $(tx0[t])
@@ -232,9 +216,9 @@ $IF %stage% == "exogenous_values":
     qX, qXy$(x[x_]), qXm$(x[x_]), qCTurist, qXMarked, pXy$(x[x_])
     qBNPUdl_vaegt
   ;
-  @load(G_exports_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_exports_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
-  @load(qBVTUdl, "..\Data\FM_exogenous_forecast.gdx")
+  @load(qBVTUdl, "../Data/FM_exogenous_forecast.gdx")
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_exports_data
@@ -281,7 +265,7 @@ $IF %stage% == "static_calibration":
   ;
 
   $BLOCK B_exports_static_calibration
-    E_fuCturisme[t]$(tx0[t]).. sum(c, uCturisme0[c,t]) =E= 1;
+    E_fuCturisme[t]$(tx0[t]).. sum(c$(d1CTurist[c,t]), uCturisme0[c,t]) =E= 1;
 
     E_qXSkala_t0[t]$(t0[t]).. qXSkala[t] =E= qXSkala[t+1]*fq / fq;
     E_qXTraek_t0[t]$(t0[t]).. qXTraek[t] =E= qXTraek[t+1]*fq / fq;
@@ -300,9 +284,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_exports_static_calibration_newdata
     G_exports_static_calibration
    ;
-  MODEL M_exports_static_calibration_newdata /
-    M_exports_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================
