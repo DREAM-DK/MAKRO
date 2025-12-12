@@ -22,6 +22,13 @@
 # 9) matching_optimize.gms - Set key parameters to match MAKRO responses to empirical impulse responses
 
 # ======================================================================================================================
+# Dummy til antagelser, som afviger mellem DØRS, FM, og DREAM
+# ======================================================================================================================
+$SETGLOBAL FM_baseline 1
+$SETGLOBAL DORS_baseline 0
+$SETGLOBAL DREAM_baseline 0
+
+# ======================================================================================================================
 # Modules
 # ======================================================================================================================
 # Function to import part from each module
@@ -51,6 +58,7 @@ parameters
   gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.011/
   gp "Long run rate of foreign inflation" /0.018/
   terminal_rente "Obligationsrente på lang sigt" /0.04/
+  terminal_ECB_rente "ECB-rente på lang sigt" /0.035/
 ;
 
 # ======================================================================================================================
@@ -80,6 +88,7 @@ $SETGLOBAL HBI_lukning_slut 2098 # Slutning på indfasning af reaktion
 # GAMS options
 # ======================================================================================================================
 $OFFDIGIT
+option zeroToEps=on; # Execule_load indlæser nuller som eps
 
 # LST output options
 OPTION

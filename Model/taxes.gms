@@ -11,23 +11,23 @@ $IF %stage% == "variables":
   $GROUP G_taxes_endo
     vtIOy[d_,s,t]$(d1IOy[d_,s,t]) "Samlet afgiftsprovenue for moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og indenlandske brancher."
     vtIOm[d_,s,t]$(d1IOm[d_,s,t]) "Samlet afgiftsprovenue for told, moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og import-grupper."
-    vtMoms[d_,s_,t] "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spg_<d>]"
-    vtMoms_y[d_,s,t]$(d1IOy[d_,s,t]) "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og indenlandske brancher."
-    vtMoms_m[d_,s,t]$(d1IOm[d_,s,t]) "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og import-grupper."
-    vtNetAfg[d_,s_,t] "Provenu af punktafgifter fordelt på efterspørgselskomponenter og brancher inkl. subsidier og registreringsafgift, Kilde: ADAM[Spp_<d>]"
-    vtNetAfg_y[d_,s,t]$(d1IOy[d_,s,t]) "Provenu af punktafgifter (inkl. subsidier og registreringsafgift) fordelt på efterspørgselskomponenter og indenlandske brancher."
-    vtNetAfg_m[d_,s,t]$(d1IOm[d_,s,t]) "Provenu af punktafgifter (inkl. subsidier og registreringsafgift) fordelt på efterspørgselskomponenter og import-grupper."
+    vtMoms[d_,s_,t]$(d[d_] and s[s_] or (dTots[d_] and sTot[s_]) or (d[d_] and sTot[s_])) "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spg_<d>]"
+    vtMoms_y[d_,s,t]$(d[d_] and d1IOy[d_,s,t]) "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og indenlandske brancher."
+    vtMoms_m[d_,s,t]$(d[d_] and d1IOm[d_,s,t]) "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og import-grupper."
+    vtNetAfg[d_,s_,t]$((d[d_] and s[s_]) or (dTots[d_] and sTot[s_]) or (d[d_] and sTot[s_])) "Provenu af punktafgifter fordelt på efterspørgselskomponenter og brancher inkl. subsidier og registreringsafgift, Kilde: ADAM[Spp_<d>]"
+    vtNetAfg_y[d_,s,t]$(d[d_] and d1IOy[d_,s,t]) "Provenu af punktafgifter (inkl. subsidier og registreringsafgift) fordelt på efterspørgselskomponenter og indenlandske brancher."
+    vtNetAfg_m[d_,s,t]$(d[d_] and d1IOm[d_,s,t]) "Provenu af punktafgifter (inkl. subsidier og registreringsafgift) fordelt på efterspørgselskomponenter og import-grupper."
     vtAfg[d_,s_,t] "Provenu af punktafgifter fordelt på efterspørgselskomponenter og brancher ekskl. registreringsafgift."
     vtAfg_y[d_,s,t]$(d1IOy[d_,s,t]) "Provenu af punktafgifter fordelt på efterspørgselskomponenter og indenlandske brancher ekskl. registreringsafgift."
     vtAfg_m[d_,s,t]$(d1IOm[d_,s,t]) "Provenu af punktafgifter fordelt på efterspørgselskomponenter og import-grupper ekskl. registreringsafgift."
     vSub_y[d_,s,t]$(d1IOy[d_,s,t]) "Udgift til produktsubsidier fordelt på efterspørgselskomponenter og indenlandske brancher."
     vSub_m[d_,s,t]$(d1IOm[d_,s,t]) "Udgift til produktsubsidier fordelt på efterspørgselskomponenter og import-grupper."
     vSub[d_,s_,t] "Udgift til produktsubsidier fordelt på efterspørgselskomponenter og brancher."
-    vtReg[d_,s_,t] "Registreringsafgiftsprovenu, Kilde: ADAM[Spr_<d_>]"
-    vtReg_y[d_,s,t]$(d1IOy[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og indenlandske brancher."
-    vtReg_m[d_,s,t]$(d1IOm[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og import-grupper."
-    vtTold[d_,s_,t]$(d1IOm[d_,s_,t]) "Toldprovenu fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spm_<i>]"
-
+    vtReg[d_,s_,t]$((d[d_] and s[s_]) or (dTots[d_] and sTot[s_]) or (d[d_] and sTot[s_])) "Registreringsafgiftsprovenu, Kilde: ADAM[Spr_<d_>]"
+    vtReg_y[d_,s,t]$(d[d_] and d1IOy[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og indenlandske brancher."
+    vtReg_m[d_,s,t]$(d[d_] and d1IOm[d_,s,t]) "Registreringsafgiftsprovenu fordelt på efterspørgselskomponenter og import-grupper."
+    vtTold[d_,s_,t]$(d[d_] and s[s_] and d1IOm[d_,s_,t]) "Toldprovenu fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spm_<i>]"
+    vtTold[d_,s_,t]$((dTots[d_] and sTot[s_]) or (d[d_] and sTot[s_])) "Toldprovenu fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spm_<i>]"
     vtGrund[s_,t]$(d1K['iB',s_,t]) "Ejendomsskatter fordelt på brancher, Kilde: ADAM[Spzej], ADAM[Spzejh] og ADAM[bspzej_x<i>]*ADAM[Spzejxh]"
     vtVirkVaegt[s_,t]$(d1K['iM',s_,t]) "Vægtafgifter fra erhvervene fordelt på brancher, Kilde: ADAM[Spzv] og ADAM[bspzv_x<i>]"
     vtVirkAM[s_,t] "Provenu af arbejdsmarkedsbidrag (AMBI) vedr. værditilvækst eller lønsum, Kilde: ADAM[Spzam] og ADAM[bspzam_x<i>]"
@@ -180,7 +180,7 @@ $IF %stage% == "equations":
     E_vtAUB[s,t].. vtAUB[s,t] =E= tAUB[s,t] * vLoensum[s,t];
 
     E_vSubLoen[s,t]$(t.val >= %BFR_t1%)..
-      vSubLoen[s,t] =E= rSubLoen[s,t] * vSatsIndeks[t] * nSubLoen[t];   
+      vSubLoen[s,t] =E= rSubLoen[s,t] * vLoenIndeks[t] * nSubLoen[t];   
 
     E_vtNetLoenAfg[s,t].. vtNetLoenAfg[s,t] =E= vtVirkAM[s,t] + vtAUB[s,t] - vSubLoen[s,t];
 
@@ -212,7 +212,7 @@ $IF %stage% == "equations":
     E_vtAUB_sTot_via_tAUB[t].. vtAUB[sTot,t] =E= tAUB[sTot,t] * vLoensum[sTot,t];
 
     E_vSubLoen_sTot_via_rSubLoen[t]$(t.val >= %BFR_t1%)..
-      vSubLoen[sTot,t] =E= rSubLoen[sTot,t] * vSatsIndeks[t] * nSubLoen[t];
+      vSubLoen[sTot,t] =E= rSubLoen[sTot,t] * vLoenIndeks[t] * nSubLoen[t];
 
     E_nLoenSub[t]$(t.val >= %BFR_t1%)..
       nSubLoen[t] =E= nSoc['sbeskflex',t]
@@ -369,7 +369,7 @@ $IF %stage% == "exogenous_values":
     vtVirkAM$(s[s_] or sTot[s_]), vSubLoen$(s[s_] or sTot[s_]), vtNetLoenAfg$(s[s_] or sTot[s_])
     vtMoms$(not sameas[d_,'tot']), vtNetAfg$(not sameas[d_,'tot']) # Der beregnes ikke en samlet total for energi og ikke-energi i data
   ;
-  @load(G_taxes_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_taxes_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_taxes_data  
@@ -388,6 +388,7 @@ $IF %stage% == "exogenous_values":
 # ======================================================================================================================
 # Data assignment
 # ======================================================================================================================
+  rSub0_s.l[s,t] = 0;
 $ENDIF
 
 # ======================================================================================================================
@@ -437,9 +438,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_taxes_static_calibration_newdata
     G_taxes_static_calibration
    ;
-  MODEL M_taxes_static_calibration_newdata /
-    M_taxes_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

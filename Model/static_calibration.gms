@@ -88,7 +88,7 @@ $GROUP G_do_not_load
 $FOR {new}, {old} in [
   #  ("New name",              "Old name"),
 ]:
-  execute_load "Gdx\previous_static_calibration.gdx" {new}.l={old}.l;
+  execute_load "Gdx/previous_static_calibration.gdx" {new}.l={old}.l;
 $ENDFOR
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ $GROUP G_static_calibration G_static_calibration, -G_unfixed_data, G_data_residu
 # Calibrate parameters where we have many years of data to use in forecasting parameters
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_load G_static_calibration, -G_data, -G_do_not_load; 
-@load(G_load, "Gdx\previous_static_calibration.gdx"); # load previous solution
+@load(G_load, "Gdx/previous_static_calibration.gdx"); # load previous solution
 
 # $IF %run_tests%:
 #   # Small pertubation of all endogenous variables
@@ -152,7 +152,7 @@ $IF %calibration_steps% > 1:
   $GROUP G_homotopy All, -G_static_calibration, -G_do_not_load;
   @set(G_homotopy, _new_data, .l) # Save all values prior to trouble-shooting
   @set(G_homotopy, _previous_combination, .l);
-  @load_as(G_homotopy, "Gdx\previous_static_calibration.gdx", _previous_solution);
+  @load_as(G_homotopy, "Gdx/previous_static_calibration.gdx", _previous_solution);
   $FOR {share_of_previous} in [
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
@@ -165,18 +165,23 @@ $IF %calibration_steps% > 1:
     @print("---------------------------------------- Share = {share_of_previous} ----------------------------------------")
     @set_bounds();
     @solve(M_static_calibration); 
-    @unload(Gdx\static_calibration_{share_of_previous}.gdx)
+    @unload(Gdx/static_calibration_{share_of_previous}.gdx)
     @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
   # Reset exogenous values
   @set(G_homotopy, .l, _new_data);
 $ENDIF
+# Sæt substitutionselasticiteter til 1 for at gøre løsning lettere
+# eKELBR.l[sp] = 1;
+# eKELB.l[sp] = 1;
+# eKEL.l[sp] = 1;
+# eKE.l[sp] = 1;
 
 $FIX ALL; $UNFIX G_static_calibration;
 # $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
 # @set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
-@set_bounds();
-@unload_all(Gdx\static_calibration_presolve);
+# @set_bounds();
+@unload_all(Gdx/static_calibration_presolve);
 @solve(M_static_calibration);
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -191,7 +196,7 @@ $FIX ALL; $UNFIX G_static_calibration;
 
 # Write GDX file
 $UNFIX All; # Greatly reduces size of the GDX file
-@unload_all(Gdx\static_calibration);
+@unload_all(Gdx/static_calibration);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Print significant residuals
@@ -246,20 +251,14 @@ $IF %run_tests%:
   # ----------------------------------------------------------------------------------------------------------------------
   # Check if data residuals have changed
   # ----------------------------------------------------------------------------------------------------------------------
-  @load_as(G_data_residuals, "Gdx\previous_static_calibration.gdx", _previous_solution);
-  $LOOP G_data_residuals:
-    loop({sets}{$}[+t]${conditions},
-      if(abs({name}.l{sets})-1e-6 > abs({name}_previous_solution{sets}),
-        display {name}.l, {name}_previous_solution;
-        abort 'Increase in residual: {name} is bigger than in previous_static_calibration.gdx';
-      );
-    );
-  $ENDLOOP
+  $GROUP G_test_residuals G_data_residuals;
+  @load_as(G_test_residuals, "Gdx/previous_static_calibration.gdx", _previous_solution);
+  @assert_abs_smaller(G_test_residuals, 1e-6, .l, _previous_solution, "Data residuals have increased from previous_static_calibration.gdx.");
   
   # Tjekker om noget har ændret sig - kræver at tidligere static_calibration gemt som previous_...
   #  $GROUP G_all All;
-  #  @load_nonzero(G_all, "Gdx\previous_static_calibration.gdx");
+  #  @load_nonzero(G_all, "Gdx/previous_static_calibration.gdx");
   #  @set(G_all, _saved, .l)  # Save snapshot of all data, to check that all data is intact after calibration.
-  #  @load_nonzero(G_all, "Gdx\static_calibration.gdx");
+  #  @load_nonzero(G_all, "Gdx/static_calibration.gdx");
   #  @assert_no_difference(G_all, 1e-6, .l, _saved, "Variable afviger fra previous_static_calibration");
 $ENDIF

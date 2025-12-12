@@ -132,7 +132,7 @@ $IF %stage% == "exogenous_values":
     pY$(s[s_]), pM, pOlieBrent, rDollarKurs, rEuroKurs, rEffValKurs
     pXy # pXUdl baseres på denne
   ;
-  @load(G_pricing_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_pricing_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_pricing_data  
@@ -186,9 +186,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_pricing_static_calibration_newdata
     G_pricing_static_calibration
    ;
-  MODEL M_pricing_static_calibration_newdata /
-    M_pricing_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

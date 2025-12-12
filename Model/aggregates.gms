@@ -15,7 +15,7 @@ $IF %stage% == "variables":
     vVirkBVT5aarSnit[t] "Centreret 5-års glidende gennemsnit af privat BVT."
     vBVT2hL[s_,t]$(s[s_] or sTot[s_]) "BVT pr. arbejdstime i værdi."
     vBVT2hLsnit[t] "Glidende gennemsnit af BVT pr. arbejdstime i værdi."
-    vBNI[t] "Bruttonationalindkomst, Kilde: ADAM[Yi]"
+    vBNI[t]$(t.val > %NettoFin_t1%) "Bruttonationalindkomst, Kilde: ADAM[Yi]"
     vUdlNet[t]$(t.val >= %NettoFin_t1%) "Udlandets finansielle nettoportefølje ift. DK, Kilde: ADAM[Wn_e]."
     vUdlAkt[portf_,t]$(t.val >= %NettoFin_t1% and d1vUdlAkt[portf_,t] and not pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
     vUdlAkt[portf_,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf_,t] and pensTot[portf_]) "Udlandets finansielle aktiver ift. DK, Kilde: jf. portfolio set."
@@ -88,7 +88,7 @@ $IF %stage% == "equations":
     E_rpCInflSnit[t]..
       rpCInflSnit[t] =E= 0.8 * rpCInflSnit[t-1] + 0.2 * (pC['cTot',t] / (pC['cTot',t-1]/fp) - 1);
 
-    E_vBNI[t]..
+    E_vBNI[t]$(t.val > %NettoFin_t1%)..
       vBNI[t] =E= vBNP[t]                               
                 - vtEU[t] + vSubEU[t]  # Told og subsidier til og fra EU 
                 - vWxDK[t]  # Lønninger til grænsearbejdere
@@ -200,16 +200,16 @@ $IF %stage% == "equations":
     # Udenlandske renter og omvurderinger på aktiver og passiver er residualt givet
     # Udgangspunktet er, at residualet ligger på aktiv-siden
     E_vUdlAktRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
-      vUdlAktRenter[portf,t] =E= - vHhAktRenter[portf,t] - vOffAktRenter[portf,t] - vVirkAktRenter[portf,t] - vPensionAktRenter[portf,t]
-                                 + vHhPasRenter[portf,t] + vOffPasRenter[portf,t] + vVirkPasRenter[portf,t] + vUdlPasRenter[portf,t];
+      vUdlAktRenter[portf,t] =E= - vHhAktRenter[portf,t] - vOffAktRenter[portf,t] - vVirkAktRenter[portf,t]$(d1vVirkAkt[portf,t]) - vPensionAktRenter[portf,t]$(d1vPensionAkt[portf,t])
+                                 + vHhPasRenter[portf,t] + vOffPasRenter[portf,t] + vVirkPasRenter[portf,t]$(d1vVirkAkt[portf,t]) + vUdlPasRenter[portf,t];
     E_vUdlAktOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlAkt[portf,t] and not PensTot[portf])..
-      vUdlAktOmv[portf,t] =E= - vHhAktOmv[portf,t] - vOffAktOmv[portf,t] - vVirkAktOmv[portf,t] - vPensionAktOmv[portf,t]
+      vUdlAktOmv[portf,t] =E= - vHhAktOmv[portf,t] - vOffAktOmv[portf,t] - vVirkAktOmv[portf,t]$(d1vVirkAkt[portf,t]) - vPensionAktOmv[portf,t]$(d1vPensionAkt[portf,t])
                               + vHhPasOmv[portf,t] + vOffPasOmv[portf,t] + vVirkPasOmv[portf,t] + vUdlPasOmv[portf,t];
 
     # Findes ingen aktiv-side, så er udlandets passiv-side residual (dette gælder for udenlandske aktier)
     E_vUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
-      vUdlPasRenter[portf,t] =E= vHhAktRenter[portf,t] + vOffAktRenter[portf,t] + vVirkAktRenter[portf,t] + vPensionAktRenter[portf,t]
-                               - vHhPasRenter[portf,t] - vOffPasRenter[portf,t] - vVirkPasRenter[portf,t];
+      vUdlPasRenter[portf,t] =E= vHhAktRenter[portf,t] + vOffAktRenter[portf,t] + vVirkAktRenter[portf,t]$(d1vVirkAkt[portf,t]) + vPensionAktRenter[portf,t]$(d1vPensionAkt[portf,t])
+                               - vHhPasRenter[portf,t] - vOffPasRenter[portf,t] - vVirkPasRenter[portf,t]$(d1vVirkPas[portf,t]);
     E_vUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and not d1vUdlAkt[portf,t])..
       vUdlPasOmv[portf,t] =E= vHhAktOmv[portf,t] + vOffAktOmv[portf,t] + vVirkAktOmv[portf,t] + vPensionAktOmv[portf,t]
                             - vHhPasOmv[portf,t] - vOffPasOmv[portf,t] - vVirkPasOmv[portf,t];
@@ -275,7 +275,7 @@ $IF %stage% == "exogenous_values":
     G_aggregates_data, 
     G_aggregates_data_imprecise
    ;
-  @load(G_aggregates_data_load, "..\Data\makrobk\makrobk.gdx")
+  @load(G_aggregates_data_load, "../Data/Makrobk/makrobk.gdx")
 
 # ======================================================================================================================
 # Data assignment
@@ -335,9 +335,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_aggregates_static_calibration_newdata
     G_aggregates_static_calibration
    ;
-  MODEL M_aggregates_static_calibration_newdata /
-    M_aggregates_static_calibration
-  /;
 $ENDIF
 
 # ======================================================================================================================

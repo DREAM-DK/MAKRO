@@ -19,20 +19,9 @@ $IF %stage% == "variables":
     eKE[sp] "Substitutionselasticitet mellem qK[iM,sp] og qE."
     fuY[s_] "Forhold mellem Y og KELBR i basisår hvor pY og pKELBR sættes til 1"
   ;
-
-	$GROUP G_production_private_prices_endo
-    pKE[sp,t] "CES pris af qKE-aggregat."
-    pKEL[sp,t] "CES pris af qKEL-aggregat."
-    pKELB[s_,t]$(sp[s_]) "CES pris af qKELB-aggregat."
-    pKELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion før rest-produktionsskatter."
-    pK[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or spTot[s_]) "User cost af kapital (skyggepris i første periode hvor K er eksogen)."
-    pKUdn[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or (spTot[s_] and t.val > %cal_start%)) "User cost af kapital efter kapacitetsudnyttelse. Normaliseret til 1 i basisår."
-    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and spTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
-    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and sTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
-    pLUdn[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "User cost for effektiv arbejdskraft i produktionsfunktion."
-    pY0[s_,t]$(s[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion + øvrige produktionsskatter"
-	;    
-	$GROUP G_production_private_quantities_endo
+  
+	$GROUP G_production_private_endo
+    # Quantities
     qKInstOmk[i_,s_,t]$((d1K[i_,s_,t] and sp[s_]) or (spTot[s_] and t.val > %cal_start%)) "Installationsomkostninger for kapital fordelt på private brancher."
     qKELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "CES-aggregat mellem KELB-aggregat og materialer."
     qKELB[s_,t]$(sp[s_]) "CES-aggregat mellem KEL-aggregat and bygningskapital."
@@ -47,14 +36,19 @@ $IF %stage% == "variables":
     qKUdn[i_,s_,t]$((d1K[i_,s_,t] and sp[s_])  or (spTot[s_] and t.val > %cal_start%)) "Ultimokapital efter kapacitetsudnyttelse, med pris normaliseret til 1 i basisår."
     qI_s[i_,s_,t]$(d1I_s[i_,s_,t] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
     qL[s_,t]$(s[s_] or spTot[s_] or sTot[s_]) "Arbejdskraft i effektive enheder før kapacitetsudnyttelse."
-  ;
-	$GROUP G_production_private_values_endo
-  ;
 
-	$GROUP G_production_private_endo
-    G_production_private_prices_endo
-    G_production_private_quantities_endo
-    G_production_private_values_endo
+
+    # Prices
+    pKE[sp,t] "CES pris af qKE-aggregat."
+    pKEL[sp,t] "CES pris af qKEL-aggregat."
+    pKELB[s_,t]$(sp[s_]) "CES pris af qKELB-aggregat."
+    pKELBR[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion før rest-produktionsskatter."
+    pK[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or spTot[s_]) "User cost af kapital (skyggepris i første periode hvor K er eksogen)."
+    pKUdn[k,s_,t]$((d1K[k,s_,t] and sp[s_]) or (spTot[s_] and t.val > %cal_start%)) "User cost af kapital efter kapacitetsudnyttelse. Normaliseret til 1 i basisår."
+    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and spTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
+    pKI[i_,s_,t]$((k[i_] or kTot[i_]) and sTot[s_]) "Investeringspris, pI_s, sammenvejet med kapitalapparat"
+    pLUdn[s_,t]$(sp[s_] or (spTot[s_] and t.val > %cal_start%)) "User cost for effektiv arbejdskraft i produktionsfunktion."
+    pY0[s_,t]$(s[s_] or (spTot[s_] and t.val > %cal_start%)) "Marginalomkostning fra produktion + øvrige produktionsskatter"
 
     rLUdn[s_,t]$(not off[s_]) "Kapacitetsudnyttelse af arbejdskraft."
     rKUdn[i_,s_,t]$(d1K[i_,s_,t-1] and eKUdn.l[i_,s_] <> 0 or spTot[s_] or sTot[s_]) "Kapacitetsudnyttelse af sidste periodes qK."
@@ -96,15 +90,6 @@ $IF %stage% == "variables":
 	;
 	$GROUP G_production_private_endo G_production_private_endo$(tx0[t]);
 
-  $GROUP G_production_private_prices
-    G_production_private_prices_endo
-  ;
-  $GROUP G_production_private_quantities
-    G_production_private_quantities_endo
-  ;
-  $GROUP G_production_private_values
-    G_production_private_values_endo
-  ;
 
   $GROUP G_production_private_exogenous_forecast
     rIL2Y[s_,t]$(sp[s_] and d1I_s['iL',sp,t]) "Lagerinvesteringer ift. samlet produktion."
@@ -132,7 +117,6 @@ $IF %stage% == "variables":
 
     uKInstOmk[k,s_,t] "Parameter for installationsomkostninger."
     rVirkDisk[s_,t] "Selskabernes diskonteringsrate."
-    fVirkDisk[s_,t] "Selskabernes diskonteringsfaktor."
     uK[k,s_,t]$(sp[s_]) "Kapital-besparende produktivitet."
     rKUdn[i_,s_,t]$(eKUdn.l[i_,s_] = 0)
     rLUdn[off,t]
@@ -252,7 +236,7 @@ $IF %stage% == "equations":
                 * (1-rOpslagOmk['off',t]) # Matching friction
                 * hL['off',t]; # Number of hours worked
 
-    E_qLUdn_off[t].. qLUdn['off',t] =E= qL['off',t];
+    E_qLUdn_off[t].. qLUdn['off',t] =E= uL['off',t] * qL['off',t];
 
     # ------------------------------------------------------------------------------------------------------------------
     # 4) bottom level of CES tree: KE-aggregate (equipment capital and Energy)
@@ -626,7 +610,7 @@ $IF %stage% == "equations":
 
     # Definition of user cost
     # User cost på spTot er defineret uden boliger, da usercost på boliger er defineret ved pBoligUC
-    E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t])..
+    E_pK_spTot_via_fpK_spTot[k,t]$(tx0E[t] and t.val > %NettoFin_t1%)..
       pK[k,spTot,t+1]*fp * qK[k,spTot,t] =E= fpK_spTot[k,t] *(
       # Tobin's q today and tomorrow
       sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
@@ -686,7 +670,7 @@ $IF %stage% == "exogenous_values":
   $GROUP G_production_private_makrobk
     qK$(sp[s_]), nL[s_,t]$(sp[s_] or sTot[s_]), qI_s$(k[i_] and sp[s_])
   ;
-  @load(G_production_private_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_production_private_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_production_private_data  
@@ -702,7 +686,7 @@ $IF %stage% == "exogenous_values":
   # Kapacitetsudnyttelses-omkostninger
   #  eKUdn.l['iB',sp]$(not bol[sp]) = 1.485615; # Matching parameter
   #  eKUdn.l['iM',sp] = 1.922826; # Matching parameter
-  # eKUdnPersistens.l[k] = 0.5; # Matching parameter
+  eKUdnPersistens.l[k] = 0; # Bruges ikke (men må ikke være NA)
   eLUdn.l = 1.989658; # Matching parameter
   eLUdnPersistens.l = 0.492526 ; # Matching parameter
 
@@ -885,13 +869,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_production_private_static_calibration_newdata
     G_production_private_static_calibration_base$(tx0[t])
   ;
-  MODEL M_production_private_static_calibration_newdata /
-    M_production_private
-    B_production_private_static_calibration_base
-    -E_pK - E_qK_tEnd  # E_pK_static
-    -E_rLUdn -E_rLUdn_tEnd # E_rLUdn_static
-    -E_rKUdn -E_rKUdn_tEnd # E_rKUdn_static
-  /; 
 $ENDIF
 
 

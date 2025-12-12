@@ -8,29 +8,11 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_struk_prices_endo
-    spBVT[s_,t] "Deflator for strukturel BVT."
-  ;
-  $GROUP G_struk_quantities_endo
-    sqBVT[s_,t] "Strukturel BVT."
-    sdqL2dnL[s_,t] "sqL differentieret ift. snL."
-    sdqL2dnLlag[sp,t] "sqL[t] differentieret ift. snL[t-1]"
-    sqL[s_,t] "Strukturel arbejdskraft i effektive enheder."
-    sqProd[s_,t]$(s[s_] or spTot[s_] or sTot[s_]) "Strukturelt branchespecifikt produktivitetsindeks for arbejdskraft."
-    sdvVirk2dpW[t] "Hjælpevariabel til lønforhandling. Negativ del af virksomhedernes værdifunktion i lønforhandling."
-  ;
-  
-  $GROUp G_struk_values_endo_a
-    svFFOutsideOption2w[t]$(t.val > %AgeData_t1%) "Fagforenings forhandlingsalterntiv i lønforhandling."
-  ;
-  $GROUP G_struk_values_endo
-    G_struk_values_endo_a
-  
-    svVirkLoenPos2w[t] "Hjælpevariabel til lønforhandling. Vi."
-  ;
 
   $GROUP G_struk_endo_a
-    G_struk_values_endo_a
+    # Values
+    svFFOutsideOption2w[t]$(t.val > %AgeData_t1%) "Fagforenings forhandlingsalterntiv i lønforhandling."
+    svVirkLoenPos2w[t] "Hjælpevariabel til lønforhandling. Vi."
 
     shLHh[a_,t]$((aTot[a_] or a15t100[a_]) and t.val > %AgeData_t1%) "Strukturel aldersfordelt arbejdstid."
     srJobFinding[a_,t]$(a15t100[a_]) "Strukturel andel af jobsøgende som får et job."
@@ -46,10 +28,16 @@ $IF %stage% == "variables":
   ;
   $GROUP G_struk_endo
     G_struk_endo_a
-    G_struk_prices_endo
-    G_struk_quantities_endo
-    G_struk_values_endo
 
+    spBVT[s_,t] "Deflator for strukturel BVT."
+
+    sqBVT[s_,t] "Strukturel BVT."
+    sdqL2dnL[s_,t] "sqL differentieret ift. snL."
+    sdqL2dnLlag[sp,t] "sqL[t] differentieret ift. snL[t-1]"
+    sqL[s_,t] "Strukturel arbejdskraft i effektive enheder."
+    sqProd[s_,t]$(s[s_] or spTot[s_] or sTot[s_]) "Strukturelt branchespecifikt produktivitetsindeks for arbejdskraft."
+    sdvVirk2dpW[t] "Hjælpevariabel til lønforhandling. Negativ del af virksomhedernes værdifunktion i lønforhandling."
+   
     spL2pW[sp,t] "Strukturelt forhold mellem user cost på arbejdskraft og lønnen."
 
     uBVT[s_,t]$(spTot[s_]) "Totalfaktor-produktivitet på BVT udover Harrod-neutral vækst, kapacitetsudnyttelse, og omstillingsomkostninger."
@@ -89,16 +77,6 @@ $IF %stage% == "variables":
     rspBVT[t] "Relative laggede priser for strukturelt BVT vægtet med nutidige mængder."
   ;
   $GROUP G_struk_endo G_struk_endo$(tx0[t]);
-
-  $GROUP G_struk_prices
-    G_struk_prices_endo
-  ;
-  $GROUP G_struk_quantities
-    G_struk_quantities_endo
-  ;
-  $GROUP G_struk_values
-    G_struk_values_endo
-  ;
 
   $GROUP G_struk_exogenous_forecast
     snLHh[a_,t]
@@ -226,7 +204,8 @@ $IF %stage% == "equations":
     # Strukturelle socio-grupper og aggregater herfra
     # ------------------------------------------------------------------------------------------------------------------
     E_snSoc[soc,t]$(t.val >= %BFR_t1%)..
-      snSoc[soc,t] =E= dSoc2dBesk[soc,t] * snLHh[aTot,t] + dSoc2dPop[soc,t] * nPop['a15t100',t];
+      snSoc[soc,t] =E= dSoc2dBesk[soc,t] * snLHh[aTot,t] + dSoc2dPop[soc,t] * nPop['a15t100',t]
+                     + nPop_Over100[t]$(sameas[soc,'pension']);
 
     E_dSoc2dPop_boern[t]$(t.val >= %BFR_t1%)..
       snSoc['boern',t] =E= nPop[aTot,t] - nPop['a15t100',t];
@@ -310,7 +289,8 @@ $IF %stage% == "equations":
 
     E_snLHh_aTot[t]$(t.val > %AgeData_t1%).. snLHh[aTot,t] =E= sum(a, snLHh[a,t]);
 
-    E_snSoegBaseHh_aTot[t]$(t.val > %AgeData_t1%).. snSoegBaseHh[aTot,t] =E= sum(a, snSoegBaseHh[a,t]);
+    E_snSoegBaseHh_aTot[t]$(t.val > %AgeData_t1%).. 
+      snSoegBaseHh[aTot,t] =E= sum(a, snSoegBaseHh[a,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Husholdningernes arbejdsudbud fordelt på alder
@@ -326,8 +306,8 @@ $IF %stage% == "equations":
     E_srJobFinding[a,t]$(a15t100[a])..
       srJobFinding[a,t] =E= srJobFinding[aTot,t] - jsrJobFinding[aTot,t] + jsrJobFinding[a,t];
 
-    E_srJobFinding_tot_via_jsrJobFinding[t]$(t.val > %AgeData_t1%)..
-      srJobFinding[aTot,t] * snSoegHh[aTot,t] =E= sum(a, srJobFinding[a,t] * snSoegHh[a,t]);
+    E_jsrJobFinding_aTot[t]$(t.val > %AgeData_t1%)..
+      srJobFinding[aTot,t] * snSoegHh[aTot,t] =E= sum(a$(a15t100[a]), srJobFinding[a,t] * snSoegHh[a,t]);
 
     E_snLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       snLHh[a,t] =E= (1-srSeparation[a,t]) * snLHh[a-1,t] / nPop[a-1,t] * nPop[a,t] + srJobFinding[a,t] * snSoegHh[a,t];
@@ -336,7 +316,7 @@ $IF %stage% == "equations":
       snSoegHh[a,t] =E= (snSoegBaseHh[a,t] - snLHh[a,t]) / (1-srJobFinding[a,t]) + jsnSoegHh[a,t];
 
     E_jsnSoegHh_aTot[t]$(t.val > %AgeData_t1%)..
-      snSoegHh[aTot,t] =E= sum(a, snSoegHh[a,t]);
+      snSoegHh[aTot,t] =E= sum(a$(a15t100[a]), snSoegHh[a,t]);
 
     E_snSoegBaseHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       snSoegBaseHh[a,t] =E= fSoegBaseHh[a,t] * srSoegBaseHh[a,t] * nPop[a,t];
@@ -387,16 +367,16 @@ $IF %stage% == "exogenous_values":
 # Load data
 # ======================================================================================================================
   # Estimerede konjugaturgab fra FM indlæses
-  $GROUP G_struk_FM
-    rNettoArbstyGab, rBeskGab, rBVTGab
-  ;
-  @load(G_struk_FM, "..\Data\FM_exogenous_forecast.gdx")
+  $GROUP G_struk_FM rNettoArbstyGab, rBeskGab, rBVTGab;
+  $IF2 %FM_baseline%:
+    @load(G_struk_FM, "../Data/FM_exogenous_forecast.gdx")
+  $ENDIF2
 
   # Totaler og aggregater fra makrobk indlæses
   $GROUP G_struk_makrobk
     nNettoArbsty, nL[sTot], nLHh[aTot], qBVT[sTot]
   ;
-  @load(G_labor_market_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_labor_market_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Aldersfordelt data fra BFR indlæses
   $GROUP G_struk_BFR
@@ -407,28 +387,24 @@ $IF %stage% == "exogenous_values":
     nPop$(a[a_]) # Bruges til fSoegBaseHh nedenfor
     snNettoArbsty
   ;
-  @load(G_struk_BFR, "..\Data\Befolkningsregnskab\BFR.gdx" )
+  @load(G_struk_BFR, "../Data/Befolkningsregnskab/BFR.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_struk_data
     G_struk_makrobk
     G_struk_BFR
-    G_struk_FM
-    -srSeparation$(aTot[a_] and t.val >= %cal_deep%)
-    -rNettoArbstyGab # Det skal undersøges, hvorfor denne ikke rammer præcist
+    G_struk_FM$(%FM_baseline%)
   ;
 
   # Variable som er datadækket, men data ændres lidt ved kalibrering
   $GROUP G_struk_data_imprecise      
-    srSeparation$(aTot[a_] and t.val < %cal_deep%)
-    rNettoArbstyGab
-    rBeskGab
-  ; 
+    srSeparation$(aTot[a_])
+    G_struk_FM$(%FM_baseline%)
+  ;
 
 # ======================================================================================================================
 # Data assignment
 # ======================================================================================================================
-  
   # Outside BFR years, use employment gap from FM to calculate structural employment
   shL.l[sTot,t] = shLHh.l[aTot,t] + shLxDK.l[t];
   snL.l[sTot,t] = snLHh.l[aTot,t] + snLxDK.l[t];
@@ -458,7 +434,7 @@ $ENDIF
 $IF %stage% == "static_calibration":
   $GROUP G_struk_static_calibration
     G_struk_endo
-    -rBVTGab[t], rLUdn[spTot,t]
+    -rBVTGab[t]$(%FM_baseline%), rLUdn[spTot,t]$(%FM_baseline%)
     -snLxDK, jsnSoegxDK # Number of foreign job searchers calibrated to match total employment
     -shLxDK, uhLxDK # Hours of foreign workers calibrated to match total hours worked
     -snLHh[aTot,t] # -E_snLHh_aTot_via_srJobFinding
@@ -524,7 +500,7 @@ $IF %stage% == "deep_dynamic_calibration":
     -shLxDK[t1], uhLxDK[t1]
 
     # Residualt BVT-gab rammes via kapacitetsudnyttelse
-    -rBVTGab[t1], jfrLUdn_t[t1]
+    -rBVTGab[t1]$(%FM_baseline%), jfrLUdn_t[t1]$(%FM_baseline%)
 
     -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc])
   ;
@@ -557,12 +533,13 @@ $IF %stage% == "dynamic_calibration_newdata":
     -snLHh[a15t100,t]$(t.val < %cal_end%+1), jsnSoegHh[a15t100,t]$(t.val < %cal_end%+1)
     -snLHh[a15t100,t]$(t.val >= %cal_end%+1), uDeltag[a15t100,t]$(t.val >= %cal_end%+1)
 
-    -snSoegBaseHh[aTot,t]$(t.val <> 2020), rLoenNash[t]$(t.val <> 2020) # I 2020 er arbejdsstyrke ikke et godt mål for det reelle arbejdsudbud (pga. corona-nedlukning)
+    $IF2 %FM_baseline%:
+      -snSoegBaseHh[aTot,t]$(t.val <> 2020), rLoenNash[t]$(t.val <> 2020) # I 2020 er arbejdsstyrke ikke et godt mål for det reelle arbejdsudbud (pga. corona-nedlukning)
+      -rBVTGab[t1], jfrLUdn_t[t1]$(t1.val<>2020), jsqBVT[spTot,t1]$(t1.val=2020)
+    $ENDIF2
 
     -snLxDK[t]$(t.val < %cal_end%+1), jsnSoegxDK[t]$(t.val < %cal_end%+1)
     -snLxDK[t]$(t.val >= %cal_end%+1), nSoegBasexDK[t]$(t.val >= %cal_end%+1)
-
-    -rBVTGab[t1], jfrLUdn_t[t1]$(t1.val<>2020), jsqBVT[spTot,t1]$(t1.val=2020)
 
     -snSoc[soc,t]$(not boern[soc]), dSoc2dPop[soc,t]$(not boern[soc])
   ;

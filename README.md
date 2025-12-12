@@ -1,4 +1,4 @@
-# MAKRO 2025-June
+# MAKRO 2025-December
 MAKRO is an economic model built to provide a good description of the Danish economy in both the short and the long run.
 In addition, the model is used to analyze how economic policy initiatives affect the economy, including the gradual transition to a long-run path.
 
@@ -6,16 +6,20 @@ The model is developed by the MAKRO model group at [DREAM (Danish Research Insti
 
 The model parameters, equations, and data as a whole have been selected such that the short and long-run properties are as empirically and theoretically well-founded as possible. Any changes to parameters, equations, or data are solely the user's responsibility, and we request that any changes be explicitly presented in any publication using MAKRO.
 
-## 2025-June version
-This version contains only minor revisions compared to 2025-May, but is released to coincide with the Ministry of Finance's first official long run projections using MAKRO.
+## 2025-December version
+This version contains only minor revisions compared to 2025-June.
 
 The model comes with batteries included in the form of a stylized baseline starting in 2029, so users can simulate marginal policy experiments without requiring a data subscription or calibrating the model. Note that the stylized baseline is based on several simplified projection assumptions. As such, the baseline should only be used for marginal experiments rather than as a forecast on its own.
+
+## Name changes since June 2025:
+vOvf['ledkont',t] -> vOvf['konthj',t]
+nOvf['ledkont',t] -> nOvf['konthj',t]
 
 ## Documentation
 The model documentation in English is included in this repository under [Documentation/Documentation.pdf](Documentation/Documentation.pdf).
 
 The documentation was thoroughly improved and pruned for the March-2023 release, and we highly recommend reading it!
-It has been continously updated since then, but there may be details that have yet to be updated.
+It has been continuously updated since then, but there may be details that have yet to be updated.
 
 Variable names and documentation in the code are in Danish; however, comments regarding the structure of the code are in English for anyone looking for a template on how to structure a large model.
 
@@ -82,9 +86,9 @@ The packages needed to run MAKRO can be installed in python using pip.
 On Windows, we recommend running the script [install.cmd](install.cmd) and using the python installation that comes with your GAMS installation.
 
 ## Text editor
-The recommended text editor for working with gamY is [Visual Studio Code](https://code.visualstudio.com/) (VSCode), used with the GAMS installation of Python to run run.py files. You need to install the Python and Jupyter extensions to be able to run the run.py files. To activate the GAMS Python environment in VSCode, use ```ctrl+shift+p``` and select ```Python: Select interpreter```. If the GAMS Python environment is not found, enter the path manually (can be found in your GAMS installation, typically ```C:\GAMS\49\GMSPython```) and select python.exe as interpreter.
+The recommended text editor for working with gamY is Cursor, used with the GAMS installation of Python to run run.py files. You need to install the Python and Jupyter extensions to be able to run the run.py files. To activate the GAMS Python environment in VSCode, use ```ctrl+shift+p``` and select ```Python: Select interpreter```. If the GAMS Python environment is not found, enter the path manually (can be found in your GAMS installation, typically ```C:\GAMS\51\GMSPython```) and select python.exe as interpreter.
 
-Note that in the MAKRO installation, there is a VSCode workspace, [MAKRO.code-workspace](MAKRO.code-workspace), from which it is recommended to open VSCode.
+Note that in the MAKRO installation, there is a Cursor workspace, [MAKRO.code-workspace](MAKRO.code-workspace), from which it is recommended to open Cursor.
 The workspace includes package recommendations, such as "gamY-syntax-highlighting" package for syntax compatibility.
 
 ## Running shocks

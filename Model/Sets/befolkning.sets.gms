@@ -46,7 +46,6 @@ set activ "Arbejdsmarkedsstatus (FM definitioner)" /
   tjmand                  "Civil servant pensioners"                                  # Tjenestemandspensionister
   jobafkl                                                                             # Jobafklaringsforløb
   ovrige                  "Others outside the labour force"                           # Øvrige udenfor arbejdsstyrken
-  aktkontudd              "Jobparate (i bruttoledigheden) aktiverede kontanthjælpsmodtagere i uddannelsesordning"
   aktkontj                "FM special: Jobparate aktiverede kontanthjælpsmodtagere"
   aktkontij               "FM special: Ikke-jobparate aktiverede kontanthjælpsmodtagere"
   boern                   "FM special: Børn (alle 0-14-årige)"
@@ -98,9 +97,8 @@ set socFraMAKROBK[soc] "Variable med data fra MAKROBK" /
   fleksyd # upfy
   pension # upfp
   tjmand # upt
-  aktkontudd # 0
-  aktkontj # for beregning jf. labor_market.gcm i data\makrobk-mappe
-  aktkontij # for beregning jf. labor_market.gcm i data\makrobk-mappe
+  aktkontj # for beregning jf. labor_market.gcm i data/makrobk-mappe
+  aktkontij # for beregning jf. labor_market.gcm i data/makrobk-mappe
   intro # uki
   ledintro # ulki
   aktintroj # buakbi * Uaki
@@ -134,8 +132,6 @@ set BruttoLedig[soc] "Bruttoledighed" /
   aktkontj                "FM special: Jobparate aktiverede kontanthjælpsmodtagere"
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
   aktintroj               "FM special: Jobparate aktiverede integrationsydelsesmodtagere"
-
-  aktkontudd              "Jobparate (i bruttoledigheden) aktiverede kontanthjælpsmodtagere i uddannelsesordning"
 /;
 
 set NettoLedig[soc] "Nettoledighed" /
@@ -187,7 +183,6 @@ set BruttoArbsty[soc] "Arbejdsstyrke" /
   leddag                  "Ledige, forsikrede"
   ledkont                 "Ledige, ikke-forsikrede"
   aktdag                  "Aktiverede, forsikrede"
-  aktkontudd              "Jobparate (i bruttoledigheden) aktiverede kontanthjælpsmodtagere i uddannelsesordning"
   aktkontj                "FM special: Jobparate aktiverede kontanthjælpsmodtagere"
   ledintro                "FM special: integrationsydelse - aktive (nettoledige)"
   aktintroj               "FM special: Jobparate aktiverede integrationsydelsesmodtagere"
@@ -223,11 +218,11 @@ set NettoArbsty[soc] "Nettoarbejdsstyrke" /
 Set ovf_til_husholdninger "Overførsler til husholdningerne" /
   ledigyd      "Ledighedsydelse"
   sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
-  aktdag       "Overførsler til AF aktiverede ekskl. arbejdsmarkedsydelse udenfor arbejdsstyrken (dagpenge)"
+  aktdag       "Overførsler til AF aktiverede udenfor arbejdsstyrken (dagpenge)"
   aktkont      "Overførsler til aktiverede kontanthjælpsmodtagere"
   reval        "Revalideringsydelse"
   uddsu        "Statens uddannelsesstøtte"
-  leddag       "Arbejdsløshedsdagpenge ekskl. arbejdsmarkedsydelse"
+  leddag       "Arbejdsløshedsdagpenge"
   ferie        "Udbetalte feriedagpenge"
   syge         "Overførsler til sygedagpenge"
   barsel       "Overførsler til barselsdagpenge"
@@ -241,7 +236,7 @@ Set ovf_til_husholdninger "Overførsler til husholdningerne" /
   tilbtrk      "Pensioner og overførsler til personer på øvrige tilbagetrækningsordninger"
   overg        "Overførsler til overgangsydelse"
   fleksyd      "Overførsel til flexydelse"
-  ledkont      "Overførsler til ledige kontanthjælpsmodtagere"
+  konthj       "Overførsler til kontanthjælpsmodtagere"
   kontflex     "Overførsler til kontanthjælp i øvrigt, skattepligtig del (primært fleksjobtilskud)"
   kontrest     "Overførsler til kontanthjælp i øvrigt, ikke-skattepligtig del (inkl. løntilskud, revalidering mv.)"
   intro        "Modtagere af integrationsydelse, kontanthjælp til flygtninge, introduktionsydelse (passiv periode)"
@@ -298,47 +293,49 @@ Set intro[ovf] "Integrationsydelse (mindrereguleres)" /
   intro "Modtagere af integrationsydelse, kontanthjælp til flygtninge, introduktionsydelse (passiv periode)"
 /;
 
-Set satsreg[ovf] "Satsregulerede overførsler" /
+Set loenreg[ovf] "Lønregulerede overførsler" /
+  pension      "Overførsler til folkepension (i Danmark)"
+  udlpens      "Folkepension til udland"
+  uddsu        "Statens uddannelsesstøtte"
+  tjmand       "Overførsler til tjenestemandspension"
+  tillaeg      "Personlige tillæg"
+  boligyd      "Boligydelse"
+/;
+
+Set oblpens[ovf] "Ydelser obligatorisk opsparing" /
   ledigyd      "Ledighedsydelse"
-  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
+  reval        "Revalideringsydelse"
   aktdag       "Overførsler til AF aktiverede ekskl. arbejdsmarkedsydelse udenfor arbejdsstyrken (dagpenge)"
   aktkont      "Overførsler til aktiverede kontanthjælpsmodtagere"
-  reval        "Revalideringsydelse"
-  uddsu        "Statens uddannelsesstøtte"
-  leddag       "Arbejdsløshedsdagpenge ekskl. arbejdsmarkedsydelse"
+  leddag       "Arbejdsløshedsdagpenge"
   ferie        "Udbetalte feriedagpenge"
   syge         "Overførsler til sygedagpenge"
   barsel       "Overførsler til barselsdagpenge"
   orlov        "Overførsler til arbejdsmarkedsorlov"
   udvforlob    "Samlet ydelse til personer i resourceforløbsordning"
-  pension      "Overførsler til folkepension (i Danmark)"
   fortid       "Overførsler til førtidspension (i Danmark)"
   efterl       "Overførsler til efterløn"
-  tjmand       "Overførsler til tjenestemandspension"
-  tillaeg      "Personlige tillæg"
-  tilbtrk      "Pensioner og overførsler til personer på øvrige tilbagetrækningsordninger"
-  overg        "Overførsler til overgangsydelse"
   fleksyd      "Overførsel til flexydelse"
-  ledkont      "Overførsler til ledige kontanthjælpsmodtagere"
   kontflex     "Overførsler til kontanthjælp i øvrigt, skattepligtig del (primært fleksjobtilskud)"
-  kontrest     "Overførsler til kontanthjælp i øvrigt, ikke-skattepligtig del (inkl. løntilskud, revalidering mv.)"
-  # intro        "Modtagere af integrationsydelse, kontanthjælp til flygtninge, introduktionsydelse (passiv periode)"
-  # boernyd      "Børnefamilieydelse"
-  boligyd      "Boligydelse"
-  # boligst      "Boligstøtte"
-  skatpl       "Øvrige indkomstoverførsler, skattepligtige"
-  iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
-  # groen        "Grøn check"
-  medie        "Mediecheck"
-  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
+  konthj       "Overførsler til ledige kontanthjælpsmodtagere"
   tidlpens     "Beta: Tidlig tilbagetrækning fra 2020"
   seniorpens   "Seniorpension"
-
-  udlpens   "Folkepension til udland"
-  udlfortid "Førtidspension til udland"
+  udlfortid    "Førtidspension til udland"
   udltidlpens  "Beta: Tidlig tilbagetrækning fra 2020 til udland"
   udlseniorpens "Seniorpension til udlandet"
 /;
+
+Set satsreg[ovf] "Satsregulerede overførsler" /
+  sbeskjobtdag "Overførsler til dagpengemodtagere i offentlig løntilskudslignende ordning, uden for nettoarbejdsstyrken"
+  tilbtrk      "Pensioner og overførsler til personer på øvrige tilbagetrækningsordninger"
+  overg        "Overførsler til overgangsydelse"
+  kontrest     "Overførsler til kontanthjælp i øvrigt, ikke-skattepligtig del (inkl. løntilskud, revalidering mv.)"
+  medie        "Mediecheck"
+  lumpsumovf   "Skattefri lump sum overførsel til offentligt forsørgede"
+  skatpl       "Øvrige indkomstoverførsler, skattepligtige"
+  iskatpl      "Øvrige indkomstoverførsler, ikke skattepligtige"
+/;
+
 
 Set ubeskat[ovf] "Ubeskattede overførsler" /
   boernyd "Børnefamilieydelse"
@@ -356,4 +353,59 @@ Set ovf_a18t100[ovf] "Overførsler som fordeles på alle over 18" /
 /;
 Set ovf_a0t17[ovf] "Overførsler som fordeles på alle under 18" /
   boernyd
+/;
+set ovfFraMAKROBK[ovf] "Variable med data fra MAKROBK" /
+  ledigyd
+  sbeskjobtdag
+  aktdag
+  reval
+  leddag
+  orlov
+  overg
+  fleksyd
+  intro
+  konthj
+  kontrest
+  aktkont
+  syge
+  barsel
+  pension
+  seniorpens
+  tidlpens
+  fortid
+
+  ferie # ulf
+  uddsu # usu
+  efterl # upef
+  udlpens # upfpu
+  udlseniorpens # upspu
+  udltidlpens # uptpu
+  udlfortid # upfou
+  udvforlob # umr
+  kontflex # Qltf2
+
+# ledkontudd #  ulku
+# konthj # ulkk + ukr = ulkr + ukr + ulki
+# aktkontudd # Uaku
+#aktkont # Uakk
+# leddagx # Uldd
+# ledamydelse # Ulda
+# aktdagx # Uadr
+# aktamydelse # Uada
+/;
+
+Set ADAM_BFR_LIST "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret" /
+ umsy
+ uaks
+ buaks
+ uryy
+ uakry
+ buakry
+ ulyy
+ uakly
+ buakly
+ ukiy
+ qltjki
+ buaki
+ uakr
 /;

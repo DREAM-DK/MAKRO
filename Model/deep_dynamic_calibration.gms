@@ -57,7 +57,7 @@ $GROUP G_deep_dynamic_calibration
 # Load previous solution as starting level
 # ======================================================================================================================
 $GROUP G_load G_deep_dynamic_calibration, -G_data, -G_do_not_load;
-@load(G_load, "Gdx\previous_deep_calibration.gdx"); # load previous solution
+@load(G_load, "Gdx/previous_deep_calibration.gdx"); # load previous solution
 $GROUP G_exo All, - G_deep_dynamic_calibration;
 $GROUP G_new_endogenous G_do_not_load, - G_exo;
 @set_initial_levels_to_nonzero(G_new_endogenous)
@@ -130,7 +130,7 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 #  # ----------------------------------------------------------------------------------------------------------------------
 #  # Reset dummies and set exogenous levels gradually to new values 
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  @load_dummies(tx0, "Gdx\exogenous_forecast.gdx")
+#  @load_dummies(tx0, "Gdx/exogenous_forecast.gdx")
 #  $GROUP G_reset_load G_load, -G_deep_dynamic_calibration;
 #  $FOR {share} in [0.1, 0.15, 0.2, 0.3, 0.5]:  # Note that the shares are cumulative
 #    @print("---------------------------------------- {share} ----------------------------------------")
@@ -139,14 +139,14 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 #    $ENDLOOP
 #    $FIX All; $UNFIX G_deep_dynamic_calibration;
   #  @set_initial_levels_to_nonzero(All)
-  #  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+  #  @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
   #  @solve(M_deep_dynamic_calibration);
 #  $ENDFOR
 
 #  # ----------------------------------------------------------------------------------------------------------------------
 #  # Reset all exogenous inputs
 #  # ----------------------------------------------------------------------------------------------------------------------
-#  @load_dummies(tx0, "Gdx\exogenous_forecast.gdx")
+#  @load_dummies(tx0, "Gdx/exogenous_forecast.gdx")
 #  $GROUP G_load All, -G_deep_dynamic_calibration, -G_constants;
 #  @set(G_load, .l, _saved)
 
@@ -155,13 +155,13 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 # Solve model by gradually adjusting exogenous variables from previous solution
 # ======================================================================================================================
 $IF %calibration_steps% > 1:
-  @load_dummies(tx0, "Gdx\previous_deep_calibration.gdx")
+  @load_dummies(tx0, "Gdx/previous_deep_calibration.gdx")
 
   $GROUP G_homotopy All, -G_deep_dynamic_calibration, -G_do_not_load, G_ARIMA_forecast;
   @set(G_homotopy, _new_data, .l) # Save all values prior to trouble-shooting
   @set(G_ARIMA_forecast, .l, _ARIMA) # Reset ARIMA variables in case start values were loaded from previous solution
   @set(G_homotopy, _previous_combination, .l);
-  @load_as(G_homotopy, "Gdx\previous_deep_calibration.gdx", _previous_solution);
+  @load_as(G_homotopy, "Gdx/previous_deep_calibration.gdx", _previous_solution);
   @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
   $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
@@ -175,9 +175,9 @@ $IF %calibration_steps% > 1:
     $FIX All; $UNFIX G_deep_dynamic_calibration;
     @print("---------------------------------------- Share = {share_of_previous} ----------------------------------------")
     @set_bounds();
-    @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+    @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
     @solve(M_deep_dynamic_calibration); 
-    @unload(Gdx\deep_calibration_{share_of_previous}.gdx)
+    @unload(Gdx/deep_calibration_{share_of_previous}.gdx)
     @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
 
@@ -185,10 +185,10 @@ $IF %calibration_steps% > 1:
   @set(G_homotopy, .l, _new_data);
   @set(G_ARIMA_forecast, _ARIMA, .l)
 
-  @load_dummies(tx0, "Gdx\exogenous_forecast.gdx")
+  @load_dummies(tx0, "Gdx/exogenous_forecast.gdx")
   $FIX All; $UNFIX G_deep_dynamic_calibration;
   @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
-  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+  @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
   @solve(M_deep_dynamic_calibration);
 $ENDIF
 
@@ -200,11 +200,11 @@ $IF %previous_terminal_year% < %terminal_year%:
     set_time_periods(%cal_deep%-1, {end_year});
     $FIX All; $UNFIX G_deep_dynamic_calibration;
     @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
-    @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+    @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
     @set_bounds();
     @solve(M_deep_dynamic_calibration)
     set_time_periods(%cal_deep%-1, %terminal_year%);
-    @unload(Gdx\deep_calibration_{end_year}.gdx)
+    @unload(Gdx/deep_calibration_{end_year}.gdx)
     $GROUP G_starting_values_from_previous_years G_deep_dynamic_calibration$(t.val >= {end_year}), -G_constants;
     $EVAL penultimate {end_year}-1;
     $LOOP G_starting_values_from_previous_years:
@@ -223,7 +223,7 @@ $ENDIF
 # Solve the dynamic calibration model
 # ======================================================================================================================
 $IF %run_tests%:
-  @unload_all(Gdx\deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
+  @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
 $ENDIF
 $FIX All; $UNFIX G_deep_dynamic_calibration;
 # @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
@@ -242,7 +242,7 @@ $FIX All; $UNFIX G_deep_dynamic_calibration;
 
 # Write GDX file
 $UNFIX All; # Greatly reduces size of the GDX file
-@unload(Gdx\deep_calibration)
+@unload(Gdx/deep_calibration)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Output til Gekko

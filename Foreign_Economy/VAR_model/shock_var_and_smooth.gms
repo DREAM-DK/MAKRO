@@ -7,7 +7,7 @@ solve M_DGE2VAR using CNS;
 @set(All, _shock, .l);
 $FIX All; $UNFIX G_VAR; # transformation
 solve B_VAR_STANDARDIZE  using CNS;
-execute_unloaddi 'Gdx\VAR%shockname%.gdx';
+execute_unloaddi 'Gdx/VAR%shockname%.gdx';
 
 # SMOOTHING OF VAR OUTPUTS
 $IMPORT VAR_model/smooth_var.gms

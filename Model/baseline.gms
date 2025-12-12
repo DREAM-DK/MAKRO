@@ -3,7 +3,7 @@
 # ======================================================================================================================
 set_time_periods(2030-1, %terminal_year%);
 
-execute_load "Gdx\baseline.gdx"
+execute_load "Gdx/baseline.gdx"
   $LOOP All:, {name} $ENDLOOP
   fpt, fqt, fvt, fp, fq, fv, INF_GROWTH_ADJUSTED, nOvf2nSoc
   d1IO, d1IOy, d1IOm, d1Xm, d1Xy, d1CTurist, d1X, d1I_s, d1K, d1R, d1C, d1G

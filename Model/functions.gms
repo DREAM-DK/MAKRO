@@ -116,7 +116,8 @@ $FUNCTION load_as({group}, {gdx}, {suffix}):
       {name}__load__{sets}
     $ENDLOOP
   ;
-  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l $ENDLOOP;
+  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l
+  $ENDLOOP;
   @set({group}, {suffix}, __load__);
   $onlisting
 $ENDFUNCTION
@@ -128,7 +129,8 @@ $FUNCTION load({group}, {gdx}):
       {name}__load__{sets}
     $ENDLOOP
   ;
-  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l $ENDLOOP;
+  execute_load {gdx} $LOOP {group}: {name}__load__={name}.l
+  $ENDLOOP;
   @set({group}, .l, __load__)
   $onlisting
 $ENDFUNCTION
@@ -265,9 +267,20 @@ $FUNCTION set({group}, {suffix1},  {suffix2}):
       $ENDLOOP
     ;
   $ENDIF
+  $IF "{suffix1}" != ".l":
     $LOOP {group}:
-      {name}{suffix1}{sets}${conditions} = {name}{suffix2}{sets};
+      {name}{suffix1}{sets}$({conditions}) = {name}{suffix2}{sets};
     $ENDLOOP
+  $ENDIF
+  $IF "{suffix1}" == ".l":
+    # Prevent overwriting .l=NA with implicit zeros. eps can still overwrite NA.
+    $LOOP {group}:
+      {name}{suffix1}{sets}$(
+        {conditions}
+        and not (mapVal({name}{suffix1}{sets}) = 5 and {name}{suffix2}{sets} = 0 and mapVal({name}{suffix2}{sets}) = 0)
+      ) = {name}{suffix2}{sets};
+    $ENDLOOP
+  $ENDIF
   $onlisting
 $ENDFUNCTION
 
@@ -287,7 +300,7 @@ $FUNCTION display_difference({group}, {suffix1}, {suffix2}):
 $ENDFUNCTION
 
 $FUNCTION assert_no_difference({group}, {threshold}, {suffix1}, {suffix2}, {msg}):
-  # Abort if differences exceed the threshold. Differences are between the current values of a group of variables and the previously saved values.
+  # Abort if differences exceed the threshold.
   $offlisting
     $LOOP {group}:
       parameter {name}_difference{sets};
@@ -300,6 +313,25 @@ $FUNCTION assert_no_difference({group}, {threshold}, {suffix1}, {suffix2}, {msg}
     $LOOP {group}:
       loop({sets}{$}[+t]${conditions},
         abort$({name}_difference{sets} <> 0) '{name}_difference exceeds allowed threshold! {msg}';
+      )
+    $ENDLOOP
+  $onlisting
+$ENDFUNCTION
+
+$FUNCTION assert_abs_smaller({group}, {threshold}, {suffix1}, {suffix2}, {msg}):
+  # Abort if absolute value of variables has increased by more than {threshold}.
+  $offlisting
+    $LOOP {group}:
+      parameter {name}_absolute_increase{sets};
+      {name}_absolute_increase{sets}${conditions} = abs({name}{suffix1}{sets}) - abs({name}{suffix2}{sets});
+      {name}_absolute_increase{sets}$(abs({name}_absolute_increase{sets}) < {threshold}) = 0;
+      if (sum({sets}{$}[+t]${conditions}, abs({name}_absolute_increase{sets})),
+        display {name}_absolute_increase;
+      );
+    $ENDLOOP
+    $LOOP {group}:
+      loop({sets}{$}[+t]${conditions},
+        abort$({name}_absolute_increase{sets} <> 0) 'The absolute value of {name} has increased by more than {threshold}! {msg}';
       )
     $ENDLOOP
   $onlisting
@@ -492,9 +524,7 @@ $FUNCTION set_initial_levels_to_nonzero({group}):
        and ({name}.l{sets} = 0)
        and ({name}.l{sets}{$}[<t>t0] <> 0)) = {name}.l{sets}{$}[<t>t0];
     # If variable still has a staring level of 0, set the starting level to the maximum absolute value of all periods
-    {name}.l{sets}$(
-            {conditions}
-       and ({name}.l{sets} = 0)) = smax(tt, abs({name}.l{sets}{$}[<t>tt]));
+    {name}.l{sets}$({conditions} and ({name}.l{sets} = 0)) = max(smax(tt, abs({name}.l{sets}{$}[<t>tt])), 0.01);
   $ENDLOOP
 
   $onlisting

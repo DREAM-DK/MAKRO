@@ -28,7 +28,7 @@ d1vUdlPas[portf_,tx1] = d1vUdlPas[portf_,t1];
 d1vPensionAkt[portf_,tx1] = d1vPensionAkt[portf_,t1];
 
 sets load_d1vHhPens[pens_, t];
-execute_load "..\Data\pension\pension.gdx", load_d1vHhPens = d1vHhPens;
+execute_load "../Data/Pension/pension.gdx", load_d1vHhPens = d1vHhPens;
 d1vHhPens[pens_,t]$(t.val > %AgeData_t1%) = load_d1vHhPens[pens_,t];
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -61,6 +61,7 @@ $GROUP G_newdata_forecast
   G_GovExpenses_newdata_forecast
   G_taxes_newdata_fixed_forecast
   G_GovRevenues_newdata_forecast
+  G_Government_newdata_forecast
 ;
 $LOOP G_newdata_forecast:
   {name}.l{sets}$(t.val > %cal_end% and {conditions}) = {name}.l{sets}{$}[<t>'%cal_end%'];
@@ -97,7 +98,7 @@ rProdVaekst.l[t]$(tx1[t]) = gq;
 # Load ARIMA forecasts
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_ARIMA_forecast G_ARIMA_forecast$(tx0[t]);
-@load_as(G_ARIMA_forecast, "Gdx\ARIMA_forecasts.gdx", _ARIMA)
+@load_as(G_ARIMA_forecast, "Gdx/ARIMA_forecasts.gdx", _ARIMA)
 
 rE2KE_ARIMA[sp,t]$(tx0[t] and eKE.l[sp] > 0 and rE2KE_ARIMA[sp,t] > 0) = (rE2KE_ARIMA[sp,t]/rE2KE_ARIMA[sp,t1])**eKE.l[sp] * rE2KE_ARIMA[sp,t1];
 rL2KEL_ARIMA[sp,t]$(tx0[t] and eKEL.l[sp] > 0 and rL2KEL_ARIMA[sp,t] > 0) = (rL2KEL_ARIMA[sp,t]/rL2KEL_ARIMA[sp,t1])**eKEL.l[sp] * rL2KEL_ARIMA[sp,t1];
@@ -149,10 +150,10 @@ $GROUP G_exogenous_forecast_BFR
   nOvf2nSoc
 ;
 $GROUP G_exogenous_forecast_BFR G_exogenous_forecast_BFR$(tx1[t]);
-@load(G_exogenous_forecast_BFR, "..\Data\Befolkningsregnskab\BFR.gdx");
+@load(G_exogenous_forecast_BFR, "../Data/Befolkningsregnskab/BFR.gdx");
 
 # Load parametre fra befolkningsregnskab (BFR)
-$GDXIN ..\Data\Befolkningsregnskab\BFR.gdx
+$GDXIN ../Data/Befolkningsregnskab/BFR.gdx
   $LOAD nOvf_a, nOvfFraSocResidual
 $GDXIN
 
@@ -166,7 +167,7 @@ $GROUP G_exogenous_forecast_pension
   rPensIndb2loensum
 ;
 $GROUP G_exogenous_forecast_pension G_exogenous_forecast_pension$(tx1[t]);
-@load(G_exogenous_forecast_pension, "..\Data\pension\pension.gdx") ;
+@load(G_exogenous_forecast_pension, "../Data/Pension/pension.gdx") ;
 
 # Investerings- og administrationsomkostninger antages fremadrettet at udgøre ½ pct.
 rHhAktOmk.l['pensTot',t]$(tx1[t]) = 0.005;
@@ -177,7 +178,7 @@ rHhAktOmk.l['pensTot',t]$(tx1[t]) = 0.005;
 $GROUP G_world_output_forecast
   qBVTUdl, uXMarked
 ;
-@load_as(G_world_output_forecast, "..\Data\FM_exogenous_forecast.gdx", _forecast);
+@load_as(G_world_output_forecast, "../Data/FM_exogenous_forecast.gdx", _forecast);
 qBVTUdl_forecast[t] = qBVTUdl_forecast[t] / fqt[t];
 
 # Smooth forecast growth rates to avoid using actual data as forecast
@@ -194,11 +195,14 @@ $ENDLOOP
 # vOvfSats og vOvfUbeskat er endogene, men beregnes som hjælpevariabel til beregning af uHhOvfPop og uOvfUbeskat
 # Vi antager at satsregulerede overførsler vokser med fv, prisregulerede vokser med fp, mens at resten nominelt udfases
 vOvfSats.l[satsreg,t]$(t.val > %cal_end%) = vOvfSats.l[satsreg,'%cal_end%'];
+vOvfSats.l[oblpens,t]$(t.val > %cal_end%) = vOvfSats.l[oblpens,'%cal_end%'];
+vOvfSats.l[loenreg,t]$(t.val > %cal_end%) = vOvfSats.l[loenreg,'%cal_end%'];
 vOvfSats.l[prisreg,t]$(t.val > %cal_end%) = vOvfSats.l[prisreg,'%cal_end%'] / fqt[t] * fqt['%cal_end%'];
-vOvfSats.l[ovfHh,t]$(t.val > %cal_end% and not satsreg[ovfHh] and not prisreg[ovfHh])
+vOvfSats.l[ovfHh,t]$(t.val > %cal_end% and not satsreg[ovfHh] and not oblpens[ovfHh] and not loenreg[ovfHh] and not prisreg[ovfHh])
   = vOvfSats.l[ovfHh,'%cal_end%'] / fvt[t] * fvt['%cal_end%'];
 
-vOvfUbeskat.l[a,t]$(a15t100[a] and nPop.l[a,t] and t.val > %cal_end%) = sum(ovf$(ubeskat[ovf]), vOvfSats.l[ovf,t] * nOvf_a[ovf,a,t]) / nPop.l[a,t];
+vOvfUbeskat.l[a,t]$(a15t100[a] and nPop.l[a,t] and t.val > %cal_end%)
+  = sum(ubeskat, vOvfSats.l[ubeskat,t] * nOvf_a[ubeskat,a,t]) / nPop.l[a,t];
 vOvfUbeskat.l[aTot,t]$(t.val > %cal_end%) = sum(a, vOvfUbeskat.l[a,t] * nPop.l[a,t]);
 
 # Aldersmæssig fordelingsnøgle knyttet til dvOvf2dnPop 
@@ -207,9 +211,14 @@ uHhOvfPop.l[a,t]$(a15t100[a] and t.val > %cal_end%) =
   sum(ovfHh, vOvfSats.l[ovfHh,t] * nOvfFraSocResidual[ovfHh,a,t]) / nPop.l[a,t]  # Samlede overførsler pr. person i alder a, som ikke afhænger af beskæftigelsesfrekvens
 / sum(ovfHh, vOvfSats.l[ovfHh,t] * nOvfFraSocResidual[ovfHh,aTot,t]) * nPop.l['a15t100',t];  # Samlede overførsler i alt, som ikke afhænger af beskæftigelsesfrekvens
 
-uOvfUbeskat.l[a,t]$(vOvfUbeskat.l[a,t] <> 0 and t.val > %cal_end%) = vOvfUbeskat.l[a,t]  / (vOvfUbeskat.l[aTot,t] / sum(aa, nPop.l[aa,t]));
+uOvfUbeskat.l[a,t]$(vOvfUbeskat.l[a,t] <> 0 and t.val > %cal_end%)
+  = vOvfUbeskat.l[a,t]  / (vOvfUbeskat.l[aTot,t] / sum(aa, nPop.l[aa,t]));
 
-nArvinger.l[a,t]$(tx1[t]) = sum(aa, rArv_a.l[a-1,aa-1] * nPop.l[aa,t]);
+uPensIndbOP.l[a,t]$(tx1[t] and nPop.l[a,t] <> 0)
+  = sum(oblpens, vOvfSats.l[oblpens,t] * nOvf_a[oblpens,a,t]) / nPop.l[a,t]
+  / sum(oblpens, vOvfSats.l[oblpens,t] * nOvf_a[oblpens,aTot,t]);
+
+nArvinger.l[a,t]$(tx1[t]) = sum(aa, rArv_a.l[a-1,aa] * nPop.l[aa,t]);
 
 d1Arv[a,t]$(a18t100[a]) = (ErOverlev.l[a,t] < 0.995); # Kun aldersgrupper med forventet dødssansynlighed over 0.5% har arvemotiv
 
@@ -230,18 +239,21 @@ rRente.l['Obl',t]$(tx1[t] and t.val <= 2050)
   = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] - terminal_rente) + terminal_rente;
 rRente.l['Obl',t]$(t.val > 2050) = terminal_rente;  
 
+rRenteECB.l[t]$(tx1[t] and t.val <= 2050)
+  = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRenteECB.l[t1] - terminal_ECB_rente) + terminal_ECB_rente;
+rRenteECB.l[t]$(t.val > 2050) = terminal_ECB_rente;
+
 # Den eksogene EU-obligationsrente beregnes for at få den ønskede effekt på den gns. obligationsrenten
 rRenteOblDK.l[t]$(tx1[t]) = rRente.l['Obl',t] - crRenteObl.l[t]; 
 rRenteOblEU.l[t]$(tx1[t]) = rRenteOblDK.l[t] - rRenteSpaend.l[t];
-rRenteECB.l[t]$(tx1[t]) = rRenteOblEU.l[t] - rOblPrem.l[t];
 
 # Indlånsrenten har været højere end pengemarkedsrenten i perioden med negative renter - vi ønsker ikke at fremskrive dette og slår ARIMA fra
 rHhAktOmk.l['Bank',t]$(tx1[t] and t.val <= 2050) = 0.01 - (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rRente.l['Obl',t1] + 0.01);
 rHhAktOmk.l['Bank',t]$(t.val > 2050) = 0.01;  
 
 rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
-rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] + 0.07 - rRenteECB.l[tEnd], 0.07);
-rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] + 0.08 - rRenteECB.l[tEnd], 0.08);
+rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.07;
+rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.08;
 
 # Offentligt ejede aktier giver lavere afkast end øvrige aktier
 jrOffAktOmv.l[portf,t]$(tx1[t] and (IndlAktier[portf] or UdlAktier[portf])) = -0.02;
@@ -255,32 +267,36 @@ rRente.l['RealKred',t]$(tx1[t]) = 0.5 * rRenteFast.l[t] + 0.5 * rRenteFlex.l[t];
 rOmv.l['Guld',t]$(tx1[t]) = rRente.l['Obl',t];
 
 # Pensionsformuen har en aktieandel, som sikrer et afkast på 4½ pct. (før skat) på sigt
-parameter rPensionAfk_target;
-parameter rPensionIndlAktier_target;
-rPensionAfk_target = 0.045;
-rPensionIndlAktier_target = (rPensionAfk_target - rRente.l['Obl',tEnd] + rHhAktOmk.l['pensTot',tEnd]
-                             - rPensionAkt.l['RealKred',tEnd] * (rRente.l['RealKred',tEnd] - rRente.l['Obl',tEnd])
-                             - rPensionAkt.l['UdlAktier',tEnd] * (rAfk.l['UdlAktier',tEnd] - rRente.l['Obl',tEnd]))
-                            / (rAfk.l['IndlAktier',tEnd] - rRente.l['Obl',tEnd]);
-rPensionAkt.l['IndlAktier',t]$(tx1[t] and t.val <= 2050) 
-  = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rPensionAkt.l['IndlAktier',t1] - rPensionIndlAktier_target) 
-     + rPensionIndlAktier_target;
-rPensionAkt.l['IndlAktier',t]$(t.val > 2050) = rPensionIndlAktier_target;
-rPensionAkt.l['Obl',t]$(tx1[t]) = 1 - rPensionAkt.l['RealKred',t] - rPensionAkt.l['UdlAktier',t] - rPensionAkt.l['IndlAktier',t];
+$IF %FM_baseline%:
+  parameter rPensionAfk_target;
+  parameter rPensionIndlAktier_target;
+  rPensionAfk_target = 0.045;
+  rPensionIndlAktier_target = (rPensionAfk_target - rRente.l['Obl',tEnd] + rHhAktOmk.l['pensTot',tEnd]
+                              - rPensionAkt.l['RealKred',tEnd] * (rRente.l['RealKred',tEnd] - rRente.l['Obl',tEnd])
+                              - rPensionAkt.l['UdlAktier',tEnd] * (rAfk.l['UdlAktier',tEnd] - rRente.l['Obl',tEnd]))
+                              / (rAfk.l['IndlAktier',tEnd] - rRente.l['Obl',tEnd]);
+  rPensionAkt.l['IndlAktier',t]$(tx1[t] and t.val <= 2050) 
+    = (1 - (t.val-t1.val)/(2050-t1.val))**2 * (rPensionAkt.l['IndlAktier',t1] - rPensionIndlAktier_target) 
+      + rPensionIndlAktier_target;
+  rPensionAkt.l['IndlAktier',t]$(t.val > 2050) = rPensionIndlAktier_target;
+  rPensionAkt.l['Obl',t]$(tx1[t]) = 1 - rPensionAkt.l['RealKred',t] - rPensionAkt.l['UdlAktier',t] - rPensionAkt.l['IndlAktier',t];
+$ENDIF
+$IF %DREAM_baseline% or %DORS_baseline%:
+  # Pensionsformuen fordeling er ARIMA-fremskrevet. Juster proportionalt.
+  rPensionAkt.l[portf,t]$(tx1[t]) = rPensionAkt.l[portf,t] / sum(fin_akt, rPensionAkt.l[fin_akt,t]);
+$ENDIF
 
 rBoligPrem.l[t]$(tx1[t]) = max(0.03, 0.07 - rRente.l["Obl",t]);
 
-# Sammensætningseffekt af ændrede uddannelsesbaggrunde etc. for offentligt ansatte
-fpYoff.l[t]$(tx1[t]) = 1.0008;
+$IF %FM_baseline%:
+  # Produktivitetsvæksten i det offentlige sættes til 0.6 pct.
+  uL.l['off',t]$(tx1[t]) = uL.l['off',t1] * (1.006)**(t.val - t1.val) / (fqt[t] / fqt[t1]);
+
+  # Sammensætningseffekt af ændrede uddannelsesbaggrunde etc. for offentligt ansatte
+  fqLOffInput.l[t]$(tx1[t]) = fqLOffInput.l[t1] * (1.0008)**(t.val - t1.val);
+$ENDIF
 
 vNulvaekstIndeks.l[t]$(tx1[t]) = 1/fvt[t];
-
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  # Markupper går til historisk gennemsnit, dog mindst 0
-#  # ----------------------------------------------------------------------------------------------------------------------
-#  parameter aftrapprofil[t] "Profil for aftrapning af vissekalibrerede parametre til strukturelt niveau.";
-#  aftrapprofil[t]$(tx0[t]) = 0.8**(dt[t]**1.5);
-#  srMarkup.l[sp,t]$(tx0[t]) = srMarkup.l[sp,t1] * aftrapprofil[t] + (1-aftrapprofil[t]) * max(@mean(tData, srMarkup.l[sp,tData]), 0);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Public finances
@@ -296,35 +312,72 @@ t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep% and t.val >= %cal_
 tMellem.l[t]$(tx1[t] and t.val >= 2026) = 0.075;
 tTopTop.l[t]$(tx1[t] and t.val >= 2026) = 0.05;
 
+#Obligatorisk opsparing
+rOblOpsp2Ovf.l[t]$(t.val = 2020) = 0.003;
+rOblOpsp2Ovf.l[t]$(t.val = 2021) = 0.006;
+rOblOpsp2Ovf.l[t]$(t.val = 2022) = 0.009;
+rOblOpsp2Ovf.l[t]$(t.val = 2023) = 0.012;
+rOblOpsp2Ovf.l[t]$(t.val = 2024) = 0.015;
+rOblOpsp2Ovf.l[t]$(t.val = 2025) = 0.018;
+rOblOpsp2Ovf.l[t]$(t.val = 2026) = 0.021;
+rOblOpsp2Ovf.l[t]$(t.val = 2027) = 0.024;
+rOblOpsp2Ovf.l[t]$(t.val = 2028) = 0.027;
+rOblOpsp2Ovf.l[t]$(t.val = 2029) = 0.030;
+rOblOpsp2Ovf.l[t]$(t.val >=2030) = 0.033;
+
+# fvPensIndbOP særbehandles da obligatorisk pensionsopsparing ikke indgår i deep_calibration_year=2019,
+# den kan nok rykkes til ARIMA-listen når deep_calibration_year skifter
+fvPensIndbOP.l[t] = 0.94;
+
 # Demografisk træk
 $GROUP G_GovExpenses_DemoTraek
   fDemoTraek[a,t]$(tx1[t])
   fDemoTraek_Over100[t]$(tx1[t])
 ;
-@load(G_GovExpenses_DemoTraek, "..\Data\Befolkningsregnskab\DemoTraek.gdx" )
+$IF %FM_baseline%:
+  @load(G_GovExpenses_DemoTraek, "../Data/Befolkningsregnskab/DemoTraek.gdx" )
+  $GROUP G_FM_Demo
+    fDemoTraek_FM[t]  "Finansministeriets opgørelse af det demografisk træk"
+  ;
+  @load(G_FM_demo, "../Data/FM_exogenous_forecast.gdx")
+  uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_FM.l[t] / fDemoTraek_FM.l[t1];
+$ENDIF
 
-$GROUP G_FM_Demo
-  fDemoTraek[aTot,t]
-;
-@load_as(G_FM_demo, "..\Data\FM_exogenous_forecast.gdx", _demo)
-uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_demo[aTot,t] / fDemoTraek_demo[aTot,t1];
+$IF %DORS_baseline%:
+  @load(G_GovExpenses_DemoTraek, "../Data/DREAM_BFR/DemoTraek.gdx" )
+$ENDIF
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Inventory investments
 # ----------------------------------------------------------------------------------------------------------------------
 # Det giver ikke mening at have permanent negative lagerinvesteringer, og de svinger meget
-rIL2Y.l[s,t]$(tx1[t]) = max((@mean(t10, rIL2Y.l[s,t10])), 0.005);
+parameter rIL2Y_mean10[s,t];
+rIL2Y_mean10[s,t] = sum(t10, rIL2Y.l[s,t10]) / sum(t10, 1) ;
+rIL2Y.l[s,t]$(tx1[t] and fre[s]) = max(rIL2Y_mean10[s,t1], 0.005);
+rIL2Y.l[s,t]$(tx1[t] and not fre[s]) = max(rIL2Y_mean10[s,t1], 0);
 
+parameter qIO_iL_mean10[s,t];
 parameter qIO_iL_sum[t];
-parameter qIOym_iL_sum[t];
+parameter qIO_iL_sum_mean10[t];
+parameter qIOm_iL_mean10[s,t];
+parameter qIOym_iL_sum[s,t];
+parameter qIOym_iL_sum_mean10[s,t];
 parameter pnCPI_1[t];
+qIO_iL_mean10[s,t] = sum(t10, qIO.l['iL',s,t10]) / sum(t10, 1) ;
 qIO_iL_sum[t] = sum(s, qIO.l['iL',s,t]);
-qIOym_iL_sum[t] = sum(s, qIOy.l['iL',s,t] + qIOm.l['iL',s,t]);
+qIO_iL_sum_mean10[t] = sum(t10, qIO_iL_sum[t10]) / sum(t10, 1) ;
+qIOm_iL_mean10[s,t] = sum(t10, qIOm.l['iL',s,t10]) / sum(t10, 1) ;
+qIOym_iL_sum[s,t] = qIOy.l['iL',s,t] + qIOm.l['iL',s,t];
+qIOym_iL_sum_mean10[s,t] = sum(t10, qIOym_iL_sum[s,t10]) / sum(t10, 1) ;
 pnCPI_1[t] = pnCPI.l[cTot,t-1]/fp;
 
-uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) = max(@mean(t10, qIO.l['iL',s,t10]) / (@mean(t10, qIO_iL_sum[t10])), 0);
-uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t] and t.val > tBase.val) 
-                 = min(max(@mean(t10, qIOm.l['iL',s,t10]) / (@mean(t10, qIOym_iL_sum[t10])), 0), 1);
+uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = max(qIO_iL_mean10[s,t1] / qIO_iL_sum_mean10[t1], 0);
+uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = min(max(qIOm_iL_mean10[s,t1] / qIOym_iL_sum_mean10[s,t1], 0), 1);
+# HACK
+uIOm0.l['iL','tje',t]$(tx1[t]) = 0;
+uIOm0.l['iL','udv',t]$(tx1[t]) = 0;
+
 fuIOym.l['iL',s,t]$(tx1[t] and t.val > tBase.val) = 1;
 fuIO.l['iL',t]$(tx1[t] and t.val > tBase.val) = 1;
 
@@ -358,7 +411,7 @@ fuIO.l['iL',t]$(tx1[t] and t.val > tBase.val) = 1;
 $GROUP G_load_udv
   qY['udv',t]
 ;
-@load_as(G_load_udv, "..\Data\FM_exogenous_forecast.gdx", _previous)
+@load_as(G_load_udv, "../Data/FM_exogenous_forecast.gdx", _previous)
 qY.l['udv',t]$(tx1[t]) = qY.l['udv',t1] * qY_previous['udv',t] / qY_previous['udv',t1];
 
 # Produktion af olie/gas aftrappes gradvist efter 2040 for at hjælpe konvergens ift. bræt afslutning i fremskrivning
@@ -439,11 +492,18 @@ qK.l[k,s,t]$(tx1[t] and not d1k[k,s,t]) = 0;
 # ----------------------------------------------------------------------------------------------------------------------
 # Fremskrivning af alderspecifik produktivitet - bør rykkes til BFR på sigt
 # ----------------------------------------------------------------------------------------------------------------------
-execute_unloaddi "Gdx/qProdHh_a_forecast.gdx" qProdHh_a, BruttoArbsty, tDataEnd, tEnd;
-embeddedCode Python:
-  with open("age_productivity_forecast.py") as f: exec(f.read())
-endEmbeddedCode
-execute_load "Gdx/qProdHh_a_forecast.gdx" qProdHh_a;
+$IF %FM_baseline%:
+  execute_unloaddi "Gdx/qProdHh_a_forecast.gdx" qProdHh_a, BruttoArbsty, tDataEnd, tEnd;
+  embeddedCode Python:
+    with open("age_productivity_forecast.py") as f: exec(f.read())
+  endEmbeddedCode
+  execute_load "Gdx/qProdHh_a_forecast.gdx" qProdHh_a;
+$ENDIF
+$IF %DREAM_baseline% or %DORS_baseline%:
+  parameter qProdHh_a_DREAM[a,t];
+  execute_load "../Data/DREAM_BFR/qProdHh_a_DREAM.gdx" qProdHh_a_DREAM;
+  qProdHh_a.l[a,t]$(t.val > %cal_deep%) = qProdHh_a_DREAM[a,t];
+$ENDIF
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Filtrering af aldersafhængige parametre
@@ -453,6 +513,7 @@ $GROUP G_smooth_profiles
   ftAktieHh_a
   ftKommune_a
   rTopSkatInd_a
+  rNet2KapIndPos
   uPersIndRest_a$(a[a_])
   cHh_a
   rRealKred2Bolig_a
@@ -471,6 +532,9 @@ embeddedCode Python:
   import numpy as np
   import pandas as pd
   from scipy.optimize import curve_fit
+  
+  # Set random seed for deterministic results
+  np.random.seed(42)
 
   db = dt.Gdx("Gdx/smooth_profiles_input.gdx", sparse=False)
   tEnd = db.tEnd[0]
@@ -483,8 +547,9 @@ embeddedCode Python:
   smoothing_vars = [
       (db["ftBund_a"], 15, 5),
       (db["ftAktieHh_a"], 15, 4),
-      (db["ftKommune_a"], 15, 5),
+      (db["ftKommune_a"], 15, 6),
       (db["rTopSkatInd_a"], 15, 5),
+      (db["rNet2KapIndPos"], 15, 5),
       (db["uPersIndRest_a"], 15, 5),
       (db["cHh_a"], 0, 4),
       (db["rRealKred2Bolig_a"], 18, 5),
@@ -557,7 +622,7 @@ embeddedCode Python:
   db.export("smooth_profiles.gdx")
 endEmbeddedCode
 
-@load(G_smooth_profiles, "Gdx\smooth_profiles.gdx");
+@load(G_smooth_profiles, "Gdx/smooth_profiles.gdx");
 jvFormueBase.l[a,t1] = vHhx.l[a,t1] - vHhx_presmooth[a,t1];
 $GROUP G_reset G_smooth_profiles$(t1[t]);
 @set(G_reset, .l, _presmooth);
@@ -568,4 +633,4 @@ rRealiseringAktieOmv_a.l[a,t]$(tx1[t]) = max(0, rRealiseringAktieOmv_a.l[a,t]); 
 # ----------------------------------------------------------------------------------------------------------------------
 option clear = nOvf_a;
 option clear = nOvfFraSocResidual;
-@unload_all(Gdx\exogenous_forecast);
+@unload_all(Gdx/exogenous_forecast);

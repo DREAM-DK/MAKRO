@@ -9,7 +9,93 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_IO_prices_endo
+
+ 
+  $GROUP G_IO_endo
+    # Values
+    vY[s_,t]$(sp[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Produktionsværdi fordelt på brancher, Kilde: ADAM[X] eller ADAM[X<i>]"
+    vM[s_,t]$(s[s_] or sTot[s_]) "Import fordelt på importgrupper, Kilde: ADAM[M] eller ADAM[M<i>]"
+    vBVT[s_,t] "BVT, Kilde: ADAM[Yf] eller ADAM[Yf<i>]"
+    vBNP[t] "BNP, Kilde: ADAM[Y]"
+
+    vIO[d_,s_,t]$(d1IO[d_,s_,t]) "Imputeret branchefordelte leverancer fra både import og indenlandsk produktion fordelt på efterspørgselskomponenter."
+    vIOy[d_,s_,t]$(d1IOy[d_,s_,t]) "Imputeret branchefordelte leverancer fra indenlandsk produktion fordelt på efterspørgselskomponenter."
+    vIOm[d_,s_,t]$(d1IOm[d_,s_,t]) "Imputeret branchefordelte leverancer fra import fordelt på efterspørgselskomponenter."
+
+    vX[x_,t] "Eksport fordelt på eksportgrupper, Kilde: ADAM[E] eller ADAM[E<i>]"
+    vXy[x_,t] "Direkte eksport fordelt på eksportgrupper."
+    vXm[x_,t] "Import til reeksport fordelt på eksportgrupper."
+    vR[r_,t] "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[Vm] eller ADAM[Vm<i>]"
+    vE[r_,t] "Energiinput fordelt på aftager-brancher, Kilde: ADAM[Ve] eller ADAM[Ve<i>]"
+    vC[c_,t]$(cTot[c_] or c[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig. Kilde: ADAM[Cp]"
+    vCTurist[c,t]$(d1CTurist[c,t]) "Turisters forbrug i Danmark fordelt på forbrugsgrupper."
+    vCDK[c_,t]$(cTot[c_] or c[c_]) "Det private forbrug inkl. turisters fordelt på forbrugsgrupper, Kilde: ADAM[Cp] + ADAM[Et] og ADAM[C<i>]"
+    vG[g_,t] "Offentligt forbrug, Kilde: ADAM[Co]"
+    vI[i_,t] "Investeringer fordelt på investeringstype, Kilde: ADAM[I] eller ADAM[iM] eller ADAM[iB]"
+    vI_s[i_,s_,t]$(d1I_s[i_,s_,t] and i[i_] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
+    vI_s[i_,s_,t]$(iTot[i_] and (s[s_] or spTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
+    vI_s[i_,s_,t]$(i[i_] and not iL[i_] and (spTot[s_] or sByTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
+
+    # Tabel-variable
+    vRE[r_,t]$(r[r_] or rTot[r_]) "Aggregeret materiale- og energiinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[V] eller ADAM[V<i>]"
+    vHandelsbalance[t] "Nominel handelsbalance (nettoeksport)"
+    vCGIX[t]$(t.val >= 1995) "Samlet efterspørgsel"
+    vCGI[t] "Indenlandsk efterspørgsel"
+    vCGIxLager[t] "Indenlandsk efterspørgsel ekskl. lagerinvesteringer"
+    vIbm[t] "Investeringer ekskl. lagerinvesteringer"
+    vIErhverv[t] "Erhvervsinvesteringer: Private investeringer ekskl. boliginvesteringer, lagerinv. og værdigenstande, men inkl. stambesætninger"
+    vIbErhverv[t] "Erhvervsinvesteringer i bygninger: Private bygningsinvesteringer ekskl. boliginvesteringer"
+    vILager[t] "Lagerinvesteringer alene dvs. ekskl. stambesætninger og værdigenstande"
+    vIStam[t] "Stambesætninger"
+    vIVaerdi[t] "Værdigenstande"
+    vMvarer[t] "Samlet vareimport"
+    vMenergi[t] "Samlet import af energi"
+    vMtjenester[t] "Samlet vareimport"
+    vMx[t] "Nominel import af tjenester (ekslusiv søtransport) og fremstilling."
+    vXvarer[t] "Samlet vareeksport inkl. energi"
+    vXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
+    vBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
+
+    # Quantities
+    qY[s_,t]$(not (udv[s_] or bol[s_]) and not off[s_]) "Produktion fordelt på brancher, Kilde: ADAM[fX]"
+    qM[s_,t]$(s[s_] or sTot[s_]) "Import fordelt på importgrupper, Kilde: ADAM[fM] eller ADAM[fM<i>]"
+    qBVT[s_,t] "BVT, Kilde: ADAM[fYf] eller ADAM[fYf<i>]"
+    qBNP[t] "BNP, Kilde: ADAM[fY]"
+
+    qIO[d_,s_,t]$(dux_[d_] and d1IO[d_,s_,t]) "Imputeret branchefordelte leverancer fra både import og indenlandsk produktion fordelt på efterspørgselskomponenter."
+    qIOy[d_,s_,t]$(d[d_] and s[s_] and d1IOy[d_,s_,t]) "Imputeret branchefordelte leverancer fra indenlandsk produktion fordelt på efterspørgselskomponenter."
+    qIOm[d_,s_,t]$(d[d_] and s[s_] and d1IOm[d_,s_,t]) "Imputeret branchefordelte leverancer fra import fordelt på efterspørgselskomponenter."
+
+    qR[r_,t]$(not r[r_]) "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fVm] eller ADAM[fVm<i>]"
+    qE[r_,t]$(not r[r_]) "Energiinput fordelt på aftager-brancher, Kilde: ADAM[fVe] eller ADAM[fVe<i>]"
+    qCDK[c_,t]$(c[c_] or cTot[c_]) "Det private forbrug inkl. turisters fordelt på forbrugsgrupper, Kilde: ADAM[fC<i>]"
+    qC[c_,t]$(cTot[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig. Kilde: ADAM[fCp]"
+    qI[i_,t] "Investeringer fordelt på investeringstype, Kilde: ADAM[fI] eller ADAM[fIm] eller ADAM[fIb]"  
+    qI_s[i_,s_,t]$(iTot[i_] and s[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
+    qI_s[i_,s_,t]$(i[i_] and not iL[i_] and (spTot[s_] or sbyTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
+
+    # Tabel-variable
+    qRE[r_,t]$(r[r_] or rTot[r_]) "Aggregeret materiale- og energiinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fV] eller ADAM[fV<i>]"
+    qHandelsbalance[t] "Real handelsbalance"
+    qBruttoHandel[t] "Eksport + import i kædepriser"
+    qCGIX[t]$(t.val >= 1995) "Samlet efterspørgsel"
+    qCGI[t] "Indenlandsk efterspørgsel"
+    qCGIxLager[t] "Indenlandsk efterspørgsel ekskl. lagerinvesteringer"
+    qIbm[t] "Investeringer ekskl. lagerinvesteringer"
+    qIErhverv[t] "Private investeringer ekskl. lager- og boliginvesteringer"
+    qIbErhverv[t] "Private bygningsinvesteringer ekskl. boliginvesteringer"
+    qILager[t] "Lagerinvesteringer alene dvs. ekskl. stambesætninger og værdigenstande"
+    qIStam[t] "Stambesætninger"
+    qIVaerdi[t] "Værdigenstande"
+    qMvarer[t] "Samlet vareimport"
+    qMenergi[t] "Samlet import af energi"
+    qMtjenester[t] "Samlet tjenesteimport"
+    qMx[t] "Real import af tjenester (ekslusiv søtransport) og fremstilling."
+    qXvarer[t] "Samlet vareeksport inkl. energi"
+    qXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
+    qBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
+    
+    # Prices
     pY[s_,t]$(off[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Produktionsdeflator fordelt på brancher, Kilde: ADAM[pX] eller ADAM[pX<i>]"
     pM[s_,t]$(sTot[s_]) "Importdeflator fordelt på importgrupper, Kilde: ADAM[pM] eller ADAM[pM<i>]"
     pBVT[s_,t] "BVT-deflator, Kilde: ADAM[pyf] eller ADAM[pyf<i>]"
@@ -55,95 +141,6 @@ $IF %stage% == "variables":
 
     jfpIOy_s[s_,t] "J-led."
     jfpIOm_s[s_,t]$(m[s_]) "J-led."
-  ;
-  $GROUP G_IO_quantities_endo
-    qY[s_,t]$(not (udv[s_] or bol[s_]) and not off[s_]) "Produktion fordelt på brancher, Kilde: ADAM[fX]"
-    qM[s_,t]$(s[s_] or sTot[s_]) "Import fordelt på importgrupper, Kilde: ADAM[fM] eller ADAM[fM<i>]"
-    qBVT[s_,t] "BVT, Kilde: ADAM[fYf] eller ADAM[fYf<i>]"
-    qBNP[t] "BNP, Kilde: ADAM[fY]"
-
-    qIO[d_,s_,t]$(dux_[d_] and d1IO[d_,s_,t]) "Imputeret branchefordelte leverancer fra både import og indenlandsk produktion fordelt på efterspørgselskomponenter."
-    qIOy[d_,s_,t]$(d1IOy[d_,s_,t]) "Imputeret branchefordelte leverancer fra indenlandsk produktion fordelt på efterspørgselskomponenter."
-    qIOm[d_,s_,t]$(d1IOm[d_,s_,t]) "Imputeret branchefordelte leverancer fra import fordelt på efterspørgselskomponenter."
-
-    qR[r_,t]$(not r[r_]) "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fVm] eller ADAM[fVm<i>]"
-    qE[r_,t]$(not r[r_]) "Energiinput fordelt på aftager-brancher, Kilde: ADAM[fVe] eller ADAM[fVe<i>]"
-    qCDK[c_,t]$(c[c_] or cTot[c_]) "Det private forbrug inkl. turisters fordelt på forbrugsgrupper, Kilde: ADAM[fC<i>]"
-    qC[c_,t]$(cTot[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig. Kilde: ADAM[fCp]"
-    qI[i_,t] "Investeringer fordelt på investeringstype, Kilde: ADAM[fI] eller ADAM[fIm] eller ADAM[fIb]"  
-    qI_s[i_,s_,t]$(iTot[i_] and s[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
-    qI_s[i_,s_,t]$(i[i_] and not iL[i_] and (spTot[s_] or sbyTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[fI<i>] eller ADAM[fIm<i>] eller ADAM[fIb<i>]"
-
-    # Tabel-variable
-    qRE[r_,t]$(r[r_] or rTot[r_]) "Aggregeret materiale- og energiinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[fV] eller ADAM[fV<i>]"
-    qHandelsbalance[t] "Real handelsbalance"
-    qBruttoHandel[t] "Eksport + import i kædepriser"
-    qCGIX[t]$(t.val >= 1995) "Samlet efterspørgsel"
-    qCGI[t] "Indenlandsk efterspørgsel"
-    qCGIxLager[t] "Indenlandsk efterspørgsel ekskl. lagerinvesteringer"
-    qIbm[t] "Investeringer ekskl. lagerinvesteringer"
-    qIErhverv[t] "Private investeringer ekskl. lager- og boliginvesteringer"
-    qIbErhverv[t] "Private bygningsinvesteringer ekskl. boliginvesteringer"
-    qILager[t] "Lagerinvesteringer alene dvs. ekskl. stambesætninger og værdigenstande"
-    qIStam[t] "Stambesætninger"
-    qIVaerdi[t] "Værdigenstande"
-    qMvarer[t] "Samlet vareimport"
-    qMenergi[t] "Samlet import af energi"
-    qMtjenester[t] "Samlet tjenesteimport"
-    qMx[t] "Real import af tjenester (ekslusiv søtransport) og fremstilling."
-    qXvarer[t] "Samlet vareeksport inkl. energi"
-    qXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
-    qBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
-  ;
-  $GROUP G_IO_values_endo
-    vY[s_,t]$(sp[s_] or sTot[s_] or spTot[s_] or sByTot[s_]) "Produktionsværdi fordelt på brancher, Kilde: ADAM[X] eller ADAM[X<i>]"
-    vM[s_,t]$(s[s_] or sTot[s_]) "Import fordelt på importgrupper, Kilde: ADAM[M] eller ADAM[M<i>]"
-    vBVT[s_,t] "BVT, Kilde: ADAM[Yf] eller ADAM[Yf<i>]"
-    vBNP[t] "BNP, Kilde: ADAM[Y]"
-
-    vIO[d_,s_,t]$(d1IO[d_,s_,t]) "Imputeret branchefordelte leverancer fra både import og indenlandsk produktion fordelt på efterspørgselskomponenter."
-    vIOy[d_,s_,t]$(d1IOy[d_,s_,t]) "Imputeret branchefordelte leverancer fra indenlandsk produktion fordelt på efterspørgselskomponenter."
-    vIOm[d_,s_,t]$(d1IOm[d_,s_,t]) "Imputeret branchefordelte leverancer fra import fordelt på efterspørgselskomponenter."
-
-    vX[x_,t] "Eksport fordelt på eksportgrupper, Kilde: ADAM[E] eller ADAM[E<i>]"
-    vXy[x_,t] "Direkte eksport fordelt på eksportgrupper."
-    vXm[x_,t] "Import til reeksport fordelt på eksportgrupper."
-    vR[r_,t] "Materialeinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[Vm] eller ADAM[Vm<i>]"
-    vE[r_,t] "Energiinput fordelt på aftager-brancher, Kilde: ADAM[Ve] eller ADAM[Ve<i>]"
-    vC[c_,t]$(cTot[c_] or c[c_]) "Husholdningernes samlede forbrug fordelt på forbrugsgrupper og aggregater inkl. lejebolig og imputeret ejerbolig. Kilde: ADAM[Cp]"
-    vCTurist[c,t]$(d1CTurist[c,t]) "Turisters forbrug i Danmark fordelt på forbrugsgrupper."
-    vCDK[c_,t]$(cTot[c_] or c[c_]) "Det private forbrug inkl. turisters fordelt på forbrugsgrupper, Kilde: ADAM[Cp] + ADAM[Et] og ADAM[C<i>]"
-    vG[g_,t] "Offentligt forbrug, Kilde: ADAM[Co]"
-    vI[i_,t] "Investeringer fordelt på investeringstype, Kilde: ADAM[I] eller ADAM[iM] eller ADAM[iB]"
-    vI_s[i_,s_,t]$(d1I_s[i_,s_,t] and i[i_] and sp[s_]) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
-    vI_s[i_,s_,t]$(iTot[i_] and (s[s_] or spTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
-    vI_s[i_,s_,t]$(i[i_] and not iL[i_] and (spTot[s_] or sByTot[s_])) "Investeringer fordelt på brancher, Kilde: ADAM[I<i>] eller ADAM[iM<i>] eller ADAM[iB<i>]"
-
-    # Tabel-variable
-    vRE[r_,t]$(r[r_] or rTot[r_]) "Aggregeret materiale- og energiinput fordelt på brancherne som modtager materialeinputtet, Kilde: ADAM[V] eller ADAM[V<i>]"
-    vHandelsbalance[t] "Nominel handelsbalance (nettoeksport)"
-    vCGIX[t]$(t.val >= 1995) "Samlet efterspørgsel"
-    vCGI[t] "Indenlandsk efterspørgsel"
-    vCGIxLager[t] "Indenlandsk efterspørgsel ekskl. lagerinvesteringer"
-    vIbm[t] "Investeringer ekskl. lagerinvesteringer"
-    vIErhverv[t] "Erhvervsinvesteringer: Private investeringer ekskl. boliginvesteringer, lagerinv. og værdigenstande, men inkl. stambesætninger"
-    vIbErhverv[t] "Erhvervsinvesteringer i bygninger: Private bygningsinvesteringer ekskl. boliginvesteringer"
-    vILager[t] "Lagerinvesteringer alene dvs. ekskl. stambesætninger og værdigenstande"
-    vIStam[t] "Stambesætninger"
-    vIVaerdi[t] "Værdigenstande"
-    vMvarer[t] "Samlet vareimport"
-    vMenergi[t] "Samlet import af energi"
-    vMtjenester[t] "Samlet vareimport"
-    vMx[t] "Nominel import af tjenester (ekslusiv søtransport) og fremstilling."
-    vXvarer[t] "Samlet vareeksport inkl. energi"
-    vXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
-    vBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
-  ;
-
-  $GROUP G_IO_endo
-    G_IO_prices_endo
-    G_IO_quantities_endo
-    G_IO_values_endo
 
     # qY[udv] er eksogen. 
     # jluIOm skalerer import-andel fra udvindingsbranche for at efterspørgsel rammer eksogen produktion.
@@ -157,8 +154,6 @@ $IF %stage% == "variables":
     uIOXm[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse importerede input."
 
     fpI_s[i,t]$(tForecast[t]) "Korrektionsfaktor som sørger for at vI_s summerer til vI."
-
-    fpIVaerdi[t] "Korrektionsfaktor som sørger for at lagerinvesteringskomponenter kædeaggregerer"
 
     # Alt offentligt salg til private er udbudsdrevet og uIO0 hhv. uIOXy0 giver sig.
     uIO0[d_,s_,t]$((r_[d_] or c_[d_] or i_[d_]) and off[s_] and d1IOy[d_,s_,t]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
@@ -201,17 +196,6 @@ $IF %stage% == "variables":
   ;
   $GROUP G_IO_endo G_IO_endo$(tx0[t]); # Restrict endo group to tx0[t]
 
-  $GROUP G_IO_prices
-    G_IO_prices_endo
-  ;
-  $GROUP G_IO_quantities
-    G_IO_quantities_endo
-    qGrus[t] "Eksogen mængde af produktion fra udvindingsbranche som ikke udfases, men heller ikke indgår i Nordsøbeskatning."
-  ;
-  $GROUP G_IO_values
-    G_IO_values_endo
-  ;
-
   $GROUP G_IO_exogenous_forecast
     qY[s_,t]$(udv[s_])
     uIOXy0[x,s,t]$(udv[s]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
@@ -228,12 +212,13 @@ $IF %stage% == "variables":
     jpILager[t] "J-led"
     jpIStam[t] "J-led"
     jpIOm2pIOy[dux,s,t] "J-led"
+    qILagerDiskripans[t] "Diskripans i kædeaggregatet for lagerinvesteringer - kan sikre rimelige priser i fremskrivning"
   ;
   $GROUP G_IO_ARIMA_forecast
-    uIO0[d_,s_,t]$(not iL[d_]) "Skalaparameter for efterspørgselskomponents vægt på diverse input før endelig skalering."
-    uIOm0[dux,s,t]$(not iL[dux]) "Importandel i efterspørgselskomponent."
-    uIOXy0[x,s,t]$(not udv[s]) "Skalaparameter for eksportkomponents vægt på diverse indenlandske input før endelig skalering."
-    uIOXm0[x,s,t] "Skalaparameter for eksportkomponents vægt på diverse importerede input før endelig skalering."
+    uIO0[d,s,t]$(d1IO[d,s,t] and not iL[d])
+    uIOm0[dux,s,t]$(d1IO[dux,s,t] and not iL[dux])
+    uIOXy0[x,s,t]$(d1IO[x,s,t] and not udv[s])
+    uIOXm0[x,s,t]$(d1IO[x,s,t]) "Skalaparameter for eksportkomponents vægt på diverse importerede input før endelig skalering."
     uIOXyUdv0[x,t] "Skalaparameter for eksportkomponents vægt på indenlandsk udvinding før skalering til samlet indenlandsk udvinding."
   ;
   $GROUP G_IO_constants
@@ -248,7 +233,7 @@ $IF %stage% == "variables":
     rvILager2iL[t] "Lagerinvesteringers andel af lagerinvesteringer, værdigenstande og stambesætninger."
     rvIstam2iL[t] "Stambesætningers andel af lagerinvesteringer, værdigenstande og stambesætninger."
 
-    qGrus[t]
+    qGrus[t] "Eksogen mængde af produktion fra udvindingsbranche som ikke udfases, men heller ikke indgår i Nordsøbeskatning."
 
     fuIO[d_,t]$(not iL[d_]) "Korrektionsfaktor for skalaparametrene for efterspørgselskomponents vægt på diverse input."
     fuIOe[r,t] "Korrektionsfaktor for skalaparametrene for energiinputs vægt på diverse input."
@@ -500,9 +485,9 @@ $IF %stage% == "equations":
       uIOm[dux,s,t] =E= fuIOym[dux,s,t];
 
     E_uIOXy[x,s,t]$(d1IOy[x,s,t])..
-      uIOXy[x,s,t] =E= fuIOXy[x,t] * uIOXy0[x,s,t] / sum(ss, uIOXy0[x,ss,t]);
+      uIOXy[x,s,t] =E= fuIOXy[x,t] * uIOXy0[x,s,t] / sum(ss$(d1IOy[x,ss,t]), uIOXy0[x,ss,t]);
     E_uIOXm[x,s,t]$(d1IOm[x,s,t])..
-      uIOXm[x,s,t] =E= fuIOXm[x,t] * uIOXm0[x,s,t] / sum(ss, uIOXm0[x,ss,t]);
+      uIOXm[x,s,t] =E= fuIOXm[x,t] * uIOXm0[x,s,t] / sum(ss$(d1IOm[x,ss,t]), uIOXm0[x,ss,t]);
   $ENDBLOCK
 
   $BLOCK B_IO_bookkeep$(tx0[t])
@@ -766,20 +751,20 @@ $IF %stage% == "equations":
 
     # Lagerinvesteringer fordelt på rene lagerinvesteringer, stambesætninger og værdigenstande
     E_vILager[t].. vILager[t] =E= rvILager2iL[t] * vI['iL',t];
-    E_pILager[t].. pILager[t] =E= fpIVaerdi[t] * pI['iL',t] + jpILager[t];
+    E_pILager[t].. pILager[t] =E= pI['iL',t] + jpILager[t];
     E_qILager[t].. vILager[t] =E= pILager[t] * qILager[t];
 
     E_vIStam[t].. vIStam[t] =E= rvIstam2iL[t] * vI['iL',t];
-    E_pIStam[t].. pIStam[t] =E= fpIVaerdi[t] * pI['iL',t] + jpIStam[t];
+    E_pIStam[t].. pIStam[t] =E= pI['iL',t] + jpIStam[t];
     E_qIStam[t].. vIStam[t] =E= pIStam[t] * qIStam[t];
 
     E_vIVaerdi[t].. vI['iL',t] =E= vIStam[t] + vIVaerdi[t] + vILager[t];    
     E_qIVaerdi_via_rpIVaerdi[t].. qIVaerdi[t] =E= rpIVaerdi[t] * (qI['iL',t] - qIStam[t] - qILager[t]);
     E_qIVaerdi[t].. pI['iL',t-1]/fp * qI['iL',t] =E= pIStam[t-1]/fp * qIStam[t]
                                                    + pIVaerdi[t-1]/fp * qIVaerdi[t]
-                                                   + pILager[t-1]/fp * qILager[t];
+                                                   + pILager[t-1]/fp * qILager[t]
+                                                   + pI['iL',t-1]/fp * qILagerDiskripans[t];
     E_pIVaerdi[t].. vIVaerdi[t] =E= pIVaerdi[t] * qIVaerdi[t];
-    E_fpIVaerdi[t].. pIVaerdi[t] =E= fpIVaerdi[t] * pI['iL',t];
 
     E_vIErhverv[t].. vIErhverv[t] =E= vIbm[t] - vI_s['iM','off',t] - vI_s['IB','off',t] - vI_s['IB','bol',t] + vIStam[t];
     E_qIErhverv_via_rpIErhverv[t].. 
@@ -853,6 +838,7 @@ $IF %stage% == "exogenous_values":
     pBNP
     pR$(r[r_] or rTot[r_])
     pE$(r[r_] or rTot[r_])
+
     # Values 
     vIO$(s[s_] and d[d_]), vIOy$(s[s_] and not dTots[d_]), vIOm$(s[s_] and not dTots[d_])
     vY$(s[s_] or sTot[s_])
@@ -863,6 +849,7 @@ $IF %stage% == "exogenous_values":
     vE$(r[r_])
     vBVT$(sTot[s_] or s[s_])
     vBNP
+
     # Quantities
     qIO$(s[s_] and d[d_]), qIOy$(s[s_]), qIOm$(s[s_]), qM[s,t], qM[sTot,t] 
     qY$(s[s_] or sTot[s_])
@@ -883,7 +870,7 @@ $IF %stage% == "exogenous_values":
     vILager, vIStam, vIVaerdi
     qILager, qIStam, qIVaerdi
   ;
-  @load(G_IO_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_IO_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_IO_data
@@ -915,7 +902,7 @@ $IF %stage% == "exogenous_values":
     vBVT$(s[s_]),
     qBVT$(s[s_]), 
     # Tabel-variable
-    pRE, qRE, vRE
+    pRE$(r[r_] or rTot[r_]), qRE$(r[r_] or rTot[r_]), vRE$(r[r_] or rTot[r_])
     pCGIX, qCGIX, vCGIX
     pCGI, qCGI, vCGI
     pCGIxLager, qCGIxLager, vCGIxLager
@@ -981,9 +968,11 @@ $IF %stage% == "exogenous_values":
   parameter min_cell_size[t]; min_cell_size[t] = 1e-9 / fvt['2010'];
   d1IOy[d,s,t] = abs(vIOy.l[d,s,t]) > min_cell_size[t];
   d1IOm[d,s,t] = abs(vIOm.l[d,s,t]) > min_cell_size[t];
+  d1IOy[d,s,t]$(mapVal(vIOy.l[d,s,t]) = 5) = 0;
+  d1IOm[d,s,t]$(mapVal(vIOm.l[d,s,t]) = 5) = 0;
 
   d1I_s[i_,s,t] = abs(vI_s.l[i_,s,t]) > min_cell_size[t];
-  d1K[k,s,t]    = (qK.l[k,s,t] > min_cell_size[t]);
+  d1K[k,s,t]    = qK.l[k,s,t] > min_cell_size[t];
 
   d1IOy[dTots,s,t] = sum(d$dTots2d[dTots,d], d1IOy[d,s,t]);
   d1IOm[dTots,s,t] = sum(d$dTots2d[dTots,d], d1IOm[d,s,t]);
@@ -1005,8 +994,7 @@ $IF %stage% == "exogenous_values":
   eIO.l[d,s] = eIO.l[d,s] * (vIOy.l[d,s,'%cal_deep%'] > 0.1 / fvt['2010'] and vIOm.l[d,s,'%cal_deep%'] > 0.1 / fvt['2010']);
 
   # Start-værdier for initialt laggede værdier
-  # HACK: Midlertidigt rettet til større end 1970, da der ikke er værdier for tje og off før!
-  rpIOm2pIOy.l[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and eIO.l[dux,s] > 0 and t.val > 1970) = pIOm.l[dux,s,t]/pIOy.l[dux,s,t];
+  rpIOm2pIOy.l[dux,s,t]$(d1IOy[dux,s,t] and d1IOm[dux,s,t] and eIO.l[dux,s] > 0 and pIOy.l[dux,s,t] <> 0) = pIOm.l[dux,s,t]/pIOy.l[dux,s,t];
 $ENDIF
 
 # ======================================================================================================================
@@ -1060,8 +1048,8 @@ $IF %stage% == "static_calibration":
     E_fuIO[cgi,t]$(tx0[t] and sum(s, d1IO[cgi,s,t])).. sum(s, uIO0[cgi,s,t]) =E= 1;
     E_fuIO_r[r,t]$(tx0[t] and sum(s$sMat[s], d1IO[r,s,t])).. sum(s$sMat[s], uIO0[r,s,t]) =E= 1;
     E_fuIOe[r,t]$(tx0[t] and sum(s$sEne[s], d1IO[r,s,t])).. sum(s$sEne[s], uIO0[r,s,t]) =E= 1;
-    E_fuIOXy[x,t]$(tx0[t] and not xTur[x]).. sum(s, uIOXy0[x,s,t]) =E= 1;
-    E_fuIOXm[x,t]$(tx0[t] and d1Xm[x,t]).. sum(s, uIOXm0[x,s,t]) =E= 1;
+    E_fuIOXy[x,t]$(tx0[t] and not xTur[x]).. sum(s$(d1IOy[x,s,t]), uIOXy0[x,s,t]) =E= 1;
+    E_fuIOXm[x,t]$(tx0[t] and d1Xm[x,t]).. sum(s$(d1IOm[x,s,t]), uIOXm0[x,s,t]) =E= 1;
     E_uIOm0_NoM[dux,s,t]$(tx0[t] and d1IOy[dux,s,t] and not d1IOm[dux,s,t]).. uIOm0[dux,s,t] =E= 0;
     E_uIOm0_NoY[dux,s,t]$(tx0[t] and d1IOm[dux,s,t] and not d1IOy[dux,s,t]).. uIOm0[dux,s,t] =E= 1;
     E_nores_tIOy_tBase[d,s]$(d1IOy[d,s,tBase]).. tIOy_tBase[d,s] =E= tIOy[d,s,tBase];
@@ -1081,9 +1069,6 @@ $IF %stage% == "static_calibration":
   $GROUP G_IO_static_calibration_newdata
     G_IO_static_calibration_base$(tx0[t])
    ;
-  MODEL M_IO_static_calibration_newdata /
-    M_IO_static_calibration
-  /;
 $ENDIF
 
 
@@ -1113,7 +1098,7 @@ $ENDIF
 # Dynamic calibration for new data years
 # ======================================================================================================================
 $IF %stage% == "dynamic_calibration_newdata":
-  uIOm0.l[dux,s,t]$(tx1[t] and d1IOm[dux,s,t] and d1IOy[dux,s,t])
+  uIOm0.l[dux,s,t]$(tx1[t] and d1IOm[dux,s,t] and d1IOy[dux,s,t] and not iL[dux])
     = min(0.999, max(0.001, uIOm0.l[dux,s,t1] * uIOm0_baseline[dux,s,t] / uIOm0_baseline[dux,s,t1]));
 
   $GROUP G_IO_dynamic_calibration

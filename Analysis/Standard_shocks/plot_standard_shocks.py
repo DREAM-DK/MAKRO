@@ -21,7 +21,7 @@ T = 2050 # Last year to plot
 dt.time(t1-1, T)
 
 output_folder = r"Output"
-table_folder = r"Output\tables"
+table_folder = r"Output/tables"
 fname = "standard_shocks"
 output_extension = ".png"
 
@@ -102,7 +102,7 @@ shock_variation_labels = shock_variation_labels_DA if DA else shock_variation_la
 def shock_files_exist(shock):
     """Return True if GDX files exist for each variation of the shock"""
     return all(
-        os.path.exists(fr"{folder}\{shock}{suffix}.gdx")
+        os.path.exists(fr"{folder}/{shock}{suffix}.gdx")
         for suffix in shock_variation_suffixes
         for folder, _ in gdx_folders_info
     )
@@ -118,7 +118,7 @@ yaxis_title_from_operator = {
 # Create dataframe with all combinations of shocks, variations, model versions, and variables
 data = []
 for folder, folder_label in gdx_folders_info:
-    baseline = dt.Gdx(fr"{folder}\baseline.gdx")
+    baseline = dt.Gdx(fr"{folder}/baseline.gdx")
     for shock_name, shock_label, shock_specific_plot in zip(shock_names, shock_labels, shock_specific_plot_info):
         if not shock_files_exist(shock_name):
             print(f"Skipping '{shock_name}' as one or more GDX files are missing")
@@ -131,7 +131,7 @@ for folder, folder_label in gdx_folders_info:
         operators[0] = operator
 
         for suffix, variation_label in zip(shock_variation_suffixes, shock_variation_labels):
-            database = dt.Gdx(fr"{folder}\{shock_name}{suffix}.gdx")
+            database = dt.Gdx(fr"{folder}/{shock_name}{suffix}.gdx")
             for variable_index, (variable_label, getter, operator) in enumerate(zip(
                 variable_labels,
                 get_variable_functions,

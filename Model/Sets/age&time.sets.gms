@@ -62,6 +62,7 @@ sets
   a_ "Cohort ages and aggregates over age groups" /a15t100, a0t17, a18t100, tot, 0 * 110/
   a[a_] "All age groups" /0 * 101/  
   a0t100[a_] "Aller levende personer." /0 * 100/
+  a1t100[a_] "Alle levende personer undtagen nyfødte." /1 * 100/
   a0t14[a_] "Børn" /0 * 14/
   a0t17[a_] "Alle levende personer under 18." /0 * 17/
   a15t100[a_] "Aller levende personer, som kan være på arbejdsmarkedet." /15 * 100/
@@ -128,7 +129,7 @@ $MACRO set_time_periods(start, end) \
   tx0E[t] = yes$(t.val>&start and t.val<&end);\
   txE[t]  = yes$(t.val>=&start and t.val<&end);\
   tEnd[t] = yes$(t.val=&end);\
-  dt[t] = t.val - t1.val;\
+  dt[t] = t.val - t1.val;
 
 # Find the first and last elements of a subset of t and store their values in two scalars, start and end.
 $MACRO get_set_start_end(subset)               \     
@@ -136,7 +137,7 @@ $MACRO get_set_start_end(subset)               \
   loop(t$subset[t],                          \
           start = min(t.val, start);         \         
           end = max(t.val, end);             \     
-      );                                     \
+      );                                     
 
 # Call the set_time_periods macro using the first and last element in the subset as start and end.
 $MACRO set_time_periods_from_subset(subset) \
@@ -149,7 +150,7 @@ $MACRO set_data_periods(start, end) \
   tData1[t]            = yes$(t.val = &start);\
   tDataX1[t]           = yes$(&start < t.val and t.val<=&end);\
   tDataEnd[t]          = yes$(t.val = &end);\
-  tForecast[t]         = yes$(t.val > &end and t.val <= %terminal_year%);\
+  tForecast[t]         = yes$(t.val > &end and t.val <= %terminal_year%);
 
 # Call the set_data_periods macro using the first and last element in the subset as start and end.
 $MACRO set_data_periods_from_subset(subset) \

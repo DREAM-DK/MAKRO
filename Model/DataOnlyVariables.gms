@@ -29,7 +29,7 @@ $IF %stage% == "exogenous_values":
     rEuroKurs
     vhW_DA[t]
   ;
-  @load(G_DataOnly_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_DataOnly_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
 # =============================================================================================½=========================
 # Exogenous variables

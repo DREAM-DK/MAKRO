@@ -8,46 +8,13 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_labor_market_prices_endo
-    pL[s_,t]$(sp[s_] or spTot[s_]) "User cost for effektiv arbejdskraft i produktionsfunktion."
-    pW[t] "Løn pr. produktiv enhed arbejdskraft."
-  ;
-
-  $GROUP G_labor_market_quantities_endo_a
-    qProdHh[a_,t]$(t.val > %AgeData_t1%) "Aldersfordelt produktivitet."
-  ;
-
-  $GROUP G_labor_market_quantities_endo
-    G_labor_market_quantities_endo_a
-    dqL2dnL[s_,t] "qL differentieret ift. nL."
-    dqL2dnLlag[sp,t] "qL[t] differentieret ift. nL[t-1]"
-    qProd[s_,t] "Branchespecifikt produktivitetsindeks for arbejdskraft."
-    dvVirk2dpW[t] "Virksomhedernes værdifunktion i lønforhandling differentieret ift. løn."
-  ;
-
-  $GROUP G_labor_market_values_endo_a
-    vWHh[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Årsløn pr. person."
-  ;
-
-  $GROUP G_labor_market_values_endo
-    G_labor_market_values_endo_a
-
-    vWHh[a_,t]$(aTot[a_]) "Årsløn pr. beskæftiget."
-    vhWIndustri[t] "Gennemsnitlig timeløn i industrien. Kilde: ADAM[lna]"
-    vhW_DA[t] "Gennemsnitlig timeløn for lønmodtagere ekskl. genetillæg, DA-området. Kilde: ADAM[lnda]"
-    vhW[t] "Gennemsnitlig timeløn."
-    vWxDK[t] "Lønsum til grænsearbejdere."
-
-    vSelvstLoen[s_,t] "Lønudbetaling til selvstændige."
-    vLoensum[s_,t] "Lønsum, Kilde: ADAM[Yw]"
-
-    vVirkLoenPos[t] "Hjælpevariabel til lønforhandling. Positiv del af virksomhedernes værdifunktion i lønforhandling."
-    vFFOutsideOption[t] "Fagforenings forhandlingsalterntiv i lønforhandling."
-  ;
 
   $GROUP G_labor_market_endo_a
-    G_labor_market_quantities_endo_a
-    G_labor_market_values_endo_a
+    # Quantities
+    qProdHh[a_,t]$(a15t100[a_] and t.val > %AgeData_t1% or aTot[a_]) "Aldersfordelt produktivitet."
+
+    # Values
+    vWHh[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Årsløn pr. person."
 
     nSoegBaseHh[a_,t]$((aTot[a_] or a15t100[a_]) and t.val > %AgeData_t1%) "Sum af jobsøgende og beskæftigede."
     rSoegBaseHh[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Sum af jobsøgende og beskæftigede som andel af befolkning."
@@ -63,9 +30,27 @@ $IF %stage% == "variables":
 
   $GROUP G_labor_market_endo 
     G_labor_market_endo_a
-    G_labor_market_prices_endo
-    G_labor_market_quantities_endo
-    G_labor_market_values_endo
+
+    # Prices
+    pL[s_,t]$(sp[s_] or spTot[s_]) "User cost for effektiv arbejdskraft i produktionsfunktion."
+    pW[t] "Løn pr. produktiv enhed arbejdskraft." 
+
+    dqL2dnL[s_,t] "qL differentieret ift. nL."
+    dqL2dnLlag[sp,t] "qL[t] differentieret ift. nL[t-1]"
+    qProd[s_,t] "Branchespecifikt produktivitetsindeks for arbejdskraft."
+    dvVirk2dpW[t] "Virksomhedernes værdifunktion i lønforhandling differentieret ift. løn."
+
+    vWHh[aTot,t]
+    vhWIndustri[t] "Gennemsnitlig timeløn i industrien. Kilde: ADAM[lna]"
+    vhW_DA[t] "Gennemsnitlig timeløn for lønmodtagere ekskl. genetillæg, DA-området. Kilde: ADAM[lnda]"
+    vhW[t] "Gennemsnitlig timeløn."
+    vWxDK[t] "Lønsum til grænsearbejdere."
+
+    vSelvstLoen[s_,t] "Lønudbetaling til selvstændige."
+    vLoensum[s_,t] "Lønsum, Kilde: ADAM[Yw]"
+
+    vVirkLoenPos[t] "Hjælpevariabel til lønforhandling. Positiv del af virksomhedernes værdifunktion i lønforhandling."
+    vFFOutsideOption[t] "Fagforenings forhandlingsalterntiv i lønforhandling."
 
     hL2nL[s_,t] "Arbejdstid pr. beskæftiget"
     hL2nLxDK[t] "Arbejdstid pr. grænsearbejder"
@@ -97,7 +82,7 @@ $IF %stage% == "variables":
     nL[s_,t] "Beskæftigelse fordelt på brancher, Kilde: ADAM[Q] eller ADAM[Q<i>]"
     nLSelvst[s_,t]$(s[s_] or sTot[s_]) "Beskæftigede selvstændige fordelt på brancher, Kilde: ADAM[Qs] eller ADAM[Qs<i>]"
     nLLoenmodtager[s_,t]$(s[s_] or sTot[s_]) "Beskæftigede lønmodtagere fordelt på brancher, Kilde: ADAM[Qw] eller ADAM[Qw<i>]"
-    nPop[a_,t]$(not a[a_] and t.val > 1991) "Befolkningen op til 100 år."
+    nPop[a_,t]$((aTot[a_] or sameas('a0t17',a_) or sameas('a15t100',a_) or sameas('a18t100',a_)) and t.val > 1991) "Befolningstotaler"
     nPopInklOver100[t]$(t.val >= %BFR_t1%) "Befolkningen inkl. personer over 100 år. Kilde: BFR eller ADAM[U]."
     nSoc[soc,t]$(t.val >= %BFR_t1%) "Befolkning fordelt på socio-grupper, antal 1.000 personer, Kilde: BFR."
     nBruttoLedig[t]$(t.val >= %BFR_t1%) "Bruttoledige. Antal 1.000 personer. Kilde: ADAM[Ulb]"
@@ -127,30 +112,18 @@ $IF %stage% == "variables":
   ;
   $GROUP G_labor_market_endo G_labor_market_endo$(tx0[t]) ; # Restrict endo group to tx0[t]
 
-  $GROUP G_labor_market_prices
-    G_labor_market_prices_endo
-  ;
-
-  $GROUP G_labor_market_quantities
-    G_labor_market_quantities_endo
-
-    qProdHh_a[a,t] "Alders-specifikt led i qProdHh."
-    qProdHh_t[t] "Tids-afhængigt led i qProdHh."
-    qProdxDK[t] "Grænsearbejderes produktivitet."
-  ;
-
-  $GROUP G_labor_market_values
-    G_labor_market_values_endo
-  ;
   $GROUP G_labor_market_exogenous_forecast
     nPop
     rSeparation$(a[a_])
-    qProdHh_a
+    qProdHh_a[a,t]$(t.val > %AgeData_t1% and a15t100[a]) "Alders-specifikt led i qProdHh."
+    qProdHh_t[t] "Tids-afhængigt led i qProdHh."
+    qProdxDK[t] "Grænsearbejderes produktivitet."
     rAKULedig[t] "AKU-ledighedsrate. Sæsonkorrigeret arbejdsmarkedstilknytning. Kilde: ADAM[bulaku]."
     nPop_Over100[t] "Befolkningen over 100 år."
     nSoegBasexDK[t] "Sum af grænsearbejdere og jobsøgende potentielle grænsearbejdere."
     uDeltag[a,t] "Præferenceparameter for arbejdsstyrke-deltagelse."
     uh[a,t] "Præferenceparameter for timer."
+    ADAM_BFR[ADAM_BFR_LIST,t] "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret"
   ;
 
   $GROUP G_labor_market_forecast_as_zero
@@ -336,7 +309,7 @@ $IF %stage% == "equations":
     E_nBruttoArbsty[t]$(t.val >= %BFR_t1%).. nBruttoArbsty[t] =E= sum(BruttoArbsty, nSoc[BruttoArbsty,t]) + nLxDK[t];
     E_nNettoArbsty[t]$(t.val >= %BFR_t1%).. nNettoArbsty[t] =E= sum(NettoArbsty, nSoc[NettoArbsty,t]) + nLxDK[t];
 
-    E_nPop_tot[t]$(t.val > 1991)..    nPop[aTot,t]     =E= sum(a, nPop[a,t]);
+    E_nPop_tot[t]$(t.val > 1991)..     nPop[aTot,t]      =E= sum(a, nPop[a,t]);
     E_nPop_a15t100[t]$(t.val > 1991).. nPop['a15t100',t] =E= sum(a$a15t100[a], nPop[a,t]);
     E_nPop_a0t17[t]$(t.val > 1991)..   nPop['a0t17',t]   =E= sum(a$a0t17[a], nPop[a,t]);
     E_nPop_a18t100[t]$(t.val > 1991).. nPop['a18t100',t] =E= sum(a$a18t100[a], nPop[a,t]);
@@ -444,7 +417,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
 
     E_rWTraeghed[t].. rWTraeghed[t] =E= pW[t]/pW[t-1] / (pW[t-1]/pW[t-2]) + jrWTraeghed[t];
 
-    E_vFFOutsideOption[t]..
+    E_vFFOutsideOption[t]$(t.val > %AgeData_t1%)..
       vFFOutsideOption[t] =E= rFFLoenAlternativ * dFF2dLoen[t] * rJobFinding[aTot,t] * pW[t];
 
     E_rOpslagOmk[s,t]..
@@ -471,7 +444,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
 
     # Wage total                   
     E_vWHh_tot[t]$(t.val > %AgeData_t1%).. vWHh[aTot,t] =E= sum(a, vWHh[a,t] * nPop[a,t]);
-    E_qProdHh[a,t]$(t.val > %AgeData_t1%).. qProdHh[a,t] =E= qProdHh_t[t] * qProdHh_a[a,t];
+    E_qProdHh[a,t]$(t.val > %AgeData_t1% and a15t100[a]).. qProdHh[a,t] =E= qProdHh_t[t] * qProdHh_a[a,t];
 
     # ----------------------------------------------------------------------------------------------------------------------
     # Household First-order Conditions
@@ -508,7 +481,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
     # Den faktiske arbejdstid følger det strukturelle
     E_hLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. hLHh[a,t] =E= shLHh[a,t] + jhLHh_a[a,t] + jhLHh_t[t];
 
-    E_hLHh_tot[t]$(t.val >= %BFR_t1%).. hLHh[atot,t] =E= sum(a, hLHh[a,t] * nLHh[a,t]);
+    E_hLHh_tot[t]$(t.val >= %BFR_t1%).. hLHh[atot,t] =E= sum(a$(a15t100[a]), hLHh[a,t] * nLHh[a,t]);
 
     # ----------------------------------------------------------------------------------------------------------------------
     # Search and Matching        
@@ -517,10 +490,10 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
       rJobFinding[a,t] =E= rJobFinding[aTot,t] - jrJobFinding[aTot,t] + jrJobFinding[a,t] + jrJobFinding_t[t];
 
     E_jrJobFinding_aTot[t]$(t.val > %AgeData_t1%)..
-      rJobFinding[aTot,t] * nSoegHh[aTot,t] =E= sum(a, rJobFinding[a,t] * nSoegHh[a,t]);
+      rJobFinding[aTot,t] * nSoegHh[aTot,t] =E= sum(a$(a15t100[a]), rJobFinding[a,t] * nSoegHh[a,t]);
 
     E_rSeparation_tot[t]$(t.val > %AgeData_t1%)..
-      nSoegHh[aTot,t] =E= sum(a, nSoegHh[a,t]);
+      nSoegHh[aTot,t] =E= sum(a$(a15t100[a]), nSoegHh[a,t]);
 
     E_nLHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
       nLHh[a,t] =E= (1-rSeparation[a,t]) * nLHh[a-1,t-1] * nPop[a,t]/nPop[a-1,t-1] + rJobFinding[a,t] * nSoegHh[a,t];
@@ -532,7 +505,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
     # Wage Bargaining and Calvo Rigidity
     # ----------------------------------------------------------------------------------------------------------------------
     E_dFF2dLoen[t]$(t.val > %AgeData_t1%)..
-      dFF2dLoen[t] =E= sum(a, (1-mtInd[a,t]) * nLHh[a,t] * qProdHh[a,t] * hLHh[a,t]);
+      dFF2dLoen[t] =E= sum(a$(a15t100[a]), (1-mtInd[a,t]) * nLHh[a,t] * qProdHh[a,t] * hLHh[a,t]);
   $ENDBLOCK
 
   MODEL M_labor_market / 
@@ -544,7 +517,7 @@ $BLOCK B_labor_market_forwardlooking$(tx0[t])
   $GROUP G_labor_market_static
     G_labor_market_endo
     -G_Labor_market_endo_a # Påvirker alene aldersfordelte størrelser
-    -vWHh$(aTot[a_]) # vWHh[aTot,t] fastsættes til en rimelig størrelse og E_vWHh_tot bestemmer pW
+    -vWHh[aTot,t] # vWHh[aTot,t] fastsættes til en rimelig størrelse og E_vWHh_tot bestemmer pW
 
     -vVirkLoenPos, -dWTraeghed, -vFFOutsideOption, -dvVirk2dpW # Bliver bestemt i hjælpe-ligninger til E_pW
     -rOpslagOmk # Hjælpeligning til E_pW og ligninger som er slået fra i i production_private
@@ -570,14 +543,15 @@ $IF %stage% == "exogenous_values":
     nOrlov, rAKULedig
     nNettoLedig, nBruttoLedig, nNettoArbsty, nSoc[socFraMAKROBK]
     nPopInklOver100$(t.val < %BFR_t1%) # Hentes først ind før BFR_t1, da BFR ikke rammer befolkning fra MAKROBK
+    ADAM_BFR
   ;
-  @load(G_labor_market_makrobk, "..\Data\makrobk\makrobk.gdx" )
+  @load(G_labor_market_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
   # Aldersfordelt data fra aldersprofiler indlæses
   $GROUP G_labor_market_aldersprofiler
     vWHh$(a[a_] and t.val >= %AgeData_t1%)
   ;
-  @load(G_labor_market_aldersprofiler, "..\Data\Aldersprofiler\aldersprofiler.gdx" )
+  @load(G_labor_market_aldersprofiler, "../Data/Aldersprofiler/aldersprofiler.gdx" )
 
   # Aldersfordelt data fra BFR indlæses
   $GROUP G_labor_market_BFR
@@ -586,7 +560,7 @@ $IF %stage% == "exogenous_values":
     rSeparation,
     mrKomp,
   ;
-  @load(G_labor_market_BFR, "..\Data\Befolkningsregnskab\BFR.gdx" )
+  @load(G_labor_market_BFR, "../Data/Befolkningsregnskab/BFR.gdx" )
   
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_labor_market_data
@@ -685,7 +659,7 @@ $IF %stage% == "static_calibration":
     -hLSelvst[s,t], hLSelvst2hL[s,t]
     -nLSelvst[s,t], nLSelvst2nL[s,t]
 
-    -vWHh[a15t100,t], qProdHh_a[a15t100,t]
+    -vWHh[a15t100,t], qProdHh_a[a,t]$(a15t100[a] and t.val > %AgeData_t1%)
     -nLHh[a,t] # -E_rSoegBaseHh, E_rSoegBaseHh_tEnd, E_rSoegBaseHh_aEnd
     -hLHh[a,t], jhLHh_a[a,t]
   ;
@@ -731,7 +705,7 @@ $IF %stage% == "static_calibration":
 
   $GROUP G_labor_market_static_calibration_newdata
     G_labor_market_static_calibration
-    -qProdHh_a
+    -qProdHh_a[a,t]$(a15t100[a] and t.val > %AgeData_t1%)
   ;
 
 $ENDIF

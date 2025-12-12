@@ -12,8 +12,8 @@ set_time_periods(%data_year%-1, %terminal_year%);
 # ----------------------------------------------------------------------------------------------------------------------
 # Load values from dynamic calibrated model, including age specific parameters and stocks
 # ----------------------------------------------------------------------------------------------------------------------
-@load_dummies(t, "Gdx\%last_calibration%.gdx")
-@load_dummies(tData, "gdx\data.gdx")
+@load_dummies(t, "Gdx/%last_calibration%.gdx")
+@load_dummies(tData, "Gdx/data.gdx")
 
 $GROUP G_load
   All
@@ -21,7 +21,7 @@ $GROUP G_load
   -G_data$(tData[t]), -G_data_residuals$(tData[t])
   -G_constants, G_constants
 ;
-@load(G_load, "Gdx\%last_calibration%.gdx");
+@load(G_load, "Gdx/%last_calibration%.gdx");
 
 # Indbetalinger til kapitalpension er 0 i FMs fremskrivning, men har en værdi i data - derfor denne korrektion
 rPensIndb_a.l['kap',a,t1] = rPensIndb_a.l['kap',a,t0];
@@ -29,8 +29,8 @@ rPensIndb_a.l['kap',a,t1] = rPensIndb_a.l['kap',a,t0];
 # ----------------------------------------------------------------------------------------------------------------------
 # Load all previous variables from smooth calibration as parameters with same name and suffix "_baseline"
 # ----------------------------------------------------------------------------------------------------------------------
-@load_as(All, "Gdx\deep_calibration.gdx", _baseline)
-@load_as(All, "Gdx\%last_calibration%.gdx", _last_calibration)
+@load_as(All, "Gdx/deep_calibration.gdx", _baseline)
+@load_as(All, "Gdx/%last_calibration%.gdx", _last_calibration)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Parametre fremskrives konstant
@@ -63,19 +63,19 @@ $ENDLOOP
 # Parameters forecast with ARIMAs are gradually returned to baseline values
 $GROUP G_gradual_return
   G_ARIMA_forecast
-  -rAfskr # Afskrivningsraterne i foreløbig data virker utroværdige og ses bort fra i fremskrivningen
+  -pM # Særbehandles i pricing.gms
+  -rPensionAkt # Skal summere til 1, hvilket ikke sikres ved afbøjning
 ;
 
 # Baseline forskydes med permanent andel af stød fra sidste foreløbige data-år
 # Stød som skifter fortegn på parameter aftrappes fuldt (herunder stød væk fra 0)
 $LOOP G_gradual_return:
   {name}_baseline{sets}$(
-    tx0[t]
-    and {name}_baseline{sets}{$}[<t>tEnd] <> 0
+    tx0[t] and {conditions}
     and sign({name}_baseline{sets}{$}[<t>tEnd]) = sign({name}_last_calibration{sets}{$}[<t>tEnd])
-    and abs({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd] - 1)
+    and (abs({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd] - 1)
         <
-        abs({name}.l{sets}{$}[<t>t1] / {name}_baseline{sets}{$}[<t>t1] - 1)
+        abs({name}.l{sets}{$}[<t>t1] / {name}_baseline{sets}{$}[<t>t1] - 1))$({name}_baseline{sets}{$}[<t>tEnd] <> 0)
   )
     = {name}_baseline{sets}
     * ({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd]);
@@ -176,7 +176,7 @@ MODEL M_dynamic_calibration_newdata /
 # This section provides better starting values for endogenoues variables
 
 # Save and export all values prior to trouble-shooting
-@unload_all(Gdx\dynamic_calibration_newdata_presolve);
+@unload_all(Gdx/dynamic_calibration_newdata_presolve);
 @set(All, _presolve, .l)
 
 # All exogenous variables
@@ -188,9 +188,9 @@ $GROUP G_exogenous @fixed(all);
 $IF %stepwise_new_dummies%:
   @print("---------------------------------------- Solve with old dummies and small share of new data  ----------------------------------------")
   # We start with the old dummies and most of the old solution and gradually increase to new values before changing dummies
-  @load_dummies(t1, "Gdx\%previous_solution%.gdx")
+  @load_dummies(t1, "Gdx/%previous_solution%.gdx")
   # We calibrate with combined old and new data - as we need initial non-zero values (new data without dummies will be exogenous)
-  @load_as(All, "Gdx\%previous_solution%.gdx", _previous_solution);
+  @load_as(All, "Gdx/%previous_solution%.gdx", _previous_solution);
   @set_linear_combination(All, 0.99, _previous_solution, .l)
   $FIX All; $UNFIX G_dynamic_calibration_newdata;
   @set_bounds();
@@ -198,7 +198,7 @@ $IF %stepwise_new_dummies%:
 
   @print("---------------------------------------- Update dummies  ----------------------------------------")
   # We solve model with new dummies and with a combination of new and old data (old data without dummies will be exogenous)
-  @load_dummies(t1, "Gdx\data.gdx")
+  @load_dummies(t1, "Gdx/data.gdx")
   $FIX All; $UNFIX G_dynamic_calibration_newdata;
   $GROUP G_t1 G_dynamic_calibration_newdata$(t1[t]); @set_initial_levels_to_nonzero(G_t1)
   @set_bounds();
@@ -227,7 +227,7 @@ $IF %stepwise_new_dummies%:
   @set_bounds();
   @solve(M_dynamic_calibration_newdata); 
 
-  @unload(Gdx\stepwise_new_dummies.gdx)
+  @unload(Gdx/stepwise_new_dummies.gdx)
 
   # We reset - so the new data-set is fully included, but with new endogenous starting values
   @set(G_exogenous, .l, _presolve);
@@ -237,10 +237,10 @@ $ENDIF
 $IF %calibration_steps% > 1:
   @print("---------------------------------------- Update data gradually through linear combinations ----------------------------------------")
   @set(All, _saved, .l) # Save all values prior to trouble-shooting
-  @load_dummies(t1, "Gdx\%previous_solution%.gdx")
+  @load_dummies(t1, "Gdx/%previous_solution%.gdx")
   $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a, -res_;
   $GROUP G_load G_dynamic_calibration_newdata, G_homotopy;
-  @load_as(G_load, "Gdx\%previous_solution%.gdx", _previous_solution);
+  @load_as(G_load, "Gdx/%previous_solution%.gdx", _previous_solution);
   @set(G_homotopy, _previous_combination, _previous_solution);
   @set_linear_combination(G_dynamic_calibration_newdata, 0.99, _previous_solution, .l) # Set starting values for first iteration
   $FOR {share_of_previous} in [
@@ -255,12 +255,12 @@ $IF %calibration_steps% > 1:
     @print("---------------------------------------- Share = {share_of_previous} ----------------------------------------")
     @set_bounds();
     @solve(M_dynamic_calibration_newdata); 
-    @unload(Gdx\dynamic_calibration_{share_of_previous}.gdx)
+    @unload(Gdx/dynamic_calibration_{share_of_previous}.gdx)
     @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
 
   @print("---------------------------------------- Update dummies ----------------------------------------")
-  @load_dummies(t1, "Gdx\data.gdx")
+  @load_dummies(t1, "Gdx/data.gdx")
   @set(G_homotopy, .l, _saved);
   $FIX All; $UNFIX G_dynamic_calibration_newdata;
   $GROUP G_t1 G_dynamic_calibration_newdata$(t1[t]); @set_initial_levels_to_nonzero(G_t1)
@@ -271,7 +271,7 @@ $ENDIF
 # Solve the model with partially new exogenous variables - one module at a time (based on calibration with new dummies)
 $IF %blockwise_calibration%:
   # We start from the values used to update dummies - as we need initial non-zero values for cells not captured by the dummies e.g. vHhPensInd['kap','54',t]
-  @load_as(All, "Gdx\stepwise_new_dummies.gdx", _newdummies);
+  @load_as(All, "Gdx/stepwise_new_dummies.gdx", _newdummies);
   @set(All, .l, _newdummies)
 
   $GROUP G_load ; # Initialize load-group from new data starting of with none
@@ -284,13 +284,13 @@ $IF %blockwise_calibration%:
     "GovRevenues", "government", "GovExpenses", "taxes", "aggregates", "pricing", "labor_market", "IO"
   ]:  
     $GROUP G_load G_load, G_{datagroup}_data, G_{datagroup}_static_calibration_newdata;
-    @load(G_load, "Gdx\dynamic_calibration_newdata_presolve.gdx")
+    @load(G_load, "Gdx/dynamic_calibration_newdata_presolve.gdx")
 
     $FIX All; $UNFIX G_dynamic_calibration_newdata;
     @print("---------------------- Groups with new data included = {datagroup} ----------------------------------------")
     @set_bounds();
     @solve(M_dynamic_calibration_newdata); 
-    @unload(Gdx\dynamic_calibration_{datagroup}.gdx)
+    @unload(Gdx/dynamic_calibration_{datagroup}.gdx)
   $ENDFOR
 
   # We reset - so the new data-set is fully included, but with new endogenous starting values
@@ -301,8 +301,8 @@ $ENDIF;
 # Load previous solution
 # ----------------------------------------------------------------------------------------------------------------------
 $IF "%previous_solution%" != "%last_calibration%" and %calibration_steps% == 1:
-  $GROUP G_load G_dynamic_calibration_newdata, -G_data;
-  @load(G_load, "Gdx\%previous_solution%.gdx")
+  $GROUP G_load G_dynamic_calibration_newdata, -G_data, -G_do_not_load;
+  @load(G_load, "Gdx/%previous_solution%.gdx")
   # @set_initial_levels_to_nonzero(G_load)
 $ENDIF
 
@@ -315,7 +315,7 @@ $FIX All; $UNFIX G_dynamic_calibration_newdata;
 
 # Output
 $UNFIX All; # Greatly reduces size of the GDX file
-@unload(Gdx\calibration_%data_year%)
+@unload(Gdx/calibration_%data_year%)
 
 # ======================================================================================================================
 # Tests
@@ -323,8 +323,6 @@ $UNFIX All; # Greatly reduces size of the GDX file
 $IF %run_tests%:
   $GROUP G_data_test
     G_data
-    # Tests slået fra efter forlængelse af bank ultimo november 2014
-    -vUdlAktRenter$(t.val = 2005 or t.val = 2007) # Inkonsistens i data fra modelgruppen i DST - mail sendt 20/11-24
   ;  
   # Abort if any data covered variables have been changed by the calibration
   @assert_no_difference(G_data_test, 0.05, .l, _data, "G_imprecise_data was changed by dynamic calibration.");
@@ -332,9 +330,9 @@ $IF %run_tests%:
   @assert_no_difference(G_precise_data_test, 3e-6, .l, _data, "G_precise_data was changed by dynamic calibration.");
 
   # Tests
-  $IMPORT tests\test_age_aggregation.gms;
-  $IMPORT tests\test_other_aggregation.gms;
-  $IMPORT tests\test_other.gms;
+  $IMPORT Tests/test_age_aggregation.gms;
+  $IMPORT Tests/test_other_aggregation.gms;
+  $IMPORT Tests/test_other.gms;
 
   # ----------------------------------------------------------------------------------------------------------------------
   # Zero shock  -  Abort if a zero shock changes any variables significantly
