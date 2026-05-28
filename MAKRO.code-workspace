@@ -34,12 +34,14 @@
 			"titleBar.activeForeground": "#000000",
 			"titleBar.inactiveBackground": "#14AFA6",
 			"titleBar.inactiveForeground": "#000000",
+			"activityBar.background": "#322B36"
 		},
 		"editor.rulers": [120],
 		"jupyter.interactiveWindow.textEditor.executeSelection": true,
 		"jupyter.interactiveWindow.creationMode": "multiple",
 		"jupyter.askForKernelRestart": false,
 		"notebook.output.scrolling": true,
+		"r.lsp.promptToInstall": false,
 	},
   "extensions": {
     "recommendations": [

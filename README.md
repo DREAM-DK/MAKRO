@@ -1,4 +1,4 @@
-# MAKRO 2025-December
+# MAKRO 2026-May
 MAKRO is an economic model built to provide a good description of the Danish economy in both the short and the long run.
 In addition, the model is used to analyze how economic policy initiatives affect the economy, including the gradual transition to a long-run path.
 
@@ -6,14 +6,72 @@ The model is developed by the MAKRO model group at [DREAM (Danish Research Insti
 
 The model parameters, equations, and data as a whole have been selected such that the short and long-run properties are as empirically and theoretically well-founded as possible. Any changes to parameters, equations, or data are solely the user's responsibility, and we request that any changes be explicitly presented in any publication using MAKRO.
 
-## 2025-December version
-This version contains only minor revisions compared to 2025-June.
+## 2026-May version
+The model comes with batteries included in the form of a stylized baseline, so users can simulate marginal policy experiments without requiring a data subscription or calibrating the model. Note that the stylized baseline is based on several simplified projection assumptions. As such, the baseline should only be used for marginal experiments rather than as a forecast on its own.
 
-The model comes with batteries included in the form of a stylized baseline starting in 2029, so users can simulate marginal policy experiments without requiring a data subscription or calibrating the model. Note that the stylized baseline is based on several simplified projection assumptions. As such, the baseline should only be used for marginal experiments rather than as a forecast on its own.
+Model projection ends in 2100. The exact end-year of the projection affects HBI, but other variables are almost unchanged prior to 2060 for all standard shocks.
+## Sets changes since December 2025:
+'ATP' is now a part of pens and pens_ - i.e. pens = kap, liv, ATP, pensX. So pensX is now excl. ATP.
 
-## Name changes since June 2025:
-vOvf['ledkont',t] -> vOvf['konthj',t]
-nOvf['ledkont',t] -> nOvf['konthj',t]
+## Redefinition of variables since December 2025:
+The set element pensX is redefined, so all variables containing this element have been redefined for this element.
+
+## Variable name changes since December 2025:
+  ("New name",                  "Old name"),
+  
+  ("vAktieOevrig",              "vAktieFin"),
+  ("vAktieOevrigRenter",        "vAktieFinRenter"),
+  ("vAktieOevrigOmv",           "vAktieFinOmv"),
+  ("rAktieOevrigAfk",           "rAktieFinAfk"),
+  ("vVirkOevrigPas",            "vVirkPasFin"),
+  ("vVirkOevrigPasRenter",      "vVirkPasFinRenter"),
+  ("vVirkOevrigPasOmv",         "vVirkPasFinOmv"),
+  ("rVirkOevrigPas",            "rVirkPasFin"),
+  ("vVirkDriftPas",             "vVirkLaan"),
+  ("mrVirkDriftPasRente",       "mrRenteVirkLaan"),
+  ("vVirkOevrigUrealiseretOmv", "vVirkUrealiseretAktieOmv"),
+  ("vVirkOevrigRealiseretOmv",  "vVirkRealiseretAktieOmv"),
+  ("rVirkOevrigRealiseringOmv", "rVirkRealiseringOmv"),
+  ("mrMarkUp",                  "rMarkUp"),
+  ("smrMarkUp",                 "srMarkUp"),
+  ("qKLejeBolig",               "qKLejeBolig_a"),
+
+# Major changes since December 2025 version
+## Data updates
+* Updated deep calibration year from 2019 to 2022.
+* Updated the model to a newer data foundation, including new age profiles from microdata, and national accounting data for 2025.
+* The age profiles of household assets now include unlisted equity (unoterede aktier), which significantly changes the age profiles of household assets and imputed consumption.
+* Merchanting and processing data variables added to model (but not yet modeled endogenously)
+* Margin totals for demand components loaded directly rather than being overwritten by IO totals.
+
+## Calibration and baseline forecast
+* Newest calibrated year is now 2025.
+* Added support for a DREAM baseline calibration where the employment gap is determined endogenously.
+* Improved ARIMA and exogenous forecast handling, including configurable estimation/sample periods, FM-specific forecast settings, better treatment of non-monotone series, and more robust forecasts for foreign prices, export markets, and selected IO variables.
+* Removed calibration of the age-distributed splurge parameter. The model's endogenous consumption age profile matches register data about as well as the previous ad-hoc smoothing.
+* rSplurge is now used to match consumption in the preliminary data calibration instead of large changes in the discount rate.
+* The age profile for splurge is now calibrated so that rSplurge + rSplurgeBolig is constant across age.
+* fHh (direct effect of the number of children on households' consumption weight) has been removed from the model.
+* jpW is gradually phased out in preliminary data calibration.
+* rVirkDisk is set to 16% based on results for Danish firms from Gormsen and Huber.
+
+## Modeling
+* ATP added as a separate pension group.
+* Revised markup and price concepts: renamed the previous markup variables (see below), introduced a new cost-of-capital based average markup concept (called rMarkup), added a static/average capital price concept (pK_gns), and adjusted treatment of negative or volatile markups in forecasts.
+* Splurge-income (vSplurgeInd) now has interests and revaluations on debt deducted.
+* Revaluations on households' bank debt and deposits contain large reconciliation items ("other volume changes") and are therefore not included in marginal behavior.
+* VAT, duties and subsidies on investments now also split by the industry making the investment (not only investment type and supplying industry). Calibration based on ADAM data.
+* Other minor changes to tax modeling, including income tax brackets, capital income, marginal corporate tax, and property-related tax variables.
+* More robust handling of inventory investment prices changes in aggregate price indices.
+* Fixed how the risk premium enters user cost on housing.
+* Reduced ad-hoc discount rate in inertia in export and import.
+
+## Technicalities, refactoring and cleanup
+* Removed unused household `h` index.
+* Modules use new gamY syntax with direct mapping of equations to endogenous variables, replacing old group and block syntax.
+* Small IO cells removed from the model — deviations captured in residuals in the data year. IO dummies now projected identically in deep calibration and preliminary data calibration.
+* `fpOffIndirInv` replaced by `jfpOffIndirInv` (projected as 0) due to negative prices in 2022–2023.
+* Import substitution elasticity `eIO` set to 0 when either domestic or imported input is more than 100 times the other.
 
 ## Documentation
 The model documentation in English is included in this repository under [Documentation/Documentation.pdf](Documentation/Documentation.pdf).

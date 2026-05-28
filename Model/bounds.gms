@@ -3,18 +3,18 @@
 # Bounds are added to all endogenous variables to prevent bugs that are extremely difficult to track
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
-  pI$(iL[i_]), pI_s$(iL[i_]), pIO$(iL[d_]), pIOy$(iL[d_])
-  pILager, pIStam, pIVaerdi
+  pI$(iL[i_]), pI_s$(iL[i_]), pIO['iL',s_,t], pIOy['iL',s_,t]
+  pILager, pIStam, pIVaerdi, pI_iL_lag
 
   pCPI, pnCPI # Disse bør fjernes med dummies i modulet istedet
   pBoligUC
+  pK_gns
   pBVT
   
-  qBolig, qBolig_h
+  qBolig
   qCx[a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%) # Negative aldersfordelte tal kan forekomme i statisk kalibrering, uden for år med aldersfordelt data
-  qCx_h[h,a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%)
   qI, qI_s, qIBolig, qILager, qIStam, qIVaerdi
-  qOffIndirInv, pOffIndirInv, fpOffIndirInv
+  qOffIndirInv, pOffIndirInv, qOffNyInvx, pOffNyInvx,
   qIO$(i_[d_]), qIOy$(i_[d_]), qIOm$(i_[d_])
   qIO$(xSoe[d_] and t.val < 1991), qIOy$(xSoe[d_] and t.val < 1991)
   qIO$(udv[s_] and t.val < 2001), qIOy$(udv[s_] and t.val < 2001), qIOm$(udv[s_] and t.val < 1991)
@@ -36,7 +36,9 @@ $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
   pYfixed
 
   dpM2pYTraeghed
-  pIOm$(iL[d_] and t.val = 1991)
+  pIOm['iL',s_,'1991']
+
+  qProdHh_a['100',t], qProdHh['100',t] # Der er negativ imputeret løn for 100-årige i data - skal rettes
 ;
 $GROUP G_lower_bound # Variables that should be positive and not be close to zero
   qKELB, qY, qR, qX, qBNP, qBVT,

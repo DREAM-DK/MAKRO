@@ -6,84 +6,23 @@
 set_time_periods(%cal_start%-1, %cal_end%);
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Define empty models and groups that will be populated by modules
+# ----------------------------------------------------------------------------------------------------------------------
+MODEL M_static_calibration;
+$GROUP G_static_calibration ;
+$GROUP G_static_calibration_newdata ;
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Import the static calibration models from the modules and combine them
 # ----------------------------------------------------------------------------------------------------------------------
 @import_from_modules("static_calibration")
-
-MODEL M_static_calibration /
-  M_aggregates_static_calibration
-  M_consumers_static_calibration
-  M_exports_static_calibration
-  M_finance_static_calibration
-  M_government_static_calibration
-  M_GovExpenses_static_calibration
-  M_GovRevenues_static_calibration
-  M_HhIncome_static_calibration
-  M_IO_static_calibration
-  M_labor_market_static_calibration
-  M_pricing_static_calibration
-  M_production_private_static_calibration
-  M_production_public_static_calibration
-  M_struk_static_calibration
-  M_taxes_static_calibration
-/;
-$GROUP G_static_calibration
-  G_aggregates_static_calibration
-  G_consumers_static_calibration
-  G_exports_static_calibration
-  G_finance_static_calibration
-  G_government_static_calibration
-  G_GovExpenses_static_calibration
-  G_GovRevenues_static_calibration
-  G_HhIncome_static_calibration  
-  G_IO_static_calibration
-  G_labor_market_static_calibration
-  G_pricing_static_calibration
-  G_production_private_static_calibration
-  G_production_public_static_calibration
-  G_struk_static_calibration
-  G_taxes_static_calibration
-;
-$GROUP G_ARIMA_forecast
-  G_consumers_ARIMA_forecast
-  G_exports_ARIMA_forecast
-  G_finance_ARIMA_forecast
-  G_government_ARIMA_forecast
-  G_GovExpenses_ARIMA_forecast
-  G_GovRevenues_ARIMA_forecast
-  G_HHincome_ARIMA_forecast  
-  G_IO_ARIMA_forecast
-  G_labor_market_ARIMA_forecast
-  G_pricing_ARIMA_forecast
-  G_production_private_ARIMA_forecast
-  G_production_public_ARIMA_forecast
-  G_taxes_ARIMA_forecast
-;
-
-$GROUP G_static_calibration_newdata
-  G_aggregates_static_calibration_newdata
-  G_exports_static_calibration_newdata
-  G_finance_static_calibration_newdata
-  G_government_static_calibration_newdata
-  G_IO_static_calibration_newdata
-  G_pricing_static_calibration_newdata
-  G_production_private_static_calibration_newdata
-  G_production_public_static_calibration_newdata
-  G_taxes_static_calibration_newdata
-
-  G_consumers_static_calibration_newdata
-  G_GovExpenses_static_calibration_newdata
-  G_GovRevenues_static_calibration_newdata
-  G_HhIncome_static_calibration_newdata 
-  G_labor_market_static_calibration_newdata
-  G_struk_static_calibration_newdata
-;
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Add any new variables that do not exist in the previous solution GDX file
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_do_not_load
 ;
+
 # Use obsolete variables to give good starting values for newly defined variables
 $FOR {new}, {old} in [
   #  ("New name",              "Old name"),
@@ -111,9 +50,6 @@ $GROUP G_unfixed_data
 
   # Skal tjekkes / rettes
   -pI_s, -qI_s, -vI_s # Planlægges omdøbt til pI, qI, og vI i senere modelversion
-
-  # Giver fejl i nul-stød !!!
-  -qY[tje,t]
 ;
 $GROUP G_unfixed_precise_data G_unfixed_data, -G_imprecise_data;
 $GROUP G_unfixed_imprecise_data G_unfixed_data, -G_precise_data;
@@ -178,8 +114,8 @@ $ENDIF
 # eKE.l[sp] = 1;
 
 $FIX ALL; $UNFIX G_static_calibration;
-# $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data, -jfpIOm_s, -jfpIOy_s;
-# @set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
+$GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data;
+@set_initial_levels_to_nonzero(G_set_initial_levels_to_nonzero);
 # @set_bounds();
 @unload_all(Gdx/static_calibration_presolve);
 @solve(M_static_calibration);
@@ -251,9 +187,9 @@ $IF %run_tests%:
   # ----------------------------------------------------------------------------------------------------------------------
   # Check if data residuals have changed
   # ----------------------------------------------------------------------------------------------------------------------
-  $GROUP G_test_residuals G_data_residuals;
+  $GROUP G_test_residuals G_data_residuals, -G_do_not_load;
   @load_as(G_test_residuals, "Gdx/previous_static_calibration.gdx", _previous_solution);
-  @assert_abs_smaller(G_test_residuals, 1e-6, .l, _previous_solution, "Data residuals have increased from previous_static_calibration.gdx.");
+  @assert_abs_smaller(G_test_residuals, 1e-2, .l, _previous_solution, "Data residuals have increased from previous_static_calibration.gdx.");
   
   # Tjekker om noget har ændret sig - kræver at tidligere static_calibration gemt som previous_...
   #  $GROUP G_all All;

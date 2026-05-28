@@ -5,27 +5,27 @@ set_time_periods(%cal_deep%-1, %terminal_year%);
 set_data_periods(%cal_start%, %cal_deep%);
 
 # Forecast dummies as last data-year
-d1IO[d_,s_,tx1] = d1IO[d_,s_,t1];
-d1IOy[d_,s_,tx1] = d1IOy[d_,s_,t1];
-d1IOm[d_,s_,tx1] = d1IOm[d_,s_,t1];
-d1Xm[x_,tx1] = d1Xm[x_,t1];
-d1Xy[x_,tx1] = d1Xy[x_,t1];
-d1CTurist[c,tx1] = d1CTurist[c,t1];
-d1X[x_,tx1] = d1X[x_,t1];      
-d1I_s[i_,ds_,tx1] = d1I_s[i_,ds_,t1];
-d1K[i_,s_,tx1] = d1K[i_,s_,t1];
-d1R[r_,tx1] = d1R[r_,t1];      
-d1C[c_,tx1] = d1C[c_,t1];      
-d1G[g_,tx1] = d1G[g_,t1];
-d1vHhAkt[portf_,tx1] = d1vHhAkt[portf_,t1];
-d1vHhPas[portf_,tx1] = d1vHhPas[portf_,t1];
-d1vVirkAkt[portf_,tx1] = d1vVirkAkt[portf_,t1];
-d1vVirkPas[portf_,tx1] = d1vVirkPas[portf_,t1];
-d1vOffAkt[portf_,tx1] = d1vOffAkt[portf_,t1];
-d1vOffPas[portf_,tx1] = d1vOffPas[portf_,t1];
-d1vUdlAkt[portf_,tx1] = d1vUdlAkt[portf_,t1];
-d1vUdlPas[portf_,tx1] = d1vUdlPas[portf_,t1];
-d1vPensionAkt[portf_,tx1] = d1vPensionAkt[portf_,t1];
+d1IO[d_,s_,t]$(t.val > %cal_end%) = d1IO[d_,s_,'%cal_end%'];
+d1IOy[d_,s_,t]$(t.val > %cal_end%) = d1IOy[d_,s_,'%cal_end%'];
+d1IOm[d_,s_,t]$(t.val > %cal_end%) = d1IOm[d_,s_,'%cal_end%'];
+d1Xm[x_,t]$(t.val > %cal_end%) = d1Xm[x_,'%cal_end%'];
+d1Xy[x_,t]$(t.val > %cal_end%) = d1Xy[x_,'%cal_end%'];
+d1CTurist[c,t]$(t.val > %cal_end%) = d1CTurist[c,'%cal_end%'];
+d1X[x_,t]$(t.val > %cal_end%) = d1X[x_,'%cal_end%'];      
+d1I_s[i_,ds_,t]$(t.val > %cal_end%) = d1I_s[i_,ds_,'%cal_end%'];
+d1K[i_,s_,t]$(t.val > %cal_end%) = d1K[i_,s_,'%cal_end%'];
+d1R[r_,t]$(t.val > %cal_end%) = d1R[r_,'%cal_end%'];      
+d1C[c_,t]$(t.val > %cal_end%) = d1C[c_,'%cal_end%'];      
+d1G[g_,t]$(t.val > %cal_end%) = d1G[g_,'%cal_end%'];
+d1vHhAkt[portf_,t]$(t.val > %cal_end%) = d1vHhAkt[portf_,'%cal_end%'];
+d1vHhPas[portf_,t]$(t.val > %cal_end%) = d1vHhPas[portf_,'%cal_end%'];
+d1vVirkAkt[portf_,t]$(t.val > %cal_end%) = d1vVirkAkt[portf_,'%cal_end%'];
+d1vVirkPas[portf_,t]$(t.val > %cal_end%) = d1vVirkPas[portf_,'%cal_end%'];
+d1vOffAkt[portf_,t]$(t.val > %cal_end%) = d1vOffAkt[portf_,'%cal_end%'];
+d1vOffPas[portf_,t]$(t.val > %cal_end%) = d1vOffPas[portf_,'%cal_end%'];
+d1vUdlAkt[portf_,t]$(t.val > %cal_end%) = d1vUdlAkt[portf_,'%cal_end%'];
+d1vUdlPas[portf_,t]$(t.val > %cal_end%) = d1vUdlPas[portf_,'%cal_end%'];
+d1vPensionAkt[portf_,t]$(t.val > %cal_end%) = d1vPensionAkt[portf_,'%cal_end%'];
 
 sets load_d1vHhPens[pens_, t];
 execute_load "../Data/Pension/pension.gdx", load_d1vHhPens = d1vHhPens;
@@ -34,21 +34,6 @@ d1vHhPens[pens_,t]$(t.val > %AgeData_t1%) = load_d1vHhPens[pens_,t];
 # ----------------------------------------------------------------------------------------------------------------------
 # Variable that are kept constant from the deep calibration year
 # ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_fixed_forecast
-  G_exports_fixed_forecast
-  G_labor_market_fixed_forecast
-  G_aggregates_fixed_forecast
-  G_consumers_fixed_forecast
-  G_finance_fixed_forecast
-  G_GovExpenses_fixed_forecast
-  G_GovRevenues_fixed_forecast
-  G_government_fixed_forecast
-  G_HHincome_fixed_forecast
-  G_IO_fixed_forecast
-  G_pricing_fixed_forecast
-  G_production_private_fixed_forecast
-  G_production_public_fixed_forecast
-;
 $LOOP G_fixed_forecast:
   {name}.l{sets}$(tx1[t] and {conditions}) = {name}.l{sets}{$}[<t>t1];
 $ENDLOOP
@@ -57,12 +42,6 @@ $ENDLOOP
 # Variables that use the static calibration value after the deep calibration year
 # and are kept constant from the last data year (unless overwritten in this file or by dynamic calibration)
 # ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_newdata_forecast
-  G_GovExpenses_newdata_forecast
-  G_taxes_newdata_fixed_forecast
-  G_GovRevenues_newdata_forecast
-  G_Government_newdata_forecast
-;
 $LOOP G_newdata_forecast:
   {name}.l{sets}$(t.val > %cal_end% and {conditions}) = {name}.l{sets}{$}[<t>'%cal_end%'];
 $ENDLOOP
@@ -75,17 +54,17 @@ $GROUP G_set_to_zero
   -G_newdata_forecast
   -G_fixed_forecast
   # Lagerinvesteringerne fremskrives ud fra static_calibration i tBase for at få korrekte priser på piom og pioy
-  -uIO0[d_,s_,t]$(iL[d_] and t.val <= tBase.val)
-  -uIOm0[dux,s,t]$(iL[dux] and t.val <= tBase.val)
-  -fuIO[d_,t]$(iL[d_] and t.val <= tBase.val)
-  -fuIOym[dux,s,t]$(iL[dux] and t.val <= tBase.val)
-  -tAfg_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
-  -tAfg_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
-  -rSub_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
-  -rSub_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
-  -tTold[d_,s_,t]$(iL[d_] and t.val <= tBase.val)
-  -tMoms_y[d_,s,t]$(iL[d_] and t.val <= tBase.val)
-  -tMoms_m[d_,s,t]$(iL[d_] and t.val <= tBase.val)
+  -uIO0['iL',s_,t]$(t.val <= tBase.val)
+  -uIOm0['iL',s,t]$(t.val <= tBase.val)
+  -fuIO['iL',t]$(t.val <= tBase.val)
+  -fuIOym['iL',s,t]$(t.val <= tBase.val)
+  -tAfg_y['iL',s,t]$(t.val <= tBase.val)
+  -tAfg_m['iL',s,t]$(t.val <= tBase.val)
+  -rSub_y['iL',s,t]$(t.val <= tBase.val)
+  -rSub_m['iL',s,t]$(t.val <= tBase.val)
+  -tTold['iL',s_,t]$(t.val <= tBase.val)
+  -tMoms_y['iL',s,t]$(t.val <= tBase.val)
+  -tMoms_m['iL',s,t]$(t.val <= tBase.val)
 ;
 $FIX(0) G_set_to_zero$(tx1[t]);
 
@@ -100,6 +79,7 @@ rProdVaekst.l[t]$(tx1[t]) = gq;
 $GROUP G_ARIMA_forecast G_ARIMA_forecast$(tx0[t]);
 @load_as(G_ARIMA_forecast, "Gdx/ARIMA_forecasts.gdx", _ARIMA)
 
+# Blev nedskaleret i ARIMA_options og skaleres nu tilbage til neutral
 rE2KE_ARIMA[sp,t]$(tx0[t] and eKE.l[sp] > 0 and rE2KE_ARIMA[sp,t] > 0) = (rE2KE_ARIMA[sp,t]/rE2KE_ARIMA[sp,t1])**eKE.l[sp] * rE2KE_ARIMA[sp,t1];
 rL2KEL_ARIMA[sp,t]$(tx0[t] and eKEL.l[sp] > 0 and rL2KEL_ARIMA[sp,t] > 0) = (rL2KEL_ARIMA[sp,t]/rL2KEL_ARIMA[sp,t1])**eKEL.l[sp] * rL2KEL_ARIMA[sp,t1];
 rB2KELB_ARIMA[sp,t]$(tx0[t] and eKELB.l[sp] > 0 and rB2KELB_ARIMA[sp,t] > 0) = (rB2KELB_ARIMA[sp,t]/rB2KELB_ARIMA[sp,t1])**eKELB.l[sp] * rB2KELB_ARIMA[sp,t1];
@@ -108,26 +88,19 @@ uIOm0_ARIMA[dux,s,t]$(tx0[t] and eIO.l[dux,s] > 0 and uIOm0_ARIMA[dux,s,t] > 0) 
 uXy_ARIMA[x,t]$(tx0[t] and eXUdl.l[x] > 0 and uXy_ARIMA[x,t] > 0) = (uXy_ARIMA[x,t]/uXy_ARIMA[x,t1])**eXUdl.l[x] * uXy_ARIMA[x,t1];
 uXm_ARIMA[x,t]$(tx0[t] and eXUdl.l[x] > 0 and uXm_ARIMA[x,t] > 0) = (uXm_ARIMA[x,t]/uXm_ARIMA[x,t1])**eXUdl.l[x] * uXm_ARIMA[x,t1];
 
-### Korrektioner til ARIMA forecasts
-# Vi tror ikke, at den posisitve trend i eksport af søfart skal fortsætte
-uXy_ARIMA[x,t]$(xSoe[x] and tx1[t]) = uXy_ARIMA[x,t1];
+# ARIMA-fremskrivninger niveau-forskydes for at passe med kalibrerede t1-værdier 
+# I tilfælde af at ARIMA_forecasts.gdx ikke er opdateret
+$LOOP G_ARIMA_forecast:
+  {name}_ARIMA{sets}$({conditions} and tx0[t] and {name}_ARIMA{sets}{$}[<t>t1] <> 0 and {name}.l{sets}{$}[<t>t1] <> 0)
+    = {name}_ARIMA{sets} / {name}_ARIMA{sets}{$}[<t>t1] * {name}.l{sets}{$}[<t>t1];
 
-# Der er et mærkeligt niveau-dyk tilbage mod gammelt niveau i tjenesteeksport, som vi ikke tror på
-uXy_ARIMA[x,t]$(xTje[x] and tx1[t]) = uXy_ARIMA[x,t1];
+  {name}_ARIMA{sets}$({conditions} and tx0[t] and ({name}_ARIMA{sets}{$}[<t>t1] = 0 or {name}.l{sets}{$}[<t>t1] = 0))
+    = {name}.l{sets}{$}[<t>t1];
+$ENDLOOP
 
-# Turisme-eksport fremskrives uændret
-uXy_ARIMA[x,t]$(xTur[x] and tx1[t]) = uXy_ARIMA[x,t1];
-
-# Hvis ARIMA_forecasts.gdx ikke er opdateret niveau-forskydes tidligere fremskrivning for at passe med kalibrerede t1-værdier 
-$IF not %ARIMAs_updated%:
-  $LOOP G_ARIMA_forecast:
-    {name}_ARIMA{sets}$({conditions} and tx0[t] and {name}_ARIMA{sets}{$}[<t>t1] <> 0 and {name}.l{sets}{$}[<t>t1] <> 0)
-      = {name}_ARIMA{sets} / {name}_ARIMA{sets}{$}[<t>t1] * {name}.l{sets}{$}[<t>t1];
-
-    {name}_ARIMA{sets}$({conditions} and tx0[t] and ({name}_ARIMA{sets}{$}[<t>t1] = 0 or {name}.l{sets}{$}[<t>t1] = 0))
-      = {name}.l{sets}{$}[<t>t1];
-  $ENDLOOP
-$ENDIF
+# Enkelte ARIMA-fremskrivninger slås fra i udvnindingsbranche
+rL2KEL_ARIMA['udv',t] = rL2KEL_ARIMA['udv',t1];
+uL_ARIMA['udv',t] = uL_ARIMA['udv',t1];
 
 $GROUP G_test G_ARIMA_forecast$(t.val <= t1.val);
 @assert_no_difference(G_test, 1e-6, .l, _ARIMA, "ARIMA forecasting changed calibrated value.");
@@ -151,6 +124,13 @@ $GROUP G_exogenous_forecast_BFR
 ;
 $GROUP G_exogenous_forecast_BFR G_exogenous_forecast_BFR$(tx1[t]);
 @load(G_exogenous_forecast_BFR, "../Data/Befolkningsregnskab/BFR.gdx");
+
+snLHh_vaekst.l[a,t]$(snLHh.l[a-1,t-1] > 0) = snLHh.l[a,t] / snLHh.l[a-1,t-1];
+snLHh_vaekst.l[a,t]$(aVal[a] = 15 and snLHh.l[a,t-1] > 0 and nPop.l[a,t] > 0 and nPop.l[a,t-1] > 0)
+  = snLHh.l[a,t]/nPop.l[a,t] / (snLHh.l[a,t-1]/nPop.l[a,t-1]);
+
+
+snSoc_vaekst.l[soc,t]$(snSoc.l[soc,t-1] > 0) = snSoc.l[soc,t] / snSoc.l[soc,t-1];
 
 # Load parametre fra befolkningsregnskab (BFR)
 $GDXIN ../Data/Befolkningsregnskab/BFR.gdx
@@ -252,8 +232,7 @@ rHhAktOmk.l['Bank',t]$(tx1[t] and t.val <= 2050) = 0.01 - (1 - (t.val-t1.val)/(2
 rHhAktOmk.l['Bank',t]$(t.val > 2050) = 0.01;  
 
 rAfk.l['IndlAktier',tx1] = 0.07; # Om risikopræmie, se https://www.pwc.dk/da/publikationer/2020/vaerdiansaettelse-af-virk-pub.pdf og https://www.nationalbanken.dk/da/publikationer/Documents/2020/02/Eonomic%20Memo%20No.1_Do%20equity%20prices.pdf
-rAfk.l['UdlAktier',t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.07;
-rVirkDisk.l[sp,t]$(tx1[t]) = max(rRenteECB.l[t] - terminal_ECB_rente, 0) + 0.08;
+rAfk.l['UdlAktier',t]$(tx1[t]) = 0.07;
 
 # Offentligt ejede aktier giver lavere afkast end øvrige aktier
 jrOffAktOmv.l[portf,t]$(tx1[t] and (IndlAktier[portf] or UdlAktier[portf])) = -0.02;
@@ -303,10 +282,7 @@ vNulvaekstIndeks.l[t]$(tx1[t]) = 1/fvt[t];
 # ----------------------------------------------------------------------------------------------------------------------
 # Særligt væsentlige offentlige-finansposter sættes for at opnå en rimelig holdbarhed mv. i den dybe kalibrering
 
-# Vi fremskriver aktieskat ved konstant provenue som andel af privat-sektor-BVT
-# baseret på gennemsnit af de seneste 10 år op til det dybe kalibreringsår
-set t10[t];
-t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep% and t.val >= %cal_start%);
+rNet2KapIndPos.l[aTot,tx1] = rNet2KapIndPos.l[aTot,'%cal_end%'];
 
 # Mellemskat og top-top-skat
 tMellem.l[t]$(tx1[t] and t.val >= 2026) = 0.075;
@@ -325,10 +301,6 @@ rOblOpsp2Ovf.l[t]$(t.val = 2028) = 0.027;
 rOblOpsp2Ovf.l[t]$(t.val = 2029) = 0.030;
 rOblOpsp2Ovf.l[t]$(t.val >=2030) = 0.033;
 
-# fvPensIndbOP særbehandles da obligatorisk pensionsopsparing ikke indgår i deep_calibration_year=2019,
-# den kan nok rykkes til ARIMA-listen når deep_calibration_year skifter
-fvPensIndbOP.l[t] = 0.94;
-
 # Demografisk træk
 $GROUP G_GovExpenses_DemoTraek
   fDemoTraek[a,t]$(tx1[t])
@@ -343,7 +315,7 @@ $IF %FM_baseline%:
   uvGxAfskr.l[t]$(tx1[t]) = uvGxAfskr.l[t1] * fDemoTraek_FM.l[t] / fDemoTraek_FM.l[t1];
 $ENDIF
 
-$IF %DORS_baseline%:
+$IF %DORS_baseline% or %DREAM_baseline%:
   @load(G_GovExpenses_DemoTraek, "../Data/DREAM_BFR/DemoTraek.gdx" )
 $ENDIF
 
@@ -352,6 +324,9 @@ $ENDIF
 # Inventory investments
 # ----------------------------------------------------------------------------------------------------------------------
 # Det giver ikke mening at have permanent negative lagerinvesteringer, og de svinger meget
+set t10[t];
+t10[t] = yes$(%cal_deep% - 10 < t.val and t.val <= %cal_deep% and t.val >= %cal_start%);
+
 parameter rIL2Y_mean10[s,t];
 rIL2Y_mean10[s,t] = sum(t10, rIL2Y.l[s,t10]) / sum(t10, 1) ;
 rIL2Y.l[s,t]$(tx1[t] and fre[s]) = max(rIL2Y_mean10[s,t1], 0.005);
@@ -375,36 +350,36 @@ pnCPI_1[t] = pnCPI.l[cTot,t-1]/fp;
 uIO0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = max(qIO_iL_mean10[s,t1] / qIO_iL_sum_mean10[t1], 0);
 uIOm0.l['iL',s,t]$(tx1[t] and d1IO['iL',s,t]) = min(max(qIOm_iL_mean10[s,t1] / qIOym_iL_sum_mean10[s,t1], 0), 1);
 # HACK
-uIOm0.l['iL','tje',t]$(tx1[t]) = 0;
-uIOm0.l['iL','udv',t]$(tx1[t]) = 0;
+uIOm0.l['iL','tje',t]$(t.val > %cal_end%) = 0;
+uIOm0.l['iL','udv',t]$(t.val > %cal_end%) = 0;
 
 fuIOym.l['iL',s,t]$(tx1[t] and t.val > tBase.val) = 1;
 fuIO.l['iL',t]$(tx1[t] and t.val > tBase.val) = 1;
 
 # Afgifterne på lagerinvesteringer svinger meget - så vi vil ikke bare fremskrive sidste års skattesats
-  tTold.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
-                   = max(@mean(t10, vtTold.l['iL',s,t10]) 
-                         / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10])), 0);
-  tAfg_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
-                    = max(@mean(t10, vtAfg_y.l['iL',s,t10]) 
-                          / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
-  tAfg_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
-                    = max(@mean(t10, vtAfg_m.l['iL',s,t10]) 
-                          / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
-  rSub_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
-                    = max(@mean(t10, vSub_y.l['iL',s,t10]) 
-                          / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
-  rSub_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
-                    = max(@mean(t10, vSub_m.l['iL',s,t10]) 
-                          / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
-  tMoms_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
-                     = max(@mean(t10, vtMoms_y.l['iL',s,t10]) 
-                          / (@mean(t10, vIOy.l['iL',s,t10] - vtIOy.l['iL',s,t10] + vtNetAfg_y.l['iL',s,t10])), 0);
-  tMoms_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
-                     = max(@mean(t10, vtMoms_m.l['iL',s,t10]) 
-                           / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10] 
-                                         + vtNetAfg_m.l['iL',s,t10] + vtTold.l['iL',s,t10])), 0);
-                                                 
+tTold.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                  = max(@mean(t10, vtTold.l['iL',s,t10]) 
+                        / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10])), 0);
+tAfg_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                  = max(@mean(t10, vtAfg_y.l['iL',s,t10]) 
+                        / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
+tAfg_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                  = max(@mean(t10, vtAfg_m.l['iL',s,t10]) 
+                        / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
+rSub_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                  = max(@mean(t10, vSub_y.l['iL',s,t10]) 
+                        / (@mean(t10, pnCPI_1[t10] * qIOy.l['iL',s,t10])), 0);
+rSub_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                  = max(@mean(t10, vSub_m.l['iL',s,t10]) 
+                        / (@mean(t10, [1 + tTold.l['iL',s,t10]] * pnCPI_1[t10] * qIOm.l['iL',s,t10])), 0);
+tMoms_y.l['iL',s,t]$(tx1[t] and d1IOy['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vtMoms_y.l['iL',s,t10]) 
+                        / (@mean(t10, vIOy.l['iL',s,t10] - vtIOy.l['iL',s,t10] + vtNetAfg_y.l['iL',s,t10])), 0);
+tMoms_m.l['iL',s,t]$(tx1[t] and d1IOm['iL',s,t] and t.val > tBase.val) 
+                    = max(@mean(t10, vtMoms_m.l['iL',s,t10]) 
+                          / (@mean(t10, vIOm.l['iL',s,t10] - vtIOm.l['iL',s,t10] 
+                                        + vtNetAfg_m.l['iL',s,t10] + vtTold.l['iL',s,t10])), 0);
+                                                
 # ----------------------------------------------------------------------------------------------------------------------
 # Exogenous forecast of oil and gas extraction
 # ----------------------------------------------------------------------------------------------------------------------  
@@ -417,42 +392,33 @@ qY.l['udv',t]$(tx1[t]) = qY.l['udv',t1] * qY_previous['udv',t] / qY_previous['ud
 # Produktion af olie/gas aftrappes gradvist efter 2040 for at hjælpe konvergens ift. bræt afslutning i fremskrivning
 qY.l['udv',t]$(t.val > 2040) = qGrus.l[t] + (qY.l['udv','2040'] - qGrus.l['2040']) * 0.8**((t.val-2040)**1.5);
 
-# Leverencer fra udvinding til eksport skaleres med indenlandsk produktion af udvinding.
-# Øvrige leverencer tager tilpasning via. skalering i E_uIOXy.
-uIOXy0.l[x,'udv',t]$(tx1[t]) = uIOXy0.l[x,'udv',t1] * (qY.l['udv',t] - qGrus.l[t]) / (qY.l['udv',t1] - qGrus.l[t1]);
-
-# Enkelte ARIMA-fremskrivninger slås fra i udvnindingsbranche
-rL2KEL_ARIMA['udv',t] = rL2KEL_ARIMA['udv',t1];
-uL_ARIMA['udv',t] = uL_ARIMA['udv',t1];
+# Leverancer fra udvinding til eksport skaleres med indenlandsk produktion af udvinding.
+# Øvrige leverancer tager tilpasning via. skalering i E_uIOXy.
+uIOXy0.l[x,'udv',t]$(tx1[t]) = uIOXy0.l[x,'udv',t1] * (1 + (qY.l['udv',t] - qY.l['udv',t1]) / sum(xx, qIOy.l[xx,'udv',t1]));
+uIOXy0.l[x,'udv',t]$(tx1[t]) = max(0, uIOXy0.l[x,'udv',t]);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Dummies and exogenous IO cells
 # ----------------------------------------------------------------------------------------------------------------------
-# Set scale parameters to zero and dummy out very small cells
-# Dummy out cells where:
-# 1) value of IO cell is 0 in last calibration year, or
-# 2) The forecasted scale parameter is below 0.001
-d1IOm[dux,s,t]$tx1[t] = (
-  (uIO0.l[dux,s,t] > 0.001)
-  and uIOm0.l[dux,s,t] > 0.001 
-  and sum(tData, abs(vIOm.l[dux,s,tData])) > 0.001
-  and vIOm.l[dux,s,t1] <> 0
-);
-d1IOy[dux,s,t]$tx1[t] = (
+# Extend dummies from last calibration year and dummy out cells where scale parameter gets close to zero.
+# Scale parameters are set to zero for dummied out cells.
+d1IOy[dux,s,t]$(t.val > %cal_end%) = (
   (uIO0.l[dux,s,t] > 0.001)
   and uIOm0.l[dux,s,t] <= 1-0.001
-  and sum(tData, abs(vIOy.l[dux,s,tData])) > 0.001
-  and vIOy.l[dux,s,t1] <> 0
+  and d1IOy[dux,s,'%cal_end%']
 );
-d1IOy[x,s,t]$tx1[t] = (
+d1IOm[dux,s,t]$(t.val > %cal_end%) = (
+  (uIO0.l[dux,s,t] > 0.001)
+  and uIOm0.l[dux,s,t] > 0.001
+  and d1IOm[dux,s,'%cal_end%']
+);
+d1IOy[x,s,t]$(t.val > %cal_end%) = (
   uIOXy0.l[x,s,t] > 0.0001
-  and sum(tData, vIOy.l[x,s,tData]) > 0.001
-  and vIOy.l[x,s,t1] >= 0
+  and d1IOy[x,s,'%cal_end%']
 );
-d1IOm[x,s,t]$tx1[t] = (
+d1IOm[x,s,t]$(t.val > %cal_end%) = (
   uIOXm0.l[x,s,t] > 0.0001
-  and sum(tData, vIOm.l[x,s,tData]) > 0.001
-  and vIOm.l[x,s,t1] >= 0
+  and d1IOm[x,s,'%cal_end%']
 );
 # If a cell is dummied out, we do not let it re-appear later (even if the scale parameter is above 0.001)
 d1IOy[d,s,t]$tx1[t] = smin(tt$(t1.val <= tt.val and tt.val <= t.val), d1IOy[d,s,tt]);
@@ -467,12 +433,14 @@ d1IOm[d_,sTot,t]$tx1[t] = sum(s, d1IOm[d_,s,t]);
 d1Xy[x,t]$tx1[t] = d1IOy[x,sTot,t];
 d1Xy['xTur',t]$tx1[t] = yes;
 d1Xm[x,t]$tx1[t] = d1IOm[x,sTot,t];
+
 # Set dummied out scale parameters and cells to zero
-uIOXy0.l[x,s,t]$(tx1[t] and not d1IOy[x,s,t]) = 0;
-uIOXm0.l[x,s,t]$(tx1[t] and not d1IOm[x,s,t]) = 0;
 uIO0.l[dux,s,t]$(tx1[t] and not d1IO[dux,s,t]) = 0;
 uIOm0.l[dux,s,t]$(tx1[t] and not d1IOy[dux,s,t]) = 1;
 uIOm0.l[dux,s,t]$(tx1[t] and not d1IOm[dux,s,t]) = 0;
+uIOXy0.l[x,s,t]$(tx1[t] and not d1IOy[x,s,t]) = 0;
+uIOXm0.l[x,s,t]$(tx1[t] and not d1IOm[x,s,t]) = 0;
+
 qIO.l[d,s,t]$(tx1[t] and not d1IO[d,s,t]) = 0;
 vIO.l[d,s,t]$(tx1[t] and not d1IO[d,s,t]) = 0;
 pIO.l[d,s,t]$(tx1[t] and not d1IO[d,s,t]) = 0;
@@ -492,14 +460,14 @@ qK.l[k,s,t]$(tx1[t] and not d1k[k,s,t]) = 0;
 # ----------------------------------------------------------------------------------------------------------------------
 # Fremskrivning af alderspecifik produktivitet - bør rykkes til BFR på sigt
 # ----------------------------------------------------------------------------------------------------------------------
-$IF %FM_baseline%:
+$IF %FM_baseline% or %DREAM_baseline%:
   execute_unloaddi "Gdx/qProdHh_a_forecast.gdx" qProdHh_a, BruttoArbsty, tDataEnd, tEnd;
   embeddedCode Python:
     with open("age_productivity_forecast.py") as f: exec(f.read())
   endEmbeddedCode
   execute_load "Gdx/qProdHh_a_forecast.gdx" qProdHh_a;
 $ENDIF
-$IF %DREAM_baseline% or %DORS_baseline%:
+$IF %DORS_baseline%:
   parameter qProdHh_a_DREAM[a,t];
   execute_load "../Data/DREAM_BFR/qProdHh_a_DREAM.gdx" qProdHh_a_DREAM;
   qProdHh_a.l[a,t]$(t.val > %cal_deep%) = qProdHh_a_DREAM[a,t];
@@ -513,120 +481,298 @@ $GROUP G_smooth_profiles
   ftAktieHh_a
   ftKommune_a
   rTopSkatInd_a
-  rNet2KapIndPos
   uPersIndRest_a$(a[a_])
   cHh_a
   rRealKred2Bolig_a
-  rvCLejeBolig
+  rKLeje2Bolig_a
   uBoernFraHh_a$(a0t17[a])
   mtIndRest
   mrKomp
   vHhx
-  rRealiseringAktieOmv_a
+  jrHhAktieInd_a
 ;
-@set(G_smooth_profiles, _presmooth, .l)
-execute_unloaddi "Gdx/smooth_profiles_input.gdx" $LOOP G_smooth_profiles:, {name} $ENDLOOP, tDataEnd, tEnd;
 
-embeddedCode Python:
-  import dreamtools as dt
-  import numpy as np
-  import pandas as pd
-  from scipy.optimize import curve_fit
-  
-  # Set random seed for deterministic results
-  np.random.seed(42)
+# Create orthogonal basis for "vandermonde-space" using arnoldi orthogonalization for numerical stability 
+# Vandermonde with Arnoldi
+# https://people.maths.ox.ac.uk/trefethen/vandermonde.pdf
 
-  db = dt.Gdx("Gdx/smooth_profiles_input.gdx", sparse=False)
-  tEnd = db.tEnd[0]
-  tDataEnd = db.tDataEnd[0]
+$setlocal polygrad 6
+sets 
+  grader "grader til polynomiel regression" /0*%polygrad%/;
+alias(grader,grader_);
+parameter 
+  v[a] "basisvektor under opbygning"
+  qtv "indre produkt i Gram-Schmidt"
+  Q[a,grader] "Matrix med ortogonalbasis";
 
-  # ----------------------------------------------------------------------------------------------------------------------
-  # Smoothing
-  # ----------------------------------------------------------------------------------------------------------------------
-  # List of variables to be smoothed
-  smoothing_vars = [
-      (db["ftBund_a"], 15, 5),
-      (db["ftAktieHh_a"], 15, 4),
-      (db["ftKommune_a"], 15, 6),
-      (db["rTopSkatInd_a"], 15, 5),
-      (db["rNet2KapIndPos"], 15, 5),
-      (db["uPersIndRest_a"], 15, 5),
-      (db["cHh_a"], 0, 4),
-      (db["rRealKred2Bolig_a"], 18, 5),
-      (db["rvCLejeBolig"], 18, 6),
-      (db["uBoernFraHh_a"], 0, 3),
-      (db["mtIndRest"], 15, 5),
-      (db["mrKomp"], 15, 5),
-      (db["vHhx"], 0, 5),
-      (db["rRealiseringAktieOmv_a"], 15, 5),
-  ]
+  Q[a,'0'] = 1/sqrt(card(a));
+loop(grader$(ord(grader) < card(grader)),
+  v[a] = a.val * Q[a,grader];
+  loop(grader_$(ord(grader_) <= ord(grader)),
+    qtv = sum(a,Q[a,grader_] * v[a]);
+    v[a] = v[a] - qtv*Q[a,grader_];
+  );
+  qtv = sum(a,sqr(v[a]));
+  Q[a,grader+1] = v[a]/sqrt(qtv);
+);
 
-  for var, a_start, degrees in smoothing_vars:
-      a = "a" if ("a" in var.index.names) else "a_"
+# ----------------------------------------------------------------------------------------------------------------------
+# Aggregation equations for use as smoothing constraints
+# ----------------------------------------------------------------------------------------------------------------------
+set_time_periods(%cal_deep%-1, %cal_deep%)
 
-      # Limit DataFrame to the years and age groups that we want to smooth (and remove any totals etc.)
-      t_range = range(tDataEnd-1, tDataEnd + 1)
-      a_range = range(a_start, 100 + 1)
-      df = var.reset_index()
-      df = df[df["t"].isin(t_range) & df[a].isin(a_range)]
+$BLOCK B_smooth_aggregation$(t1[t])
+E_vHhx_smooth_aTot$(t1[t]).. vHhx[aTot,t] =E= sum(a, vHhx[a,t] * nPop[a,t]);
+$ENDBLOCK
 
-      # Reset index to those of original variable
-      df = df.set_index(var.index.names)
+# Smooth variables 
 
-      # Groupby all sets except the age set
-      levels = [i for i in df.index.names if i != a]
-      grouped = df.groupby(levels, group_keys=False)
+# ---- ftBund_a ----
+@smooth_setup(ftBund_a, a15t100, 5)
 
-      # group = list(grouped)[-1][1]
-      # group = grouped.get_group(('Obl',2017))
-      M = N = degrees
-      def polynomial_ratio(x, *args):
-          a = args[:M+1]
-          b = args[M+1:]
-          return sum(a[i] * x**i for i in range(M+1)) / (1 - sum(b[i] * x**(i+1) for i in range(N)))
+$GROUP+ G_smooth_ftBund_a_endo
+  vtBund$(a15t100[a_])
+  ftBund$(a15t100[a_])
+;
+$MODEL M_smooth_ftBund_a
+  B_smooth_ftBund_a
+  E_vtBund_a
+  E_vtBund_aTot
+  E_ftBund_a
+;
 
-      def smooth(group):
-          if len(group[var.name].unique()) < (N + M + 2):
-              return group[var.name]
-          y = group[var.name].values
-          a1 = np.array(a_range).astype(float) - a_start
-          starting_values = np.ones(M+N+1) / 100
-          for i in range(10): # Max number of tries with new starting values
-              try:
-                  popt, pcov = curve_fit(polynomial_ratio, a1, y, p0=starting_values, maxfev=1000000)
-                  if i > 0:
-                      print(f"Fit of ratio of polynomiums of order M={M} and N={N} for group:\n{group} succeeded after {i} retries")
-                  break
-              except RuntimeError as e:
-                  starting_values = np.random.rand(M+N+1) - 0.5
-          else:
-              msg = f"Failed to fit ratio of polynomiums of order M={M} and N={N} for group:\n{group}"
-              print(msg)
-              raise e
+@smooth_solve(ftBund_a)
 
-          group["fit"] = polynomial_ratio(a1, *popt)
-          # import plotly.express as px
-          # group[var.name] = y
-          # px.line(group.reset_index(), x=a, y=[var.name, "fit"]).show()
-          return group["fit"]
+# ---- ftAktieHh_a ----
+@smooth_setup(ftAktieHh_a, a15t100, 4)
 
-      # Apply smoothing function to each group
-      smoothed = grouped.apply(smooth)
-      smoothed *= (df[var.name] != 0) # Remove smoothing where original value was exactly zero
+$GROUP+ G_smooth_ftAktieHh_a_endo
+  vtAktieHh$(a15t100[a_])
+  ftAktieHh$(a15t100[a_])
+;
+$MODEL M_smooth_ftAktieHh_a
+  B_smooth_ftAktieHh_a
+  E_vtAktieHh_a
+  E_vtAktieHh_aTot
+  E_ftAktieHh_a
+;
 
-      # Overwrite database values with new smoothed profiles
-      idx = [smoothed.index.get_level_values(i) for i in smoothed.index.names[:-1]]
-      for year in range(tDataEnd, tEnd+1):
-          db[var.name].loc[(*idx, year)] = smoothed.xs(tDataEnd, level="t").values
+@smooth_solve(ftAktieHh_a)
 
-  db.export("smooth_profiles.gdx")
-endEmbeddedCode
+# ---- ftKommune_a ----
+@smooth_setup(ftKommune_a, a15t100, 5)
 
-@load(G_smooth_profiles, "Gdx/smooth_profiles.gdx");
-jvFormueBase.l[a,t1] = vHhx.l[a,t1] - vHhx_presmooth[a,t1];
-$GROUP G_reset G_smooth_profiles$(t1[t]);
-@set(G_reset, .l, _presmooth);
-rRealiseringAktieOmv_a.l[a,t]$(tx1[t]) = max(0, rRealiseringAktieOmv_a.l[a,t]); # Vi begrænser realiseringsgrad til at være 0 mindst
+$GROUP+ G_smooth_ftKommune_a_endo
+  vtKommune$(a15t100[a_])
+  ftKommune$(a15t100[a_])
+;
+$MODEL M_smooth_ftKommune_a
+  B_smooth_ftKommune_a
+  E_vtKommune_a
+  E_vtKommune_aTot
+  E_ftKommune_a
+;
+
+@smooth_solve(ftKommune_a)
+
+# ---- rTopSkatInd_a ----
+@smooth_setup(rTopSkatInd_a, a15t100, 3)
+
+$GROUP+ G_smooth_rTopSkatInd_a_endo
+  vtTop$(a15t100[a_])
+  rTopSkatInd$(a15t100[a_])
+;
+$MODEL M_smooth_rTopSkatInd_a
+  B_smooth_rTopSkatInd_a
+  E_vtTop_a
+  E_vtTop_aTot
+  E_rTopSkatInd_a
+;
+
+@smooth_solve(rTopSkatInd_a)
+
+# ---- uPersIndRest_a ----
+@smooth_setup(uPersIndRest_a, a15t100, 5)
+
+$GROUP+ G_smooth_uPersIndRest_a_endo
+  vPersIndRest$(a15t100[a_])
+  vPersIndx$(a15t100[a_])
+  vPersInd$(a15t100[a_])
+;
+$MODEL M_smooth_uPersIndRest_a
+  B_smooth_uPersIndRest_a
+  E_vPersIndRest_a
+  E_vPersIndx_a
+  E_vPersInd_a
+  E_vPersInd_aTot
+;
+
+@smooth_solve(uPersIndRest_a)
+
+# ---- rRealKred2Bolig_a ----
+@smooth_setup(rRealKred2Bolig_a, a18t100, 4)
+
+$GROUP+ G_smooth_rRealKred2Bolig_a_endo
+  rRealKred2Bolig$(a18t100[a_])
+  vHhPas$(RealKred[portf_] and a18t100[a_])
+;
+$MODEL M_smooth_rRealKred2Bolig_a
+  B_smooth_rRealKred2Bolig_a
+  E_rRealKred2Bolig
+  E_vHhPas_RealKred
+  E_vHhPas_RealKred_aTot
+;
+
+@smooth_solve(rRealKred2Bolig_a)
+
+# ---- rKLeje2Bolig_a ----
+@smooth_setup(rKLeje2Bolig_a, a18t100, 6)
+
+$GROUP+ G_smooth_rKLeje2Bolig_a_endo
+  qKLejeBolig[a18t100,t]
+  rKLeje2Bolig[a18t100,t]
+;
+$MODEL M_smooth_rKLeje2Bolig_a
+  B_smooth_rKLeje2Bolig_a
+  E_rKLeje2Bolig_a
+  E_rKLeje2Bolig_a_a
+  E_qKLejeBolig_aTot
+;
+
+@smooth_solve(rKLeje2Bolig_a)
+
+# ---- uBoernFraHh_a ----
+@smooth_setup(uBoernFraHh_a, a0t17, 3)
+
+$GROUP+ G_smooth_uBoernFraHh_a_endo
+  uBoernFraHh$(a0t17[a])
+  vHhx$(a0t17[a_])
+;
+$MODEL M_smooth_uBoernFraHh_a
+  B_smooth_uBoernFraHh_a
+  E_uBoernFraHh_a
+  E_vBoernFraHh_a
+  E_vHhx_smooth_aTot
+;
+
+@smooth_solve(uBoernFraHh_a)
+
+# ---- mtIndRest ----
+@smooth_setup(mtIndRest, a15t100, 5)
+
+$MODEL M_smooth_mtIndRest
+  B_smooth_mtIndRest
+;
+
+@smooth_solve(mtIndRest)
+
+# ---- mrKomp ----
+@smooth_setup(mrKomp, a15t100, 5)
+
+$MODEL M_smooth_mrKomp
+  B_smooth_mrKomp
+;
+
+@smooth_solve(mrKomp)
+
+# ---- vHhx ----
+@smooth_setup(vHhx, a0t100, 4)
+
+$MODEL M_smooth_vHhx
+  B_smooth_vHhx
+  E_vHhx_smooth_aTot
+;
+
+@smooth_solve(vHhx)
+
+# ---- jrHhAktieInd_a ----
+@smooth_setup(jrHhAktieInd_a, a15t100, 3)
+
+$GROUP+ G_smooth_jrHhAktieInd_a_endo
+  jrHhAktieInd$(a15t100[a_])
+  vHhAktieInd$(a15t100[a_])
+;
+$MODEL M_smooth_jrHhAktieInd_a
+  B_smooth_jrHhAktieInd_a
+  E_jrHhAktieInd_a
+  E_vHhAktieInd_a
+  E_vHhAktieInd_aTot
+;
+
+@smooth_solve(jrHhAktieInd_a)
+
+# ---- cHh_a (Obl) ----
+@smooth_setup_with_set(cHh_a, Obl, a0t100, 4)
+
+$GROUP+ G_smooth_cHh_a_Obl_endo
+  vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
+;
+$MODEL M_smooth_cHh_a_Obl
+  B_smooth_cHh_a_Obl
+  E_vHhAkt
+  E_cHh_a_aTot
+;
+
+@smooth_solve_with_set(cHh_a, Obl)
+
+# ---- cHh_a (RealKred) ----
+@smooth_setup_with_set(cHh_a, RealKred, a0t100, 4)
+
+$GROUP+ G_smooth_cHh_a_RealKred_endo
+  vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
+;
+$MODEL M_smooth_cHh_a_RealKred
+  B_smooth_cHh_a_RealKred
+  E_vHhAkt
+  E_cHh_a_aTot
+;
+
+@smooth_solve_with_set(cHh_a, RealKred)
+
+# ---- cHh_a (IndlAktier) ----
+@smooth_setup_with_set(cHh_a, IndlAktier, a0t100, 2)
+
+$GROUP+ G_smooth_cHh_a_IndlAktier_endo
+  vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
+;
+
+$MODEL M_smooth_cHh_a_IndlAktier
+  B_smooth_cHh_a_IndlAktier
+  E_vHhAkt
+  E_cHh_a_aTot
+;
+
+@smooth_solve_with_set(cHh_a, IndlAktier)
+
+# ---- cHh_a (UdlAktier) ----
+@smooth_setup_with_set(cHh_a, UdlAktier, a0t100, 3)
+
+$GROUP+ G_smooth_cHh_a_UdlAktier_endo
+  vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
+;
+$MODEL M_smooth_cHh_a_UdlAktier
+  B_smooth_cHh_a_UdlAktier
+  E_vHhAkt
+  E_cHh_a_aTot
+;
+
+@smooth_solve_with_set(cHh_a, UdlAktier)
+
+# ---- cHh_a (Bank) ----
+@smooth_setup_with_set(cHh_a, Bank, a0t100, 4)
+
+$GROUP+ G_smooth_cHh_a_Bank_endo
+  vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
+;
+$MODEL M_smooth_cHh_a_Bank
+  B_smooth_cHh_a_Bank
+  E_vHhAkt
+  E_cHh_a_aTot
+;
+
+@smooth_solve_with_set(cHh_a, Bank)
+
+jvFormueBase.l[a,t1] = vHhx.l[a,t2] - vHhx_presmooth[a,t1];
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Clear large objects that we no longer need from memory

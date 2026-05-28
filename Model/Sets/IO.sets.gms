@@ -137,7 +137,6 @@ SETS
   s[s_] "Production sectors" / set.private_brancher, set.offentlige_brancher /
   sp[s_] "Private production sectors" / set.private_brancher /
   spx[s_] "Private brancher ekskl. boligbranchen" / lan, byg, ene, udv, fre, soe, tje /
-  #  sOff[s_] "Public sector" / set.offentlige_brancher /
   sBy[s_] "Private byerhverv" / tje, fre, byg, ene /
   sTold[s_] "Toldbelagte import-brancher" / lan, byg, ene, udv, fre /
 
@@ -243,9 +242,9 @@ SETS
 ;
 
 SINGLETON SETS
-  iB[d_] "Bygningsinvesteringer" / iB /
-  iM[d_] "Maskininvesteringer" / iM /
-  iL[d_] "Lagerinvesteringer" / iL /
+  iB[i_] "Bygningsinvesteringer" / iB /
+  iM[i_] "Maskininvesteringer" / iM /
+  iL[i_] "Lagerinvesteringer" / iL /
 ;
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -288,6 +287,15 @@ alias(g_, gg_);
 alias(x_, xx_);
 alias(r_, rr_);
 alias(i_, ii_);
+
+SETS
+  dc[d_] "Alias for c, men som subset af d_" / set.c /
+  dg[d_] "Alias for g, men som subset af d_" / set.g /
+  dx[d_] "Alias for x, men som subset af d_" / set.x /
+  dr[d_] "Alias for r, men som subset af d_" / set.r /
+  di[d_] "Alias for i, men som subset af d_" / set.i /
+  dk[d_] "Alias for k, men som subset af d_" / set.k /
+;
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Totaler

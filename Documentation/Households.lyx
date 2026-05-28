@@ -1,5 +1,5 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -7,6 +7,9 @@
 \textclass article
 \begin_preamble
 \input{preamble}
+% Added by lyx2lyx
+\setlength{\parskip}{\bigskipamount}
+\setlength{\parindent}{0pt}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -14,10 +17,10 @@ theorems-ams
 eqs-within-sections
 figs-within-sections
 \end_modules
-\maintain_unincluded_children false
+\maintain_unincluded_children no
 \language american
 \language_package default
-\inputencoding auto
+\inputencoding auto-legacy
 \fontencoding T1
 \font_roman "times" "default"
 \font_sans "default" "default"
@@ -26,7 +29,9 @@ figs-within-sections
 \font_default_family rmdefault
 \use_non_tex_fonts false
 \font_sc false
-\font_osf false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
@@ -48,7 +53,7 @@ figs-within-sections
 \pdf_colorlinks false
 \pdf_backref false
 \pdf_pdfusetitle true
-\papersize a4paper
+\papersize a4
 \use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
@@ -69,46 +74,48 @@ figs-within-sections
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_formatted_ref 0
 \use_minted 0
+\use_lineno 0
 \branch References
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch Relations to Gams code
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch ss
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch On growth and inflation correction
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch Low-beta-agents
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch HtM
 \selected 1
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch HouseholdsVariables
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \branch AdjustmentCostDerivatives
 \selected 0
 \filename_suffix 0
-\color #faf0e6
+\color background background
 \end_branch
 \index Index
 \shortcut idx
@@ -118,8 +125,8 @@ figs-within-sections
 \rightmargin 2.5cm
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation skip
-\defskip bigskip
+\paragraph_separation indent
+\paragraph_indentation default
 \is_math_indent 0
 \math_numbering_side default
 \quotes_style english
@@ -127,11 +134,16 @@ figs-within-sections
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tablestyle default
 \tracking_changes false
 \output_changes false
+\change_bars false
+\postpone_fragile_content false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
 \end_header
 
 \begin_body
@@ -141,23 +153,24 @@ Households
 \end_layout
 
 \begin_layout Standard
-The problem of the household is to choose optimal amounts of savings and
- expenditure, and within the expenditure, choose the different types of
- goods they consume.
- A particularly important good is housing as the model must replicate several
- important features of the data.
- These features include moments at aggregate level and life cycle profiles
- of housing ownership, mortgage debt, non-housing wealth, non-housing consumptio
-n, and the intertemporal marginal propensity to consume out of different
- shocks.
+The problem of the household is to choose optimal amounts of savings and expenditure,
+ and within the expenditure,
+ choose the different types of goods they consume.
+ A particularly important good is housing as the model must replicate several important features of the data.
+ These features include moments at aggregate level and life cycle profiles of housing ownership,
+ mortgage debt,
+ non-housing wealth,
+ non-housing consumption,
+ and the intertemporal marginal propensity to consume out of different shocks.
 \end_layout
 
 \begin_layout Standard
-The household problem contains several building blocks and we start by presentin
-g the baseline case first.
- Afterwards, we outline in detail how household income is defined, how the
- financial portfolio is constructed, how the optimal decomposition of non-housin
-g consumption occurs, and how bequests are allocated.
+The household problem contains several building blocks and we start by presenting the baseline case first.
+ Afterwards,
+ we outline in detail how household income is defined,
+ how the financial portfolio is constructed,
+ how the optimal decomposition of non-housing consumption occurs,
+ and how bequests are allocated.
 \end_layout
 
 \begin_layout Subsection
@@ -165,8 +178,9 @@ Basic definitions
 \end_layout
 
 \begin_layout Standard
-The model is a discrete-time, perfect foresight, overlapping generations
- model of the life cycle.
+The model is a discrete-time,
+ perfect foresight,
+ overlapping generations model of the life cycle.
  The size of the cohort aged 
 \begin_inset Formula $a$
 \end_inset
@@ -180,21 +194,21 @@ The model is a discrete-time, perfect foresight, overlapping generations
 \end_inset
 
  and is exogenous.
- The household problem is to choose an optimal consumption path over the
- life cycle given its income path.
- The income path is endogenous as the household decides also on its participatio
-n in the labor market.
- However, as labor disutility is separable from other utility, we can treat
- this choice in isolation and it is thus discussed in the labor market chapter.
- Furthermore, consumption of different non-housing goods is the result of
- a CES nest optimization sequence which relates to the input/output structure
- of the data, detailed in 
+ The household problem is to choose an optimal consumption path over the life cycle given its income path.
+ The income path is endogenous as the household decides also on its participation in the labor market.
+ However,
+ as labor disutility is separable from other utility,
+ we can treat this choice in isolation and it is thus discussed in the labor market chapter.
+ Furthermore,
+ consumption of different non-housing goods is the result of a CES nest optimization sequence which relates to the input/output structure of the data,
+ detailed in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Consumption components"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -202,19 +216,23 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-Henceforth we use the following symbols with the associated purposes: 
+Henceforth we use the following symbols with the associated purposes:
+ 
 \begin_inset Formula $\eta$
 \end_inset
 
- will denote an elasticity, 
+ will denote an elasticity,
+ 
 \begin_inset Formula $\delta$
 \end_inset
 
- a destruction or depreciation rate, 
+ a destruction or depreciation rate,
+ 
 \begin_inset Formula $\tau$
 \end_inset
 
- will denote a tax rate, and 
+ will denote a tax rate,
+ and 
 \begin_inset Formula $\beta$
 \end_inset
 
@@ -243,7 +261,7 @@ Households of age
 
  make consumption and savings decisions to solve the following Bellman equation
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 For 
@@ -251,8 +269,7 @@ For
 \end_inset
 
 .
- Consumption for children under the age of 18 is assumed to be part of their
- parents' consumption.
+ Consumption for children under the age of 18 is assumed to be part of their parents' consumption.
 \end_layout
 
 \end_inset
@@ -263,7 +280,7 @@ For
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{aligned}V_{a,t}keyne\left(B_{a-1,t-1},D_{a-1,t-1}\right) & =\max_{C_{a,t},D_{a,t}}U\left(C_{a,t},D_{a,t}\right)\\
+\begin{aligned}V_{a,t}\left(B_{a-1,t-1},D_{a-1,t-1}\right) & =\max_{C_{a,t},D_{a,t}}U\left(C_{a,t},D_{a,t}\right)\\
  & +\beta V_{a,t}^{Wealth}\left(B_{a,t},D_{a,t}\right)\\
  & +\beta\mathbb{W}_{a+1,t+1}\left(B_{a,t},D_{a,t}\right)
 \end{aligned}
@@ -299,8 +316,7 @@ where
 \begin_inset Formula $a=0$
 \end_inset
 
- belonging to the first age of life when children are born and until they
- become one year old.
+ belonging to the first age of life when children are born and until they become one year old.
  The letter 
 \begin_inset Formula $t$
 \end_inset
@@ -313,11 +329,13 @@ In the budget constraint
 \begin_inset Formula $y_{a,t}$
 \end_inset
 
- denotes income excluding returns on liquid assets, 
+ denotes income excluding returns on liquid assets,
+ 
 \begin_inset Formula $B_{a,t}$
 \end_inset
 
- is the net stock of liquid assets, 
+ is the net stock of liquid assets,
+ 
 \begin_inset Formula $p_{t}^{c}$
 \end_inset
 
@@ -325,34 +343,39 @@ In the budget constraint
 \begin_inset Formula $C_{a,t}$
 \end_inset
 
-, and 
+,
+ and 
 \begin_inset Formula $f(\cdot)$
 \end_inset
 
- is a function capturing all elements of the budget constraint related to
- owned housing, (described in detail in section 
+ is a function capturing all elements of the budget constraint related to owned housing,
+ (described in detail in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Detailing-the-"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
 ).
- Non-housing consumption, 
+ Non-housing consumption,
+ 
 \begin_inset Formula $C_{a,t}$
 \end_inset
 
-, is split into several different consumption goods according to a CES tree
- structure, see Section 
+,
+ is split into several different consumption goods according to a CES tree structure,
+ see Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Consumption components"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -364,32 +387,37 @@ In the objective function
 \begin_inset Formula $U(\cdot)$
 \end_inset
 
- is instantaneous utility over non-housing consumption, 
+ is instantaneous utility over non-housing consumption,
+ 
 \begin_inset Formula $C_{a,t}$
 \end_inset
 
-, and housing 
+,
+ and housing 
 \begin_inset Formula $D_{a,t}$
 \end_inset
 
-, both of which have a habit component.
- This habit is external in the case of non-housing consumption, and internalized
- in the case of housing.
+,
+ both of which have a habit component.
+ This habit is external in the case of non-housing consumption,
+ and internalized in the case of housing.
  The object 
 \begin_inset Formula $V_{a,t}^{Wealth}(\cdot)$
 \end_inset
 
- is the function capturing direct utility of wealth, and 
+ is the function capturing direct utility of wealth,
+ and 
 \begin_inset Formula $\mathbb{W}_{a+1,t+1}(\cdot)$
 \end_inset
 
  is the continuation-value of the problem.
- This continuation value contains a probabilistic element in the form of
- the age-specific survival probabilities, 
+ This continuation value contains a probabilistic element in the form of the age-specific survival probabilities,
+ 
 \begin_inset Formula $s_{a}$
 \end_inset
 
-, such that 
+,
+ such that 
 \begin_inset Formula $\mathbb{W}_{a+1,t+1}(\cdot)$
 \end_inset
 
@@ -413,24 +441,28 @@ where
 \begin_inset Formula $V^{Beq}(\cdot)$
 \end_inset
 
- is utility of leaving bequests in the case of not surviving till the next
- age of life.
+ is utility of leaving bequests in the case of not surviving till the next age of life.
 \end_layout
 
 \begin_layout Standard
-Finally, the Bellman problem has household-specific 
+Finally,
+ the Bellman problem has household-specific 
 \shape italic
 state variables 
 \shape default
-which are the beginning of period stock of liquid wealth, 
+which are the beginning of period stock of liquid wealth,
+ 
 \begin_inset Formula $B_{a-1,t-1},$
 \end_inset
 
- the stock of housing, 
+ the stock of housing,
+ 
 \begin_inset Formula $D_{a-1.t-1}$
 \end_inset
 
-, and the household age, 
+,
+ and the household age,
+ 
 \begin_inset Formula $a$
 \end_inset
 
@@ -460,8 +492,7 @@ name "subsec:Savings-decision"
 \end_layout
 
 \begin_layout Standard
-The first-order condition for savings can be obtained by replacing the non-housi
-ng consumption variable with the budget constraint in the Bellman equation,
+The first-order condition for savings can be obtained by replacing the non-housing consumption variable with the budget constraint in the Bellman equation,
  eq.
  (
 \begin_inset CommandInset ref
@@ -470,10 +501,12 @@ reference "eq:Bellman"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
-), and choosing end of period stock of assets 
+),
+ and choosing end of period stock of assets 
 \begin_inset Formula $B_{a,t}$
 \end_inset
 
@@ -505,13 +538,14 @@ reference "eq:FOC_s"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
-) is a standard Euler equation, wherein the household trades-off current
- with future marginal utility of consumption.
- On the left hand side, the last unit of income used for current consumption
- yields 
+) is a standard Euler equation,
+ wherein the household trades-off current with future marginal utility of consumption.
+ On the left hand side,
+ the last unit of income used for current consumption yields 
 \begin_inset Formula $1/p_{t}^{c}$
 \end_inset
 
@@ -520,13 +554,14 @@ noprefix "false"
 \end_inset
 
 .
- Optimality implies this must be identical to what is obtained from alternativel
-y saving this marginal unit of income, earning a net marginal return 
+ Optimality implies this must be identical to what is obtained from alternatively saving this marginal unit of income,
+ earning a net marginal return 
 \begin_inset Formula $\overline{r}_{t+1}^{B}$
 \end_inset
 
-, and using it next period for consumption, taking into account that one
- may die.
+,
+ and using it next period for consumption,
+ taking into account that one may die.
  This is given by
 \begin_inset Formula 
 \[
@@ -544,20 +579,22 @@ weighed by the survival rate
 \end_inset
 
  to match the current marginal utility.
- In addition, a surviving household will also derive the utility of the
- ownership of the extra wealth.
- On the other hand, in the chance 
+ In addition,
+ a surviving household will also derive the utility of the ownership of the extra wealth.
+ On the other hand,
+ in the chance 
 \begin_inset Formula $\left(1-s_{a,t}\right)$
 \end_inset
 
- that a household does not survive, it obtains the marginal change in bequest
- utility, 
+ that a household does not survive,
+ it obtains the marginal change in bequest utility,
+ 
 \begin_inset Formula $\partial V_{a,t}^{Beq}/\partial B_{a,t}$
 \end_inset
 
-, measured in the future and discounted back for mechanical consistency,
- as in case of death the agent only dies tomorrow (and therefore after the
- current savings decision).
+,
+ measured in the future and discounted back for mechanical consistency,
+ as in case of death the agent only dies tomorrow (and therefore after the current savings decision).
 \end_layout
 
 \begin_layout Paragraph*
@@ -568,11 +605,13 @@ Terminal savings condition (last period of life)
 
 \begin_layout Standard
 The household lives up to 100 years of age.
- The survival rate is thus zero in the last age, 
+ The survival rate is thus zero in the last age,
+ 
 \begin_inset Formula $s_{A,t}=0$
 \end_inset
 
-, but bequests still occur.
+,
+ but bequests still occur.
  We obtain
 \begin_inset Formula 
 \[
@@ -582,16 +621,15 @@ The household lives up to 100 years of age.
 \end_inset
 
 which determines assets at the end of life.
- However, setting the survival rate at zero induces an abrupt change in
- behavior at the end of life that distorts the optimal choice due to the
- truncation of life.
- We instead use the following equation where the survival rate is the actual
- rate observed at 100 years of age, 
+ However,
+ setting the survival rate at zero induces an abrupt change in behavior at the end of life that distorts the optimal choice due to the truncation of life.
+ We instead use the following equation where the survival rate is the actual rate observed at 100 years of age,
+ 
 \begin_inset Formula $s_{A,t}\neq0$
 \end_inset
 
-, and where we replace the would-be consumption of 101-year-olds with the
- consumption of next period's 100-year-olds:
+,
+ and where we replace the would-be consumption of 101-year-olds with the consumption of next period's 100-year-olds:
 \begin_inset Formula 
 \[
 \frac{U_{A,t}^{c}}{p_{t}^{c}}=\beta\left\{ s_{A,t}\left(1+\overline{r}_{t+1}^{B}\right)\frac{U_{A,t+1}^{c}}{p_{t+1}^{c}}+s_{A,t}\frac{\partial V_{A,t}^{Wealth}}{\partial B_{A,t}}+\left(1-s_{A,t}\right)\frac{\partial V_{A,t}^{Beq}}{\partial B_{A,t}}\right\} 
@@ -623,15 +661,15 @@ Housing
 \begin_inset Formula $B_{a,t}$
 \end_inset
 
-, the choice of housing is a dynamic forward-looking decision with an associated
- intertemporal first-order condition.
+,
+ the choice of housing is a dynamic forward-looking decision with an associated intertemporal first-order condition.
  The general expression for this condition is
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Just as in the savings optimal choice, this equation needs to be adjusted
- in the final age of life.
+Just as in the savings optimal choice,
+ this equation needs to be adjusted in the final age of life.
 \end_layout
 
 \end_inset
@@ -639,7 +677,7 @@ Just as in the savings optimal choice, this equation needs to be adjusted
  
 \begin_inset Formula 
 \[
-\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(\frac{\partial f_{a,t}}{\partial D_{a,t}}\right)=U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}+\beta s_{a,t}\frac{U_{a+1,t+1}^{c}}{p_{t+1}^{c}}\left(1+\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}\right)
+\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(\frac{\partial f_{a,t}}{\partial D_{a,t}}\right)=U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}+\beta s_{a,t}\frac{U_{a+1,t+1}^{c}}{p_{t+1}^{c}}\left(\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}\right)
 \]
 
 \end_inset
@@ -655,7 +693,7 @@ Just as in the savings optimal choice, this equation needs to be adjusted
 with
 \begin_inset Formula 
 \[
-\overline{r}_{t+1}^{D}=\frac{\partial r_{t+1}B_{a,t}}{\partial D_{a,t}}
+\overline{r}_{t+1}^{D}=\frac{\partial\left(1+r_{t+1}\right)B_{a,t}}{\partial D_{a,t}}
 \]
 
 \end_inset
@@ -665,48 +703,52 @@ and where the presence of
 \end_inset
 
  reflects the fact that the housing habit is internalized.
- This condition reads: when you sacrifice 
+ This condition reads:
+ when you sacrifice 
 \begin_inset Formula $1/p_{t}^{c}$
 \end_inset
 
  units of non-durable consumption today and use the money to buy extra housing,
  there is an immediate marginal utility loss from reduced consumption.
  This is the left-hand side of the equation.
- On the right-hand side, you gain the direct marginal utility of the durable
- good, 
+ On the right-hand side,
+ you gain the direct marginal utility of the durable good,
+ 
 \begin_inset Formula $U_{a,t}^{d}$
 \end_inset
 
-, and tomorrow you gain the marginal utility of non-durable consumption
- associated with the effect of the additional housing bought today on tomorrow's
- income, conditional on surviving.
+,
+ and tomorrow you gain the marginal utility of non-durable consumption associated with the effect of the additional housing bought today on tomorrow's income,
+ conditional on surviving.
  The direct effect of housing on tomorrow's budget is 
 \begin_inset Formula $-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}$
 \end_inset
 
 .
- Housing decisions may also affect tomorrow's budget through portfolio choices
- that change the rate of return on 
+ Housing decisions may also affect tomorrow's budget through portfolio choices that change the rate of return on 
 \begin_inset Formula $B$
 \end_inset
 
-, which is captured by 
+,
+ which is captured by 
 \begin_inset Formula $\overline{r}_{t+1}^{D}$
 \end_inset
 
-, see section 
+,
+ see section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Household-financial-portfolio"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
 .
- In the case of not surviving, you instead gain bequest utility in period
- 
+ In the case of not surviving,
+ you instead gain bequest utility in period 
 \begin_inset Formula $t+1$
 \end_inset
 
@@ -718,13 +760,15 @@ Putting the two together
 \end_layout
 
 \begin_layout Standard
-It is useful to combine the two first-order conditions, (
+It is useful to combine the two first-order conditions,
+ (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:FOC_s"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -735,13 +779,15 @@ reference "eq:FOC_d"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
-), to get an expression for the user-cost of housing.
+),
+ to get an expression for the user-cost of housing.
  .
- Here we merge them by eliminating the marginal utility of consumption in
- period t+1, 
+ Here we merge them by eliminating the marginal utility of consumption in period t+1,
+ 
 \begin_inset Formula $U_{a+1,t+1}^{c}$
 \end_inset
 
@@ -752,9 +798,9 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{gather*}
-\frac{U_{a,t}^{c}}{p_{t}^{c}}\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{1+\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} =U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}\\
-+\beta s_{a,t}\left[\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}-\frac{1+\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}\right]\\
-+\beta\left(1-s_{a,t}\right)\left[\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}-\frac{1+\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\right]
+\frac{U_{a,t}^{c}}{p_{t}^{c}}\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} =U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}\\
++\beta s_{a,t}\left[\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}\right]\\
++\beta\left(1-s_{a,t}\right)\left[\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\right]
 \end{gather*}
 
 \end_inset
@@ -773,7 +819,7 @@ This yields the user-cost of housing expression measured at time
 \begin_layout Standard
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{1+\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} }_{\text{User-cost of \ensuremath{D_{a,t}} measured at time t in nominal units.}}
+p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} }_{\text{User-cost of \ensuremath{D_{a,t}} measured at time t in nominal units.}}
 \]
 
 \end_inset
@@ -783,29 +829,30 @@ p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\fra
 
 \begin_layout Standard
 This merged equation has an intuitive reading.
- When the household sacrifices one unit of current consumption to buy additional
- housing, it must weigh the direct marginal utility of housing 
+ When the household sacrifices one unit of current consumption to buy additional housing,
+ it must weigh the direct marginal utility of housing 
 \begin_inset Formula $U_{a,t}^{d}$
 \end_inset
 
- against the loss of marginal utility of consumption, 
+ against the loss of marginal utility of consumption,
+ 
 \begin_inset Formula $U_{a,t}^{c}$
 \end_inset
 
-, net of the gain in the marginal utility of wealth and bequests.
+,
+ net of the gain in the marginal utility of wealth and bequests.
 \end_layout
 
 \begin_layout Standard
-We can also merge the two first-order conditions by eliminating the current
- marginal utility of consumption 
+We can also merge the two first-order conditions by eliminating the current marginal utility of consumption 
 \begin_inset Formula $U_{a,t}^{c}$
 \end_inset
 
 .
- This is useful because, given the assumptions we make regarding utility
- of wealth and bequests
+ This is useful because,
+ given the assumptions we make regarding utility of wealth and bequests
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Specifically we use that 
@@ -816,13 +863,15 @@ Specifically we use that
 \begin_inset Formula $\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}=\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}\frac{\partial f_{a,t}}{\partial D_{a,t}}$
 \end_inset
 
-, see section 
+,
+ see section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Consumption-utility"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -831,8 +880,8 @@ noprefix "false"
 
 \end_inset
 
-, we can also eliminate marginal utility of wealth and bequests from the
- resulting condition:
+,
+ we can also eliminate marginal utility of wealth and bequests from the resulting condition:
 \begin_inset Formula 
 \[
 U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}=\beta s_{a,t}p_{a,t}^{ucD}\frac{1+\overline{r}_{t+1}^{B}}{p_{t+1}^{c}}U_{a+1,t+1}^{c}
@@ -841,25 +890,26 @@ U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}=\beta s_{
 \end_inset
 
 The intuition here is also clear.
- An additional unit of housing today yields the corresponding direct marginal
- utility of housing (adjusted for habit).
- This must be identical to the marginal utility of consumption we could
- obtain tomorrow if instead of spending the money on housing we took that
- amount of money, 
+ An additional unit of housing today yields the corresponding direct marginal utility of housing (adjusted for habit).
+ This must be identical to the marginal utility of consumption we could obtain tomorrow if instead of spending the money on housing we took that amount of money,
+ 
 \begin_inset Formula $p_{a,t}^{ucD}$
 \end_inset
 
-, capitalized it 
+,
+ capitalized it 
 \begin_inset Formula $\frac{1+\overline{r}_{t+1}^{B}}{p_{t+1}^{c}}$
 \end_inset
 
-, and used it to eat in case we survive.
+,
+ and used it to eat in case we survive.
 \end_layout
 
 \begin_layout Standard
-Given the behavioral relations of the households, we proceed to various
- details around age, death, and the details of the components of consumption
- and the budget constraint
+Given the behavioral relations of the households,
+ we proceed to various details around age,
+ death,
+ and the details of the components of consumption and the budget constraint
 \end_layout
 
 \begin_layout Subsection
@@ -868,31 +918,30 @@ Children
 
 \begin_layout Standard
 Our consumer starts life as a teenager.
- The data reveals income and assets for children below the optimizing age
- in the model, which is 18 years.
+ The data reveals income and assets for children below the optimizing age in the model,
+ which is 18 years.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Optimal labor search decisions start at age 16, and this is possible because,
- by eliminating wealth effects from the labor decision we make the two problems
- independent of each other.
+Optimal labor search decisions start at age 16,
+ and this is possible because,
+ by eliminating wealth effects from the labor decision we make the two problems independent of each other.
 \end_layout
 
 \end_inset
 
- Fitting the budget constraint of these children is important, as it allows
- us to calibrate initial wealth at 18 years of age correctly and correct
- for otherwise excessive consumption of the associated parental household.
+ Fitting the budget constraint of these children is important,
+ as it allows us to calibrate initial wealth at 18 years of age correctly and correct for otherwise excessive consumption of the associated parental household.
 \end_layout
 
 \begin_layout Standard
-Rather than modeling children as optimizing agents, we let their consumption
- be implicit in the parent's problem and create an exogenous income transfer
- variable from parents to children that will fit the child's budget constraint
- at zero consumption and is just enough to hit the asset target at age 18.
- Children are born with zero assets, and for a few ages, they actually have
- recorded disposable income, so their budget constraints are given by
+Rather than modeling children as optimizing agents,
+ we let their consumption be implicit in the parent's problem and create an exogenous income transfer variable from parents to children that will fit the child's budget constraint at zero consumption and is just enough to hit the asset target at age 18.
+ Children are born with zero assets,
+ and for a few ages,
+ they actually have recorded disposable income,
+ so their budget constraints are given by
 \end_layout
 
 \begin_layout Standard
@@ -915,10 +964,10 @@ B_{0,t}=0
 \end_layout
 
 \begin_layout Standard
-As we calibrate this equation to the data, we obtain the value of initial
- assets for agents at the first optimizing age.
- Note that for the purpose of this document, the transfer from the parent
- to the child is hidden inside the disposable income variable of the parent.
+As we calibrate this equation to the data,
+ we obtain the value of initial assets for agents at the first optimizing age.
+ Note that for the purpose of this document,
+ the transfer from the parent to the child is hidden inside the disposable income variable of the parent.
 \end_layout
 
 \begin_layout Subsection
@@ -926,8 +975,7 @@ Migration
 \end_layout
 
 \begin_layout Standard
-The population of a given age at a point in time will generally be such
- that
+The population of a given age at a point in time will generally be such that
 \begin_inset Formula 
 \[
 N_{a,t}=N_{a-1,t-1}s_{a-1,t-1}+I_{a,t}-E_{a,t}
@@ -935,27 +983,32 @@ N_{a,t}=N_{a-1,t-1}s_{a-1,t-1}+I_{a,t}-E_{a,t}
 
 \end_inset
 
-where some agents will have either emigrated, 
+where some agents will have either emigrated,
+ 
 \begin_inset Formula $E_{a,t}$
 \end_inset
 
-, or immigrated, 
+,
+ or immigrated,
+ 
 \begin_inset Formula $I_{a,t}$
 \end_inset
 
-, the country at this point.
+,
+ the country at this point.
 \end_layout
 
 \begin_layout Standard
-We make the necessary assumptions to ensure that those entering the country
- have the same consumption, income, housing, and employment as surviving
- residents; otherwise, the model would have an intractable amount of heterogenei
-ty.
+We make the necessary assumptions to ensure that those entering the country have the same consumption,
+ income,
+ housing,
+ and employment as surviving residents;
+ otherwise,
+ the model would have an intractable amount of heterogeneity.
  Those leaving take their assets with them.
- As for housing, agents leaving sell their housing stock while agents entering
- come in with zero housing, such that the total amount of housing in the
- country is unchanged by immigration and retains its characteristic of being
- a good that is not traded across borders.
+ As for housing,
+ agents leaving sell their housing stock while agents entering come in with zero housing,
+ such that the total amount of housing in the country is unchanged by immigration and retains its characteristic of being a good that is not traded across borders.
 \end_layout
 
 \begin_layout Subsection
@@ -974,14 +1027,10 @@ name "subsec:Detailing-the-"
 \end_layout
 
 \begin_layout Standard
-The housing the household buys and sells is an aggregate of "bricks" and
- land.
- The "bricks" part of the house is produced mainly with inputs purchased
- from the construction sector.
- The country's entire stock of land is held by households embodied in their
- housing good.
- Land available for the construction of new houses is the land released
- as a result of housing depreciation.
+The housing the household buys and sells is an aggregate of "bricks" and land.
+ The "bricks" part of the house is produced mainly with inputs purchased from the construction sector.
+ The country's entire stock of land is held by households embodied in their housing good.
+ Land available for the construction of new houses is the land released as a result of housing depreciation.
 \begin_inset Foot
 status open
 
@@ -992,13 +1041,15 @@ Only the bricks part of the house dies with depreciation.
 \begin_inset Formula $\delta$
 \end_inset
 
- is detailed in the appendix, see Appendix 
+ is detailed in the appendix,
+ see Appendix 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Land-and-housing"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1007,18 +1058,20 @@ noprefix "false"
 
 \end_inset
 
- An intermediary buys output from the construction sector and other intermediate
- inputs, buys land from households released from depreciated housing, packages
- these together, and sells the resulting houses back to households.
+ An intermediary buys output from the construction sector and other intermediate inputs,
+ buys land from households released from depreciated housing,
+ packages these together,
+ and sells the resulting houses back to households.
  Land is introduced in MAKRO as a rigid production factor.
- In reality, land is a somewhat flexible factor, and we allow for exogenous
- increases in the aggregate stock.
+ In reality,
+ land is a somewhat flexible factor,
+ and we allow for exogenous increases in the aggregate stock.
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-Davis and Heathcote (2006), The Price and Quantity of Residential Land in
- the United States.
+Davis and Heathcote (2006),
+ The Price and Quantity of Residential Land in the United States.
 \end_layout
 
 \end_inset
@@ -1027,16 +1080,17 @@ Davis and Heathcote (2006), The Price and Quantity of Residential Land in
 \end_layout
 
 \begin_layout Standard
-We introduce an exogenous supply of rental accommodation, 
+We introduce an exogenous supply of rental accommodation,
+ 
 \begin_inset Formula $H$
 \end_inset
 
-, including an exogenous rent, to capture the non-negligible amount of existing
- public and regulated rental housing.
- We do not model the link between the rental market and the owned housing
- market.
- Thus, rent expenses appear only as an exogenous term in the budget constraint
- of the household.
+,
+ including an exogenous rent,
+ to capture the non-negligible amount of existing public and regulated rental housing.
+ We do not model the link between the rental market and the owned housing market.
+ Thus,
+ rent expenses appear only as an exogenous term in the budget constraint of the household.
 \end_layout
 
 \begin_layout Paragraph*
@@ -1044,33 +1098,32 @@ The costs and returns of housing
 \end_layout
 
 \begin_layout Standard
-Owned housing is the overwhelming source of household debt, and housing
- finance is a significant fraction of total financial activity.
- Houses here are financed with a mortgage with an age-specific fraction
- of mortgage financing to house value, 
+Owned housing is the overwhelming source of household debt,
+ and housing finance is a significant fraction of total financial activity.
+ Houses here are financed with a mortgage with an age-specific fraction of mortgage financing to house value,
+ 
 \begin_inset Formula $\mu_{a,t}$
 \end_inset
 
-, as a loan-to-value (LTV) term.
+,
+ as a loan-to-value (LTV) term.
  The object 
 \begin_inset Formula $\mu_{a,t}$
 \end_inset
 
- is exogenous to the household, but is modeled so that mortgages only gradually
- adjust to housing prices.
+ is exogenous to the household,
+ but is modeled so that mortgages only gradually adjust to housing prices.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Endogenous mortgage ratios require the specification of mortgage contracts
- and a model of credit.
+Endogenous mortgage ratios require the specification of mortgage contracts and a model of credit.
 \end_layout
 
 \end_inset
 
- Therefore, the model generates quantities for mortgage debt that change
- via the extensive margin (as the stock of housing changes) and via movements
- in prices when the extensive margin is constant.
+ Therefore,
+ the model generates quantities for mortgage debt that change via the extensive margin (as the stock of housing changes) and via movements in prices when the extensive margin is constant.
  The detailed modeling of 
 \begin_inset Formula $\mu_{a,t}$
 \end_inset
@@ -1082,6 +1135,7 @@ reference "subsec:Mortgages-and-Housing"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1094,8 +1148,10 @@ Housing enters the budget constraint via the object
 \end_inset
 
 .
- This object is a cost function which contains financing, taxation, and
- maintenance, and deducts revenues from downsizing and from land sales.
+ This object is a cost function which contains financing,
+ taxation,
+ and maintenance,
+ and deducts revenues from downsizing and from land sales.
  We detail the elements of 
 \begin_inset Formula $f$
 \end_inset
@@ -1107,6 +1163,7 @@ reference "subsec:Mortgages-and-Housing"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1131,7 +1188,8 @@ Since
 \begin_inset Formula $\left(1-\mu_{a,t}\right)$
 \end_inset
 
-, property value taxes 
+,
+ property value taxes 
 \begin_inset Formula $\tau_{t}^{W}$
 \end_inset
 
@@ -1139,12 +1197,15 @@ Since
 \begin_inset Formula $x_{t}$
 \end_inset
 
-, and mortgage interest payments 
+,
+ and mortgage interest payments 
 \begin_inset Formula $r_{t}^{mort}$
 \end_inset
 
-, all with a positive sign.
- Carried over un-depreciated housing, and income earned from selling land,
+,
+ all with a positive sign.
+ Carried over un-depreciated housing,
+ and income earned from selling land,
  are revenues and therefore appear with a negative sign.
  Appendix 
 \begin_inset CommandInset ref
@@ -1153,6 +1214,7 @@ reference "subsec:Land-and-housing"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1168,12 +1230,13 @@ reference "eq:f"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
-), which enter the user cost expression and the optimality condition, are
- now trivial to compute and are all either exogenous to or taken as given
- by the household.
+),
+ which enter the user cost expression and the optimality condition,
+ are now trivial to compute and are all either exogenous to or taken as given by the household.
 \end_layout
 
 \begin_layout Paragraph
@@ -1181,23 +1244,38 @@ Hidden user costs.
 \end_layout
 
 \begin_layout Standard
-We incorporate an additional component in the user cost of housing to reflect
- the fact that houses have historically provided a higher but more volatile
- return than relatively risk free bond rates.
- As we cannot model stochastic returns while keeping the model tractable
- we instead add a risk premium directly (just as we do in the required return
- of equity).
- The term may also capture costs related to asymmetric information risk
- and other transaction costs.
- In our implementation, the risk premium raises the average user cost even
- though we do not account for them in the budget constraint and help the
- model fit the data.
+We incorporate an additional component in the user cost of housing to reflect the fact that houses have historically provided a higher but more volatile return than relatively risk free bond rates.
+ As we cannot model stochastic returns while keeping the model tractable we instead add a risk premium directly (just as we do in the required return of equity).
+ The term may also capture costs related to asymmetric information risk and other transaction costs.
+ In our implementation,
+ the risk premium enters as additional discounting of the expected future value of the house and the expected revenue from land sales.
+ This means that the household applies a higher discount rate to the uncertain capital gain component of the housing return,
+ while known obligations such as mortgage payments,
+ property taxes,
+ and maintenance costs remain discounted at the standard rate.
+ The risk premium does not enter the budget constraint directly.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{1+\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}+\frac{\psi_{t+1}^{Risk}}{1+\overline{r}_{t+1}^{B}}\right\} }_{\text{User-cost of \ensuremath{D_{j,a,t}} measured at time t in nominal units.}}
+p_{a,t}^{ucD}=\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}-\frac{\left(1-\delta_{t+1}^{d}\right)p_{t+1}^{D}+\alpha_{t+1}^{Land}p_{t}^{D}}{1+\overline{r}_{t+1}^{B}+\psi_{t+1}^{Risk}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\partial\hat{f}/\partial D_{a,t}$
+\end_inset
+
+ collects only the terms in 
+\begin_inset Formula $\partial f_{a+1,t+1}/\partial D_{a,t}$
+\end_inset
+
+ that do not involve future prices or land revenues:
+\begin_inset Formula 
+\[
+\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}=\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{t}+\tau_{t+1}^{W}+x_{t+1}\right\} p_{t}^{D}
 \]
 
 \end_inset
@@ -1217,28 +1295,11 @@ p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\fra
 \end_layout
 
 \begin_layout Standard
+Expanding and collecting terms,
+ the user cost becomes:
 \begin_inset Formula 
 \[
-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}=\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{j,t}+\tau_{t+1}^{W}+x_{t+1}-\frac{p_{t+1}^{D}}{p_{t}^{D}}\left(1-\delta_{t+1}^{d}\right)-\alpha_{t+1}^{Land}\right\} p_{t}^{D}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\left(1+\overline{r}_{t+1}^{B}\right)p_{a,t}^{ucD}=\left(1+\overline{r}_{t+1}^{B}\right)\left(1-\mu_{a,t}\right)p_{t}^{D}-\left(1+\overline{r}_{t+1}^{D}\right)+\left(1+\overline{r}_{t+1}^{B}\right)\psi_{t+1}^{Risk}+
-\]
-
-\end_inset
-
-
-\begin_inset Formula 
-\[
-\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{t}+\tau_{t+1}^{W}+x_{t+1}-\frac{p_{t+1}^{D}}{p_{t}^{D}}\left(1-\delta_{t+1}^{d}\right)-\alpha_{t+1}^{Land}\right\} p_{t}^{D}
+p_{a,t}^{ucD}=\left(1-\mu_{a,t}\right)p_{t}^{D}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}+\frac{\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{t}+\tau_{t+1}^{W}+x_{t+1}\right\} p_{t}^{D}}{1+\overline{r}_{t+1}^{B}}-\frac{\left(1-\delta_{t+1}^{d}\right)p_{t+1}^{D}+\alpha_{t+1}^{Land}p_{t}^{D}}{1+\overline{r}_{t+1}^{B}+\psi_{t+1}^{Risk}}
 \]
 
 \end_inset
@@ -1258,6 +1319,7 @@ reference "subsec:The-household-problem"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1278,7 +1340,8 @@ Wealth
 \end_inset
 
  denotes non-housing net financial assets and excludes pension wealth.
- It includes ownership of financial stocks and bonds, as well as bank deposits,
+ It includes ownership of financial stocks and bonds,
+ as well as bank deposits,
  and subtracts non-mortgage bank debt.
 \end_layout
 
@@ -1287,8 +1350,7 @@ The income term
 \begin_inset Formula $y_{a,t}$
 \end_inset
 
- in this budget constraint incorporates a large number of taxes and transfers
- as well as the exogenous expenditure in rental housing.
+ in this budget constraint incorporates a large number of taxes and transfers as well as the exogenous expenditure in rental housing.
  Before we detail the different elements inside 
 \begin_inset Formula $y_{a,t}$
 \end_inset
@@ -1301,8 +1363,7 @@ The object
 \begin_inset Formula $f$
 \end_inset
 
- contains all items of the budget constraint that relate to owned housing
- and consists of total net expenditure on owned housing.
+ contains all items of the budget constraint that relate to owned housing and consists of total net expenditure on owned housing.
  The term 
 \begin_inset Formula $p_{t}^{c}C_{a,t}$
 \end_inset
@@ -1332,7 +1393,8 @@ The income variable
 \begin_inset Formula $y_{a,t}$
 \end_inset
 
- contains the following elements: wage income
+ contains the following elements:
+ wage income
 \begin_inset Foot
 status open
 
@@ -1345,11 +1407,13 @@ Wage income per person is given by
 \begin_inset Formula $w_{t}$
 \end_inset
 
- is the wage per productivity unit, 
+ is the wage per productivity unit,
+ 
 \begin_inset Formula $\rho_{a,t}$
 \end_inset
 
- is productivity units per hour worked, 
+ is productivity units per hour worked,
+ 
 \begin_inset Formula $h_{a,t}$
 \end_inset
 
@@ -1368,31 +1432,44 @@ Wage income per person is given by
 
 \end_inset
 
-, 
+,
+ 
 \begin_inset Formula $y_{a,t}^{W}$
 \end_inset
 
-, net pension income, 
+,
+ net pension income,
+ 
 \begin_inset Formula $y_{a,t}^{PY}-y_{a,t}^{PC}$
 \end_inset
 
-, expenditure on rental housing, an assortment of income transfers, 
+,
+ expenditure on rental housing,
+ an assortment of income transfers,
+ 
 \begin_inset Formula $y_{a,t}^{G}$
 \end_inset
 
-, various taxes not related to housing or pensions, 
+,
+ various taxes not related to housing or pensions,
+ 
 \begin_inset Formula $T_{a,t}^{\tau}$
 \end_inset
 
-, received bequests, 
+,
+ received bequests,
+ 
 \begin_inset Formula $y_{a,t}^{Beq}$
 \end_inset
 
-, net income flows associated with children, 
+,
+ net income flows associated with children,
+ 
 \begin_inset Formula $y_{a,t}^{children}$
 \end_inset
 
-, and residual items.
+,
+ and residual items.
 \begin_inset Formula 
 \[
 \begin{array}{ccc}
@@ -1407,8 +1484,8 @@ y_{a,t} & = & y_{a,t}^{W}+y_{a,t}^{PY}-y_{a,t}^{PC}-R_{t}^{rent}H_{a,t}+y_{a,t}^
 \end_layout
 
 \begin_layout Standard
-Of all these different items, only labor market income is endogenous to
- the household as it depends on search decisions.
+Of all these different items,
+ only labor market income is endogenous to the household as it depends on search decisions.
 \end_layout
 
 \begin_layout Standard
@@ -1417,12 +1494,17 @@ The tax object
 \end_inset
 
  captures a large number of specific taxes.
- Income taxes, local taxes, property taxes, taxes on financial income from
- stocks, taxes on income from individually held companies, estate taxes,
- labor market specific taxes, etc.
+ Income taxes,
+ local taxes,
+ property taxes,
+ taxes on financial income from stocks,
+ taxes on income from individually held companies,
+ estate taxes,
+ labor market specific taxes,
+ etc.
  These taxes are grouped differently depending on the purpose.
- For example, property value taxes are removed and included in the housing
- term 
+ For example,
+ property value taxes are removed and included in the housing term 
 \begin_inset Formula $f(\cdot)$
 \end_inset
 
@@ -1434,23 +1516,21 @@ Pensions
 \end_layout
 
 \begin_layout Standard
-Pension income enters the disposable income of households as an exogenous
- income, and pension wealth satisfies accumulation consistency requirements
- which are also exogenous to the household.
+Pension income enters the disposable income of households as an exogenous income,
+ and pension wealth satisfies accumulation consistency requirements which are also exogenous to the household.
 \end_layout
 
 \begin_layout Standard
 MAKRO uses a simplified version of the detailed pension model in DREAM.
- The payment data is taken from the pension model from the Ministry of Finance
- (which builds on DREAM
+ The payment data is taken from the pension model from the Ministry of Finance (which builds on DREAM
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
 In DREAM pensions are gender specific.
- As each generation in MAKRO is a cohort average, we sum pension contributions
- paid by men and women into their pension funds, as well as pensions received
- by men and women.
+ As each generation in MAKRO is a cohort average,
+ we sum pension contributions paid by men and women into their pension funds,
+ as well as pensions received by men and women.
 \end_layout
 
 \end_inset
@@ -1459,28 +1539,34 @@ In DREAM pensions are gender specific.
 \begin_inset Formula $i\in\{'Alder','Kap','PensX'\}$
 \end_inset
 
-: 1) pensions that have already been taxed (primarily 
+:
+ 1) pensions that have already been taxed (primarily 
 \emph on
 alderspension
 \emph default
-, 
+,
+ 
 \begin_inset Formula $'Alder'$
 \end_inset
 
-), 2) capital pension (
+),
+ 2) capital pension (
 \emph on
 kapitalpension
 \emph default
-, 
+,
+ 
 \begin_inset Formula $'Kap'$
 \end_inset
 
-) taxed with a flat rate, and 3) the aggregate of other pensions, taxed
- when received by households (
+) taxed with a flat rate,
+ and 3) the aggregate of other pensions,
+ taxed when received by households (
 \emph on
 ratepensioner
 \emph default
-, 
+,
+ 
 \emph on
 livrentepensioner
 \emph default
@@ -1488,7 +1574,8 @@ livrentepensioner
 \emph on
 ATP
 \emph default
-, indexed 
+,
+ indexed 
 \begin_inset Formula $'PensX'$
 \end_inset
 
@@ -1500,8 +1587,7 @@ Pension Contributions
 \end_layout
 
 \begin_layout Standard
-It is assumed that an exogenous part of wages is paid as contribution to
- each type 
+It is assumed that an exogenous part of wages is paid as contribution to each type 
 \begin_inset Formula $(i)$
 \end_inset
 
@@ -1524,7 +1610,8 @@ where
 \begin_inset Formula $y_{a,t}^{W}$
 \end_inset
 
- is wage income, and the parameter 
+ is wage income,
+ and the parameter 
 \begin_inset Formula $\lambda_{i,a,t}^{PC}$
 \end_inset
 
@@ -1554,13 +1641,14 @@ Pension wealth
 
 \begin_layout Standard
 The pension fund is a zero-profit vehicle with no costs.
- The three different types of pensions, indexed by 
+ The three different types of pensions,
+ indexed by 
 \begin_inset Formula $i$
 \end_inset
 
-, are modeled as three separate actuarially fair pension schemes.
- So all contributions and after tax returns must be paid out to the same
- cohort (or as inheritance to their relatives).
+,
+ are modeled as three separate actuarially fair pension schemes.
+ So all contributions and after tax returns must be paid out to the same cohort (or as inheritance to their relatives).
 \end_layout
 
 \begin_layout Standard
@@ -1584,12 +1672,13 @@ B_{i,a,t}^{P}=\left\{ \left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{a-1,
 \end_layout
 
 \begin_layout Standard
-The first term, 
+The first term,
+ 
 \begin_inset Formula $\left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{a-1,t-1}^{P,i}\frac{N_{a-1,t-1}}{N_{a,t}}$
 \end_inset
 
-, is the after-tax return on the wealth stock scaled with population as
- only the surviving current population shares the stock of wealth
+,
+ is the after-tax return on the wealth stock scaled with population as only the surviving current population shares the stock of wealth
 \begin_inset Foot
 status open
 
@@ -1631,11 +1720,13 @@ Note that
 \end_inset
 
 .
- The second term, 
+ The second term,
+ 
 \begin_inset Formula $1-\alpha_{i,a,t}^{BeqP}\left(1-s_{a-1,t-1}\right)$
 \end_inset
 
-, adjusts for bequests.
+,
+ adjusts for bequests.
  The fraction 
 \begin_inset Formula $1-s_{a-1,t-1}$
 \end_inset
@@ -1645,8 +1736,8 @@ Note that
 \begin_inset Formula $\alpha_{i,a,t}^{BeqP}$
 \end_inset
 
-, is paid out to relatives as bequests and does not stay in the pension
- fund.
+,
+ is paid out to relatives as bequests and does not stay in the pension fund.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1654,19 +1745,19 @@ Pension Income
 \end_layout
 
 \begin_layout Standard
-We assume that an exogenous age specific share of the start-of-period pension
- wealth, 
+We assume that an exogenous age specific share of the start-of-period pension wealth,
+ 
 \begin_inset Formula $B_{i,a-1,t-1}^{P}$
 \end_inset
 
-, (plus returns and contributions)
+,
+ (plus returns and contributions)
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-We define the payout share as a share of start-of-period wealth plus any
- returns and contributions, such that setting the payout rate to one means
- ending the period with zero wealth in the particular pension scheme.
+We define the payout share as a share of start-of-period wealth plus any returns and contributions,
+ such that setting the payout rate to one means ending the period with zero wealth in the particular pension scheme.
 \end_layout
 
 \end_inset
@@ -1687,8 +1778,7 @@ The parameter
 \begin_inset Formula $\lambda_{i,a,t}^{PY}$
 \end_inset
 
- is calibrated to match pension income received by households in data from
- the Ministry of Finance.
+ is calibrated to match pension income received by households in data from the Ministry of Finance.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1700,25 +1790,30 @@ The aggregate pension wealth of pension fund
 \begin_inset Formula $i$
 \end_inset
 
-, 
+,
+ 
 \begin_inset Formula $B_{i,t}^{P}$
 \end_inset
 
-, is invested in stocks and bonds.
- We assume that all pension schemes have the same portfolio and yield the
- same return.
+,
+ is invested in stocks and bonds.
+ We assume that all pension schemes have the same portfolio and yield the same return.
 \end_layout
 
 \begin_layout Standard
-Assets of a specific type 
+Assets of a specific type,
+ 
 \begin_inset Formula $k$
 \end_inset
 
- held by the pension fund, 
+,
+ held by the pension fund,
+ 
 \begin_inset Formula $A_{k,t}^{P}$
 \end_inset
 
- , are an exogenous fraction of total pension wealth:
+ ,
+ are an exogenous fraction of total pension wealth:
 \begin_inset Foot
 status collapsed
 
@@ -1758,7 +1853,7 @@ The return
 \begin_layout Standard
 \begin_inset Formula 
 \[
-r_{t}^{P}=r_{k,t}\cdot\omega_{k,t}^{P}
+r_{t}^{P}=\sum_{k}r_{k,t}\cdot\omega_{k,t}^{P}
 \]
 
 \end_inset
@@ -1778,8 +1873,7 @@ name "subsec:Bequests"
 \end_layout
 
 \begin_layout Standard
-Warm glow utility from bequests allows the model to replicate the large
- amounts of wealth held at the late ages of the life cycle.
+Warm glow utility from bequests allows the model to replicate the large amounts of wealth held at the late ages of the life cycle.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1787,32 +1881,31 @@ Death
 \end_layout
 
 \begin_layout Standard
-Death occurs before any decision are taken.
+Death occurs before any decisions are taken.
  One way to think of the timing is as follows.
  At the beginning of period 
 \begin_inset Formula $t$
 \end_inset
 
  agents wake up or have died.
- In either case, the agent receives the financial income associated with
- their start-of-period net wealth.
- The assets of dead agents are distributed amongst their heirs as an exogenous
- income transfer.
- Finally, agents that are still alive receive other income and consume and
- save in period t, including out of bequests received.
+ In either case,
+ the agent receives the financial income associated with their start-of-period net wealth.
+ The assets of dead agents are distributed amongst their heirs as an exogenous income transfer.
+ Finally,
+ agents that are still alive receive other income and consume and save in period t,
+ including out of bequests received.
 \end_layout
 
 \begin_layout Subsubsection
-Bequests received, liquidating housing, and bequests in utility
+Bequests received,
+ liquidating housing,
+ and bequests in utility
 \end_layout
 
 \begin_layout Standard
 All agents leave and receive bequests.
- In the event of death houses are sold and mortgages are liquidated so that
- bequests received will consist of liquid assets plus the liquid value of
- the equity on the house after liquidation.
- Given the exogenous mortgage ratio relationship the equity that is transformed
- into liquid assets next period is 
+ In the event of death houses are sold and mortgages are liquidated so that bequests received will consist of liquid assets plus the liquid value of the equity on the house after liquidation.
+ Given the exogenous mortgage ratio relationship the equity that is transformed into liquid assets next period is 
 \begin_inset Formula 
 \[
 \left(1-\mu_{a,t}\right)p_{t+1}^{D}D_{a,t}
@@ -1829,12 +1922,11 @@ where
 \end_inset
 
  is the mortgage ratio taken from the data and detailed below.
- This is then taxed and the resulting net value received by the multiple
- heirs.
- From an accounting perspective, bequests given and received must add up
- to the same amount, before taxes.
- The mapping from bequests given to bequests received is done with an allocation
- age
+ This is then taxed and the resulting net value received by the multiple heirs.
+ From an accounting perspective,
+ bequests given and received must add up to the same amount,
+ before taxes.
+ The mapping from bequests given to bequests received is done with an allocation age
 \begin_inset Formula $\times$
 \end_inset
 
@@ -1842,14 +1934,16 @@ age matrix
 \begin_inset Formula $M_{t}$
 \end_inset
 
- estimated using administrative data similarly to Boserup, Kopczuk, and
- Kreiner (2016) and detailed in Appendix 
+ estimated using administrative data similarly to Boserup,
+ Kopczuk,
+ and Kreiner (2016) and detailed in Appendix 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Calculating-the-bequest"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -1857,13 +1951,13 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-Bequests affect not only the budget constraint, but also preferences via
- 
+Bequests affect not only the budget constraint,
+ but also preferences via 
 \begin_inset Formula $V_{a,t}^{Beq}$
 \end_inset
 
-, which will be further explained in the section detailing all preference
- features.
+,
+ which will be further explained in the section detailing all preference features.
 \end_layout
 
 \begin_layout Subsection
@@ -1908,7 +2002,10 @@ The model endogenously determines the net financial variable
 \uwave off
 \noun off
 \color none
-(domestic equities, cash and bank deposits, foreign equities, bonds
+(domestic equities,
+ cash and bank deposits,
+ foreign equities,
+ bonds
 \family default
 \series default
 \shape default
@@ -1921,16 +2018,19 @@ The model endogenously determines the net financial variable
 \uwave default
 \noun default
 \color inherit
-), indexed below by 
+),
+ indexed below by 
 \begin_inset Formula $i$
 \end_inset
 
-, minus the sum of liabilities (bank debt), for generality indexed below
- by 
+,
+ minus the sum of liabilities (bank debt),
+ for generality indexed below by 
 \begin_inset Formula $l$
 \end_inset
 
-, so that 
+,
+ so that 
 \begin_inset Formula $B=\sum_{i}A_{i}-\sum_{l}L_{l}$
 \end_inset
 
@@ -1938,8 +2038,7 @@ The model endogenously determines the net financial variable
 \end_layout
 
 \begin_layout Standard
-We model this decomposition into assets and liabilities as functions of
- net non-mortgage financial assets 
+We model this decomposition into assets and liabilities as functions of net non-mortgage financial assets 
 \begin_inset Formula $B$
 \end_inset
 
@@ -1977,17 +2076,19 @@ L_{l,a,t}=I_{l,a}Y_{t}^{B}+\lambda_{l}^{B}B_{a,t}+\lambda_{l}^{D}\bar{p}_{t}^{D}
 \end_layout
 
 \begin_layout Standard
-To preserve homogeneity, the intercept term is scaled with a slow-moving
- measure of average household income 
+To preserve homogeneity,
+ the intercept term is scaled with a slow-moving measure of average household income 
 \begin_inset Formula $Y_{t}^{B}$
 \end_inset
 
 .
- Housing enters with the same gradually adjusting housing price, 
+ Housing enters with the same gradually adjusting housing price,
+ 
 \begin_inset Formula $\bar{p}_{t}^{D}$
 \end_inset
 
-, that is used for the purpose of the mortgage loan-to-value fraction.
+,
+ that is used for the purpose of the mortgage loan-to-value fraction.
 \end_layout
 
 \begin_layout Standard
@@ -2000,8 +2101,7 @@ The marginal changes in the portfolio from a change in either
 \end_inset
 
  are independent of age and household type.
- All households therefore face the same marginal rates of return on net
- savings:
+ All households therefore face the same marginal rates of return on net savings:
 \end_layout
 
 \begin_layout Standard
@@ -2023,8 +2123,8 @@ and additional housing affects the portfolio in the same way:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-1+\overline{r}_{t+1}^{D} & =\frac{\partial}{\partial D_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
- & =1+\bar{p}_{t}^{D}\left(\sum_{i}r_{i,t+1}\lambda_{i}^{D}-\sum_{l}r_{l,t+1}\lambda_{l}^{D}\right)
+\overline{r}_{t+1}^{D} & =\frac{\partial}{\partial D_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
+ & =\bar{p}_{t}^{D}\left(\sum_{i}r_{i,t+1}\lambda_{i}^{D}-\sum_{l}r_{l,t+1}\lambda_{l}^{D}\right)
 \end{align*}
 
 \end_inset
@@ -2040,18 +2140,16 @@ reference "subsec:Portfolio"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
- covers the estimation of the household portfolio model and goes into more
- detail about the motivation behind the modeling decisions.
- There may be theoretical reasons to think portfolio composition should
- vary over the life cycle.
- If the data contains such heterogeneity, the estimated parameters will
- reflect that by having different values for different assets.
- In addition, the estimated portfolio is an optimal portfolio given the
- underlying assumption is that agents made optimal decisions that resulted
- in the portfolios we observe in the data.
+ covers the estimation of the household portfolio model and goes into more detail about the motivation behind the modeling decisions.
+ There may be theoretical reasons to think portfolio composition should vary over the life cycle.
+ If the data contains such heterogeneity,
+ the estimated parameters will reflect that by having different values for different assets.
+ In addition,
+ the estimated portfolio is an optimal portfolio given the underlying assumption is that agents made optimal decisions that resulted in the portfolios we observe in the data.
 \end_layout
 
 \begin_layout Subsection
@@ -2108,7 +2206,8 @@ where
 \begin_inset Formula $E$
 \end_inset
 
- is the substitution elasticity between housing and non-housing, and 
+ is the substitution elasticity between housing and non-housing,
+ and 
 \begin_inset Formula $\upsilon^{c},\upsilon^{d}$
 \end_inset
 
@@ -2133,14 +2232,16 @@ U_{a,t}^{d}\equiv\frac{\partial U_{a,t}}{\partial\tilde{D}_{a,t}}=\left[\tilde{U
 \end_layout
 
 \begin_layout Standard
-Finally, non-housing consumption is itself a CES nest over a range of consumptio
-n goods, see subsection 
+Finally,
+ non-housing consumption is itself a CES nest over a range of consumption goods,
+ see subsection 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Consumption components"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -2150,89 +2251,85 @@ noprefix "false"
 \begin_layout Subsubsection
 
 \series bold
-Reference consumption - HtM consumption and habits
+Habit formation and reference consumption
 \end_layout
 
 \begin_layout Standard
-Recent evidence on inter-temporal consumption behavior shows that following
- a one-time transfer, consumption rises for several periods with a mean
- on-impact yearly marginal propensity to consume (MPC) of roughly 50 percent,
+Recent evidence on inter-temporal consumption behavior shows that following a one-time transfer,
+ consumption rises for several periods with a mean on-impact yearly marginal propensity to consume (MPC) of roughly 50 percent,
  see Fagereng et.
  al.
  2021.
- This is inconsistent with the typical business cycle models; the standard
- way to match high on-impact MPC's has been to combine a share of Ricardian
- agents with a share of “hand-to-mouth” (HtM) agents who consume all income
- in every period (e.g.
+ This is inconsistent with the typical business cycle models;
+ the standard way to match high on-impact MPC's has been to combine a share of Ricardian agents with a share of “hand-to-mouth” (HtM) agents who consume all income in every period (e.g.
  Bilbiie 2008).
- This, however, only generates high on-impact marginal propensities to consume
- but no effects in the following periods (as the Ricardian agents have close
- to zero MPC's for transitory shocks), and is thus contrary to empirical
- evidence showing significant year 
+ This,
+ however,
+ only generates high on-impact marginal propensities to consume but no effects in the following periods (as the Ricardian agents have close to zero MPC's for transitory shocks),
+ and is thus contrary to empirical evidence showing significant year 
 \begin_inset Formula $t+1$
 \end_inset
 
  effects.
- Recent business cycle literature has solved this by introducing microeconomic
- stochasticity and incomplete markets (Heterogeneous-Agent New-Keynesian,
- HANK, models), in which agents close to but not at their borrowing constraint
- will have high MPC's and smooth consumption.
+ Recent business cycle literature has solved this by introducing microeconomic stochasticity and incomplete markets (Heterogeneous-Agent New-Keynesian,
+ HANK,
+ models),
+ in which agents close to but not at their borrowing constraint will have high MPC's and smooth consumption.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-In order to get enough initial period impact the literature contains different
- approaches such as two assets (Kaplan et al., 2018), discount factor heterogenei
-ty (e.g.
+In order to get enough initial period impact the literature contains different approaches such as two assets (Kaplan et al.,
+ 2018),
+ discount factor heterogeneity (e.g.
  Hagedorn et al.
- 2019), or a generalized habit (Carroll et al.
+ 2019),
+ or a generalized habit (Carroll et al.
  (2023)).
 \end_layout
 
 \end_inset
 
- Here, we implement a solution that does not rely on stochasticity.
+ Here,
+ we implement a solution that does not rely on stochasticity.
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
-Note that it is possible to solve a particular class of HANK models without
- numerical stochasticity by assuming zero-liquidity (zero savings), see
- e.g.
+Note that it is possible to solve a particular class of HANK models without numerical stochasticity by assuming zero-liquidity (zero savings),
+ see e.g.
  Bilbiie 2020.
- This is not possible in our case, since we want to match the model to the
- rich features of wealth in data.
- Also note that a recent strand of literature obtains empirically realistic
- inter-temporal MPC's, see e.g.
+ This is not possible in our case,
+ since we want to match the model to the rich features of wealth in data.
+ Also note that a recent strand of literature obtains empirically realistic inter-temporal MPC's,
+ see e.g.
  Angeletos et al.
- (2024), by building on a perpetual youth OLG model alla Blanchard (1985)
- with very high probabilities of death.
+ (2024),
+ by building on a perpetual youth OLG model alla Blanchard (1985) with very high probabilities of death.
  
 \end_layout
 
 \end_inset
 
- In particular, we combine a representative agent model with consumption
- habits, as is typical in the Dynamic Stochastic General Equilibrium (DSGE)
- literature, with a share of reference consumption that tracks (liquid)
- income, and therefore generates a high on-impact MPC while also generating
- persistence (year 
+ In particular,
+ we combine a representative agent model with consumption habits,
+ as is typical in the Dynamic Stochastic General Equilibrium (DSGE) literature,
+ with a share of reference consumption that tracks (liquid) income,
+ and therefore generates a high on-impact MPC while also generating persistence (year 
 \begin_inset Formula $t+1$
 \end_inset
 
  effects) due to habits.
- The idea of including income as a term in reference consumption was first
- presented in Carroll et al.
+ The idea of including income as a term in reference consumption was first presented in Carroll et al.
  (2023).
  We refer to this component as HtM consumption.
  The resulting high MPC behavior can be interpreted in various ways.
- For example, high on-impact spending of a transitory income shock is typically
- explained by liquidity constraints in the two-agent New-Keynesian literature
- (TANK), e.g., models with hand-to-mouth consumers and the HANK literature.
- A different contender for high first-period excess spending that does not
- rely on liquidity constraints is durable (non-housing) purchases.
- Durables have layouts that are more front-loaded due to the long-lasting
- consumption flow of the stock cf.
+ For example,
+ high on-impact spending of a transitory income shock is typically explained by liquidity constraints in the two-agent New-Keynesian literature (TANK),
+ e.g.,
+ models with hand-to-mouth consumers and the HANK literature.
+ A different contender for high first-period excess spending that does not rely on liquidity constraints is durable (non-housing) purchases.
+ Durables have layouts that are more front-loaded due to the long-lasting consumption flow of the stock cf.
  Laibson et al.
  (2022).
  
@@ -2255,7 +2352,7 @@ We re-write utility as
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\tilde{C}_{j,a,t}$
+\begin_inset Formula $\tilde{C}_{a,t}$
 \end_inset
 
  denotes consumption net of a reference quantity:
@@ -2299,19 +2396,17 @@ y_{\text{KC},a,t} & =y_{a,t}\label{eq:HtM_income}\\
 \end_layout
 
 \begin_layout Standard
-We assume that households do not have high marginal propensities to consume
- out of age pension, capital pension and an inheritance adjustment term
+We assume that households do not have high marginal propensities to consume out of age pension,
+ capital pension and an inheritance adjustment term
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-These pensions are regularly payed out in large lump sums, which would imply
- unrealistic jumps in consumption.
- The inheritance adjustment term is a term to make up for the fact that
- when households die in a cohort, the dying households are typically poorer
- than the average household.
- Such re-distributive transfers would also induce unrealistic jumps in consumpti
-on if included in the Keynesian consumption income term.
+These pensions are regularly payed out in large lump sums,
+ which would imply unrealistic jumps in consumption.
+ The inheritance adjustment term is a term to make up for the fact that when households die in a cohort,
+ the dying households are typically poorer than the average household.
+ Such re-distributive transfers would also induce unrealistic jumps in consumption if included in the Keynesian consumption income term.
 \end_layout
 
 \end_inset
@@ -2320,11 +2415,13 @@ on if included in the Keynesian consumption income term.
 \end_layout
 
 \begin_layout Standard
-The weight, 
+The weight,
+ 
 \begin_inset Formula $\zeta_{a,t}$
 \end_inset
 
-, depends on the number of children in the household
+,
+ depends on the number of children in the household
 \begin_inset Formula 
 \[
 \zeta_{a,t}=1+\frac{1}{2}n_{a,t}^{\text{children}}
@@ -2340,8 +2437,8 @@ The reference quantity
 \begin_inset Formula $C_{a-1,t-1}$
 \end_inset
 
- is viewed as the average of the cohort in the previous period, rather than
- the individual household's own previous decisions.
+ is viewed as the average of the cohort in the previous period,
+ rather than the individual household's own previous decisions.
  In this way it is exogenous to the household.
  
 \end_layout
@@ -2371,8 +2468,7 @@ Note that
 \begin_inset Formula $\upsilon_{j,a,t}^{d}$
 \end_inset
 
- to include the effect of children implicitly (and slightly modifying the
- coefficients 
+ to include the effect of children implicitly (and slightly modifying the coefficients 
 \begin_inset Formula $\chi^{C}$
 \end_inset
 
@@ -2381,8 +2477,8 @@ Note that
 \end_inset
 
 ).
- We include the explicit adjustment for the number of children as this number
- is also forecast explicitly, whereas 
+ We include the explicit adjustment for the number of children as this number is also forecast explicitly,
+ whereas 
 \begin_inset Formula $\upsilon_{a,t}^{d}$
 \end_inset
 
@@ -2394,8 +2490,7 @@ Note that
 \end_layout
 
 \begin_layout Standard
-Housing habits are internal so the household takes them into account in
- optimization.
+Housing habits are internal so the household takes them into account in optimization.
  See Dennis (2009) for a comparison of 
 \emph on
 internal
@@ -2448,11 +2543,13 @@ V_{a,t}^{Beq}=\xi_{a,t}^{Beq}\frac{\left[X_{a,t}^{Beq}\right]^{1-\eta}}{1-\eta}\
 
 \end_inset
 
-where we define the interior object, 
+where we define the interior object,
+ 
 \begin_inset Formula $X^{Beq}$
 \end_inset
 
-, as
+,
+ as
 \begin_inset Formula 
 \[
 X_{a,t}^{Beq}\equiv\left(1-\tau_{t+1}^{Beq}\right)\frac{B_{a,t}+p_{t}^{D}\left(1-\mu_{a,t}\right)D_{a,t}+V_{a,t}^{PensionB}}{p_{t+1}^{c}}-\xi^{0}
@@ -2483,21 +2580,28 @@ In these functions we generally allow for an interior parameter
 
 \end_inset
 
- It is important to note that, as this is a utility construction, there
- is a degree of freedom in the definition of the object 
+ It is important to note that,
+ as this is a utility construction,
+ there is a degree of freedom in the definition of the object 
 \begin_inset Formula $X^{Beq}$
 \end_inset
 
 .
- Here we attach value to the sum of assets, rather than, for example, attaching
- a separate special value to the house, although both formulations are feasible.
+ Here we attach value to the sum of assets,
+ rather than,
+ for example,
+ attaching a separate special value to the house,
+ although both formulations are feasible.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Li, Liu, Yang, and Yao (2016) have a CES function of housing and other assets
- as bequest utility.
- Kaplan, Mitman and Violante (2017) do as here.
+Li,
+ Liu,
+ Yang,
+ and Yao (2016) have a CES function of housing and other assets as bequest utility.
+ Kaplan,
+ Mitman and Violante (2017) do as here.
 \end_layout
 
 \end_inset
@@ -2507,7 +2611,8 @@ Li, Liu, Yang, and Yao (2016) have a CES function of housing and other assets
 \end_inset
 
  implies all assets have the same marginal utility of bequest motive.
- Finally, note that we value the house inside 
+ Finally,
+ note that we value the house inside 
 \begin_inset Formula $X^{Beq}$
 \end_inset
 
@@ -2523,6 +2628,7 @@ reference "eq:v_beq-1"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -2554,7 +2660,8 @@ Utility of Wealth
 \end_layout
 
 \begin_layout Standard
-Similarly to the bequest function, the utility of wealth is
+Similarly to the bequest function,
+ the utility of wealth is
 \begin_inset Formula 
 \begin{equation}
 V_{a,t}^{Wealth}=\xi_{a,t}^{Wealth}\frac{\left[X_{a,t}^{Wealth}\right]^{1-\eta}}{1-\eta}\label{eq:v_beq-1-1}
@@ -2567,11 +2674,13 @@ where the elasticity
 \end_inset
 
  is the same as in the utility and bequest functions.
- We define the interior object, 
+ We define the interior object,
+ 
 \begin_inset Formula $X^{Wealth}$
 \end_inset
 
-, as
+,
+ as
 \begin_inset Formula 
 \[
 X_{a,t}^{Wealth}\equiv\frac{B_{a,t}+p_{t}^{D}\left(1-\mu_{a,t}\right)D_{a,t}+V_{a,t}^{PensionW}}{p_{t+1}^{c}}-\xi^{0}
@@ -2579,13 +2688,12 @@ X_{a,t}^{Wealth}\equiv\frac{B_{a,t}+p_{t}^{D}\left(1-\mu_{a,t}\right)D_{a,t}+V_{
 
 \end_inset
 
-with the difference relative to bequests being the absence of the inheritance
- tax and the composition of the pension entitlement.
+with the difference relative to bequests being the absence of the inheritance tax and the composition of the pension entitlement.
 \end_layout
 
 \begin_layout Standard
-Note that we do not account for transaction costs incurred in liquidating
- or trading houses (or other assets) in our utility objects, 
+Note that we do not account for transaction costs incurred in liquidating or trading houses (or other assets) in our utility objects,
+ 
 \begin_inset Formula $X_{a,t}^{Wealth}$
 \end_inset
 
@@ -2598,18 +2706,20 @@ Note that we do not account for transaction costs incurred in liquidating
 
 \begin_layout Standard
 The pension entitlements inside bequest utility and wealth utility differ.
- Regarding bequest utility, some pension plans cease at death.
- In contrast, others contain an insurance element and continue to pay descendant
-s.
+ Regarding bequest utility,
+ some pension plans cease at death.
+ In contrast,
+ others contain an insurance element and continue to pay descendants.
  
 \begin_inset Formula $V_{a,t}^{PensionB}$
 \end_inset
 
  is the amount from pensions paid to descendants in case of death.
- Regarding utility from wealth, once households reach a certain age, they
- can freely choose the payout schedule from 'Kapitalpension' and 'aldersopsparin
-g'.
- Many choose to withdraw at the latest possible date, 20 years after retirement,
+ Regarding utility from wealth,
+ once households reach a certain age,
+ they can freely choose the payout schedule from 'Kapitalpension' and 'aldersopsparing'.
+ Many choose to withdraw at the latest possible date,
+ 20 years after retirement,
  when the whole amount is paid out at once.
  Therefore the object 
 \begin_inset Formula $V_{a,t}^{PensionW}$
@@ -2625,40 +2735,48 @@ Disutility of house price changes.
 \end_layout
 
 \begin_layout Standard
-To better account for house price momentum (positive autocorrelation in
- price changes), we introduce a disutility of house price changes that captures
- various factors affecting buyers' and sellers' decisions.
- This price momentum can be micro-founded in various ways following the
- literature on house price sensitivity.
- For example, when selling a house, reference price utility, as described
- in Barberis and Xiong (2012), leads households to experience disutility
- from selling below the purchase price.
- Sellers may also be loss-averse in reference pricing, incentivizing them
- to hold house prices higher for longer than optimal given actual demand,
+To better account for house price momentum (positive autocorrelation in price changes),
+ we introduce a disutility of house price changes that captures various factors affecting buyers' and sellers' decisions.
+ This price momentum can be micro-founded in various ways following the literature on house price sensitivity.
+ For example,
+ when selling a house,
+ reference price utility,
+ as described in Barberis and Xiong (2012),
+ leads households to experience disutility from selling below the purchase price.
+ Sellers may also be loss-averse in reference pricing,
+ incentivizing them to hold house prices higher for longer than optimal given actual demand,
  in order to avoid the marginal loss discontinuity at the reference point.
- Additionally, demand concavity, as observed in Guren (2018), means that
- if prices fall below a certain threshold, demand does not increase (since
- households typically only need one house).
- Finally, downsizing aversion, due to financial constraints such as the
- need for a down-payment on a new house, as described in Stein (1995), may
- further discourage sellers from lowering their prices.
- These effects have been shown to be important in Danish data on the seller
- side, as documented in Andersen et al.
+ Additionally,
+ demand concavity,
+ as observed in Guren (2018),
+ means that if prices fall below a certain threshold,
+ demand does not increase (since households typically only need one house).
+ Finally,
+ downsizing aversion,
+ due to financial constraints such as the need for a down-payment on a new house,
+ as described in Stein (1995),
+ may further discourage sellers from lowering their prices.
+ These effects have been shown to be important in Danish data on the seller side,
+ as documented in Andersen et al.
  (2022).
- On the other hand, for buyers, recent sale prices and expected profits
- may serve as reference points for making purchasing decisions.
- Bao and Saunders (2021) found, based on micro-data from the UK housing
- market, that buyers use these reference points to guide their purchase
- behavior.
- We aim to capture these various incentives in the following way; 
+ On the other hand,
+ for buyers,
+ recent sale prices and expected profits may serve as reference points for making purchasing decisions.
+ Bao and Saunders (2021) found,
+ based on micro-data from the UK housing market,
+ that buyers use these reference points to guide their purchase behavior.
+ We aim to capture these various incentives in the following way;
+ 
 \end_layout
 
 \begin_layout Standard
-We temporarily shift the preference for housing, 
+We temporarily shift the preference for housing,
+ 
 \begin_inset Formula $\upsilon_{a,t}^{d}$
 \end_inset
 
-, when prices are volatile through the dampening function 
+,
+ when prices are volatile through the dampening function 
 \begin_inset Formula $\Psi_{t}^{D}$
 \end_inset
 
@@ -2742,8 +2860,7 @@ U_{a,t}^{d} & =\left[\tilde{U}_{a,t}\right]^{-\eta}\frac{\partial\tilde{U}_{a,t}
 \end_layout
 
 \begin_layout Standard
-while the second is the derivative in period t+1 with respect to current
- housing
+while the second is the derivative in period t+1 with respect to current housing
 \end_layout
 
 \begin_layout Standard
@@ -2770,29 +2887,33 @@ name "sec:Consumption components"
 \end_layout
 
 \begin_layout Standard
-At the top of the household utility function we have two components: owned
- housing and the non-housing consumption aggregate.
- Owned housing is a single good with no sub-components but non-housing consumpti
-on aggregates many elements through a CES tree structure.
- Note, however, that rental housing is not an element in the CES tree, but
- instead it is an exogenous element in the budget constraint of the household.
+At the top of the household utility function we have two components:
+ owned housing and the non-housing consumption aggregate.
+ Owned housing is a single good with no sub-components but non-housing consumption aggregates many elements through a CES tree structure.
+ Note,
+ however,
+ that rental housing is not an element in the CES tree,
+ but instead it is an exogenous element in the budget constraint of the household.
 \end_layout
 
 \begin_layout Standard
-The optimal choice of total consumption, savings, and housing, is described
- above in section 
+The optimal choice of total consumption,
+ savings,
+ and housing,
+ is described above in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:The-household-problem"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
 .
- In this section we detail the determination of the components of total
- non-housing consumption, 
+ In this section we detail the determination of the components of total non-housing consumption,
+ 
 \begin_inset Formula $C_{a,t}$
 \end_inset
 
@@ -2813,25 +2934,19 @@ c\in\{\text{cars, energy, goods, tourism, services}\}
 \end_layout
 
 \begin_layout Standard
-Household demand for these five consumption components is a part of total
- demand for output from the nine domestic sectors as well as for imported
- goods, a process described in the input/output chapter.
+Household demand for these five consumption components is a part of total demand for output from the nine domestic sectors as well as for imported goods,
+ a process described in the input/output chapter.
 \end_layout
 
 \begin_layout Standard
-Note that services included in the non-housing consumption aggregate does
- not include expenses to financial services (from the pension sector).
- Expenses to financial services are for example expenses to administration
- and investment of pension funds.
- For the consumers these are costs that reduce their financial returns on
- these assets.
- In the national accounts these costs are used to produce financial services
- for the households - i.e.
+Note that services included in the non-housing consumption aggregate does not include expenses to financial services (from the pension sector).
+ Expenses to financial services are for example expenses to administration and investment of pension funds.
+ For the consumers these are costs that reduce their financial returns on these assets.
+ In the national accounts these costs are used to produce financial services for the households - i.e.
  consumption of services.
- The aggregate consumption of services include these financial services
- as does aggregate consumption, but they are not part of the nested consumption
- excluding housing.
- It is assumed that financial esrvices has the same price as other services.
+ The aggregate consumption of services include these financial services as does aggregate consumption,
+ but they are not part of the nested consumption excluding housing.
+ It is assumed that financial services has the same price as other services.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2839,8 +2954,8 @@ The nested consumption components
 \end_layout
 
 \begin_layout Standard
-These five consumption components come together in the following CES nest
- structure, where the uppermost aggregate for an agent aged 
+These five consumption components come together in the following CES nest structure,
+ where the uppermost aggregate for an agent aged 
 \begin_inset Formula $a$
 \end_inset
 
@@ -2853,8 +2968,8 @@ These five consumption components come together in the following CES nest
 \end_inset
 
 .
- To keep the model tractable and due to data limitations, we assume that
- all agents have identical preferences for these goods.
+ To keep the model tractable and due to data limitations,
+ we assume that all agents have identical preferences for these goods.
  We can therefore aggregate individual agent non-housing consumption as
 \end_layout
 
@@ -2883,7 +2998,7 @@ C_{\text{cars},t} & C_{t}^{EGTS}\ar@{-}[dr]\ar@{-}[d]\\
  &  & C_{\text{goods},t} & C_{t}^{TS}\ar@{-}[dr]\ar@{-}[d]\\
  &  &  & C_{\text{tourism},t} & C_{\text{services},t}
 }
-($
+$
 \end_inset
 
 
@@ -2894,13 +3009,10 @@ CES optimization
 \end_layout
 
 \begin_layout Standard
-The approach of nested CES cost minimization is described in detail in the
- production chapter.
- The problem here is identical, only simpler as there are no extra elements
- such as technological progress or variable utilization multiplying consumption
- quantities.
- We can summarize the problem at every level of the consumption tree as
- follows
+The approach of nested CES cost minimization is described in detail in the production chapter.
+ The problem here is identical,
+ only simpler as there are no extra elements such as technological progress or variable utilization multiplying consumption quantities.
+ We can summarize the problem at every level of the consumption tree as follows
 \end_layout
 
 \begin_layout Standard
@@ -2908,14 +3020,10 @@ The approach of nested CES cost minimization is described in detail in the
 \[
 \begin{array}{ccc}
 \text{Utility} & \Rightarrow & C^{ij}=\left[\left(\mu^{i}\right)^{\frac{1}{\eta}}\left(C^{i}\right)^{\frac{\eta-1}{\eta}}+\left(\mu^{j}\right)^{\frac{1}{\eta}}\left(C^{j}\right)^{\frac{\eta-1}{\eta}}\right]^{\frac{\eta}{\eta-1}}\\
-\\
-\text{Derivative} & \Rightarrow & \frac{\partial C^{ij}}{\partial C^{i}}=\left(\mu^{i}\frac{C^{ij}}{C^{i}}\right)^{\frac{1}{\eta}}\\
-\\
-\text{Demand/F.O.C.} & \Rightarrow & C^{i}=\mu^{i}C^{ij}\left(\frac{P^{ij}}{p^{i}}\right)^{\eta}\\
-\\
-\text{Constraint} & \Rightarrow & P^{ij}C^{ij}=p^{i}C^{i}+p^{j}C^{j}\\
-\\
-\text{CES Price} & \Rightarrow & P^{ij}=\left[\mu^{i}\left(p^{i}\right)^{1-\eta}+\mu^{j}\left(p^{j}\right)^{1-\eta}\right]^{\frac{1}{1-\eta}}
+\\\text{Derivative} & \Rightarrow & \frac{\partial C^{ij}}{\partial C^{i}}=\left(\mu^{i}\frac{C^{ij}}{C^{i}}\right)^{\frac{1}{\eta}}\\
+\\\text{Demand/F.O.C.} & \Rightarrow & C^{i}=\mu^{i}C^{ij}\left(\frac{P^{ij}}{p^{i}}\right)^{\eta}\\
+\\\text{Constraint} & \Rightarrow & P^{ij}C^{ij}=p^{i}C^{i}+p^{j}C^{j}\\
+\\\text{CES Price} & \Rightarrow & P^{ij}=\left[\mu^{i}\left(p^{i}\right)^{1-\eta}+\mu^{j}\left(p^{j}\right)^{1-\eta}\right]^{\frac{1}{1-\eta}}
 \end{array}
 \]
 
@@ -2929,7 +3037,8 @@ Here the
 \begin_inset Formula $\mu$
 \end_inset
 
- are scale parameters, and the 
+ are scale parameters,
+ and the 
 \begin_inset Formula $\eta$
 \end_inset
 
@@ -2941,6 +3050,7 @@ reference "tab:Upper-Tree-Elasticities"
 plural "false"
 caps "false"
 noprefix "false"
+nolink "false"
 
 \end_inset
 
@@ -2951,6 +3061,7 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
@@ -3021,7 +3132,7 @@ name "tab:Upper-Tree-Elasticities"
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.3
+1
 \end_layout
 
 \end_inset
@@ -3045,7 +3156,7 @@ Cars and
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2
+1.04
 \end_layout
 
 \end_inset
@@ -3069,7 +3180,7 @@ Energy and
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0
+0.26
 \end_layout
 
 \end_inset
@@ -3093,7 +3204,7 @@ Goods and
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.7
+0.94
 \end_layout
 
 \end_inset
@@ -3113,7 +3224,7 @@ Tourism and services
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.1
+1.25
 \end_layout
 
 \end_inset
@@ -3137,21 +3248,18 @@ Tourism
 
 \begin_layout Standard
 There are both imports and exports of tourism.
- Imports of tourism consist of how much Danish households consume abroad
- and are given by the demand component 
+ Imports of tourism consist of how much Danish households consume abroad and are given by the demand component 
 \begin_inset Formula $C_{\text{tourism},t}$
 \end_inset
 
  from the tree above.
  This is a regular consumption good and its demand increases with income.
- Exports of tourism are determined in the exports chapter and its aggregate
- is 
+ Exports of tourism are determined in the exports chapter and its aggregate is 
 \begin_inset Formula $X_{\text{tourism},t}$
 \end_inset
 
 .
- The consumption of foreign tourists in Denmark is also divided into consumption
- groups in the export chapter and is given by 
+ The consumption of foreign tourists in Denmark is also divided into consumption groups in the export chapter and is given by 
 \begin_inset Formula $C_{c,t}^{Tourist}$
 \end_inset
 
@@ -3163,8 +3271,7 @@ Total consumption of goods type
 \begin_inset Formula $c$
 \end_inset
 
- in Denmark is the sum of Danish households' consumption and tourists' consumpti
-on in Denmark:
+ in Denmark is the sum of Danish households' consumption and tourists' consumption in Denmark:
 \end_layout
 
 \begin_layout Standard
@@ -3179,9 +3286,9 @@ P_{c,t}^{CDK}C_{c,t}^{DK}=P_{c,t}^{C}C_{c,t}+P_{c,t}^{CTourist}C_{c,t}^{Tourist}
 \end_layout
 
 \begin_layout Standard
-The input/output system is based on deliveries from the 9 production sectors
- to demand groups (see input/ouput chapter).
- The demand groups for consumption include tourists' consumption, 
+The input/output system is based on deliveries from the 9 production sectors to demand groups (see input/ouput chapter).
+ The demand groups for consumption include tourists' consumption,
+ 
 \begin_inset Formula $C_{c,t}^{DK}$
 \end_inset
 
@@ -3189,9 +3296,8 @@ The input/output system is based on deliveries from the 9 production sectors
 \end_layout
 
 \begin_layout Standard
-Whereas in the model Danes and tourists face the same prices for the same
- goods, in order to match the data they cannot face the same price for the
- same consumption components.
+Whereas in the model Danes and tourists face the same prices for the same goods,
+ in order to match the data they cannot face the same price for the same consumption components.
  We therefore use an adjustment factor
 \end_layout
 
@@ -3212,8 +3318,7 @@ where
 \end_layout
 
 \begin_layout Standard
-The value of aggregate Danish consumption does not include the consumption
- of foreign tourists in Denmark (as these are counted as exports).
+The value of aggregate Danish consumption does not include the consumption of foreign tourists in Denmark (as these are counted as exports).
 \end_layout
 
 \begin_layout Standard
@@ -3227,6 +3332,8 @@ Households variables
 
 \begin_layout Standard
 \begin_inset Float table
+placement document
+alignment document
 wide false
 sideways false
 status open
@@ -3349,7 +3456,9 @@ B_{j,a,t}
 \begin_inset Text
 
 \begin_layout Plain Layout
-vHhx, vHhxR, vHhxHtm
+vHhx,
+ vHhxR,
+ vHhxHtm
 \end_layout
 
 \end_inset
@@ -3397,7 +3506,8 @@ c_{j,a,t}
 \begin_inset Text
 
 \begin_layout Plain Layout
-qCR, qCHtM
+qCR,
+ qCHtM
 \end_layout
 
 \end_inset
@@ -3589,7 +3699,8 @@ f\left(D_{j,a,t},D_{j,a-1,t-1}\right)
 \begin_inset Text
 
 \begin_layout Plain Layout
-vBoligUdgiftR[a,t], vBoligUdgiftHtM[a,t]
+vBoligUdgiftR[a,t],
+ vBoligUdgiftHtM[a,t]
 \end_layout
 
 \end_inset
@@ -3801,6 +3912,8 @@ vHhPensUdb[portf_,a_,t]
 
 \begin_layout Standard
 \begin_inset Float table
+placement document
+alignment document
 wide false
 sideways false
 status open
@@ -4162,8 +4275,7 @@ Appendices
 \end_layout
 
 \begin_layout Standard
-In the following appendices the emphasis is on the derivation of parts of
- the model.
+In the following appendices the emphasis is on the derivation of parts of the model.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4178,9 +4290,10 @@ name "subsec:Calculating-the-bequest"
 \end_layout
 
 \begin_layout Standard
-This section follows Boserup, Kopczuk, and Kreiner (2016).
- Households take bequests received as exogenous and these enter the budget
- constraint as an additive term which is 
+This section follows Boserup,
+ Kopczuk,
+ and Kreiner (2016).
+ Households take bequests received as exogenous and these enter the budget constraint as an additive term which is 
 \begin_inset Quotes eld
 \end_inset
 
@@ -4189,8 +4302,8 @@ hidden
 \end_inset
 
  inside the income variable.
- Even if agents receive bequests in the first period of economic life (age
- 18), we still have the initial condition for assets that 
+ Even if agents receive bequests in the first period of economic life (age 18),
+ we still have the initial condition for assets that 
 \series bold
 
 \begin_inset Formula $B_{0,t}$
@@ -4198,40 +4311,46 @@ hidden
 
 
 \series default
- is taken as given by the agent, as we exogenize transfers associated with
- children.
+ is taken as given by the agent,
+ as we exogenize transfers associated with children.
 \end_layout
 
 \begin_layout Standard
-An individual of any given age receives bequests from agents deceased also
- at any given age.
+An individual of any given age receives bequests from agents deceased also at any given age.
  The distribution of bequests is modeled through a time varying matrix 
 \begin_inset Formula $M_{t}(a_{d},a_{h})$
 \end_inset
 
- where the indices refer respectively to the age of the deceased and to
- the age of the heir.
- This allocation matrix is general in that it encompasses all deaths, not
- just deaths of parents or grandparents, and all heirs.
+ where the indices refer respectively to the age of the deceased and to the age of the heir.
+ This allocation matrix is general in that it encompasses all deaths,
+ not just deaths of parents or grandparents,
+ and all heirs.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-The sample is larger than in Boserup, Kopczuk, and Kreiner, (2016).
- Nearly everyone who dies has a son or daughter, a parent, a nephew or niece,
- an uncle, etc.
- Therefore, unaccounted would be only those who die alone yet have substantial
- assets to distribute.
+The sample is larger than in Boserup,
+ Kopczuk,
+ and Kreiner,
+ (2016).
+ Nearly everyone who dies has a son or daughter,
+ a parent,
+ a nephew or niece,
+ an uncle,
+ etc.
+ Therefore,
+ unaccounted would be only those who die alone yet have substantial assets to distribute.
 \end_layout
 
 \end_inset
 
- As an example, children also die and leave assets to their parents and
- siblings.
+ As an example,
+ children also die and leave assets to their parents and siblings.
 \end_layout
 
 \begin_layout Standard
-When an individual dies in the model, he leaves a bequest.
+When an individual dies in the model,
+ he leaves a bequest.
  Assume that the individual dies at age 
 \begin_inset Formula $a_{d}$
 \end_inset
@@ -4241,13 +4360,13 @@ When an individual dies in the model, he leaves a bequest.
 \begin_inset Formula $M_{t}(a_{d},a_{h})$
 \end_inset
 
-, describes the share of his bequest going to an average 
+,
+ describes the share of his bequest going to an average 
 \begin_inset Formula $a_{h}$
 \end_inset
 
  year old individual.
- A given fraction of his wealth which he leaves as bequest is distributed
- equally by all agents of age 
+ A given fraction of his wealth which he leaves as bequest is distributed equally by all agents of age 
 \begin_inset Formula $a_{h}$
 \end_inset
 
@@ -4265,19 +4384,19 @@ The matrix
 \begin_inset Formula $M_{t}(a_{d},a_{h})$
 \end_inset
 
- is based on estimates of individual bequests from Danish administrative
- data.
+ is based on estimates of individual bequests from Danish administrative data.
  These estimates are obtained using a difference-in-difference estimator.
  This measures how the difference in wealth of an individual of age 
 \begin_inset Formula $a_{h}$
 \end_inset
 
-, whose relative of age 
+,
+ whose relative of age 
 \begin_inset Formula $a_{d}$
 \end_inset
 
- has died, differs from the the difference in wealth of the average person
- of age 
+ has died,
+ differs from the the difference in wealth of the average person of age 
 \begin_inset Formula $a_{h}$
 \end_inset
 
@@ -4325,8 +4444,7 @@ The matrix
 \begin_inset Formula $a_{h}$
 \end_inset
 
- year olds (not just the ones involved in estimated bequest transfers but
- all individuals).
+ year olds (not just the ones involved in estimated bequest transfers but all individuals).
  The result is a data frame containing the average bequest 
 \begin_inset Formula $H_{a_{d},a_{h},t}$
 \end_inset
@@ -4339,7 +4457,8 @@ The matrix
 \begin_inset Formula $a_{d}$
 \end_inset
 
- year old, regardless of whether a relative has died,
+ year old,
+ regardless of whether a relative has died,
 \begin_inset Formula 
 \[
 H_{a_{d},a_{h},t}=\frac{1}{N_{a_{h},t}N_{a_{d},t}}\left[\underbrace{\sum_{i}\widetilde{H}_{a_{d},a_{h},i,t}}_{\text{All transfers \ensuremath{a_{d}}to \ensuremath{a_{h}}}}\right]
@@ -4382,7 +4501,8 @@ H_{a_{d},t}=\sum_{a_{h}}H_{a_{d},a_{h},t}N_{a_{h},t}=\frac{1}{N_{a_{d},t}}\left[
 \end_layout
 
 \begin_layout Standard
-Due to the sparsity of these matrices, they are averaged over time
+Due to the sparsity of these matrices,
+ they are averaged over time
 \end_layout
 
 \begin_layout Standard
@@ -4414,9 +4534,8 @@ The share of an
 \end_inset
 
 This share contains a large amount of noise.
- We therefore conduct a non-parametric estimation, using a local linear
- regression with the age of both giver and receiver as dependent variables
- and a Gaussian kernel.
+ We therefore conduct a non-parametric estimation,
+ using a local linear regression with the age of both giver and receiver as dependent variables and a Gaussian kernel.
  
 \begin_inset Formula $\widetilde{\chi}_{a_{d},a_{h}}$
 \end_inset
@@ -4434,14 +4553,15 @@ Since
 \begin_inset Formula $\chi_{a_{d},a_{h}}$
 \end_inset
 
- is time invariant, 
+ is time invariant,
+ 
 \begin_inset Formula $\chi_{a_{d},a_{h}}N_{a_{h},t}$
 \end_inset
 
  will generally not sum to 1.
  This means that bequests given will not be the same as bequests received.
- To prevent this, the shares are normalized so that we finally obtain the
- allocation matrix
+ To prevent this,
+ the shares are normalized so that we finally obtain the allocation matrix
 \end_layout
 
 \begin_layout Standard
@@ -4481,13 +4601,13 @@ Consistency.
 \end_layout
 
 \begin_layout Standard
-Since people die at the end of a period the total bequest given by a deceased
- member of age group 
+Since people die at the end of a period the total bequest given by a deceased member of age group 
 \begin_inset Formula $a_{d}$
 \end_inset
 
-, consists of his assets at the end of the period, which in the case of
- the model are net financial assets 
+,
+ consists of his assets at the end of the period,
+ which in the case of the model are net financial assets 
 \begin_inset Formula $B_{a_{d},t}$
 \end_inset
 
@@ -4496,8 +4616,7 @@ Since people die at the end of a period the total bequest given by a deceased
 status collapsed
 
 \begin_layout Plain Layout
-In the data the value of property is included in the wealth difference such
- that the allocation matrix we use is consistent with the model.
+In the data the value of property is included in the wealth difference such that the allocation matrix we use is consistent with the model.
 \end_layout
 
 \end_inset
@@ -4519,7 +4638,8 @@ In the data the value of property is included in the wealth difference such
 \begin_inset Formula $s_{a_{d},t}$
 \end_inset
 
- is the survival rate, i.e.
+ is the survival rate,
+ i.e.
  the probability of an 
 \begin_inset Formula $a_{d}$
 \end_inset
@@ -4605,14 +4725,13 @@ This in turn results in total bequests received being
 \end_layout
 
 \begin_layout Standard
-so that total bequests given last period equal total bequests received this
- period
+so that total bequests given last period equal total bequests received this period
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-The amount actually available as disposable income for the receiver differs
- from the amount given due to transaction costs, taxes and interests payments.
+The amount actually available as disposable income for the receiver differs from the amount given due to transaction costs,
+ taxes and interests payments.
 \end_layout
 
 \end_inset
@@ -4638,8 +4757,8 @@ The model generates the net financial variable
 
  endogenously.
  In the data this quantity is made up of the sum of different assets (stocks,
- bonds and bank deposits) minus the sum of liabilities (bank debt), so that
- in gross term 
+ bonds and bank deposits) minus the sum of liabilities (bank debt),
+ so that in gross term 
 \begin_inset Formula $B=A-L$
 \end_inset
 
@@ -4648,9 +4767,8 @@ The model generates the net financial variable
 \begin_inset Formula $B$
 \end_inset
 
- into assets and liabilities displays systematic patterns over the life
- cycle, and here we detail how to capture these features and use them in
- our model.
+ into assets and liabilities displays systematic patterns over the life cycle,
+ and here we detail how to capture these features and use them in our model.
  We first look at a very simple example to highlight the approach.
 \end_layout
 
@@ -4659,10 +4777,8 @@ Assets and Liabilities as functions of B
 \end_layout
 
 \begin_layout Standard
-The exogenous portfolio composition is estimated from the data as in the
- following example with one asset and one liability.
- This allows us to take into account that 1) portfolios change with age
- and 2) portfolios change with the size of net-savings.
+The exogenous portfolio composition is estimated from the data as in the following example with one asset and one liability.
+ This allows us to take into account that 1) portfolios change with age and 2) portfolios change with the size of net-savings.
  Assets 
 \begin_inset Formula $A_{a,t}$
 \end_inset
@@ -4695,8 +4811,8 @@ and here the quantities
 \begin_inset Formula $B_{a,t}$
 \end_inset
 
- are cohort averages, and therefore the quantities that apply to individual
- households.
+ are cohort averages,
+ and therefore the quantities that apply to individual households.
 \end_layout
 
 \begin_layout Standard
@@ -4718,7 +4834,8 @@ Since
 \begin_inset Formula $A=X\beta_{A}+\epsilon_{A}$
 \end_inset
 
-, and 
+,
+ and 
 \begin_inset Formula $L=X\beta_{L}+\epsilon_{L}$
 \end_inset
 
@@ -4731,21 +4848,26 @@ Since
 \end_inset
 
  are column vectors.
- Taking the estimator for assets, 
+ Taking the estimator for assets,
+ 
 \begin_inset Formula $\hat{\beta}_{A}=(X'X)^{-1}X'A$
 \end_inset
 
-, and using the fact that 
+,
+ and using the fact that 
 \begin_inset Formula $A=B+L$
 \end_inset
 
-, we can write 
+,
+ we can write 
 \begin_inset Formula $\hat{\beta}_{A}=(X'X)^{-1}X'B+\hat{\beta}_{L}$
 \end_inset
 
 .
- Here, since the matrix X has two column vectors, a column of ones and the
- vector B, the OLS algebra implies 
+ Here,
+ since the matrix X has two column vectors,
+ a column of ones and the vector B,
+ the OLS algebra implies 
 \begin_inset Formula 
 \[
 \hat{\beta}_{A}-\hat{\beta}_{L}=(X'X)^{-1}X'B=\left[\begin{array}{c}
@@ -4772,7 +4894,8 @@ In a regression
 \begin_inset Formula $X$
 \end_inset
 
-, containing the vector 
+,
+ containing the vector 
 \begin_inset Formula $B$
 \end_inset
 
@@ -4781,11 +4904,9 @@ In a regression
 \begin_inset Formula $A-L=B$
 \end_inset
 
- the sum across equations of coefficients attached to B must be 1 and the
- sum of coefficients attached to any other variables must be 0, because
- the projection of B on B is exact.
- These properties extend to the case where the regressions have explanatory
- variables so that the matrix 
+ the sum across equations of coefficients attached to B must be 1 and the sum of coefficients attached to any other variables must be 0,
+ because the projection of B on B is exact.
+ These properties extend to the case where the regressions have explanatory variables so that the matrix 
 \begin_inset Formula $X$
 \end_inset
 
@@ -4794,13 +4915,11 @@ In a regression
 
 \begin_layout Standard
 OLS is adequate as the relationships we are estimating are not behavioral.
- They are instead a way to capture the patterns observed in the data more
- accurately than just using averages as done in e.g.
+ They are instead a way to capture the patterns observed in the data more accurately than just using averages as done in e.g.
  DREAM.
- For historical data we add the OLS error to the estimated regression so
- as to replicate the portfolio data exactly.
+ For historical data we add the OLS error to the estimated regression so as to replicate the portfolio data exactly.
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 OLS is unbiased.
@@ -4808,18 +4927,21 @@ OLS is unbiased.
 \begin_inset Formula $N_{a}$
 \end_inset
 
- is more efficient in the presence of age related heteroeskedasticity.
- However, the error from this estimator, 
+ is more efficient in the presence of age related heteroskedasticity.
+ However,
+ the error from this estimator,
+ 
 \begin_inset Formula $Y-X\hat{\beta}_{GLS}$
 \end_inset
 
-, no longer sums to zero.
+,
+ no longer sums to zero.
 \end_layout
 
 \end_inset
 
- For forward looking simulation we leave the orthogonal error (which has
- mean zero across ages and across assets) out, and use the estimated parameters,
+ For forward looking simulation we leave the orthogonal error (which has mean zero across ages and across assets) out,
+ and use the estimated parameters,
  plus endogenous 
 \begin_inset Formula $B$
 \end_inset
@@ -4829,16 +4951,12 @@ OLS is unbiased.
 \end_inset
 
  to generate a portfolio going forward.
- Note that the estimation procedure and the exact specification of these
- equations are agnostic (given the specification assumed) with respect to
- the data.
- There may be theoretical reasons to think portfolio composition should
- vary over the life cycle.
- If the data contains such heterogeneity, the estimated parameters will
- reflect that by having different values for different assets.
- In addition, the estimated portfolio is an optimal portfolio given the
- underlying assumption is that agents made optimal decisions that resulted
- in what we observe.
+ Note that the estimation procedure and the exact specification of these equations are agnostic (given the specification assumed) with respect to the data.
+ There may be theoretical reasons to think portfolio composition should vary over the life cycle.
+ If the data contains such heterogeneity,
+ the estimated parameters will reflect that by having different values for different assets.
+ In addition,
+ the estimated portfolio is an optimal portfolio given the underlying assumption is that agents made optimal decisions that resulted in what we observe.
 \end_layout
 
 \begin_layout Paragraph
@@ -4850,11 +4968,13 @@ For several asset types
 \begin_inset Formula $i$
 \end_inset
 
-, and liability types 
+,
+ and liability types 
 \begin_inset Formula $j$
 \end_inset
 
-, we have at any given moment 
+,
+ we have at any given moment 
 \begin_inset Formula $t$
 \end_inset
 
@@ -4907,7 +5027,8 @@ where
 \begin_inset Formula $B$
 \end_inset
 
-, and another macroeconomic variable 
+,
+ and another macroeconomic variable 
 \begin_inset Formula $Q$
 \end_inset
 
@@ -4928,11 +5049,13 @@ with
 \begin_inset Formula $N_{t}=\sum_{a}N_{a,t}$
 \end_inset
 
-, and 
+,
+ and 
 \begin_inset Formula $S_{t}^{a}=\sum_{a}N_{a,t}\cdot a$
 \end_inset
 
-, and 
+,
+ and 
 \begin_inset Formula $B_{t}=\sum_{a}N_{a,t}B_{a,t}$
 \end_inset
 
@@ -4941,29 +5064,6 @@ with
 \end_inset
 
 .
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-Because we have constrained and unconstrained agents the overall aggregates
- are 
-\begin_inset Formula $B_{t}=\sum_{j,a}N_{a,t}\left\{ \Upsilon_{j}B_{j,a,t}\right\} $
-\end_inset
-
- and 
-\begin_inset Formula $D_{t}=\sum_{j,a}N_{a,t}\left\{ \Upsilon_{j}D_{j,a,t}\right\} $
-\end_inset
-
-.
- Note that impatient households only have non zero 
-\begin_inset Formula $B$
-\end_inset
-
- in the response to a shock.
-\end_layout
-
-\end_inset
-
  The object 
 \begin_inset Formula $Q_{t}$
 \end_inset
@@ -4982,7 +5082,8 @@ Homogeneity
 
 \begin_layout Standard
 We now briefly drop the time subscript.
- In OLS regression terminology, the objects Y and X are (for asset 
+ In OLS regression terminology,
+ the objects Y and X are (for asset 
 \begin_inset Formula $i$
 \end_inset
 
@@ -4994,8 +5095,10 @@ We now briefly drop the time subscript.
 \begin_inset Formula $X$
 \end_inset
 
- containing four column variables (intercept, age, Z, and B) with as many
- rows as ages 
+ containing four column variables (intercept,
+ age,
+ Z,
+ and B) with as many rows as ages 
 \begin_inset Formula $a$
 \end_inset
 
@@ -5008,14 +5111,14 @@ X=\left[\begin{array}{cccc}
 
 \end_inset
 
-The way the intercept terms are defined plays a role in ensuring homogeneity
- of degree 1 in the model.
- Homogeneity of degree 1 is ensured if, when increasing all exogenous variables
- by a common factor 
+The way the intercept terms are defined plays a role in ensuring homogeneity of degree 1 in the model.
+ Homogeneity of degree 1 is ensured if,
+ when increasing all exogenous variables by a common factor 
 \begin_inset Formula $\varLambda$
 \end_inset
 
-, the model yields all endogenous variables factored by the same 
+,
+ the model yields all endogenous variables factored by the same 
 \begin_inset Formula $\varLambda$
 \end_inset
 
@@ -5041,7 +5144,9 @@ The way the intercept terms are defined plays a role in ensuring homogeneity
 
 \end_inset
 
-which, after canceling terms, yields
+which,
+ after canceling terms,
+ yields
 \begin_inset Formula 
 \[
 \frac{A^{i}}{B}=\left[\left(I_{0}^{i}+I_{1}^{i}\right)\frac{Q}{B}+I_{z}^{i}\frac{Z}{B}+\lambda^{i}\right]
@@ -5049,9 +5154,7 @@ which, after canceling terms, yields
 
 \end_inset
 
-The portfolio structure only needs to ensure the homogeneity of aggregate
- (sum over all individuals and all cohorts) assets and liabilities with
- respect to 
+The portfolio structure only needs to ensure the homogeneity of aggregate (sum over all individuals and all cohorts) assets and liabilities with respect to 
 \begin_inset Formula $B$
 \end_inset
 
@@ -5065,8 +5168,8 @@ The portfolio structure only needs to ensure the homogeneity of aggregate
 \begin_inset Formula $Q$
 \end_inset
 
- is a macro variable introduced as a scaling factor, the long-run portfolio
- composition is constant as long as MAKRO preserves the ratio 
+ is a macro variable introduced as a scaling factor,
+ the long-run portfolio composition is constant as long as MAKRO preserves the ratio 
 \begin_inset Formula $Q/B$
 \end_inset
 
@@ -5076,8 +5179,8 @@ The portfolio structure only needs to ensure the homogeneity of aggregate
 \end_inset
 
 .
- However, policy interventions or structural changes that affect the long-run
- ratios 
+ However,
+ policy interventions or structural changes that affect the long-run ratios 
 \begin_inset Formula $Q/B$
 \end_inset
 
@@ -5094,8 +5197,8 @@ The portfolio structure only needs to ensure the homogeneity of aggregate
 \begin_inset Formula $S^{a}$
 \end_inset
 
-, which ensure that the portfolio is homogeneous with respect to population
- size.
+,
+ which ensure that the portfolio is homogeneous with respect to population size.
 \end_layout
 
 \begin_layout Paragraph
@@ -5103,11 +5206,9 @@ Housing
 \end_layout
 
 \begin_layout Standard
-We include housing in the auxiliary variable Z in the regression since it
- is a key determinant of non-mortgage bank debt.
- Note that we implement the portfolio with one short-run deviation from
- the estimated model: a slow-moving house price instead of the market clearing
- price.
+We include housing in the auxiliary variable Z in the regression since it is a key determinant of non-mortgage bank debt.
+ Note that we implement the portfolio with one short-run deviation from the estimated model:
+ a slow-moving house price instead of the market clearing price.
  We now detail the algebra associated with these features.
  Consider the equation for some asset 
 \begin_inset Formula $i$
@@ -5135,17 +5236,18 @@ and aggregation
 status collapsed
 
 \begin_layout Plain Layout
-The actual estimated equation multiplies both sides of this equation by
- population 
+The actual estimated equation multiplies both sides of this equation by population 
 \begin_inset Formula $N_{a,t}$
 \end_inset
 
 .
- In addition, the scaling objects 
+ In addition,
+ the scaling objects 
 \begin_inset Formula $Q_{t}$
 \end_inset
 
-, 
+,
+ 
 \begin_inset Formula $N_{t},$
 \end_inset
 
@@ -5153,8 +5255,7 @@ and
 \begin_inset Formula $S_{t}^{a}$
 \end_inset
 
- are implicit as constants mutiplying the variables so that the actual coefficie
-nts 
+ are implicit as constants mutiplying the variables so that the actual coefficients 
 \begin_inset Formula $(I_{0}^{i},I_{1}^{i})$
 \end_inset
 
@@ -5196,8 +5297,7 @@ The house price
 \begin_inset Formula $D_{a,t}$
 \end_inset
 
- in this equation is the same for all ages and therefore just scales the
- estimated parameter 
+ in this equation is the same for all ages and therefore just scales the estimated parameter 
 \begin_inset Formula $I_{d}^{i}$
 \end_inset
 
@@ -5224,7 +5324,8 @@ The marginal return on housing is
 \begin_inset Formula $I_{d}^{i}\cdot X_{t}\bar{p}_{t}^{D}$
 \end_inset
 
-, and with all assets and liabilities
+,
+ and with all assets and liabilities
 \begin_inset Formula 
 \[
 \bar{r}_{t}^{D}=\bar{p}_{t}^{D}\left(\sum_{i}r_{t}^{i}I_{d,t-1}^{i}-\sum_{i}r_{t}^{j}I_{d,t-1}^{j}\right)
@@ -5232,7 +5333,9 @@ The marginal return on housing is
 
 \end_inset
 
-Aggregation and long run properties, however, require some adjustment.
+Aggregation and long run properties,
+ however,
+ require some adjustment.
  As we aggregate 
 \begin_inset Formula $\sum_{a}N_{a,t}A_{j,a,t}^{i}=A_{t}^{i}$
 \end_inset
@@ -5278,8 +5381,8 @@ so that homogeneity is a property determined by the ratio
 \end_layout
 
 \begin_layout Standard
-Note that, as the entire household problem generates endogenous variation
- for 
+Note that,
+ as the entire household problem generates endogenous variation for 
 \begin_inset Formula $B$
 \end_inset
 
@@ -5287,15 +5390,13 @@ Note that, as the entire household problem generates endogenous variation
 \begin_inset Formula $Z$
 \end_inset
 
-, the estimated portfolio model allows for endogenous variation of its constitue
-nt parts which by design is an optimal portfolio adjustment.
- Note also that any sluggishness in portfolio adjustment relative to economic
- conditions is already included in the estimated equations, either through
- lower coefficients attached to explanatory variables or through a higher
- intercept.
- Finally, the presence of the constant term yields an estimation error which
- is orthogonal to the life cycle, a property which is useful in the forecasting
- role of the model.
+,
+ the estimated portfolio model allows for endogenous variation of its constituent parts which by design is an optimal portfolio adjustment.
+ Note also that any sluggishness in portfolio adjustment relative to economic conditions is already included in the estimated equations,
+ either through lower coefficients attached to explanatory variables or through a higher intercept.
+ Finally,
+ the presence of the constant term yields an estimation error which is orthogonal to the life cycle,
+ a property which is useful in the forecasting role of the model.
 \end_layout
 
 \begin_layout Paragraph
@@ -5307,8 +5408,7 @@ Marginal return on
 \end_layout
 
 \begin_layout Standard
-Given a portfolio structure we now must fit the budget constraint on historical
- data.
+Given a portfolio structure we now must fit the budget constraint on historical data.
  The budget constraint with explicit assets and liabilities is
 \begin_inset Formula 
 \[
@@ -5317,11 +5417,13 @@ B_{a,t}=B_{a-1,t-1}+\underbrace{\left[\sum_{i}r_{t}^{i}A^{i}\left(B_{a-1,t-1}\ri
 
 \end_inset
 
-and, given 
+and,
+ given 
 \shape italic
 observed/realized
 \shape default
- rates of return, it is completely characterized.
+ rates of return,
+ it is completely characterized.
  The realized return on assets is 
 \begin_inset Formula 
 \[
@@ -5330,9 +5432,8 @@ observed/realized
 
 \end_inset
 
-where we note again that the parameters and intercept functions are timed
- in the same way as the underlying assets they describe, but the rates of
- return are timed one period forward.
+where we note again that the parameters and intercept functions are timed in the same way as the underlying assets they describe,
+ but the rates of return are timed one period forward.
 \end_layout
 
 \begin_layout Standard
@@ -5368,9 +5469,8 @@ and
 \begin_inset Formula $r_{t}^{j}$
 \end_inset
 
- on any assets and liabilities of unconstrained agents are not age related.
- Note that interest rates on bank debt may well be age related but we rule
- that out.
+ on any assets and liabilities are not age related.
+ Note that interest rates on bank debt may well be age related but we rule that out.
 \end_layout
 
 \begin_layout Paragraph
@@ -5395,8 +5495,8 @@ If the auxiliary variable
 \end_inset
 
 This is the case for housing.
- Since bank debt is related to housing purchases, we select the housing
- stock 
+ Since bank debt is related to housing purchases,
+ we select the housing stock 
 \begin_inset Formula $D_{a,t}$
 \end_inset
 
@@ -5409,9 +5509,8 @@ This is the case for housing.
 \end_inset
 
 .
- As the portfolio is related to the housing stock, the choice of housing
- now influences the savings decision through its impact on portfolio composition
- and returns.
+ As the portfolio is related to the housing stock,
+ the choice of housing now influences the savings decision through its impact on portfolio composition and returns.
  Note that as the household changes its decision on housing 
 \begin_inset Formula $D$
 \end_inset
@@ -5424,9 +5523,9 @@ This is the case for housing.
 
 
 \series default
-, the portfolio adjusts within the model as the data suggests it should.
- This adjustment is still exogenous as optimal portfolio composition is
- implicit in the estimated parameters of the portfolio structure.
+,
+ the portfolio adjusts within the model as the data suggests it should.
+ This adjustment is still exogenous as optimal portfolio composition is implicit in the estimated parameters of the portfolio structure.
 \end_layout
 
 \begin_layout Standard
@@ -5438,14 +5537,12 @@ As shown above the additional marginal rate is
 
 \end_inset
 
-and is generally non zero, unless the rate of return on assets and liabilities
- is the same.
+and is generally non zero,
+ unless the rate of return on assets and liabilities is the same.
  It is also not age dependent.
- This marginal rate helps characterize the user cost of housing in more
- detail as the household faces mortgage interest costs on the mortgage part,
+ This marginal rate helps characterize the user cost of housing in more detail as the household faces mortgage interest costs on the mortgage part,
  but opportunity costs on the non mortgage part.
- These opportunity costs now reflect also the change in portfolio weight
- on bank debt when the volume of housing changes.
+ These opportunity costs now reflect also the change in portfolio weight on bank debt when the volume of housing changes.
 \end_layout
 
 \begin_layout Paragraph
@@ -5501,7 +5598,8 @@ The parameters
 \begin_inset Formula $dvHh2dvHhx$
 \end_inset
 
- and, in the code the 
+ and,
+ in the code the 
 \begin_inset Formula $I_{d,t}^{i}$
 \end_inset
 
@@ -5538,8 +5636,10 @@ Shocks.
 \end_layout
 
 \begin_layout Standard
-Each different asset or liability has its own return, and, in the absence
- of shocks to the model, realized and 
+Each different asset or liability has its own return,
+ and,
+ in the absence of shocks to the model,
+ realized and 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5548,11 +5648,10 @@ expected
 \end_inset
 
  returns are identical.
- Since MAKRO is a perfect foresight model, when a shock occurs it changes
- the environment from one probability 1 scenario to a different probability
- 1 scenario.
- In the impact period of the shock (and only then), domestic stock returns
- (and only those) will differ from 
+ Since MAKRO is a perfect foresight model,
+ when a shock occurs it changes the environment from one probability 1 scenario to a different probability 1 scenario.
+ In the impact period of the shock (and only then),
+ domestic stock returns (and only those) will differ from 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5562,8 +5661,7 @@ expected
 
  returns.
  Realized returns are always included in the budget constraint.
- Expected returns (which obey arbitrage conditions in the absence of shocks)
- are always included in the intertemporal first-order conditions.
+ Expected returns (which obey arbitrage conditions in the absence of shocks) are always included in the intertemporal first-order conditions.
 \end_layout
 
 \begin_layout Subparagraph
@@ -5571,14 +5669,14 @@ Data.
 \end_layout
 
 \begin_layout Standard
-As households in MAKRO are divided in 100 age groups, it is a requirement
- of the data set used to calibrate households that it contains data distributed
- across those age groups.
+As households in MAKRO are divided in 100 age groups,
+ it is a requirement of the data set used to calibrate households that it contains data distributed across those age groups.
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-Reference: Christian P.
+Reference:
+ Christian P.
  Hoeck (2020).
  
 \begin_inset Quotes eld
@@ -5593,42 +5691,37 @@ The creation of lifecycle profiles for households in MAKRO.
 
 \end_inset
 
- The tasks that MAKRO will be used for also require that the sum of the
- wealth profiles over age correspond to the totals found in the national
- accounts.
- Such a data set was not available prior to the creation of the MAKRO life-cycle
- profiles.
+ The tasks that MAKRO will be used for also require that the sum of the wealth profiles over age correspond to the totals found in the national accounts.
+ Such a data set was not available prior to the creation of the MAKRO life-cycle profiles.
 \end_layout
 
 \begin_layout Standard
-The administrative data used to create the wealth profiles is drawn from
- the Statistics Denmark's administrative data on wealth, with some additional
- data being drawn from the Lovmodel database.
+The administrative data used to create the wealth profiles is drawn from the Statistics Denmark's administrative data on wealth,
+ with some additional data being drawn from the Lovmodel database.
  Aggregate data on wealth is drawn from national accounts.
- Returns are based on aggregate data and the portfolio composition implied
- by the created asset profiles.
+ Returns are based on aggregate data and the portfolio composition implied by the created asset profiles.
 \end_layout
 
 \begin_layout Standard
-The asset profiles are created using two steps: First, a correspondence
- between the administrative data and the asset structure in MAKRO is established.
- Most asset and liability types in MAKRO have clear correspondences to the
- administrative data.
- This includes bank debt, deposits, real estate, mortgages, and bonds.
- In MAKRO stocks are divided into foreign and domestic stocks, but Statistics
- Denmark's wealth data only contains information on the combined value of
- stocks.
- Data from the Lovmodel database is therefore used to divide the combined
- value of stocks into foreign and domestic stocks.
- In the second step, the asset and liability profiles are then scaled proportion
-ately to match the aggregate values from the national accounts.
+The asset profiles are created using two steps:
+ First,
+ a correspondence between the administrative data and the asset structure in MAKRO is established.
+ Most asset and liability types in MAKRO have clear correspondences to the administrative data.
+ This includes bank debt,
+ deposits,
+ real estate,
+ mortgages,
+ and bonds.
+ In MAKRO stocks are divided into foreign and domestic stocks,
+ but Statistics Denmark's wealth data only contains information on the combined value of stocks.
+ Data from the Lovmodel database is therefore used to divide the combined value of stocks into foreign and domestic stocks.
+ In the second step,
+ the asset and liability profiles are then scaled proportionately to match the aggregate values from the national accounts.
 \end_layout
 
 \begin_layout Standard
-Rates of return are calculated based on aggregate values from the national
- accounts.
- Combining the rates of return with the created asset and liability age
- profiles results in age profiles for total return
+Rates of return are calculated based on aggregate values from the national accounts.
+ Combining the rates of return with the created asset and liability age profiles results in age profiles for total return
 \end_layout
 
 \begin_layout Subsubsection
@@ -5665,23 +5758,20 @@ bricks
 \begin_inset Quotes erd
 \end_inset
 
- and buys land released from depreciated housing, packages these together
- and sells the resulting housing good to families.
+ and buys land released from depreciated housing,
+ packages these together and sells the resulting housing good to families.
  Here we make an important simplification to the model for practical reasons.
- As over time the exact composition of new housing in terms of bricks and
- land may change, so does the implicit composition in terms of bricks and
- land of the total housing holdings, and this affects households of different
- ages differently.
- We simplify the model by assuming that the composition of housing in terms
- of bricks and land is always identical for all households.
- This avoids having to trace two additional age specific stock variables
- (bricks and land) inside the household problem, and is similar to the assumptio
-n used in the labor market where the age distribution of workers is the
- same in every firm.
+ As over time the exact composition of new housing in terms of bricks and land may change,
+ so does the implicit composition in terms of bricks and land of the total housing holdings,
+ and this affects households of different ages differently.
+ We simplify the model by assuming that the composition of housing in terms of bricks and land is always identical for all households.
+ This avoids having to trace two additional age specific stock variables (bricks and land) inside the household problem,
+ and is similar to the assumption used in the labor market where the age distribution of workers is the same in every firm.
 \end_layout
 
 \begin_layout Standard
-Now, inside the housing good 
+Now,
+ inside the housing good 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5690,9 +5780,9 @@ bricks
 \end_inset
 
  depreciate but land does not.
- Nevertheless, the depreciation rate of the housing object is still the
- depreciation rate of bricks, as the land associated with depreciated bricks
- is released and sold by the household.
+ Nevertheless,
+ the depreciation rate of the housing object is still the depreciation rate of bricks,
+ as the land associated with depreciated bricks is released and sold by the household.
  Therefore we account for the released land as 
 \begin_inset Quotes eld
 \end_inset
@@ -5722,10 +5812,8 @@ recover
 
 \begin_layout Standard
 One final detail is that new land is released into the economy every period.
- The aggregate land variable grows exogenously and this land growth is helicopte
-r dropped on households proportionally to their individual land holdings.
- In order to settle the accounting of land sales we must determine the individua
-l land holdings relative to aggregate land.
+ The aggregate land variable grows exogenously and this land growth is helicopter dropped on households proportionally to their individual land holdings.
+ In order to settle the accounting of land sales we must determine the individual land holdings relative to aggregate land.
 \end_layout
 
 \begin_layout Standard
@@ -5737,8 +5825,7 @@ Individual households own the following fraction of total land:
 
 \end_inset
 
-The term in brackets contains the fraction of total land held by the appropriate
- population group 
+The term in brackets contains the fraction of total land held by the appropriate population group 
 \begin_inset Formula $(a,t)$
 \end_inset
 
@@ -5758,8 +5845,8 @@ The term in brackets contains the fraction of total land held by the appropriate
 \end_inset
 
 Now we are ready to determine revenues from land sales.
- The total quantity of land being sold is the land released by housing depreciat
-ion plus the helicopter land growth, 
+ The total quantity of land being sold is the land released by housing depreciation plus the helicopter land growth,
+ 
 \begin_inset Formula $Land_{t}^{sales}=\delta_{t}^{bricks}Land_{t-1}+Land_{t}-Land_{t-1}$
 \end_inset
 
@@ -5772,8 +5859,7 @@ D_{a-1,t-1}\cdot\varOmega_{t}^{Land}P_{t}^{Land}Land_{t}^{Sales}
 
 \end_inset
 
-This quantity is now adapted to the model in the main text by defining the
- object 
+This quantity is now adapted to the model in the main text by defining the object 
 \begin_inset Formula $\alpha_{t}^{Land}$
 \end_inset
 
@@ -5797,11 +5883,8 @@ where
 A final remark regarding depreciation is in order.
  Housing depreciation is endogenous in the data.
  Maintenance investments prolong the life of a house.
- Such investments are choices and either consist of home production or of
- purchases from small to medium size service providers such as plumbers
- and carpenters.
- This is a simple model extension which we have developed and can later
- be included in MAKRO if necessary.
+ Such investments are choices and either consist of home production or of purchases from small to medium size service providers such as plumbers and carpenters.
+ This is a simple model extension which we have developed and can later be included in MAKRO if necessary.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5834,8 +5917,7 @@ D_{a,t}=\left(1-\delta^{d}\right)D_{a-1,t-1}+Z_{a,t}
 \end_layout
 
 \begin_layout Standard
-When we derive the budget constraint we consider the cases of positive versus
- negative net investment in housing since when 
+When we derive the budget constraint we consider the cases of positive versus negative net investment in housing since when 
 \begin_inset Formula $Z_{a,t}>0$
 \end_inset
 
@@ -5844,8 +5926,7 @@ When we derive the budget constraint we consider the cases of positive versus
 \end_inset
 
  we do not.
- In order to make the budget constraint easier to read define the composite
- variable
+ In order to make the budget constraint easier to read define the composite variable
 \begin_inset Formula 
 \[
 \Delta_{a,t}\equiv B_{a,t}-\left(1+r_{a,t}\right)B_{a-1,t-1}-yDisp_{a,t}+rent_{t}H_{a,t}
@@ -5861,7 +5942,8 @@ We postulate the exogenous relationship for the mortgage debt stock
 \begin_inset Formula $X_{a,t}^{M}$
 \end_inset
 
-, such that mortgages are proportional to the value of the house
+,
+ such that mortgages are proportional to the value of the house
 \begin_inset Formula 
 \[
 X_{a,t}^{M}=\mu_{a,t}p_{t}^{D}D_{a,t}
@@ -5873,16 +5955,16 @@ where
 \begin_inset Formula $\mu_{a,t}$
 \end_inset
 
- is a variable which is exogenous to the household, and which we detail
- below.
- Endogenous mortgage ratios increase the size of the model and require modelling
- of credit relationships which is a non trivial expansion of MAKRO.
+ is a variable which is exogenous to the household,
+ and which we detail below.
+ Endogenous mortgage ratios increase the size of the model and require modelling of credit relationships which is a non trivial expansion of MAKRO.
 \end_layout
 
 \begin_layout Paragraph
 
 \series bold
-The budget constraint: positive investment in housing.
+The budget constraint:
+ positive investment in housing.
 \end_layout
 
 \begin_layout Standard
@@ -5895,8 +5977,8 @@ Consider first the case of
 \begin_inset Formula $M_{a,t}^{DP}>0$
 \end_inset
 
- is the fraction or amount paid in cash when increasing the housing stock
- (the down-payment), and 
+ is the fraction or amount paid in cash when increasing the housing stock (the down-payment),
+ and 
 \begin_inset Formula $m_{a,t}$
 \end_inset
 
@@ -5933,17 +6015,19 @@ where
 \begin_inset Formula $\tau^{W}$
 \end_inset
 
- is the wealth tax rate, 
+ is the wealth tax rate,
+ 
 \begin_inset Formula $x_{t}$
 \end_inset
 
- measures expenses in running the property, and the last term is the revenue
- from land sales.
+ measures expenses in running the property,
+ and the last term is the revenue from land sales.
  Now use 
 \begin_inset Formula $X_{a,t}=\mu_{a,t}p_{t}^{D}D_{a,t}$
 \end_inset
 
-, and the laws of motion for 
+,
+ and the laws of motion for 
 \begin_inset Formula $D$
 \end_inset
 
@@ -5981,7 +6065,8 @@ where
 \begin_layout Paragraph
 
 \series bold
-The budget constraint: negative investment in housing.
+The budget constraint:
+ negative investment in housing.
 \end_layout
 
 \begin_layout Standard
@@ -5990,8 +6075,7 @@ Consider now the case of
 \end_inset
 
 .
- The budget constraint of the household does not have a down payment fraction
- but rather keeps the entire proceeds of the net sale 
+ The budget constraint of the household does not have a down payment fraction but rather keeps the entire proceeds of the net sale 
 \begin_inset Formula 
 \[
 \Delta_{a,t}+p_{t}^{C}C_{a,t}=-p_{t}^{D}Z_{a,t}-m_{a,t}
@@ -6007,8 +6091,8 @@ Consider now the case of
 
 \end_inset
 
-Since none of the revenues are used to pay down the mortgage, the size of
- the mortgage stock obeys the law of motion
+Since none of the revenues are used to pay down the mortgage,
+ the size of the mortgage stock obeys the law of motion
 \begin_inset Formula 
 \[
 X_{a,t}^{M}=\left(1+r_{t}^{mort}\right)\cdot X_{a-1,t-1}^{M}-m_{a,t}
@@ -6066,27 +6150,29 @@ No transaction costs.
 \end_layout
 
 \begin_layout Standard
-Proper aggregation of non-convexities at the micro level, such as fixed
- costs of trading houses, is necessary for an accurate description of aggregate
- behavior.
+Proper aggregation of non-convexities at the micro level,
+ such as fixed costs of trading houses,
+ is necessary for an accurate description of aggregate behavior.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
 See the entire literature on firm investment with non convexities.
- Specific examples are Cooper and Adda (2000) on cars, Li, Liu, Yang, and
- Yao (2016) on housing, and Ampudia, Cooper, LeBlanc and Zhu (2019) on financial
- portfolio adjustment.
+ Specific examples are Cooper and Adda (2000) on cars,
+ Li,
+ Liu,
+ Yang,
+ and Yao (2016) on housing,
+ and Ampudia,
+ Cooper,
+ LeBlanc and Zhu (2019) on financial portfolio adjustment.
 \end_layout
 
 \end_inset
 
- Given the constraints imposed by the GAMS software and by the size of the
- model introducing these non differentiabilities excessively increases the
- computational burden.
- In the absence of an endogenous trade-off between renting and owning we
- leave such adjustment costs out of the problem, and proxy for them through
- the reference housing value inserted into the utility function.
+ Given the constraints imposed by the GAMS software and by the size of the model introducing these non differentiabilities excessively increases the computational burden.
+ In the absence of an endogenous trade-off between renting and owning we leave such adjustment costs out of the problem,
+ and proxy for them through the reference housing value inserted into the utility function.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6151,12 +6237,14 @@ The factor
 
 \end_inset
 
-In this way, for the first age of economic life when houses are bought,
+In this way,
+ for the first age of economic life when houses are bought,
  
 \begin_inset Formula $\Gamma_{a,t}^{p}=1$
 \end_inset
 
-, implying all mortgages are new and subject to the current price.
+,
+ implying all mortgages are new and subject to the current price.
  This number 
 \begin_inset Formula $\Gamma_{a,t}^{p}$
 \end_inset
@@ -6166,8 +6254,7 @@ In this way, for the first age of economic life when houses are bought,
 \end_inset
 
  is always positive it has a finite lower bound.
- Younger agents are much more subject to the variation in house prices than
- older ones.
+ Younger agents are much more subject to the variation in house prices than older ones.
  The ability to finance through a mortgage therefore varies with house prices.
  Given 
 \begin_inset Formula $\Gamma_{a,t}^{p}$
@@ -6182,23 +6269,22 @@ In this way, for the first age of economic life when houses are bought,
 \end_inset
 
 falls at impact with an increase in house prices.
- The household can mortgage more as prices increase, since 
+ The household can mortgage more as prices increase,
+ since 
 \begin_inset Formula $X_{a,t}^{M}=\mu_{a,t}P_{t}^{D}D_{a,t}$
 \end_inset
 
- increases with the house price keeping all else constant, but less than
- proportionally.
+ increases with the house price keeping all else constant,
+ but less than proportionally.
  Leverage ratios fall with house price increases.
  But since 
 \begin_inset Formula $\Gamma_{a,t}^{p}$
 \end_inset
 
- changes endogenously as housing decisions react to house prices the mortgage
- ratio is more reactive.
- Leverage ratios fall slightly more with house price increases if investment
- falls.
- The exact effect depends on how persistent the increase in prices is, which
- affects the investment decision.
+ changes endogenously as housing decisions react to house prices the mortgage ratio is more reactive.
+ Leverage ratios fall slightly more with house price increases if investment falls.
+ The exact effect depends on how persistent the increase in prices is,
+ which affects the investment decision.
  A temporary increase in house prices should trigger a strong fall in investment.
  A permanent one not necessarily so.
  We use a slightly more general way of writing this factor as follows
@@ -6209,8 +6295,7 @@ falls at impact with an increase in house prices.
 
 \end_inset
 
-as it allows for a degree of control over the influence of the endogenous
- housing decision on the mortgage ratios.
+as it allows for a degree of control over the influence of the endogenous housing decision on the mortgage ratios.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6218,7 +6303,8 @@ Aggregation
 \end_layout
 
 \begin_layout Standard
-Due to migration flows, population obeys
+Due to migration flows,
+ population obeys
 \begin_inset Formula 
 \[
 N_{a,t}=s_{a-1,t-1}N_{a-1,t-1}+I_{a,t}-E_{a,t}
@@ -6226,15 +6312,13 @@ N_{a,t}=s_{a-1,t-1}N_{a-1,t-1}+I_{a,t}-E_{a,t}
 
 \end_inset
 
-While in the data immigrants and emigrants are different from the average
- household in most respects, the model is nevertheless bound by the necessity
- to fit all agents into an average that can be replicated.
+While in the data immigrants and emigrants are different from the average household in most respects,
+ the model is nevertheless bound by the necessity to fit all agents into an average that can be replicated.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Non migrants are also heterogeneous and yet only their average by age is
- in the model.
+Non migrants are also heterogeneous and yet only their average by age is in the model.
 \end_layout
 
 \end_inset
@@ -6248,23 +6332,24 @@ The goal is then to generate average quantities of assets
 \begin_inset Formula $B$
 \end_inset
 
-, housing 
+,
+ housing 
 \begin_inset Formula $D$
 \end_inset
 
-, consumption 
+,
+ consumption 
 \begin_inset Formula $C$
 \end_inset
 
-, and employment that encompass residents and migrants in an internally
- consistent way.
- In the labor market chapter we detail the assumptions and mechanics needed
- to generate average employment, and here we detail the aggregation of assets
- and housing.
- We therefore assume that migrants carry with them the necessary assets
- to appropriately fit the resulting average.
- That is not the only assumption required, so we first work through an aggregati
-on example without housing, and then replicate it with added housing.
+,
+ and employment that encompass residents and migrants in an internally consistent way.
+ In the labor market chapter we detail the assumptions and mechanics needed to generate average employment,
+ and here we detail the aggregation of assets and housing.
+ We therefore assume that migrants carry with them the necessary assets to appropriately fit the resulting average.
+ That is not the only assumption required,
+ so we first work through an aggregation example without housing,
+ and then replicate it with added housing.
 \end_layout
 
 \begin_layout Paragraph*
@@ -6297,7 +6382,8 @@ B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}
 
 \end_inset
 
-The people who leave, 
+The people who leave,
+ 
 \begin_inset Formula $E_{a,t}$
 \end_inset
 
@@ -6306,9 +6392,8 @@ The people who leave,
 \end_inset
 
  before leaving.
- They do not earn income, consume or buy end-of-period assets in the country
- this period so that their constraint is simply a definition of the amount
- 
+ They do not earn income,
+ consume or buy end-of-period assets in the country this period so that their constraint is simply a definition of the amount 
 \begin_inset Formula $M_{a,t}$
 \end_inset
 
@@ -6320,7 +6405,9 @@ M_{a,t}\equiv\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{E}
 
 \end_inset
 
-Finally, the people who enter the country, 
+Finally,
+ the people who enter the country,
+ 
 \begin_inset Formula $I_{a,t}$
 \end_inset
 
@@ -6333,8 +6420,8 @@ Finally, the people who enter the country,
 \begin_inset Formula $A$
 \end_inset
 
- they bring into the country allow them to make identical choices to those
- of the first group (the stayers): 
+ they bring into the country allow them to make identical choices to those of the first group (the stayers):
+ 
 \begin_inset Formula 
 \[
 B_{a,t}-x_{a,t}=A_{a-1,t-1}+T_{a,t}^{I}
@@ -6348,8 +6435,7 @@ next
 \series default
  step is to define some properties we need to impose.
  We choose to impose a zero net effect on the balance of payments.
- This implies the following relationship between households entering and
- exiting the country:
+ This implies the following relationship between households entering and exiting the country:
 \begin_inset Formula 
 \[
 A_{a-1,t-1}=\frac{E_{a,t}}{I_{a,t}}M_{a,t}=\frac{E_{a,t}}{I_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}+\frac{E_{a,t}}{I_{a,t}}T_{a,t}^{E}
@@ -6378,11 +6464,13 @@ T_{a,t}^{I}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}-A_{a-1,t-1}
 \series bold
 Now
 \series default
- we can aggregate to obtain the budget constraint of the population, 
+ we can aggregate to obtain the budget constraint of the population,
+ 
 \begin_inset Formula $N_{a,t}$
 \end_inset
 
-, at each age.
+,
+ at each age.
  This is done in the following steps.
  Add surviving residents 
 \begin_inset Formula $s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}$
@@ -6428,14 +6516,16 @@ B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}
 \series bold
 Finally
 \series default
-, determine the transfer payments 
+,
+ determine the transfer payments 
 \begin_inset Formula $T$
 \end_inset
 
 .
- If we put together the relationships on zero balance of payments, zero
- net transfers, and the equality of stayers and new arrivals, we obtain
- that
+ If we put together the relationships on zero balance of payments,
+ zero net transfers,
+ and the equality of stayers and new arrivals,
+ we obtain that
 \begin_inset Formula 
 \[
 T_{a,t}^{S}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}
@@ -6476,13 +6566,12 @@ One last detail is that the transfer
 \end_inset
 
  is arbitrary and can be set at zero.
- These transfers are artificial constructions used to ensure new arrivals
- and surviving residents can make the same exact decisions subject to a
- balance of payments constraint which in this case is zero.
- They are added to the problem as a lump sum which is taken as exogenous
- by the household and do not affect marginal decisions.
- Furthermore, as all agents make identical choices within age, the only
- budget constraint that needs to be satisfied is the aggregate one, namely
+ These transfers are artificial constructions used to ensure new arrivals and surviving residents can make the same exact decisions subject to a balance of payments constraint which in this case is zero.
+ They are added to the problem as a lump sum which is taken as exogenous by the household and do not affect marginal decisions.
+ Furthermore,
+ as all agents make identical choices within age,
+ the only budget constraint that needs to be satisfied is the aggregate one,
+ namely
 \begin_inset Formula 
 \[
 B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}\Gamma_{a,t}
@@ -6518,17 +6607,19 @@ where
 
 \end_inset
 
-The people who leave, 
+The people who leave,
+ 
 \begin_inset Formula $E_{a,t}$
 \end_inset
 
- do not consume or work in the country, and sell their houses so that 
+ do not consume or work in the country,
+ and sell their houses so that 
 \begin_inset Formula $Z_{a,t}=-\left(1-\delta_{t}\right)D_{a-1,t-1}<0$
 \end_inset
 
  and take their assets and proceedings abroad.
- Because they are downsizing, their budget constraint does not have a down
- payment fraction but rather keeps the entire proceeds of the sale.
+ Because they are downsizing,
+ their budget constraint does not have a down payment fraction but rather keeps the entire proceeds of the sale.
  The final mortgage payment 
 \begin_inset Formula $m$
 \end_inset
@@ -6549,7 +6640,8 @@ and where
 \end_layout
 
 \begin_layout Standard
-The people who enter the country, 
+The people who enter the country,
+ 
 \begin_inset Formula $I_{a,t}$
 \end_inset
 
@@ -6600,8 +6692,7 @@ T_{a,t}^{I}=\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}+T
 
 \end_inset
 
-Reproducing the same steps performed above we will find that we can set
- 
+Reproducing the same steps performed above we will find that we can set 
 \begin_inset Formula $T_{a,t}^{E}=0$
 \end_inset
 
@@ -6630,13 +6721,13 @@ T_{a,t}^{S}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left[\left(1+r_{a,t}\r
 
 \end_inset
 
-and again the only budget constraint that needs to be satisfied is the aggregate
- one.
+and again the only budget constraint that needs to be satisfied is the aggregate one.
 \end_layout
 
 \begin_layout Standard
-It is useful to emphasize here that cohort aggregation, which is used extensivel
-y in the code, brings in the factor 
+It is useful to emphasize here that cohort aggregation,
+ which is used extensively in the code,
+ brings in the factor 
 \begin_inset Formula $\Gamma_{a,t}$
 \end_inset
 
@@ -6649,8 +6740,7 @@ y in the code, brings in the factor
 \end_inset
 
 .
- In most of the text here this does not show since we are concerned with
- the decisions of individual households.
+ In most of the text here this does not show since we are concerned with the decisions of individual households.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6659,30 +6749,38 @@ Housing intermediary
 
 \begin_layout Standard
 Households buy houses from a particular intermediary agent.
- The purpose of having this agent is to introduce land (a quasi-fixed factor)
- in the model.
- Although studies for other countries are only indicative of possible effects
- in Denmark, they document land as a fundamental factor affecting house
- prices.
+ The purpose of having this agent is to introduce land (a quasi-fixed factor) in the model.
+ Although studies for other countries are only indicative of possible effects in Denmark,
+ they document land as a fundamental factor affecting house prices.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-Davis, M.
- A., and Heathcote, J.
+Davis,
+ M.
+ A.,
+ and Heathcote,
+ J.
  (2005).
  Housing and the Business Cycle.
- International Economic Review, Vol.
- 46, No.
- 3, pp.
+ International Economic Review,
+ Vol.
+ 46,
+ No.
+ 3,
+ pp.
  751-784.
- Davis, M.
+ Davis,
+ M.
  A.
- and Heathcote, J.
+ and Heathcote,
+ J.
  (2007).
  The price and quantity of residential land in the United States.
- Journal of Monetary Economics, vol.
- 54(8), pp.
+ Journal of Monetary Economics,
+ vol.
+ 54(8),
+ pp.
  2595-2620.
 \end_layout
 
@@ -6696,16 +6794,16 @@ bricks
 \begin_inset Quotes erd
 \end_inset
 
- from the construction sector and land from households, packages them and
- sells them to households as houses.
- An adjustment cost function is added to the housing production function
- in order to help fit dynamic behavior of house prices and quantities.
- New houses equal gross output minus adjustment costs, 
+ from the construction sector and land from households,
+ packages them and sells them to households as houses.
+ An adjustment cost function is added to the housing production function in order to help fit dynamic behavior of house prices and quantities.
+ New houses equal gross output minus adjustment costs,
+ 
 \begin_inset Formula $Y_{t}^{D}-AC_{t}$
 \end_inset
 
 .
- Gorss output is a CES function of land (here 
+ Gross output is a CES function of land (here 
 \begin_inset Formula $J_{t}$
 \end_inset
 
@@ -6722,8 +6820,7 @@ bricks
 \end_inset
 
 ).
- These new houses built in a given period correspond to the aggregate net
- investment obtained in the household problem after summing over age
+ These new houses built in a given period correspond to the aggregate net investment obtained in the household problem after summing over age
 \end_layout
 
 \begin_layout Standard
@@ -6787,11 +6884,10 @@ bricks
 \end_inset
 
  or buildings (as opposed to land) part of the house.
- To get a measure of the total stock of capital in housing consistent with
- the data, we add an exogenous stock of rental housing.
- This combined stock is the main input in the synthetic housing production
- sector present in the input/output data, and which is described in the
- chapter on private production.
+ To get a measure of the total stock of capital in housing consistent with the data,
+ we add an exogenous stock of rental housing.
+ This combined stock is the main input in the synthetic housing production sector present in the input/output data,
+ and which is described in the chapter on private production.
 \end_layout
 
 \begin_layout Standard
@@ -6882,8 +6978,7 @@ I_{t}^{D}=\mu_{I}\cdot Y_{t}^{D}\left(\frac{\text{user cost}_{t}}{P_{t}^{D}}\rig
 
 \end_inset
 
-Given these demand function the optimization problem solves using both of
- them and the CES zero profit condition
+Given these demand function the optimization problem solves using both of them and the CES zero profit condition
 \begin_inset Formula 
 \[
 P_{t}^{D}Y_{t}^{D}=P_{t}^{Land}J_{t}+\text{user cost}_{t}\cdot I_{t}^{D}
@@ -6916,19 +7011,14 @@ Merging profits of intermediary with the household budget constraint.
 
 \begin_layout Standard
 Due to the addition of adjustment costs the intermediary agents have profits.
- As this is an auxiliary construction to introduce land into the model which
- does not have a correspondence in data, these profits are plugged back
- into the household budget constraint as transfers that do not affect the
- user cost and the marginal decisions of households.
+ As this is an auxiliary construction to introduce land into the model which does not have a correspondence in data,
+ these profits are plugged back into the household budget constraint as transfers that do not affect the user cost and the marginal decisions of households.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-The household model is designed to capture the majority of transactions
- which involve already built housing.
- The possibility that households themselves buy land and contract the building
- of the house is partially captured by the intermediary and the inclusion
- of its profits in the budget constraint.
+The household model is designed to capture the majority of transactions which involve already built housing.
+ The possibility that households themselves buy land and contract the building of the house is partially captured by the intermediary and the inclusion of its profits in the budget constraint.
 \end_layout
 
 \end_inset
@@ -6964,8 +7054,7 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \end_inset
 
-At this point we work on the algebra of the budget constraint to simplify
- the expression and reduce the computational burden.
+At this point we work on the algebra of the budget constraint to simplify the expression and reduce the computational burden.
  We first decompose the last line
 \begin_inset Formula 
 \[
@@ -7014,8 +7103,7 @@ now use the fact that
 
 \end_inset
 
-and replace so that the land terms disappear completely and obtain a budget
- constraint with fewer terms
+and replace so that the land terms disappear completely and obtain a budget constraint with fewer terms
 \begin_inset Formula 
 \[
 B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
@@ -7039,13 +7127,15 @@ The multiplier effects of leverage.
 \end_layout
 
 \begin_layout Standard
-The presence of the mortgage contract generates a leverage effect in the
- model.
- Specifically, when house prices rise, 
+The presence of the mortgage contract generates a leverage effect in the model.
+ Specifically,
+ when house prices rise,
+ 
 \begin_inset Formula $p_{t}^{D}>p_{t-1}^{D}$
 \end_inset
 
-, the existing debt obligation is valued at prices 
+,
+ the existing debt obligation is valued at prices 
 \begin_inset Formula $p_{t-1}^{D}$
 \end_inset
 
@@ -7054,11 +7144,9 @@ The presence of the mortgage contract generates a leverage effect in the
 \end_inset
 
 .
- It may be profitable to liquidate the previous mortgage, sell the house
- and buy a bigger house using the fact that one only has to commit a small
- fraction of funds because one is allowed to borrow.
- This mechanism is better understood if we look explicitly at the cost of
- housing object 
+ It may be profitable to liquidate the previous mortgage,
+ sell the house and buy a bigger house using the fact that one only has to commit a small fraction of funds because one is allowed to borrow.
+ This mechanism is better understood if we look explicitly at the cost of housing object 
 \begin_inset Formula $f$
 \end_inset
 
@@ -7102,8 +7190,7 @@ f=\underbrace{\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}}_{\text{Out of pocket: ne
 \end_layout
 
 \begin_layout Standard
-The key feature is that an increase in house prices has a marginal effect
- which is not dragged down by the previous debt 
+The key feature is that an increase in house prices has a marginal effect which is not dragged down by the previous debt 
 \begin_inset Formula $\mu_{a-1,t-1}.$
 \end_inset
 
@@ -7124,18 +7211,16 @@ and since
 \end_layout
 
 \begin_layout Standard
-Notice that there are no transaction costs which implies taking advantage
- of the leverage effect is costless.
+Notice that there are no transaction costs which implies taking advantage of the leverage effect is costless.
  This potentially makes the leverage effect very powerful.
 \end_layout
 
 \begin_layout Standard
-Now, this mechanism here is static.
- Rational agents are forward looking so they will not rush to buy more houses
- if prices are likely to fall in the future, which will happen if the cause
- of the increase in house prices is a temporary shock.
- As they antecipate capital losses they will dampen their current response
- to the price increase.
+Now,
+ this mechanism here is static.
+ Rational agents are forward looking so they will not rush to buy more houses if prices are likely to fall in the future,
+ which will happen if the cause of the increase in house prices is a temporary shock.
+ As they antecipate capital losses they will dampen their current response to the price increase.
 \end_layout
 
 \begin_layout Standard
@@ -7149,23 +7234,25 @@ The leverage effect is
 \series bold
 not
 \series default
- the financial accelerator effect of Kyotaki and Moore (1997), or of Bernanke
- and Gertler (1995).
- In fact, the mortgage contract 
+ the financial accelerator effect of Kyotaki and Moore (1997),
+ or of Bernanke and Gertler (1995).
+ In fact,
+ the mortgage contract 
 \series bold
 worsens
 \series default
- with an increase in house prices, 
+ with an increase in house prices,
+ 
 \begin_inset Formula $\partial\mu/\partial p<0$
 \end_inset
 
-, which makes it a stabilizer rather than an accelerator.
- An increase in house prices, even though it raises the value of your current
- house does not relax the mortgage financial constraint but rather tightens
- it.
- It does, however, allow the household to exploit an available (slightly
- worse) contract and buy more houses simply because the household now has
- more money and because 
+,
+ which makes it a stabilizer rather than an accelerator.
+ An increase in house prices,
+ even though it raises the value of your current house does not relax the mortgage financial constraint but rather tightens it.
+ It does,
+ however,
+ allow the household to exploit an available (slightly worse) contract and buy more houses simply because the household now has more money and because 
 \series bold
 there exists
 \series default
@@ -7173,7 +7260,8 @@ there exists
 \end_layout
 
 \begin_layout Standard
-Yet, MAKRO does have an accelerator in the KM and BG sense.
+Yet,
+ MAKRO does have an accelerator in the KM and BG sense.
  It lies inside the utility from leaving a bequest and the utility of wealth.
  This object is a concave function of the sum 
 \begin_inset Formula $B+p\left(1-\mu\right)D$
@@ -7181,16 +7269,17 @@ Yet, MAKRO does have an accelerator in the KM and BG sense.
 
 .
  This combined object has an admissible lower bound.
- If the household is near this lower bound, an increase in house prices
- allows liquid wealth 
+ If the household is near this lower bound,
+ an increase in house prices allows liquid wealth 
 \begin_inset Formula $B$
 \end_inset
 
- to decrease, which allows households to consume more and buy more houses.
- The constraint has been relaxed by the house price increase, and here,
+ to decrease,
+ which allows households to consume more and buy more houses.
+ The constraint has been relaxed by the house price increase,
+ and here,
  buying extra housing relaxes the constraint next period also.
- This dynamic effect has all the hallmarks of the classic financial accelerator
- mechanism.
+ This dynamic effect has all the hallmarks of the classic financial accelerator mechanism.
 \end_layout
 
 \end_body

@@ -1,4 +1,5 @@
 # Change the paths to the R and GAMS installations on your system
+# r_path = r"C:/Program Files/R/R-4.5.1"
 gams_path = r"C:/GAMS/51"
 
 
@@ -16,7 +17,7 @@ if platform.system() != "Linux":
         """
         # Ensure the paths use the correct format
         gams_path = os.path.abspath(gams_path)
-        
+#        r_path = os.path.abspath(r_path)
 
         extension = ".exe" if os.name == "nt" else ""
     
@@ -27,7 +28,6 @@ if platform.system() != "Linux":
         os.environ["GAMS"] = gams_executable_path
 
         if r_path is not None:
-            r_path = os.path.abspath(r_path)
             rscript_path = os.path.join(r_path, "bin", f"Rscript{extension}")
             assert os.path.exists(rscript_path), f"Rscript not found at {rscript_path}"       
             # Set the environment variables
@@ -35,3 +35,4 @@ if platform.system() != "Linux":
             os.environ["RSCRIPT"] = rscript_path
    
     set_environment_path(gams_path)
+#    set_environment_path(gams_path, r_path)

@@ -11,56 +11,30 @@ set_time_periods(%cal_deep%-1, %terminal_year%);
 set_data_periods(%cal_start%, %cal_deep%);
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Import the dynamic calibration models from the modules and combine them
+# Define empty models and groups that will be populated by modules
+# ----------------------------------------------------------------------------------------------------------------------
+MODEL M_deep_dynamic_calibration;
+$GROUP G_deep_dynamic_calibration ;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Import the deep dynamic calibration models from the modules and combine them
 # ----------------------------------------------------------------------------------------------------------------------
 @import_from_modules("deep_dynamic_calibration");
-
-MODEL M_deep_dynamic_calibration /
-  B_taxes
-
-  M_aggregates_deep
-  M_exports_deep
-  M_IO_deep
-  M_finance_deep
-  M_labor_market_deep
-  M_government_deep
-  M_GovRevenues_deep
-  M_GovExpenses_deep
-  M_consumers_deep
-  M_pricing_deep
-  M_production_private_deep
-  M_production_public_deep
-  M_HHincome_deep  
-  M_struk_deep
-/;
-
-$GROUP G_deep_dynamic_calibration
-  G_taxes_endo
-
-  G_aggregates_deep
-  G_exports_deep
-  G_IO_deep
-  G_finance_deep
-  G_labor_market_deep
-  G_government_deep
-  G_GovRevenues_deep
-  G_GovExpenses_deep
-  G_consumers_deep
-  G_pricing_deep
-  G_production_private_deep
-  G_production_public_deep
-  G_HHincome_deep  
-  G_struk_deep
-;
 
 # ======================================================================================================================
 # Load previous solution as starting level
 # ======================================================================================================================
 $GROUP G_load G_deep_dynamic_calibration, -G_data, -G_do_not_load;
-@load(G_load, "Gdx/previous_deep_calibration.gdx"); # load previous solution
+@load(G_load, "Gdx/%previous_solution%.gdx"); # load previous solution
+
+# $GROUP G_load G_IO_deep, G_taxes_endo; $GROUP G_load G_load$(t1[t]);
+# @load(G_load, "Gdx/static_calibration.gdx")
+
 $GROUP G_exo All, - G_deep_dynamic_calibration;
 $GROUP G_new_endogenous G_do_not_load, - G_exo;
 @set_initial_levels_to_nonzero(G_new_endogenous)
+
+# @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
 
 # $IF %run_tests%:
 #   # Small pertubation of all endogenous variables
@@ -86,7 +60,7 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 #  # Import calibration models for new data and test that everything solves before making changes - should solve in one step
 #  # ----------------------------------------------------------------------------------------------------------------------
 #  $SETLOCAL data_year %cal_deep%;
-#  $SETLOCAL last_calibration previous_deep_calibration;
+#  $SETLOCAL last_calibration %previous_solution%;
 #  $SETGLOBAL calibration_steps 1;
 #  $IMPORT static_calibration_newdata.gms;
 #  $IMPORT dynamic_calibration_newdata.gms;
@@ -155,14 +129,13 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 # Solve model by gradually adjusting exogenous variables from previous solution
 # ======================================================================================================================
 $IF %calibration_steps% > 1:
-  @load_dummies(tx0, "Gdx/previous_deep_calibration.gdx")
+  @load_dummies(tx0, "Gdx/%previous_solution%.gdx")
+  @load(G_deep_dynamic_calibration, "Gdx/%previous_solution%.gdx"); # load starting values form previous solution AFTER dummies are loaded
 
   $GROUP G_homotopy All, -G_deep_dynamic_calibration, -G_do_not_load, G_ARIMA_forecast;
   @set(G_homotopy, _new_data, .l) # Save all values prior to trouble-shooting
-  @set(G_ARIMA_forecast, .l, _ARIMA) # Reset ARIMA variables in case start values were loaded from previous solution
   @set(G_homotopy, _previous_combination, .l);
-  @load_as(G_homotopy, "Gdx/previous_deep_calibration.gdx", _previous_solution);
-  @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+  @load_as(G_homotopy, "Gdx/%previous_solution%.gdx", _previous_solution);
   $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
@@ -196,12 +169,13 @@ $ENDIF
 #  Solve calibration model a few years at a time
 #  ======================================================================================================================
 $IF %previous_terminal_year% < %terminal_year%:
-  $FOR {end_year} in range(%previous_terminal_year%, %terminal_year%, 10):
+  $FOR {end_year} in range(%previous_terminal_year%, %terminal_year%, 15):
     set_time_periods(%cal_deep%-1, {end_year});
     $FIX All; $UNFIX G_deep_dynamic_calibration;
     @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
-    @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
     @set_bounds();
+    # @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
+    @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
     @solve(M_deep_dynamic_calibration)
     set_time_periods(%cal_deep%-1, %terminal_year%);
     @unload(Gdx/deep_calibration_{end_year}.gdx)
@@ -212,10 +186,9 @@ $IF %previous_terminal_year% < %terminal_year%:
     $ENDLOOP
     $GROUP G_exo All, -G_deep_dynamic_calibration;
     $GROUP G_LM_nonzero # For at undgå divider med 0, fx ved stigning i tilbagetrækningsalder
-      uH[a,t]$(aVal[a] > 60), uDeltag[a,t]$(aVal[a] > 60), rSoegBaseHh[a,t]$(aVal[a] > 60), srSoegBaseHh[a,t]$(aVal[a] > 60)
-      -G_exo
-    ;
-    @set_initial_levels_to_nonzero(G_LM_nonzero)
+      uH[a,t]$(aVal[a] > 65), uDeltag[a,t]$(aVal[a] > 65), rSoegBaseHh[a,t]$(aVal[a] > 65), srSoegBaseHh[a,t]$(aVal[a] > 65);
+    $GROUP G_LM_nonzero G_LM_nonzero$(t.val >= {end_year}), -G_exo;
+    @load(G_LM_nonzero, "Gdx/previous_deep_calibration.gdx"); # Brug en bank her som er kørt med den fulde tidsperiode
   $ENDFOR
 $ENDIF
 
@@ -226,7 +199,6 @@ $IF %run_tests%:
   @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
 $ENDIF
 $FIX All; $UNFIX G_deep_dynamic_calibration;
-# @set_initial_levels_to_nonzero(G_deep_dynamic_calibration)
 @set_bounds();
 @solve(M_deep_dynamic_calibration);
 

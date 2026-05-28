@@ -2,7 +2,7 @@
 # Standard shocks
 # ======================================================================================================================
 $SETLOCAL shock_year 2030;
-tHBI[t] = t.val = 2030; 
+
 set_time_periods(%shock_year%-1, %terminal_year%);
 @load_as(All, "Gdx/baseline.gdx", _baseline)
 $GROUP All_ All; # to avoid foreign variables 
@@ -173,14 +173,21 @@ $FOR1 {shock} in [
   # Offentligt forbrug
   # ====================================================================================================================
   # --------------------------------------------------------------------------------------------------------------------
-  # Offentligt forbrug - faste K/Y og L/R forhold
+  # Offentligt forbrug
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentligt_forbrug":
-    qG.fx[gTot,t]$(tx0[t]) = qG.l[gTot,t] + 0.01 * {shock_profile}[t] * vBNP.l[t]/pG.l[gTot,t];
-    $UNFIX hL$(off[s_] and tx0[t]);
-    $FIX rOffK2Y; $UNFIX qI_s[k,off,tx0];
-    $FIX rOffLoensum2R; $UNFIX qR$(off[r_] and tx0[t]);
-    $FIX rOffLoensum2E; $UNFIX qE$(off[r_] and tx0[t]);
+    # qG.fx[gTot,t]$(tx0[t]) = qG.l[gTot,t] + 0.01 * {shock_profile}[t] * vBNP.l[t]/pG.l[gTot,t];
+    # $UNFIX hL[off,tx0];
+    # $FIX rOffK2Y; $UNFIX qI_s[k,off,tx0]; # rOffK2Y er beregningsmæssigt tung, da udglattet privat BVT indgår
+    # $FIX rOffLoensum2R; $UNFIX qR[off,tx0];
+    # $FIX rOffLoensum2E; $UNFIX qE[off,tx0];
+    qR.fx['off',t]$(tx0[t]) = qR.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
+    qE.fx['off',t]$(tx0[t]) = qE.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
+    hL.fx['off',t]$(tx0[t]) = hL.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
+    qI_s.fx[i,'off',t]$(tx0[t]) = qI_s.l[i,'off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
+
+    # Problemer med at løse når hL[off,t] ændres for startværdier for qProd[sp,t] i baseline
+    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -195,6 +202,9 @@ $FOR1 {shock} in [
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentlig_Beskaeftigelse":
     hL.fx['off',t]$(tx0[t]) = hL.l['off',t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vLoensum.l['off',t]);
+
+    # Problemer med at løse når hL[off,t] ændres for startværdier for qProd[sp,t] i baseline
+    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -286,6 +296,9 @@ $FOR1 {shock} in [
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Bundskat":
     tBund.fx[t]$(tx0[t]) = tBund.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtBund.l['tot',t]);
+    # Problemer med at løse for startværdier for qProd[sp,t] i baseline
+    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
+
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -424,6 +437,9 @@ $FOR1 {shock} in [
   $IF "{shock}" == "Rente":
     rRenteECB.fx[t]$(t1[t]) = rRenteECB.l[t] + 0.01;
     rRenteECB.fx[t]$(tx1[t]) = rRenteECB.l[t] + 0.01 * {shock_profile}[t-1];
+
+    # Problemer med at løse for startværdier for qProd[sp,t] i baseline
+    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
   $ENDIF
 
   # ====================================================================================================================
@@ -785,25 +801,6 @@ $FOR1 {shock} in [
     tAfg_y.fx[r, s,t]$(tx0[t] and not off[r]) = tAfg_y.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,'tot',t] - vtAfg.l['off','tot',t])); 
     tAfg_m.fx[r, s,t]$(tx0[t] and not off[r]) = tAfg_m.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,'tot',t] - vtAfg.l['off','tot',t]));
   $ENDIF
-  
-  # ====================================================================================================================
-  # For stød, som ikke påvirker inputs i offentlig produktion, rykker qG sig kun pga. fejl i kædeindeks.
-  # Vi eksogeniser derfor offentligt forbrug (og slår kædeligning fra med uL['off',t]).
-  # ====================================================================================================================
-  parameter public_inputs_fixed "Dummy, som er 1 hvis offentlige investeringer, beskæftigelse, og materialekøb er eksogene og unændrede i alle år.";
-  public_inputs_fixed = prod(t$(tx0[t]),
-    qI_s.up['iM','off',t] = qI_s_baseline['iM','off',t] # Eksogenitet tjekkes ved at teste om upper bound er sat lig værdi
-    and
-    hL.up['off',t] = hL_baseline['off',t]
-    and
-    qI_s.up['iB','off',t] = qI_s_baseline['iB','off',t]
-    and
-    qR.up['off',t] = qR_baseline['off',t]
-    and
-    qE.up['off',t] = qE_baseline['off',t]
-  );
-  $FIX qG$(gTot[g_] and tx0[t] and public_inputs_fixed);
-  $UNFIX uL$(off[s_] and tx0[t] and public_inputs_fixed);
 
   # --------------------------------------------------------------------------------------------------------------------
   # Endogen udenlandsk økonomi shocks
@@ -859,10 +856,7 @@ $FOR1 {shock} in [
   # Nulstød
   # ====================================================================================================================
   $IF "{shock}" == "Nulstoed":
-    $GROUP G_ZeroShockTest All, -dArv;
-    $FIX All; $UNFIX G_endo;
-    @solve(M_base);
-    @assert_no_difference(G_ZeroShockTest, 1e-5, .l, _baseline, "Zero shock changed variables significantly.");
+    @assert_no_difference(G_Endo, 1e-5, .l, _baseline, "Zero shock changed variables significantly.");
   $ENDIF
 
   $ENDFOR2

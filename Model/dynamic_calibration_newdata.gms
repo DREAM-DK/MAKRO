@@ -65,28 +65,35 @@ $GROUP G_gradual_return
   G_ARIMA_forecast
   -pM # Særbehandles i pricing.gms
   -rPensionAkt # Skal summere til 1, hvilket ikke sikres ved afbøjning
+  jmtVirk # jmtVirk og ftSelskab bør behandles ens. jmtVirk udglatter effekt af jftSelskab på mtVirk
 ;
 
 # Baseline forskydes med permanent andel af stød fra sidste foreløbige data-år
 # Stød som skifter fortegn på parameter aftrappes fuldt (herunder stød væk fra 0)
-$LOOP G_gradual_return:
-  {name}_baseline{sets}$(
-    tx0[t] and {conditions}
-    and sign({name}_baseline{sets}{$}[<t>tEnd]) = sign({name}_last_calibration{sets}{$}[<t>tEnd])
-    and (abs({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd] - 1)
-        <
-        abs({name}.l{sets}{$}[<t>t1] / {name}_baseline{sets}{$}[<t>t1] - 1))$({name}_baseline{sets}{$}[<t>tEnd] <> 0)
-  )
-    = {name}_baseline{sets}
-    * ({name}_last_calibration{sets}{$}[<t>tEnd] / {name}_baseline{sets}{$}[<t>tEnd]);
-$ENDLOOP
-
 scalar permanens "Andel af stød fra foreløbig data, der fastholdes i strukturelt niveau" /0.15/;
 scalar persistens "Persistens i aftrapning af stød til parametre" /0.85/;
 parameter aftrapprofil[t] "Profil for aftrapning af parametre til strukturelt niveau.";
 parameter stoed_profil[t] "Profil med overgang til nyt strukturelt niveau.";
 aftrapprofil[t]$(tx0[t]) = persistens**(dt[t]**1.5);
 stoed_profil[t]$(tx0[t]) = permanens + (1-permanens) * aftrapprofil[t];
+
+# Hvis seneste dataår er længere fra dyb kalibrering, end _last_calibration er på lang sigt,
+# forskydes dyb kalibrering med langsigtet ændring fra _last_calibration.
+# Den andel af stød, som antages at være permanent, akkumulerer således hvis stødet er i samme retning i flere foreløbige år.
+# Mens at vi ser bort fra stød i tidligere foreløbige år, hvis seneste foreløbige år ligger tættere på dyb kalibrering.
+singleton set tLangSigt[t]; tLangSigt[t] = t.val = min(%terminal_year%, %previous_terminal_year%);
+$LOOP G_gradual_return:
+  {name}_baseline{sets}$(
+    tx0[t] and {conditions}
+    and sign({name}_baseline{sets}{$}[<t>tLangSigt]) = sign({name}_last_calibration{sets}{$}[<t>tLangSigt])
+    and (abs({name}_last_calibration{sets}{$}[<t>tLangSigt] / {name}_baseline{sets}{$}[<t>tLangSigt] - 1)
+        <
+        abs({name}.l{sets}{$}[<t>t1] / {name}_baseline{sets}{$}[<t>t1] - 1))$({name}_baseline{sets}{$}[<t>tLangSigt] <> 0 and {name}_baseline{sets}{$}[<t>t1] <> 0)
+  )
+    = {name}_baseline{sets}
+    * ({name}_last_calibration{sets}{$}[<t>tLangSigt] / {name}_baseline{sets}{$}[<t>tLangSigt]);
+$ENDLOOP
+
 $LOOP G_gradual_return:
   # Additive
   {name}.l{sets}$(
@@ -126,48 +133,28 @@ $FUNCTION gradual_return_to_baseline({var}):
 $ENDFUNCTION
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Define empty models and groups that will be populated by modules
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_dynamic_calibration_newdata ;
+MODEL M_dynamic_calibration_newdata;
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Import the dynamic calibration models from the modules and combine them
 # ----------------------------------------------------------------------------------------------------------------------
-# Read equations
 @import_from_modules("dynamic_calibration_newdata");
 
-$GROUP G_dynamic_calibration_newdata
-  G_production_public_dynamic_calibration
-  G_struk_dynamic_calibration
-  G_IO_dynamic_calibration
-  G_exports_dynamic_calibration
-  G_labor_market_dynamic_calibration
-  G_pricing_dynamic_calibration
-  G_production_private_dynamic_calibration
-  G_finance_dynamic_calibration
-  G_HHincome_dynamic_calibration
-  G_consumers_dynamic_calibration
-  G_GovRevenues_dynamic_calibration
-  G_government_dynamic_calibration
-  G_GovExpenses_dynamic_calibration
-  G_aggregates_dynamic_calibration
+# ----------------------------------------------------------------------------------------------------------------------
+# Load previous solution
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_load G_dynamic_calibration_newdata, -G_do_not_load;
+@load(G_load, "Gdx/%previous_solution%.gdx")
 
-  G_taxes_endo
-;
+$IF %calibration_steps% == 1:
+  $GROUP G_load G_taxes_endo, G_IO_dynamic_calibration; $GROUP G_load G_load$(t1[t]);
+  @load(G_load, "Gdx/static_calibration.gdx")
+$ENDIF
 
-MODEL M_dynamic_calibration_newdata /
-  M_production_public_dynamic_calibration
-  M_struk_dynamic_calibration
-  M_IO_dynamic_calibration
-  M_exports_dynamic_calibration
-  M_labor_market_dynamic_calibration
-  M_pricing_dynamic_calibration
-  M_production_private_dynamic_calibration
-  M_finance_dynamic_calibration
-  M_HHincome_dynamic_calibration
-  M_consumers_dynamic_calibration
-  M_GovRevenues_dynamic_calibration
-  M_government_dynamic_calibration
-  M_GovExpenses_dynamic_calibration
-  M_aggregates_dynamic_calibration
-
-  B_taxes
-/;
+@set_initial_levels_to_nonzero(G_dynamic_calibration_newdata)
 
 # ======================================================================================================================
 # Trouble-shooting
@@ -176,7 +163,7 @@ MODEL M_dynamic_calibration_newdata /
 # This section provides better starting values for endogenoues variables
 
 # Save and export all values prior to trouble-shooting
-@unload_all(Gdx/dynamic_calibration_newdata_presolve);
+@unload_all(Gdx/dynamic_calibration_presolve);
 @set(All, _presolve, .l)
 
 # All exogenous variables
@@ -190,8 +177,33 @@ $IF %stepwise_new_dummies%:
   # We start with the old dummies and most of the old solution and gradually increase to new values before changing dummies
   @load_dummies(t1, "Gdx/%previous_solution%.gdx")
   # We calibrate with combined old and new data - as we need initial non-zero values (new data without dummies will be exogenous)
-  @load_as(All, "Gdx/%previous_solution%.gdx", _previous_solution);
-  @set_linear_combination(All, 0.99, _previous_solution, .l)
+  # Residuals defined in calibration_newdata are not included in deep_calibration.gdx, therefore we only include data-residuals.
+  $GROUP G_load All, -res_, -G_do_not_load;
+  @load(G_load, "Gdx/%previous_solution%.gdx");
+  @Set(All, _previous_solution, .l);
+  @set_linear_combination(All, 0.99, _previous_solution, _presolve)
+  $FIX All; $UNFIX G_dynamic_calibration_newdata;
+  @set_bounds();
+  @solve(M_dynamic_calibration_newdata); 
+
+  @print("---------------------------------------- Update exogenous values that are zero in either new or old data ----------------------------------------")
+  $GROUP G_zeros
+    $LOOP G_exogenous:
+      {name}$({conditions} and {name}_presolve{sets} * {name}_previous_solution{sets} = 0)
+    $ENDLOOP
+  ;
+  @set(G_zeros, .l, _presolve);
+  $FIX All; $UNFIX G_dynamic_calibration_newdata;
+  @set_bounds();
+  @solve(M_dynamic_calibration_newdata); 
+
+  @print("---------------------------------------- Update exogenous values that change sign ----------------------------------------")
+  $GROUP G_changes_sign
+    $LOOP G_exogenous:
+      {name}$({conditions} and sign({name}_presolve{sets}) <> sign({name}_previous_solution{sets}))
+    $ENDLOOP
+  ;
+  @set(G_changes_sign, .l, _presolve);
   $FIX All; $UNFIX G_dynamic_calibration_newdata;
   @set_bounds();
   @solve(M_dynamic_calibration_newdata); 
@@ -205,28 +217,6 @@ $IF %stepwise_new_dummies%:
   @solve(M_dynamic_calibration_newdata);
   @set(All, _newdummies, .l)
 
-  @print("---------------------------------------- Update exogenous values that are zero in either new or old data ----------------------------------------")
-  $GROUP G_zeros
-    $LOOP G_exogenous:
-      {name}$({conditions} and {name}_presolve{sets} * {name}.l{sets} = 0)
-    $ENDLOOP
-  ;
-  @set(G_zeros, .l, _presolve);
-  $FIX All; $UNFIX G_dynamic_calibration_newdata;
-  @set_bounds();
-  @solve(M_dynamic_calibration_newdata); 
-
-  @print("---------------------------------------- Update exogenous values that change sign ----------------------------------------")
-  $GROUP G_changes_sign
-    $LOOP G_exogenous:
-      {name}$({conditions} and sign({name}_presolve{sets}) <> sign({name}.l{sets}))
-    $ENDLOOP
-  ;
-  @set(G_changes_sign, .l, _presolve);
-  $FIX All; $UNFIX G_dynamic_calibration_newdata;
-  @set_bounds();
-  @solve(M_dynamic_calibration_newdata); 
-
   @unload(Gdx/stepwise_new_dummies.gdx)
 
   # We reset - so the new data-set is fully included, but with new endogenous starting values
@@ -237,13 +227,10 @@ $ENDIF
 $IF %calibration_steps% > 1:
   @print("---------------------------------------- Update data gradually through linear combinations ----------------------------------------")
   @set(All, _saved, .l) # Save all values prior to trouble-shooting
-  @load_dummies(t1, "Gdx/%previous_solution%.gdx")
-  $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a, -res_;
-  $GROUP G_load G_dynamic_calibration_newdata, G_homotopy;
-  @load_as(G_load, "Gdx/%previous_solution%.gdx", _previous_solution);
+  $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a, -res_, -G_do_not_load;
+  @load_as(G_homotopy, "Gdx/%previous_solution%.gdx", _previous_solution);
   @set(G_homotopy, _previous_combination, _previous_solution);
-  @set_linear_combination(G_dynamic_calibration_newdata, 0.99, _previous_solution, .l) # Set starting values for first iteration
-  $FOR {share_of_previous} in [
+  $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
     @set_linear_combination(G_homotopy, {share_of_previous}, _previous_solution, _saved)
@@ -259,13 +246,8 @@ $IF %calibration_steps% > 1:
     @set(G_homotopy, _previous_combination, .l);
   $ENDFOR
 
-  @print("---------------------------------------- Update dummies ----------------------------------------")
-  @load_dummies(t1, "Gdx/data.gdx")
+  # Reset data
   @set(G_homotopy, .l, _saved);
-  $FIX All; $UNFIX G_dynamic_calibration_newdata;
-  $GROUP G_t1 G_dynamic_calibration_newdata$(t1[t]); @set_initial_levels_to_nonzero(G_t1)
-  @set_bounds();
-  @solve(M_dynamic_calibration_newdata); 
 $ENDIF
 
 # Solve the model with partially new exogenous variables - one module at a time (based on calibration with new dummies)
@@ -297,13 +279,28 @@ $IF %blockwise_calibration%:
   @set(G_exogenous, .l, _presolve);
 $ENDIF;
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Load previous solution
-# ----------------------------------------------------------------------------------------------------------------------
-$IF "%previous_solution%" != "%last_calibration%" and %calibration_steps% == 1:
-  $GROUP G_load G_dynamic_calibration_newdata, -G_data, -G_do_not_load;
-  @load(G_load, "Gdx/%previous_solution%.gdx")
-  # @set_initial_levels_to_nonzero(G_load)
+# ======================================================================================================================
+# Solve calibration model a few years at a time
+# ======================================================================================================================
+$IF %previous_terminal_year% < %terminal_year%:
+  $FOR {end_year} in range(%previous_terminal_year%, %terminal_year%, 30):
+    set_time_periods(%data_year%-1, {end_year});
+    $FIX All; $UNFIX G_dynamic_calibration_newdata;
+    @print("------------------------------------------ Solve dynamic calibration until {end_year} ------------------------------------------")
+    @set_bounds();
+    @solve(M_dynamic_calibration_newdata)
+    set_time_periods(%data_year%-1, %terminal_year%);
+    @unload(Gdx/dynamic_calibration_newdata_{end_year}.gdx)
+    $GROUP G_starting_values_from_previous_years G_dynamic_calibration_newdata$(t.val >= {end_year}), -G_constants;
+    $LOOP G_starting_values_from_previous_years:
+      {name}.l{sets}$({conditions}) = {name}.l{sets}{$}[<t>'{end_year}'];
+    $ENDLOOP
+    $GROUP G_exo All, -G_dynamic_calibration_newdata;
+    $GROUP G_LM_nonzero # For at undgå divider med 0, fx ved stigning i tilbagetrækningsalder
+      uH[a,t]$(aVal[a] > 65), uDeltag[a,t]$(aVal[a] > 65), rSoegBaseHh[a,t]$(aVal[a] > 65), srSoegBaseHh[a,t]$(aVal[a] > 65);
+    $GROUP G_LM_nonzero G_LM_nonzero$(t.val >= {end_year}), -G_exo;
+    @load(G_LM_nonzero, "Gdx/deep_calibration.gdx"); # Brug en bank her som er kørt med den fulde tidsperiode
+  $ENDFOR
 $ENDIF
 
 # ======================================================================================================================

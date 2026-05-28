@@ -2,7 +2,6 @@
 # Finansielle beholdninger
 # ----------------------------------------------------------------------------------------------------------------------
 SETS
-
   portefolje_elementer "Typer af portefølje-elementer" /
     Obl "Obligationer ekskl. realkreditobligationer."
     RealKred "Realkreditobligationer."
@@ -31,9 +30,10 @@ SETS
   /
 
   portf_pens "Typer af pensioner" /
-    PensX "Rate- og livrentepensioner samt ATP - beskattet på udbetalingstidspunktet"
+    PensX "Rate- og livrentepensioner - beskattet på udbetalingstidspunktet"
     Kap "Kapitalpensioner beskattet på udbetalingstidspunkt med særlig sats"
     Alder "Aldersopsparing beskattet ved indbetalingstidspunktet"
+    ATP "ATP - beskattet på udbetalingstidspunktet"
   /
 
   pens_ "Typer af pensioner inklusiv total" /
@@ -44,8 +44,10 @@ SETS
   pens[pens_] "Typer af pensioner" /
     set.portf_pens
   /
+;
 
-  pensTot[portf_] "Subset af portf_ bestående af PensTot" / pensTot /
+SINGLETON SETS
+  pensPortf[portf_] "Subset af portf_ bestående af pensTot" / pensTot /
   Guld[portf_] "Subset af portf_ bestående af Guld" / Guld /
   RealKred[portf_] "Subset af portf_ bestående af Guld" / RealKred /
   portfTot[portf_] " Subset af portf_ bestående af Tot" / Tot /
@@ -55,8 +57,10 @@ SETS
   Obl[portf_] "Subset af portf_ bestående af Obl" / Obl /
 
   PensX[pens_] "Subset af pens_ bestående af PensX" / PensX /
+  ATP[pens_] "Subset af pens_ bestående af ATP" / ATP /
   Alder[pens_] "Subset af pens_ bestående af Alder" / Alder /
   Kap[pens_] "Subset af pens_ bestående af Kap" / Kap /
+  pensTot[pens_] "Subset af pens_ bestående af pensTot" / pensTot /
 ;
 
 # Dummies for portfolios

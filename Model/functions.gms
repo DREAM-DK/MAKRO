@@ -225,15 +225,30 @@ $FUNCTION unload({fname}):
   execute_unloaddi '{fname}'
     $LOOP All:, {name} $ENDLOOP
     fpt, fqt, fvt, fp, fq, fv, INF_GROWTH_ADJUSTED, nOvf2nSoc
-    a_, a, a0t100, a15t100, a18t100, aTot
-    ovf_, ovf, soc
+    # Fra age&time.sets.gms
+    a_, a, a0t100, a1t100, a0t14, a0t17, a15t100, a18t100, aTot
+    d1Arv
+    # Fra befolknings.sets.gms
+    ovf_, ovf, soc, bruttoledig, nettoledig, besktot, BruttoArbsty, NettoArbsty
+    ovf_til_husholdninger, ovf_til_udenlandske_husholdninger, ovfTot, 
+    ovfHh, ovfUdl, HhTot, ureguleret, prisreg, intro, loenreg, oblpens, satsreg, ubeskat
+    ovf_a18t100, ovf_a0t17
+    # Fra finans.sets.gms
     portf_, portf
-    d_, d, s_, s, sBy, x_, x, g_, g, c_, c, i_, i, k_, k
-    sTot, kTot
-    d1IO, d1IOy, d1IOm, d1Xm, d1Xy, d1CTurist, d1X, d1I_s, d1K, d1R, d1C, d1G, d1Arv
+    fin_akt, portf_pens, pens_, pens,
+    pensPortf, Guld, RealKred, portfTot, Bank, IndlAktier, UdlAktier, Obl, PensX, ATP, Alder, Kap, pensTot
     d1vHhAkt, d1vHhPas, d1vHhPens, d1vVirkAkt, d1vVirkPas
     d1vOffAkt, d1vOffPas, d1vUdlAkt, d1vUdlPas, d1vPensionAkt
-    
+    # Fra IO.sets.gms
+    d_, d, dux_, dux, cgi, dTots
+    s_, s, sp, spx, sBy, sTold, sMat, sEne, m, harrod_neutral
+    tje, fre, byg, lan, soe, bol,ene, udv, off
+    x_, x, xxTur, xEne, xVar, xSoe, xTje, xTur
+    g_, g, c_, c, cNest, cX, cBol, cBil, cEne, cVar, cTje, cTur
+    i_, i, is_, is, iB, iM, iL, k_, k, ks_, ks
+    dc, dg, dx, dr, di, dk
+    dTot, gTot, cTot, cDKtot, sTot, spTot, sByTot, rTot, xTot, iTot, kTot, isTot, ksTot
+    d1IO, d1IOy, d1IOm, d1Xm, d1Xy, d1CTurist, d1X, d1I_s, d1K, d1R, d1C, d1G, d1I_s
   ;
 $ENDFUNCTION
 
@@ -324,8 +339,8 @@ $FUNCTION assert_abs_smaller({group}, {threshold}, {suffix1}, {suffix2}, {msg}):
     $LOOP {group}:
       parameter {name}_absolute_increase{sets};
       {name}_absolute_increase{sets}${conditions} = abs({name}{suffix1}{sets}) - abs({name}{suffix2}{sets});
-      {name}_absolute_increase{sets}$(abs({name}_absolute_increase{sets}) < {threshold}) = 0;
-      if (sum({sets}{$}[+t]${conditions}, abs({name}_absolute_increase{sets})),
+      {name}_absolute_increase{sets}$({name}_absolute_increase{sets} < {threshold}) = 0;
+      if (sum({sets}{$}[+t]${conditions}, {name}_absolute_increase{sets}),
         display {name}_absolute_increase;
       );
     $ENDLOOP
@@ -504,10 +519,9 @@ $FUNCTION set_initial_levels_to_nonzero({group}):
   # Set better initial levels for that are zero
   $offlisting
 
-  $GROUP G_set_initial_levels_to_nonzero
-    {group}
-    -jfpIOy_s, -jfpIOm_s
-  ;
+  $GROUP G_set_initial_levels_to_nonzero {group}, -jfpIOy_s, -jfpIOm_s;
+  $GROUP G_x All, -{group};
+  $GROUP G_set_initial_price_levels_to_nonzero G_prices, -G_x;
 
   $LOOP G_set_initial_levels_to_nonzero:
     # Set NAs and other special values to zero
@@ -523,8 +537,14 @@ $FUNCTION set_initial_levels_to_nonzero({group}):
             {conditions}
        and ({name}.l{sets} = 0)
        and ({name}.l{sets}{$}[<t>t0] <> 0)) = {name}.l{sets}{$}[<t>t0];
-    # If variable still has a staring level of 0, set the starting level to the maximum absolute value of all periods
-    {name}.l{sets}$({conditions} and ({name}.l{sets} = 0)) = max(smax(tt, abs({name}.l{sets}{$}[<t>tt])), 0.01);
+  $ENDLOOP
+  $LOOP G_set_initial_price_levels_to_nonzero:
+    # If variable still has a staring level of 0 and is a price, set it to 1
+    {name}.l{sets}$({conditions} and ({name}.l{sets} = 0)) = 1;
+  $ENDLOOP
+  $LOOP G_set_initial_levels_to_nonzero:
+    # If variable still has a staring level of 0, set it to a small positive number
+    {name}.l{sets}$({conditions} and ({name}.l{sets} = 0)) = 0.01;
   $ENDLOOP
 
   $onlisting
@@ -560,12 +580,14 @@ $ENDFUNCTION
 # Apply an HP-filter to the input variable
 $FUNCTION HPfilter({name}, {lamb}, start_year, end_year)
 embeddedCode Python:
+  import gams.transfer as gt
   import dreamtools as dt
   import pandas as pd
   from statsmodels.tsa.filters.hp_filter import hpfilter
 
   name = "{name}"
-  db = dt.GamsPandasDatabase(gams.db)
+  container = gt.Container(gams.db)
+  db = dt.GamsPandasDatabase(container)
 
   assert isinstance(start_year, int), "Start year must be an integer"
   assert isinstance(end_year, int), "End year must be an integer"
@@ -581,7 +603,131 @@ embeddedCode Python:
       filtered_values = data_to_filter.groupby(levels[:-1]).transform(lambda x: hpfilter(x.values, {lamb})[1])
 
   db[name][mask] = filtered_values
-  db.save_series_to_database()
-  gams.set(name, db.symbols[name])
-endEmbeddedCode {name}
+  db.commit_changes()
+  container.write(gams.db, [name])
+endEmbeddedCode
+$ENDFUNCTION
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Smoothing-functions - uses preexisting Arnoldi-orthogonalization to create best fit using rational expression
+# ----------------------------------------------------------------------------------------------------------------------
+$FUNCTION Smooth_Setup({variable}, {age_set}, {degree})
+  # Smoothing using deep calibration year
+  set_time_periods(%cal_deep%-1, %cal_deep%)
+
+  # Declare and initialize presmooth parameter (referenced in smoothing equations below)
+  $GROUP G_{variable}_presmooth_decl {variable};
+  @set(G_{variable}_presmooth_decl, _presmooth, .l)
+
+  # Create group of nescessary variables
+  $GROUP G_smooth_{variable}
+    j_{variable}_smooth[a, t]    "Udglatningsfejl"
+    u_{variable}_smoothT[grader] "Tæller parametre"
+    u_{variable}_smoothN[grader] "Nævner parametre"
+    {variable}_SKF[t]            "Sum af kvadrerede fejl"
+    objekt_{variable}            "objekt"
+  ;
+
+  # Create standard block of nescessary equations 
+  # we minimize the norm between observed data in calibration year and rational expression with {degree} degrees 
+  # of freedom in numerator and denominator  
+  $BLOCK B_smooth_{variable} G_smooth_{variable}_endo $(t1[t])
+    $({age_set}[a])..    j_{variable}_smooth[a,t] =E= {variable}[a,t] - {variable}_presmooth[a,t];
+    E_{variable}_rational[a,t]$({age_set}[a])..    {variable}[a,t]*sum[grader, u_{variable}_smoothN[grader]*Q[a,grader]]
+                                                   =E= sum[grader, u_{variable}_smoothT[grader]*Q[a,grader]];
+    ..  {variable}_SKF[t] =E= sum(a$({age_set}[a]), sqr(j_{variable}_smooth[a,t]));
+    objekt_{variable}[t]..    objekt_{variable} =E= {variable}_SKF[t]; 
+  $ENDBLOCK
+
+  # Setting standard endogeneous variables
+  $GROUP G_smooth_{variable}_endo
+     G_smooth_{variable}_endo
+     -objekt_{variable}
+     objekt_{variable}
+     u_{variable}_smoothT$(grader.val <= {degree})
+     u_{variable}_smoothN$(grader.val <= {degree} and not sameas(grader,'0'))
+  ; # Remove and add objective to include it without restrictions on non existing timeindex
+
+  # Reduce denominator degrees of freedom by one
+  u_{variable}_smoothN.l['0'] = 1;
+$ENDFUNCTION
+
+$FUNCTION Smooth_Setup_With_Set({variable}, {set}, {age_set}, {degree})
+  # Smoothing one element of an extra set dimension (e.g. one portf_ element of cHh_a)
+  set_time_periods(%cal_deep%-1, %cal_deep%)
+
+  # Declare and initialize presmooth parameter (referenced in smoothing equations below)
+  $GROUP G_{variable}_presmooth_decl {variable};
+  @set(G_{variable}_presmooth_decl, _presmooth, .l)
+
+  # Setting standard endogeneous variables ## # ## (Endo?)
+  $GROUP G_smooth_{variable}_{set}
+    j_{variable}_{set}_smooth[a, t]    "Udglatningsfejl"
+    u_{variable}_{set}_smoothT[grader] "Tæller parametre"
+    u_{variable}_{set}_smoothN[grader] "Nævner parametre"
+    {variable}_{set}_SKF[t]            "Sum af kvadrerede fejl"
+    objekt_{variable}_{set}            "Objekt"
+  ;
+
+  # Create standard block of nescessary equations 
+  # we minimize the norm between observed data in calibration year and rational expression with {degree} degrees 
+  # of freedom in numerator and denominator
+  $BLOCK B_smooth_{variable}_{set} G_smooth_{variable}_{set}_endo $(t1[t])
+    $({age_set}[a])..    j_{variable}_{set}_smooth[a,t] =E= {variable}['{set}',a,t] - {variable}_presmooth['{set}',a,t];
+    $({age_set}[a])..    {variable}['{set}',a,t]*sum[grader, u_{variable}_{set}_smoothN[grader]*Q[a,grader]]
+                         =E= sum[grader, u_{variable}_{set}_smoothT[grader]*Q[a,grader]];
+    {variable}_{set}_SKF[t]..      {variable}_{set}_SKF[t] =E= sum(a$({age_set}[a]), sqr(j_{variable}_{set}_smooth[a,t]));
+    objekt_{variable}_{set}[t]..   objekt_{variable}_{set} =E= {variable}_{set}_SKF[t]; 
+  $ENDBLOCK
+
+  # Setting standard endogeneous variables
+  $GROUP G_smooth_{variable}_{set}_endo
+     G_smooth_{variable}_{set}_endo
+     -objekt_{variable}_{set}
+     objekt_{variable}_{set}
+     u_{variable}_{set}_smoothT$(grader.val <= {degree})
+     u_{variable}_{set}_smoothN$(grader.val <= {degree} and not sameas(grader,'0'))
+  ;
+
+  # Reduce degrees of freedom
+  u_{variable}_{set}_smoothN.l['0'] = 1;
+$ENDFUNCTION
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Solve functions
+# ----------------------------------------------------------------------------------------------------------------------
+$FUNCTION smooth_solve({variable})
+  # Save levels of all endogenous variables before solve (using setup time periods)
+  @set(G_smooth_{variable}_endo, _presmooth, .l)
+
+  # Solve model to attain smoothed profiles
+  $FIX ALL; $UNFIX G_smooth_{variable}_endo;
+  solve M_smooth_{variable} using NLP minimizing objekt_{variable};
+
+  # Extend time horizon for profile propagation (AFTER solve to avoid constraint eqs for all years)
+  set_time_periods(%cal_deep%-1, %terminal_year%);
+
+  # Propagate smoothed profile to forecast years while t1 still has smoothed values
+  {variable}.l[a,tx1] = {variable}.l[a,t1];
+
+  # Restore all endogenous variables to pre-smooth values
+  @set(G_smooth_{variable}_endo, .l, _presmooth)
+$ENDFUNCTION
+
+$FUNCTION smooth_solve_with_set({variable}, {set})
+  # Save levels of all endogenous variables before solve (using setup time periods)
+  @set(G_smooth_{variable}_{set}_endo, _presmooth, .l)
+
+  # Solve model to attain smoothed profiles
+  $FIX ALL; $UNFIX G_smooth_{variable}_{set}_endo;
+  solve M_smooth_{variable}_{set} using NLP minimizing objekt_{variable}_{set};
+
+  # Extend time horizon for profile propagation (AFTER solve to avoid constraint eqs for all years)
+  set_time_periods(%cal_deep%-1, %terminal_year%);
+
+  # Propagate smoothed profile to forecast years while t1 still has smoothed values
+  {variable}.l['{set}',a,tx1] = {variable}.l['{set}',a,t1];
+
+  # Restore all endogenous variables to pre-smooth values
+  @set(G_smooth_{variable}_{set}_endo, .l, _presmooth)
 $ENDFUNCTION

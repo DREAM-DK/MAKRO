@@ -8,145 +8,126 @@
 # - Define variables and group them based on endogeneity, inflation or growth adjustment, and how they should be forecast (if exogenous)
 # ======================================================================================================================
 $IF %stage% == "variables":
-  $GROUP G_GovRevenues_endo_a
-    vtBund[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Bundskatter, Kilde: ADAM[Ssysp1]"
-    vtTop[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Topskatter, Kilde: ADAM[Ssysp2]+ADAM[Ssysp3]"
-    vtMellem[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Mellemskatter, Kilde: ADAM[Ssyt1]"
-    vtTopTop[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Toptopskatter, Kilde: ADAM[Ssyt3]"
-    vtKommune[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Kommunal indkomstskatter, Kilde: ADAM[Ssys1]+ADAM[Ssys2]"
-    vtEjd[a_,t]$((aVal[a_] >= 18) and t.val > %AgeData_t1%) "Ejendomsværdibeskatning, Kilde: ADAM[Spzej]"
-    vtAktieHh[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Aktieskat betalt af danske husholdninger."
-    vtVirksomhed[a_,t]$(a15t100[a_] and t.val > %NettoFin_t1%) "Virksomhedsskat, Kilde: ADAM[Ssyv]"
-    vtDoedsbo[a_,t]$(a0t100[a_] and t.val > %AgeData_t1%) "Dødsboskat, Kilde: ADAM[Ssyd]"
-    vtHhAM[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Arbejdsmarkedsbidrag betalt af husholdningerne, Kilde: ADAM[Sya]"
-    vtPersRest[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Andre personlige indkomstskatter, Kilde: ADAM[Syp]"
-    vtPersRestPens[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Andre personlige indkomstskatter fratrukket andre personlige indkomstskatter resterende, ADAM[Syp]-ADAM[Sypr]"
-    vtPersRestPensArv[a_,t]$(aVal[a_] >= 15 and t.val > %AgeData_t1%) "Kapitalskatter betalt i forbindelse med dødsfald og arv - ikke-datadækket hjælpevariabel."
-    vtHhVaegt[a_,t]$((a18t100[a_]) and t.val > %AgeData_t1%) "Vægtafgifter fra husholdningerne, Kilde: ADAM[Syv]"
-    vtLukning[a_,t]$(a18t100[a_] and t.val > %AgeData_t1%) "Beregningsteknisk skat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0). Indgår IKKE i offentlig saldo."
-    vtArv[a_,t]$(t.val > %AgeData_t1%) "Kapitalskatter (Arveafgift), Kilde: ADAM[sK_h_o] for total."
-    vBidrag[a_,t]$((a15t100[a_] and t.val > %AgeData_t1%)) "Bidrag til sociale ordninger, Kilde: ADAM[Tp_h_o]"
-    vtKirke[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Kirkeskat, Kilde: ADAM[Trks]"
-    # Indkomstbegreber og fradrag 
-    vPersInd[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Personlig indkomst, Kilde: ADAM[Ysp]"
-    vPersIndx[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Personlig indkomst, Kilde: ADAM[Yt]"
-    vPersIndRest[a_,t]$((a15t100[a_] or aTot[a_]) and t.val > %AgeData_t1%) "Aggregeret restled til personindkomst."
-    vSkatteplInd[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Skattepligtig indkomst, Kilde: ADAM[Ys]"
-    vNetKapIndPos[a_,t]$((a15t100[a_] and t.val > %AgeData_t1% )) "Positiv nettokapitalindkomst."
-    vNetKapIndNeg[a_,t]$((a15t100[a_] and t.val > %AgeData_t1% )) "Negativ nettokapitalindkomst."
-    vNetKapInd[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Nettokapitalindkomst, Kilde: Aggregat fra kapitalindkomst fra PSKAT2"
-    vKapIndPos[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret positiv kapitalindkomst."
-    vKapIndNeg[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret negativ kapitalinkomst, Kilde: Aggregat fra renteudgifter fra PSKAT2."
-    vPersFradrag[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret personfradrag."
-    vAKFradrag[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret fradrag for A-kassebidrag."
-    vELFradrag[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret fradrag for efterlønsbidrag."
-    vRestFradrag[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputerede øvrige ligningsmæssige fradrag (befordringsfradrag m.m.)"
-    vBeskFradrag[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Imputeret beskæftigelsesfradrag."
-    vHhAktieInd[a_,t]$((a15t100[a_] or aTot[a_]) and t.val > %AgeData_t1%) "Aktieindkomst: dividender plus realiserede omvurderinger. Aggregat fra PSKAT2."
-    vUrealiseretAktieOmv[a_,t]$((aVal[a_] > 0 and t.val > %AgeData_t1%+1) or (aTot[a_] and t.val > %AgeData_t1%)) "Skøn over endnu ikke realiserede kapitalgevinster på aktier."
-    ftBund[a_,t]$((a15t100[a_] or aTot[a_]) and t.val > %AgeData_t1%) "Korrektionsfaktor fra faktisk til implicit skattesats."
-    ftKommune[a_,t]$((a15t100[a_] or aTot[a_]) and t.val > %AgeData_t1%) "Korrektionsfaktor fra faktisk til implicit skattesats."
-    rTopSkatInd[a_,t]$(t.val > %AgeData_t1%) "Imputeret gennemsnitlig del af indkomsten over topskattegrænsen."
-    rMellemSkatInd[a_,t]$(t.val >= %AgeData_t1% and t.val >= 2026) "Imputeret gennemsnitlig del af indkomsten over mellemskattegrænsen."
-    rTopTopSkatInd[a_,t]$(t.val >= %AgeData_t1% and t.val >= 2026) "Imputeret gennemsnitlig del af indkomsten over toptopskattegrænsen."
-    ftAktieHh[a_,t]$((a15t100[a_] or aTot[a_]) and t.val > %AgeData_t1%) "Korrektionsfaktor fra faktisk til implicit skattesats."
-    fvtDoedsbo[t]$(t.val > %AgeData_t1%) "parameter til at fange sammensætningseffekt."
-    uvPersFradrag_a[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Aldersfordelt imputeret personfradrag ekskl. regulering"
-    mtInd[a_,t]$(t.val > %AgeData_t1% and a[a_]) "Marginal skattesats på lønindkomst."
-    rNet2KapIndPos[a_,t]$((aTot[a_] or a15t100[a_]) and t.val > %AgeData_t1%) "Positiv nettokapitalindkomst ift. positiv kapitalindkomst."
-    jrvKapIndPos_a[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Alders-specifikt j-led i vKapIndPos."
-    jrvKapIndNeg_a[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Alders-specifikt j-led i vKapIndNeg."
-    rRealiseringAktieOmv[a_,t]$(a15t100[a_] and t.val > %AgeData_t1%) "Andel af akkumulerede omvurderinger på aktier som realiseres hvert år."
-  ;
-  $GROUP G_GovRevenues_endo
-    G_GovRevenues_endo_a
 
+  $GROUP G_government_calibrated
     # Primære indtægter
     vOffPrimInd[t] "Primære offentlige indtægter, Kilde: ADAM[Tf_z_o]-ADAM[Tioii]"
 
     # Direkte skatter
     vtDirekte[t] "Direkte skatter, Kilde: ADAM[Sy_o]"
     vtKilde[t] "Kildeskatter, Kilde: ADAM[Syk]"
-    vtPersonlige[t] "Personlige skatter."
-    vtBund[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Bundskatter, Kilde: ADAM[Ssysp1]"
-    vtTop[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Topskatter, Kilde: ADAM[Ssysp2]+ADAM[Ssysp3]"
-    vtMellem[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Mellemskatter, Kilde: ADAM[Ssyt1]"
-    vtTopTop[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Toptopskatter, Kilde: ADAM[Ssyt3]"
-    vtKommune[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Kommunal indkomstskatter, Kilde: ADAM[Ssys1]+ADAM[Ssys2]"
-    vtEjd[a_,t]$(aTot[a_]) "Ejendomsværdibeskatning, Kilde: ADAM[Spzej]"
-    vtAktie[t]$(t.val > %NettoFin_t1%) "Aktieskat, Kilde: ADAM[Ssya]"
-    vtAktieHh[aTot,t]$(t.val > %AgeData_t1%)
-    vtAktieUdl[t]$(t.val >= 2005) "Skat på udbytter til udenlandske aktionærer. Kilde: MANGLER"
-    vtVirksomhed[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Virksomhedsskat, Kilde: ADAM[Ssyv]"
-    vtDoedsbo[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Dødsboskat, Kilde: ADAM[Ssyd]"
-    vtHhAM[a_,t]$(aTot[a_] and t.val >= %NettoFin_t1%) "Arbejdsmarkedsbidrag betalt af husholdningerne, Kilde: ADAM[Sya]"
-    vtPersRest[a_,t]$(aTot[a_] and t.val >= %NettoFin_t1%) "Andre personlige indkomstskatter, Kilde: ADAM[Syp]"
-    vtPersRestPens[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Andre personlige indkomstskatter fratrukket andre personlige indkomstskatter resterende, ADAM[Syp]-ADAM[Sypr]"
-    vtPersRestPensArv[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Kapitalskatter betalt i forbindelse med dødsfald og arv - ikke-datadækket hjælpevariabel."
-    vtSelskab[s_,t]$(t.val > %NettoFin_t1%) "Selskabsskat, Kilde: ADAM[Syc]"
-    vtSelskabRest[s_,t]$(sTot[s_] and t.val > %NettoFin_t1%) "J-led til at ramme branchefordelt selskabsskat - inkluderer tillægsskat for kulbrinteselskaber (kun relevant for udv)"
-    vtPAL[t]$(t.val > %NettoFin_t1%) "PAL skat, Kilde: ADAM[Sywp]"
-    vtMedie[t]$(t.val >= %BFR_t1%) "Medielicens, Kilde: ADAM[Sym]"
-    vtHhVaegt[a_,t]$(aTot[a_]) "Vægtafgifter fra husholdningerne, Kilde: ADAM[Syv]"
+    vtKildeRest[t] "Rest af kildeskatter, dækker bl.a. sømandsskat, formueskat, særlige indkomstskatter mm. signifikant frem til 1999 hvorefter data bliver bedre for underkomponenter og forsvinder helt i 2012 og frem"
+    vtBund[a_,t] "Bundskatter, Kilde: ADAM[Ssysp1]"
+    vtTop[a_,t] "Topskatter, Kilde: ADAM[Ssysp2]+ADAM[Ssysp3]"
+    vtMellem[a_,t] "Mellemskatter, Kilde: ADAM[Ssyt1]"
+    vtTopTop[a_,t] "Toptopskatter, Kilde: ADAM[Ssyt3]"
+    vtKommune[a_,t] "Kommunal indkomstskatter, Kilde: ADAM[Ssys1]+ADAM[Ssys2]"
+    vtEjd[a_,t] "Ejendomsværdibeskatning, Kilde: ADAM[Spzej]"
+    vtAktie[t] "Aktieskat, Kilde: ADAM[Ssya]"
+    vtAktieHh[a_,t] "Aktieskat betalt af danske husholdninger."
+    vtAktieUdl[t] "Skat på udbytter til udenlandske aktionærer. Kilde: MANGLER"
+    vtVirksomhed[a_,t] "Virksomhedsskat, Kilde: ADAM[Ssyv]"
+    vtDoedsbo[a_,t] "Dødsboskat, Kilde: ADAM[Ssyd]"
+    vtHhAM[a_,t] "Arbejdsmarkedsbidrag betalt af husholdningerne, Kilde: ADAM[Sya]"
+    vtPersRest[a_,t] "Andre personlige indkomstskatter, Kilde: ADAM[Syp]"
+    vtPersRestPens[a_,t] "Andre personlige indkomstskatter fratrukket andre personlige indkomstskatter resterende, ADAM[Syp]-ADAM[Sypr]"
+    vtPersRestPensArv[a_,t] "Kapitalskatter betalt i forbindelse med dødsfald og arv - ikke-datadækket hjælpevariabel."
+    vtSelskab[s_,t] "Selskabsskat, Kilde: ADAM[Syc]"
+    vtSelskabRest[s_,t] "Rest-led til at ramme branchefordelt selskabsskat - inkluderer tillægsskat for kulbrinteselskaber (kun relevant for udv)"
+    vtPAL[t] "PAL skat, Kilde: ADAM[Sywp]"
+    vtMedie[t] "Medielicens, Kilde: ADAM[Sym]"
+    vtHhVaegt[a_,t] "Vægtafgifter fra husholdningerne, Kilde: ADAM[Syv]"
     vtAfgEU[t] "Produktafgifter til EU, Kilde: ADAM[Sppteu]"
+    vtKirke[a_,t] "Kirkeskat, Kilde: ADAM[Trks]"
+    vtLukning[a_,t] "Beregningsteknisk skat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0). Indgår IKKE i offentlig saldo."
+    vtArv[a_,t] "Kapitalskatter (Arveafgift), Kilde: ADAM[sK_h_o] for total."
 
-      # Indrekte skatter
+
+    # Indirekte skatte
     vtIndirekte[t] "Indirekte skatter, Kilde: ADAM[Spt_o]"
     vtEU[t] "Indirekte skatter til EU, Kilde: ADAM[Spteu]"
 
+
     # Øvrige offentlige indtægter
-    vBidrag[a_,t]$(aTot[a_]) "Bidrag til sociale ordninger, Kilde: ADAM[Tp_h_o]"
-    vBidragAK[t]$(t.val >= %BFR_t1%) "A-kassebidrag, Kilde: ADAM[Tpaf]"
-    vBidragEL[t]$(t.val >= %BFR_t1%) "Efterlønsbidrag, Kilde: ADAM[Tpef]"
-    vBidragFri[t]$(t.val >= %BFR_t1%) "Øvrige frivillige bidrag, Kilde: ADAM[Tpr]"
-    vBidragObl[t]$(t.val >= %BFR_t1%) "Obligatoriske bidrag, Kilde: ADAM[Stp_o]"
-    vBidragOblTjm[t]$(t.val >= %BFR_t1%) "Obligatoriske sociale bidrag vedr. tjenestemænd, Kilde: ADAM[Stpt]"
-    vBidragATP[t]$(t.val >= %BFR_t1%) "Sociale bidrag til ATP, særlig ATP ordning og lønmodtagernes garantifond, Kilde: ADAM[Saqw]"
-    vBidragOblRest[t]$(t.val >= %BFR_t1%) "Øvrige obligatoriske bidrag til sociale ordninger, Kilde: ADAM[Sasr]"
-    vBidragTjmp[t]$(t.val >= %BFR_t1%) "Bidrag til Tjenestemandspension, Kilde: ADAM[Tpt_o]"
+    vBidrag[a_,t] "Bidrag til sociale ordninger, Kilde: ADAM[Tp_h_o]"
+    vBidragAK[t] "A-kassebidrag, Kilde: ADAM[Tpaf]"
+    vBidragEL[t] "Efterlønsbidrag, Kilde: ADAM[Tpef]"
+    vBidragFri[t] "Øvrige frivillige bidrag, Kilde: ADAM[Tpr]"
+    vBidragObl[t] "Obligatoriske bidrag, Kilde: ADAM[Stp_o]"
+    vBidragOblTjm[t] "Obligatoriske sociale bidrag vedr. tjenestemænd, Kilde: ADAM[Stpt]"
+    vBidragATP[t] "Sociale bidrag til ATP, særlig ATP ordning og lønmodtagernes garantifond, Kilde: ADAM[Saqw]"
+    vBidragOblRest[t] "Øvrige obligatoriske bidrag til sociale ordninger, Kilde: ADAM[Sasr]"
+    vBidragTjmp[t] "Bidrag til Tjenestemandspension, Kilde: ADAM[Tpt_o]"
 
     vOffIndRest[t] "Andre offentlige indtægter."
-    vtKirke[a_,t]$(aTot[a_] and t.val > %AgeData_t1%) "Kirkeskat, Kilde: ADAM[Trks]"
     vJordrente[t] "Off. indtægter af jord og rettigheder, Kilde: ADAM[Tirn_o]"
     vtKulbrinte[t] "Kulbrinteskat, Kilde: ADAM[Tirk]"
     vJordrenteRest[t] "Off. indtægter af jord og rettigheder ekskl. kulbrinteskat"
 
-    # Indkomstbegreber og fradrag 
-    vPersInd[a_,t]$(aTot[a_] and t.val >= %BFR_t1%) "Personlig indkomst, Kilde: ADAM[Ysp]"
-    vPersIndx[a_,t]$(aTot[a_] and t.val >= %BFR_t1%) "Personlig indkomst, Kilde: ADAM[Yt]"
-    vSkatteplInd[a_,t]$(aTot[a_]) "Skattepligtig indkomst, Kilde: ADAM[Ys]"
-    vNetKapIndPos[a_,t]$(aTot[a_]) "Positiv nettokapitalindkomst."
-    vNetKapIndNeg[a_,t]$(aTot[a_]) "Positiv nettokapitalindkomst."
-    vNetKapInd[a_,t]$(aTot[a_]) "Nettokapitalindkomst, Kilde: Aggregat fra kapitalindkomst fra PSKAT2"
-    vKapIndPos[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Imputeret positiv kapitalindkomst."
-    vKapIndNeg[a_,t]$(aTot[a_] and t.val > %NettoFin_t1%) "Imputeret negativ kapitalinkomst, Kilde: Aggregat fra renteudgifter fra PSKAT2."
-    vPersFradrag[a_,t]$(aTot[a_] and t.val >= %AgeData_t1%) "Imputeret personfradrag."
-    vAKFradrag[a_,t]$(aTot[a_] and t.val >= %NettoFin_t1%) "Imputeret fradrag for A-kassebidrag."
-    vELFradrag[a_,t]$(aTot[a_] and t.val > 1998) "Imputeret fradrag for efterlønsbidrag."
-    vRestFradrag[a_,t]$(aTot[a_]) "Imputerede øvrige ligningsmæssige fradrag (befordringsfradrag m.m.)"
-    vBeskFradrag[a_,t]$(aTot[a_] and t.val > 2003) "Imputeret beskæftigelsesfradrag."
-    vUdlUdbytteDirekte[t]$(t.val >= 2005) "Udbytter til udenlandske direkte investeringer."
-    vUdlUdbyttePortf[t]$(t.val >= 2005) "Udbytter til udenlandske porteføljeaktier."
 
-    ftAktieHh[aTot,t]$(%NettoFin_t1% < t.val and t.val <= %AgeData_t1%)
+    # Indkomstbegreber og fradrag
+    vPersInd[a_,t] "Personlig indkomst, Kilde: ADAM[Ysp]"
+    vPersIndx[a_,t] "Personlig indkomst, Kilde: ADAM[Yt]"
+    vSkatteplInd[a_,t] "Skattepligtig indkomst, Kilde: ADAM[Ys]"
+
+    vNetKapIndPos[a_,t] "Positiv nettokapitalindkomst."
+    vNetKapIndNeg[a_,t] "Negativ nettokapitalindkomst."
+    vNetKapInd[a_,t] "Nettokapitalindkomst, Kilde: Aggregat fra kapitalindkomst fra PSKAT2"
+
+    vKapIndPos[a_,t] "Imputeret positiv kapitalindkomst."
+    vKapIndNeg[a_,t] "Imputeret negativ kapitalinkomst, Kilde: Aggregat fra renteudgifter fra PSKAT2."
+
+    vPersFradrag[a_,t] "Imputeret personfradrag."
+    vAKFradrag[a_,t] "Imputeret fradrag for A-kassebidrag."
+    vELFradrag[a_,t] "Imputeret fradrag for efterlønsbidrag."
+    vRestFradrag[a_,t] "Imputerede øvrige ligningsmæssige fradrag (befordringsfradrag m.m.)"
+    vBeskFradrag[a_,t] "Imputeret beskæftigelsesfradrag."
+
+    vHhAktieInd[a_,t] "Aktieindkomst: dividender plus realiserede omvurderinger. Aggregat fra PSKAT2."
+    vUrealiseretAktieOmv[a_,t] "Skøn over endnu ikke realiserede kapitalgevinster på aktier."
+    vRealiseretAktieOmv[a_,t] "Skøn over realiserede kapitalgevinster på aktier."
+
+    vUdlUdbytteDirekte[t] "Udbytter til udenlandske direkte investeringer."
+    vUdlUdbyttePortf[t] "Udbytter til udenlandske porteføljeaktier."
+    vRealiseretAktieOmvIndkomst[t] "Realiseret kursgevinst der indgår i aktieindkomst - dvs. ekskl. dødbo."
+
+
+    # Overførsler / poster relativt til BNP
     rOffFraUdlKap2BNP[t] "Kapitaloverførsler fra udlandet til den offentlige sektor relativt til BNP."
     rOffFraUdlEU2BNP[t] "Residuale overførsler fra EU til den offentlige sektor relativt til BNP."
     rOffFraUdlRest2BNP[t] "Residuale overførsler fra udlandet eksl. EU til den offentlige sektor relativt til BNP."
     rOffFraHh2BNP[t] "Overførsler fra husholdningerne til den offentlige sektor relativt til BNP."
     rOffFraVirk2BNP[t] "Overførsler fra virksomhederne til den offentlige sektor relativt til BNP."
     rOffVirk2BNP[t] "Overskud fra offentlige virksomheder relativt til BNP."
+
+
+    # Satser, korrektioner, j-led og tekniske variable
     uRestFradrag[t] "Restfradragssats relativ til sats-reguleringen."
-    mtVirk[s_,t]$(sp[s_]) "Branchefordelt marginal indkomstskat hos virksomheder."
+    mtVirk[s_,t] "Branchefordelt marginal indkomstskat hos virksomheder."
     tLukning[t] "Beregningsteknisk skatteskat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0)."
-    rRealiseringAktieOmv[a_,t]$(aTot[a_] and t.val > %AgeData_t1%+1) "Andel af akkumulerede omvurderinger på aktier som realiseres hvert år."
-    fvHhAktieInd[t]$(t.val > %AgeData_t1%+1) "Korrektionsfaktor fra faktisk til implicit skattesats."
-  ;
+    fvHhAktieInd[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
 
-  $GROUP G_GovRevenues_endo 
-    G_GovRevenues_endo$(tx0[t]) # Restrict endo group to tx0[t]
+    ftBund[a_,t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftKommune[a_,t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftAktieHh[a_,t] "Korrektionsfaktor fra faktisk til implicit skattesats."
 
-    mtHhAktAfk[portf,t]$(fin_akt[portf] and not (IndlAktier[portf] or UdlAktier[portf]) and d1vHhAkt[portf,t] or (d1vHhAkt[portf,t] and (IndlAktier[portf] or UdlAktier[portf]) and t.val >= 2000)) "Marginalskat på husholdningers kapitalindkomster."
-    mtHhPasAfk[portf,t]$(d1vHhPas[portf,t]) "Marginalskat på husholdningers renteudgifter."
+    rTopSkatInd[a_,t] "Imputeret gennemsnitlig del af indkomsten over topskattegrænsen."
+    rMellemSkatInd[a_,t] "Imputeret gennemsnitlig del af indkomsten over mellemskattegrænsen."
+    rTopTopSkatInd[a_,t] "Imputeret gennemsnitlig del af indkomsten over toptopskattegrænsen."
+
+    fvtDoedsbo[t] "parameter til at fange sammensætningseffekt."
+    mtInd[a_,t] "Marginal skattesats på lønindkomst."
+    rNet2KapIndPos[a_,t] "Positiv nettokapitalindkomst ift. positiv kapitalindkomst."
+
+    jrvKapIndPos_a[a_,t] "Alders-specifikt j-led i vKapIndPos."
+    jrvKapIndNeg_a[a_,t] "Alders-specifikt j-led i vKapIndNeg."
+    jrHhAktieInd[a_,t] "Aldersfordelt j-led i vHhAktieInd"
+    jrHhAktieInd_t[t] "Tids-afhængigt led i j-led i vHhAktieInd"
+
+    vPersIndRest[a_,t] "Aggregeret restled til personindkomst."
+
+    mtHhAktAfk[portf,t] "Marginalskat på husholdningers kapitalindkomster."
+    mtHhPasAfk[portf,t] "Marginalskat på husholdningers renteudgifter."
   ;
 
   $GROUP G_GovRevenues_exogenous_forecast
@@ -157,26 +138,39 @@ $IF %stage% == "variables":
     vOffFraVirk[t] "Kapitaloverførsler fra den private sektor, Kilde: ADAM[tK_hc_o]"
     vOffVirk[t] "Overskud af offentlig virksomhed, Kilde: ADAM[Tiuo_z_o]"
     vRestFradragSats[t] "Eksogen del af andre fradrag kalibreret til at ramme makrodata."
+    frNet2KapIndPos_t[t] "Tids-afhængigt led i rNet2KapIndPos."
   ;
+  $GROUP+ G_exogenous_forecast G_GovRevenues_exogenous_forecast$(tx1[t]);
+
   $GROUP G_GovRevenues_forecast_as_zero
     jfvSkatteplInd[t] "Multiplikativt J-led."
     jvtPal[t] "J-led"
 
     jvOffPrimInd[t] "J-led."
-    jvtKilde[t] "J-led afspejler datamæssige uoverensstemmelser - skal være 0 i fremskrivning."
     jvtDirekte[t] "J-led afspejler datamæssige uoverensstemmelser - skal være 0 i fremskrivning."
-    vtSelskabRest[s_,t]$(s[s_]) "J-led til at ramme branchefordelt selskabsskat - inkluderer tillægsskat for kulbrinteselskaber (kun relevant for udv)"
+    vtSelskabRest[s_,t]$(s[s_]) "Rest-led til at ramme branchefordelt selskabsskat - inkluderer tillægsskat for kulbrinteselskaber (kun relevant for udv)"
 
     vtJordrenteNordsoe[t] "Off. indtægter af jord og rettigheder, jordrente fra Nordsøen (produktionsafgift), Afgiften blev ophævet i 2014, (indgår i vtJordrenteRest) Kilde: ADAM[Tire_o]"
     vtJordrenteRoer[t] "Olierørledningsafgift, (indgår i vtJordrenteRest) Kilde: ADAM[Tiro]"
+    jmtVirk[sp,t] "J-led - der sikrer, at mtVirk ikke svinger med ftSelskab historisk."
+
+    ftSelskab_smooth[t] "Kalibrerings-variabel"
   ;
+  $GROUP+ G_forecast_as_zero G_GovRevenues_forecast_as_zero$(tx1[t]);
+
   $GROUP G_GovRevenues_ARIMA_forecast
+    ftAMBidrag[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftKirke[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftSelskab[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+
     # Endogene i stødforløb:
     rvtAfgEU2vtAfg[t] "Andel af produktskatter som går til EU."
     rtKirke[t] "Andel af skatteydere som betaler kirkeskat, ADAM[bks]"
     ftVirksomhed[t] "Korrektionsfaktor fra faktisk til implicit skattesats"
     rUdlUdbytteDirekte[t] "Udbytter af udlandets direkte investeringer, som andel af samlet udbytte til udland."
   ;
+  $GROUP+ G_ARIMA_forecast G_GovRevenues_ARIMA_forecast;
+  
   $GROUP G_GovRevenues_newdata_forecast
     uRestFradrag[t]
 
@@ -199,6 +193,7 @@ $IF %stage% == "variables":
     tJordrenteRest[t] "Implicit skattesats."
     tBeskFradrag[t] "Imputeret gennemsnitlig beskæftigelsesfradrag ift. lønindkomst."
     tArv[t] "Arveafgift (implicit, gennemsnit)"
+    tKildeRest[t] "Implicit skattesats for øvrige kildeskatter, herunder forskerskat, begrænset skattepligtige, kontrollovstillæg og arbejdsudleje."
 
     uPersIndRest_t[t] "Restled til personindkomst, uafhængigt af alder."
 
@@ -216,6 +211,7 @@ $IF %stage% == "variables":
     utHhVaegt[t] "Sats-parameter for vægtafgift pr. bil."
 
     uvPersFradrag_t[t] "Ikke-aldersfordelt imputeret personfradrag ekskl. regulering"
+    uvPersFradrag_a[a_,t] "Aldersfordelt imputeret personfradrag ekskl. regulering"
     rTopSkatInd_t[t] "Tids-afhængigt led i rTopSkatInd."
     rMellemSkatInd_t[t] "Tids-afhængigt led i rTopSkatInd."
     rTopTopSkatInd_t[t] "Tids-afhængigt led i rTopSkatInd."
@@ -225,12 +221,12 @@ $IF %stage% == "variables":
     mrNet2KapIndPos[t] "Marginal stigning i positiv nettokapitalindkomst ved stigning i kapitalindkomst."
 
     tTidligPensUdb[t] "Skattesats på tidligt hævet ATP, livrente og ratepension"
-  ;
-  $GROUP G_GovRevenues_fixed_forecast
-    ftAMBidrag[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
-    ftKirke[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
-    ftSelskab[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
 
+    rNet2KapIndPos[aTot,t]
+  ;
+  $GROUP+ G_newdata_forecast G_GovRevenues_newdata_forecast;
+
+  $GROUP G_GovRevenues_fixed_forecast
     ftBund_t[t] "Tids-afhængigt led i ftBund."
     ftBund_a[a,t] "Alders-specifikt led i ftBund."
     ftAktieHh_t[t] "Tids-afhængigt led i ftAktieHh."
@@ -243,10 +239,8 @@ $IF %stage% == "variables":
     jrvKapIndNeg_a[a,t]$(a[a_])
     jrvKapIndNeg_t[t] "Tids-afhængigt j-led i fvKapIndNeg."
     rTidligPensUdb[t] "Andel af ATP, livrente og ratepension, der bliver hævet tidligt"
-    rRealiseringAktieOmv_a[a,t] "Alders-specifikt led i realiseringsraten for aktieomvurderinger."
-    rRealiseringAktieOmv_t[t] "Tids-afhængigt led i realiseringsraten for aktieomvurderinger."
+    jrHhAktieInd_a[a,t] "Aldersfordelt j-led i vHhAktieInd"
 
-    uvPersFradrag_a[a_,t]$(a15t100[a_])
     uPersIndRest_a[a_,t] "Aldersfordelt restled til personindkomst."
 
     rTopSkatInd_a[a,t] "Alders-specifikt led i rTopSkatInd."
@@ -263,8 +257,9 @@ $IF %stage% == "variables":
     rOffFraUdlEU2BNP
     rOffVirk2BNP
 
-    frNet2KapIndPos_t[t] "Tids-afhængigt led i rNet2KapIndPos."
+    rRealiseringAktieOmv[t] "Andel af akkumulerede omvurderinger på aktier som realiseres hvert år."
   ;
+  $GROUP+ G_fixed_forecast G_GovRevenues_fixed_forecast;
 $ENDIF
 
 
@@ -272,82 +267,90 @@ $ENDIF
 # Equations
 # ======================================================================================================================
 $IF %stage% == "equations":
-  $BLOCK B_GovRevenues_static$(tx0[t])
 
-# ======================================================================================================================
-# Primære offentlige indtægter
-# ======================================================================================================================
-    E_vOffPrimInd[t].. vOffPrimInd[t] =E= vtDirekte[t] + vtIndirekte[t] + vOffIndRest[t];
+  $BLOCK B_GovRevenues_static G_GovRevenues_static $(tx0[t])
+
+    .. vOffPrimInd[t] =E= vtDirekte[t] + vtIndirekte[t] + vOffIndRest[t];
 
     # Direkte skatter
     # Kilde: Generelt om skattesystemet
     # http://www.skm.dk/skattetal/beregning/skatteberegning/skatteberegning-hovedtraekkene-i-personbeskatningen-2017
-    E_vtDirekte[t]..
-      vtDirekte[t] =E= vtKilde[t] + vtHhAM[aTot,t] + vtSelskab[sTot,t] + vtPAL[t]
-                     + vtHhVaegt[aTot,t] + vtMedie[t] + vtPersRest[aTot,t] + jvtDirekte[t];
-
+    .. vtDirekte[t] =E= vtKilde[t] + vtHhAM[aTot,t] + vtSelskab[sTot,t] + vtPAL[t]
+                      + vtHhVaegt[aTot,t] + vtMedie[t] + vtPersRest[aTot,t] + jvtDirekte[t];
 # ----------------------------------------------------------------------------------------------------------------------
 #   Kildeskatter
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vtKilde[t]..
-      vtKilde[t] =E= vtKommune[aTot,t] + vtBund[aTot,t] + vtAktie[t] + vtTop[aTot,t] + vtMellem[aTot,t]
-                   + vtTopTop[aTot,t] + vtEjd[aTot,t] + vtVirksomhed[aTot,t] + vtDoedsbo[aTot,t] + jvtKilde[t];
+    $(t.val >= 1987)..
+          vtKilde[t] =E= vtKommune[aTot,t]
+                           + vtBund[aTot,t] 
+                           + vtTop[aTot,t] 
+                           + vtMellem[aTot,t] 
+                           + vtTopTop[aTot,t] 
+                           + vtAktie[t] 
+                           + vtEjd[aTot,t] 
+                           + vtVirksomhed[aTot,t] 
+                           + vtDoedsbo[aTot,t] 
+                           + vtKildeRest[t];
 
-    E_vtPersonlige[t]..
-      vtPersonlige[t] =E= vtKommune[aTot,t] + vtBund[aTot,t] + vtTop[aTot,t] + vtMellem[aTot,t] + vtTopTop[aTot,t];
+    $(t.val >= 1987).. vtKildeRest[t] =E= tKildeRest[t] * (vSkatteplInd[aTot,t] - vPersFradrag[aTot,t]);
 
-    E_vtKommune_via_ftKommune[t]$(t.val > %AgeData_t1%)..
+    ftKommune[aTot,t]$(t.val > %AgeData_t1%)..
       vtKommune[aTot,t] =E= tKommune[t] * ftKommune[aTot,t] * (vSkatteplInd[aTot,t] - vPersFradrag[aTot,t]);
 
-    E_vtBund_via_ftBund[t]$(t.val > %AgeData_t1%)..
+    ftBund[aTot,t]$(t.val > %AgeData_t1%)..
       vtBund[aTot,t] =E= tBund[t] * ftBund[aTot,t] * (vPersInd[aTot,t] + vNetKapIndPos[aTot,t] - vPersFradrag[aTot,t]);
 
-    E_vtAktie[t]$(t.val > %NettoFin_t1%)..
+    $(t.val > %NettoFin_t1%)..
       vtAktie[t] =E= vtAktieHh[aTot,t] + vtAktieUdl[t];
 
-    E_vtAktieUdl[t]$(t.val >= 2005)..
+    $(t.val >= 2005)..
       vtAktieUdl[t] =E= ftAktieUdl[t] * tAktieTop[t] * vUdlUdbyttePortf[t];
 
-    E_vUdlUdbytteDirekte[t]$(t.val >= 2005)..
+    $(t.val >= 2005).. 
       vUdlUdbytteDirekte[t] =E= rUdlUdbytteDirekte[t] * vUdlAktRenter['IndlAktier',t];
-    E_vUdlUdbyttePortf[t]$(t.val >= 2005)..
+    vUdlUdbyttePortf[t]$(t.val >= 2005).. 
       vUdlUdbytteDirekte[t] + vUdlUdbyttePortf[t] =E= vUdlAktRenter['IndlAktier',t];
 
+
     # Sammensætningseffekt skyldes forskellige dødssandsynligheder og formuer, da kun overlevende betaler aktieskat
-    E_vtAktieHh_via_ftAktieHh[t]$(t.val > %NettoFin_t1%)..
+    ftAktieHh[aTot,t]$(t.val > %NettoFin_t1%)..
       vtAktieHh[aTot,t] =E= ftAktieHh[aTot,t] * tAktieTop[t] * vHhAktieInd[aTot,t];
-# En del af de samlede dividender og kursgevinster går til de døde og er ikke med her - sammensætningseffekter fanges i fvHhAktieInd
-    E_vHhAktieInd_via_fvHhAktieInd[t]$(t.val > %AgeData_t1%+1)..
-      vHhAktieInd[aTot,t] =E= fvHhAktieInd[t] * rOverlev[aTot,t] * (rRealiseringAktieOmv[aTot,t] * vUrealiseretAktieOmv[aTot,t] / (1 - rRealiseringAktieOmv[aTot,t])
-                              + vHhAktRenter['IndlAktier',t] + vHhAktRenter['UdlAktier',t]);
+    
+    # En del af de samlede dividender og kursgevinster går til de døde og er ikke med her - sammensætningseffekter fanges i fvHhAktieInd
+    fvHhAktieInd[t]$(t.val > %AgeData_t1%)..
+      vHhAktieInd[aTot,t] =E= fvHhAktieInd[t] * (vRealiseretAktieOmvIndkomst[t] + 
+        rOverlev[aTot,t-1] * (vHhAktRenter['IndlAktier',t] + vHhAktRenter['UdlAktier',t]));
 
     # De dødes aktier realiseres 100 pct. og er ikke med her, men indgår i dødsboskat
-    E_vUrealiseretAktieOmv_via_rRealiseringAktieOmv[t]$(t.val > %AgeData_t1%+1)..
-      vUrealiseretAktieOmv[aTot,t] =E= rOverlev[aTot,t] * (1 - rRealiseringAktieOmv[aTot,t])
-                                         * (vUrealiseretAktieOmv[aTot,t-1]/fv
-                                            + vHhAktOmv['IndlAktier',t] + vHhAktOmv['UdlAktier',t]);
+    $(t.val > %AgeData_t1%)..
+      vUrealiseretAktieOmv[aTot,t] =E= vUrealiseretAktieOmv[aTot,t-1]/fv
+                                     + vHhAktOmv['IndlAktier',t] + vHhAktOmv['UdlAktier',t]
+                                     - vRealiseretAktieOmv[aTot,t];
 
-    E_vtTop_via_rTopskatInd[t]$(t.val > %AgeData_t1%)..
+    rTopskatInd[aTot,t]$(t.val > %AgeData_t1%)..
       vtTop[aTot,t] =E= tTop[t] * rTopSkatInd[aTot,t] * (vPersInd[aTot,t] + vNetKapIndPos[aTot,t]);
 
     #  Når der er 2026-data og top-top-skatten er indført skal ovenstående ligning skiftes ud med nedenstående
-#    E_vtTop_aTot[t]$(t.val > %AgeData_t1%)..
-#      vtTop[aTot,t] =E= tTop[t] * rTopSkatInd[aTot,t] * (vPersIndx[aTot,t] + vNetKapIndPos[aTot,t]);
+    # E_vtTop_aTot[t]$(t.val > %AgeData_t1%)..
+    #  vtTop[aTot,t] =E= tTop[t] * rTopSkatInd[aTot,t] * (vPersIndx[aTot,t] + vNetKapIndPos[aTot,t]);
 
-    E_vtMellem_via_rMellemSkatInd[t]$(t.val > %AgeData_t1%)..
+    rMellemSkatInd[aTot,t]$(t.val >= 2026)..
       vtMellem[aTot,t] =E= tMellem[t] * rMellemSkatInd[aTot,t] * (vPersInd[aTot,t] + vNetKapIndPos[aTot,t]);
 
-    E_vtTopTop_via_rTopTopSkatInd[t]$(t.val > %AgeData_t1%)..
+    rTopTopSkatInd[aTot,t]$(t.val >= 2026)..
       vtTopTop[aTot,t] =E= tTopTop[t] * rTopTopSkatInd[aTot,t] * (vPersInd[aTot,t] + vNetKapIndPos[aTot,t]);
 
-    E_vtEjd_aTot[t].. vtEjd[aTot,t] =E= tEjd[t] * vBolig[aTot,t-1]/fv;    
 
-    E_vtVirksomhed_tot[t]$(t.val > %NettoFin_t1%).. vtVirksomhed[aTot,t] =E= tSelskab[t] * ftVirksomhed[t] * vEBT[sTot,t];
+    vtEjd[aTot,t]$(t.val > %NettoFin_t1%).. 
+      vtEjd[aTot,t] =E= tEjd[t] * vBolig[aTot,t-1]/fv;    
+
+    vtVirksomhed[aTot,t]$(t.val > %NettoFin_t1%).. 
+      vtVirksomhed[aTot,t] =E= tSelskab[t] * ftVirksomhed[t] * vEBT[sTot,t];
 
     # Sammensætningseffekten er væsentlig, da den aggregerede overlevelses-sandsynlighed er langt fra den gennemsnitlige overlevelses-sandsynlighed vægtet efter formue
     # Udover dette fanger fvtDoedsbo også korrelation mellem overlevelse og formue indenfor en kohorte (rArvKorrektion)
     # NB: Alle urealiserede aktier beskattes ved død
-    E_vtDoedsbo_via_fvtDoedsbo[t]$(t.val > %AgeData_t1%)..
+    fvtDoedsbo[t]$(t.val > %AgeData_t1%)..
       vtDoedsbo[aTot,t] =E= tDoedsbo[t] * fvtDoedsbo[t] * (1-rOverlev[aTot,t-1])
                           * (vUrealiseretAktieOmv[aTot,t]
                               + vHhAktRenter['IndlAktier',t] + vHhAktRenter['UdlAktier',t]
@@ -357,101 +360,103 @@ $IF %stage% == "equations":
 # ----------------------------------------------------------------------------------------------------------------------
 #   Andre direkte skatter
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vtHhAM_tot[t]$(t.val >= %NettoFin_t1%)..
+    vtHhAM[aTot,t]$(t.val >= %NettoFin_t1%)..
       vtHhAM[aTot,t] =E= tAMbidrag[t] * ftAMBidrag[t] * (vWHh[aTot,t] - vBidragTjmp[t]);
 
-    E_vtSelskab[sp,t]$(t.val > %NettoFin_t1%).. vtSelskab[sp,t] =E= tSelskab[t] * ftSelskab[t] * vEBT[sp,t] + vtSelskabRest[sp,t];
-    E_vtSelskab_sTot[t]$(t.val > %NettoFin_t1%).. vtSelskab[sTot,t] =E= sum(sp, vtSelskab[sp,t]);
-    E_vtSelskab_sTot_via_vSelskabRest[t]$(t.val > %NettoFin_t1%).. vtSelskab[sTot,t] =E= tSelskab[t] * ftSelskab[t] * vEBT[sTot,t] + vtSelskabRest[sTot,t];
+    $(t.val > %NettoFin_t1%)..                        vtSelskab[sp,t]   =E= tSelskab[t] * ftSelskab[t] * vEBT[sp,t] + vtSelskabRest[sp,t];
+    vtSelskab[sTot,t]$(t.val > %NettoFin_t1%).. vtSelskab[sTot,t] =E= sum(sp, vtSelskab[sp,t]);
+    vtSelskabRest[sTot,t]$(t.val > %NettoFin_t1%)..   vtSelskab[sTot,t] =E= tSelskab[t] * ftSelskab[t] * vEBT[sTot,t] + vtSelskabRest[sTot,t];
 
     # Udlændinge betaler også PAL-skat, MEN vtPAl trækkes fra danske husholdninger - hermed betaler de i 1. omgang udlændinges PAL-skat
     # Udlændinges bidrag til PAL-skat kommer via vHhTilUdl
-    E_vtPAL[t]$(t.val > %NettoFin_t1%)..
+    $(t.val > %NettoFin_t1%)..
       vtPAL[t] =E= tPAL[t] * (rRente['pensTot',t] + rOmv['pensTot',t] - rHhAktOmk['pensTot',t]) * vPensionAkt['Tot',t-1]/fv + jvtPal[t];
 
-    E_vtHhVaegt_tot[t].. vtHhVaegt[aTot,t] =E= utHhVaegt[t] * pnCPI[cTot,t-1]/fp * qBiler[t-1]/fq;
+    vtHhVaegt[aTot,t].. 
+      vtHhVaegt[aTot,t] =E= utHhVaegt[t] * pnCPI[cTot,t-1]/fp * qBiler[t-1]/fq;
 
-    E_vtMedie_tot[t]$(t.val >= %BFR_t1%).. vtMedie[t] =E= utMedie[t] * vSatsIndeks[t] * nPop['a18t100',t];
+    vtMedie[t]$(t.val >= %BFR_t1%).. 
+      vtMedie[t] =E= utMedie[t] * vSatsIndeks[t] * nPop['a18t100',t];
 
-    E_vtPersRest_tot[t]$(t.val >= %NettoFin_t1%)..
+    vtPersRest[aTot,t]$(t.val >= %NettoFin_t1%)..
       vtPersRest[aTot,t] =E= vtPersRestPens[aTot,t] + tPersRestx[t] * vPersInd[aTot,t];
     
-    E_vtPersRestPens_tot[t]$(t.val > %NettoFin_t1%)..
+    vtPersRestPens[aTot,t]$(t.val > %NettoFin_t1%)..
       vtPersRestPens[aTot,t] =E= tKapPens[t] * vHhPensUdb['Kap',aTot,t]
-                               + tTidligPensUdb[t] * vHhPensUdb['PensX',aTot,t] * rTidligPensUdb[t];
+                               + tTidligPensUdb[t] * (vHhPensUdb['PensX',aTot,t] + vHhPensUdb['ATP',aTot,t]) * rTidligPensUdb[t];
 
-    E_vtPersRestPensArv_tot[t]$(t.val > %AgeData_t1%)..
+    vtPersRestPensArv[aTot,t]$(t.val > %AgeData_t1%)..
       vtPersRestPensArv[aTot,t] =E= tKapPens[t] * vPensArv['Kap',aTot,t]
-                                  + tTidligPensUdb[t] * vPensArv['PensX',aTot,t] * rTidligPensUdb[t];
+                                  + tTidligPensUdb[t] * (vPensArv['PensX',aTot,t] + vPensArv['ATP',aTot,t]) * rTidligPensUdb[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Indirekte skatter - jf. taxes.gms
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vtIndirekte[t].. vtIndirekte[t] =E= vtMoms[dTot,sTot,t]
-                                        + vtAfg[dTot,sTot,t]
-                                        + vtReg[dTot,sTot,t]
-                                        + vtY[sTot,t] 
-                                        + vtTold[dTot,sTot,t] - vtEU[t];
+    .. vtIndirekte[t] =E= vtMoms[dTot,sTot,t]
+                        + vtAfg[dTot,sTot,t]
+                        + vtReg[dTot,sTot,t]
+                        + vtY[sTot,t] 
+                        + vtTold[dTot,sTot,t] - vtEU[t];
 
-    E_vtEU[t].. vtEU[t] =E= vtTold[dTot,sTot,t] + vtAfgEU[t];
-    E_vtAfgEU[t].. vtAfgEU[t] =E= rvtAfgEU2vtAfg[t] * vtAfg[dTot,sTot,t];
+    .. vtEU[t] =E= vtTold[dTot,sTot,t] + vtAfgEU[t];
+    .. vtAfgEU[t] =E= rvtAfgEU2vtAfg[t] * vtAfg[dTot,sTot,t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Øvrige offentlige indtægter
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vOffIndRest[t]..
+    ..
       vOffIndRest[t] =E= vtArv[aTot,t] + vOffAfskr[kTot,t] + vBidrag[aTot,t]
                        + vOffFraUdlKap[t] + vOffFraUdlEU[t] + vOffFraUdlRest[t] + vOffFraHh[t] + vOffFraVirk[t]
                        + vtKirke[aTot,t] + vJordrente[t] + vOffVirk[t];
 
     # Sociale bidrag
-    E_vBidrag_tot[t]..
+    vBidrag[aTot,t]..
       vBidrag[aTot,t] =E= vBidragAK[t] + vBidragTjmp[t] + vBidragEL[t] + vBidragFri[t] + vBidragObl[t];
 
-    E_vBidragAK[t]$(t.val >= %BFR_t1%)..      vBidragAK[t]      =E= uBidragAK[t]      * vLoenIndeks[t] * nBruttoArbsty[t];
-    E_vBidragTjmp[t]$(t.val >= %BFR_t1%)..    vBidragTjmp[t]    =E= uBidragTjmp[t]    * vLoensum['off',t];
-    E_vBidragEL[t]$(t.val >= %BFR_t1%)..      vBidragEL[t]      =E= uBidragEL[t]      * vLoenIndeks[t] * nBruttoArbsty[t];
-    E_vBidragFri[t]$(t.val >= %BFR_t1%)..     vBidragFri[t]     =E= uBidragFri[t]     * vLoenIndeks[t] * nBruttoArbsty[t];
-    E_vBidragOblTjm[t]$(t.val >= %BFR_t1%)..  vBidragOblTjm[t]  =E= uBidragOblTjm[t]  * vLoensum['off',t];
-    E_vBidragATP[t]$(t.val >= %BFR_t1%)..     vBidragATP[t]     =E= uBidragATP[t]     * vLoenIndeks[t] * nBruttoArbsty[t];
-    E_vBidragOblRest[t]$(t.val >= %BFR_t1%).. vBidragOblRest[t] =E= uBidragOblRest[t] * vLoenIndeks[t] * nBruttoArbsty[t];
-
-    E_vBidragObl[t]$(t.val >= %BFR_t1%).. vBidragObl[t] =E= vBidragOblTjm[t] + vBidragATP[t] + vBidragOblRest[t];
+    $(t.val >= %BFR_t1%).. vBidragAK[t]      =E= uBidragAK[t] * vLoenIndeks[t] * nBruttoArbsty[t];
+    $(t.val >= %BFR_t1%).. vBidragTjmp[t]    =E= uBidragTjmp[t] * vLoensum['off',t];
+    $(t.val >= %BFR_t1%).. vBidragEL[t]      =E= uBidragEL[t] * vLoenIndeks[t] * nBruttoArbsty[t];
+    $(t.val >= %BFR_t1%).. vBidragFri[t]     =E= uBidragFri[t] * vLoenIndeks[t] * nBruttoArbsty[t];
+    $(t.val >= %BFR_t1%).. vBidragOblTjm[t]  =E= uBidragOblTjm[t] * vLoensum['off',t];
+    $(t.val >= %BFR_t1%).. vBidragATP[t]     =E= uBidragATP[t] * vLoenIndeks[t] * nBruttoArbsty[t];
+    $(t.val >= %BFR_t1%).. vBidragOblRest[t] =E= uBidragOblRest[t] * vLoenIndeks[t] * nBruttoArbsty[t];
+    $(t.val >= %BFR_t1%).. vBidragObl[t]     =E= vBidragOblTjm[t] + vBidragATP[t] + vBidragOblRest[t];
 
     # Overførsler
-    E_rOffFraUdlKap2BNP[t].. vOffFraUdlKap[t] =E= rOffFraUdlKap2BNP[t] * vBNP[t];
-    E_rOffFraUdlEU2BNP[t].. vOffFraUdlEU[t] =E= rOffFraUdlEU2BNP[t] * vBNP[t];
-    E_rOffFraUdlRest2BNP[t].. vOffFraUdlRest[t] =E= rOffFraUdlRest2BNP[t] * vBNP[t];
-    E_rOffFraHh2BNP[t].. vOffFraHh[t] =E= rOffFraHh2BNP[t] * vBNP[t];
-    E_rOffFraVirk2BNP[t].. vOffFraVirk[t] =E= rOffFraVirk2BNP[t] * vBNP[t];
+    rOffFraUdlKap2BNP[t]..  vOffFraUdlKap[t]  =E= rOffFraUdlKap2BNP[t] * vBNP[t];
+    rOffFraUdlEU2BNP[t]..   vOffFraUdlEU[t]   =E= rOffFraUdlEU2BNP[t] * vBNP[t];
+    rOffFraUdlRest2BNP[t].. vOffFraUdlRest[t] =E= rOffFraUdlRest2BNP[t] * vBNP[t];
+    rOffFraHh2BNP[t]..      vOffFraHh[t]      =E= rOffFraHh2BNP[t] * vBNP[t];
+    rOffFraVirk2BNP[t]..    vOffFraVirk[t]    =E= rOffFraVirk2BNP[t] * vBNP[t];
 
-    E_vtKirke_aTot[t]$(t.val > %AgeData_t1%)..
+    vtKirke[aTot,t]$(t.val > %AgeData_t1%)..
       vtKirke[aTot,t] =E= tKirke[t] * ftKirke[t] * rtKirke[t] * (vSkatteplInd[aTot,t] - vPersFradrag[aTot,t]);
 
     # Jordrente
-    E_vJordrente[t].. vJordrente[t] =E= vtKulbrinte[t] + vJordrenteRest[t];
+    .. vJordrente[t] =E= vtKulbrinte[t] + vJordrenteRest[t];
 
-    E_vtKulbrinte[t].. vtKulbrinte[t] =E= tKulbrinte[t] * ((qY['udv',t] - qGrus[t]) / qY['udv',t]) * vBVT['udv',t];
-    E_vJordrenteRest[t].. vJordrenteRest[t] =E= tJordrenteRest[t] * vBNP[t];
+    .. vtKulbrinte[t] =E= tKulbrinte[t] * ((qY['udv',t] - qGrus[t]) / qY['udv',t]) * vBVT['udv',t];
+    .. vJordrenteRest[t] =E= tJordrenteRest[t] * vBNP[t];
 
     # Overskud af offentlig virksomhed
-    E_rOffVirk2BNP[t].. vOffVirk[t] =E= rOffVirk2BNP[t] * vBNP[t];
+    rOffVirk2BNP[t].. 
+      vOffVirk[t] =E= rOffVirk2BNP[t] * vBNP[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Indkomstbegreber og fradrag
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vPersIndx_tot_via_vPersIndRest[t]$(t.val >= %BFR_t1%)..
+    vPersIndRest[aTot,t]$(t.val > %AgeData_t1%)..
       vPersIndx[aTot,t] =E= vWHh[aTot,t]
                           + vOvfSkatPl[aTot,t]
-                          + vHhPensUdb['PensX',aTot,t]
-                          - (vHhPensIndb['PensX',aTot,t] - vPensIndbOP[aTot,t])
+                          + vHhPensUdb['PensX',aTot,t] + vHhPensUdb['ATP',aTot,t]
+                          - (vHhPensIndb['PensX',aTot,t] + vHhPensIndb['ATP',aTot,t] - vPensIndbOP[aTot,t])
                           - vHhPensIndb['Kap',aTot,t]
                           + vPersIndRest[aTot,t];
 
-    E_vPersInd_tot_via_vPersIndx[t]$(t.val >= %BFR_t1%)..
+    vPersIndx[aTot,t]$(t.val >= %BFR_t1%)..
       vPersInd[aTot,t] =E= vPersIndx[aTot,t] - vtHhAM[aTot,t];
 
-    E_vSkatteplInd_tot[t]..
+    vSkatteplInd[aTot,t]..
       vSkatteplInd[aTot,t] =E= ( vPersInd[aTot,t]
                                + vNetKapInd[aTot,t] 
                                - vBeskFradrag[aTot,t] 
@@ -460,194 +465,231 @@ $IF %stage% == "equations":
                                - vRestFradrag[aTot,t]
                              ) * (1+jfvSkatteplInd[t]);
 
-    E_vKapIndPos_via_jrvKapIndPos[t]$(t.val > %NettoFin_t1%)..
+    jrvKapIndPos_a[aTot, t]$(t.val > %AgeData_t1%)..
       vKapIndPos[aTot,t] =E= vHhAkt['Obl',aTot,t-1]/fv * rOverlev[aTot,t-1] 
                              * (rRente['Obl',t] + jrvKapIndPos_a[aTot,t] + jrvKapIndPos_t[t])
                            + vHhAkt['Bank',aTot,t-1]/fv * rOverlev[aTot,t-1]
                               * (rRente['Bank',t] - rHhAktOmk['Bank',t] + jrvKapIndPos_a[aTot,t] + jrvKapIndPos_t[t]);
 
-    E_vKapIndNeg_via_jrvKapIndNeg[t]$(t.val > %NettoFin_t1%)..
+
+    jrvKapIndNeg_a[aTot, t]$(t.val > %AgeData_t1%)..
       vKapIndNeg[aTot,t] =E= sum(portf, vHhPas[portf,aTot,t-1]/fv * rOverlev[aTot,t-1] 
                                         * (rRente[portf,t] + rHhPasOmk[portf,t] + jrvKapIndNeg_a[aTot,t] + jrvKapIndNeg_t[t]));
 
-    E_vNetKapIndPos_via_rNet2KapIndPos[t]..
+    rNet2KapIndPos[aTot,t]$(t.val > %AgeData_t1%)..
       vNetKapIndPos[aTot,t] =E= rNet2KapIndPos[aTot,t] * vKapIndPos[aTot,t];
 
-    E_vNetKapInd_tot[t].. vNetKapInd[aTot,t] =E= vKapIndPos[aTot,t] - vKapIndNeg[aTot,t];
+    vNetKapInd[aTot,t].. 
+      vNetKapInd[aTot,t] =E= vKapIndPos[aTot,t] - vKapIndNeg[aTot,t];
 
-    E_vNetKapIndNeg_tot[t].. vNetKapIndNeg[aTot,t] =E= vNetKapIndPos[aTot,t] - vNetKapInd[aTot,t];
+    vNetKapIndNeg[aTot,t]$(t.val > %AgeData_t1%).. 
+      vNetKapIndNeg[aTot,t] =E= vNetKapIndPos[aTot,t] - vNetKapInd[aTot,t];
 
     # Fradrag
-    E_vPersFradrag_via_uvPersFradrag[t]$(t.val > %AgeData_t1%).. 
+    uvPersFradrag_a[aTot,t]$(t.val > %AgeData_t1%).. 
       vPersFradrag[aTot,t] =E= vLoenIndeks[t] * (uvPersFradrag_a[aTot,t] + uvPersFradrag_t[t]);
 
-    E_vAKFradrag_tot[t]$(t.val >= %NettoFin_t1%).. vAKFradrag[aTot,t] =E= rAKFradrag2Bidrag[t] * vBidragAK[t];
-    E_vELFradrag_tot[t]$(t.val > 1998).. vELFradrag[aTot,t] =E= rELFradrag2Bidrag[t] * vBidragEL[t];
-    E_vRestFradrag_tot[t].. vRestFradrag[aTot,t] =E= vRestFradragSats[t] * nLHh[aTot,t];
-    E_vBeskFradrag_tot[t]$(t.val > 2003).. vBeskFradrag[aTot,t] =E= tBeskFradrag[t] * vWHh[aTot,t];
+    vAKFradrag[aTot,t]$(t.val >= %NettoFin_t1%).. 
+      vAKFradrag[aTot,t] =E= rAKFradrag2Bidrag[t] * vBidragAK[t];
+    vELFradrag[aTot,t]$(t.val > 1998).. 
+      vELFradrag[aTot,t] =E= rELFradrag2Bidrag[t] * vBidragEL[t];
+    vRestFradrag[aTot,t].. 
+      vRestFradrag[aTot,t] =E= vRestFradragSats[t] * nLHh[aTot,t];
+    vBeskFradrag[aTot,t]$(t.val > 2003).. 
+      vBeskFradrag[aTot,t] =E= tBeskFradrag[t] * vWHh[aTot,t];
 
-    E_uRestFradrag[t].. vRestFradragSats[t] =E= uRestFradrag[t] * vLoenIndeks[t];
+    uRestFradrag[t].. vRestFradragSats[t] =E= uRestFradrag[t] * vLoenIndeks[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Marginalskatter
 # ----------------------------------------------------------------------------------------------------------------------    
-    E_mtVirk[sp,t].. mtVirk[sp,t] =E= tSelskab[t];
+    .. mtVirk[sp,t] =E= ftSelskab[t] * tSelskab[t] + jmtVirk[sp,t];
 
-    E_mtHhAktAfk[portf,t]$((Bank[portf] or Obl[portf]) and t.val > %NettoFin_t1%).. 
+    $((Bank[portf] or Obl[portf]) and t.val > %Tax_t1%).. 
       mtHhAktAfk[portf,t] =E= tKommune[t] + rtKirke[t] * tKirke[t]
                             + mrNet2KapIndPos[t] * tBund[t]
                             + rtMellemRenter[t] * tMellem[t]
                             + rtTopRenter[t] * tTop[t]
                             + rtTopTopRenter[t] * tTopTop[t];
 
-    E_mtHhAktAfk_aktier[portf,t]$((IndlAktier[portf] or UdlAktier[portf]) and t.val >= 2000)..
+    mtHhAktAfk&_aktier[portf,t]$((IndlAktier[portf] or UdlAktier[portf]) and t.val >= 2000)..
       mtHhAktAfk[portf,t] =E= ftAktieHh[aTot,t] * tAktieTop[t] + mtHhAktAfkRest[portf,t];
 
-    E_mtHhPasAfk[portf,t]$((Bank[portf] or RealKred[portf]) and t.val > %NettoFin_t1%).. 
+    $((Bank[portf] or RealKred[portf]) and t.val > %Tax_t1%).. 
       mtHhPasAfk[portf,t] =E= tKommune[t] + rtKirke[t] * tKirke[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Beregningsteknisk skat til lukning af offentlig budgetrestriktion
 # ----------------------------------------------------------------------------------------------------------------------    
-    E_tLukning[t]$(t.val > %AgeData_t1%)..
+    tLukning[t]$(t.val > %AgeData_t1%)..
       vtLukning[aTot,t] =E= tLukning[t] * (vtHhx[aTot,t] - vtLukning[aTot,t]);
   $ENDBLOCK
 
   # $BLOCK B_GovRevenues_forwardlooking
   # $ENDBLOCK
 
-  $BLOCK B_GovRevenues_a$(tx0[t])
-# ----------------------------------------------------------------------------------------------------------------------
-#   Kildeskatter
-# ----------------------------------------------------------------------------------------------------------------------
-    E_vtKommune[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+  $BLOCK B_GovRevenues_a G_GovRevenues_a $(tx0[t])
+
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtKommune[a,t] =E= tKommune[t] * ftKommune[a,t] * (vSkatteplInd[a,t] - vPersFradrag[a,t]);
-    E_ftKommune[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. ftKommune[a,t] =E= ftKommune_a[a,t] + ftKommune_t[t];
-    E_vtKommune_aTot[t]$(t.val > %AgeData_t1%).. vtKommune[aTot,t] =E= sum(a, vtKommune[a,t] * nPop[a,t]);
+    vtKommune[aTot,t]$(t.val > %AgeData_t1%).. 
+      vtKommune[aTot,t] =E= sum(a, vtKommune[a,t] * nPop[a,t]);
+    $(a15t100[a] and t.val > %AgeData_t1%).. 
+      ftKommune[a,t] =E= ftKommune_a[a,t] + ftKommune_t[t];
 
-    E_vtBund[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtBund[a,t] =E= tBund[t] * ftBund[a,t] * (vPersInd[a,t] + vNetKapIndPos[a,t] - vPersFradrag[a,t]);
-    E_ftBund[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. ftBund[a,t] =E= ftBund_a[a,t] + ftBund_t[t];
-    E_vtBund_aTot[t]$(t.val > %AgeData_t1%).. vtBund[aTot,t] =E= sum(a, vtBund[a,t] * nPop[a,t]);
+    vtBund[aTot,t]$(t.val > %AgeData_t1%).. 
+      vtBund[aTot,t] =E= sum(a, vtBund[a,t] * nPop[a,t]);
+    $(a15t100[a] and t.val > %AgeData_t1%).. 
+      ftBund[a,t] =E= ftBund_a[a,t] + ftBund_t[t];
 
-    E_vtAktieHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtAktieHh[a,t] =E= ftAktieHh[a,t] * tAktieTop[t] * vHhAktieInd[a,t];
-    E_ftAktieHh[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. ftAktieHh[a,t] =E= ftAktieHh_a[a,t] + ftAktieHh_t[t];
-    E_rRealiseringAktieOmv[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
-      rRealiseringAktieOmv[a,t] =E= rRealiseringAktieOmv_a[a,t] * (1+rRealiseringAktieOmv_t[t]);
-    E_vtAktieHh_aTot[t]$(t.val > %AgeData_t1%).. vtAktieHh[aTot,t] =E= sum(a, vtAktieHh[a,t] * nPop[a,t]); # Bemærk at afdøde ikke betaler aktieskat
-    E_vHhAktieInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
-      vHhAktieInd[a,t] =E= rRealiseringAktieOmv[a,t] * vUrealiseretAktieOmv[a,t] / (1 - rRealiseringAktieOmv[a,t])
+    $(a15t100[a] and t.val > %AgeData_t1%).. 
+      ftAktieHh[a,t] =E= ftAktieHh_a[a,t] + ftAktieHh_t[t];
+    
+
+    $(t.val > %AgeData_t1%).. 
+        jrHhAktieInd[a,t] =E= (jrHhAktieInd_a[a,t] + jrHhAktieInd_t[t])$(a15t100[a]);
+
+
+    jrHhAktieInd_t[t]$(t.val > %AgeData_t1%)..
+       sum(a, nPop[a,t]*jrHhAktieInd[a,t] * (vHhAkt['IndlAktier',a-1,t-1]/fv + vHhAkt['UdlAktier',a-1,t-1]/fv)) =E= 0;
+
+    vtAktieHh[aTot,t]$(t.val > %AgeData_t1%).. 
+      vtAktieHh[aTot,t] =E= sum(a, vtAktieHh[a,t] * nPop[a,t]); # Bemærk at afdøde ikke betaler aktieskat
+    $(a15t100[a] and t.val > %AgeData_t1%)..
+      vHhAktieInd[a,t] =E= vRealiseretAktieOmv[a,t]  
                          + (rRente['IndlAktier',t] + jrHhAktRenter['IndlAktier',t]) 
                             * vHhAkt['IndlAktier',a-1,t-1]/fv * fMigration[a,t]
                          + (rRente['UdlAktier',t] + jrHhAktRenter['UdlAktier',t]) 
-                           * vHhAkt['UdlAktier',a-1,t-1]/fv * fMigration[a,t];
+                           * vHhAkt['UdlAktier',a-1,t-1]/fv * fMigration[a,t] +
+                           jrHhAktieInd[a,t] * (vHhAkt['IndlAktier',a-1,t-1]/fv + vHhAkt['UdlAktier',a-1,t-1]/fv);
+
+
     # De dødes aktieindkomst indgår ikke her, men går til arv og bliver dødsbosbeskattet
-    E_vHhAktieInd_aTot[t]$(t.val > %AgeData_t1%)..
+    vHhAktieInd[aTot,t]$(t.val > %AgeData_t1%)..
       vHhAktieInd[aTot,t] =E= sum(a, vHhAktieInd[a,t] * nPop[a,t]);
 
-    # De dødes aktier realiseres 100 pct. og er ikke med her, men indgår i dødsboskat
-    E_vUrealiseretAktieOmv[a,t]$(a.val > 0 and t.val > %AgeData_t1%+1)..
-      vUrealiseretAktieOmv[a,t] =E= (1 - rRealiseringAktieOmv[a,t])
-                                      * (vUrealiseretAktieOmv[a-1,t-1]/fv * fMigration[a,t]
-                                         + (rOmv['IndlAktier',t] + jrHhAktOmv['IndlAktier',t]) 
-                                           * vHhAkt['IndlAktier',a-1,t-1]/fv * fMigration[a,t]
-                                         + (rOmv['UdlAktier',t] + jrHhAktOmv['UdlAktier',t]) 
-                                           * vHhAkt['UdlAktier',a-1,t-1]/fv * fMigration[a,t]);
-    E_vUrealiseretAktieOmvTot[t]$(t.val > %AgeData_t1%)..
-      vUrealiseretAktieOmv[aTot,t] =E= sum(a, vUrealiseretAktieOmv[a,t] * nPop[a,t]);
+    $(t.val > %AgeData_t1%)..
+      vRealiseretAktieOmv[a,t] =E= rRealiseringAktieOmv[t]$(a15t100[a]) * (vUrealiseretAktieOmv[a-1,t-1]/fv +
+         (rOmv['IndlAktier',t] + jrHhAktOmv['IndlAktier',t]) * vHhAkt['IndlAktier',a-1,t-1]/fv +
+         (rOmv['UdlAktier',t] + jrHhAktOmv['UdlAktier',t]) * vHhAkt['UdlAktier',a-1,t-1]/fv
+          ) * fMigration[a,t];
 
-    E_vtTop[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    # Realiserede aktieomvurderinger eksklusiv dødsbo
+    $(t.val > %AgeData_t1%)..
+      vRealiseretAktieOmvIndkomst[t] =E= sum(a,nPop[a,t] * vRealiseretAktieOmv[a,t]);
+
+    vRealiseretAktieOmv[aTot, t]$(t.val > %AgeData_t1%)..
+      vRealiseretAktieOmv[aTot,t] =E= vRealiseretAktieOmvIndkomst[t]
+        + sum(a, 1 * rArvKorrektion[a] *  (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1] *
+          (vUrealiseretAktieOmv[a-1,t-1]/fv +
+          (rOmv['IndlAktier',t] + jrHhAktOmv['IndlAktier',t]) * vHhAkt['IndlAktier',a-1,t-1]/fv +
+          (rOmv['UdlAktier',t] + jrHhAktOmv['UdlAktier',t]) * vHhAkt['UdlAktier',a-1,t-1]/fv));
+
+
+    # De dødes aktier realiseres 100 pct. og er ikke med her, men indgår i dødsboskat
+     $(a1t100[a] and t.val > %AgeData_t1%)..
+       vUrealiseretAktieOmv[a,t] =E= (fMigration[a,t] + (1 - rArvKorrektion[a]) * (1 - rOverlev[a-1,t-1]) * nPop[a-1,t-1] / nPop[a,t]) * 
+                                     (vUrealiseretAktieOmv[a-1,t-1]/fv 
+                                   + (rOmv['IndlAktier',t] + jrHhAktOmv['IndlAktier',t]) * vHhAkt['IndlAktier',a-1,t-1]/fv 
+                                   + (rOmv['UdlAktier',t] + jrHhAktOmv['UdlAktier',t]) * vHhAkt['UdlAktier',a-1,t-1]/fv ) 
+                                   - vRealiseretAktieOmv[a,t];
+
+
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtTop[a,t] =E= tTop[t] * (vPersInd[a,t] + vNetKapIndPos[a,t]) * rTopSkatInd[a,t];
-    #  Når der er 2026-data og top-top-skatten er indført skal ovenstående ligning skiftes ud med nedenstående
-    #  E_vtTop[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
-    #    vtTop[a,t] =E= tTop[t] * (vPersIndx[a,t] + vNetKapIndPos[a,t]) * rTopSkatInd[a,t];
-    E_vtTop_aTot[t]$(t.val > %AgeData_t1%).. vtTop[aTot,t] =E= sum(a, vtTop[a,t] * nPop[a,t]);
-    E_rTopSkatInd[a,t]$(t.val > %AgeData_t1% and a15t100[a])..
+    vtTop[aTot,t]$(t.val > %AgeData_t1%).. 
+      vtTop[aTot,t] =E= sum(a, vtTop[a,t] * nPop[a,t]);
+    $(t.val > %AgeData_t1% and a15t100[a])..
       rTopSkatInd[a,t] =E= rTopSkatInd_a[a,t] + rTopSkatInd_t[t];
 
-    E_vtMellem[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtMellem[a,t] =E= tMellem[t] * (vPersInd[a,t] + vNetKapIndPos[a,t]) * rMellemSkatInd[a,t];
-    E_vtMellem_aTot[t]$(t.val > %AgeData_t1% and t.val >= 2026).. vtMellem[aTot,t] =E= sum(a, vtMellem[a,t] * nPop[a,t]);
-    E_rMellemSkatInd[a,t]$(t.val > %AgeData_t1% and a15t100[a] and t.val >= 2026)..
+    vtMellem[aTot,t]$(t.val >= 2026).. 
+      vtMellem[aTot,t] =E= sum(a, vtMellem[a,t] * nPop[a,t]);
+    $(a15t100[a] and t.val >= 2026)..
       rMellemSkatInd[a,t] =E= rMellemSkatInd_a[a,t] # Vi benytter aldersfordelingen for top-skatten indtil vi har data for aldersfordelt mellemskat
                             + rMellemSkatInd_t[t];
-
-    E_vtTopTop[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtTopTop[a,t] =E= tTopTop[t] * (vPersInd[a,t] + vNetKapIndPos[a,t]) * rTopTopSkatInd[a,t];
-    E_vtTopTop_aTot[t]$(t.val > %AgeData_t1% and t.val >= 2026).. vtTopTop[aTot,t] =E= sum(a, vtTopTop[a,t] * nPop[a,t]);
-    E_rTopTopSkatInd[a,t]$(t.val > %AgeData_t1% and a15t100[a])..
+    vtTopTop[aTot,t]$(t.val >= 2026).. 
+      vtTopTop[aTot,t] =E= sum(a, vtTopTop[a,t] * nPop[a,t]);
+    $(t.val > %AgeData_t1% and a15t100[a])..
       rTopTopSkatInd[a,t] =E= rTopTopSkatInd_a[a,t] # Vi benytter aldersfordelingen for top-skatten indtil vi har data for aldersfordelt toptopskat
                             + rTopTopSkatInd_t[t];
-
-    E_vtEjd[a,t]$(a.val >= 18 and t.val > %AgeData_t1%)..
+    $(a18t100[a] and t.val > %AgeData_t1%)..
       vtEjd[a,t] =E= tEjd[t] * vBolig[a-1,t-1]/fv * fMigration[a,t];
 
-    E_vtVirksomhed[a,t]$(a15t100[a] and t.val > %NettoFin_t1%)..
+    $(a15t100[a] and t.val > %NettoFin_t1%)..
       vtVirksomhed[a,t] =E= tSelskab[t] * ftVirksomhed[t] * vEBT[sTot,t] * vWHh[a,t] / vWHh[aTot,t];
 
     # Dødsboskat er aktieafkastskat og skat på positiv nettokapitalindkomst (100 pct. af deres urealiserede aktier beskattes)
-    E_vtDoedsbo[a,t]$(a0t100[a] and t.val > %AgeData_t1%)..
+    $(a0t100[a] and t.val > %AgeData_t1%)..
       vtDoedsbo[a,t] =E= tDoedsbo[t]
                          * (vUrealiseretAktieOmv[a,t]
                             + (rRente['IndlAktier',t] + jrHhAktRenter['IndlAktier',t]) * vHhAkt['IndlAktier',a-1,t-1]/fv 
                             + (rRente['UdlAktier',t] + jrHhAktRenter['UdlAktier',t]) * vHhAkt['UdlAktier',a-1,t-1]/fv 
-                            + vNetKapIndPos[a,t] / fMigration[a,t]
+                            + vNetKapIndPos[a,t]$(a15t100[a]) / fMigration[a,t]
                             );
-    E_vtDoedsbo_tot[t]$(t.val > %AgeData_t1%)..
+    vtDoedsbo[aTot,t]$(t.val > %AgeData_t1%)..
       vtDoedsbo[aTot,t] =E= sum(a$(a0t100[a]), vtDoedsbo[a,t] * (1-rOverlev[a-1,t-1]) * nPop[a-1,t-1]);
 
-# ----------------------------------------------------------------------------------------------------------------------
-#   Andre direkte skatter
-# ----------------------------------------------------------------------------------------------------------------------
+# # ----------------------------------------------------------------------------------------------------------------------
+# #   Andre direkte skatter
+# # ----------------------------------------------------------------------------------------------------------------------
     # Andre direkte skatter   
-    E_vtHhAM[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtHhAM[a,t] =E= tAMbidrag[t] * ftAMBidrag[t] * vWHh[a,t] * (vWHh[aTot,t] - vBidragTjmp[t]) / vWHh[aTot,t];
 
-    E_vtHhVaegt[a,t]$(a18t100[a] and t.val > %AgeData_t1%)..
+    $(a18t100[a] and t.val > %AgeData_t1%)..
       vtHhVaegt[a,t] =E= utHhVaegt[t] * pnCPI[cTot,t-1]/fp * qBiler[t-1]/fq * qCx[a,t] / qC['Cx',t];
 
-    E_vtPersRest[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtPersRest[a,t] =E= vtPersRestPens[a,t] + tPersRestx[t] * vPersInd[a,t];
 
-    E_vtPersRestPens[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtPersRestPens[a,t] =E= tKapPens[t] * vHhPensUdb['Kap',a,t]
-                            + tTidligPensUdb[t] * vHhPensUdb['PensX',a,t] * rTidligPensUdb[t];
+                            + tTidligPensUdb[t] * (vHhPensUdb['PensX',a,t] + vHhPensUdb['ATP',a,t]) * rTidligPensUdb[t];
 
-    E_vtPersRestPensArv[a,t]$(a.val >= 15 and t.val > %AgeData_t1%)..
+    $(aVal[a] >= 15 and t.val > %AgeData_t1%)..
       vtPersRestPensArv[a,t] =E= tKapPens[t] * vPensArv['Kap',a,t]
-                               + tTidligPensUdb[t] * vPensArv['PensX',a,t] * rTidligPensUdb[t];
+                               + tTidligPensUdb[t] * (vPensArv['PensX',a,t] + vPensArv['ATP',a,t]) * rTidligPensUdb[t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Øvrige offentlige indtægter
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vBidrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vBidrag[a,t] =E= vWHh[a,t] / vWHh[aTot,t] * vBidrag[aTot,t]; 
 
     # Kirkeskat
-    E_vtKirke[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vtKirke[a,t] =E= tKirke[t] * ftKirke[t] * rtKirke[t] * (vSkatteplInd[a,t] - vPersFradrag[a,t]);
 
-    E_vtArv_aTot[t]$(t.val > %AgeData_t1%).. vtArv[aTot,t] =E= tArv[t] * vArv[aTot,t];
-    E_vtArv[a,t]$(t.val > %AgeData_t1%).. vtArv[a,t] =E= tArv[t] * vArv[a,t];
+    $(t.val > %AgeData_t1%).. vtArv[aTot,t] =E= tArv[t] * vArv[aTot,t];
+    $(t.val > %AgeData_t1%).. vtArv[a,t] =E= tArv[t] * vArv[a,t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Indkomstbegreber og fradrag
 # ----------------------------------------------------------------------------------------------------------------------
-    E_vPersIndx[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vPersIndx[a,t] =E= vWHh[a,t]
                        + vOvfSkatPl[a,t]
-                       + vHhPensUdb['PensX',a,t]
+                       + vHhPensUdb['PensX',a,t] + vHhPensUdb['ATP',a,t]
                        # Nedenstående led er en forsimpling - her betales skat af livsforsikring - i virkeligheden er forsikringselementet af pension ikke fradragsberettiget - vi bør ændre modelleringen og have data særskilt data for forsikring
-                       + rArv[a,t] * vPensArv['PensX',aTot,t] / nPop[aTot,t] 
-                       - (vHhPensIndb['PensX',a,t] - vPensIndbOP[a,t]) #Indbetalinger til obligatorisk opsparing trækkes ud for at undgå at tælle fradrag dobbelt, da den obligatoriske opsparing bliver lagt på en ikke-skattepligtig overførsel (i stedet for de overførsler de vedrører fx arbejdsløshedsdagpenge)
+                       + rArv[a,t] * (vPensArv['PensX',aTot,t] + vPensArv['ATP',aTot,t]) / nPop[aTot,t] 
+                       - (vHhPensIndb['PensX',a,t] + vHhPensIndb['ATP',a,t] - vPensIndbOP[a,t]) #Indbetalinger til obligatorisk opsparing trækkes ud for at undgå at tælle fradrag dobbelt, da den obligatoriske opsparing bliver lagt på en ikke-skattepligtig overførsel (i stedet for de overførsler de vedrører fx arbejdsløshedsdagpenge)
                        - vHhPensIndb['Kap',a,t]
                        + vPersIndRest[a,t];
 
-    E_vPersInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vPersInd[a,t] =E= vPersIndx[a,t] - vtHhAM[a,t];
 
-    E_vSkatteplInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vSkatteplInd[a,t] =E= (   vPersInd[a,t]
                               + vNetKapInd[a,t] 
                               - vBeskFradrag[a,t] 
@@ -656,56 +698,57 @@ $IF %stage% == "equations":
                               - vRestFradrag[a,t]
                             ) * (1+jfvSkatteplInd[t]);
 
-    E_vPersIndRest[a,t]$(a15t100[a] and t.val > %AgeData_t1%).. vPersIndRest[a,t] =E= (uPersIndRest_a[a,t] + uPersIndRest_t[t]) * vLoenIndeks[t];
+    $(a15t100[a] and t.val > %AgeData_t1%).. 
+      vPersIndRest[a,t] =E= (uPersIndRest_a[a,t] + uPersIndRest_t[t]) * vLoenIndeks[t];
 
     # vPersIndRest[aTot,t] vil ikke være lig sum(a, vPersIndRest[a,t] * nPop[a,t]), da de 0-14-åriges personindkomst ikke beregnes og vi ikke ønsker at korrigere for dette i totalen
-    E_vPersInd_tot[t]$(t.val > %AgeData_t1%).. vPersInd[aTot,t] =E= sum(a, vPersInd[a,t] * nPop[a,t]);
+    vPersInd[aTot,t]$(t.val > %AgeData_t1%).. vPersInd[aTot,t] =E= sum(a, vPersInd[a,t] * nPop[a,t]);
 
     # Rentefradrag
-    E_vKapIndPos[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vKapIndPos[a,t] =E= vHhAkt['Obl',a-1,t-1]/fv * fMigration[a,t]
                           * (rRente['Obl',t] + jrvKapIndPos_a[a,t] + jrvKapIndPos_t[t])
                         + (vHhAkt['Bank',a-1,t-1]/fv * fMigration[a,t] 
                            * (rRente['Bank',t] - rHhAktOmk['Bank',t] + jrvKapIndPos_a[a,t] + jrvKapIndPos_t[t]));
-    E_vKapIndPos_aTot[t]$(t.val > %AgeData_t1%)..
+    vKapIndPos[aTot,t]$(t.val > %AgeData_t1%)..
       vKapIndPos[aTot,t] =E= sum(a, vKapIndPos[a,t] * nPop[a,t]);
 
-    E_vKapIndNeg[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vKapIndNeg[a,t] =E= sum(portf, vHhPas[portf,a-1,t-1]/fv * fMigration[a,t] 
                                      * (rRente[portf,t] + rHhPasOmk[portf,t] + jrvKapIndNeg_a[a,t] + jrvKapIndNeg_t[t]));
-    E_vKapIndNeg_aTot[t]$(t.val > %AgeData_t1%)..
+    vKapIndNeg[aTot,t]$(t.val > %AgeData_t1%)..
       vKapIndNeg[aTot,t] =E= sum(a, vKapIndNeg[a,t] * nPop[a,t]);
 
-    E_vNetKapInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vNetKapInd[a,t] =E= vKapIndPos[a,t] - vKapIndNeg[a,t];
-    E_rNet2KapIndPos[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       rNet2KapIndPos[a,t] =E= rNet2KapIndPos_a[a,t] * frNet2KapIndPos_t[t];
 
-    E_vNetKapIndPos[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vNetKapIndPos[a,t] =E= rNet2KapIndPos[a,t] * vKapIndPos[a,t];
-    E_vNetKapIndPos_aTot[t]$(t.val > %AgeData_t1%)..
-      vNetKapIndPos[aTot,t] =E= sum(a, vNetKapIndPos[a,t] * nPop[a,t]);
-    E_vNetKapIndNeg[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    vNetKapIndPos[aTot,t]$(t.val > %AgeData_t1%)..
+      vNetKapIndPos[aTot,t] =E= sum(a$(a15t100[a]), vNetKapIndPos[a,t] * nPop[a,t]);
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vNetKapIndNeg[a,t] =E= vNetKapIndPos[a,t] - vNetKapInd[a,t];
 
     # Fradrag
-    E_vPersFradrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vPersFradrag[a,t] =E= vLoenIndeks[t] * (uvPersFradrag_a[a,t] + uvPersFradrag_t[t]);
-    E_vPersFradrag_aTot[t]$(t.val > %AgeData_t1%).. vPersFradrag[aTot,t] =E= sum(a, vPersFradrag[a,t] * nPop[a,t]);
+    $(t.val > %AgeData_t1%).. vPersFradrag[aTot,t] =E= sum(a, vPersFradrag[a,t] * nPop[a,t]);
 
-    E_vAKFradrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vAKFradrag[a,t] =E= vBidrag[a,t] / vBidrag[aTot,t] * vAKFradrag[aTot,t];
-    E_vELFradrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vELFradrag[a,t] =E= vBidrag[a,t] / vBidrag[aTot,t] * vELFradrag[aTot,t];
-    E_vRestFradrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vRestFradrag[a,t] =E=  vRestFradragSats[t] * nLHh[a,t] / nPop[a,t];
-    E_vBeskFradrag[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       vBeskFradrag[a,t] =E= tBeskFradrag[t] * vWHh[a,t];
 
 # ----------------------------------------------------------------------------------------------------------------------
 #   Marginal indkomstskat
 # ----------------------------------------------------------------------------------------------------------------------
-    E_mtInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)..
+    $(a15t100[a] and t.val > %AgeData_t1%)..
       mtInd[a,t] =E= tBund[t] * ftBund[a,t]
                    + rTopSkatInd[a,t] * tTop[t]
                    + rMellemSkatInd[a,t] * tMellem[t]
@@ -722,7 +765,7 @@ $IF %stage% == "equations":
 # ----------------------------------------------------------------------------------------------------------------------
 #   Beregningsteknisk skat til lukning af offentlig budgetrestriktion
 # ----------------------------------------------------------------------------------------------------------------------    
-    E_vtLukning[a,t]$(a18t100[a] and t.val > %AgeData_t1%)..
+    $(a18t100[a] and t.val > %AgeData_t1%)..
       vtLukning[a,t] =E= tLukning[t] * (vtHhx[a,t] - vtLukning[a,t]);
   $ENDBLOCK
 
@@ -731,12 +774,15 @@ $IF %stage% == "equations":
     # B_GovRevenues_forwardlooking
     B_GovRevenues_a
   /;
+  model M_base / M_GovRevenues /;
 
-
-  $GROUP G_GovRevenues_static
-    G_GovRevenues_endo
-    -G_GovRevenues_endo_a
+  $GROUP G_GovRevenues_endo
+    G_GovRevenues_static
+    G_GovRevenues_a
   ;
+  model M_static / B_GovRevenues_static /;
+  $GROUP+ G_static G_GovRevenues_static;
+  $GROUP+ G_Endo G_GovRevenues_endo;
 
 $ENDIF
 
@@ -861,9 +907,9 @@ $IF %stage% == "static_calibration":
     tDoedsbo$(t.val > %AgeData_t1%), -vtDoedsbo[aTot,t]
     tPersRestx, -vtPersRest[aTot,t]
     rTidligPensUdb, -vtPersRestPens[aTot,t]
-    ftSelskab, -vtSelskab[sTot,t]
+    ftSelskab$(t.val > %NettoFin_t1%), -vtSelskab[sTot,t]$(t.val > %NettoFin_t1%)
     vtSelskabRest[udv,t], -vtSelskab[udv,t]
-    jvtKilde, -vtKilde
+    tKildeRest, -vtKilde
     jvtDirekte, -vtDirekte
   # Indkomster og fradrag
     tBeskFradrag$(t.val > 2003), -vBeskFradrag[aTot,t]
@@ -892,7 +938,7 @@ $IF %stage% == "static_calibration":
   ;
   $GROUP G_GovRevenues_static_calibration_newdata
     G_GovRevenues_static_calibration_base
-    - G_GovRevenues_endo_a
+    - G_GovRevenues_a
     # Beregninger af led som er endogene i aldersdel (skal være uændret, når de beregnes endogent)
     -vPersFradrag[aTot,t], uvPersFradrag_t
     -vtBund[aTot,t], ftBund[aTot,t]
@@ -910,6 +956,7 @@ $IF %stage% == "static_calibration":
     G_GovRevenues_static_calibration_newdata$(tx0[t])
     G_GovRevenues_endo$(not tx0[t]) # Nutidsværdier til HBI beregnes før t1
   ;
+  $GROUP+ G_static_calibration_newdata G_GovRevenues_static_calibration_newdata;
 
   $GROUP G_GovRevenues_static_calibration
     G_GovRevenues_static_calibration_base
@@ -935,9 +982,12 @@ $IF %stage% == "static_calibration":
     mtIndRest, -mtInd
     mtHhAktAfkRest[IndlAktier,t], -mtHhAktAfk[IndlAktier,t]
     mtHhAktAfkRest[UdlAktier,t], -mtHhAktAfk[UdlAktier,t]
-    rRealiseringAktieOmv_a[a,t]$(a15t100[a] and t.val > %AgeData_t1%), -vHhAktieInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)
+    jrHhAktieInd_a[a,t]$(a15t100[a] and t.val > %AgeData_t1%), -vHhAktieInd[a,t]$(a15t100[a] and t.val > %AgeData_t1%)
+    rRealiseringAktieOmv[t], -jrHhAktieInd_t[t]$(t.val > %AgeData_t1%)
     ftAktieHh_a$(t.val > %AgeData_t1% and a15t100[a]), -vtAktieHh$(t.val > %AgeData_t1% and a15t100[a_])
-    vUrealiseretAktieOmv[a,t]$(t.val = %AgeData_t1%+1 and aVal[a] > 1) # E_vUrealiseretAktieOmv_t2
+    vUrealiseretAktieOmv[a_,t]$(t.val = %AgeData_t1% and (a0t100[a_] or aTot[a_])) # E_vUrealiseretAktieOmv_t1
+    jmtVirk[sp,t]$(t.val <= %cal_end%) # E_jmtVirk
+    ftSelskab_smooth[t]$(t.val > %NettoFin_t1%) # E_ftSelskab_smooth
   ;
   $GROUP G_GovRevenues_static_calibration
     G_GovRevenues_static_calibration$(tx0[t])
@@ -950,14 +1000,20 @@ $IF %stage% == "static_calibration":
       jrvKapIndPos_a[aTot,t] =E= 0;
 
     # Vi antager initialt et forhold mellem urealiserede omvurderinger og aktieformue, omtrent svarende til det langsigtede niveau
-    E_vUrealiseretAktieOmv_t2[a,t]$(t.val = %AgeData_t1%+1 and a.val > 1)..
-      vUrealiseretAktieOmv[a,t] =E= 0.45 * (vHhAkt['IndlAktier',a-1,t-1] + vHhAkt['UdlAktier',a-1,t-1]);
+    E_vUrealiseretAktieOmv_t1[a_,t]$(t.val = %AgeData_t1% and (a0t100[a_] or aTot[a_]))..
+      vUrealiseretAktieOmv[a_,t] =E= 0.45 * (vHhAkt['IndlAktier',a_,t] + vHhAkt['UdlAktier',a_,t]);
+
+    # Vi smooth'er den implicitte skattesats, da den ellers hopper ekstremt meget - og det påvirker user cost historisk
+    E_jmtVirk[sp,t]$(t.val <= %cal_end%).. mtVirk[sp,t] =E= ftSelskab_smooth[t] * tSelskab[t];
+    E_ftSelskab_smooth[t]$(t.val > %NettoFin_t1%).. ftSelskab_smooth[t] =E= 0.8*ftSelskab_smooth[t-1] + 0.2*ftSelskab[t];
   $ENDBLOCK
 
   MODEL M_GovRevenues_static_calibration /
     M_GovRevenues
     B_GovRevenues_static_calibration
   /;
+  model M_static_calibration / M_GovRevenues_static_calibration /;
+  $GROUP+ G_static_calibration G_GovRevenues_static_calibration;
 $ENDIF
 
 
@@ -974,6 +1030,7 @@ $IF %stage% == "deep_dynamic_calibration":
     -rOffFraVirk2BNP, vOffFraVirk
     -rOffVirk2BNP, vOffVirk
     -uRestFradrag, vRestFradragSats
+    -rNet2KapIndPos[aTot,t], frNet2KapIndPos_t[t]
   ;
   $GROUP G_GovRevenues_deep G_GovRevenues_deep$(tx0[t]);
   # $BLOCK B_GovRevenues_deep
@@ -982,6 +1039,8 @@ $IF %stage% == "deep_dynamic_calibration":
     M_GovRevenues 
     # B_GovRevenues_deep
   /;
+  model M_deep_dynamic_calibration / M_GovRevenues_deep /;
+  $GROUP+ G_deep_dynamic_calibration G_GovRevenues_deep;
 $ENDIF
 
 # ======================================================================================================================
@@ -1000,9 +1059,13 @@ $GROUP G_GovRevenues_dynamic_calibration
 
   -vPersFradrag[aTot,t1], uvPersFradrag_t[t1]
   -vtBund[aTot,t1], ftBund_t[t1]
+  ftBund_t[tx1] # E_ftBund_t_forecast
   -vtKommune[aTot,t1], ftKommune_t[t1]
+  ftKommune_t[tx1] # E_ftKommune_t_forecast
   -vPersInd[aTot,t1], uPersIndRest_t[t1]
+  uPersIndRest_t[tx1] # E_uPersIndRest_t_forecast
   -vtTop[aTot,t1], rTopSkatInd_t[t1]
+  rTopSkatInd_t[tx1] # rTopSkatInd_t_forecast
     # Når der kommer data for 2026 skal mellem- og toptop-skatteprovenu også kalibreres
   #  -vtMellem[aTot,t1], rMellemSkatInd_t[t1]
   #  -vtTopTop[aTot,t1], rTopTopSkatInd_t[t1]
@@ -1015,13 +1078,25 @@ $GROUP G_GovRevenues_dynamic_calibration
   ftKirke[t1], -vtKirke[aTot,t1]
   tPersRestx[t1], -vtPersRest[aTot,t1]
   ftAktieHh_t[t1], -vtAktieHh[aTot,t1]
-  rRealiseringAktieOmv_t[t1], -vHhAktieInd[aTot,t1]
+  rRealiseringAktieOmv[t1], -vHhAktieInd[aTot,t1]
 
   # vtArv skal kalibreres dynamisk
   -vtArv[aTot,t1], tArv[t1]
   tDoedsbo[t1], -vtDoedsbo[aTot,t1] # Skal genkalibreres med arv
 ;
+$BLOCK B_GovRevenues_dynamic_calibration
+  E_ftBund_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(ftBund_t);
+
+  E_ftKommune_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(ftKommune_t);
+
+  E_rTopSkatInd_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(rTopSkatInd_t);
+
+  E_uPersIndRest_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(uPersIndRest_t);
+$ENDBLOCK
 MODEL M_GovRevenues_dynamic_calibration /
   M_GovRevenues
+  B_GovRevenues_dynamic_calibration
 /;
+  model M_dynamic_calibration_newdata / M_GovRevenues_dynamic_calibration /;
+$GROUP+ G_dynamic_calibration_newdata G_GovRevenues_dynamic_calibration;
 $ENDIF

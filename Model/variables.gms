@@ -6,82 +6,41 @@
 # We combine the module-specific groups into bigger groups. 
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Group definitions
+# ----------------------------------------------------------------------------------------------------------------------
+# We define various global groups
+# Each module adds their variables to these groups
+
+# All endogenous variables
+$GROUP G_Endo
+;
+
+# Variables that are forecast as zero
+$GROUP G_forecast_as_zero
+;
+
+# Variables
+$GROUP G_exogenous_forecast
+;
+
+# All variables without a time index
+$GROUP G_constants
+;
+
+# Variables that are kept constant from the deep calibration year
+$GROUP G_fixed_forecast
+;
+
+# Variables that use the static calibration value after the deep calibration year
+# and are kept constant from the last data year
+$GROUP G_newdata_forecast
+;
+
+# Variables for which we use ARIMA forecasts in static calibration
+$GROUP G_ARIMA_forecast
+;
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Variable definitions
 # ----------------------------------------------------------------------------------------------------------------------
 @import_from_modules("variables")
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Group compilation
-# ----------------------------------------------------------------------------------------------------------------------
-# Endogenous variables
-# We combine the endo groups from each module into a group of all endogenous variables.
-$GROUP G_Endo
-  G_aggregates_endo
-  G_consumers_endo
-  G_exports_endo
-  G_finance_endo
-  # G_government_endo
-  G_GovExpenses_endo
-  G_GovRevenues_endo
-  G_HHincome_endo 
-  G_IO_endo
-  G_labor_market_endo
-  G_pricing_endo
-  G_production_private_endo
-  G_production_public_endo
-  G_struk_endo
-  G_taxes_endo
-;
-
-$GROUP G_forecast_as_zero
-  G_aggregates_forecast_as_zero$(tx1[t])
-  G_consumers_forecast_as_zero$(tx1[t])
-  #  G_exports_forecast_as_zero$(tx1[t])
-  G_finance_forecast_as_zero$(tx1[t])
-  G_government_forecast_as_zero$(tx1[t])
-  G_GovExpenses_forecast_as_zero$(tx1[t])
-  G_GovRevenues_forecast_as_zero$(tx1[t])
-  G_HHincome_forecast_as_zero$(tx1[t])    
-  G_IO_forecast_as_zero$(tx1[t])
-  G_labor_market_forecast_as_zero$(tx1[t])
-  G_pricing_forecast_as_zero$(tx1[t])
-  G_production_private_forecast_as_zero$(tx1[t])
-  G_production_public_forecast_as_zero$(tx1[t])
-  G_struk_forecast_as_zero$(tx1[t])
-  G_taxes_forecast_as_zero$(tx1[t])
-;
-
-$GROUP G_exogenous_forecast
-  #  G_aggregates_exogenous_forecast$(tx1[t])
-  G_consumers_exogenous_forecast$(tx1[t])
-  G_exports_exogenous_forecast$(tx1[t])
-  G_finance_exogenous_forecast$(tx1[t])
-  G_government_exogenous_forecast$(tx1[t])
-  G_GovExpenses_exogenous_forecast$(tx1[t])
-  G_GovRevenues_exogenous_forecast$(tx1[t])
-  G_HHincome_exogenous_forecast$(tx1[t])    
-  G_IO_exogenous_forecast$(tx1[t])
-  G_labor_market_exogenous_forecast$(tx1[t])
-  G_pricing_exogenous_forecast$(tx1[t])
-  G_production_private_exogenous_forecast$(tx1[t])
-  G_production_public_exogenous_forecast$(tx1[t])
-  G_struk_exogenous_forecast$(tx1[t])
-  G_taxes_exogenous_forecast$(tx1[t])
-;
-
-$GROUP G_constants
-  #  G_aggregates_constants
-  G_consumers_constants
-  G_exports_constants
-  G_finance_constants
-  #  G_government_constants
-  G_GovExpenses_constants
-  #  G_GovRevenues_constants
-  G_HHincome_constants
-  G_IO_constants
-  G_labor_market_constants
-  G_pricing_constants
-  G_production_private_constants
-  #  G_production_public_constants
-  #  G_struk_constants
-;

@@ -15,14 +15,13 @@ $IF %stage% == "variables":
     vOffPrimInd
     vtDirekte
     vtKilde
-    vtPersonlige
     vtDoedsbo['tot']
     vtKommune['tot']
     vtBund['tot']
     vtEjd['tot']
     vtAktie
     vtVirksomhed['tot']
-    jvtKilde
+    vtKildeRest "Rest af kildeskatter, dækker bl.a. sømandsskat, formueskat, særlige indkomstskatter mm. signifikant frem til 1999 hvorefter data bliver bedre for underkomponenter og forsvinder helt i 2012 og frem"
     vtHhVaegt['tot']
     vtHhAM['tot']
     vtPersRest['tot']
@@ -101,9 +100,13 @@ $IF %stage% == "variables":
     rOffAkt2BNP[portf_,t] "Offentlig sektors aktiver ift. BNP."
     uOffUdbytteNordsoe[t] "Andel af statslige udbytter, der kommer fra Nordsøfonden"
   ;
+  $GROUP+ G_ARIMA_forecast G_government_ARIMA_forecast;
+
   $GROUP G_government_exogenous_forecast
     rOblOpsp2Ovf[t] "Bidragssats, obligatorisk opsparing for modtagere af indkostoverførsler, 0 før 2020, Kilde: ADAM[btpatpo]"
   ; 
+  $GROUP+ G_exogenous_forecast G_government_exogenous_forecast$(tx1[t]);
+
   $GROUP G_government_forecast_as_zero
     jrOffAktRenter[portf_,t] "J-led som dækker forskel mellem det offentliges og den gennemsnitlige rente på aktivet/passivet."
     jrOffPasRenter[portf_,t] "J-led som dækker forskel mellem det offentliges og den gennemsnitlige rente på aktivet/passivet."
@@ -112,6 +115,8 @@ $IF %stage% == "variables":
 
     jvOffAkt[portf_,t] "J-led"
   ;
+  $GROUP+ G_forecast_as_zero G_government_forecast_as_zero$(tx1[t]);
+
   $GROUP G_government_fixed_forecast
     rOffPas2Tot[portf_,t] "Offentlig sektors fordeling af passiver."
     rOffPasRest2BNP[t] "Forskel på offentlig finansielle passiver fra FM og OEMUgaeld ift. BNP."
@@ -121,12 +126,15 @@ $IF %stage% == "variables":
     vOff13AktxRest[t] "Forskel mellem offentlig rentebærende nettoformue (dvs. ekskl. aktier) baseret på OFF13 og NASFK"
     vOff13AktierRest[t] "Forskel mellem offentlig aktieformue baseret på OFF13 og NASFK"
   ;
+  $GROUP+ G_fixed_forecast G_government_fixed_forecast;
+
   $GROUP G_government_newdata_forecast
     uSatsIndeks[t] "Multiplikativ justeringsfaktor for satsregulering."
     uSatsIndeksx[t] "Multiplikativ justeringsfaktor for satsregulering ekskl. bidrag til obligatorisk opsparing."
     uPrisIndeks[t] "Multiplikativ justeringsfaktor for pristalsregulering."
     uProgIndeks[t] "Multiplikativ justeringsfaktor for progressionsgrænser."
   ;
+  $GROUP+ G_newdata_forecast G_government_newdata_forecast;
 
   $GROUP G_government_calibrated
     vLoenIndeks[t] "DA lønudvikling lagget 2 år"
@@ -167,6 +175,8 @@ $IF %stage% == "variables":
     vRenteMarginal
     rHBI[t] "Holdbarhedsindikator før korrektion ved beregningsmæssig skat til lukning, korrigeret HBI."
     rHBIxMerafkast[t] "Holdbarhedsindikator eksklusiv merafkast."
+    vOffIndNyDef[t]$(t.val > %NettoFin_t1%) "Offentlige indtægter (ny definition fra 2005)"
+    vOffUdNyDef[t]$(t.val > %NettoFin_t1%)  "Offentlige udgifter (ny definition fra 2005)"
   ;
 $ENDIF
 
@@ -213,7 +223,14 @@ $IF %stage% == "equations":
     vOffUdbytte[t] =E= fvOffUdbytte[t] * (vOffAktRenter['IndlAktier',t] + vOffAktRenter['UdlAktier',t]);
     .. vOffInd[t] =E= vOffPrimInd[t] + vOffRenteInd[t]; 
     .. vOffUd[t] =E= vOffPrimUd[t] + vOffRenteUd[t];
-    
+
+    $(t.val > %NettoFin_t1%).. 
+    vOffIndNyDef[t] =E= vOffInd[t] - vOffAfskr[iTot,t] + vOffSalg[t] + vOffDirInv[t] 
+                                   + vSubYRest['off',t] + vSubLoen['off',t];
+    $(t.val > %NettoFin_t1%).. 
+    vOffUdNyDef[t] =E= vOffUd[t] + vLoensum['off',t] + vR['off',t] + vE['off',t] + vtNetY['off',t]
+                             + vSubYRest['off',t] + vSubLoen['off',t] - (vG[gTot,t] - vGIndMarked[t]);
+
     # Nationalregnskabet inkluderer jordrente og afkast fra off. virk. i deres nettorenter, men ikke i primær indkomst
     $(t.val > %NettoFin_t1%)..
       vOffNetRenter[t] =E= sum(portf, vOffAktRenter[portf,t] - vOffPasRenter[portf,t]) + vJordrente[t];
@@ -236,7 +253,7 @@ $IF %stage% == "equations":
       rOffAkt2BNP[portf,t] * vBNP[t]  =E= vOffAkt[portf,t];
 
     # Offentlige aktiebeholdning følger blot omvurderinger
-    $((IndlAktier[portf] or UdlAktier[portf]) and t.val >= %NettoFin_t1%)..
+    $((IndlAktier[portf] or UdlAktier[portf]) and t.val > %NettoFin_t1%)..
       vOffAkt[portf,t] =E= vOffAkt[portf,t-1]/fv + vOffAktOmv[portf,t] + jvOffAkt[portf,t];
 
     vOffAkt&_tot[portfTot,t]$(t.val >= %NettoFin_t1%)..
@@ -287,10 +304,10 @@ $IF %stage% == "equations":
     # ----------------------------------------------------------------------------------------------------------------------
     # Statsgæld, ØMU-gæld og offentlige passiver
     # ---------------------------------------------------------------------------------------------------------------------
-    .. vOEMUgaeld[t]  =E= vOffPas['tot',t] - vOffPasRest[t];
-    .. vStatsGaeld[t]  =E=  vOEMUgaeld[t] - vOEMUgaeldRest[t];
-    .. rOEMUgaeldRest2BNP[t] * vBNP[t]  =E= vOEMUgaeldRest[t] ;
-    .. rOffPasRest2BNP[t] * vBNP[t]  =E= vOffPasRest[t];
+    $(t.val >= %NettoFin_t1%).. vOEMUgaeld[t]  =E= vOffPas['tot',t] - vOffPasRest[t];
+    $(t.val >= %NettoFin_t1%).. vStatsGaeld[t]  =E=  vOEMUgaeld[t] - vOEMUgaeldRest[t];
+    $(t.val >= %NettoFin_t1%).. rOEMUgaeldRest2BNP[t] * vBNP[t]  =E= vOEMUgaeldRest[t];
+    $(t.val >= %NettoFin_t1%).. rOffPasRest2BNP[t] * vBNP[t]  =E= vOffPasRest[t];
    
     # ----------------------------------------------------------------------------------------------------------------------
     # Strukturel saldo
@@ -303,7 +320,7 @@ $IF %stage% == "equations":
   # ----------------------------------------------------------------------------------------------------------------------
   # Holdbarheds-indikator
   # ---------------------------------------------------------------------------------------------------------------------  
-    $(t.val <= tEnd.val)..
+    $(t.val < tEnd.val)..
       rHBI[t] =E= (nvPrimSaldo[t] + nvOffOmv[t] - nvRenteMarginal[t] + vOff13Net[t-1]/fv * (1+mrOffRente[t+1])) / nvBNP[t];
 
     $(t.val < tEnd.val).. rHBIxMerafkast[t] =E= (nvPrimSaldo[t+1]*fv / (1+mrOffRente[t+1]) + vOff13Net[t]) / nvBNP[t];
@@ -333,6 +350,10 @@ $IF %stage% == "equations":
     B_government_static
     B_government_forwardlooking
   /;  
+  model M_base / M_government /;
+
+  model M_static / B_government_static /;
+  $GROUP+ G_static G_government_static;
 $ENDIF
 
 $IF %stage% == "exogenous_values":
@@ -345,6 +366,7 @@ $IF %stage% == "exogenous_values":
     vOffRenteInd, vOffRenteUd, vOffNet, vOffAkt, vOffPas, vOffUdbytte, vOffUdbytteNordsoe
     vOff13Aktx, vOff13Aktier, vOff13Pas, vOff13Net, vStatsGaeld
     vSatsIndeks, vPrisIndeks, rOblOpsp2Ovf,  vSatsIndeksx, vProgIndeks
+    vOffIndNyDef, vOffUdNyDef
     # Øvrige variable
     vOffDirInv
     vOEMUgaeld
@@ -382,6 +404,14 @@ $IF %stage% == "exogenous_values":
 
   d1vOffAkt['tot',t] = d1vOffAkt['Obl',t];
   d1vOffPas['tot',t] = d1vOffPas['Obl',t];
+
+  # NA oprydning sættes til 0 eksplicit kan fjernes når ny dummy metode laves:
+  vOffAktRenter.l['pensTot',t] = 0;
+  vOffAktRenter.l['guld',t] = 0;
+  vOffPasRenter.l['pensTot',t] = 0;
+  vOffPasRenter.l['guld',t] = 0;
+  vOffPasRenter.l['IndlAktier',t] = 0;
+  vOffPasRenter.l['UdlAktier',t] = 0;
 $ENDIF
 
 # ======================================================================================================================
@@ -427,10 +457,13 @@ $IF %stage% == "static_calibration":
     B_government_static
     B_government_static_calibration
   /;
+  model M_static_calibration / M_government_static_calibration /;
+  $GROUP+ G_static_calibration G_government_static_calibration;
 
   $GROUP G_government_static_calibration_newdata
     G_government_static_calibration
    ;
+  $GROUP+ G_static_calibration_newdata G_government_static_calibration_newdata;
 $ENDIF
 
 # ======================================================================================================================
@@ -470,6 +503,8 @@ $IF %stage% == "deep_dynamic_calibration":
     M_government
     B_government_deep
   /;
+  model M_deep_dynamic_calibration / M_government_deep /;
+  $GROUP+ G_deep_dynamic_calibration G_government_deep;
 $ENDIF
 
 # ======================================================================================================================
@@ -502,4 +537,6 @@ $IF %stage% == "dynamic_calibration_newdata":
     M_government 
     B_government_dynamic_calibration
   /;
+  model M_dynamic_calibration_newdata / M_government_dynamic_calibration /;
+  $GROUP+ G_dynamic_calibration_newdata G_government_dynamic_calibration;
 $ENDIF

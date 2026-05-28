@@ -384,6 +384,8 @@ set ovfFraMAKROBK[ovf] "Variable med data fra MAKROBK" /
   udvforlob # umr
   kontflex # Qltf2
 
+  tjmand # nTjMdPModt.gbk
+
 # ledkontudd #  ulku
 # konthj # ulkk + ukr = ulkr + ukr + ulki
 # aktkontudd # Uaku

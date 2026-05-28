@@ -69,16 +69,18 @@ parameters
 # ----------------------------------------------------------------------------------------------------------------------
 $SETGLOBAL base_year 2020 # Basis year for growth and inflation adjustments
 $SETGLOBAL cal_start 1985 # Calibration start year
-$SETGLOBAL cal_deep 2019 # Last calibration year used for structural parameters
-$SETGLOBAL cal_end 2024 # Last calibration year with full national accounting data, but no data on age profiles
+$SETGLOBAL cal_deep 2022 # Last calibration year used for structural parameters
+$SETGLOBAL cal_end 2025 # Last calibration year with full national accounting data, but no data on age profiles
 $SETGLOBAL terminal_year 2129 # The terminal year
 $SETGLOBAL rHBI_eval %cal_deep% # Year in which rHBI is evaluated
 
 $SETGLOBAL NettoFin_t1 1994 # First year with net financial data
+$SETGLOBAL Tax_t1 2010 # First year with modern tax system groups
 $SETGLOBAL BruttoFin_t1 2016 # First year with gross financial data
 $SETGLOBAL BFR_t1 2001 # First year with BFR data
 $SETGLOBAL AgeData_t1 2015 # First year with age data on cohort behavior
-$SETGLOBAL AgeData_tEnd 2019 # Last year with age data on cohort behavior
+$SETGLOBAL AgeData_tEnd 2022 # Last year with age data on cohort behavior
+$SETGLOBAL EksportData_t1 1995 # First year with export data on unit value SITC
 
 # Beregningsteknisk skat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0)
 $SETGLOBAL HBI_lukning_start 2030 # Start på indfasning af reaktion
@@ -87,8 +89,10 @@ $SETGLOBAL HBI_lukning_slut 2098 # Slutning på indfasning af reaktion
 # ======================================================================================================================
 # GAMS options
 # ======================================================================================================================
+$onMulti # Allows adding to an already defined set or model with multiple "model" or "set" statements
+
 $OFFDIGIT
-option zeroToEps=on; # Execule_load indlæser nuller som eps
+option zeroToEps=on; # Execute_load indlæser nuller som eps
 
 # LST output options
 OPTION
