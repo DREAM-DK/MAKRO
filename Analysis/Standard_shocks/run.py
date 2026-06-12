@@ -17,6 +17,15 @@ os.chdir(fr"{root}/Analysis/Standard_shocks")
 ## Kopier baseline gdx til Gdx mappe
 shutil.copy(r"../../Model/Gdx/baseline.gdx", r"Gdx/baseline.gdx")
 
+# Kør GMS filer for at generere savepoints
+dt.gamY.variable_equation_prefix = "E_"
+run(r"../../Model/settings.gms", s=r"Savepoints/settings")
+run(r"../../Model/sets.gms", r=r"Savepoints/settings", s=r"Savepoints/sets")
+run(r"../../Model/variables.gms", r=r"Savepoints/sets", s=r"Savepoints/variables")
+run(r"../../Model/growth_inflation_adjustment.gms", r=r"Savepoints/variables", s=r"Savepoints/growth_inflation_adjustment")
+run(r"../../Model/bounds.gms", r=r"Savepoints/growth_inflation_adjustment", s=r"Savepoints/bounds")
+run(r"../../Model/equations.gms",  r=r"Savepoints/bounds", s=r"Savepoints/equations")
+
 ## Her køres stødene
 run("standard_shocks.gms", r="../../Model/Savepoints/equations")
 
