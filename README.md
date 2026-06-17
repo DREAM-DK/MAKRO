@@ -19,6 +19,7 @@ The model comes with batteries included in the form of a stylized baseline, so u
 Revised Input Output Matrix: A fully specified Input Output Matrix with the public sector as a production sector is now calculated based on data from the National Accounts, rather than being imputed for the years 2014 to the last final data year, which will be 2023 in the June revision. The IO matrix for the preliminary years and the years before 2014 is imputed based on the data-covered years and on ADAM's Input Output matrices for these years. The main difference in the Input Output structure is that the private construction sector is smaller, as some of it is now included in the public sector. On the other hand, the private service sector is a bit larger, as less of this sector is included in the public sector. The public sector has relatively large inputs to production from and to itself, and the matrix of inputs to production is revised accordingly.
 
 ## Technicalities, Refactoring, and Cleanup
+- Extracted fiscal sustainability indicator (HBI) calculations into dedicated module [`HBI.gms`](Model/HBI.gms)
 - Renamed multiple files named "run.py" to more descriptive names such as "run_shocks.py"
 - Added simple [shock template file](Analysis/Standard_shocks/shock_template.gms)
 - The [standard shocks file](Analysis/Standard_shocks/standard_shocks.gms) is more robust. Previously, the solver had trouble converging on some shocks with the full 2129 time horizon.
@@ -82,6 +83,7 @@ The model is split into several modules, each defining a group of endogenous var
 - [government](Model/government.gms) - Government aggregation module
 - [GovRevenues](Model/GovRevenues.gms) - Government revenues (see also taxes module)
 - [GovExpenses](Model/GovExpenses.gms) - Government expenses
+- [HBI](Model/HBI.gms) - Fiscal sustainability: net present values of government flows and the fiscal sustainability indicator (HBI)
 - [HHincome](Model/HHincome.gms) - Household income and portfolio accounting
 - [IO](Model/IO.gms) - Details of the IO system. The different demand components are satisfied with domestic production competing with imports
 - [labor_market](Model/labor_market.gms) - Labor force participation, job searching and matching, and wage bargaining
