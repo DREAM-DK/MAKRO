@@ -13,7 +13,6 @@ $IF %stage% == "variables":
     fuOvfUbeskat[t] "Korrektionsfaktor for ubeskattede indkomstoverførsler, som sikrer afbalancering af aldersfordeling."
     fuPensIndbOP[t] "Korrektionsfaktor for obligatorisk opsparing, som sikrer afbalancering af aldersfordeling."
 
-    vOvfUbeskat[a_,t] "Ubeskattede indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
     vHhOvf[a,t] "Indkomstoverførsler til indl. hush. pr. person (i befolkningen) fordelt på alder."
     vPensIndbOP[a_,t] "Obligatorisk pensionsopsparing af overførselsindkomster."
     vOvfSkatPl[a_,t] "Skattepligtige indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
@@ -45,18 +44,14 @@ $IF %stage% == "variables":
     vOvf[ovf_,t] "Sociale overførsler fra offentlig forvaltning og service til husholdninger, Kilde: ADAM[Ty_o] for underkomponenter jf. o-set."
     vOvfSkatPl[a_,t] "Skattepligtige indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
     vPensIndbOP[aTot,t]
-    vOvfUbeskat[a_,t] "Ubeskattede indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
-    vOvfSats[ovf,t] "Sociale overførsler fra offentlig forvaltning og service til husholdninger pr. person i basen (mio. kr.)"
     vGLukning[t] "Udgift til beregningsteknisk stigning i offentligt forbrug til lukning af offentlig budgetrestriktion. Indgår IKKE i offentlig saldo."
     vOffTilUdl[t] "Samlede overførsler fra offentlig sektor til udlandet, Kilde: ADAM[Tr_o_e]+ADAM[tK_o_e]"
     vOffTilVirkRest[t] "Kapitaloverførsler til selskaber (øvrige) (Tk_o_cr)"
     vOffTilHhKapRest[t] "Kapitaloverførsler til husholdningerne ekskl. skattefri efterlønspræmie (Tk_o_hr)"
 
-    jvOvf[ovf_,t] "J-led som fanger at nogle grupper har en overførsel, men ingen modtagere. Fordeles til husholdningerne gennem fHhOvf."
     dvOvf2dnBesk[ovf_,t] "Marginal ændring i udgifter til overførsel ovf ved ændring i den samlede beskæftigelse."
     dvOvf2dnPop[ovf_,t] "Marginal ændring i udgifter til overførsel ovf ved ændring i den samlede befolkningsstørrelse."
 
-    uvGInd[t] "Skala-parameter som bestemmer niveau for individuelt offentligt service før korrektion for demografisk træk og løn-niveau."
     uvGxAfskr[t] "Niveauparameter for vGxAfskr"
 
     fDemoTraek[a_,t] "Demografisk træk."
@@ -64,23 +59,6 @@ $IF %stage% == "variables":
 
     dnOvf2dnBesk[ovf,t] "Marginal ændring i antal modtagere af overførsel ovf ved ændring i den samlede beskæftigelse."
     dnOvf2dnPop[ovf,t] "Marginal ændring i antal modtagere af overførsel ovf ved ændring i den samlede befolkningsstørrelse."
-    rOffLandKoeb2BNP[t] "Nettoopkob af jord og rettigheder relativt til BNP."
-    rOffTilUdlKap2BNP[t] "Kapitaloverførsler fra offentlige sektor til udlandet relativt til BNP."
-    rOffTilUdlMoms2Moms[t] "Moms bidrag fra offentlig sektor til EU relativt til moms."
-    rOffTilUdlBNI2BNI[t] "BNI-bidrag fra offentlig sektor til EU relativt til BNI."
-    rOffTilUdlEU2BNP[t] "Øvrige overførsler fra offentlig sektor til EU relativt til BNP."
-    rOffTilUdlFO2BNP[t] "Residuale overførsler fra offentlig sektor til Færøerne relativt til BNP."
-    rOffTilUdlGL2BNP[t] "Residuale overførsler fra offentlig sektor til Grønland relativt til BNP."
-    rOffTilUdlBistand2BNI[t] "Offentlige overførsler til udlandet relativt til BNI."
-    rOffTilVirk2BNP[t] "Offentlige overførsler til selskaber relativt til BNP."
-    rOffTilVirkInvesttilskud2BNP[t] "Kapitaloverførsler til selskaber (investeringstilskud) relativt til BNP."
-    rOffTilHhKap2BNP[t] "Offentlige kapitaloverførsler til husholdninger relativt til BNP."
-    rOffTilHhKapPraemie2BNP[t] "Skattefriefterlønspræmie relativt til BNP"
-    rOffTilHhNPISH2BNP[t] "Offentlige overførsler til NPISH relativt til BNP."
-    rOffTilHhTillaeg2BNP[t] "Indekstillæg relativt til BNP."
-    uOffTilHhRest[t] "Skalaparameter for øvrige offentlige overførsler til husholdninger."
-    rSubEU2BNP[t] "Subsidier finansieret af EU relativt til BNP."
-    rSubYRest[s_,t] "Sats for produktionssubsidier ekskl. løntilskud."
     rpGxAfskr[t] "Relative laggede priser i offentligt forbrug ekskl. afskrivninger vægtet med nutidige mængder." 
   ;
 
@@ -102,35 +80,35 @@ $IF %stage% == "variables":
   $GROUP G_GovExpenses_fixed_forecast
     rGLukning[t] "Beregningsteknisk stigning i offentligt forbrug til lukning af offentlig budgetrestriktion."
     uvGKol[t] "Skalaparameter for kollektivt offentligt forbrug."
-    uvGInd[t]
+    uvGInd[t] "Skala-parameter som bestemmer niveau for individuelt offentligt service før korrektion for demografisk træk og løn-niveau."
 
     fpGInput[t] "Korrektionsfaktor. Fremskrives uændret til tabelvariabel pGInput"
-    rOffTilUdlBNI2BNI
-    rOffTilVirk2BNP
-    rOffTilVirkInvesttilskud2BNP
-    rOffTilHhKap2BNP
-    rOffTilHhKapPraemie2BNP
-    rOffTilHhNPISH2BNP
-    rOffLandKoeb2BNP
-    rSubEU2BNP
-    rOffTilHhTillaeg2BNP
-    rOffTilUdlBistand2BNI
-    rOffTilUdlGL2BNP
-    rOffTilUdlFO2BNP
-    rOffTilUdlKap2BNP
-    rOffTilUdlEU2BNP
-    rOffTilUdlMoms2Moms
+    rOffTilUdlBNI2BNI[t] "BNI-bidrag fra offentlig sektor til EU relativt til BNI."
+    rOffTilVirk2BNP[t] "Offentlige overførsler til selskaber relativt til BNP."
+    rOffTilVirkInvesttilskud2BNP[t] "Kapitaloverførsler til selskaber (investeringstilskud) relativt til BNP."
+    rOffTilHhKap2BNP[t] "Offentlige kapitaloverførsler til husholdninger relativt til BNP."
+    rOffTilHhKapPraemie2BNP[t] "Skattefriefterlønspræmie relativt til BNP"
+    rOffTilHhNPISH2BNP[t] "Offentlige overførsler til NPISH relativt til BNP."
+    rOffLandKoeb2BNP[t] "Nettoopkob af jord og rettigheder relativt til BNP."
+    rSubEU2BNP[t] "Subsidier finansieret af EU relativt til BNP."
+    rOffTilHhTillaeg2BNP[t] "Indekstillæg relativt til BNP."
+    rOffTilUdlBistand2BNI[t] "Offentlige overførsler til udlandet relativt til BNI."
+    rOffTilUdlGL2BNP[t] "Residuale overførsler fra offentlig sektor til Grønland relativt til BNP."
+    rOffTilUdlFO2BNP[t] "Residuale overførsler fra offentlig sektor til Færøerne relativt til BNP."
+    rOffTilUdlKap2BNP[t] "Kapitaloverførsler fra offentlige sektor til udlandet relativt til BNP."
+    rOffTilUdlEU2BNP[t] "Øvrige overførsler fra offentlig sektor til EU relativt til BNP."
+    rOffTilUdlMoms2Moms[t] "Moms bidrag fra offentlig sektor til EU relativt til moms."
   ;
   $GROUP+ G_fixed_forecast G_GovExpenses_fixed_forecast;
 
   $GROUP G_GovExpenses_newdata_forecast
     uvOvfSats[ovf,t]$(satsreg[ovf] or prisreg[ovf] or intro[ovf] or oblpens[ovf] or loenreg[ovf]) "Skalaparameter for overførselssatser."
-    uOffTilHhRest
+    uOffTilHhRest[t] "Skalaparameter for øvrige offentlige overførsler til husholdninger."
     uHhOvfPop[a,t] "Aldersmæssig fordelingsnøgle knyttet til dvOvf2dnPop."
     uOvfUbeskat[a,t] "Aldersmæssig fordelingsnøgle knyttet til vOvfUbeskat."
-    vOvfSats[ovf,t]
-    vOvfUbeskat[a_,t]
-    rSubYRest[s_,t]
+    vOvfSats[ovf,t] "Sociale overførsler fra offentlig forvaltning og service til husholdninger pr. person i basen (mio. kr.)"
+    vOvfUbeskat[a_,t] "Ubeskattede indkomstoverførsler pr. person (i befolkningen) fordelt på alder."
+    rSubYRest[s_,t] "Sats for produktionssubsidier ekskl. løntilskud."
   ;
   $GROUP+ G_newdata_forecast G_GovExpenses_newdata_forecast;
 
@@ -166,7 +144,7 @@ $IF %stage% == "variables":
   $GROUP+ G_exogenous_forecast G_GovExpenses_exogenous_forecast$(tx1[t]);
 
   $GROUP G_GovExpenses_forecast_as_zero
-    jvOvf
+    jvOvf[ovf_,t] "J-led som fanger at nogle grupper har en overførsel, men ingen modtagere. Fordeles til husholdningerne gennem fHhOvf."
     uvOvfSats[ovf,t]$(sameas['groen',ovf])
     uHhOvfRest[a,t] "Residual som sikrer at samlede overførselsindkomster til en aldersgruppe passer til aldersprofil."
   ;
@@ -264,7 +242,7 @@ $IF %stage% == "equations":
 
     $(t.val >= %BFR_t1%).. vOvf['tot',t] =E= sum(ovf, vOvf[ovf,t]);
     $(t.val >= %BFR_t1%).. vOvf['HhTot',t]  =E= sum(ovfHh, vOvf[ovfHh,t]);
-
+    $(t.val >= %BFR_t1%).. vOvf['UdlTot',t]  =E= sum(ovfUdl, vOvf[ovfUdl,t]);
     $(t.val >= %BFR_t1%).. vOvf['a18t100',t] =E= sum(ovf_a18t100, vOvf[ovf_a18t100,t]) / nPop['a18t100',t];
 
     $(t.val >= %BFR_t1%).. vOvf['a0t17',t] =E= sum(ovf_a0t17, vOvf[ovf_a0t17,t]) / nPop['a0t17',t];

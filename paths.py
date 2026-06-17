@@ -1,6 +1,6 @@
 # Change the paths to the R and GAMS installations on your system
-# r_path = r"C:/Program Files/R/R-4.5.1"
-gams_path = r"C:/GAMS/51"
+r_path = r"C:/Program Files/R/R-4.5.1"
+gams_path = r"C:/GAMS/53"
 
 
 import os
@@ -17,7 +17,7 @@ if platform.system() != "Linux":
         """
         # Ensure the paths use the correct format
         gams_path = os.path.abspath(gams_path)
-#        r_path = os.path.abspath(r_path)
+        r_path = os.path.abspath(r_path)
 
         extension = ".exe" if os.name == "nt" else ""
     
@@ -34,5 +34,4 @@ if platform.system() != "Linux":
             os.environ["R_HOME"] = r_path
             os.environ["RSCRIPT"] = rscript_path
    
-    set_environment_path(gams_path)
-#    set_environment_path(gams_path, r_path)
+    set_environment_path(gams_path, r_path)

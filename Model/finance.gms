@@ -169,6 +169,7 @@ $IF %stage% == "equations":
 
     ## Virksomhedernes diskonteringsfaktor for egenkapital
     $(tx1[t]).. fVirkDisk[sp,t] =E= 1 / (1 + rVirkDisk[sp,t]);
+    $(tx1[t]).. fVirkDisk[spTot,t] =E= 1 / (1 + rVirkDisk[spTot,t]);
     
     ## Finansiel friktion
     $(tx1[t] and t.val > %AgeData_t1% + 1)..
@@ -316,7 +317,7 @@ $IF %stage% == "equations":
     .. vAfskrFradrag[kTot,sTot,t] =E= sum(sp, vAfskrFradrag[kTot,sp,t]);
 
     $(tx0[t] and d1K[k,sp,t] and t.val > %NettoFin_t1%)..
-      dnvAfskrFradrag2dvI_s[k,sp,t] =E= rSkatAfskr0[k,t] * mtVirk[sp,t] # periode 1
+      dnvAfskrFradrag2dvI_s[k,sp,t] =E= rSkatAfskr0[k,t] * mtVirk[t] # periode 1
                                       + (rKskat[k,t] - rSkatAfskr0[k,t]) * dnvKskat2dvI_s[k,sp,t]; # periode 2+
 
     # Tax book value of firm shares
@@ -502,11 +503,11 @@ $IF %stage% == "equations":
 
     $(tx0E[t] and d1K[k,sp,t] and t.val > %NettoFin_t1%)..
       dnvKskat2dvI_s[k,sp,t] =E= fVirkDisk[sp,t+1] 
-                                 * (rSkatAfskr[k,t+1] * mtVirk[sp,t+1]
+                                 * (rSkatAfskr[k,t+1] * mtVirk[t+1]
                                     + (1 - rSkatAfskr[k,t+1]) * dnvKskat2dvI_s[k,sp,t+1]
                                     );
     &_tEnd$(tEnd[t] and d1K[k,sp,t])..
-      dnvKskat2dvI_s[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
+      dnvKskat2dvI_s[k,sp,t] =E= mtVirk[t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
   $ENDBLOCK
 
   Model M_finance / B_finance_static, B_finance_forwardlooking /;  
@@ -672,7 +673,7 @@ $IF %stage% == "static_calibration":
       jvKskat[k,sp,t] =E= (vKskat[k,sp,t-1]/fv - vAfskrFradrag[k,sp,t]) * (rSkatAfskr[k,t] / rSkatAfskr[k,t-1] - 1); 
 
     E_dnvKskat2dvI_s_static[k,sp,t]$(d1K[k,sp,t] and t.val > %NettoFin_t1%)..
-      dnvKskat2dvI_s[k,sp,t] =E= mtVirk[sp,t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
+      dnvKskat2dvI_s[k,sp,t] =E= mtVirk[t] * rSkatAfskr[k,t] / (rVirkDisk[sp,t] + rSkatAfskr[k,t]);
 
     @copy_equation_to_period(E_vVirkDriftPas_k_sp, t0)
     @copy_equation_to_period(E_vVirkDriftPas_k_sTot, t0)

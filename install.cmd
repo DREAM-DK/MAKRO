@@ -1,5 +1,5 @@
 :: Set path to GAMS
-set GAMSDIR=C:/GAMS/51
+set GAMSDIR=C:/GAMS/53
 set python=%GAMSDIR%/GMSPython/python.exe
 set pip=%GAMSDIR%/GMSPython/Scripts/pip
 
@@ -10,7 +10,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 :: Install python modules
 %pip% install ipykernel
 %pip% install numpy scipy statsmodels
-%pip% install dream-tools==4.1.4
+%pip% install dream-tools==4.2.1
 %pip% install xlwings
 %pip% install plotly kaleido
 %pip% install dataframe_image pyhtml2pdf PyPDF2

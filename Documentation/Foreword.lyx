@@ -1,5 +1,5 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -15,19 +15,21 @@ figs-within-sections
 tabs-within-sections
 theorems-ams
 \end_modules
-\maintain_unincluded_children false
+\maintain_unincluded_children no
 \language american
 \language_package default
-\inputencoding auto
-\fontencoding global
+\inputencoding auto-legacy
+\fontencoding auto
 \font_roman "default" "default"
 \font_sans "cmbr" "default"
 \font_typewriter "default" "default"
 \font_math "iwona-math" "auto"
 \font_default_family sfdefault
-\use_non_tex_fonts false
+\use_non_tex_fonts true
 \font_sc false
-\font_osf false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
@@ -38,6 +40,7 @@ theorems-ams
 \bibtex_command default
 \index_command default
 \float_placement H
+\float_alignment class
 \paperfontsize default
 \spacing single
 \use_hyperref true
@@ -50,7 +53,7 @@ theorems-ams
 \pdf_colorlinks false
 \pdf_backref section
 \pdf_pdfusetitle true
-\papersize a4paper
+\papersize a4
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -69,17 +72,27 @@ theorems-ams
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
-\use_refstyle 0
+\justification default
+\crossref_package prettyref
+\use_formatted_ref 0
 \use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
 \index Index
 \shortcut idx
 \color #008000
 \end_index
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation skip
-\defskip medskip
+\paragraph_separation indent
+\paragraph_indentation default
 \is_math_indent 0
 \math_numbering_side default
 \quotes_style english
@@ -87,11 +100,17 @@ theorems-ams
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tablestyle default
 \tracking_changes false
 \output_changes false
+\change_bars false
+\postpone_fragile_content false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
 \end_header
 
 \begin_body
@@ -101,12 +120,13 @@ Foreword
 \end_layout
 
 \begin_layout Standard
-MAKRO is a large, empirically based macroeconomic model of the Danish economy.
- The purpose of the model is to serve as a tool for medium and long-term
- projections, short and long-run policy impact assessment, and long-run
- fiscal policy sustainability measurement.
- In addition, the model can incorporate short-term economic forecasts into
- its projections.
+MAKRO is a large,
+ empirically based macroeconomic model of the Danish economy.
+ The purpose of the model is to serve as a tool for medium and long-term projections,
+ short and long-run policy impact assessment,
+ and long-run fiscal policy sustainability measurement.
+ In addition,
+ the model can incorporate short-term economic forecasts into its projections.
 \end_layout
 
 \begin_layout Standard
@@ -129,51 +149,50 @@ literal "false"
 
 \end_inset
 
-, however, and may be used by anyone.
+,
+ however,
+ and may be used by anyone.
  
 \end_layout
 
 \begin_layout Standard
-The model parameters, equations, and data as a whole have been selected
- such that the short and long-run properties are as empirically and theoreticall
-y well-founded as possible.
- MAKRO incorporates four types of economic agents: households, firms, the
- government, and foreign agents demanding Danish exports.
- The model is micro-founded and forward-looking, with the behavior of households
- and firms supported by a detailed specification of their objective functions,
- preferences, technology, and budget sets.
+The model parameters,
+ equations,
+ and data as a whole have been selected such that the short and long-run properties are as empirically and theoretically well-founded as possible.
+ MAKRO incorporates four types of economic agents:
+ households,
+ firms,
+ the government,
+ and foreign agents demanding Danish exports.
+ The model is micro-founded and forward-looking,
+ with the behavior of households and firms supported by a detailed specification of their objective functions,
+ preferences,
+ technology,
+ and budget sets.
  The government's behavior follows a set of exogenous rules as is standard,
- and the demand for exports is determined by a demand function that incorporates
- aspects of different trade models.
+ and the demand for exports is determined by a demand function that incorporates aspects of different trade models.
 \end_layout
 
 \begin_layout Standard
-MAKRO is a New-Keynesian model, but differs from so-called DSGE models in
- a few ways.
- DSGE models solve for optimal decisions, which are functions of state variables
- and contain information pertaining to the model's stochastic nature.
- These optimal decision functions are defined in a neighborhood of the model's
- steady state.
- MAKRO is instead a computational general equilibrium model that solves
- for a single path for all its variables.
- This solution relies on initial and terminal conditions and reflects all
- policy changes and variations in exogenous factors one wishes to study.
+MAKRO is a New-Keynesian model,
+ but differs from so-called DSGE models in a few ways.
+ DSGE models solve for optimal decisions,
+ which are functions of state variables and contain information pertaining to the model's stochastic nature.
+ These optimal decision functions are defined in a neighborhood of the model's steady state.
+ MAKRO is instead a computational general equilibrium model that solves for a single path for all its variables.
+ This solution relies on initial and terminal conditions and reflects all policy changes and variations in exogenous factors one wishes to study.
 \end_layout
 
 \begin_layout Standard
 MAKRO also differs from other models of its type due to its size.
  The household side of the model solves a model of overlapping generations,
  each with a life cycle of 100 years.
- The firm side of the model currently solves for nine different sectors
- of the economy.
- It is a nonlinear model with a large number of endogenous variables, and
- as a professional planning and budgeting tool, the model's variables must
- correspond precisely to their counterparts in the data.
- One of the primary purposes of MAKRO is to characterize the government
- budget balance and how it responds to shocks and policy changes.
- This requires a considerable disaggregation of the fiscal part of the model
- as it must be able to evaluate a large number of tax and transfer interventions
- as well as specific government consumption changes.
+ The firm side of the model currently solves for nine different sectors of the economy.
+ It is a nonlinear model with a large number of endogenous variables,
+ and as a professional planning and budgeting tool,
+ the model's variables must correspond precisely to their counterparts in the data.
+ One of the primary purposes of MAKRO is to characterize the government budget balance and how it responds to shocks and policy changes.
+ This requires a considerable disaggregation of the fiscal part of the model as it must be able to evaluate a large number of tax and transfer interventions as well as specific government consumption changes.
  
 \end_layout
 

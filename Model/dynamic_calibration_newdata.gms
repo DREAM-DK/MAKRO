@@ -46,7 +46,7 @@ $GROUP G_fixed_forecast
   G_GovExpenses_fixed_forecast
   G_GovRevenues_fixed_forecast
   G_government_fixed_forecast
-  G_HHincome_fixed_forecast
+  G_HhIncome_fixed_forecast
   G_IO_fixed_forecast
   G_pricing_fixed_forecast
   G_production_private_fixed_forecast
@@ -262,8 +262,8 @@ $IF %blockwise_calibration%:
   # The order of modules matters. If for example labor_market is included to early it does not run. This could be looked into in order to find an explanation.
   # It has so far worked to put a module last if it does not solve
   $FOR {datagroup} in [
-    "production_public", "struk", "exports", "production_private", "finance", "HHincome", "consumers", 
-    "GovRevenues", "government", "GovExpenses", "taxes", "aggregates", "pricing", "labor_market", "IO"
+    "production_public", "struk", "exports", "production_private", "finance", "HhIncome", "consumers", 
+    "GovRevenues", "government", "HBI", "GovExpenses", "taxes", "aggregates", "pricing", "labor_market", "IO"
   ]:  
     $GROUP G_load G_load, G_{datagroup}_data, G_{datagroup}_static_calibration_newdata;
     @load(G_load, "Gdx/dynamic_calibration_newdata_presolve.gdx")

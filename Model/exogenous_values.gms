@@ -29,7 +29,7 @@ $GROUP G_imprecise_data
   G_GovExpenses_data_imprecise$(tData[t])
   G_taxes_data_imprecise$(tData[t])
   G_finance_data_imprecise$(tData[t])
-  G_HHincome_data_imprecise$(tData[t])
+  G_HhIncome_data_imprecise$(tData[t])
   G_aggregates_data_imprecise$(tData[t])
   G_struk_data_imprecise$(tData[t])
 ;
@@ -48,7 +48,7 @@ $GROUP G_data  # Variables covered by data that should not be changed by the cal
   G_taxes_data$(tData[t])
   G_aggregates_data$(tData[t])
   G_IO_data$(tData[t])
-  G_HHincome_data$(tData[t])
+  G_HhIncome_data$(tData[t])
   G_struk_data$(tData[t])
 
   G_imprecise_data # Denne bør være overflødig

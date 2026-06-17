@@ -7,17 +7,16 @@ import sys
 import dreamtools as dt
 import pandas as pd
 from math import ceil
-import dataframe_image as dfi
-import plotly.figure_factory as ff
 sys.path.insert(0, os.path.abspath("../Templates")) # Add the Templates folder to the path so we can import variables_to_plot
 
 # variables_to_plot.py currently requires dt.REFERENCE_DATABASE to be set
 dt.REFERENCE_DATABASE = dt.Gdx(fr"../../Model/Gdx/sets.gdx")
 
+from standard_shock_tables import write_multiplier_tables
 import variables_to_plot as vtp
 
-t1 = 2030 # Shock year
-T = 2050 # Last year to plot
+t1 = 2029 # Shock year
+T = 2060 # Last year to plot
 dt.time(t1-1, T)
 
 output_folder = r"Output"
@@ -31,7 +30,7 @@ if not os.path.exists(output_folder):
 if not os.path.exists(table_folder):
     os.makedirs(table_folder)
 
-DA = True # Should labels be in Danish or English? 
+DA = False # Should labels be in Danish or English? 
 
 # List of tuples with (<path to a folder with gdx files>, <a label for this folder / version>)
 gdx_folders_info = [
@@ -47,7 +46,7 @@ variations_info = [
     # ("_blip", "Blip", "Blip"),
     ("_midl", "Midlertidig", "Transitory"),
     # ("_perm", "Permanent", "Permanent"),
-    # ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
+    ("_ufin", "Permanent ufinansieret", "Permanent unfinanced"),
 ]
 shock_variation_suffixes, shock_variation_labels_DA, shock_variation_labels_EN = zip(*variations_info)
 
@@ -110,8 +109,14 @@ def shock_files_exist(shock):
 # Labels for y-axes are based on the type of multiplier
 # if more unique labels are needed, we can add them directly in the variables_info list instead
 yaxis_title_from_operator = {
-    "pq": "Pct.-ændring" if DA else "Pct. change",
-    "pm": "Ændring i pct.-point" if DA else "Change in pct. points",
+    "pq": "Pct. ændring",
+    "pm": "Ændring i %-point",
+    "m": "Total ændring",
+    "": "",
+} if DA else {
+    "pq": "Pct. change",
+    "pm": "Change in %-points",
+    "m": "Total change",
     "": "",
 }
 
@@ -233,8 +238,8 @@ for shock_label in df.shock_label.unique():
         fig.update_xaxes(ticklen=4, gridcolor=dt.dream_colors_rgb["Light gray"])
 
         fig.update_yaxes(ticklen=4, matches=None, showticklabels=True, gridcolor=dt.dream_colors_rgb["Light gray"])
-        operators = data.operator[~data.variable_index.duplicated()]
-        yaxis_titles = [yaxis_title_from_operator[operator] for operator in operators]
+        page_operators = data.operator[~data.variable_index.duplicated()]
+        yaxis_titles = [yaxis_title_from_operator[operator] for operator in page_operators]
         for i, yaxis_title in enumerate(yaxis_titles):
             get_yaxis(fig, i, columns_pr_page).update(title_text=yaxis_title)
 
@@ -255,111 +260,4 @@ from pdf_report import figures_to_pdf
 figures_to_pdf(report_figures, f"{output_folder}/{fname}.pdf")
 
 
-"""
-Create tables with the values of the multipliers in different years
-"""
-styles = [
-    # General styling of the table
-    dict(
-        selector="tr",
-        props=[
-            ("background", "#E6E6E8"),
-            ("text-align", "left"),
-            ("font-family", "Arial, sans-serif"),
-        ],
-    ),
-    # Style the header
-    dict(
-        selector="th",
-        props=[
-            ("color", "White"),
-            ("padding", "30px 15px"),
-            ("background", "#0F837D"),
-            ("font-size", "12px"),
-            ("text-align", "left"),
-            ("font-weight", "bold"),
-        ],
-    ),
-    # Style the cells
-    dict(selector="td", props=[("padding", "13px 15px"), ("font-size", "12px")]),
-    # Style the caption
-    dict(
-        selector="caption",
-        props=[
-            ("caption-side", "Top"),
-            ("font-family", "Arial, sans-serif"),
-            ("font-size", "16px"),
-        ],
-    ),
-]
-
-# Create dictionaries to store styled tables
-tables = {}
-
-# Create tables with the values of the multipliers in different years
-for shock_name in df.shock_name.unique():
-    shock_data = df[df.shock_name == shock_name]
-    
-    # Create a dataframe for each variation
-    for suffix, variation_label_DA, variation_label_EN in variations_info:
-        variation_label = variation_label_DA if DA else variation_label_EN
-        variation_data = shock_data[shock_data.variation == suffix]
-        
-        # Pivot the data to get the desired table structure
-        table_data = variation_data.pivot_table(index="variable_label", columns="t", values="value", aggfunc="sum")
-        
-        # Select only the desired years
-        years = [t1, t1+1, t1+2]
-        if suffix in ["_perm", "_ufin"]:
-            years += [T]
-        table_data = table_data[[int(year) for year in years]]
-        
-        # Add the variable labels as the first column
-        table_data.reset_index(inplace=True)
-        
-        # Round the values to 2 decimal places and convert to string
-        table_data.iloc[:, 1:] = table_data.iloc[:, 1:].map(lambda x: str(round(x, 2)))
-
-        
-        # Add units to the values
-        for i, col in enumerate(table_data.columns[1:]):
-            for j, op in enumerate(operators):
-                if op == "pq":
-                    table_data.iloc[j, i+1] += " %"
-                elif op == "pm":
-                    table_data.iloc[j, i+1] += " %-point"
-        
-        # Apply the styles to the dataframe and style the first row (header)
-        table = table_data.style.set_table_styles(styles).set_properties(subset=pd.IndexSlice[:, :],**{
-                "background-color": "#E6E6E8",
-                "color": "Black",},).hide(axis="index").set_caption(f"{shock_name} - {variation_label}")
-        
-        tables[f"{shock_name} {variation_label}"] = table
-
-# Export the tables to html
-for key, table in tables.items():
-    table.to_html(f"{table_folder}/{key}.html")
-
-# Combine html files to one
-import glob
-from pyhtml2pdf import converter # Chrome must be installed on the machine
-
-html_files = glob.glob(f"{table_folder}/*.html")
-
-with open(f"{output_folder}/TablesCombined.html", "w") as outfile:
-    for file in html_files:
-        with open(file, "r") as infile:
-            outfile.write(infile.read())
-
-# Convert each html files into a pdf
-for file in html_files:
-    path = os.path.abspath(file)
-    converter.convert(f'{path}', f'{file[:-5]}.pdf')
-
-# Merge the pdf files into one
-from PyPDF2 import PdfMerger
-pdfs = glob.glob(f"{table_folder}/*.pdf")
-merger = PdfMerger()
-for pdf in pdfs:
-    merger.append(pdf)
-merger.write(f"{output_folder}/TablesCombined.pdf")
+write_multiplier_tables(df, variations_info, DA, t1, T, output_folder, table_folder)

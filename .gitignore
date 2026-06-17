@@ -1,13 +1,29 @@
+*.txt
+*.pdf
+*.html
+
+# Python
+*.pyc
+
+# gamY
+*.pkl
+*.gmy
+
+# Editors
+.Rproj.user
+
+# GAMS
 *.g00
 *.lst
-*.gmy
-*.pkl
-*.lyx~
-*.sublime-workspace
-*.pyc
 *.dat
 */Model/225*
-*.txt
+gamsnext.cmd
 
 *.gdx
-.Rproj.user
+
+# LaTeX and LyX
+*.lyx~
+*.aux
+*.log
+*.out
+*.synctex.gz

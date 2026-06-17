@@ -10,16 +10,18 @@ pio.renderers.default = "notebook"
 # os.chdir("...")
 
 # Set time periods
-dt.time(2024, 2060)
+dt.time(2029, 2060)
 os.getcwd()
 # Read grundforløb and shock gdx files
-r = dt.REFERENCE_DATABASE = dt.Gdx("./Gdx/deep_calibration.gdx")
-shock_name = "Arbejdsudbud_timer_ufin"
+r = dt.REFERENCE_DATABASE = dt.Gdx("./Gdx/baseline.gdx")
+shock_name = "shock"
 s = dt.Gdx(f"./Gdx/{shock_name}.gdx")
 output_dir = f"Output/{shock_name}"
-output_extension = ".svg"
+output_extension = ".pdf"
+figure_size = "document_large" # choose between document/slide, and _small/_large
+include_titles=False
 
-DA = True # Should labels be in Danish or English? 
+DA = False # Should labels be in Danish or English? 
 
 
 """
@@ -35,6 +37,8 @@ List of tuples each containing information about a figure to plot. Each tuple co
 )
 """
 plot_info = [
+
+
   ("Forsyningsbalance real", "Supply balance real",
   {
   "Bruttonationalprodukt (qBNP)": lambda s: s.qBNP,
@@ -177,13 +181,13 @@ plot_info = [
   "Husholdningernes løbende indkomst efter skat (vHhInd)": lambda s: s.vHhInd,
   "Husholdningernes kapitalindkomst ekskl. bolig, realkredit og pension (vHhxAfk)": lambda s: s.vHhxAfk,
   "Udgift til (indtægt fra) ejerbolig inkl. optagelse af gæld og kapitalgevinster (vBoligUdgift)": lambda s: s.vBoligUdgift,
-  "Privat forbrug ekskl. bolig i løbende priser (vC[Cx])": lambda s: s.vC.loc[["Cx"]],
+  "Privat forbrug ekskl. bolig i løbende priser (vCx)": lambda s: s.vCx,
   },
   {
   "Household disposable income after taxes (vHhInd)": lambda s: s.vHhInd,
   "Household capital income excl. housing, mortgage and pension (vHhxAfk)": lambda s: s.vHhxAfk,
   "Expenditure on (income from) owner-occupied housing incl. debt and capital gains (vBoligUdgift)": lambda s: s.vBoligUdgift,
-  "Private consumption excl. housing in current prices (vC[Cx])": lambda s: s.vC.loc[["Cx"]],
+  "Private consumption excl. housing in current prices (vCx)": lambda s: s.vCx,
   },
   "pq",
   "Pct.-ændring ift. grundforløb",
@@ -453,6 +457,17 @@ plot_info = [
 },
 {
 "Population (nPop)": lambda s: s.nPop,
+"Labor force (nNettoArbsty)": lambda s: s.nNettoArbsty,
+},
+"pq",
+"Pct.-ændring ift. grundforløb",
+"Pct. change relative to baseline",),
+("BNP per capita", "GDP per capita",
+{
+"BNP per capita (qBNP/nPop)": lambda s: s.qBNP / s.nPop,
+},
+{
+"GDP per capita (qBNP/nPop)": lambda s: s.qBNP / s.nPop,
 },
 "pq",
 "Pct.-ændring ift. grundforløb",
@@ -575,20 +590,9 @@ for figure_name, lines_info, operator, yaxis_label in zip(
     if yaxis_label is None:
         yaxis_label = yaxis_title_from_operator[operator]
     df = dt.DataFrame(s, operator, functions=functions, names=labels)
-    DPCM = 96 / 2.54
-    plot_height = 6
-    margin_b = 4
     fig = df.plot(layout=dict(
-        title_text=f"<b>{figure_name}</b>",
+        title_text=f"<b>{figure_name}</b>" if include_titles else None,
         yaxis_title_text=yaxis_label,
-        width = 12 * DPCM,
-        height = (plot_height + margin_b) * DPCM,
-        margin_l = 1.5 * DPCM,
-        margin_r = 0.5 * DPCM,
-        margin_t = 1 * DPCM,
-        margin_b = margin_b * DPCM,
-        legend_y = -0.25,
-        xaxis_title_text = "År" if DA else "Year",
-    ), horizontal_yaxis_title=False)
+    ), figure_size=figure_size)
     output_path = f"{output_dir}/{figure_name}{output_extension}"
     dt.write_image(fig, output_path)

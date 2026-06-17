@@ -14,6 +14,9 @@ $IF %stage% == "variables":
     jvtPALudl[t] "J-led"
     vBetalingsbalanceRest[t] "Restpost indeholder bl.a. anskaffelse af værdigenstande og ikke-finansielle, ikke-producerede aktier"
     vUdlPensIndb[t] "Pensionsindbetalinger fra udlandet, Kilde: ADAM[Tpc_e_z]"
+    ADAM_BFR[ADAM_BFR_LIST,t] "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret"
+    ADAM_DORS[ADAM_DORS_LIST,t] "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret"
+    ADAM_DN[ADAM_DN_LIST,t] "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret"
   ;
   $GROUP+ G_forecast_as_zero G_aggregates_forecast_as_zero$(tx1[t]);
 
@@ -268,6 +271,7 @@ $IF %stage% == "exogenous_values":
     vUdlAktOmv, vUdlPasOmv
     vtPALudl, vUdlPensIndb, vUdlPensUdb
     vUdlNFE, vUdlNetRenter
+    ADAM_BFR, ADAM_DORS, ADAM_DN
   ;
 
   $GROUP G_aggregates_data_imprecise

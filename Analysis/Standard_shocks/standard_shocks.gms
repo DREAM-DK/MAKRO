@@ -1,6 +1,7 @@
 # ======================================================================================================================
 # Standard shocks
 # ======================================================================================================================
+$onDotL # Allow implicit .l suffix
 $SETLOCAL shock_year 2030;
 
 set_time_periods(%shock_year%-1, %terminal_year%);
@@ -37,6 +38,8 @@ $ENDBLOCK
 # --------------------------------------------------------------------------------------------------------------------
 # Shock profiles that we can easily switch between
 # --------------------------------------------------------------------------------------------------------------------
+scalar shock_size "Shock size for shocks calibrated as a share of GDP (e.g. 1 pct. of GDP)" /0.01/;
+
 $PGROUP PG_shock_profiles
   permanent_profile[t] "Stød profil for permanente stød."
   linear_profile[t] "Stød profil for midlertidige stød aftrappet lineært over 4 år."
@@ -161,8 +164,7 @@ $FOR1 {shock} in [
     # --------------------------------------------------------------------------------------------------------------------
     Model M_shock /M_base/; # Definer basis stødmodel som kan overskrives af enkelte stød
     @set(All_, .l, _baseline);
-    $FIX All; $UNFIX G_endo;
-    $UNFIX vtLukning$({tax_reaction} and aTot[a_] and tx0[t]);
+    $GROUP G_shock_endo G_endo, vtLukning$({tax_reaction} and aTot[a_] and tx0[t]);
 
   # ====================================================================================================================
   # Define shocks below
@@ -176,44 +178,33 @@ $FOR1 {shock} in [
   # Offentligt forbrug
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentligt_forbrug":
-    # qG.fx[gTot,t]$(tx0[t]) = qG.l[gTot,t] + 0.01 * {shock_profile}[t] * vBNP.l[t]/pG.l[gTot,t];
-    # $UNFIX hL[off,tx0];
-    # $FIX rOffK2Y; $UNFIX qI_s[k,off,tx0]; # rOffK2Y er beregningsmæssigt tung, da udglattet privat BVT indgår
-    # $FIX rOffLoensum2R; $UNFIX qR[off,tx0];
-    # $FIX rOffLoensum2E; $UNFIX qE[off,tx0];
-    qR.fx['off',t]$(tx0[t]) = qR.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
-    qE.fx['off',t]$(tx0[t]) = qE.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
-    hL.fx['off',t]$(tx0[t]) = hL.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
-    qI_s.fx[i,'off',t]$(tx0[t]) = qI_s.l[i,'off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t]/vG.l[gTot,t]);
-
-    # Problemer med at løse når hL[off,t] ændres for startværdier for qProd[sp,t] i baseline
-    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
+    qR['off',t]$(tx0[t]) = qR['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t]/vG[gTot,t]);
+    qE['off',t]$(tx0[t]) = qE['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t]/vG[gTot,t]);
+    hL['off',t]$(tx0[t]) = hL['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t]/vG[gTot,t]);
+    qI_s[i,'off',t]$(tx0[t]) = qI_s[i,'off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t]/vG[gTot,t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Offentligt varekøb - 1 pct. af vBNP med baseline deflatorer
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentlig_varekoeb":
-    qR.fx['off',t]$(tx0[t]) = qR.l['off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / pR.l['off',t];
+    qR['off',t]$(tx0[t]) = qR['off',t] + shock_size * {shock_profile}[t] * vBNP[t] / pR['off',t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Offentlig beskæftigelse - 1 pct. af vBNP med baseline deflatorer
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentlig_Beskaeftigelse":
-    hL.fx['off',t]$(tx0[t]) = hL.l['off',t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vLoensum.l['off',t]);
-
-    # Problemer med at løse når hL[off,t] ændres for startværdier for qProd[sp,t] i baseline
-    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
+    hL['off',t]$(tx0[t]) = hL['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Offentlige investeringer - 1 pct. af vBNP med baseline deflatorer
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentlige_investeringer":
-    qI_s.fx[i,'off',t]$(tx0[t] and d1I_s[i,'off',t])
-      = qI_s.l[i,'off',t]
-      + 0.01 * {shock_profile}[t] * vBNP.l[t]/pI_s.l[i,'off',t] * (vI_s.l[i,'off',t] / vI_s.l['itot','off',t]);
+    qI_s[i,'off',t]$(tx0[t] and d1I_s[i,'off',t])
+      = qI_s[i,'off',t]
+      + shock_size * {shock_profile}[t] * vBNP[t]/pI_s[i,'off',t] * (vI_s[i,'off',t] / vI_s['itot','off',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -225,13 +216,12 @@ $FOR1 {shock} in [
   # og ændrer dermed offentlig løn uden at påvirke privat-sektor produktivitet.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Offentlig_loen":
-    qProdHh_t.fx[t]$(tx0[t]) = qProdHh_t.l[t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vLoensum.l['off',t]
-                             * qProd.l['off',t] * hL.l['off',t]  / (qProd.l[sTot,t] * hL.l[sTot,t]));
-    qProdxDK.fx[t]$(tx0[t]) = qProdxDK.l[t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vLoensum.l['off',t]
-                            * qProd.l['off',t] * hL.l['off',t]  / (qProd.l[sTot,t] * hL.l[sTot,t]));
+    qProdHh_t[t]$(tx0[t]) = qProdHh_t[t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t]
+                             * qProd['off',t] * hL['off',t]  / (qProd[sTot,t] * hL[sTot,t]));
+    qProdxDK[t]$(tx0[t]) = qProdxDK[t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t]
+                            * qProd['off',t] * hL['off',t]  / (qProd[sTot,t] * hL[sTot,t]));
 
-    qProd.fx['off',t]$(tx0[t]) = qProd.l['off',t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vLoensum.l['off',t]);
-    $UNFIX uProd$(off[s_]);
+    qProd['off',t]$(tx0[t]) = qProd['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t]);
   $ENDIF
 
   # ====================================================================================================================
@@ -241,18 +231,20 @@ $FOR1 {shock} in [
   # Skattepligtige indkomstoverførsler 
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Skattepligtig_indkomstoverforsel":
-    vOvfSats.fx[ovf,t]$(tx0[t] and not ubeskat[ovf])
-      = vOvfSats.l[ovf,t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / sum(ubeskat, vOvf.l[ubeskat,t]));
-    $UNFIX uvOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]);
+    vOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf])
+      = vOvfSats[ovf,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / sum(ubeskat, vOvf[ubeskat,t]));
+    $GROUP+ G_shock_endo
+      -vOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]), uvOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Ikke-skattepligtige indkomstoverførsler
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Ikke_skattepligtig_indkomstoverforsel":
-    vOvfSats.fx[ubeskat,t]$(tx0[t])
-      = vOvfSats.l[ubeskat,t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / sum(ovf$ubeskat[ovf], vOvf.l[ovf,t]));
-    $UNFIX uvOvfSats[ovf,t]$(tx0[t] and ubeskat[ovf]);
+    vOvfSats[ubeskat,t]$(tx0[t])
+      = vOvfSats[ubeskat,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / sum(ovf$ubeskat[ovf], vOvf[ovf,t]));
+    $GROUP+ G_shock_endo
+      -vOvfSats[ubeskat,t]$(tx0[t]), uvOvfSats[ovf,t]$(tx0[t] and ubeskat[ovf]);
   $ENDIF
 
   # ====================================================================================================================
@@ -262,30 +254,31 @@ $FOR1 {shock} in [
   # Produktsubsidier
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Produktsubsidier":
-    rSub_m.fx[d,s,t]$(tx0[t]) = rSub_m.l[d,s,t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vSub.l[dTot,sTot,t]);
-    rSub_y.fx[d,s,t]$(tx0[t]) = rSub_y.l[d,s,t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vSub.l[dTot,sTot,t]);
+    rSub_m[d,s,t]$(tx0[t]) = rSub_m[d,s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSub[dTot,sTot,t]);
+    rSub_y[d,s,t]$(tx0[t]) = rSub_y[d,s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSub[dTot,sTot,t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Løntilskud
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Lontilskud":
-    rSubLoen.fx[s,t]$(tx0[t]) = rSubLoen.l[s,t] * (1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vSubLoen.l['tot',t]);
+    rSubLoen[s,t]$(tx0[t]) = rSubLoen[s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSubLoen['tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Produktionssubsidier ekskl. løntilskud
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Produktionssubsidier":
-    vSubYRest.fx[s,t]$(tx0[t]) = vSubYRest.l[s,t] * ( 1 + {shock_profile}[t] * 0.01 * vBNP.l[t] / vSubYRest.l[sTot,t]);
-    $UNFIX rSubYRest[s,t]$(tx0[t]);
+    vSubYRest[s,t]$(tx0[t]) = vSubYRest[s,t] * ( 1 + shock_size * {shock_profile}[t] * vBNP[t] / vSubYRest[sTot,t]);
+    $GROUP+ G_shock_endo
+      -vSubYRest[s,t]$(tx0[t]), rSubYRest[s,t]$(tx0[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Øvrige overførsler til husholdninger
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Overforsel_privat":
-    vOffTilHhRest.fx[ t]$(tx0[t]) = vOffTilHhRest.l[t] + {shock_profile}[t] * 0.01 * vBNP.l[t];
+    vOffTilHhRest[ t]$(tx0[t]) = vOffTilHhRest[t] + shock_size * {shock_profile}[t] * vBNP[t];
   $ENDIF
 
   # ====================================================================================================================
@@ -295,151 +288,145 @@ $FOR1 {shock} in [
   # Bundskat - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Bundskat":
-    tBund.fx[t]$(tx0[t]) = tBund.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtBund.l['tot',t]);
-    # Problemer med at løse for startværdier for qProd[sp,t] i baseline
-    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
-
+    tBund[t]$(tx0[t]) = tBund[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtBund['tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # AM-bidrag - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "AM_bidrag":
-    tAMbidrag.fx[t]$(tx0[t])  = tAMbidrag.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtHhAM.l['Tot',t]);
+    tAMbidrag[t]$(tx0[t])  = tAMbidrag[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtHhAM['Tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Grundskyld - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Grundskyld":
-    tGrund.fx[s,t]$(tx0[t] and d1K['iB',s,t])
-      = tGrund.l[s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtGrund.l['Tot',t]);
+    tGrund[s,t]$(tx0[t] and d1K['iB',s,t])
+      = tGrund[s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtGrund['Tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Ejendomsværdiskat - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Ejendomsvaerdiskat":
-    tEjd.fx[t]$(tx0[t]) = tEjd.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtEjd.l[aTot,t]);
+    tEjd[t]$(tx0[t]) = tEjd[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtEjd[aTot,t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Vægtafgift - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Vaegtafgift":
-    utHhVaegt.fx[t]$(tx0[t])
-      = utHhVaegt.l[t] * (1 - 0.01 * {shock_profile}[t]);
+    utHhVaegt[t]$(tx0[t])
+      = utHhVaegt[t] * (1 - shock_size * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Selskabsskat - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Selskabsskat":
-    tSelskab.fx[t]$(tx0[t]) = tSelskab.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtSelskabx.l['Tot',t]);
+    tSelskab[t]$(tx0[t]) = tSelskab[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtSelskabx['Tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Aktieskat - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Aktieskat":
-    tAktieTop.fx[t]$(tx0[t]) = tAktieTop.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAktie.l[t]);
-    tAktieLav.fx[t]$(tx0[t]) = tAktieLav.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAktie.l[t]);
+    tAktieTop[t]$(tx0[t]) = tAktieTop[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAktie[t]);
+    tAktieLav[t]$(tx0[t]) = tAktieLav[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAktie[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Moms - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Moms":
-    tMoms_y.fx[d,s,t]$(tx0[t]) = tMoms_y.l[d,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtMoms.l[dtot,sTot,t]);
-    tMoms_m.fx[d,s,t]$(tx0[t]) = tMoms_m.l[d,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtMoms.l[dtot,sTot,t]);
+    tMoms_y[d,s,t]$(tx0[t]) = tMoms_y[d,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtMoms[dtot,sTot,t]);
+    tMoms_m[d,s,t]$(tx0[t]) = tMoms_m[d,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtMoms[dtot,sTot,t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Registreringsafgift til privat forbrug - 0,5 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Registreringsafgift":
-    tReg_m.fx[d,s,t]$(tx0[t]) = tReg_m.l[d,s,t] * (1 - 0.005 * {shock_profile}[t] * vBNP.l[t] / vtReg.l['cBil','tot',t]);
-    tReg_y.fx[d,s,t]$(tx0[t]) = tReg_y.l[d,s,t] * (1 - 0.005 * {shock_profile}[t] * vBNP.l[t] / vtReg.l['cBil','tot',t]);
+    tReg_m[d,s,t]$(tx0[t]) = tReg_m[d,s,t] * (1 - shock_size/2 * {shock_profile}[t] * vBNP[t] / vtReg['cBil','tot',t]);
+    tReg_y[d,s,t]$(tx0[t]) = tReg_y[d,s,t] * (1 - shock_size/2 * {shock_profile}[t] * vBNP[t] / vtReg['cBil','tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Energiafgift til privat forbrug - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Energiafgift":
-    tAfg_y.fx['cEne',s,t]$(tx0[t])
-      = tAfg_y.l['cEne',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cEne','tot',t]);
-    tAfg_m.fx['cEne',s,t]$(tx0[t])
-      = tAfg_m.l['cEne',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cEne','tot',t]);
+    tAfg_y['cEne',s,t]$(tx0[t])
+      = tAfg_y['cEne',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cEne','tot',t]);
+    tAfg_m['cEne',s,t]$(tx0[t])
+      = tAfg_m['cEne',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cEne','tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Øvrige forbrugsafgifter - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Forbrugsafgift":
-    tAfg_y.fx['cVar',s,t]$(tx0[t])
-      = tAfg_y.l['cVar',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cVar','tot',t]);
-    tAfg_m.fx['cVar',s,t]$(tx0[t])
-      = tAfg_m.l['cVar',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cVar','tot',t]);
+    tAfg_y['cVar',s,t]$(tx0[t])
+      = tAfg_y['cVar',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cVar','tot',t]);
+    tAfg_m['cVar',s,t]$(tx0[t])
+      = tAfg_m['cVar',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cVar','tot',t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Afgift på private erhvervs materialeinput - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Afgift_erhverv":
-    tAfg_y.fx[r,s,t]$(tx0[t] and sp[s])
-      = tAfg_y.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,sTot,t] - vtAfg.l['off',sTot,t])); 
-    tAfg_m.fx[r,s,t]$(tx0[t] and sp[s])
-      = tAfg_m.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,sTot,t] - vtAfg.l['off',sTot,t]));
+    tAfg_y[r,s,t]$(tx0[t] and sp[s])
+      = tAfg_y[r,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / (vtAfg[rTot,sTot,t] - vtAfg['off',sTot,t])); 
+    tAfg_m[r,s,t]$(tx0[t] and sp[s])
+      = tAfg_m[r,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / (vtAfg[rTot,sTot,t] - vtAfg['off',sTot,t]));
   $ENDIF
 
   # ======================================================================================================================
   # Udland
   # ======================================================================================================================
   # --------------------------------------------------------------------------------------------------------------------
-  # Eksportmarkedsvækst - 1 pct.
+  # Eksportmarkedsvækst - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Eksportmarkedsvaekst":
-    uXMarked.fx[t]$(tx0[t]) = uXMarked.l[t] * (1 + 0.01 * {shock_profile}[t]);
+    uXMarked[t]$(tx0[t]) = uXMarked[t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vX[xTot,t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Importpris - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Importpris":
-    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] * (1 + 0.01 * {shock_profile}[t]);
+    pM[s,t]$(tx0[t]) = pM[s,t] * (1 + 0.01 * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Eksportkonkurrerende priser - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Eksportkonkurrerende_priser":
-    pXUdl.fx[x,t]$(tx0[t]) = pXUdl.l[x,t] * (1 + 0.01 * {shock_profile}[t]);
+    pXUdl[x,t]$(tx0[t]) = pXUdl[x,t] * (1 + 0.01 * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Oliepris - 10 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Oliepris":
-    pOlieBrent.fx[t]$(tx0[t]) = pOlieBrent.l[t] * (1 + 0.10 * {shock_profile}[t]);
+    pOlieBrent[t]$(tx0[t]) = pOlieBrent[t] * (1 + 0.10 * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Direkte stød til alle importpriser og eksportkonkurrerende priser - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Udenlandske_priser":
-    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] * (1 + 0.01 * {shock_profile}[t]);
-    pXUdl.fx[x,t]$(tx0[t]) = pXUdl.l[x,t] * (1 + 0.01 * {shock_profile}[t]);
+    pM[s,t]$(tx0[t]) = pM[s,t] * (1 + 0.01 * {shock_profile}[t]);
+    pXUdl[x,t]$(tx0[t]) = pXUdl[x,t] * (1 + 0.01 * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Rente - 1 pct.-point i 2 perioder før aftrapning
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Rente":
-    rRenteECB.fx[t]$(t1[t]) = rRenteECB.l[t] + 0.01;
-    rRenteECB.fx[t]$(tx1[t]) = rRenteECB.l[t] + 0.01 * {shock_profile}[t-1];
-
-    # Problemer med at løse for startværdier for qProd[sp,t] i baseline
-    qProd.l[sp,t]$(tx0[t]) = qProd_baseline[sp,t] * 1.01;
+    rRenteECB[t]$(t1[t]) = rRenteECB[t] + 0.01;
+    rRenteECB[t]$(tx1[t]) = rRenteECB[t] + 0.01 * {shock_profile}[t-1];
   $ENDIF
 
   # ====================================================================================================================
@@ -449,16 +436,18 @@ $FOR1 {shock} in [
   # Arbejdsudbud, strukturel beskæftigelse - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Arbejdsudbud_beskaeftigelse":
-    snLHh.fx[a,t]$(tx0[t] and a15t100[a]) = snLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
-    $UNFIX uDeltag[a,t]$(tx0[t] and a15t100[a]); 
+    snLHh[a,t]$(tx0[t] and a15t100[a]) = snLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
+    $GROUP+ G_shock_endo
+      -snLHh[a,t]$(tx0[t] and a15t100[a]), uDeltag[a,t]$(tx0[t] and a15t100[a]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Arbejdsudbud,timer - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Arbejdsudbud_timer":
-    shLHh.fx[a,t]$(tx0[t] and a15t100[a]) = shLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
-    $UNFIX uh[a,t]$(tx0[t] and a15t100[a]); 
+    shLHh[a,t]$(tx0[t] and a15t100[a]) = shLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
+    $GROUP+ G_shock_endo
+      -shLHh[a,t]$(tx0[t] and a15t100[a]), uh[a,t]$(tx0[t] and a15t100[a]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -467,47 +456,51 @@ $FOR1 {shock} in [
   $IF "{shock}" == "Arbejdsudbud_timer_kohort_30":
       parameter target_birth_year;
       target_birth_year = %shock_year% - 30;
-      shLHh.fx[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70) 
-          = shLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
-      $UNFIX uh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70);
+      shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70) 
+          = shLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
+      $GROUP+ G_shock_endo
+        -shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70), uh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Arbejdsudbud,timer - alder 30 - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Arbejdsudbud_timer_alder_30":
-      shLHh.fx[a,t]$(tx0[t] and a.val = 30) 
-          = shLHh.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
-      $UNFIX uh[a,t]$(tx0[t] and a.val = 30);
+      shLHh[a,t]$(tx0[t] and a.val = 30) 
+          = shLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
+      $GROUP+ G_shock_endo
+        -shLHh[a,t]$(tx0[t] and a.val = 30), uh[a,t]$(tx0[t] and a.val = 30);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Befolkning - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Befolkning":
-    nPop.fx[a,t]$(tx0[t]) = nPop.l[a,t] * (1 + 0.01 * {shock_profile}[t]);
-    nSoegBasexDK.fx[t]$(tx0[t]) = nSoegBasexDK.l[t] * (1 + 0.01 * {shock_profile}[t]);
-    qG.fx[gTot,t]$(tx0[t]) = qG.l[gTot,t] * (1 + 0.01 * {shock_profile}[t]);
-    $UNFIX hL$(off[s_] and tx0[t]);
-    $FIX rOffK2Y; $UNFIX qI_s$(off[s_] and tx0[t]);
-    $FIX rOffLoensum2R; $UNFIX qR$(off[r_] and tx0[t]);
-    $FIX rOffLoensum2E; $UNFIX qE$(off[r_] and tx0[t]);
+    nPop[a,t]$(tx0[t]) = nPop[a,t] * (1 + 0.01 * {shock_profile}[t]);
+    nSoegBasexDK[t]$(tx0[t]) = nSoegBasexDK[t] * (1 + 0.01 * {shock_profile}[t]);
+    qG[gTot,t]$(tx0[t]) = qG[gTot,t] * (1 + 0.01 * {shock_profile}[t]);
+    $GROUP+ G_shock_endo
+      -uvGInd$(tx0[t]), hL$(off[s_] and tx0[t])
+      -rOffK2Y, qI_s$(off[s_] and tx0[t])
+      -rOffLoensum2R, qR$(off[r_] and tx0[t])
+      -rOffLoensum2E, qE$(off[r_] and tx0[t])
+    ;
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Arbejdskraftsproduktivitet - 1 pct. arbejdskraftbesparende teknologiske fremskridt
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "ArbejdsProd":
-    qProdHh_t.fx[t]$(tx0[t]) = qProdHh_t.l[t] * (1 + 0.01 * {shock_profile}[t]);
-    qProdxDK.fx[t]$(tx0[t]) = qProdxDK.l[t] * (1 + 0.01 * {shock_profile}[t]);
+    qProdHh_t[t]$(tx0[t]) = qProdHh_t[t] * (1 + 0.01 * {shock_profile}[t]);
+    qProdxDK[t]$(tx0[t]) = qProdxDK[t] * (1 + 0.01 * {shock_profile}[t]);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Kapitalproduktivitet - 1 pct. arbejdskraftbesparende teknologiske fremskridt
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "KapitalProd":
-    uK.fx['iM',sp,t]$(tx0[t]) = uK.l['iM',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKEL.l[sp]-1);
-    uK.fx['iB',sp,t]$(tx0[t]) = uK.l['iB',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKELB.l[sp]-1);
+    uK['iM',sp,t]$(tx0[t]) = uK['iM',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKEL[sp]-1);
+    uK['iB',sp,t]$(tx0[t]) = uK['iB',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKELB[sp]-1);
   $ENDIF
 
   # ====================================================================================================================
@@ -517,45 +510,45 @@ $FOR1 {shock} in [
   # Virksomhedernes hurdle rate
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "VirkDisk":
-    rVirkDiskPrem.fx[sp,t]$(tx0[t]) = rVirkDiskPrem.l[sp,t] + 0.001 * {shock_profile}[t];
+    rVirkDiskPrem[sp,t]$(tx0[t]) = rVirkDiskPrem[sp,t] + 0.001 * {shock_profile}[t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Husholdningernes opfattede risiko-præmie i usercost på bolig
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "BoligRisiko":
-    rBoligPrem.fx[t]$(tx0[t]) = rBoligPrem.l[t] + 0.001 * {shock_profile}[t];
+    rBoligPrem[t]$(tx0[t]) = rBoligPrem[t] + 0.001 * {shock_profile}[t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Virksomhedernes hurdle rate og aktieafkastrater
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "AktieAfkast":
-    rVirkDiskPrem.fx[sp,t]$(tx0[t]) = rVirkDiskPrem.l[sp,t] + 0.001 * {shock_profile}[t];
-    rAktieDriftPrem.fx[t]$(tx0[t]) = rAktieDriftPrem.l[t] + 0.001 * {shock_profile}[t];
+    rVirkDiskPrem[sp,t]$(tx0[t]) = rVirkDiskPrem[sp,t] + 0.001 * {shock_profile}[t];
+    rAktieDriftPrem[t]$(tx0[t]) = rAktieDriftPrem[t] + 0.001 * {shock_profile}[t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Risikopræmier på aktier, bolig, og virksomhedens hurdle rate
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "RisikoPraemier":
-    rVirkDiskPrem.fx[sp,t]$(tx0[t]) = rVirkDiskPrem.l[sp,t] + 0.001 * {shock_profile}[t];
-    rAktieDriftPrem.fx[t]$(tx0[t]) = rAktieDriftPrem.l[t] + 0.001 * {shock_profile}[t];
-    rBoligPrem.fx[t]$(tx0[t]) = rBoligPrem.l[t] + 0.001 * {shock_profile}[t];
+    rVirkDiskPrem[sp,t]$(tx0[t]) = rVirkDiskPrem[sp,t] + 0.001 * {shock_profile}[t];
+    rAktieDriftPrem[t]$(tx0[t]) = rAktieDriftPrem[t] + 0.001 * {shock_profile}[t];
+    rBoligPrem[t]$(tx0[t]) = rBoligPrem[t] + 0.001 * {shock_profile}[t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Husholdningernes diskonteringsfaktor
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Diskontering":
-    jfDisk_t.fx[t]$(tx0[t]) = jfDisk_t.l[t] - 0.001 * {shock_profile}[t];
+    jfDisk_t[t]$(tx0[t]) = jfDisk_t[t] - 0.001 * {shock_profile}[t];
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Lønmodtagernes forhandlingsstyrke
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Loen":
-    rLoenNash.fx[t]$(tx0[t]) = rLoenNash.l[t] - 0.01 * {shock_profile}[t];
+    rLoenNash[t]$(tx0[t]) = rLoenNash[t] - 0.01 * {shock_profile}[t];
   $ENDIF
 
   # ====================================================================================================================
@@ -566,48 +559,51 @@ $FOR1 {shock} in [
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Prisneutralitet":
     # Udenlandske priser øges
-    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] * (1 + 0.01 * {shock_profile}[t]);
-    pXUdl.fx[x,t]$(tx0[t]) = pXUdl.l[x,t] * (1 + 0.01 * {shock_profile}[t]);
+    pM[s,t]$(tx0[t]) = pM[s,t] * (1 + 0.01 * {shock_profile}[t]);
+    pXUdl[x,t]$(tx0[t]) = pXUdl[x,t] * (1 + 0.01 * {shock_profile}[t]);
 
     # Omvurderinger antages at følge priser
-    rOmv.fx['Guld',t]$tx0[t] = rOmv.l['Guld',t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
-    rOmv.fx['UdlAktier',t]$tx0[t] = rOmv.l['UdlAktier',t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
+    rOmv['Guld',t]$tx0[t] = rOmv['Guld',t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
+    rOmv['UdlAktier',t]$tx0[t] = rOmv['UdlAktier',t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
 
     # Den nominalle rente skal også stige i de periode, hvor inflationen er høj
-    rRenteECB.fx[t]$tx0[t] = rRenteECB.l[t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
+    rRenteECB[t]$tx0[t] = rRenteECB[t] + 0.01 * ({shock_profile}[t] - {shock_profile}[t-1]); 
 
     # Eksogene størelser i GovRevenues, som følger BNP i grundforløb
-    $UNFIX vOffFraUdlKap; $FIX rOffFraUdlKap2BNP;
-    $UNFIX vOffFraUdlEU; $FIX rOffFraUdlEU2BNP;
-    $UNFIX vOffFraUdlRest; $FIX rOffFraUdlRest2BNP;
-    $UNFIX vOffFraHh; $FIX rOffFraHh2BNP;
-    $UNFIX vOffFraVirk; $FIX rOffFraVirk2BNP;
-    $UNFIX vOffVirk; $FIX rOffVirk2BNP;
-    $UNFIX vRestFradragSats; $FIX uRestFradrag;
-
     # Eksogene størelser i GovExpenses, som følger BNP i grundforløb
-    $UNFIX vOffLandKoeb; $FIX rOffLandKoeb2BNP;
-    $UNFIX vOffTilUdlKap; $FIX rOffTilUdlKap2BNP;
-    $UNFIX vOffTilUdlMoms; $FIX rOffTilUdlMoms2BNP;
-    $UNFIX vOffTilUdlBNI; $FIX rOffTilUdlBNI2BNP;
-    $UNFIX vOffTilUdlEU; $FIX rOffTilUdlEU2BNP;
-    $UNFIX vOffTilUdlFO; $FIX rOffTilUdlFO2BNP;
-    $UNFIX vOffTilUdlGL; $FIX rOffTilUdlGL2BNP;
-    $UNFIX vOffTilUdlBistand; $FIX rOffTilUdlBistand2BNP;
-    $UNFIX vOffTilVirk; $FIX rOffTilVirk2BNP;
-    $UNFIX vOffTilHhKap; $FIX rOffTilHhKap2BNP;
-    $UNFIX vOffTilHhNPISH; $FIX rOffTilHhNPISH2BNP;
-    $UNFIX vOffTilHhTillaeg; $FIX rOffTilHhTillaeg2BNP;
-    $UNFIX vOffTilHhRest; $FIX rOffTilHhRest2BNP;
-    $UNFIX vSubEU; $FIX rSubEU2BNP;
+    $GROUP+ G_shock_endo
+      -rOffFraUdlKap2BNP, vOffFraUdlKap
+      -rOffFraUdlEU2BNP, vOffFraUdlEU
+      -rOffFraUdlRest2BNP, vOffFraUdlRest
+      -rOffFraHh2BNP, vOffFraHh
+      -rOffFraVirk2BNP, vOffFraVirk
+      -rOffVirk2BNP, vOffVirk
+      -uRestFradrag, vRestFradragSats
+      -rOffLandKoeb2BNP, vOffLandKoeb
+      -rOffTilUdlKap2BNP, vOffTilUdlKap
+      -rOffTilUdlMoms2BNP, vOffTilUdlMoms
+      -rOffTilUdlBNI2BNP, vOffTilUdlBNI
+      -rOffTilUdlEU2BNP, vOffTilUdlEU
+      -rOffTilUdlFO2BNP, vOffTilUdlFO
+      -rOffTilUdlGL2BNP, vOffTilUdlGL
+      -rOffTilUdlBistand2BNP, vOffTilUdlBistand
+      -rOffTilVirk2BNP, vOffTilVirk
+      -rOffTilHhKap2BNP, vOffTilHhKap
+      -rOffTilHhNPISH2BNP, vOffTilHhNPISH
+      -rOffTilHhTillaeg2BNP, vOffTilHhTillaeg
+      -rOffTilHhRest2BNP, vOffTilHhRest
+      -rSubEU2BNP, vSubEU
+    ;
 
     # Eksogene størelser i Government
-    $UNFIX vOffAkt$((IndlAktier[portf_] or UdlAktier[portf_] or Bank[portf_] or Obl[portf_]) and tx0[t]); $FIX rOffAkt2BNP;
-    vOffPasRest_FM.fx[t] = vOffPasRest_FM.l[t] * (1 + 0.01 * {shock_profile}[t]);  
-    $UNFIX vOffPasRest; $FIX rOffPasRest2BNP;
+    vOffPasRest_FM[t] = vOffPasRest_FM[t] * (1 + 0.01 * {shock_profile}[t]);
+    $GROUP+ G_shock_endo
+      -rOffAkt2BNP, vOffAkt$((IndlAktier[portf_] or UdlAktier[portf_] or Bank[portf_] or Obl[portf_]) and tx0[t])
+      -rOffPasRest2BNP, vOffPasRest
+    ;
 
     # Øvrige eksogene størelser
-    vKolPensKorRest.fx[t] = vKolPensKorRest.l[t] * (1 + 0.01 * {shock_profile}[t]); 
+    vKolPensKorRest[t] = vKolPensKorRest[t] * (1 + 0.01 * {shock_profile}[t]); 
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -620,58 +616,61 @@ $FOR1 {shock} in [
     $FIX fMigration$(a[a_]);
 
     # Stød til befolkning
-    nPop.fx[a,t] = nPop.l[a,t] * (1 + 0.001 * {shock_profile}[t]);
-    nSoegBasexDK.fx[t] = nSoegBasexDK.l[t] * (1 + 0.001 * {shock_profile}[t]);
-    nPop_Over100.fx[t] = nPop_Over100.l[t] * (1 + 0.001 * {shock_profile}[t]);
+    nPop[a,t] = nPop[a,t] * (1 + 0.001 * {shock_profile}[t]);
+    nSoegBasexDK[t] = nSoegBasexDK[t] * (1 + 0.001 * {shock_profile}[t]);
+    nPop_Over100[t] = nPop_Over100[t] * (1 + 0.001 * {shock_profile}[t]);
 
     # Offentligt forbrug
-    hL.fx['off',t] = hL.l['off',t] * (1 + 0.001 * {shock_profile}[t]); 
-    qI_s.fx[i,'off',t] = qI_s.l[i,'off',t] * (1 + 0.001 * {shock_profile}[t]); 
-    qR.fx['off',t] = qR.l['off',t] * (1 + 0.001 * {shock_profile}[t]); 
-    qE.fx['off',t] = qE.l['off',t] * (1 + 0.001 * {shock_profile}[t]); 
+    hL['off',t] = hL['off',t] * (1 + 0.001 * {shock_profile}[t]); 
+    qI_s[i,'off',t] = qI_s[i,'off',t] * (1 + 0.001 * {shock_profile}[t]); 
+    qR['off',t] = qR['off',t] * (1 + 0.001 * {shock_profile}[t]); 
+    qE['off',t] = qE['off',t] * (1 + 0.001 * {shock_profile}[t]); 
 
     # Land og lejeboliger øges
-    qLand.fx[t] = qLand.l[t] * (1 + 0.001 * {shock_profile}[t]); 
-    qKLejeBolig.fx[t]$(t0[t]) = qKLejeBolig.l[t] * (1 + 0.001 * {shock_profile}[t]); 
-    qILejeBolig.fx[t] = qILejeBolig.l[t] * (1 + 0.001 * {shock_profile}[t]); 
+    qLand[t] = qLand[t] * (1 + 0.001 * {shock_profile}[t]); 
+    qKLejeBolig[t]$(t0[t]) = qKLejeBolig[t] * (1 + 0.001 * {shock_profile}[t]); 
+    qILejeBolig[t] = qILejeBolig[t] * (1 + 0.001 * {shock_profile}[t]); 
 
     # Produktionen i udvindingsbranchen og eksport af energi er eksogene og øges
-    qXy.fx['xEne',t] = qXy.l['xEne',t] * (1 + 0.001 * {shock_profile}[t]); 
-    qY.fx['udv',t] = qY.l['udv',t] * (1 + 0.001 * {shock_profile}[t]); 
-    qGrus.fx[t] = qGrus.l[t] * (1 + 0.001 * {shock_profile}[t]); 
+    qXy['xEne',t] = qXy['xEne',t] * (1 + 0.001 * {shock_profile}[t]); 
+    qY['udv',t] = qY['udv',t] * (1 + 0.001 * {shock_profile}[t]); 
+    qGrus[t] = qGrus[t] * (1 + 0.001 * {shock_profile}[t]); 
 
     # Eksogene størelser i GovRevenues, som følger BNP i grundforløb
-    $UNFIX vOffFraUdlKap; $FIX rOffFraUdlKap2BNP;
-    $UNFIX vOffFraUdlEU; $FIX rOffFraUdlEU2BNP;
-    $UNFIX vOffFraUdlRest; $FIX rOffFraUdlRest2BNP;
-    $UNFIX vOffFraHh; $FIX rOffFraHh2BNP;
-    $UNFIX vOffFraVirk; $FIX rOffFraVirk2BNP;
-    $UNFIX vOffVirk; $FIX rOffVirk2BNP;
-    $UNFIX vRestFradragSats; $FIX uRestFradrag;
-
     # Eksogene størelser i GovExpenses, som følger BNP i grundforløb
-    $UNFIX vOffLandKoeb; $FIX rOffLandKoeb2BNP;
-    $UNFIX vOffTilUdlKap; $FIX rOffTilUdlKap2BNP;
-    $UNFIX vOffTilUdlMoms; $FIX rOffTilUdlMoms2BNP;
-    $UNFIX vOffTilUdlBNI; $FIX rOffTilUdlBNI2BNP;
-    $UNFIX vOffTilUdlEU; $FIX rOffTilUdlEU2BNP;
-    $UNFIX vOffTilUdlFO; $FIX rOffTilUdlFO2BNP;
-    $UNFIX vOffTilUdlGL; $FIX rOffTilUdlGL2BNP;
-    $UNFIX vOffTilUdlBistand; $FIX rOffTilUdlBistand2BNP;
-    $UNFIX vOffTilVirk; $FIX rOffTilVirk2BNP;
-    $UNFIX vOffTilHhKap; $FIX rOffTilHhKap2BNP;
-    $UNFIX vOffTilHhNPISH; $FIX rOffTilHhNPISH2BNP;
-    $UNFIX vOffTilHhTillaeg; $FIX rOffTilHhTillaeg2BNP;
-    $UNFIX vOffTilHhRest; $FIX rOffTilHhRest2BNP;
-    $UNFIX vSubEU; $FIX rSubEU2BNP;
+    $GROUP+ G_shock_endo
+      -rOffFraUdlKap2BNP, vOffFraUdlKap
+      -rOffFraUdlEU2BNP, vOffFraUdlEU
+      -rOffFraUdlRest2BNP, vOffFraUdlRest
+      -rOffFraHh2BNP, vOffFraHh
+      -rOffFraVirk2BNP, vOffFraVirk
+      -rOffVirk2BNP, vOffVirk
+      -uRestFradrag, vRestFradragSats
+      -rOffLandKoeb2BNP, vOffLandKoeb
+      -rOffTilUdlKap2BNP, vOffTilUdlKap
+      -rOffTilUdlMoms2BNP, vOffTilUdlMoms
+      -rOffTilUdlBNI2BNP, vOffTilUdlBNI
+      -rOffTilUdlEU2BNP, vOffTilUdlEU
+      -rOffTilUdlFO2BNP, vOffTilUdlFO
+      -rOffTilUdlGL2BNP, vOffTilUdlGL
+      -rOffTilUdlBistand2BNP, vOffTilUdlBistand
+      -rOffTilVirk2BNP, vOffTilVirk
+      -rOffTilHhKap2BNP, vOffTilHhKap
+      -rOffTilHhNPISH2BNP, vOffTilHhNPISH
+      -rOffTilHhTillaeg2BNP, vOffTilHhTillaeg
+      -rOffTilHhRest2BNP, vOffTilHhRest
+      -rSubEU2BNP, vSubEU
+    ;
 
     # Eksogene størelser i Government
-    $UNFIX vOffAkt$((IndlAktier[portf_] or UdlAktier[portf_] or Bank[portf_] or Obl[portf_]) and tx0[t]); $FIX rOffAkt2BNP;
-    vOffPasRest_FM.fx[t] = vOffPasRest_FM.l[t] * (1 + 0.001 * {shock_profile}[t]);  
-    $UNFIX vOffPasRest; $FIX rOffPasRest2BNP;
+    vOffPasRest_FM[t] = vOffPasRest_FM[t] * (1 + 0.001 * {shock_profile}[t]);  
+    $GROUP+ G_shock_endo
+      -rOffAkt2BNP, vOffAkt$((IndlAktier[portf_] or UdlAktier[portf_] or Bank[portf_] or Obl[portf_]) and tx0[t])
+      -rOffPasRest2BNP, vOffPasRest
+    ;
 
     # Øvrige eksogene størelser
-    vKolPensKorRest.fx[t] = vKolPensKorRest.l[t] * (1 + 0.001 * {shock_profile}[t]); 
+    vKolPensKorRest[t] = vKolPensKorRest[t] * (1 + 0.001 * {shock_profile}[t]); 
   $ENDIF
 
   # ====================================================================================================================
@@ -679,127 +678,129 @@ $FOR1 {shock} in [
   # ====================================================================================================================
   # Offentligt varekøb
   $IF '{shock}' == 'Off_vare_FM':
-    qR.fx['off',t]$(tx0[t]) = qR.l['off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / pRE.l['off',t] * vR.l['off',t] / vRE.l['off',t];
-    qE.fx['off',t]$(tx0[t]) = qE.l['off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / pRE.l['off',t] * vE.l['off',t] / vRE.l['off',t];
+    qR['off',t]$(tx0[t]) = qR['off',t] + shock_size * {shock_profile}[t] * vBNP[t] / pRE['off',t] * vR['off',t] / vRE['off',t];
+    qE['off',t]$(tx0[t]) = qE['off',t] + shock_size * {shock_profile}[t] * vBNP[t] / pRE['off',t] * vE['off',t] / vRE['off',t];
   $ENDIF
 
   # Offentlig beskæftigelse
   $IF '{shock}' == 'Off_besk_FM':
-    hL.fx['off',t]$(tx0[t]) = hL.l['off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / (vLoensum.l['off',t] / hL.l['off',t]);
-    hL.fx['off',t]$(tx0[t]) = hL.l['off',t];
-    $UNFIX qG[g_,t]$(tx0[t] and gTot[g_]);
-    $FIX qR$(off[r_] and tx0[t]);
+    hL['off',t]$(tx0[t]) = hL['off',t] + shock_size * {shock_profile}[t] * vBNP[t] / (vLoensum['off',t] / hL['off',t]);
+    hL['off',t]$(tx0[t]) = hL['off',t];
+    $GROUP+ G_shock_endo
+      qG[g_,t]$(tx0[t] and gTot[g_]);
   $ENDIF
 
   # Offentlig løn
   $IF '{shock}' == 'Off_lon_FM': 
-    qProd.fx['off',t]$(tx0[t]) = qProd.l['off',t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vLoensum.l['off',t]);
-    qProdHh_t.fx[t]$(tx0[t]) = qProdHh_t.l[t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vLoensum.l['off',t] * qProd.l['off',t] * hL.l['off',t] / (qProd.l[sTot,t] * hL.l[sTot,t]));
-    qProdxDK.fx[t]$(tx0[t]) = qProdxDK.l[t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vLoensum.l['off',t] * qProd.l['off',t] * hL.l['off',t] / (qProd.l[sTot,t] * hL.l[sTot,t]));
-    $UNFIX uProd$(off[s_]);
+    qProd['off',t]$(tx0[t]) = qProd['off',t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t]);
+    qProdHh_t[t]$(tx0[t]) = qProdHh_t[t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t] * qProd['off',t] * hL['off',t] / (qProd[sTot,t] * hL[sTot,t]));
+    qProdxDK[t]$(tx0[t]) = qProdxDK[t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vLoensum['off',t] * qProd['off',t] * hL['off',t] / (qProd[sTot,t] * hL[sTot,t]));
   $ENDIF
 
   # Offentlige investeringer
   $IF '{shock}' == 'Off_inv_FM':
-    qI_s.fx['iM', 'off',t]$(tx0[t]) = qI_s.l['iM', 'off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / pI_s.l['iM', 'off',t] * (vI_s.l['iM', 'off',t] / vI_s.l['itot', 'off',t]);
-    qI_s.fx['iB', 'off',t]$(tx0[t]) = qI_s.l['iB', 'off',t] + 0.01 * {shock_profile}[t] * vBNP.l[t] / pI_s.l['iB', 'off',t] * (vI_s.l['iB', 'off',t] / vI_s.l['itot', 'off',t]);
+    qI_s['iM', 'off',t]$(tx0[t]) = qI_s['iM', 'off',t] + shock_size * {shock_profile}[t] * vBNP[t] / pI_s['iM', 'off',t] * (vI_s['iM', 'off',t] / vI_s['itot', 'off',t]);
+    qI_s['iB', 'off',t]$(tx0[t]) = qI_s['iB', 'off',t] + shock_size * {shock_profile}[t] * vBNP[t] / pI_s['iB', 'off',t] * (vI_s['iB', 'off',t] / vI_s['itot', 'off',t]);
   $ENDIF
 
   # Skattepligtige indkomstoverførsler (DREAM)
   $IF '{shock}' == 'Skattepligtig_indkomstoverforsel_FM':
-      vOvfSats.fx[ovf,t]$(tx0[t] and not ubeskat[ovf]) = vOvfSats.l[ovf,t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / (vOvf.l['tot',t] - sum(ubeskat, vOvf.l[ubeskat,t])));
-      $UNFIX uvOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]);
+      vOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]) = vOvfSats[ovf,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / (vOvf['tot',t] - sum(ubeskat, vOvf[ubeskat,t])));
+      $GROUP+ G_shock_endo
+        -vOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]), uvOvfSats[ovf,t]$(tx0[t] and not ubeskat[ovf]);
   $ENDIF
 
   # Ikke-skattepligtige indkomstoverførsler (DREAM)
   $IF '{shock}' == 'Ikke_skattepligtig_indkomstoverforsel_FM':
-      vOvfSats.fx[ubeskat,t]$(tx0[t]) = vOvfSats.l[ubeskat,t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / sum(ovf$ubeskat[ovf], vOvf.l[ovf,t]));
-      $UNFIX uvOvfSats[ovf,t]$(tx0[t] and ubeskat[ovf]);
+      vOvfSats[ubeskat,t]$(tx0[t]) = vOvfSats[ubeskat,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / sum(ovf$ubeskat[ovf], vOvf[ovf,t]));
+      $GROUP+ G_shock_endo
+        -vOvfSats[ubeskat,t]$(tx0[t]), uvOvfSats[ovf,t]$(tx0[t] and ubeskat[ovf]);
   $ENDIF
 
   # Subsidier: Produktsubsidier
   $IF '{shock}' == 'Varefordelt_subsidie_FM':
-    rSub_m.fx[d,s,t]$(tx0[t] and vSub_m.l[d,s,t]<>0) = rSub_m.l[d,s,t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vSub.l[dTot,sTot,t]);
-    rSub_y.fx[d,s,t]$(tx0[t] and vSub_y.l[d,s,t]<>0) = rSub_y.l[d,s,t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vSub.l[dTot,sTot,t]);
+    rSub_m[d,s,t]$(tx0[t] and vSub_m[d,s,t]<>0) = rSub_m[d,s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSub[dTot,sTot,t]);
+    rSub_y[d,s,t]$(tx0[t] and vSub_y[d,s,t]<>0) = rSub_y[d,s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSub[dTot,sTot,t]);
   $ENDIF
 
   # Subsidier: Løntilskud
   $IF '{shock}' == 'Lontilskud_FM':
-    rSubLoen.fx[s,t]$(tx0[t]) = rSubLoen.l[s,t] * (1 + 0.01 * {shock_profile}[t] * vBNP.l[t] / vSubLoen.l['tot',t]);
+    rSubLoen[s,t]$(tx0[t]) = rSubLoen[s,t] * (1 + shock_size * {shock_profile}[t] * vBNP[t] / vSubLoen['tot',t]);
   $ENDIF
 
   # Subsidier: Produktionssubsidier ekskl. løntilskud
   $IF '{shock}' == 'Produktionssubsidie_FM':
-    vSubYRest.fx[s,t]$(tx0[t]) = vSubYRest.l[s,t] + 0.01 * {shock_profile}[t] * vBNP.l[t] * vSubYRest.l[s,t] / vSubYRest.l['tot',t];
-    vSubYRest.fx[s,t]$(tx0[t]) = vSubYRest.l[s,t];
-    $UNFIX rSubYRest[s,t]$(tx0[t]);
+    vSubYRest[s,t]$(tx0[t]) = vSubYRest[s,t] + shock_size * {shock_profile}[t] * vBNP[t] * vSubYRest[s,t] / vSubYRest['tot',t];
+    vSubYRest[s,t]$(tx0[t]) = vSubYRest[s,t];
+    $GROUP+ G_shock_endo
+      -vSubYRest[s,t]$(tx0[t]), rSubYRest[s,t]$(tx0[t]);
   $ENDIF
 
   # Overførsel til privat sektor
   $IF '{shock}' == 'Overforsel_privat_FM':
-    vOffTilHhRest.fx[t]$(tx0[t]) = vOffTilHhRest.l[t] + 0.01 * {shock_profile}[t] * vBNP.l[t];
-    vOffTilHhRest.fx[t]$(tx0[t]) = vOffTilHhRest.l[t];
+    vOffTilHhRest[t]$(tx0[t]) = vOffTilHhRest[t] + shock_size * {shock_profile}[t] * vBNP[t];
+    vOffTilHhRest[t]$(tx0[t]) = vOffTilHhRest[t];
   $ENDIF
 
   # Bundskat
   $IF '{shock}' == 'Bundskat_FM':
-    tBund.fx[t]$(tx0[t]) = tBund.l[t] - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtBund.l['Tot',t] / tBund.l[t]);
+    tBund[t]$(tx0[t]) = tBund[t] - shock_size * {shock_profile}[t] * vBNP[t] / (vtBund['Tot',t] / tBund[t]);
   $ENDIF
 
   # AM-bidrag
   $IF '{shock}' == 'AM_bidrag_FM':
-    tAMbidrag.fx[t]$(tx0[t]) = tAMbidrag.l[t] - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtHhAM.l['Tot',t] / tAMbidrag.l[t]);
+    tAMbidrag[t]$(tx0[t]) = tAMbidrag[t] - shock_size * {shock_profile}[t] * vBNP[t] / (vtHhAM['Tot',t] / tAMbidrag[t]);
   $ENDIF
 
   # Ejendomsskat = Grundskyld
   $IF '{shock}' == 'Ejendomsskat_FM':
-    tK.fx[k,s,t]$(tx0[t] and iB[k]) = tK.l[k,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtGrund.l['Tot',t]);
+    tK[k,s,t]$(tx0[t] and iB[k]) = tK[k,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtGrund['Tot',t]);
   $ENDIF
 
   # Vægtafgift
   $IF '{shock}' == 'Vaegtafgift_FM':
-    utHhVaegt.fx[t]$(tx0[t]) = utHhVaegt.l[t] - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtHhVaegt.l['Tot',t] / utHhVaegt.l[t]);
+    utHhVaegt[t]$(tx0[t]) = utHhVaegt[t] - shock_size * {shock_profile}[t] * vBNP[t] / (vtHhVaegt['Tot',t] / utHhVaegt[t]);
   $ENDIF
 
   # Selskabsskat
   $IF '{shock}' == 'Selskabsskat_FM':
-    tSelskab.fx[t]$(tx0[t]) = tSelskab.l[t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtSelskabx.l['Tot',t]);
+    tSelskab[t]$(tx0[t]) = tSelskab[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtSelskabx['Tot',t]);
   $ENDIF
 
   # Aktieskat
   $IF '{shock}' == 'Aktieskat_FM':
-    tAktieTop.fx[t]$(tx0[t]) = tAktieTop.l[t] - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAktie.l[t];
-    tAktieLav.fx[t]$(tx0[t]) = tAktieLav.l[a] - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAktie.l[t];
+    tAktieTop[t]$(tx0[t]) = tAktieTop[t] - shock_size * {shock_profile}[t] * vBNP[t] / vtAktie[t];
+    tAktieLav[t]$(tx0[t]) = tAktieLav[a] - shock_size * {shock_profile}[t] * vBNP[t] / vtAktie[t];
   $ENDIF
 
   # Moms
   $IF '{shock}' == 'Moms_FM':
-    tMoms_y.fx[d,s,t]$(tx0[t]) = tMoms_y.l[d,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtMoms.l[dtot,sTot,t]);
-    tMoms_m.fx[d,s,t]$(tx0[t]) = tMoms_m.l[d,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtMoms.l[dtot,sTot,t]);
+    tMoms_y[d,s,t]$(tx0[t]) = tMoms_y[d,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtMoms[dtot,sTot,t]);
+    tMoms_m[d,s,t]$(tx0[t]) = tMoms_m[d,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtMoms[dtot,sTot,t]);
   $ENDIF
 
   # Registreringsafgift
   $IF '{shock}' == 'Registreringsafgift_FM':
-    tReg_y.fx['cBil',s,t]$(tx0[t] and tReg_y.l['cBil',s,t] <> 0) = tReg_y.l['cBil',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtReg.l['cBil',sTot,t]) ;
-    tReg_m.fx['cBil',s,t]$(tx0[t] and tReg_m.l['cBil',s,t] <> 0) = tReg_m.l['cBil',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtReg.l['cBil',sTot,t]) ;
+    tReg_y['cBil',s,t]$(tx0[t] and tReg_y['cBil',s,t] <> 0) = tReg_y['cBil',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtReg['cBil',sTot,t]) ;
+    tReg_m['cBil',s,t]$(tx0[t] and tReg_m.xl['cBil',s,t] <> 0) = tReg_m['cBil',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtReg['cBil',sTot,t]) ;
   $ENDIF
 
   # Energiafgift (cEne = cg + ce = benzin og olietil biler + brændsel og el)
   $IF '{shock}' == 'Energiafgift_FM':
-    tAfg_y.fx['cEne',s,t]$(tx0[t]) = tAfg_y.l['cEne',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cEne','tot',t]);
-    tAfg_m.fx['cEne',s,t]$(tx0[t]) = tAfg_m.l['cEne',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cEne','tot',t]);
+    tAfg_y['cEne',s,t]$(tx0[t]) = tAfg_y['cEne',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cEne','tot',t]);
+    tAfg_m['cEne',s,t]$(tx0[t]) = tAfg_m['cEne',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cEne','tot',t]);
   $ENDIF
 
   # Øvrige forbrugsafgifter (cVar = cf + cv = fødevarer, drikkevarer og tobak + øvrige varer)
   $IF '{shock}' == 'Forbrugsafgift_FM':
-    tAfg_y.fx['cVar',s,t]$(tx0[t]) = tAfg_y.l['cVar',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cVar','tot',t]);
-    tAfg_m.fx['cVar',s,t]$(tx0[t]) = tAfg_m.l['cVar',s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / vtAfg.l['cVar','tot',t]);
+    tAfg_y['cVar',s,t]$(tx0[t]) = tAfg_y['cVar',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cVar','tot',t]);
+    tAfg_m['cVar',s,t]$(tx0[t]) = tAfg_m['cVar',s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtAfg['cVar','tot',t]);
   $ENDIF
 
   # Afgift på private erhvervs materialeinput
   $IF '{shock}' == 'Afgift_erhverv_FM':
-    tAfg_y.fx[r, s,t]$(tx0[t] and not off[r]) = tAfg_y.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,'tot',t] - vtAfg.l['off','tot',t])); 
-    tAfg_m.fx[r, s,t]$(tx0[t] and not off[r]) = tAfg_m.l[r,s,t] * (1 - 0.01 * {shock_profile}[t] * vBNP.l[t] / (vtAfg.l[rTot,'tot',t] - vtAfg.l['off','tot',t]));
+    tAfg_y[r, s,t]$(tx0[t] and not off[r]) = tAfg_y[r,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / (vtAfg[rTot,'tot',t] - vtAfg['off','tot',t])); 
+    tAfg_m[r, s,t]$(tx0[t] and not off[r]) = tAfg_m[r,s,t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / (vtAfg[rTot,'tot',t] - vtAfg['off','tot',t]));
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -833,30 +834,36 @@ $FOR1 {shock} in [
     ;
     # $IMPORT ../../Foreign_Economy/VAR_model/CPI_to_foreign_prices.gms
     # Stød til undenlandske variable
-    rRenteECB.fx[t]$(tx0[t]) = rRenteECB.l[t] + dRF_[t];
-    uXMarked.fx[t]$(tx0[t]) = uXMarked.l[t]*(1 + qUSImports_[t]);
-    pXUdl.fx[x,t]$(tx0[t]) = pXUdl.l[x,t] + dPF_[t]; # inflation i udlandet
-    pM.fx[s,t]$(tx0[t]) = pM.l[s,t] + dPF_[t]; # inflation i udlandet             
+    rRenteECB[t]$(tx0[t]) = rRenteECB[t] + dRF_[t];
+    uXMarked[t]$(tx0[t]) = uXMarked[t]*(1 + qUSImports_[t]);
+    pXUdl[x,t]$(tx0[t]) = pXUdl[x,t] + dPF_[t]; # inflation i udlandet
+    pM[s,t]$(tx0[t]) = pM[s,t] + dPF_[t]; # inflation i udlandet             
   $ENDIF
   # ====================================================================================================================
   # Solve shock (with or without tax reaction function)
   # ====================================================================================================================
-  @set_bounds();
-
   MODEL M_{shock}_{variation_label} /
     M_shock
     $IF {tax_reaction}: B_tax_reaction $ENDIF
   /;
 
+  # Reduce shock size by a factor of 100 to make solving easier
+  @set_linear_combination(All, 0.01, .l, _baseline);
+  $FIX All; $UNFIX G_shock_endo;
+  @solve(M_{shock}_{variation_label})
+  # Set all variables to baseline plus 100 times the difference between the solution and the baseline
+  @set_linear_combination(All, 100, .l, _baseline);
+  $FIX All; $UNFIX G_shock_endo;
   @solve(M_{shock}_{variation_label})
 
+  $UNFIX All; # Greatly reduces size of the GDX file
   @unload(Gdx/{shock}_{variation_label});
 
   # ====================================================================================================================
   # Nulstød
   # ====================================================================================================================
   $IF "{shock}" == "Nulstoed":
-    @assert_no_difference(G_Endo, 1e-5, .l, _baseline, "Zero shock changed variables significantly.");
+    @assert_no_difference(All, 1e-5, .l, _baseline, "Zero shock changed variables significantly.");
   $ENDIF
 
   $ENDFOR2
