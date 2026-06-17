@@ -1,5 +1,5 @@
-#LyX 2.4 created this file. For more info see https://www.lyx.org/
-\lyxformat 620
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -27,7 +27,7 @@ figs-within-sections
 \font_typewriter "default" "default"
 \font_math "auto" "auto"
 \font_default_family rmdefault
-\use_non_tex_fonts false
+\use_non_tex_fonts true
 \font_sc false
 \font_roman_osf false
 \font_sans_osf false
@@ -41,6 +41,8 @@ figs-within-sections
 \output_sync 0
 \bibtex_command default
 \index_command default
+\float_placement class
+\float_alignment class
 \paperfontsize 12
 \spacing double
 \use_hyperref true
@@ -72,11 +74,19 @@ figs-within-sections
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
-\use_refstyle 1
+\justification default
+\crossref_package refstyle
 \use_formatted_ref 0
 \use_minted 0
 \use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
 \branch References
 \selected 0
 \filename_suffix 0
@@ -144,6 +154,7 @@ figs-within-sections
 \html_be_strict false
 \docbook_table_output 0
 \docbook_mathml_prefix 1
+\docbook_mathml_version 0
 \end_header
 
 \begin_body
@@ -281,7 +292,7 @@ For
 \begin_inset Formula 
 \begin{equation}
 \begin{aligned}V_{a,t}\left(B_{a-1,t-1},D_{a-1,t-1}\right) & =\max_{C_{a,t},D_{a,t}}U\left(C_{a,t},D_{a,t}\right)\\
- & +\beta V_{a,t}^{Wealth}\left(B_{a,t},D_{a,t}\right)\\
+ & +\beta V^{Wealth}_{a,t}\left(B_{a,t},D_{a,t}\right)\\
  & +\beta\mathbb{W}_{a+1,t+1}\left(B_{a,t},D_{a,t}\right)
 \end{aligned}
 \label{eq:Bellman}
@@ -299,7 +310,7 @@ s.t.
 \begin_layout Standard
 \begin_inset Formula 
 \[
-B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+y_{a,t}-p_{t}^{c}C_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)
+B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+y_{a,t}-p^{c}_{t}C_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)
 \]
 
 \end_inset
@@ -336,7 +347,7 @@ In the budget constraint
 
  is the net stock of liquid assets,
  
-\begin_inset Formula $p_{t}^{c}$
+\begin_inset Formula $p^{c}_{t}$
 \end_inset
 
  is the price of non-housing consumption 
@@ -402,7 +413,7 @@ In the objective function
  This habit is external in the case of non-housing consumption,
  and internalized in the case of housing.
  The object 
-\begin_inset Formula $V_{a,t}^{Wealth}(\cdot)$
+\begin_inset Formula $V^{Wealth}_{a,t}(\cdot)$
 \end_inset
 
  is the function capturing direct utility of wealth,
@@ -428,7 +439,7 @@ In the objective function
 \begin_inset Formula 
 \begin{align}
 \mathbb{W}_{a+1,t+1}\left(B_{a,t},D_{a,t}\right) & =s_{a}V_{a+1,t+1}\left(B_{a,t},D_{a,t}\right)\nonumber \\
- & +\left(1-s_{a}\right)V_{a+1,t+1}^{Beq}\left(B_{a,t},D_{a,t}\right)
+ & +\left(1-s_{a}\right)V^{Beq}_{a+1,t+1}\left(B_{a,t},D_{a,t}\right)
 \end{align}
 
 \end_inset
@@ -514,19 +525,19 @@ nolink "false"
  We obtain
 \begin_inset Formula 
 \begin{equation}
-\frac{U_{a,t}^{c}}{p_{t}^{c}}=\beta\left\{ s_{a,t}\left(1+\overline{r}_{t+1}^{B}\right)\frac{U_{a+1,t+1}^{c}}{p_{t+1}^{c}}+s_{a,t}\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}+\left(1-s_{a,t}\right)\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\right\} \label{eq:FOC_s}
+\frac{U^{c}_{a,t}}{p^{c}_{t}}=\beta\left\{ s_{a,t}\left(1+\overline{r}^{B}_{t+1}\right)\frac{U^{c}_{a+1,t+1}}{p^{c}_{t+1}}+s_{a,t}\frac{\partial V^{Wealth}_{a,t}}{\partial B_{a,t}}+\left(1-s_{a,t}\right)\frac{\partial V^{Beq}_{a,t}}{\partial B_{a,t}}\right\} \label{eq:FOC_s}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $\overline{r}_{t+1}^{B}$
+\begin_inset Formula $\overline{r}^{B}_{t+1}$
 \end_inset
 
  is the marginal rate of return,
 \begin_inset Formula 
 \[
-\overline{r}_{t+1}^{B}=\frac{\partial\left(r_{t+1}B_{a,t}\right)}{\partial B_{a,t}}
+\overline{r}^{B}_{t+1}=\frac{\partial\left(r_{t+1}B_{a,t}\right)}{\partial B_{a,t}}
 \]
 
 \end_inset
@@ -546,17 +557,17 @@ nolink "false"
  wherein the household trades-off current with future marginal utility of consumption.
  On the left hand side,
  the last unit of income used for current consumption yields 
-\begin_inset Formula $1/p_{t}^{c}$
+\begin_inset Formula $1/p^{c}_{t}$
 \end_inset
 
  units of consumption with marginal utility 
-\begin_inset Formula $U_{a,t}^{c}$
+\begin_inset Formula $U^{c}_{a,t}$
 \end_inset
 
 .
  Optimality implies this must be identical to what is obtained from alternatively saving this marginal unit of income,
  earning a net marginal return 
-\begin_inset Formula $\overline{r}_{t+1}^{B}$
+\begin_inset Formula $\overline{r}^{B}_{t+1}$
 \end_inset
 
 ,
@@ -565,7 +576,7 @@ nolink "false"
  This is given by
 \begin_inset Formula 
 \[
-\left(1+\overline{r}_{t+1}^{B}\right)\frac{U_{a+1,t+1}^{c}}{p_{t+1}^{c}}
+\left(1+\overline{r}^{B}_{t+1}\right)\frac{U^{c}_{a+1,t+1}}{p^{c}_{t+1}}
 \]
 
 \end_inset
@@ -589,7 +600,7 @@ weighed by the survival rate
  that a household does not survive,
  it obtains the marginal change in bequest utility,
  
-\begin_inset Formula $\partial V_{a,t}^{Beq}/\partial B_{a,t}$
+\begin_inset Formula $\partial V^{Beq}_{a,t}/\partial B_{a,t}$
 \end_inset
 
 ,
@@ -615,7 +626,7 @@ The household lives up to 100 years of age.
  We obtain
 \begin_inset Formula 
 \[
-\frac{U_{A,t}^{c}}{p_{t}^{c}}=\beta\frac{\partial V_{A,t}^{Beq}}{\partial B_{A,t}},
+\frac{U^{c}_{A,t}}{p^{c}_{t}}=\beta\frac{\partial V^{Beq}_{A,t}}{\partial B_{A,t}},
 \]
 
 \end_inset
@@ -632,7 +643,7 @@ which determines assets at the end of life.
  and where we replace the would-be consumption of 101-year-olds with the consumption of next period's 100-year-olds:
 \begin_inset Formula 
 \[
-\frac{U_{A,t}^{c}}{p_{t}^{c}}=\beta\left\{ s_{A,t}\left(1+\overline{r}_{t+1}^{B}\right)\frac{U_{A,t+1}^{c}}{p_{t+1}^{c}}+s_{A,t}\frac{\partial V_{A,t}^{Wealth}}{\partial B_{A,t}}+\left(1-s_{A,t}\right)\frac{\partial V_{A,t}^{Beq}}{\partial B_{A,t}}\right\} 
+\frac{U^{c}_{A,t}}{p^{c}_{t}}=\beta\left\{ s_{A,t}\left(1+\overline{r}^{B}_{t+1}\right)\frac{U^{c}_{A,t+1}}{p^{c}_{t+1}}+s_{A,t}\frac{\partial V^{Wealth}_{A,t}}{\partial B_{A,t}}+\left(1-s_{A,t}\right)\frac{\partial V^{Beq}_{A,t}}{\partial B_{A,t}}\right\} 
 \]
 
 \end_inset
@@ -677,7 +688,7 @@ Just as in the savings optimal choice,
  
 \begin_inset Formula 
 \[
-\frac{U_{a,t}^{c}}{p_{t}^{c}}\left(\frac{\partial f_{a,t}}{\partial D_{a,t}}\right)=U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}+\beta s_{a,t}\frac{U_{a+1,t+1}^{c}}{p_{t+1}^{c}}\left(\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}\right)
+\frac{U^{c}_{a,t}}{p^{c}_{t}}\left(\frac{\partial f_{a,t}}{\partial D_{a,t}}\right)=U^{d}_{a,t}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}+\beta s_{a,t}\frac{U^{c}_{a+1,t+1}}{p^{c}_{t+1}}\left(\overline{r}^{D}_{t+1}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}\right)
 \]
 
 \end_inset
@@ -685,7 +696,7 @@ Just as in the savings optimal choice,
 
 \begin_inset Formula 
 \begin{equation}
-+\beta s_{a,t}\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}+\beta\left(1-s_{a,t}\right)\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}\label{eq:FOC_d}
++\beta s_{a,t}\frac{\partial V^{Wealth}_{a,t}}{\partial D_{a,t}}+\beta\left(1-s_{a,t}\right)\frac{\partial V^{Beq}_{a,t}}{\partial D_{a,t}}\label{eq:FOC_d}
 \end{equation}
 
 \end_inset
@@ -693,7 +704,7 @@ Just as in the savings optimal choice,
 with
 \begin_inset Formula 
 \[
-\overline{r}_{t+1}^{D}=\frac{\partial\left(1+r_{t+1}\right)B_{a,t}}{\partial D_{a,t}}
+\overline{r}^{D}_{t+1}=\frac{\partial\left(1+r_{t+1}\right)B_{a,t}}{\partial D_{a,t}}
 \]
 
 \end_inset
@@ -705,7 +716,7 @@ and where the presence of
  reflects the fact that the housing habit is internalized.
  This condition reads:
  when you sacrifice 
-\begin_inset Formula $1/p_{t}^{c}$
+\begin_inset Formula $1/p^{c}_{t}$
 \end_inset
 
  units of non-durable consumption today and use the money to buy extra housing,
@@ -714,7 +725,7 @@ and where the presence of
  On the right-hand side,
  you gain the direct marginal utility of the durable good,
  
-\begin_inset Formula $U_{a,t}^{d}$
+\begin_inset Formula $U^{d}_{a,t}$
 \end_inset
 
 ,
@@ -731,7 +742,7 @@ and where the presence of
 
 ,
  which is captured by 
-\begin_inset Formula $\overline{r}_{t+1}^{D}$
+\begin_inset Formula $\overline{r}^{D}_{t+1}$
 \end_inset
 
 ,
@@ -788,7 +799,7 @@ nolink "false"
  .
  Here we merge them by eliminating the marginal utility of consumption in period t+1,
  
-\begin_inset Formula $U_{a+1,t+1}^{c}$
+\begin_inset Formula $U^{c}_{a+1,t+1}$
 \end_inset
 
 .
@@ -798,9 +809,9 @@ nolink "false"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{gather*}
-\frac{U_{a,t}^{c}}{p_{t}^{c}}\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} =U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}\\
-+\beta s_{a,t}\left[\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}\right]\\
-+\beta\left(1-s_{a,t}\right)\left[\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}_{t+1}^{B}}\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\right]
+\frac{U^{c}_{a,t}}{p^{c}_{t}}\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}^{B}_{t+1}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}^{D}_{t+1}}{1+\overline{r}^{B}_{t+1}}\right\} =U^{d}_{a,t}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}\\
++\beta s_{a,t}\left[\frac{\partial V^{Wealth}_{a,t}}{\partial D_{a,t}}-\frac{\overline{r}^{D}_{t+1}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}^{B}_{t+1}}\frac{\partial V^{Wealth}_{a,t}}{\partial B_{a,t}}\right]\\
++\beta\left(1-s_{a,t}\right)\left[\frac{\partial V^{Beq}_{a,t}}{\partial D_{a,t}}-\frac{\overline{r}^{D}_{t+1}-\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}}{1+\overline{r}^{B}_{t+1}}\frac{\partial V^{Beq}_{a,t}}{\partial B_{a,t}}\right]
 \end{gather*}
 
 \end_inset
@@ -819,7 +830,7 @@ This yields the user-cost of housing expression measured at time
 \begin_layout Standard
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right\} }_{\text{User-cost of \ensuremath{D_{a,t}} measured at time t in nominal units.}}
+p^{ucD}_{a,t}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}^{B}_{t+1}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}^{D}_{t+1}}{1+\overline{r}^{B}_{t+1}}\right\} }_{\text{User-cost of \ensuremath{D_{a,t}} measured at time t in nominal units.}}
 \]
 
 \end_inset
@@ -831,12 +842,12 @@ p_{a,t}^{ucD}=\underbrace{\left\{ \frac{\partial f_{a,t}}{\partial D_{a,t}}+\fra
 This merged equation has an intuitive reading.
  When the household sacrifices one unit of current consumption to buy additional housing,
  it must weigh the direct marginal utility of housing 
-\begin_inset Formula $U_{a,t}^{d}$
+\begin_inset Formula $U^{d}_{a,t}$
 \end_inset
 
  against the loss of marginal utility of consumption,
  
-\begin_inset Formula $U_{a,t}^{c}$
+\begin_inset Formula $U^{c}_{a,t}$
 \end_inset
 
 ,
@@ -845,7 +856,7 @@ This merged equation has an intuitive reading.
 
 \begin_layout Standard
 We can also merge the two first-order conditions by eliminating the current marginal utility of consumption 
-\begin_inset Formula $U_{a,t}^{c}$
+\begin_inset Formula $U^{c}_{a,t}$
 \end_inset
 
 .
@@ -856,11 +867,11 @@ status collapsed
 
 \begin_layout Plain Layout
 Specifically we use that 
-\begin_inset Formula $\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}=\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\frac{\partial f_{a,t}}{\partial D_{a,t}}$
+\begin_inset Formula $\frac{\partial V^{Beq}_{a,t}}{\partial D_{a,t}}=\frac{\partial V^{Beq}_{a,t}}{\partial B_{a,t}}\frac{\partial f_{a,t}}{\partial D_{a,t}}$
 \end_inset
 
  and 
-\begin_inset Formula $\frac{\partial V_{a,t}^{Wealth}}{\partial D_{a,t}}=\frac{\partial V_{a,t}^{Wealth}}{\partial B_{a,t}}\frac{\partial f_{a,t}}{\partial D_{a,t}}$
+\begin_inset Formula $\frac{\partial V^{Wealth}_{a,t}}{\partial D_{a,t}}=\frac{\partial V^{Wealth}_{a,t}}{\partial B_{a,t}}\frac{\partial f_{a,t}}{\partial D_{a,t}}$
 \end_inset
 
 ,
@@ -884,7 +895,7 @@ nolink "false"
  we can also eliminate marginal utility of wealth and bequests from the resulting condition:
 \begin_inset Formula 
 \[
-U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}=\beta s_{a,t}p_{a,t}^{ucD}\frac{1+\overline{r}_{t+1}^{B}}{p_{t+1}^{c}}U_{a+1,t+1}^{c}
+U^{d}_{a,t}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}=\beta s_{a,t}p^{ucD}_{a,t}\frac{1+\overline{r}^{B}_{t+1}}{p^{c}_{t+1}}U^{c}_{a+1,t+1}
 \]
 
 \end_inset
@@ -893,12 +904,12 @@ The intuition here is also clear.
  An additional unit of housing today yields the corresponding direct marginal utility of housing (adjusted for habit).
  This must be identical to the marginal utility of consumption we could obtain tomorrow if instead of spending the money on housing we took that amount of money,
  
-\begin_inset Formula $p_{a,t}^{ucD}$
+\begin_inset Formula $p^{ucD}_{a,t}$
 \end_inset
 
 ,
  capitalized it 
-\begin_inset Formula $\frac{1+\overline{r}_{t+1}^{B}}{p_{t+1}^{c}}$
+\begin_inset Formula $\frac{1+\overline{r}^{B}_{t+1}}{p^{c}_{t+1}}$
 \end_inset
 
 ,
@@ -1170,8 +1181,8 @@ nolink "false"
 .
 \begin_inset Formula 
 \begin{multline}
-f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)p_{t}^{D}D_{a,t}\\
-+\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{p_{t}^{D}}{p_{t-1}^{D}}\left(1-\delta_{t}^{d}\right)-\alpha_{t}^{Land}\right\} p_{t-1}^{D}D_{a-1,t-1}\label{eq:f}
+f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)p^{D}_{t}D_{a,t}\\
++\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{p^{D}_{t}}{p^{D}_{t-1}}\left(1-\delta^{d}_{t}\right)-\alpha^{Land}_{t}\right\} p^{D}_{t-1}D_{a-1,t-1}\label{eq:f}
 \end{multline}
 
 \end_inset
@@ -1190,7 +1201,7 @@ Since
 
 ,
  property value taxes 
-\begin_inset Formula $\tau_{t}^{W}$
+\begin_inset Formula $\tau^{W}_{t}$
 \end_inset
 
  and maintenance costs 
@@ -1199,7 +1210,7 @@ Since
 
 ,
  and mortgage interest payments 
-\begin_inset Formula $r_{t}^{mort}$
+\begin_inset Formula $r^{mort}_{t}$
 \end_inset
 
 ,
@@ -1219,7 +1230,7 @@ nolink "false"
 \end_inset
 
  details the computation of the factor 
-\begin_inset Formula $\alpha_{t}^{Land}$
+\begin_inset Formula $\alpha^{Land}_{t}$
 \end_inset
 
  which defines the revenue from land sales.
@@ -1259,7 +1270,7 @@ We incorporate an additional component in the user cost of housing to reflect th
 \begin_layout Standard
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}-\frac{\left(1-\delta_{t+1}^{d}\right)p_{t+1}^{D}+\alpha_{t+1}^{Land}p_{t}^{D}}{1+\overline{r}_{t+1}^{B}+\psi_{t+1}^{Risk}}
+p^{ucD}_{a,t}=\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}^{B}_{t+1}}\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}-\frac{\overline{r}^{D}_{t+1}}{1+\overline{r}^{B}_{t+1}}-\frac{\left(1-\delta^{d}_{t+1}\right)p^{D}_{t+1}+\alpha^{Land}_{t+1}p^{D}_{t}}{1+\overline{r}^{B}_{t+1}+\psi^{Risk}_{t+1}}
 \]
 
 \end_inset
@@ -1275,7 +1286,7 @@ where
  that do not involve future prices or land revenues:
 \begin_inset Formula 
 \[
-\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}=\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{t}+\tau_{t+1}^{W}+x_{t+1}\right\} p_{t}^{D}
+\frac{\partial\hat{f}_{a+1,t+1}}{\partial D_{a,t}}=\left\{ \left(1+r^{mort}_{t+1}\right)\mu_{t}+\tau^{W}_{t+1}+x_{t+1}\right\} p^{D}_{t}
 \]
 
 \end_inset
@@ -1286,7 +1297,7 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{\partial f_{a,t}}{\partial D_{a,t}}=\left(1-\mu_{a,t}\right)p_{t}^{D}
+\frac{\partial f_{a,t}}{\partial D_{a,t}}=\left(1-\mu_{a,t}\right)p^{D}_{t}
 \]
 
 \end_inset
@@ -1299,7 +1310,7 @@ Expanding and collecting terms,
  the user cost becomes:
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\left(1-\mu_{a,t}\right)p_{t}^{D}-\frac{\overline{r}_{t+1}^{D}}{1+\overline{r}_{t+1}^{B}}+\frac{\left\{ \left(1+r_{t+1}^{mort}\right)\mu_{t}+\tau_{t+1}^{W}+x_{t+1}\right\} p_{t}^{D}}{1+\overline{r}_{t+1}^{B}}-\frac{\left(1-\delta_{t+1}^{d}\right)p_{t+1}^{D}+\alpha_{t+1}^{Land}p_{t}^{D}}{1+\overline{r}_{t+1}^{B}+\psi_{t+1}^{Risk}}
+p^{ucD}_{a,t}=\left(1-\mu_{a,t}\right)p^{D}_{t}-\frac{\overline{r}^{D}_{t+1}}{1+\overline{r}^{B}_{t+1}}+\frac{\left\{ \left(1+r^{mort}_{t+1}\right)\mu_{t}+\tau^{W}_{t+1}+x_{t+1}\right\} p^{D}_{t}}{1+\overline{r}^{B}_{t+1}}-\frac{\left(1-\delta^{d}_{t+1}\right)p^{D}_{t+1}+\alpha^{Land}_{t+1}p^{D}_{t}}{1+\overline{r}^{B}_{t+1}+\psi^{Risk}_{t+1}}
 \]
 
 \end_inset
@@ -1326,7 +1337,7 @@ nolink "false"
  that the budget constraint of the household is
 \begin_inset Formula 
 \[
-B_{a,t}=B_{a-1,t-1}+r_{a,t}B_{a-1,t-1}+y_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)-p_{t}^{c}C_{a,t}
+B_{a,t}=B_{a-1,t-1}+r_{a,t}B_{a-1,t-1}+y_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)-p^{c}_{t}C_{a,t}
 \]
 
 \end_inset
@@ -1365,7 +1376,7 @@ The object
 
  contains all items of the budget constraint that relate to owned housing and consists of total net expenditure on owned housing.
  The term 
-\begin_inset Formula $p_{t}^{c}C_{a,t}$
+\begin_inset Formula $p^{c}_{t}C_{a,t}$
 \end_inset
 
  denotes all non-housing consumption expenditure.
@@ -1400,7 +1411,7 @@ status open
 
 \begin_layout Plain Layout
 Wage income per person is given by 
-\begin_inset Formula $w_{t}\rho_{a,t}h_{a,t}q_{a,t}^{e}$
+\begin_inset Formula $w_{t}\rho_{a,t}h_{a,t}q^{e}_{a,t}$
 \end_inset
 
  where 
@@ -1418,7 +1429,7 @@ Wage income per person is given by
 \end_inset
 
  is hours worked per full time worker and 
-\begin_inset Formula $q_{a,t}^{e}$
+\begin_inset Formula $q^{e}_{a,t}$
 \end_inset
 
  are full time workers per person.
@@ -1434,38 +1445,38 @@ Wage income per person is given by
 
 ,
  
-\begin_inset Formula $y_{a,t}^{W}$
+\begin_inset Formula $y^{W}_{a,t}$
 \end_inset
 
 ,
  net pension income,
  
-\begin_inset Formula $y_{a,t}^{PY}-y_{a,t}^{PC}$
+\begin_inset Formula $y^{PY}_{a,t}-y^{PC}_{a,t}$
 \end_inset
 
 ,
  expenditure on rental housing,
  an assortment of income transfers,
  
-\begin_inset Formula $y_{a,t}^{G}$
+\begin_inset Formula $y^{G}_{a,t}$
 \end_inset
 
 ,
  various taxes not related to housing or pensions,
  
-\begin_inset Formula $T_{a,t}^{\tau}$
+\begin_inset Formula $T^{\tau}_{a,t}$
 \end_inset
 
 ,
  received bequests,
  
-\begin_inset Formula $y_{a,t}^{Beq}$
+\begin_inset Formula $y^{Beq}_{a,t}$
 \end_inset
 
 ,
  net income flows associated with children,
  
-\begin_inset Formula $y_{a,t}^{children}$
+\begin_inset Formula $y^{children}_{a,t}$
 \end_inset
 
 ,
@@ -1473,8 +1484,8 @@ Wage income per person is given by
 \begin_inset Formula 
 \[
 \begin{array}{ccc}
-y_{a,t} & = & y_{a,t}^{W}+y_{a,t}^{PY}-y_{a,t}^{PC}-R_{t}^{rent}H_{a,t}+y_{a,t}^{G}\\
- &  & -T_{a,t}^{Hh}+y_{a,t}^{Beq}+y_{a,t}^{children}+y_{a,t}^{other}
+y_{a,t} & = & y^{W}_{a,t}+y^{PY}_{a,t}-y^{PC}_{a,t}-R^{rent}_{t}H_{a,t}+y^{G}_{a,t}\\
+ &  & -T^{Hh}_{a,t}+y^{Beq}_{a,t}+y^{children}_{a,t}+y^{other}_{a,t}
 \end{array}
 \]
 
@@ -1490,7 +1501,7 @@ Of all these different items,
 
 \begin_layout Standard
 The tax object 
-\begin_inset Formula $T_{a,t}^{\tau}$
+\begin_inset Formula $T^{\tau}_{a,t}$
 \end_inset
 
  captures a large number of specific taxes.
@@ -1597,7 +1608,7 @@ It is assumed that an exogenous part of wages is paid as contribution to each ty
 \begin_layout Standard
 \begin_inset Formula 
 \[
-y_{i,a,t}^{PC}=\lambda_{i,a,t}^{PC}y_{a,t}^{W}
+y^{PC}_{i,a,t}=\lambda^{PC}_{i,a,t}y^{W}_{a,t}
 \]
 
 \end_inset
@@ -1607,12 +1618,12 @@ y_{i,a,t}^{PC}=\lambda_{i,a,t}^{PC}y_{a,t}^{W}
 
 \begin_layout Standard
 where 
-\begin_inset Formula $y_{a,t}^{W}$
+\begin_inset Formula $y^{W}_{a,t}$
 \end_inset
 
  is wage income,
  and the parameter 
-\begin_inset Formula $\lambda_{i,a,t}^{PC}$
+\begin_inset Formula $\lambda^{PC}_{i,a,t}$
 \end_inset
 
  is calibrated so the contribution to pension type 
@@ -1624,7 +1635,7 @@ where
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Formula $\lambda_{\text{Kap},a,t}^{PC}$
+\begin_inset Formula $\lambda^{PC}_{\text{Kap},a,t}$
 \end_inset
 
  is the average share of wage income paid to capital pensions.
@@ -1653,7 +1664,7 @@ The pension fund is a zero-profit vehicle with no costs.
 
 \begin_layout Standard
 The law of motion for pension wealth 
-\begin_inset Formula $B_{i,a,t}^{P}$
+\begin_inset Formula $B^{P}_{i,a,t}$
 \end_inset
 
  in a given pension scheme 
@@ -1663,7 +1674,7 @@ The law of motion for pension wealth
  is
 \begin_inset Formula 
 \[
-B_{i,a,t}^{P}=\left\{ \left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{a-1,t-1}^{P,i}\frac{N_{a-1,t-1}}{N_{a,t}}\right\} \left\{ 1-\alpha_{i,a,t}^{BeqP}\left(1-s_{a-1,t-1}\right)\right\} +y_{i,a,t}^{PC}-y_{i,a,t}^{PY}
+B^{P}_{i,a,t}=\left\{ \left(1+r^{P}_{t}\left[1-\tau^{P}_{t}\right]\right)B^{P,i}_{a-1,t-1}\frac{N_{a-1,t-1}}{N_{a,t}}\right\} \left\{ 1-\alpha^{BeqP}_{i,a,t}\left(1-s_{a-1,t-1}\right)\right\} +y^{PC}_{i,a,t}-y^{PY}_{i,a,t}
 \]
 
 \end_inset
@@ -1674,7 +1685,7 @@ B_{i,a,t}^{P}=\left\{ \left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{a-1,
 \begin_layout Standard
 The first term,
  
-\begin_inset Formula $\left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{a-1,t-1}^{P,i}\frac{N_{a-1,t-1}}{N_{a,t}}$
+\begin_inset Formula $\left(1+r^{P}_{t}\left[1-\tau^{P}_{t}\right]\right)B^{P,i}_{a-1,t-1}\frac{N_{a-1,t-1}}{N_{a,t}}$
 \end_inset
 
 ,
@@ -1697,7 +1708,7 @@ Note that
 \noun off
 \color none
 
-\begin_inset Formula $r_{t}^{P}$
+\begin_inset Formula $r^{P}_{t}$
 \end_inset
 
  is the return net of financial costs.
@@ -1722,7 +1733,7 @@ Note that
 .
  The second term,
  
-\begin_inset Formula $1-\alpha_{i,a,t}^{BeqP}\left(1-s_{a-1,t-1}\right)$
+\begin_inset Formula $1-\alpha^{BeqP}_{i,a,t}\left(1-s_{a-1,t-1}\right)$
 \end_inset
 
 ,
@@ -1733,7 +1744,7 @@ Note that
 
  does not survive from last period and a share of their pension wealth,
  
-\begin_inset Formula $\alpha_{i,a,t}^{BeqP}$
+\begin_inset Formula $\alpha^{BeqP}_{i,a,t}$
 \end_inset
 
 ,
@@ -1747,7 +1758,7 @@ Pension Income
 \begin_layout Standard
 We assume that an exogenous age specific share of the start-of-period pension wealth,
  
-\begin_inset Formula $B_{i,a-1,t-1}^{P}$
+\begin_inset Formula $B^{P}_{i,a-1,t-1}$
 \end_inset
 
 ,
@@ -1763,19 +1774,19 @@ We define the payout share as a share of start-of-period wealth plus any returns
 \end_inset
 
  is paid out and received by households each period as pension income 
-\begin_inset Formula $y_{i,a,t}^{PY}$
+\begin_inset Formula $y^{PY}_{i,a,t}$
 \end_inset
 
 :
 \begin_inset Formula 
 \[
-y_{i,a,t}^{PY}=\lambda_{i,a,t}^{PY}\left[\left\{ \left(1+r_{t}^{P}\left[1-\tau_{t}^{P}\right]\right)B_{i,a-1,t-1}^{P}\frac{N_{a-1,t-1}}{N_{a,t}}\right\} \left\{ 1-\alpha_{i,a,t}^{BeqP}\left(1-s_{a-1,t-1}\right)\right\} +y_{i,a,t}^{PC}\right]
+y^{PY}_{i,a,t}=\lambda^{PY}_{i,a,t}\left[\left\{ \left(1+r^{P}_{t}\left[1-\tau^{P}_{t}\right]\right)B^{P}_{i,a-1,t-1}\frac{N_{a-1,t-1}}{N_{a,t}}\right\} \left\{ 1-\alpha^{BeqP}_{i,a,t}\left(1-s_{a-1,t-1}\right)\right\} +y^{PC}_{i,a,t}\right]
 \]
 
 \end_inset
 
 The parameter 
-\begin_inset Formula $\lambda_{i,a,t}^{PY}$
+\begin_inset Formula $\lambda^{PY}_{i,a,t}$
 \end_inset
 
  is calibrated to match pension income received by households in data from the Ministry of Finance.
@@ -1792,7 +1803,7 @@ The aggregate pension wealth of pension fund
 
 ,
  
-\begin_inset Formula $B_{i,t}^{P}$
+\begin_inset Formula $B^{P}_{i,t}$
 \end_inset
 
 ,
@@ -1809,7 +1820,7 @@ Assets of a specific type,
 ,
  held by the pension fund,
  
-\begin_inset Formula $A_{k,t}^{P}$
+\begin_inset Formula $A^{P}_{k,t}$
 \end_inset
 
  ,
@@ -1823,7 +1834,7 @@ Assets are indexed by
 \end_inset
 
  and 
-\begin_inset Formula $B_{t}^{P}=\sum_{i}B_{i,t}^{P}$
+\begin_inset Formula $B^{P}_{t}=\sum_{i}B^{P}_{i,t}$
 \end_inset
 
 .
@@ -1834,7 +1845,7 @@ Assets are indexed by
 
 \begin_inset Formula 
 \[
-A_{k,t}^{P}=\omega_{k,t}^{P}\cdot B_{t}^{P}
+A^{P}_{k,t}=\omega^{P}_{k,t}\cdot B^{P}_{t}
 \]
 
 \end_inset
@@ -1844,7 +1855,7 @@ A_{k,t}^{P}=\omega_{k,t}^{P}\cdot B_{t}^{P}
 
 \begin_layout Standard
 The return 
-\begin_inset Formula $r_{t}^{P}$
+\begin_inset Formula $r^{P}_{t}$
 \end_inset
 
  is a weighted average of the return on the portfolio elements:
@@ -1853,7 +1864,7 @@ The return
 \begin_layout Standard
 \begin_inset Formula 
 \[
-r_{t}^{P}=\sum_{k}r_{k,t}\cdot\omega_{k,t}^{P}
+r^{P}_{t}=\sum_{k}r_{k,t}\cdot\omega^{P}_{k,t}
 \]
 
 \end_inset
@@ -1908,7 +1919,7 @@ All agents leave and receive bequests.
  Given the exogenous mortgage ratio relationship the equity that is transformed into liquid assets next period is 
 \begin_inset Formula 
 \[
-\left(1-\mu_{a,t}\right)p_{t+1}^{D}D_{a,t}
+\left(1-\mu_{a,t}\right)p^{D}_{t+1}D_{a,t}
 \]
 
 \end_inset
@@ -1953,7 +1964,7 @@ nolink "false"
 \begin_layout Standard
 Bequests affect not only the budget constraint,
  but also preferences via 
-\begin_inset Formula $V_{a,t}^{Beq}$
+\begin_inset Formula $V^{Beq}_{a,t}$
 \end_inset
 
 ,
@@ -1975,7 +1986,7 @@ name "subsec:Household-financial-portfolio"
 The budget constraint of a household is 
 \begin_inset Formula 
 \[
-B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+y_{a,t}-p_{t}^{c}C_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)
+B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+y_{a,t}-p^{c}_{t}C_{a,t}-f\left(D_{a,t},D_{a-1,t-1}\right)
 \]
 
 \end_inset
@@ -2056,7 +2067,7 @@ We model this decomposition into assets and liabilities as functions of net non-
 \begin_layout Standard
 \begin_inset Formula 
 \[
-A_{i,a,t}=I_{i,a}Y_{t}^{B}+\lambda_{i}^{B}B_{a,t}+\lambda_{i}^{D}\bar{p}_{t}^{D}D_{a,t}
+A_{i,a,t}=I_{i,a}Y^{B}_{t}+\lambda^{B}_{i}B_{a,t}+\lambda^{D}_{i}\bar{p}^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -2067,7 +2078,7 @@ A_{i,a,t}=I_{i,a}Y_{t}^{B}+\lambda_{i}^{B}B_{a,t}+\lambda_{i}^{D}\bar{p}_{t}^{D}
 \begin_layout Standard
 \begin_inset Formula 
 \[
-L_{l,a,t}=I_{l,a}Y_{t}^{B}+\lambda_{l}^{B}B_{a,t}+\lambda_{l}^{D}\bar{p}_{t}^{D}D_{a,t}
+L_{l,a,t}=I_{l,a}Y^{B}_{t}+\lambda^{B}_{l}B_{a,t}+\lambda^{D}_{l}\bar{p}^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -2078,13 +2089,13 @@ L_{l,a,t}=I_{l,a}Y_{t}^{B}+\lambda_{l}^{B}B_{a,t}+\lambda_{l}^{D}\bar{p}_{t}^{D}
 \begin_layout Standard
 To preserve homogeneity,
  the intercept term is scaled with a slow-moving measure of average household income 
-\begin_inset Formula $Y_{t}^{B}$
+\begin_inset Formula $Y^{B}_{t}$
 \end_inset
 
 .
  Housing enters with the same gradually adjusting housing price,
  
-\begin_inset Formula $\bar{p}_{t}^{D}$
+\begin_inset Formula $\bar{p}^{D}_{t}$
 \end_inset
 
 ,
@@ -2107,8 +2118,8 @@ The marginal changes in the portfolio from a change in either
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-1+\overline{r}_{t+1}^{B} & =\frac{\partial}{\partial B_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
- & =1+\sum_{i}r_{i,t+1}\lambda_{i}^{B}-\sum_{l}r_{l,t+1}\lambda_{l}^{B}
+1+\overline{r}^{B}_{t+1} & =\frac{\partial}{\partial B_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
+ & =1+\sum_{i}r_{i,t+1}\lambda^{B}_{i}-\sum_{l}r_{l,t+1}\lambda^{B}_{l}
 \end{align*}
 
 \end_inset
@@ -2123,8 +2134,8 @@ and additional housing affects the portfolio in the same way:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\overline{r}_{t+1}^{D} & =\frac{\partial}{\partial D_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
- & =\bar{p}_{t}^{D}\left(\sum_{i}r_{i,t+1}\lambda_{i}^{D}-\sum_{l}r_{l,t+1}\lambda_{l}^{D}\right)
+\overline{r}^{D}_{t+1} & =\frac{\partial}{\partial D_{a,t}}\left\{ \left(1+r_{t+1}\right)B_{a,t}\right\} \\
+ & =\bar{p}^{D}_{t}\left(\sum_{i}r_{i,t+1}\lambda^{D}_{i}-\sum_{l}r_{l,t+1}\lambda^{D}_{l}\right)
 \end{align*}
 
 \end_inset
@@ -2197,7 +2208,7 @@ The function
  is
 \begin_inset Formula 
 \[
-\tilde{U}_{a,t}\equiv\left[\left(\upsilon_{a,t}^{c}\right)^{\frac{1}{E}}\left(\tilde{C}_{a,t}\right)^{\frac{E-1}{E}}+\left(\upsilon_{a,t}^{d}\right)^{\frac{1}{E}}\left(\tilde{D}_{a,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
+\tilde{U}_{a,t}\equiv\left[\left(\upsilon^{c}_{a,t}\right)^{\frac{1}{E}}\left(\tilde{C}_{a,t}\right)^{\frac{E-1}{E}}+\left(\upsilon^{d}_{a,t}\right)^{\frac{1}{E}}\left(\tilde{D}_{a,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
 \]
 
 \end_inset
@@ -2215,7 +2226,7 @@ where
  The contemporaneous derivatives are 
 \begin_inset Formula 
 \[
-U_{a,t}^{c}\equiv\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon_{a,t}^{c}\tilde{U}_{a,t}}{\tilde{C}_{a,t}}\right)^{\frac{1}{E}}
+U^{c}_{a,t}\equiv\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon^{c}_{a,t}\tilde{U}_{a,t}}{\tilde{C}_{a,t}}\right)^{\frac{1}{E}}
 \]
 
 \end_inset
@@ -2223,7 +2234,7 @@ U_{a,t}^{c}\equiv\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}=\left[\tilde{U
 and
 \begin_inset Formula 
 \[
-U_{a,t}^{d}\equiv\frac{\partial U_{a,t}}{\partial\tilde{D}_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon_{a,t}^{d}\tilde{U}_{a,t}}{\tilde{D}_{a,t}}\right)^{\frac{1}{E}}
+U^{d}_{a,t}\equiv\frac{\partial U_{a,t}}{\partial\tilde{D}_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon^{d}_{a,t}\tilde{U}_{a,t}}{\tilde{D}_{a,t}}\right)^{\frac{1}{E}}
 \]
 
 \end_inset
@@ -2342,7 +2353,7 @@ We re-write utility as
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\tilde{U}_{a,t}\equiv\left[\left(\upsilon_{a,t}^{c}\right)^{\frac{1}{E}}\left(\tilde{C}_{a,t}\right)^{\frac{E-1}{E}}+\left(\upsilon_{a,t}^{d}\right)^{\frac{1}{E}}\left(\tilde{D}_{a,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
+\tilde{U}_{a,t}\equiv\left[\left(\upsilon^{c}_{a,t}\right)^{\frac{1}{E}}\left(\tilde{C}_{a,t}\right)^{\frac{E-1}{E}}+\left(\upsilon^{d}_{a,t}\right)^{\frac{1}{E}}\left(\tilde{D}_{a,t}\right)^{\frac{E-1}{E}}\right]^{\frac{E}{E-1}}
 \]
 
 \end_inset
@@ -2358,7 +2369,7 @@ where
  denotes consumption net of a reference quantity:
 \begin_inset Formula 
 \[
-\tilde{C}_{a,t}=\frac{C_{a,t}}{\zeta_{a,t}}-\chi^{C}\frac{C_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P_{t}^{C}}
+\tilde{C}_{a,t}=\frac{C_{a,t}}{\zeta_{a,t}}-\chi^{C}\frac{C_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P^{C}_{t}}
 \]
 
 \end_inset
@@ -2424,7 +2435,7 @@ The weight,
  depends on the number of children in the household
 \begin_inset Formula 
 \[
-\zeta_{a,t}=1+\frac{1}{2}n_{a,t}^{\text{children}}
+\zeta_{a,t}=1+\frac{1}{2}n^{\text{children}}_{a,t}
 \]
 
 \end_inset
@@ -2447,7 +2458,7 @@ The reference quantity
 We do the same for housing by considering the following object inside utility
 \begin_inset Formula 
 \[
-\tilde{D}_{a,t}=\frac{D_{a,t}}{\zeta_{a,t}}-\chi^{D}\frac{D_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P_{t}^{C}}
+\tilde{D}_{a,t}=\frac{D_{a,t}}{\zeta_{a,t}}-\chi^{D}\frac{D_{a-1,t-1}}{\zeta_{a-1,t-1}}-\gamma\frac{y_{\text{HtM},a,t}}{P^{C}_{t}}
 \]
 
 \end_inset
@@ -2461,11 +2472,11 @@ Note that
 \end_inset
 
  can be eliminated by redefining utility weights 
-\begin_inset Formula $\upsilon_{j,a,t}^{c}$
+\begin_inset Formula $\upsilon^{c}_{j,a,t}$
 \end_inset
 
  and 
-\begin_inset Formula $\upsilon_{j,a,t}^{d}$
+\begin_inset Formula $\upsilon^{d}_{j,a,t}$
 \end_inset
 
  to include the effect of children implicitly (and slightly modifying the coefficients 
@@ -2479,11 +2490,11 @@ Note that
 ).
  We include the explicit adjustment for the number of children as this number is also forecast explicitly,
  whereas 
-\begin_inset Formula $\upsilon_{a,t}^{d}$
+\begin_inset Formula $\upsilon^{d}_{a,t}$
 \end_inset
 
  and 
-\begin_inset Formula $\upsilon_{a,t}^{c}=1-\upsilon_{a,t}^{d}$
+\begin_inset Formula $\upsilon^{c}_{a,t}=1-\upsilon^{d}_{a,t}$
 \end_inset
 
  are calibrated to match the level of consumption in the data.
@@ -2509,7 +2520,7 @@ The contemporaneous derivatives with habits and household size are
 \begin_layout Standard
 \begin_inset Formula 
 \[
-U_{a,t}^{c}=\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}\frac{\partial\tilde{C}_{a,t}}{\partial C_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon_{a,t}^{c}\tilde{U}_{a,t}}{\tilde{C}_{a,t}}\right)^{\frac{1}{E}}\frac{1}{\zeta_{a,t}}
+U^{c}_{a,t}=\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}\frac{\partial\tilde{C}_{a,t}}{\partial C_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon^{c}_{a,t}\tilde{U}_{a,t}}{\tilde{C}_{a,t}}\right)^{\frac{1}{E}}\frac{1}{\zeta_{a,t}}
 \]
 
 \end_inset
@@ -2517,7 +2528,7 @@ U_{a,t}^{c}=\frac{\partial U_{a,t}}{\partial\tilde{C}_{a,t}}\frac{\partial\tilde
 and
 \begin_inset Formula 
 \[
-U_{a,t}^{d}=\frac{\partial U_{a,t}}{\partial\tilde{D}_{a,t}}\frac{\partial\tilde{D}_{a,t}}{\partial D_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon_{a,t}^{d}\tilde{U}_{a,t}}{\tilde{D}_{a,t}}\right)^{\frac{1}{E}}\frac{1}{\zeta_{a,t}}
+U^{d}_{a,t}=\frac{\partial U_{a,t}}{\partial\tilde{D}_{a,t}}\frac{\partial\tilde{D}_{a,t}}{\partial D_{a,t}}=\left[\tilde{U}_{a,t}\right]^{-\eta}\left(\frac{\upsilon^{d}_{a,t}\tilde{U}_{a,t}}{\tilde{D}_{a,t}}\right)^{\frac{1}{E}}\frac{1}{\zeta_{a,t}}
 \]
 
 \end_inset
@@ -2538,7 +2549,7 @@ Bequests do not just enter the budget constraint.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-V_{a,t}^{Beq}=\xi_{a,t}^{Beq}\frac{\left[X_{a,t}^{Beq}\right]^{1-\eta}}{1-\eta}\label{eq:v_beq-1}
+V^{Beq}_{a,t}=\xi^{Beq}_{a,t}\frac{\left[X^{Beq}_{a,t}\right]^{1-\eta}}{1-\eta}\label{eq:v_beq-1}
 \end{equation}
 
 \end_inset
@@ -2552,7 +2563,7 @@ where we define the interior object,
  as
 \begin_inset Formula 
 \[
-X_{a,t}^{Beq}\equiv\left(1-\tau_{t+1}^{Beq}\right)\frac{B_{a,t}+p_{t}^{D}\left(1-\mu_{a,t}\right)D_{a,t}+V_{a,t}^{PensionB}}{p_{t+1}^{c}}-\xi^{0}
+X^{Beq}_{a,t}\equiv\left(1-\tau^{Beq}_{t+1}\right)\frac{B_{a,t}+p^{D}_{t}\left(1-\mu_{a,t}\right)D_{a,t}+V^{PensionB}_{a,t}}{p^{c}_{t+1}}-\xi^{0}
 \]
 
 \end_inset
@@ -2562,7 +2573,7 @@ X_{a,t}^{Beq}\equiv\left(1-\tau_{t+1}^{Beq}\right)\frac{B_{a,t}+p_{t}^{D}\left(1
 
 \begin_layout Standard
 and the utility associated with bequests is scaled with 
-\begin_inset Formula $\xi_{a,t}^{Beq}$
+\begin_inset Formula $\xi^{Beq}_{a,t}$
 \end_inset
 
  .
@@ -2617,7 +2628,7 @@ Li,
 \end_inset
 
  at the current price 
-\begin_inset Formula $p_{t}^{D}$
+\begin_inset Formula $p^{D}_{t}$
 \end_inset
 
 .
@@ -2635,7 +2646,7 @@ nolink "false"
 ) are
 \begin_inset Formula 
 \[
-\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}=\frac{\partial V_{a,t}^{Beq}}{\partial X_{a,t}^{Beq}}\frac{\partial X_{a,t}^{Beq}}{\partial B_{a,t}}=\xi_{a,t}^{Beq}\left[X_{a,t}^{Beq}\right]^{-\eta}\frac{\left(1-\tau_{t+1}^{Beq}\right)}{p_{t+1}^{c}}
+\frac{\partial V^{Beq}_{a,t}}{\partial B_{a,t}}=\frac{\partial V^{Beq}_{a,t}}{\partial X^{Beq}_{a,t}}\frac{\partial X^{Beq}_{a,t}}{\partial B_{a,t}}=\xi^{Beq}_{a,t}\left[X^{Beq}_{a,t}\right]^{-\eta}\frac{\left(1-\tau^{Beq}_{t+1}\right)}{p^{c}_{t+1}}
 \]
 
 \end_inset
@@ -2647,7 +2658,7 @@ nolink "false"
 and
 \begin_inset Formula 
 \[
-\frac{\partial V_{a,t}^{Beq}}{\partial D_{a,t}}=\frac{\partial V_{a,t}^{Beq}}{\partial X_{a,t}^{Beq}}\frac{\partial X_{a,t}^{Beq}}{\partial D_{a,t}}=\frac{\partial V_{a,t}^{Beq}}{\partial B_{a,t}}\underbrace{p_{t}^{D}\left(1-\mu_{a,t}\right)}_{\frac{\partial f_{a,t}}{\partial D_{a,t}}}
+\frac{\partial V^{Beq}_{a,t}}{\partial D_{a,t}}=\frac{\partial V^{Beq}_{a,t}}{\partial X^{Beq}_{a,t}}\frac{\partial X^{Beq}_{a,t}}{\partial D_{a,t}}=\frac{\partial V^{Beq}_{a,t}}{\partial B_{a,t}}\underbrace{p^{D}_{t}\left(1-\mu_{a,t}\right)}_{\frac{\partial f_{a,t}}{\partial D_{a,t}}}
 \]
 
 \end_inset
@@ -2664,7 +2675,7 @@ Similarly to the bequest function,
  the utility of wealth is
 \begin_inset Formula 
 \begin{equation}
-V_{a,t}^{Wealth}=\xi_{a,t}^{Wealth}\frac{\left[X_{a,t}^{Wealth}\right]^{1-\eta}}{1-\eta}\label{eq:v_beq-1-1}
+V^{Wealth}_{a,t}=\xi^{Wealth}_{a,t}\frac{\left[X^{Wealth}_{a,t}\right]^{1-\eta}}{1-\eta}\label{eq:v_beq-1-1}
 \end{equation}
 
 \end_inset
@@ -2683,7 +2694,7 @@ where the elasticity
  as
 \begin_inset Formula 
 \[
-X_{a,t}^{Wealth}\equiv\frac{B_{a,t}+p_{t}^{D}\left(1-\mu_{a,t}\right)D_{a,t}+V_{a,t}^{PensionW}}{p_{t+1}^{c}}-\xi^{0}
+X^{Wealth}_{a,t}\equiv\frac{B_{a,t}+p^{D}_{t}\left(1-\mu_{a,t}\right)D_{a,t}+V^{PensionW}_{a,t}}{p^{c}_{t+1}}-\xi^{0}
 \]
 
 \end_inset
@@ -2694,11 +2705,11 @@ with the difference relative to bequests being the absence of the inheritance ta
 \begin_layout Standard
 Note that we do not account for transaction costs incurred in liquidating or trading houses (or other assets) in our utility objects,
  
-\begin_inset Formula $X_{a,t}^{Wealth}$
+\begin_inset Formula $X^{Wealth}_{a,t}$
 \end_inset
 
  or 
-\begin_inset Formula $X_{a,t}^{Beq}$
+\begin_inset Formula $X^{Beq}_{a,t}$
 \end_inset
 
 .
@@ -2711,7 +2722,7 @@ The pension entitlements inside bequest utility and wealth utility differ.
  In contrast,
  others contain an insurance element and continue to pay descendants.
  
-\begin_inset Formula $V_{a,t}^{PensionB}$
+\begin_inset Formula $V^{PensionB}_{a,t}$
 \end_inset
 
  is the amount from pensions paid to descendants in case of death.
@@ -2722,7 +2733,7 @@ The pension entitlements inside bequest utility and wealth utility differ.
  20 years after retirement,
  when the whole amount is paid out at once.
  Therefore the object 
-\begin_inset Formula $V_{a,t}^{PensionW}$
+\begin_inset Formula $V^{PensionW}_{a,t}$
 \end_inset
 
  differs from the pension object inside bequest utility.
@@ -2772,12 +2783,12 @@ To better account for house price momentum (positive autocorrelation in price ch
 \begin_layout Standard
 We temporarily shift the preference for housing,
  
-\begin_inset Formula $\upsilon_{a,t}^{d}$
+\begin_inset Formula $\upsilon^{d}_{a,t}$
 \end_inset
 
 ,
  when prices are volatile through the dampening function 
-\begin_inset Formula $\Psi_{t}^{D}$
+\begin_inset Formula $\Psi^{D}_{t}$
 \end_inset
 
 
@@ -2786,7 +2797,7 @@ We temporarily shift the preference for housing,
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\upsilon_{a,t}^{d}=\hat{\upsilon}_{a,t}^{d}\cdot\left(1-\Psi_{t}^{D}\right)
+\upsilon^{d}_{a,t}=\hat{\upsilon}^{d}_{a,t}\cdot\left(1-\Psi^{D}_{t}\right)
 \]
 
 \end_inset
@@ -2801,7 +2812,7 @@ with the functional form
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\Psi_{t}^{D}=\Xi\left(\Pi_{t}^{D},\Pi_{t-1}^{D}\right)-\beta_{j}2\Xi\left(\Pi_{t+1}^{D},\Pi_{t}^{D}\right)
+\Psi^{D}_{t}=\Xi\left(\Pi^{D}_{t},\Pi^{D}_{t-1}\right)-\beta_{j}2\Xi\left(\Pi^{D}_{t+1},\Pi^{D}_{t}\right)
 \end{equation}
 
 \end_inset
@@ -2813,13 +2824,13 @@ with the functional form
 where
 \begin_inset Formula 
 \begin{equation}
-\Xi\left(\Pi_{t}^{D},\Pi_{t-1}^{D}\right)=\mu_{pd}\left(\left[\frac{\Pi_{t}^{D}}{\Pi_{t-1}^{D}}-1\right]\frac{\Pi_{t}^{D}}{\Pi_{t-1}^{D}}\right)
+\Xi\left(\Pi^{D}_{t},\Pi^{D}_{t-1}\right)=\mu_{pd}\left(\left[\frac{\Pi^{D}_{t}}{\Pi^{D}_{t-1}}-1\right]\frac{\Pi^{D}_{t}}{\Pi^{D}_{t-1}}\right)
 \end{equation}
 
 \end_inset
 
 and 
-\begin_inset Formula $\Pi_{t}^{D}\equiv P_{t}^{D}/P_{t-1}^{D}$
+\begin_inset Formula $\Pi^{D}_{t}\equiv P^{D}_{t}/P^{D}_{t-1}$
 \end_inset
 
  is gross house price inflation.
@@ -2838,7 +2849,7 @@ Differentiating with respect to housing
 In the housing first order condition we have the object
 \begin_inset Formula 
 \[
-U_{a,t}^{d}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}
+U^{d}_{a,t}+\beta s_{a,t}\frac{\partial U_{a+1,t+1}}{\partial D_{a,t}}
 \]
 
 \end_inset
@@ -2850,8 +2861,8 @@ and it is useful to make this expression explicit here.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-U_{a,t}^{d} & =\left[\tilde{U}_{a,t}\right]^{-\eta}\frac{\partial\tilde{U}_{a,t}}{\partial\tilde{D}_{a,t}}\frac{\partial\tilde{D}_{a,t}}{\partial D_{a,t}}\\
- & =\left[\frac{\upsilon_{a,t}^{d}}{\tilde{D}_{a,t}}\right]^{\frac{1}{E}}\left[\tilde{U}_{a,t}\right]^{\frac{1}{E}-\eta}\frac{1}{\zeta_{a,t}}
+U^{d}_{a,t} & =\left[\tilde{U}_{a,t}\right]^{-\eta}\frac{\partial\tilde{U}_{a,t}}{\partial\tilde{D}_{a,t}}\frac{\partial\tilde{D}_{a,t}}{\partial D_{a,t}}\\
+ & =\left[\frac{\upsilon^{d}_{a,t}}{\tilde{D}_{a,t}}\right]^{\frac{1}{E}}\left[\tilde{U}_{a,t}\right]^{\frac{1}{E}-\eta}\frac{1}{\zeta_{a,t}}
 \end{align*}
 
 \end_inset
@@ -2867,7 +2878,7 @@ while the second is the derivative in period t+1 with respect to current housing
 \begin_inset Formula 
 \begin{align*}
 \frac{\partial U_{a+1,t+1}}{\partial D_{a,t}} & =\left[\tilde{U}_{a+1,t+1}\right]^{-\eta}\cdot\frac{\partial\tilde{U}_{a+1,t+1}}{\partial\tilde{D}_{a+1,t+1}}\frac{\partial\tilde{D}_{a+1,t+1}}{\partial D_{a,t}}\\
- & =-\frac{\chi^{D}}{\zeta_{a,t}}\left[\frac{\upsilon_{a+1,t+1}^{d}}{\tilde{D}_{a+1,t+1}}\right]^{\frac{1}{E}}\left[\tilde{U}_{a+1,t+1}\right]^{\frac{1}{E}-\eta}
+ & =-\frac{\chi^{D}}{\zeta_{a,t}}\left[\frac{\upsilon^{d}_{a+1,t+1}}{\tilde{D}_{a+1,t+1}}\right]^{\frac{1}{E}}\left[\tilde{U}_{a+1,t+1}\right]^{\frac{1}{E}-\eta}
 \end{align*}
 
 \end_inset
@@ -2976,7 +2987,7 @@ These five consumption components come together in the following CES nest struct
 \begin_layout Standard
 \begin_inset Formula 
 \[
-C_{t}^{CEGTS}=\sum_{a}C_{a,t}
+C^{CEGTS}_{t}=\sum_{a}C_{a,t}
 \]
 
 \end_inset
@@ -2992,10 +3003,10 @@ We can now detail the CES nest structure using only aggregate consumption:
 \align center
 
 \size small
-\begin_inset Formula $\xymatrix{C_{t}^{CEGTS}\ar@{-}[dr]\ar@{-}[d]\\
-C_{\text{cars},t} & C_{t}^{EGTS}\ar@{-}[dr]\ar@{-}[d]\\
- & C_{\text{energy},t} & C_{t}^{GTS}\ar@{-}[dr]\ar@{-}[d]\\
- &  & C_{\text{goods},t} & C_{t}^{TS}\ar@{-}[dr]\ar@{-}[d]\\
+\begin_inset Formula $\xymatrix{C^{CEGTS}_{t}\ar@{-}[dr]\ar@{-}[d]\\
+C_{\text{cars},t} & C^{EGTS}_{t}\ar@{-}[dr]\ar@{-}[d]\\
+ & C_{\text{energy},t} & C^{GTS}_{t}\ar@{-}[dr]\ar@{-}[d]\\
+ &  & C_{\text{goods},t} & C^{TS}_{t}\ar@{-}[dr]\ar@{-}[d]\\
  &  &  & C_{\text{tourism},t} & C_{\text{services},t}
 }
 $
@@ -3260,7 +3271,7 @@ There are both imports and exports of tourism.
 
 .
  The consumption of foreign tourists in Denmark is also divided into consumption groups in the export chapter and is given by 
-\begin_inset Formula $C_{c,t}^{Tourist}$
+\begin_inset Formula $C^{Tourist}_{c,t}$
 \end_inset
 
 .
@@ -3277,7 +3288,7 @@ Total consumption of goods type
 \begin_layout Standard
 \begin_inset Formula 
 \[
-P_{c,t}^{CDK}C_{c,t}^{DK}=P_{c,t}^{C}C_{c,t}+P_{c,t}^{CTourist}C_{c,t}^{Tourist}
+P^{CDK}_{c,t}C^{DK}_{c,t}=P^{C}_{c,t}C_{c,t}+P^{CTourist}_{c,t}C^{Tourist}_{c,t}
 \]
 
 \end_inset
@@ -3289,7 +3300,7 @@ P_{c,t}^{CDK}C_{c,t}^{DK}=P_{c,t}^{C}C_{c,t}+P_{c,t}^{CTourist}C_{c,t}^{Tourist}
 The input/output system is based on deliveries from the 9 production sectors to demand groups (see input/ouput chapter).
  The demand groups for consumption include tourists' consumption,
  
-\begin_inset Formula $C_{c,t}^{DK}$
+\begin_inset Formula $C^{DK}_{c,t}$
 \end_inset
 
 .
@@ -3304,13 +3315,13 @@ Whereas in the model Danes and tourists face the same prices for the same goods,
 \begin_layout Standard
 \begin_inset Formula 
 \[
-P_{c,t}^{CTourist}=\lambda_{c,t}^{pCTourist}P_{c,t}^{C}
+P^{CTourist}_{c,t}=\lambda^{pCTourist}_{c,t}P^{C}_{c,t}
 \]
 
 \end_inset
 
 where 
-\begin_inset Formula $\lambda_{c,t}^{pCTourist}$
+\begin_inset Formula $\lambda^{pCTourist}_{c,t}$
 \end_inset
 
  is a parameter used to fit the data.
@@ -3353,7 +3364,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 arrayrulecolor{white}
 \end_layout
@@ -3376,7 +3386,6 @@ arrayrulecolor{white}
 status open
 
 \begin_layout Plain Layout
-
 
 \backslash
 rowcolor{MAKRO}
@@ -3423,7 +3432,6 @@ Code name
 status open
 
 \begin_layout Plain Layout
-
 
 \backslash
 rowcolor{GRAY}
@@ -3474,7 +3482,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3523,7 +3530,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3541,7 +3547,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\overline{r}_{t}^{B}
+\overline{r}^{B}_{t}
 \]
 
 \end_inset
@@ -3571,7 +3577,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3589,7 +3594,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-U_{j,a,t}^{d}
+U^{d}_{j,a,t}
 \]
 
 \end_inset
@@ -3619,7 +3624,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3637,7 +3641,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-p_{j,a,t}^{ucD}
+p^{ucD}_{j,a,t}
 \]
 
 \end_inset
@@ -3666,7 +3670,6 @@ pBoligUC[t]
 status open
 
 \begin_layout Plain Layout
-
 
 \backslash
 rowcolor{GRAY}
@@ -3716,7 +3719,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3734,7 +3736,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-B_{i,j,a,t}^{P}
+B^{P}_{i,j,a,t}
 \]
 
 \end_inset
@@ -3764,7 +3766,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3782,7 +3783,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-B_{a,t}^{P}
+B^{P}_{a,t}
 \]
 
 \end_inset
@@ -3812,7 +3813,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3830,7 +3830,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-y_{i,a,t}^{PC}
+y^{PC}_{i,a,t}
 \]
 
 \end_inset
@@ -3860,7 +3860,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3878,7 +3877,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-y_{i,a,t}^{PY}
+y^{PY}_{i,a,t}
 \]
 
 \end_inset
@@ -3935,7 +3934,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3951,7 +3949,7 @@ rowcolor{GRAY}
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $A_{k,t}^{P}$
+\begin_inset Formula $A^{P}_{k,t}$
 \end_inset
 
 
@@ -3979,7 +3977,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -3997,7 +3994,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-r_{t}^{P}
+r^{P}_{t}
 \]
 
 \end_inset
@@ -4027,7 +4024,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -4045,7 +4041,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-r_{t}^{RP}
+r^{RP}_{t}
 \]
 
 \end_inset
@@ -4075,7 +4071,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -4093,7 +4088,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-X_{j,a,t}^{Beq}
+X^{Beq}_{j,a,t}
 \]
 
 \end_inset
@@ -4123,7 +4118,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -4139,7 +4133,7 @@ rowcolor{GRAY}
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $TR_{a,t}^{P,i}$
+\begin_inset Formula $TR^{P,i}_{a,t}$
 \end_inset
 
 
@@ -4167,7 +4161,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -4185,7 +4178,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\frac{\partial V_{j,a,t}^{Wealth}}{\partial B_{j,a,t}}
+\frac{\partial V^{Wealth}_{j,a,t}}{\partial B_{j,a,t}}
 \]
 
 \end_inset
@@ -4215,7 +4208,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 rowcolor{GRAY}
 \end_layout
@@ -4233,7 +4225,7 @@ rowcolor{GRAY}
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\frac{\partial V_{j,a,t}^{Beq}}{\partial B_{j,a,t}}
+\frac{\partial V^{Beq}_{j,a,t}}{\partial B_{j,a,t}}
 \]
 
 \end_inset
@@ -4508,7 +4500,7 @@ Due to the sparsity of these matrices,
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{a_{d}}=\frac{1}{T}\sum_{t}^{T}H_{a_{d},t},\,\,\,\,\,\,\,\,\,\,\,\,\,\,H_{a_{d},a_{h}}=\frac{1}{T}\sum_{t}^{T}H_{a_{d},a_{h},t}
+H_{a_{d}}=\frac{1}{T}\sum^{T}_{t}H_{a_{d},t},\,\,\,\,\,\,\,\,\,\,\,\,\,\,H_{a_{d},a_{h}}=\frac{1}{T}\sum^{T}_{t}H_{a_{d},a_{h},t}
 \]
 
 \end_inset
@@ -4992,7 +4984,7 @@ We only run regressions along the age dimension.
 
 \begin_inset Formula 
 \[
-A_{a,t}^{i}=I_{a,t}^{i}+\lambda_{t}^{i}B_{a,t}
+A^{i}_{a,t}=I^{i}_{a,t}+\lambda^{i}_{t}B_{a,t}
 \]
 
 \end_inset
@@ -5000,21 +4992,21 @@ A_{a,t}^{i}=I_{a,t}^{i}+\lambda_{t}^{i}B_{a,t}
 
 \begin_inset Formula 
 \[
-L_{a,t}^{j}=I_{a,t}^{j}+\phi_{t}^{j}B_{a,t}
+L^{j}_{a,t}=I^{j}_{a,t}+\phi^{j}_{t}B_{a,t}
 \]
 
 \end_inset
 
 where 
-\begin_inset Formula $I_{a,t}^{i}$
+\begin_inset Formula $I^{i}_{a,t}$
 \end_inset
 
  and 
-\begin_inset Formula $I_{a,t}^{j}$
+\begin_inset Formula $I^{j}_{a,t}$
 \end_inset
 
  are the intercept functions for each age and 
-\begin_inset Formula $(\lambda_{t}^{i},\phi_{t}^{j})$
+\begin_inset Formula $(\lambda^{i}_{t},\phi^{j}_{t})$
 \end_inset
 
  are the parameters associated with net assets.
@@ -5040,7 +5032,7 @@ where
  the intercept is as follows
 \begin_inset Formula 
 \[
-I_{a,t}^{i,j}=I_{0,t}^{i,j}\left[\frac{Q_{t}}{N_{t}}\right]+I_{1,t}^{i,j}\left[\frac{Q_{t}}{S_{t}^{a}}\right]a+I_{z,t}^{i,j}Z_{a,t}
+I^{i,j}_{a,t}=I^{i,j}_{0,t}\left[\frac{Q_{t}}{N_{t}}\right]+I^{i,j}_{1,t}\left[\frac{Q_{t}}{S^{a}_{t}}\right]a+I^{i,j}_{z,t}Z_{a,t}
 \]
 
 \end_inset
@@ -5051,7 +5043,7 @@ with
 
 ,
  and 
-\begin_inset Formula $S_{t}^{a}=\sum_{a}N_{a,t}\cdot a$
+\begin_inset Formula $S^{a}_{t}=\sum_{a}N_{a,t}\cdot a$
 \end_inset
 
 ,
@@ -5088,7 +5080,7 @@ We now briefly drop the time subscript.
 \end_inset
 
 ) given by 
-\begin_inset Formula $Y=\left[A_{a}^{i}\right]$
+\begin_inset Formula $Y=\left[A^{i}_{a}\right]$
 \end_inset
 
  with 
@@ -5139,7 +5131,7 @@ The way the intercept terms are defined plays a role in ensuring homogeneity of 
  Inserting the intercept we have
 \begin_inset Formula 
 \[
-\sum_{a}N_{a}A_{a}^{i}=\sum_{a}N_{a}\left\{ I_{0}^{i}\left[\frac{Q}{N}\right]+I_{1}^{i}\left[\frac{Q}{S^{a}}\right]a+I_{z}^{i}Z_{a}\right\} +\lambda^{i}\sum_{a}N_{a}B_{a}
+\sum_{a}N_{a}A^{i}_{a}=\sum_{a}N_{a}\left\{ I^{i}_{0}\left[\frac{Q}{N}\right]+I^{i}_{1}\left[\frac{Q}{S^{a}}\right]a+I^{i}_{z}Z_{a}\right\} +\lambda^{i}\sum_{a}N_{a}B_{a}
 \]
 
 \end_inset
@@ -5149,7 +5141,7 @@ which,
  yields
 \begin_inset Formula 
 \[
-\frac{A^{i}}{B}=\left[\left(I_{0}^{i}+I_{1}^{i}\right)\frac{Q}{B}+I_{z}^{i}\frac{Z}{B}+\lambda^{i}\right]
+\frac{A^{i}}{B}=\left[\left(I^{i}_{0}+I^{i}_{1}\right)\frac{Q}{B}+I^{i}_{z}\frac{Z}{B}+\lambda^{i}\right]
 \]
 
 \end_inset
@@ -5218,17 +5210,17 @@ We include housing in the auxiliary variable Z in the regression since it is a k
  It is estimated as
 \begin_inset Formula 
 \[
-N_{a,t}A_{a,t}^{i}=N_{a,t}\left\{ I_{0}^{i}\left[\frac{Q_{t}}{N_{t}}\right]+I_{1}^{i}\left[\frac{Q_{t}}{S_{t}^{a}}\right]a+I_{d}^{i}\cdot p_{t}^{D}D_{a,t}+\lambda^{i}B_{a,t}\right\} 
+N_{a,t}A^{i}_{a,t}=N_{a,t}\left\{ I^{i}_{0}\left[\frac{Q_{t}}{N_{t}}\right]+I^{i}_{1}\left[\frac{Q_{t}}{S^{a}_{t}}\right]a+I^{i}_{d}\cdot p^{D}_{t}D_{a,t}+\lambda^{i}B_{a,t}\right\} 
 \]
 
 \end_inset
 
 and aggregation 
-\begin_inset Formula $\sum_{a}N_{a,t}A_{a,t}^{i}=A_{t}^{i}$
+\begin_inset Formula $\sum_{a}N_{a,t}A^{i}_{a,t}=A^{i}_{t}$
 \end_inset
 
  implies (where 
-\begin_inset Formula $p_{t}^{D}D_{t}$
+\begin_inset Formula $p^{D}_{t}D_{t}$
 \end_inset
 
  is total housing)
@@ -5252,20 +5244,20 @@ The actual estimated equation multiplies both sides of this equation by populati
 \end_inset
 
 and 
-\begin_inset Formula $S_{t}^{a}$
+\begin_inset Formula $S^{a}_{t}$
 \end_inset
 
  are implicit as constants mutiplying the variables so that the actual coefficients 
-\begin_inset Formula $(I_{0}^{i},I_{1}^{i})$
+\begin_inset Formula $(I^{i}_{0},I^{i}_{1})$
 \end_inset
 
  are recovered ex post by inversion.
  For example for the intercept we estimate 
-\begin_inset Formula $\hat{\beta}_{0}^{i}$
+\begin_inset Formula $\hat{\beta}^{i}_{0}$
 \end_inset
 
  and then recover 
-\begin_inset Formula $\hat{I}_{0}^{i}=(N_{t}/Q_{t})\hat{\beta}_{0}^{i}$
+\begin_inset Formula $\hat{I}^{i}_{0}=(N_{t}/Q_{t})\hat{\beta}^{i}_{0}$
 \end_inset
 
 .
@@ -5276,7 +5268,7 @@ and
 
 \begin_inset Formula 
 \[
-A_{t}^{i}=\left\{ I_{0}^{i}+I_{1}^{i}\right\} Q_{t}+I_{d}^{i}\left[p_{t}^{D}D_{t}\right]+\lambda^{i}B_{t}
+A^{i}_{t}=\left\{ I^{i}_{0}+I^{i}_{1}\right\} Q_{t}+I^{i}_{d}\left[p^{D}_{t}D_{t}\right]+\lambda^{i}B_{t}
 \]
 
 \end_inset
@@ -5284,13 +5276,13 @@ A_{t}^{i}=\left\{ I_{0}^{i}+I_{1}^{i}\right\} Q_{t}+I_{d}^{i}\left[p_{t}^{D}D_{t
 
 \begin_inset Formula 
 \[
-A_{a,t}^{i}=I_{0}^{i}\left[\frac{Q_{t}}{N_{t}}\right]+I_{1}^{i}\left[\frac{Q_{t}}{S_{t}^{a}}\right]a+I_{d}^{i}\cdot\left[X_{t}\cdot\bar{p}_{t}^{D}D_{a,t}\right]+\lambda^{i}B_{a,t}
+A^{i}_{a,t}=I^{i}_{0}\left[\frac{Q_{t}}{N_{t}}\right]+I^{i}_{1}\left[\frac{Q_{t}}{S^{a}_{t}}\right]a+I^{i}_{d}\cdot\left[X_{t}\cdot\bar{p}^{D}_{t}D_{a,t}\right]+\lambda^{i}B_{a,t}
 \]
 
 \end_inset
 
 The house price 
-\begin_inset Formula $\bar{p}_{t}^{D}$
+\begin_inset Formula $\bar{p}^{D}_{t}$
 \end_inset
 
  attached to 
@@ -5298,22 +5290,22 @@ The house price
 \end_inset
 
  in this equation is the same for all ages and therefore just scales the estimated parameter 
-\begin_inset Formula $I_{d}^{i}$
+\begin_inset Formula $I^{i}_{d}$
 \end_inset
 
 .
  As we implement this equation we define this price as a moving average:
  
-\begin_inset Formula $\bar{p}_{t}^{D}=\left(1-\kappa^{PD}\right)p_{t}^{D}+\kappa^{PD}\bar{p}_{t-1}^{D}$
+\begin_inset Formula $\bar{p}^{D}_{t}=\left(1-\kappa^{PD}\right)p^{D}_{t}+\kappa^{PD}\bar{p}^{D}_{t-1}$
 \end_inset
 
  where 
-\begin_inset Formula $p_{t}^{D}$
+\begin_inset Formula $p^{D}_{t}$
 \end_inset
 
  is the realized house price.
  In the long run 
-\begin_inset Formula $\bar{p}_{t}^{D}=p_{t}^{D}$
+\begin_inset Formula $\bar{p}^{D}_{t}=p^{D}_{t}$
 \end_inset
 
 .
@@ -5321,14 +5313,14 @@ The house price
 
 \begin_layout Standard
 The marginal return on housing is 
-\begin_inset Formula $I_{d}^{i}\cdot X_{t}\bar{p}_{t}^{D}$
+\begin_inset Formula $I^{i}_{d}\cdot X_{t}\bar{p}^{D}_{t}$
 \end_inset
 
 ,
  and with all assets and liabilities
 \begin_inset Formula 
 \[
-\bar{r}_{t}^{D}=\bar{p}_{t}^{D}\left(\sum_{i}r_{t}^{i}I_{d,t-1}^{i}-\sum_{i}r_{t}^{j}I_{d,t-1}^{j}\right)
+\bar{r}^{D}_{t}=\bar{p}^{D}_{t}\left(\sum_{i}r^{i}_{t}I^{i}_{d,t-1}-\sum_{i}r^{j}_{t}I^{j}_{d,t-1}\right)
 \]
 
 \end_inset
@@ -5337,13 +5329,13 @@ Aggregation and long run properties,
  however,
  require some adjustment.
  As we aggregate 
-\begin_inset Formula $\sum_{a}N_{a,t}A_{j,a,t}^{i}=A_{t}^{i}$
+\begin_inset Formula $\sum_{a}N_{a,t}A^{i}_{j,a,t}=A^{i}_{t}$
 \end_inset
 
  the intercept and the age term become
 \begin_inset Formula 
 \[
-\sum_{a}N_{a,t}\left\{ I_{0}^{i}\left[\frac{Q_{t}}{N_{t}}\right]+I_{1}^{i}\left[\frac{Q_{t}}{S_{t}^{a}}\right]a\right\} =\left\{ I_{0}^{i}+I_{1}^{i}\right\} Q_{t}
+\sum_{a}N_{a,t}\left\{ I^{i}_{0}\left[\frac{Q_{t}}{N_{t}}\right]+I^{i}_{1}\left[\frac{Q_{t}}{S^{a}_{t}}\right]a\right\} =\left\{ I^{i}_{0}+I^{i}_{1}\right\} Q_{t}
 \]
 
 \end_inset
@@ -5356,7 +5348,7 @@ while the last term becomes simply
  Aggregating over population yields
 \begin_inset Formula 
 \[
-I_{d}^{i}\sum_{a}N_{a,t}\bar{p}_{t}^{D}D_{j,a,t}=I_{d}^{i}\bar{p}_{t}^{D}D_{t}
+I^{i}_{d}\sum_{a}N_{a,t}\bar{p}^{D}_{t}D_{j,a,t}=I^{i}_{d}\bar{p}^{D}_{t}D_{t}
 \]
 
 \end_inset
@@ -5364,7 +5356,7 @@ I_{d}^{i}\sum_{a}N_{a,t}\bar{p}_{t}^{D}D_{j,a,t}=I_{d}^{i}\bar{p}_{t}^{D}D_{t}
 which means the aggregate portfolio obeys
 \begin_inset Formula 
 \[
-A_{t}^{i}=\left(I_{0}^{i}+I_{1}^{i}\right)Q_{t}+I_{d}^{i}\left[\bar{p}_{t}^{D}D_{t}\right]+\lambda^{i}B_{t}
+A^{i}_{t}=\left(I^{i}_{0}+I^{i}_{1}\right)Q_{t}+I^{i}_{d}\left[\bar{p}^{D}_{t}D_{t}\right]+\lambda^{i}B_{t}
 \]
 
 \end_inset
@@ -5374,7 +5366,7 @@ so that homogeneity is a property determined by the ratio
 \end_inset
 
  and the ratio 
-\begin_inset Formula $\frac{\bar{p}_{t}^{D}D_{t}}{B_{t}}$
+\begin_inset Formula $\frac{\bar{p}^{D}_{t}D_{t}}{B_{t}}$
 \end_inset
 
 .
@@ -5412,7 +5404,7 @@ Given a portfolio structure we now must fit the budget constraint on historical 
  The budget constraint with explicit assets and liabilities is
 \begin_inset Formula 
 \[
-B_{a,t}=B_{a-1,t-1}+\underbrace{\left[\sum_{i}r_{t}^{i}A^{i}\left(B_{a-1,t-1}\right)-\sum_{j}r_{t}^{j}L^{j}\left(B_{a-1,t-1}\right)\right]}_{\text{Realized Total Return}}+...
+B_{a,t}=B_{a-1,t-1}+\underbrace{\left[\sum_{i}r^{i}_{t}A^{i}\left(B_{a-1,t-1}\right)-\sum_{j}r^{j}_{t}L^{j}\left(B_{a-1,t-1}\right)\right]}_{\text{Realized Total Return}}+...
 \]
 
 \end_inset
@@ -5427,7 +5419,7 @@ observed/realized
  The realized return on assets is 
 \begin_inset Formula 
 \[
-\underbrace{\left(\sum_{i}r_{t}^{i}I_{a-1,t-1}^{i}-\sum_{j}r_{t}^{j}I_{a-1,t-1}^{j}\right)}_{\text{intercept and attached rates}}+\underbrace{\left(\sum_{i}r_{t}^{i}\lambda_{t-1}^{i}-\sum_{j}r_{t}^{j}\phi_{t-1}^{j}\right)}_{\text{marginal return on B}}B_{a-1,t-1}
+\underbrace{\left(\sum_{i}r^{i}_{t}I^{i}_{a-1,t-1}-\sum_{j}r^{j}_{t}I^{j}_{a-1,t-1}\right)}_{\text{intercept and attached rates}}+\underbrace{\left(\sum_{i}r^{i}_{t}\lambda^{i}_{t-1}-\sum_{j}r^{j}_{t}\phi^{j}_{t-1}\right)}_{\text{marginal return on B}}B_{a-1,t-1}
 \]
 
 \end_inset
@@ -5444,13 +5436,13 @@ marginal
  rate we are looking for in the Euler equation is then
 \begin_inset Formula 
 \[
-R_{t}^{B}=1+\bar{r}_{t}^{B}=1+\left(\sum_{i}r_{t}^{i}\lambda_{t-1}^{i}-\sum_{j}r_{t}^{j}\phi_{t-1}^{j}\right)
+R^{B}_{t}=1+\bar{r}^{B}_{t}=1+\left(\sum_{i}r^{i}_{t}\lambda^{i}_{t-1}-\sum_{j}r^{j}_{t}\phi^{j}_{t-1}\right)
 \]
 
 \end_inset
 
 and 
-\begin_inset Formula $\bar{r}_{t}^{B}$
+\begin_inset Formula $\bar{r}^{B}_{t}$
 \end_inset
 
  is not age dependent since the parameters 
@@ -5462,11 +5454,11 @@ and
 \end_inset
 
  are not age dependent and we assume that rates of return 
-\begin_inset Formula $r_{t}^{i}$
+\begin_inset Formula $r^{i}_{t}$
 \end_inset
 
  or 
-\begin_inset Formula $r_{t}^{j}$
+\begin_inset Formula $r^{j}_{t}$
 \end_inset
 
  on any assets and liabilities are not age related.
@@ -5489,7 +5481,7 @@ If the auxiliary variable
  is endogenous there will be a marginal rate given by
 \begin_inset Formula 
 \[
-\bar{r}_{t}^{Z}=\left(\sum_{i}r_{t}^{i}I_{z,t-1}^{i}-\sum_{i}r_{t}^{j}I_{z,t-1}^{j}\right)
+\bar{r}^{Z}_{t}=\left(\sum_{i}r^{i}_{t}I^{i}_{z,t-1}-\sum_{i}r^{j}_{t}I^{j}_{z,t-1}\right)
 \]
 
 \end_inset
@@ -5501,7 +5493,7 @@ This is the case for housing.
 \end_inset
 
  (or housing value 
-\begin_inset Formula $V_{a,t}^{D}=P_{t}^{D}D_{a,t}$
+\begin_inset Formula $V^{D}_{a,t}=P^{D}_{t}D_{a,t}$
 \end_inset
 
 ) as an auxiliary variable 
@@ -5532,7 +5524,7 @@ This is the case for housing.
 As shown above the additional marginal rate is 
 \begin_inset Formula 
 \[
-\bar{r}_{t}^{D}=X_{t}\bar{p}_{t}^{D}\left(\sum_{i}r_{t}^{i}I_{d,t-1}^{i}-\sum_{i}r_{t}^{j}I_{d,t-1}^{j}\right)
+\bar{r}^{D}_{t}=X_{t}\bar{p}^{D}_{t}\left(\sum_{i}r^{i}_{t}I^{i}_{d,t-1}-\sum_{i}r^{j}_{t}I^{j}_{d,t-1}\right)
 \]
 
 \end_inset
@@ -5560,7 +5552,7 @@ name "subsec:The-user-cost"
 We derived the expression
 \begin_inset Formula 
 \[
-p_{a,t}^{ucD}=\underbrace{\left[\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{R_{a+1,t+1}^{D}}{1+\overline{r}_{t+1}^{B}}\right]}_{\text{User Cost of \ensuremath{D_{a,t}} measured at time t.}}
+p^{ucD}_{a,t}=\underbrace{\left[\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{1}{1+\overline{r}^{B}_{t+1}}\frac{\partial f_{a+1,t+1}}{\partial D_{a,t}}-\frac{R^{D}_{a+1,t+1}}{1+\overline{r}^{B}_{t+1}}\right]}_{\text{User Cost of \ensuremath{D_{a,t}} measured at time t.}}
 \]
 
 \end_inset
@@ -5568,7 +5560,7 @@ p_{a,t}^{ucD}=\underbrace{\left[\frac{\partial f_{a,t}}{\partial D_{a,t}}+\frac{
 and with
 \begin_inset Formula 
 \[
-1+\overline{r}_{t+1}^{B}\equiv1+\left(\sum_{i}r_{t+1}^{i}\lambda_{t}^{i}-\sum_{j}r_{t+1}^{j}\phi_{t}^{j}\right)
+1+\overline{r}^{B}_{t+1}\equiv1+\left(\sum_{i}r^{i}_{t+1}\lambda^{i}_{t}-\sum_{j}r^{j}_{t+1}\phi^{j}_{t}\right)
 \]
 
 \end_inset
@@ -5576,7 +5568,7 @@ and with
 where
 \begin_inset Formula 
 \[
-R_{a+1,t+1}^{D}\equiv\bar{r}_{t+1}^{D}=\frac{B_{t}}{V_{t}^{D}}P_{t}^{D}\left(\sum_{i}r_{t+1}^{i}I_{d,t}^{i}-\sum_{i}r_{t+1}^{j}I_{d,t}^{j}\right)
+R^{D}_{a+1,t+1}\equiv\bar{r}^{D}_{t+1}=\frac{B_{t}}{V^{D}_{t}}P^{D}_{t}\left(\sum_{i}r^{i}_{t+1}I^{i}_{d,t}-\sum_{i}r^{j}_{t+1}I^{j}_{d,t}\right)
 \]
 
 \end_inset
@@ -5600,11 +5592,11 @@ The parameters
 
  and,
  in the code the 
-\begin_inset Formula $I_{d,t}^{i}$
+\begin_inset Formula $I^{i}_{d,t}$
 \end_inset
 
  and 
-\begin_inset Formula $I_{d,t}^{j}$
+\begin_inset Formula $I^{j}_{d,t}$
 \end_inset
 
  are called 
@@ -5619,7 +5611,7 @@ The parameters
 
 \begin_inset Formula 
 \[
-USER_{a,t}=\underbrace{\left[\frac{\partial f_{j,a,t}}{\partial D_{j,a,t}}+\frac{1}{1+\overline{r}_{t+1}^{B}}\frac{\partial f_{j,a+1,t+1}}{\partial D_{j,a,t}}-\frac{B_{t}}{V_{t}^{D}}P_{t}^{D}\frac{\left(\sum_{i}r_{t}^{i}I_{d,t}^{i}-\sum_{i}r_{t}^{j}I_{d,t}^{j}\right)}{1+\left(\sum_{i}r_{t}^{i}\lambda^{i}-\sum_{j}r_{t}^{j}\phi^{j}\right)}\right]}_{\text{User Cost of \ensuremath{D_{a,t}} measured at time t.}}
+USER_{a,t}=\underbrace{\left[\frac{\partial f_{j,a,t}}{\partial D_{j,a,t}}+\frac{1}{1+\overline{r}^{B}_{t+1}}\frac{\partial f_{j,a+1,t+1}}{\partial D_{j,a,t}}-\frac{B_{t}}{V^{D}_{t}}P^{D}_{t}\frac{\left(\sum_{i}r^{i}_{t}I^{i}_{d,t}-\sum_{i}r^{j}_{t}I^{j}_{d,t}\right)}{1+\left(\sum_{i}r^{i}_{t}\lambda^{i}-\sum_{j}r^{j}_{t}\phi^{j}\right)}\right]}_{\text{User Cost of \ensuremath{D_{a,t}} measured at time t.}}
 \]
 
 \end_inset
@@ -5794,7 +5786,7 @@ lost
  in the normal law of motion
 \begin_inset Formula 
 \[
-Z_{a,t}=D_{a,t}-\left(1-\delta_{t}^{bricks}\right)D_{a-1,t-1}
+Z_{a,t}=D_{a,t}-\left(1-\delta^{bricks}_{t}\right)D_{a-1,t-1}
 \]
 
 \end_inset
@@ -5833,13 +5825,13 @@ The term in brackets contains the fraction of total land held by the appropriate
  The second term is 1 over the size of that population.
  The product of the two yields the fraction of individual land holdings.
  Eliminating terms this equals 
-\begin_inset Formula $D_{a-1,t-1}\varOmega_{t}^{Land}$
+\begin_inset Formula $D_{a-1,t-1}\varOmega^{Land}_{t}$
 \end_inset
 
  where
 \begin_inset Formula 
 \[
-\varOmega_{t}^{Land}\equiv\frac{1}{\sum_{a}D_{a-1,t-1}N_{a-1,t-1}}=\frac{1}{D_{t-1}}
+\varOmega^{Land}_{t}\equiv\frac{1}{\sum_{a}D_{a-1,t-1}N_{a-1,t-1}}=\frac{1}{D_{t-1}}
 \]
 
 \end_inset
@@ -5847,33 +5839,33 @@ The term in brackets contains the fraction of total land held by the appropriate
 Now we are ready to determine revenues from land sales.
  The total quantity of land being sold is the land released by housing depreciation plus the helicopter land growth,
  
-\begin_inset Formula $Land_{t}^{sales}=\delta_{t}^{bricks}Land_{t-1}+Land_{t}-Land_{t-1}$
+\begin_inset Formula $Land^{sales}_{t}=\delta^{bricks}_{t}Land_{t-1}+Land_{t}-Land_{t-1}$
 \end_inset
 
 .
  Individual revenues from selling land are then given by
 \begin_inset Formula 
 \[
-D_{a-1,t-1}\cdot\varOmega_{t}^{Land}P_{t}^{Land}Land_{t}^{Sales}
+D_{a-1,t-1}\cdot\varOmega^{Land}_{t}P^{Land}_{t}Land^{Sales}_{t}
 \]
 
 \end_inset
 
 This quantity is now adapted to the model in the main text by defining the object 
-\begin_inset Formula $\alpha_{t}^{Land}$
+\begin_inset Formula $\alpha^{Land}_{t}$
 \end_inset
 
 .
  This is given by
 \begin_inset Formula 
 \[
-\alpha_{t}^{Land}=\frac{\varOmega_{t}^{Land}P_{t}^{Land}Land_{t}^{Sales}}{P_{t-1}^{D}}=\frac{P_{t}^{Land}Land_{t}^{Sales}}{P_{t-1}^{D}D_{t-1}}
+\alpha^{Land}_{t}=\frac{\varOmega^{Land}_{t}P^{Land}_{t}Land^{Sales}_{t}}{P^{D}_{t-1}}=\frac{P^{Land}_{t}Land^{Sales}_{t}}{P^{D}_{t-1}D_{t-1}}
 \]
 
 \end_inset
 
 where 
-\begin_inset Formula $\alpha_{t}^{Land}$
+\begin_inset Formula $\alpha^{Land}_{t}$
 \end_inset
 
  is the same for all households.
@@ -5939,14 +5931,14 @@ When we derive the budget constraint we consider the cases of positive versus ne
 
 \begin_layout Standard
 We postulate the exogenous relationship for the mortgage debt stock 
-\begin_inset Formula $X_{a,t}^{M}$
+\begin_inset Formula $X^{M}_{a,t}$
 \end_inset
 
 ,
  such that mortgages are proportional to the value of the house
 \begin_inset Formula 
 \[
-X_{a,t}^{M}=\mu_{a,t}p_{t}^{D}D_{a,t}
+X^{M}_{a,t}=\mu_{a,t}p^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -5974,7 +5966,7 @@ Consider first the case of
 
 .
  The term 
-\begin_inset Formula $M_{a,t}^{DP}>0$
+\begin_inset Formula $M^{DP}_{a,t}>0$
 \end_inset
 
  is the fraction or amount paid in cash when increasing the housing stock (the down-payment),
@@ -5986,7 +5978,7 @@ Consider first the case of
  In this case the size of the mortgage stock obeys the law of motion
 \begin_inset Formula 
 \[
-X_{a,t}^{M}=\left(1+r_{t}^{mort}\right)X_{a-1,t-1}^{M}+p_{t}^{D}Z_{a,t}-M_{a,t}^{DP}-m_{a,t}
+X^{M}_{a,t}=\left(1+r^{mort}_{t}\right)X^{M}_{a-1,t-1}+p^{D}_{t}Z_{a,t}-M^{DP}_{a,t}-m_{a,t}
 \]
 
 \end_inset
@@ -5994,7 +5986,7 @@ X_{a,t}^{M}=\left(1+r_{t}^{mort}\right)X_{a-1,t-1}^{M}+p_{t}^{D}Z_{a,t}-M_{a,t}^
 The budget constraint of the household is 
 \begin_inset Formula 
 \[
-\Delta_{a,t}+p_{t}^{C}C_{a,t}=-M_{a,t}^{DP}-m_{a,t}
+\Delta_{a,t}+p^{C}_{t}C_{a,t}=-M^{DP}_{a,t}-m_{a,t}
 \]
 
 \end_inset
@@ -6002,7 +5994,7 @@ The budget constraint of the household is
 
 \begin_inset Formula 
 \[
--\left(\tau_{t}^{W}+x_{t}\right)p_{t-1}^{D}D_{a-1,t-1}+p_{t-1}^{D}D_{a-1,t-1}\alpha_{t}^{Land}
+-\left(\tau^{W}_{t}+x_{t}\right)p^{D}_{t-1}D_{a-1,t-1}+p^{D}_{t-1}D_{a-1,t-1}\alpha^{Land}_{t}
 \]
 
 \end_inset
@@ -6023,7 +6015,7 @@ where
  measures expenses in running the property,
  and the last term is the revenue from land sales.
  Now use 
-\begin_inset Formula $X_{a,t}=\mu_{a,t}p_{t}^{D}D_{a,t}$
+\begin_inset Formula $X_{a,t}=\mu_{a,t}p^{D}_{t}D_{a,t}$
 \end_inset
 
 ,
@@ -6038,7 +6030,7 @@ where
  to get
 \begin_inset Formula 
 \[
-\Delta_{a,t}+p_{t}^{C}C_{a,t}=-\left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}p_{t-1}^{D}D_{a-1,t-1}+\mu_{a,t}p_{t}^{D}D_{a,t}
+\Delta_{a,t}+p^{C}_{t}C_{a,t}=-\left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}p^{D}_{t-1}D_{a-1,t-1}+\mu_{a,t}p^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -6046,7 +6038,7 @@ where
 
 \begin_inset Formula 
 \[
--p_{t}^{D}D_{a,t}+p_{t}^{D}\left(1-\delta_{t}\right)D_{a-1,t-1}
+-p^{D}_{t}D_{a,t}+p^{D}_{t}\left(1-\delta_{t}\right)D_{a-1,t-1}
 \]
 
 \end_inset
@@ -6054,7 +6046,7 @@ where
 
 \begin_inset Formula 
 \[
--\left(\tau_{t}^{W}+x_{t}\right)p_{t-1}^{D}D_{a-1,t-1}+p_{t-1}^{D}D_{a-1,t-1}\alpha_{t}^{Land}
+-\left(\tau^{W}_{t}+x_{t}\right)p^{D}_{t-1}D_{a-1,t-1}+p^{D}_{t-1}D_{a-1,t-1}\alpha^{Land}_{t}
 \]
 
 \end_inset
@@ -6078,7 +6070,7 @@ Consider now the case of
  The budget constraint of the household does not have a down payment fraction but rather keeps the entire proceeds of the net sale 
 \begin_inset Formula 
 \[
-\Delta_{a,t}+p_{t}^{C}C_{a,t}=-p_{t}^{D}Z_{a,t}-m_{a,t}
+\Delta_{a,t}+p^{C}_{t}C_{a,t}=-p^{D}_{t}Z_{a,t}-m_{a,t}
 \]
 
 \end_inset
@@ -6086,7 +6078,7 @@ Consider now the case of
 
 \begin_inset Formula 
 \[
--\left(\tau_{t}^{W}+x_{t}\right)p_{t-1}^{D}D_{a-1,t-1}+p_{t-1}^{D}D_{a-1,t-1}\alpha_{t}^{Land}
+-\left(\tau^{W}_{t}+x_{t}\right)p^{D}_{t-1}D_{a-1,t-1}+p^{D}_{t-1}D_{a-1,t-1}\alpha^{Land}_{t}
 \]
 
 \end_inset
@@ -6095,7 +6087,7 @@ Since none of the revenues are used to pay down the mortgage,
  the size of the mortgage stock obeys the law of motion
 \begin_inset Formula 
 \[
-X_{a,t}^{M}=\left(1+r_{t}^{mort}\right)\cdot X_{a-1,t-1}^{M}-m_{a,t}
+X^{M}_{a,t}=\left(1+r^{mort}_{t}\right)\cdot X^{M}_{a-1,t-1}-m_{a,t}
 \]
 
 \end_inset
@@ -6127,7 +6119,7 @@ Reorganizing terms yields the
  object we use in the main text.
 \begin_inset Formula 
 \[
-f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
+f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -6135,7 +6127,7 @@ f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
 
 \begin_inset Formula 
 \[
-+\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{P_{t}^{D}}{P_{t-1}^{D}}\left(1-\delta_{t}^{d}\right)-\alpha_{t}^{Land}\right\} P_{t-1}^{D}D_{a-1,t-1}
++\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{P^{D}_{t}}{P^{D}_{t-1}}\left(1-\delta^{d}_{t}\right)-\alpha^{Land}_{t}\right\} P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -6187,7 +6179,7 @@ The Mortgage Ratio
 Mortgages are proportional to the value of the house
 \begin_inset Formula 
 \[
-X_{a,t}^{M}=\mu_{a,t}P_{t}^{D}D_{a,t}
+X^{M}_{a,t}=\mu_{a,t}P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -6199,7 +6191,7 @@ where
  is exogenous to the household and is given by
 \begin_inset Formula 
 \[
-\mu_{a,t}=\tilde{\mu}_{a,t}\frac{\bar{P}_{a,t}^{D}}{P_{t}^{D}}
+\mu_{a,t}=\tilde{\mu}_{a,t}\frac{\bar{P}^{D}_{a,t}}{P^{D}_{t}}
 \]
 
 \end_inset
@@ -6213,26 +6205,26 @@ where
 
 \begin_layout Standard
 The reference price 
-\begin_inset Formula $\bar{P}_{a,t}^{D}$
+\begin_inset Formula $\bar{P}^{D}_{a,t}$
 \end_inset
 
  is a function of current and past prices of the form
 \begin_inset Formula 
 \[
-\bar{P}_{a,t}^{D}=\Gamma_{a,t}^{p}P_{t}^{D}+\left(1-\Gamma_{a,t}^{p}\right)\bar{P}_{a-1,t-1}^{D}
+\bar{P}^{D}_{a,t}=\Gamma^{p}_{a,t}P^{D}_{t}+\left(1-\Gamma^{p}_{a,t}\right)\bar{P}^{D}_{a-1,t-1}
 \]
 
 \end_inset
 
 The factor 
-\begin_inset Formula $\Gamma_{a,t}^{p}$
+\begin_inset Formula $\Gamma^{p}_{a,t}$
 \end_inset
 
  is a measure of new borrowing.
  A simple measure is the ratio of current investment over final stock
 \begin_inset Formula 
 \[
-\Gamma_{a,t}^{p}=\frac{Z_{a,t}}{D_{a,t}}=\frac{D_{a,t}-\left(1-\delta^{d}\right)D_{a-1,t-1}}{D_{a,t}}
+\Gamma^{p}_{a,t}=\frac{Z_{a,t}}{D_{a,t}}=\frac{D_{a,t}-\left(1-\delta^{d}\right)D_{a-1,t-1}}{D_{a,t}}
 \]
 
 \end_inset
@@ -6240,13 +6232,13 @@ The factor
 In this way,
  for the first age of economic life when houses are bought,
  
-\begin_inset Formula $\Gamma_{a,t}^{p}=1$
+\begin_inset Formula $\Gamma^{p}_{a,t}=1$
 \end_inset
 
 ,
  implying all mortgages are new and subject to the current price.
  This number 
-\begin_inset Formula $\Gamma_{a,t}^{p}$
+\begin_inset Formula $\Gamma^{p}_{a,t}$
 \end_inset
 
  is bounded above by 1 and since 
@@ -6257,13 +6249,13 @@ In this way,
  Younger agents are much more subject to the variation in house prices than older ones.
  The ability to finance through a mortgage therefore varies with house prices.
  Given 
-\begin_inset Formula $\Gamma_{a,t}^{p}$
+\begin_inset Formula $\Gamma^{p}_{a,t}$
 \end_inset
 
  the ratio
 \begin_inset Formula 
 \[
-\mu_{a,t}=\tilde{\mu}_{a,t}\frac{\bar{P}_{a,t}^{D}}{P_{t}^{D}}=\tilde{\mu}_{a,t}\left(\Gamma_{a,t}^{p}+\left(1-\Gamma_{a,t}^{p}\right)\frac{\bar{P}_{a-1,t-1}^{D}}{P_{t}^{D}}\right)
+\mu_{a,t}=\tilde{\mu}_{a,t}\frac{\bar{P}^{D}_{a,t}}{P^{D}_{t}}=\tilde{\mu}_{a,t}\left(\Gamma^{p}_{a,t}+\left(1-\Gamma^{p}_{a,t}\right)\frac{\bar{P}^{D}_{a-1,t-1}}{P^{D}_{t}}\right)
 \]
 
 \end_inset
@@ -6271,14 +6263,14 @@ In this way,
 falls at impact with an increase in house prices.
  The household can mortgage more as prices increase,
  since 
-\begin_inset Formula $X_{a,t}^{M}=\mu_{a,t}P_{t}^{D}D_{a,t}$
+\begin_inset Formula $X^{M}_{a,t}=\mu_{a,t}P^{D}_{t}D_{a,t}$
 \end_inset
 
  increases with the house price keeping all else constant,
  but less than proportionally.
  Leverage ratios fall with house price increases.
  But since 
-\begin_inset Formula $\Gamma_{a,t}^{p}$
+\begin_inset Formula $\Gamma^{p}_{a,t}$
 \end_inset
 
  changes endogenously as housing decisions react to house prices the mortgage ratio is more reactive.
@@ -6290,7 +6282,7 @@ falls at impact with an increase in house prices.
  We use a slightly more general way of writing this factor as follows
 \begin_inset Formula 
 \[
-\Gamma_{a,t}^{p}=\left(1-\phi\right)+\phi\frac{D_{a,t}-\left(1-\delta^{d}\right)D_{a-1,t-1}}{D_{a,t}}=1-\phi\left(1-\delta^{d}\right)\frac{D_{a-1,t-1}}{D_{a,t}}
+\Gamma^{p}_{a,t}=\left(1-\phi\right)+\phi\frac{D_{a,t}-\left(1-\delta^{d}\right)D_{a-1,t-1}}{D_{a,t}}=1-\phi\left(1-\delta^{d}\right)\frac{D_{a-1,t-1}}{D_{a,t}}
 \]
 
 \end_inset
@@ -6367,17 +6359,17 @@ first
 \end_inset
 
  have the budget constraint where 
-\begin_inset Formula $x_{a,t}\equiv y_{a,t}-P_{t}^{C}C_{a,t}$
+\begin_inset Formula $x_{a,t}\equiv y_{a,t}-P^{C}_{t}C_{a,t}$
 \end_inset
 
  and where we have added a transfer term 
-\begin_inset Formula $T_{a,t}^{S}$
+\begin_inset Formula $T^{S}_{a,t}$
 \end_inset
 
  (superscript S for stayers):
 \begin_inset Formula 
 \[
-B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}
+B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{S}_{a,t}
 \]
 
 \end_inset
@@ -6388,7 +6380,7 @@ The people who leave,
 \end_inset
 
  receive/pay a transfer 
-\begin_inset Formula $T_{a,t}^{E}$
+\begin_inset Formula $T^{E}_{a,t}$
 \end_inset
 
  before leaving.
@@ -6400,7 +6392,7 @@ The people who leave,
  they carry abroad:
 \begin_inset Formula 
 \[
-M_{a,t}\equiv\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{E}
+M_{a,t}\equiv\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{E}_{a,t}
 \]
 
 \end_inset
@@ -6412,7 +6404,7 @@ Finally,
 \end_inset
 
  receive/pay a transfer 
-\begin_inset Formula $T_{a,t}^{I}$
+\begin_inset Formula $T^{I}_{a,t}$
 \end_inset
 
  after arrival.
@@ -6424,7 +6416,7 @@ Finally,
  
 \begin_inset Formula 
 \[
-B_{a,t}-x_{a,t}=A_{a-1,t-1}+T_{a,t}^{I}
+B_{a,t}-x_{a,t}=A_{a-1,t-1}+T^{I}_{a,t}
 \]
 
 \end_inset
@@ -6438,7 +6430,7 @@ next
  This implies the following relationship between households entering and exiting the country:
 \begin_inset Formula 
 \[
-A_{a-1,t-1}=\frac{E_{a,t}}{I_{a,t}}M_{a,t}=\frac{E_{a,t}}{I_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}+\frac{E_{a,t}}{I_{a,t}}T_{a,t}^{E}
+A_{a-1,t-1}=\frac{E_{a,t}}{I_{a,t}}M_{a,t}=\frac{E_{a,t}}{I_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}+\frac{E_{a,t}}{I_{a,t}}T^{E}_{a,t}
 \]
 
 \end_inset
@@ -6447,7 +6439,7 @@ We then impose that the transfer flows have zero net sum.
  This implies:
 \begin_inset Formula 
 \[
-\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]T_{a,t}^{S}+E_{a,t}T_{a,t}^{E}+I_{a,t}T_{a,t}^{I}=0
+\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]T^{S}_{a,t}+E_{a,t}T^{E}_{a,t}+I_{a,t}T^{I}_{a,t}=0
 \]
 
 \end_inset
@@ -6455,7 +6447,7 @@ We then impose that the transfer flows have zero net sum.
 and finally we impose equality of stayers and new arrivals which implies
 \begin_inset Formula 
 \[
-T_{a,t}^{I}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}-A_{a-1,t-1}
+T^{I}_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{S}_{a,t}-A_{a-1,t-1}
 \]
 
 \end_inset
@@ -6479,7 +6471,7 @@ Now
  plus incomers
 \begin_inset Formula 
 \[
-N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\left[\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}\right]+I_{a,t}\left[A_{a-1,t-1}+T_{a,t}^{I}\right]
+N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\left[\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{S}_{a,t}\right]+I_{a,t}\left[A_{a-1,t-1}+T^{I}_{a,t}\right]
 \]
 
 \end_inset
@@ -6487,7 +6479,7 @@ N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\
 replace the zero balance of payments relationship
 \begin_inset Formula 
 \[
-N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\left[\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}\right]
+N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\left[\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{S}_{a,t}\right]
 \]
 
 \end_inset
@@ -6495,7 +6487,7 @@ N_{a,t}\left[B_{a,t}-x_{a,t}\right]=\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]\
 
 \begin_inset Formula 
 \[
-+I_{a,t}\left[\frac{E_{a,t}}{I_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}+\frac{E_{a,t}}{I_{a,t}}T_{a,t}^{E}+T_{a,t}^{I}\right]
++I_{a,t}\left[\frac{E_{a,t}}{I_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}+\frac{E_{a,t}}{I_{a,t}}T^{E}_{a,t}+T^{I}_{a,t}\right]
 \]
 
 \end_inset
@@ -6507,7 +6499,7 @@ replace
  with the equality of stayers and incomers and collect terms to obtain
 \begin_inset Formula 
 \[
-B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T_{a,t}^{S}
+B_{a,t}-x_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+T^{S}_{a,t}
 \]
 
 \end_inset
@@ -6528,7 +6520,7 @@ Finally
  we obtain that
 \begin_inset Formula 
 \[
-T_{a,t}^{S}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}
+T^{S}_{a,t}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left(1+r_{a,t}\right)B_{a-1,t-1}
 \]
 
 \end_inset
@@ -6536,7 +6528,7 @@ T_{a,t}^{S}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left(1+r_{a,t}\right)B
 
 \begin_inset Formula 
 \[
-T_{a,t}^{I}=\left(I_{a,t}-E_{a,t}\right)\left[\frac{1}{I_{a,t}}-\frac{1}{N_{a,t}}\right]\left(1+r_{a,t}\right)B_{a-1,t-1}-\frac{E_{a,t}}{I_{a,t}}T_{a,t}^{E}
+T^{I}_{a,t}=\left(I_{a,t}-E_{a,t}\right)\left[\frac{1}{I_{a,t}}-\frac{1}{N_{a,t}}\right]\left(1+r_{a,t}\right)B_{a-1,t-1}-\frac{E_{a,t}}{I_{a,t}}T^{E}_{a,t}
 \]
 
 \end_inset
@@ -6562,7 +6554,7 @@ where
 
 \begin_layout Standard
 One last detail is that the transfer 
-\begin_inset Formula $T_{a,t}^{E}$
+\begin_inset Formula $T^{E}_{a,t}$
 \end_inset
 
  is arbitrary and can be set at zero.
@@ -6594,7 +6586,7 @@ Surviving residents
  have the budget constraint
 \begin_inset Formula 
 \[
-B_{a,t}-x_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}+T_{a,t}^{S}
+B_{a,t}-x_{a,t}+\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P^{D}_{t-1}D_{a-1,t-1}+T^{S}_{a,t}
 \]
 
 \end_inset
@@ -6602,7 +6594,7 @@ B_{a,t}-x_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=\left(1+r_{a,t}\right)B
 where
 \begin_inset Formula 
 \[
-\chi_{a,t}\equiv\left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{P_{t}^{D}}{P_{t-1}^{D}}\left(1-\delta_{t}^{d}\right)-\alpha_{t}^{Land}
+\chi_{a,t}\equiv\left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{P^{D}_{t}}{P^{D}_{t-1}}\left(1-\delta^{d}_{t}\right)-\alpha^{Land}_{t}
 \]
 
 \end_inset
@@ -6627,7 +6619,7 @@ The people who leave,
  liquidates the outstanding mortgage so that we obtain
 \begin_inset Formula 
 \[
-M_{a,t}\equiv\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}+T_{a,t}^{E}
+M_{a,t}\equiv\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P^{D}_{t-1}D_{a-1,t-1}+T^{E}_{a,t}
 \]
 
 \end_inset
@@ -6655,14 +6647,14 @@ The people who enter the country,
 
  from abroad.
  Their housing expenditure is 
-\begin_inset Formula $\left(1-\mu_{a}\right)P_{t}^{D}D_{a,t}$
+\begin_inset Formula $\left(1-\mu_{a}\right)P^{D}_{t}D_{a,t}$
 \end_inset
 
 .
  Their full budget constraint is
 \begin_inset Formula 
 \[
-B_{a,t}-x_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=A_{a-1,t-1}+T_{a,t}^{I}
+B_{a,t}-x_{a,t}+\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}=A_{a-1,t-1}+T^{I}_{a,t}
 \]
 
 \end_inset
@@ -6679,7 +6671,7 @@ A_{a-1,t-1}=\frac{E_{a,t}}{I_{a,t}}M_{a,t}
 and the property that the transfer flows have zero net sum is also as above:
 \begin_inset Formula 
 \[
-\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]T_{a,t}^{S}+E_{a,t}T_{a,t}^{E}+I_{a,t}T_{a,t}^{I}=0
+\left[s_{a-1,t-1}N_{a-1,t-1}-E_{a,t}\right]T^{S}_{a,t}+E_{a,t}T^{E}_{a,t}+I_{a,t}T^{I}_{a,t}=0
 \]
 
 \end_inset
@@ -6687,20 +6679,20 @@ and the property that the transfer flows have zero net sum is also as above:
 and finally the equality of stayers and new arrivals now implies
 \begin_inset Formula 
 \[
-T_{a,t}^{I}=\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}+T_{a,t}^{S}-A_{a-1,t-1}
+T^{I}_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P^{D}_{t-1}D_{a-1,t-1}+T^{S}_{a,t}-A_{a-1,t-1}
 \]
 
 \end_inset
 
 Reproducing the same steps performed above we will find that we can set 
-\begin_inset Formula $T_{a,t}^{E}=0$
+\begin_inset Formula $T^{E}_{a,t}=0$
 \end_inset
 
  and that we obtain the following objects.
  The aggregate budget constraint
 \begin_inset Formula 
 \[
-B_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=y_{a,t}-P_{t}^{C}C_{a,t}
+B_{a,t}+\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}=y_{a,t}-P^{C}_{t}C_{a,t}
 \]
 
 \end_inset
@@ -6708,7 +6700,7 @@ B_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=y_{a,t}-P_{t}^{C}C_{a,t}
 
 \begin_inset Formula 
 \[
-+\left[\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}\right]\Gamma_{a,t}
++\left[\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P^{D}_{t-1}D_{a-1,t-1}\right]\Gamma_{a,t}
 \]
 
 \end_inset
@@ -6716,7 +6708,7 @@ B_{a,t}+\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}=y_{a,t}-P_{t}^{C}C_{a,t}
 and the transfer
 \begin_inset Formula 
 \[
-T_{a,t}^{S}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left[\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P_{t-1}^{D}D_{a-1,t-1}\right]
+T^{S}_{a,t}=-\frac{\left(I_{a,t}-E_{a,t}\right)}{N_{a,t}}\left[\left(1+r_{a,t}\right)B_{a-1,t-1}-\chi_{a,t}P^{D}_{t-1}D_{a-1,t-1}\right]
 \]
 
 \end_inset
@@ -6799,7 +6791,7 @@ bricks
  An adjustment cost function is added to the housing production function in order to help fit dynamic behavior of house prices and quantities.
  New houses equal gross output minus adjustment costs,
  
-\begin_inset Formula $Y_{t}^{D}-AC_{t}$
+\begin_inset Formula $Y^{D}_{t}-AC_{t}$
 \end_inset
 
 .
@@ -6816,7 +6808,7 @@ bricks
 \end_inset
 
  input flow from the construction sector (here labelled 
-\begin_inset Formula $I_{t}^{D}$
+\begin_inset Formula $I^{D}_{t}$
 \end_inset
 
 ).
@@ -6826,7 +6818,7 @@ bricks
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Y_{t}^{D}-AC_{t}\equiv D_{t}-\left(1-\delta_{t}\right)D_{t-1}
+Y^{D}_{t}-AC_{t}\equiv D_{t}-\left(1-\delta_{t}\right)D_{t-1}
 \]
 
 \end_inset
@@ -6838,7 +6830,7 @@ Y_{t}^{D}-AC_{t}\equiv D_{t}-\left(1-\delta_{t}\right)D_{t-1}
 The intermediary agent has profits given by
 \begin_inset Formula 
 \[
-\pi_{t}=P_{t}^{D}\left(Y_{t}^{D}-AC_{t}\right)-P_{t}^{Land}J_{t}-P_{t}^{I}I_{t}^{D}
+\pi_{t}=P^{D}_{t}\left(Y^{D}_{t}-AC_{t}\right)-P^{Land}_{t}J_{t}-P^{I}_{t}I^{D}_{t}
 \]
 
 \end_inset
@@ -6848,7 +6840,7 @@ The intermediary agent has profits given by
 
 \begin_layout Standard
 Accumulating the input flow from the construction sector (
-\begin_inset Formula $I_{t}^{D}$
+\begin_inset Formula $I^{D}_{t}$
 \end_inset
 
 ) as an investment quantity yields an accounting measure of a 
@@ -6862,7 +6854,7 @@ stock of construction capital
  embodied in owner-occupied houses:
 \begin_inset Formula 
 \[
-K_{t}^{D}=K_{t-1}^{D}\left(1-\delta_{t}\right)+I_{t}^{D}
+K^{D}_{t}=K^{D}_{t-1}\left(1-\delta_{t}\right)+I^{D}_{t}
 \]
 
 \end_inset
@@ -6894,7 +6886,7 @@ bricks
 We specify the adjustment cost function as
 \begin_inset Formula 
 \[
-AC_{t}=\frac{\gamma}{2}I_{t}^{D}\left(\frac{I_{t}^{D}}{I_{t-1}^{D}}-\xi_{t}^{I}\right)^{2}
+AC_{t}=\frac{\gamma}{2}I^{D}_{t}\left(\frac{I^{D}_{t}}{I^{D}_{t-1}}-\xi^{I}_{t}\right)^{2}
 \]
 
 \end_inset
@@ -6910,7 +6902,7 @@ status open
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{\partial AC_{t}}{\partial I_{t}^{D}}=\gamma\frac{I_{t}^{D}}{I_{t-1}^{D}}\left(\frac{I_{t}^{D}}{I_{t-1}^{D}}-\xi_{t}^{I}\right)+\frac{\gamma}{2}\left(\frac{I_{t}^{D}}{I_{t-1}^{D}}-\xi_{t}^{I}\right)^{2}
+\frac{\partial AC_{t}}{\partial I^{D}_{t}}=\gamma\frac{I^{D}_{t}}{I^{D}_{t-1}}\left(\frac{I^{D}_{t}}{I^{D}_{t-1}}-\xi^{I}_{t}\right)+\frac{\gamma}{2}\left(\frac{I^{D}_{t}}{I^{D}_{t-1}}-\xi^{I}_{t}\right)^{2}
 \]
 
 \end_inset
@@ -6921,7 +6913,7 @@ status open
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{\partial AC_{t+1}}{\partial I_{t}^{D}}=-\gamma\left(\frac{I_{t+1}^{D}}{I_{t}^{D}}\right)^{2}\left(\frac{I_{t+1}^{D}}{I_{t}^{D}}-\xi_{t+1}^{I}\right)
+\frac{\partial AC_{t+1}}{\partial I^{D}_{t}}=-\gamma\left(\frac{I^{D}_{t+1}}{I^{D}_{t}}\right)^{2}\left(\frac{I^{D}_{t+1}}{I^{D}_{t}}-\xi^{I}_{t+1}\right)
 \]
 
 \end_inset
@@ -6937,7 +6929,7 @@ while the first order conditions are
 \begin_layout Standard
 \begin_inset Formula 
 \[
-P_{t}^{D}\left[\frac{\partial Y_{t}^{D}}{\partial J_{t}}\right]=P_{t}^{Land}
+P^{D}_{t}\left[\frac{\partial Y^{D}_{t}}{\partial J_{t}}\right]=P^{Land}_{t}
 \]
 
 \end_inset
@@ -6945,7 +6937,7 @@ P_{t}^{D}\left[\frac{\partial Y_{t}^{D}}{\partial J_{t}}\right]=P_{t}^{Land}
 
 \begin_inset Formula 
 \[
-\underbrace{P_{t}^{D}\frac{\partial Y_{t}^{D}}{\partial I_{t}^{D}}}_{\text{user cost}_{t}}=P_{t}^{I}+P_{t}^{D}\frac{\partial AC_{t}}{\partial I_{t}^{D}}+\beta_{t+1}P_{t+1}^{D}\left[\frac{\partial AC_{t+1}}{\partial I_{t}^{D}}\right]
+\underbrace{P^{D}_{t}\frac{\partial Y^{D}_{t}}{\partial I^{D}_{t}}}_{\text{user cost}_{t}}=P^{I}_{t}+P^{D}_{t}\frac{\partial AC_{t}}{\partial I^{D}_{t}}+\beta_{t+1}P^{D}_{t+1}\left[\frac{\partial AC_{t+1}}{\partial I^{D}_{t}}\right]
 \]
 
 \end_inset
@@ -6955,17 +6947,17 @@ P_{t}^{D}\left[\frac{\partial Y_{t}^{D}}{\partial J_{t}}\right]=P_{t}^{Land}
 
 \begin_layout Standard
 Using the user cost expression and 
-\begin_inset Formula $\frac{\partial Y_{t}^{D}}{\partial J_{t}}\text{\ensuremath{\equiv}}\left(\mu_{J}\frac{Y_{t}^{D}}{J_{t}}\right)^{1/E}$
+\begin_inset Formula $\frac{\partial Y^{D}_{t}}{\partial J_{t}}\text{\ensuremath{\equiv}}\left(\mu_{J}\frac{Y^{D}_{t}}{J_{t}}\right)^{1/E}$
 \end_inset
 
  and 
-\begin_inset Formula $\frac{\partial Y_{t}^{D}}{\partial I_{t}^{D}}\text{\ensuremath{\equiv}}\left(\mu_{I}\frac{Y_{t}^{D}}{I_{t}^{D}}\right)^{1/E}$
+\begin_inset Formula $\frac{\partial Y^{D}_{t}}{\partial I^{D}_{t}}\text{\ensuremath{\equiv}}\left(\mu_{I}\frac{Y^{D}_{t}}{I^{D}_{t}}\right)^{1/E}$
 \end_inset
 
  we can write demand functions in CES style
 \begin_inset Formula 
 \[
-J_{t}=\mu_{J}\cdot Y_{t}^{D}\left(\frac{P_{t}^{Land}}{P_{t}^{D}}\right)^{-E}
+J_{t}=\mu_{J}\cdot Y^{D}_{t}\left(\frac{P^{Land}_{t}}{P^{D}_{t}}\right)^{-E}
 \]
 
 \end_inset
@@ -6973,7 +6965,7 @@ J_{t}=\mu_{J}\cdot Y_{t}^{D}\left(\frac{P_{t}^{Land}}{P_{t}^{D}}\right)^{-E}
 
 \begin_inset Formula 
 \[
-I_{t}^{D}=\mu_{I}\cdot Y_{t}^{D}\left(\frac{\text{user cost}_{t}}{P_{t}^{D}}\right)^{-E}
+I^{D}_{t}=\mu_{I}\cdot Y^{D}_{t}\left(\frac{\text{user cost}_{t}}{P^{D}_{t}}\right)^{-E}
 \]
 
 \end_inset
@@ -6981,23 +6973,23 @@ I_{t}^{D}=\mu_{I}\cdot Y_{t}^{D}\left(\frac{\text{user cost}_{t}}{P_{t}^{D}}\rig
 Given these demand function the optimization problem solves using both of them and the CES zero profit condition
 \begin_inset Formula 
 \[
-P_{t}^{D}Y_{t}^{D}=P_{t}^{Land}J_{t}+\text{user cost}_{t}\cdot I_{t}^{D}
+P^{D}_{t}Y^{D}_{t}=P^{Land}_{t}J_{t}+\text{user cost}_{t}\cdot I^{D}_{t}
 \]
 
 \end_inset
 
 The quantity 
-\begin_inset Formula $q_{t}^{I}$
+\begin_inset Formula $q^{I}_{t}$
 \end_inset
 
  is then used to generate the stock variable 
-\begin_inset Formula $q_{t}^{k}$
+\begin_inset Formula $q^{k}_{t}$
 \end_inset
 
  in the standard manner
 \begin_inset Formula 
 \[
-q_{t}^{k}=\left(1-\delta_{t}\right)q_{t-1}^{k}+q_{t}^{I}
+q^{k}_{t}=\left(1-\delta_{t}\right)q^{k}_{t-1}+q^{I}_{t}
 \]
 
 \end_inset
@@ -7033,7 +7025,7 @@ The household model is designed to capture the majority of transactions which in
 \begin_layout Standard
 \begin_inset Formula 
 \[
-B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
+B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p^{c}_{t}C_{a,t}-\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -7041,7 +7033,7 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \begin_inset Formula 
 \[
--\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{P_{t}^{D}}{P_{t-1}^{D}}\left(1-\delta_{t}^{d}\right)-\alpha_{t}^{Land}\right\} P_{t-1}^{D}D_{a-1,t-1}
+-\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{P^{D}_{t}}{P^{D}_{t-1}}\left(1-\delta^{d}_{t}\right)-\alpha^{Land}_{t}\right\} P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -7049,7 +7041,7 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \begin_inset Formula 
 \[
-+\underbrace{\frac{D_{a-1,t-1}}{D_{t-1}}}_{weight}\left\{ \underbrace{P_{t}^{D}\left[D_{t}-\left(1-\delta_{t}^{d}\right)D_{t-1}\right]-P_{t}^{Land}J_{t}-P_{t}^{I}q_{t}^{I}}_{profits}\right\} 
++\underbrace{\frac{D_{a-1,t-1}}{D_{t-1}}}_{weight}\left\{ \underbrace{P^{D}_{t}\left[D_{t}-\left(1-\delta^{d}_{t}\right)D_{t-1}\right]-P^{Land}_{t}J_{t}-P^{I}_{t}q^{I}_{t}}_{profits}\right\} 
 \]
 
 \end_inset
@@ -7058,19 +7050,19 @@ At this point we work on the algebra of the budget constraint to simplify the ex
  We first decompose the last line
 \begin_inset Formula 
 \[
-...\frac{D_{a-1,t-1}}{D_{t-1}}P_{t}^{D}\left[D_{t}-\left(1-\delta_{t}^{d}\right)D_{t-1}\right]-\frac{D_{a-1,t-1}}{D_{t-1}}P_{t}^{Land}J_{t}-\frac{D_{a-1,t-1}}{D_{t-1}}P_{t}^{I}q_{t}^{I}
+...\frac{D_{a-1,t-1}}{D_{t-1}}P^{D}_{t}\left[D_{t}-\left(1-\delta^{d}_{t}\right)D_{t-1}\right]-\frac{D_{a-1,t-1}}{D_{t-1}}P^{Land}_{t}J_{t}-\frac{D_{a-1,t-1}}{D_{t-1}}P^{I}_{t}q^{I}_{t}
 \]
 
 \end_inset
 
 and eliminate the terms in 
-\begin_inset Formula $\left(1-\delta_{t}^{d}\right)$
+\begin_inset Formula $\left(1-\delta^{d}_{t}\right)$
 \end_inset
 
  to obtain
 \begin_inset Formula 
 \[
-B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
+B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p^{c}_{t}C_{a,t}-\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -7078,7 +7070,7 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \begin_inset Formula 
 \[
--\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}\right\} P_{t-1}^{D}D_{a-1,t-1}+\alpha_{t}^{Land}P_{t-1}^{D}D_{a-1,t-1}
+-\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}\right\} P^{D}_{t-1}D_{a-1,t-1}+\alpha^{Land}_{t}P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -7086,19 +7078,19 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \begin_inset Formula 
 \[
-+P_{t}^{D}D_{a-1,t-1}\left[\frac{D_{t}}{D_{t-1}}\right]-\frac{D_{a-1,t-1}}{D_{t-1}}P_{t}^{Land}J_{t}-\frac{D_{a-1,t-1}}{D_{t-1}}P_{t}^{I}q_{t}^{I}
++P^{D}_{t}D_{a-1,t-1}\left[\frac{D_{t}}{D_{t-1}}\right]-\frac{D_{a-1,t-1}}{D_{t-1}}P^{Land}_{t}J_{t}-\frac{D_{a-1,t-1}}{D_{t-1}}P^{I}_{t}q^{I}_{t}
 \]
 
 \end_inset
 
 now use the fact that 
-\begin_inset Formula $\alpha_{t}^{Land}$
+\begin_inset Formula $\alpha^{Land}_{t}$
 \end_inset
 
  is given by 
 \begin_inset Formula 
 \[
-\alpha_{t}^{Land}=\frac{P_{t}^{Land}J_{t}}{P_{t-1}^{D}D_{t-1}}
+\alpha^{Land}_{t}=\frac{P^{Land}_{t}J_{t}}{P^{D}_{t-1}D_{t-1}}
 \]
 
 \end_inset
@@ -7106,7 +7098,7 @@ now use the fact that
 and replace so that the land terms disappear completely and obtain a budget constraint with fewer terms
 \begin_inset Formula 
 \[
-B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
+B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p^{c}_{t}C_{a,t}-\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -7114,7 +7106,7 @@ B_{a,t}=\left(1+r_{a,t}\right)B_{a-1,t-1}+\tilde{y}_{a,t}-p_{t}^{c}C_{a,t}-\left
 
 \begin_inset Formula 
 \[
--\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{P_{t}^{D}D_{t}-P_{t}^{I}q_{t}^{I}}{P_{t-1}^{D}D_{t-1}}\right\} P_{t-1}^{D}D_{a-1,t-1}
+-\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{P^{D}_{t}D_{t}-P^{I}_{t}q^{I}_{t}}{P^{D}_{t-1}D_{t-1}}\right\} P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -7131,16 +7123,16 @@ The presence of the mortgage contract generates a leverage effect in the model.
  Specifically,
  when house prices rise,
  
-\begin_inset Formula $p_{t}^{D}>p_{t-1}^{D}$
+\begin_inset Formula $p^{D}_{t}>p^{D}_{t-1}$
 \end_inset
 
 ,
  the existing debt obligation is valued at prices 
-\begin_inset Formula $p_{t-1}^{D}$
+\begin_inset Formula $p^{D}_{t-1}$
 \end_inset
 
  but now the equity on the house is valued at the house price 
-\begin_inset Formula $p_{t}^{D}$
+\begin_inset Formula $p^{D}_{t}$
 \end_inset
 
 .
@@ -7153,7 +7145,7 @@ The presence of the mortgage contract generates a leverage effect in the model.
  in the budget constraint.
 \begin_inset Formula 
 \[
-f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
+f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}
 \]
 
 \end_inset
@@ -7161,7 +7153,7 @@ f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
 
 \begin_inset Formula 
 \[
-+\left\{ \left(1+r_{t}^{mort}\right)\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\frac{P_{t}^{D}}{P_{t-1}^{D}}\left(1-\delta_{t}^{d}\right)-\alpha_{t}^{Land}\right\} P_{t-1}^{D}D_{a-1,t-1}
++\left\{ \left(1+r^{mort}_{t}\right)\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\frac{P^{D}_{t}}{P^{D}_{t-1}}\left(1-\delta^{d}_{t}\right)-\alpha^{Land}_{t}\right\} P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -7173,7 +7165,7 @@ f\left(D_{a,t},D_{a-1,t-1}\right)=\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}
 We can rearrange this into
 \begin_inset Formula 
 \[
-f=\underbrace{\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}}_{\text{Out of pocket: new house equity}}-\left[\underbrace{\left(1-\delta_{t}^{d}\right)\frac{P_{t}^{D}}{P_{t-1}^{D}}-\mu_{a-1,t-1}}_{\text{exisiting house equity ratio}}\right]P_{t-1}^{D}D_{a-1,t-1}
+f=\underbrace{\left(1-\mu_{a,t}\right)P^{D}_{t}D_{a,t}}_{\text{Out of pocket: new house equity}}-\left[\underbrace{\left(1-\delta^{d}_{t}\right)\frac{P^{D}_{t}}{P^{D}_{t-1}}-\mu_{a-1,t-1}}_{\text{exisiting house equity ratio}}\right]P^{D}_{t-1}D_{a-1,t-1}
 \]
 
 \end_inset
@@ -7181,7 +7173,7 @@ f=\underbrace{\left(1-\mu_{a,t}\right)P_{t}^{D}D_{a,t}}_{\text{Out of pocket: ne
 
 \begin_inset Formula 
 \[
-+\underbrace{\left\{ r_{t}^{mort}\mu_{a-1,t-1}+\tau_{t}^{W}+x_{t}-\alpha_{t}^{Land}\right\} P_{t-1}^{D}D_{a-1,t-1}}_{\text{Unavoidable net carrying costs}}
++\underbrace{\left\{ r^{mort}_{t}\mu_{a-1,t-1}+\tau^{W}_{t}+x_{t}-\alpha^{Land}_{t}\right\} P^{D}_{t-1}D_{a-1,t-1}}_{\text{Unavoidable net carrying costs}}
 \]
 
 \end_inset
@@ -7197,7 +7189,7 @@ The key feature is that an increase in house prices has a marginal effect which 
  We have
 \begin_inset Formula 
 \[
-\frac{\partial f}{\partial p_{t}^{D}}=\underbrace{\left(1-\mu_{a,t}\right)D_{a,t}}_{\text{effect on new house equity}}-\underbrace{\left(1-\delta_{t}^{d}\right)D_{a-1,t-1}}_{\text{effect on exisiting house equity}}
+\frac{\partial f}{\partial p^{D}_{t}}=\underbrace{\left(1-\mu_{a,t}\right)D_{a,t}}_{\text{effect on new house equity}}-\underbrace{\left(1-\delta^{d}_{t}\right)D_{a-1,t-1}}_{\text{effect on exisiting house equity}}
 \]
 
 \end_inset

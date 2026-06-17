@@ -116,7 +116,6 @@ $GROUP G_test G_ARIMA_forecast$(t.val <= t1.val);
 # ----------------------------------------------------------------------------------------------------------------------
 $GROUP G_exogenous_forecast_BFR
   rOverlev, ErOverlev,
-  rSeparation, srSeparation,
   snLHh, shLHh, snLxDK
   dSoc2dBesk, snSoc
   nPop, nLxDK, nPop_Over100, rBoern
@@ -472,6 +471,15 @@ $IF %DORS_baseline%:
   execute_load "../Data/DREAM_BFR/qProdHh_a_DREAM.gdx" qProdHh_a_DREAM;
   qProdHh_a.l[a,t]$(t.val > %cal_deep%) = qProdHh_a_DREAM[a,t];
 $ENDIF
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Fremskrivning af alderspecifikke job-separations-rater
+# ----------------------------------------------------------------------------------------------------------------------
+$GROUP G_exogenous_forecast_aldersprofiler
+  rSeparation, srSeparation
+;
+$GROUP G_exogenous_forecast_aldersprofiler G_exogenous_forecast_aldersprofiler$(tx1[t]);
+@load(G_exogenous_forecast_aldersprofiler, "../Data/Aldersprofiler/aldersprofiler.gdx");
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Filtrering af aldersafhængige parametre

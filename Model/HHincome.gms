@@ -9,7 +9,7 @@
 # ======================================================================================================================
 $IF %stage% == "variables":
 
-  $GROUP G_HHIncome_endo_a
+  $GROUP G_HhIncome_endo_a
     vHhAkt[portf_,a_,t]$(0) "Husholdningernes finansielle aktiver, Kilde: jf. se for portefølje."
     vHhPas[portf_,a_,t]$(0) "Husholdningernes finansielle passiver, Kilde: jf. se for portefølje."
     vHhAktOmk[portf_,t]$(0) "Administrations- og investeringsomkostninger knyttet til finansielle aktiver"
@@ -42,7 +42,7 @@ $IF %stage% == "variables":
     rHhPasOmk[portf_,t]$(0) "Administrations- og investeringsomkostningsrate knyttet til finansielle passiver"
   ;
 
-  $GROUP G_HHIncome_endo_a_tot   
+  $GROUP G_HhIncome_endo_a_tot   
     vHhIndMv[aTot,t]
     vHhPas[RealKred,aTot,t]$(t.val > %AgeData_t1%)
     vHhPensIndb[pens,aTot,t]$(t.val > %AgeData_t1%)
@@ -54,9 +54,9 @@ $IF %stage% == "variables":
     vRealkreditFradrag[aTot,t]$(t.val > %AgeData_t1%)
   ;
 
-  $GROUP G_HHincome_endo 
-    G_HHIncome_endo_a
-    G_HHIncome_endo_a_tot
+  $GROUP G_HhIncome_endo 
+    G_HhIncome_endo_a
+    G_HhIncome_endo_a_tot
 
     pBoligRigid[t] "Rigid boligpris til brug i rRealKred2Bolig."
     
@@ -125,9 +125,9 @@ $IF %stage% == "variables":
     rRenteBankIndskud[t] "Pengeinstitutternes effektive indskudsrente. Kilde: ADAM[iwde]"
   ; 
 
-  $GROUP G_HHincome_endo G_HHincome_endo$(tx0[t]); # Restrict endo group to tx0[t]
+  $GROUP G_HhIncome_endo G_HhIncome_endo$(tx0[t]); # Restrict endo group to tx0[t]
 
-  $GROUP G_HHincome_exogenous_forecast
+  $GROUP G_HhIncome_exogenous_forecast
     ErAktieAfk_static[t] "Husholdningernes forventede aktieafkast i historisk periode."
     rPensArv[pens,a_,t]$(a[a_])
     rPensUdb_a[pens,a,t] "Aldersspecifikt led i pensionsudbetalingsrate."
@@ -136,9 +136,9 @@ $IF %stage% == "variables":
     rHhAktOmk[portf_,t]$(pensPortf[portf_]) "Administrations- og investeringsomkostningsrate knyttet til finansielle aktiver"
     rPensIndb_a[pens,a,t] "Aldersspecifikt led i pensionsindbetalingsrate."
   ;
-  $GROUP+ G_exogenous_forecast G_HHincome_exogenous_forecast$(tx1[t]);
+  $GROUP+ G_exogenous_forecast G_HhIncome_exogenous_forecast$(tx1[t]);
 
-  $GROUP G_HHincome_forecast_as_zero
+  $GROUP G_HhIncome_forecast_as_zero
     jvHhPensAfk
     jrHhPensAfk[pens_,t] "Ikke-aldersfordelt multiplikativt j-led"
     jfrPensIndb[pens,t] "J-led på rPensIndb"
@@ -151,21 +151,21 @@ $IF %stage% == "variables":
     jvKolPensOmv[t] "j-led"
     jvKolPensAfk[t] "j-led"
   ;
-  $GROUP+ G_forecast_as_zero G_HHincome_forecast_as_zero$(tx1[t]);
+  $GROUP+ G_forecast_as_zero G_HhIncome_forecast_as_zero$(tx1[t]);
 
-  $GROUP G_HHincome_ARIMA_forecast
+  $GROUP G_HhIncome_ARIMA_forecast
     rBidragsSats[t] "Gennemsnitlig bidragssats på realkreditlån, ultimo året. Kilde: ADAM[iwbid]"
     rHhAktOmk[portf_,t]$(Bank[portf_])
     rHhPasOmk[portf_,t]$(Bank[portf_])
   ;
-  $GROUP+ G_ARIMA_forecast G_HHincome_ARIMA_forecast;
+  $GROUP+ G_ARIMA_forecast G_HhIncome_ARIMA_forecast;
 
-  $GROUP G_HHincome_constants
+  $GROUP G_HhIncome_constants
     rRealKredTraeg "Træghed i pBoligRigid."
   ;
-  $GROUP+ G_constants G_HHincome_constants;
+  $GROUP+ G_constants G_HhIncome_constants;
 
-  $GROUP G_HHincome_fixed_forecast
+  $GROUP G_HhIncome_fixed_forecast
     rPensUdb[pens,a_,t]$((aTot[a_] or a15t100[a_]) and sameas('Kap',pens))
 
     # Portfolio
@@ -184,14 +184,14 @@ $IF %stage% == "variables":
     rKolPensIndb2ATPIndb[t] "Indbetalingsrate for kollektiv pension ift. indbetalingsrate for ATP-pension"
     rKolPensUdb2ATPUdb[t] "Udbetalingsrate for kollektiv pension ift. udbetalingsrate for ATP-pension"
   ;
-  $GROUP+ G_fixed_forecast G_HHincome_fixed_forecast;
+  $GROUP+ G_fixed_forecast G_HhIncome_fixed_forecast;
 $ENDIF
 
 # ======================================================================================================================
 # Equations
 # ======================================================================================================================
 $IF %stage% == "equations":
-  $BLOCK B_HHincome_static$(tx0[t])
+  $BLOCK B_HhIncome_static$(tx0[t])
     # ------------------------------------------------------------------------------------------------------------------
     # Housing
     # ------------------------------------------------------------------------------------------------------------------
@@ -472,10 +472,10 @@ $IF %stage% == "equations":
       rKolPensIndb[t] =E= rKolPensIndb2ATPIndb[t] * rPensIndb['ATP',aTot,t];
   $ENDBLOCK
 
-  #  $BLOCK B_HHincome_forwardlooking
+  #  $BLOCK B_HhIncome_forwardlooking
   #  $ENDBLOCK
 
-  $BLOCK B_HHincome_a$(tx0[t])
+  $BLOCK B_HhIncome_a$(tx0[t])
     # ==================================================================================================================
     # Household accounting disaggregated by age
     # ==================================================================================================================
@@ -628,7 +628,7 @@ $IF %stage% == "equations":
                                       * qBolig[a-1,t-1]/fv * fMigration[a,t];
   $ENDBLOCK
 
-  $BLOCK B_HHincome_a_tot$(tx0[t])
+  $BLOCK B_HhIncome_a_tot$(tx0[t])
     # Bemærk at afkastet til beskatning ikke er lig rHhAktAfk * vHhAkt[aTot,t-1] pga. død
     E_vtHhxAfk_aTot[t]$(t.val > %AgeData_t1%)..
       vtHhxAfk[aTot,t] =E= sum(a, vtHhxAfk[a,t] * nPop[a,t]);
@@ -669,10 +669,10 @@ $IF %stage% == "equations":
   $ENDBLOCK
 
   MODEL M_HhIncome /
-    B_HHincome_static
-    #  B_HHincome_forwardlooking
-    B_Hhincome_a
-    B_HHincome_a_tot
+    B_HhIncome_static
+    #  B_HhIncome_forwardlooking
+    B_HhIncome_a
+    B_HhIncome_a_tot
   /; 
   model M_base / M_HhIncome /;
 
@@ -681,9 +681,9 @@ $IF %stage% == "equations":
    -G_HhIncome_endo_a # Påvirker alene aldersfordelte størrelser
    -G_HhIncome_endo_a_tot
   ;
-  model M_static / B_HHincome_static /;
+  model M_static / B_HhIncome_static /;
   $GROUP+ G_static G_HhIncome_static;
-  $GROUP+ G_Endo G_HHincome_endo;
+  $GROUP+ G_Endo G_HhIncome_endo;
 $ENDIF
 
 $IF %stage% == "exogenous_values":  
@@ -702,34 +702,34 @@ $IF %stage% == "exogenous_values":
     vDispInd$(t.val >= 2000)
     rBidragsSats, rRenteBankIndskud, rRenteBankGaeld
   ;
-  @load(G_HHincome_makrobk, "../Data/Makrobk/makrobk.gdx")
+  @load(G_HhIncome_makrobk, "../Data/Makrobk/makrobk.gdx")
 
   # Aldersfordelt data fra aldersprofiler indlæses
-  $GROUP G_HHincome_aldersprofiler     
+  $GROUP G_HhIncome_aldersprofiler     
     vHhAkt$(a[a_] and not pensPortf[portf_]), vHhPas$(a[a_])
     vBolig$(a[a_]), vHhNFErest$(a[a_]), rRealKred2Bolig$(a[a_])
     dvHhAkt2dvHhx, dvHhPas2dvHhx, dvHhAkt2dvBolig, dvHhPas2dvBolig
   ; 
-  $GROUP G_HHincome_aldersprofiler
-    G_HHincome_aldersprofiler$(t.val >= %AgeData_t1%)
+  $GROUP G_HhIncome_aldersprofiler
+    G_HhIncome_aldersprofiler$(t.val >= %AgeData_t1%)
   ;
-  @load(G_HHincome_aldersprofiler, "../Data/Aldersprofiler/aldersprofiler.gdx")
+  @load(G_HhIncome_aldersprofiler, "../Data/Aldersprofiler/aldersprofiler.gdx")
 
-  $GROUP G_HHincome_pension
+  $GROUP G_HhIncome_pension
     # Pensionsvariable dækker alle datadækkede år
     vHhAkt$(a[a_] and pensPortf[portf_]), vHhPens$(a[a_])
     rPensArv, rPensUdb_a, vHhPensAfk$(a[a_]), vHhPensIndb$(a[a_]), vHhPensUdb$(a[a_]), vPensArv
   ;
-  @load(G_HHincome_pension, "../Data/Pension/pension.gdx")
+  @load(G_HhIncome_pension, "../Data/Pension/pension.gdx")
 
 
   # Variable som er datadækket og ikke må ændres af kalibrering
-  $GROUP G_HHincome_data 
+  $GROUP G_HhIncome_data 
     G_HhIncome_makrobk
     rPensUdb_a
   ; 
   # Variable som er datadækket, men data ændres lidt ved kalibrering
-  $GROUP G_HHincome_data_imprecise
+  $GROUP G_HhIncome_data_imprecise
     vHhNFErest$(aTot[a_])
     vHhNFE
 #    vHhx$(aTot[a_])
@@ -772,7 +772,7 @@ $ENDIF
 # ======================================================================================================================
 $IF %stage% == "static_calibration":
   $GROUP G_HhIncome_static_calibration_base 
-    G_HHincome_endo
+    G_HhIncome_endo
     -vLejeAfEjerBolig[t], rBoligOmkRestRes[t]
     -vHhAktRenter[portf,t], jrHhAktRenter[portf,t]$(t.val > %NettoFin_t1% and d1vHhAkt[portf,t]) 
     -vHhPasRenter[portf,t], jrHhPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vHhPas[portf,t]) 
@@ -791,7 +791,7 @@ $IF %stage% == "static_calibration":
     -rRenteBankIndskud, rHhAktOmk[Bank,t]
     -rRenteBankGaeld, rHhPasOmk[Bank,t]
   ;
-  $BLOCK B_HHincome_static_calibration_base$(tx0[t])
+  $BLOCK B_HhIncome_static_calibration_base$(tx0[t])
     # Forventet marginalafkast beregnes ud fra forventede afkast ikke realiserede
     E_ErAktieAfk_static[t]$(t.val > %NettoFin_t1%)..
       ErAktieAfk_static[t] =E= rAktieDrift[t] * vAktieDrift[t-1]/vAktie[t-1] 
@@ -803,7 +803,7 @@ $IF %stage% == "static_calibration":
 
   $GROUP G_HhIncome_static_calibration_newdata 
     G_HhIncome_static_calibration_base
-    -G_HHincome_endo_a
+    -G_HhIncome_endo_a
   # Beregninger af led som er endogene i aldersdel (skal være uændret, når de beregnes endogent)
     -vHhPas[RealKred,aTot,t], rRealKred2Bolig[aTot,t]
     -vHhPensAfk[pens,aTot,t], jrHhPensAfk[pens,t]
@@ -829,7 +829,7 @@ $IF %stage% == "static_calibration":
   $GROUP G_HhIncome_static_calibration
     G_HhIncome_static_calibration$(tx0[t])
   ;
-  $BLOCK B_HHIncome_Static_calibration$(tx0[t])
+  $BLOCK B_HhIncome_Static_calibration$(tx0[t])
     E_jmrHhxAfk[t]$(t.val > %AgeData_t1%)..
       mrHhxAfk[t] =E= sum(portf$(IndlAktier[portf] or UdlAktier[portf]), dvHhAkt2dvHhx[portf,t-1] * (1-mtHhAktAfk[portf,t]) * ErAktieAfk_static[t])
                     + sum(portf$(Obl[portf] or Bank[portf]), dvHhAkt2dvHhx[portf,t-1] * mrHhAktAfk[portf,t]) 
@@ -839,25 +839,25 @@ $IF %stage% == "static_calibration":
       jvHhPensAfk[pens,aTot,t] =E= 0;
   $ENDBLOCK
   MODEL M_HhIncome_static_calibration /
-    M_HHincome
-    B_HHincome_static_calibration_base
-    B_HHIncome_Static_calibration
+    M_HhIncome
+    B_HhIncome_static_calibration_base
+    B_HhIncome_Static_calibration
   /;
   model M_static_calibration / M_HhIncome_static_calibration /;
-  $GROUP+ G_static_calibration G_HHIncome_static_calibration;
+  $GROUP+ G_static_calibration G_HhIncome_static_calibration;
 $ENDIF
 
 # ======================================================================================================================
 # Dynamic calibration
 # ======================================================================================================================
 $IF %stage% == "deep_dynamic_calibration":
-  $GROUP G_HHincome_deep
-    G_HHincome_endo
+  $GROUP G_HhIncome_deep
+    G_HhIncome_endo
     rPensIndb_a[pens,a15t100,tx1] # E_rPensIndb_a_forecast
   ;
-  $GROUP G_HHincome_deep G_HHincome_deep$(tx0[t]);
+  $GROUP G_HhIncome_deep G_HhIncome_deep$(tx0[t]);
 
-  $BLOCK B_HHIncome_deep
+  $BLOCK B_HhIncome_deep
     E_rPensIndb_a_forecast[pens,a,t]$(a15t100[a] and tx1[t])..
       vHhPensIndb[pens,a,t] / vWHh[a,t] =E= rPensIndb2loensum[pens,a,t] * vLoensum[sTot,t] / vWHh[aTot,t]; 
 
@@ -867,20 +867,20 @@ $IF %stage% == "deep_dynamic_calibration":
 
       #  vHhPensAfk[pens,a,t] =E= rPensAfk2Pens[pens,a,t] * vHh[pens,aa-1,t-1]/fv / sum(aa, rPensAfk2Pens[pens,aa,t] * vHh[pens,aa-1,t-1]/fv);
   $ENDBLOCK
-  MODEL M_HHincome_deep /
-    M_HHincome
-    B_HHIncome_deep
+  MODEL M_HhIncome_deep /
+    M_HhIncome
+    B_HhIncome_deep
   /;
-  model M_deep_dynamic_calibration / M_HHincome_deep /;
-  $GROUP+ G_deep_dynamic_calibration G_HHincome_deep;
+  model M_deep_dynamic_calibration / M_HhIncome_deep /;
+  $GROUP+ G_deep_dynamic_calibration G_HhIncome_deep;
 $ENDIF
 
 # ======================================================================================================================
 # Dynamic calibration for new data years
 # ======================================================================================================================
 $IF %stage% == "dynamic_calibration_newdata":
-  $GROUP G_HHincome_dynamic_calibration
-    G_HHincome_endo
+  $GROUP G_HhIncome_dynamic_calibration
+    G_HhIncome_endo
 
     -vHhTilUdl[t1], rHhTilUdlRest[t1]
     -vHhAkt[fin_akt,aTot,t1]$(d1vHhAkt[fin_akt,t1]), cHh_t[fin_akt,t1]$(d1vHhAkt[fin_akt,t1])
@@ -893,7 +893,7 @@ $IF %stage% == "dynamic_calibration_newdata":
     -vHhPensIndb[pens,aTot,t1]$(vHhPensIndb.l[pens,aTot,t1] <> 0), jfrPensIndb[pens,t1]$(vHhPensIndb.l[pens,aTot,t1] <> 0) # Ved nul samlede indbetalinger er j-led ikke velbestemt, da indbetalingsrater for alle aldre også er 0
     -vHhPensUdb[pens,aTot,t1], jfrPensUdb[pens,t1]
   ;
-   $BLOCK B_HHincome_dynamic_calibration
+   $BLOCK B_HhIncome_dynamic_calibration
     E_rRealKred2Bolig_t[t]$(tx1[t])..
       rRealKred2Bolig_t[t] =E= rRealKred2Bolig_t_baseline[t]
                             + (permanens + (1-permanens) * 0.9**(dt[t]**1.5))
@@ -907,10 +907,10 @@ $IF %stage% == "dynamic_calibration_newdata":
                          + (permanens + (1-permanens) * 0.9**(dt[t]**1.5))
                          * (cHh_t[fin_akt,t1] - cHh_t_baseline[fin_akt,t1]);
    $ENDBLOCK
-  MODEL M_HHincome_dynamic_calibration /
-    M_HHincome
-     B_HHincome_dynamic_calibration
+  MODEL M_HhIncome_dynamic_calibration /
+    M_HhIncome
+     B_HhIncome_dynamic_calibration
   /;
-  model M_dynamic_calibration_newdata / M_HHincome_dynamic_calibration /;
-  $GROUP+ G_dynamic_calibration_newdata G_HHincome_dynamic_calibration;
+  model M_dynamic_calibration_newdata / M_HhIncome_dynamic_calibration /;
+  $GROUP+ G_dynamic_calibration_newdata G_HhIncome_dynamic_calibration;
 $ENDIF

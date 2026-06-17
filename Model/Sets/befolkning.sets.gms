@@ -264,6 +264,7 @@ Set ovf_ "Overførsler inkl. totaler" /
   set.ovf_til_udenlandske_husholdninger
   tot "Samlede overførsler"
   HhTot "Samlede overførsler til husholdninger"
+  UdlTot "Samlede overførsler til udlandet"
   a18t100 "Overførsler som fordeles på alle personer i alderen 18-100 år"
   a0t17 "Overførsler som fordeles på alle personer i alderen 0-17 år"
 /;
@@ -278,7 +279,8 @@ Set ovf[ovf_] "Overførsler ekskl. totaler" /
 Set ovfHh[ovf] "Overførsler ekskl. totaler" / set.ovf_til_husholdninger /;
 Set ovfUdl[ovf] "Overførsler ekskl. totaler" / set.ovf_til_udenlandske_husholdninger /;
 
-Set HhTot[ovf_] "Subset bestående af HhTot" / HhTot /;
+Singleton Set HhTot[ovf_] "Subset bestående af HhTot" / HhTot /;
+Singleton Set UdlTot[ovf_] "Subset bestående af UdlTot" / UdlTot /;
 
 Set ureguleret[ovf] "Overførsler som ikke reguleres" /
   groen   "Grøn check"
@@ -394,20 +396,4 @@ set ovfFraMAKROBK[ovf] "Variable med data fra MAKROBK" /
 # ledamydelse # Ulda
 # aktdagx # Uadr
 # aktamydelse # Uada
-/;
-
-Set ADAM_BFR_LIST "ADAM-variable overført direkte i samme enhed som i ADAM ikke vækst- og inflationskorrigeret" /
- umsy
- uaks
- buaks
- uryy
- uakry
- buakry
- ulyy
- uakly
- buakly
- ukiy
- qltjki
- buaki
- uakr
 /;

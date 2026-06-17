@@ -40,7 +40,7 @@ $FUNCTION import_from_modules(stage_key):
   $IMPORT finance.gms;
   $IMPORT GovRevenues.gms;
   $IMPORT GovExpenses.gms;
-  $IMPORT HHincome.gms;  
+  $IMPORT HhIncome.gms;  
   $IMPORT IO.gms;
   $IMPORT labor_market.gms;
   $IMPORT pricing.gms;
@@ -49,17 +49,21 @@ $FUNCTION import_from_modules(stage_key):
   $IMPORT struk.gms;
   $IMPORT taxes.gms;
   $IMPORT government.gms;
+  $IMPORT HBI.gms;
 $ENDFUNCTION
 
 # ======================================================================================================================
 # Growth and inflation adjustment
 # ======================================================================================================================
 parameters
-  gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.011/
-  gp "Long run rate of foreign inflation" /0.018/
+  gq "Long run rate of productivity growth (labor-augmenting technological progress rate)" /0.015/
+  gp "Long run rate of foreign inflation" /0.02/
   terminal_rente "Obligationsrente på lang sigt" /0.04/
   terminal_ECB_rente "ECB-rente på lang sigt" /0.035/
 ;
+
+gq$(%FM_baseline%) = 0.011;
+gp$(%FM_baseline%) = 0.018;
 
 # ======================================================================================================================
 # Sets
@@ -123,7 +127,7 @@ $ONECHO > conopt4.opt
   lmmxsf = 1
 
   # Time limit in seconds
-  reslim = 3600
+  reslim = 36000
 
   #Limit on number of error messages related to infeasible pre-triangle
   #25 is default but often not enough. 

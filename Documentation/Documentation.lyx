@@ -1,5 +1,5 @@
-#LyX 2.4 created this file. For more info see https://www.lyx.org/
-\lyxformat 620
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -7,9 +7,6 @@
 \textclass article
 \begin_preamble
 \input{preamble}
-% Added by lyx2lyx
-\setlength{\parskip}{\medskipamount}
-\setlength{\parindent}{0pt}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -28,7 +25,7 @@ theorems-ams
 \font_typewriter "default" "default"
 \font_math "iwona-math" "auto"
 \font_default_family sfdefault
-\use_non_tex_fonts false
+\use_non_tex_fonts true
 \font_sc false
 \font_roman_osf false
 \font_sans_osf false
@@ -43,6 +40,7 @@ theorems-ams
 \bibtex_command default
 \index_command default
 \float_placement H
+\float_alignment class
 \paperfontsize default
 \spacing single
 \use_hyperref true
@@ -74,11 +72,19 @@ theorems-ams
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\justification true
-\use_refstyle 0
+\justification default
+\crossref_package prettyref
 \use_formatted_ref 0
 \use_minted 0
 \use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
 \index Index
 \shortcut idx
 \color #008000
@@ -104,6 +110,7 @@ theorems-ams
 \html_be_strict false
 \docbook_table_output 0
 \docbook_mathml_prefix 1
+\docbook_mathml_version 0
 \end_header
 
 \begin_body
@@ -113,7 +120,6 @@ theorems-ams
 status open
 
 \begin_layout Plain Layout
-
 
 \backslash
 includepdf[pages={1}]{FrontPages&BackPage.pdf}
@@ -130,9 +136,8 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
-includepdf[pages={4-5}]{FrontPages&BackPage.pdf}
+includepdf[pages={4}]{FrontPages&BackPage.pdf}
 \end_layout
 
 \end_inset
@@ -164,7 +169,6 @@ status open
 
 \begin_layout Plain Layout
 
-
 \backslash
 includepdf[pages={44-55}]{FrontPages&BackPage.pdf}
 \end_layout
@@ -177,6 +181,10 @@ includepdf[pages={44-55}]{FrontPages&BackPage.pdf}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Title
+MAKRO Documentation
 \end_layout
 
 \begin_layout Standard
@@ -192,10 +200,6 @@ literal "true"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Title
-MAKRO Documentation
 \end_layout
 
 \begin_layout Standard
@@ -333,7 +337,6 @@ literal "true"
 status open
 
 \begin_layout Plain Layout
-
 
 \backslash
 includepdf[pages={8}]{FrontPages&BackPage.pdf}

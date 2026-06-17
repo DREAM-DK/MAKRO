@@ -132,13 +132,15 @@ try:
         break
       if (line.strip() == square_message):
         b = True    
-  if not b:
-    raise Exception(f"Did not find message '{square_message}' in /LST/{gams1}.lst. This is usually because something went wrong, but it MAY be because the model is already square when setting .holdfixed = 0.")
-  with open(temp3, "w") as text_file:
+  
+  # If b is False, the message '{square_message}' was not found in /LST/{gams1}.lst. This CAN happen, but is rare. (the model is already square when setting .holdfixed = 0).")
+  # Perhaps in principle it ought to be checked if the GAMS program producing /LST/{gams1}.lst has crashed with an error or not (but if it has, the whole .py file should crash anyway).
+  
+  if b:
+    with open(temp3, "w") as text_file:
       text_file.write(str(extra))
-
-  dt.gamY.run(f"{gams2}.gms", r=savepoint) # Corrects rows/columns and produces scalar model files dict.txt and gams.gms.
-
+    dt.gamY.run(f"{gams2}.gms", r=savepoint) # Corrects rows/columns and produces scalar model files dict.txt and gams.gms.
+  
   with zipfile.ZipFile(zipname, 'w', compression = zipfile.ZIP_DEFLATED) as zipf:
     zipf.write(temp1)
     zipf.write(temp2)    

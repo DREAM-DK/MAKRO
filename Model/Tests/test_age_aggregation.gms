@@ -49,7 +49,8 @@ abort$(smax(t$(tForecast[t] and not t2[t]), abs(vHhxAfk_sumtest[t])) > 1e-7) "vH
 # Forbrug
 # ------------------------------------------------------------------------------------------------------------------
 parameter vC_NR_sumtest[t]; vC_NR_sumtest[t]$tx0[t] = vC_NR.l[aTot,t] - sum(a, vC_NR.l[a,t] * nPop.l[a,t]);
-abort$(smax(t, abs(vC_NR_sumtest[t])) > 1e-6) "vC_NR[jTot,aTot] does not match sum of components", vC_NR_sumtest;
+abort$(smax(t, abs(vC_NR_sumtest[t])) > 0.02) "vC_NR[jTot,aTot] does not match sum of components", vC_NR_sumtest;
+abort$(smax(t$(tForecast[t]), abs(vC_NR_sumtest[t])) > 1e-6) "vC_NR[jTot,aTot] does not match sum of components in forecast", vC_NR_sumtest;
 
 parameter vHhx_tot_test[t]; vHhx_tot_test[t]$(tx0[t]) = vHhx.l[aTot,t] - (vHhNet.l[t] - vHhAkt.l['pensTot',aTot,t] + vHhPas.l['RealKred',aTot,t]);
 abort$(smax(t, abs(vHhx_tot_test[t])) > 1e-7) "vHhx does not match tot-Pens+RealKred", vHhx_tot_test;

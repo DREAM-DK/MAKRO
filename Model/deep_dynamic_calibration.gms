@@ -77,7 +77,7 @@ $GROUP G_new_endogenous G_do_not_load, - G_exo;
 #    ("con"    , "M_consumers_dynamic_calibration"           , "M_consumers_deep"          , "G_consumers_dynamic_calibration"          , "G_consumers_deep"          , 1),
 #    ("ss"     , "M_struk_dynamic_calibration"               , "M_struk_deep"              , "G_struk_dynamic_calibration"              , "G_struk_deep"              , 1),
 #    ("lab"    , "M_labor_market_dynamic_calibration"        , "M_labor_market_deep"       , "G_labor_market_dynamic_calibration"       , "G_labor_market_deep"       , 1),
-#    ("hh"     , "M_HHincome_dynamic_calibration"            , "M_HHincome_deep"           , "G_HHincome_dynamic_calibration"           , "G_HHincome_deep"           , 1),
+#    ("hh"     , "M_HhIncome_dynamic_calibration"            , "M_HhIncome_deep"           , "G_HhIncome_dynamic_calibration"           , "G_HhIncome_deep"           , 1),
 #    ("x"      , "M_exports_dynamic_calibration"             , "M_exports_deep"            , "G_exports_dynamic_calibration"            , "G_exports_deep"            , 1),
 #    ("off"    , "M_production_public_dynamic_calibration"   , "M_production_public_deep"  , "G_production_public_dynamic_calibration"  , "G_production_public_deep"  , 1),
 #    ("g_r"    , "M_GovRevenues_dynamic_calibration"         , "M_GovRevenues_deep"        , "G_GovRevenues_dynamic_calibration"        , "G_GovRevenues_deep"        , 1),

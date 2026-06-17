@@ -63,7 +63,7 @@ def plot_baseline(
         *vtp.exports_figures,
         *vtp.government_Revenues,
         *vtp.government_Expenditures,
-        *vtp.HHIncome_figures,
+        *vtp.HhIncome_figures,
         *vtp.IO_figures,
         *vtp.LaborMarket_figures,
         *vtp.Pricing_figures,

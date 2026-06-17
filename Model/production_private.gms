@@ -42,7 +42,7 @@ $IF %stage% == "variables":
     hL[s_,t] "Erlagte arbejdstimer fordelt på brancher, Kilde: ADAM[hq] eller ADAM[hq<i>]"
     dKInstOmk2dK[k,s_,t] "qKInstOmk[t] differentieret ift. qK[t]"
     dKInstOmk2dKLag[k,s_,t] "qKInstOmk[t] differentieret ift. qK[t-1]"
-    mtVirk[s_,t] "Branchefordelt marginal indkomstskat hos virksomheder."
+    mtVirk[t] "Marginal indkomstskat hos virksomheder."
     fuY_spTot[t] "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qKELBR[spTot,t]"
     fR[s_,t] "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qR[s_,t] - skal være 1 for sp"
     fB[s_,t] "Korrektionsfaktor for sammensætningseffekt i bestemmelse af qKUdn['iB',s_,t] - skal være 1 for sp"
@@ -234,8 +234,8 @@ $IF %stage% == "equations":
 
     # Public sector has exogenous hL
     .. qL['off',t] =E= qProd['off',t] # Sector specific labor productivity
-                * (1-rOpslagOmk['off',t]) # Matching friction
-                * hL['off',t]; # Number of hours worked
+                     * (1-rOpslagOmk['off',t]) # Matching friction
+                     * hL['off',t]; # Number of hours worked
 
     .. qLUdn['off',t] =E= uL['off',t] * qL['off',t];
 
@@ -319,18 +319,18 @@ $IF %stage% == "equations":
     pK[k,sp,t]$((tx0E[t] and not bol[sp]) and d1K[k,sp,t])..
       pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
-      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp
+        (1+rVirkDisk[sp,t+1]) / (1-mtVirk[t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr[k,sp,t+1]) / (1-mtVirk[t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp
       # Production tax on capital
       + tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp
       # Tax shield and collateral value on capital
-      - (rVirkDisk[sp,t+1] / (1-mtVirk[sp,t+1]) - (mrVirkDriftPasRente[k,sp,t+1] + mrVirkDriftPasOmv[k,sp,t+1])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t]
+      - (rVirkDisk[sp,t+1] / (1-mtVirk[t+1]) - (mrVirkDriftPasRente[k,sp,t+1] + mrVirkDriftPasOmv[k,sp,t+1])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t]
       # Change in installation costs today
-      + (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * pKELBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dK[k,sp,t]
+      + (1+rVirkDisk[sp,t+1]) / (1-mtVirk[t+1]) * pKELBR[sp,t] * (1-mtVirk[t]) * dKInstOmk2dK[k,sp,t]
       # Discounted value of change in future installation costs from change in investments today
       + pKELBR[sp,t+1]*fp * dKInstOmk2dKLag[k,sp,t+1]
       # Derivative of profits two periods ahead wrt. capital, which we normally consider exogenous to the firm
-      #  + ((1-mtVirk[sp,t+2]) / (1+rVirkDisk[sp,t+2]) * pKELBR[sp,t+2]*fp * uKInstOmk[k,sp,t+2] * (qK[k,sp,t+2]/qK[k,sp,t+1] / (qK[k,sp,t+1]/qK[k,sp,t]) - 1) * qK[k,sp,t+2]/qK[k,sp,t+1])$(not tEnd[t+1])
+      #  + ((1-mtVirk[t+2]) / (1+rVirkDisk[sp,t+2]) * pKELBR[sp,t+2]*fp * uKInstOmk[k,sp,t+2] * (qK[k,sp,t+2]/qK[k,sp,t+1] / (qK[k,sp,t+1]/qK[k,sp,t]) - 1) * qK[k,sp,t+2]/qK[k,sp,t+1])$(not tEnd[t+1])
       + jpK_s[k,sp,t+1] + jpK_t[k,t+1];
 
     # Shadow price of capital in housing sector is set residually to match price of housing services assuming zero markup
@@ -343,12 +343,12 @@ $IF %stage% == "equations":
     pK_gns[k,sp,t]$((tx0[t] and not bol[sp]) and d1K[k,sp,t])..
       pK_gns[k,sp,t]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rAktieDrift[t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
-      - (1-rAfskr[k,sp,t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * fp
+        (1+rAktieDrift[t]) / (1-mtVirk[t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr[k,sp,t]) / (1-mtVirk[t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * fp
       # Production tax on capital
       + tK[k,sp,t] * pI_s[k,sp,t]*fp
       # Tax shield and collateral value on capital
-      - (rAktieDrift[t] / (1-mtVirk[sp,t]) - (mrVirkDriftPasRente[k,sp,t] + mrVirkDriftPasOmv[k,sp,t])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t];
+      - (rAktieDrift[t] / (1-mtVirk[t]) - (mrVirkDriftPasRente[k,sp,t] + mrVirkDriftPasOmv[k,sp,t])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t];
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -606,15 +606,15 @@ $IF %stage% == "equations":
     fpK_spTot[k,t]$(tx0E[t] and t.val > %NettoFin_t1%)..
       pK[k,spTot,t+1]*fp * qK[k,spTot,t] =E= fpK_spTot[k,t] *(
       # Tobin's q today and tomorrow
-      sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
-      - sum(sp$(not bol[sp]), (1-rAfskr[k,sp,t+1]) / (1-mtVirk[sp,t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
+      sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * qK[k,sp,t])
+      - sum(sp$(not bol[sp]), (1-rAfskr[k,sp,t+1]) / (1-mtVirk[t+1]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t+1]) * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
       # Production tax on capital
       + sum(sp$(not bol[sp]), tK[k,sp,t+1] * pI_s[k,sp,t+1]*fp * qK[k,sp,t])
       # Tax shield and collateral value on capital
-      - sum(sp$(not bol[sp]), (rVirkDisk[sp,t+1] / (1-mtVirk[sp,t+1]) - (mrVirkDriftPasRente[k,sp,t+1] + mrVirkDriftPasOmv[k,sp,t+1])) 
+      - sum(sp$(not bol[sp]), (rVirkDisk[sp,t+1] / (1-mtVirk[t+1]) - (mrVirkDriftPasRente[k,sp,t+1] + mrVirkDriftPasOmv[k,sp,t+1])) 
                               * mrLaan2K[k,sp,t] * pI_s[k,sp,t] * qK[k,sp,t])
       # Change in installation costs today
-      + sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[sp,t+1]) * pKELBR[sp,t] * (1-mtVirk[sp,t]) * dKInstOmk2dK[k,sp,t] * qK[k,sp,t])
+      + sum(sp$(not bol[sp]), (1+rVirkDisk[sp,t+1]) / (1-mtVirk[t+1]) * pKELBR[sp,t] * (1-mtVirk[t]) * dKInstOmk2dK[k,sp,t] * qK[k,sp,t])
       # Discounted value of change in future installation costs from change in investments today
       + sum(sp$(not bol[sp]), pKELBR[sp,t+1]*fp * dKInstOmk2dKLag[k,sp,t+1] * qK[k,sp,t])
       + sum(sp$(not bol[sp]), (jpK_s[k,sp,t+1] + jpK_t[k,t+1]) * qK[k,sp,t])
@@ -820,12 +820,12 @@ $IF %stage% == "static_calibration":
     E_pK_static[k,sp,t]$(tx0E[t] and not bol[sp] and d1K[k,sp,t])..
       pK[k,sp,t+1]*fp =E=
       # Tobin's q today and tomorrow
-        (1+rVirkDisk[sp,t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
-      - (1-rAfskr_static[k,sp,t]) / (1-mtVirk[sp,t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * (1+gpI_s_static[k,sp,t])
+        (1+rVirkDisk[sp,t]) / (1-mtVirk[t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t]
+      - (1-rAfskr_static[k,sp,t]) / (1-mtVirk[t]) * (1-dnvAfskrFradrag2dvI_s[k,sp,t]) * pI_s[k,sp,t] * (1+gpI_s_static[k,sp,t])
       # Production tax on capital
       + tK[k,sp,t] * pI_s[k,sp,t]*(1+gpI_s_static[k,sp,t])
       # Tax shield and collateral value on capital
-      - (rVirkDisk[sp,t] / (1-mtVirk[sp,t]) - (mrVirkDriftPasRente[k,sp,t] + mrVirkDriftPasOmv[k,sp,t])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t];
+      - (rVirkDisk[sp,t] / (1-mtVirk[t]) - (mrVirkDriftPasRente[k,sp,t] + mrVirkDriftPasOmv[k,sp,t])) * mrLaan2K[k,sp,t] * pI_s[k,sp,t];
 
     E_rLUdn_static[sp,t]..
       rLUdn[sp,t] =E= rLUdn[sp,t-1]**eLUdnPersistens * (1 + jfrLUdn[sp,t] + jfrLUdn_t[t]);

@@ -46,7 +46,6 @@ $IF %stage% == "variables":
     tVirkAM[s_,t] "Afgiftssats for AM-bidrag betalt af virksomheder "
     tIOy[d_,s,t] "Samlet afgiftssats for moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og indenlandske brancher."
     tIOm[d_,s,t] "Samlet afgiftssats for moms og punktafgifter inkl. subsidier og registreringsafgift fordelt på efterspørgselskomponenter og import-grupper."
-    tGrund[s_,t] "Implicit sats for ejendomsskatter"
     vtMoms[d_,s_,t] "Generelle afgiftsprovenu (oms/moms) fordelt på efterspørgselskomponenter og brancher, Kilde: ADAM[Spg_<d>]"
     vtNetAfg[d_,s_,t] "Provenu af punktafgifter fordelt på efterspørgselskomponenter og brancher inkl. subsidier og registreringsafgift, Kilde: ADAM[Spp_<d>]"
     vtAfg[d_,s_,t] "Provenu af punktafgifter fordelt på efterspørgselskomponenter og brancher ekskl. registreringsafgift."
@@ -92,7 +91,7 @@ $IF %stage% == "variables":
   $GROUP G_taxes_newdata_fixed_forecast
     rSubLoen[s_,t]$(s[s_])
     tVirkVaegt[s_,t] "Implicit sats for vægtafgift."
-    tGrund[s_,t]
+    tGrund[s,t] "Implicit sats for ejendomsskatter"
     tVirkAM[s_,t]$(s[s_])
     tAUB[s_,t]$(s[s_])
     tE[s_,t]$(s[s_]) "Energiafgiftssats - grøn afgift og bortauktionering af CO2 kvoter"
@@ -170,7 +169,7 @@ $IF %stage% == "equations":
     $(d1IOm[i_,s,t] and (sameas['iB',i_] or sameas['iM',i_]))..
       vtAfg_m_k[i_,r,s,t] =E= tAfg_m_k[i_,r,s,t] * (1 + tTold[i_,s,t]) 
                                                  * pnCPI[cTot,t-1]/fp * rpI[i_,sTot,t] * qI_s[i_,r,t];
- 
+
     # Udgifter til produktsubsidier
     .. vSub[d,s,t] =E= vSub_y[d,s,t] + vSub_m[d,s,t];
 
@@ -228,9 +227,9 @@ $IF %stage% == "equations":
                                                       + vtMoms_m[d,s,t] + vtTold[d,s,t]);
 
       # PRODUCTION TAXES - brancheniveau
-    vtGrund&_notbol[s,t]$(d1K['iB',s,t] and not bol[s]).. 
-      vtGrund[s,t] =E= tGrund[s,t] * pI_s['iB',s,t] * qK['iB',s,t-1]/fq;
-    $(bol[s]).. vtGrund[s,t] =E= tGrund[s,t] * (1 + rKLeje2Bolig[aTot,t]) * vLand[t];
+    vtGrund&_notbol[s,t]$(d1K['iB',s,t] and not bol[s])..
+      vtGrund[s,t] =E= tGrund[s,t] * pI_s['iB',s,t-1]/fp * qK['iB',s,t-1]/fq;
+    $(bol[s] and t.val > %cal_start%).. vtGrund[s,t] =E= tGrund[s,t] * (1 + rKLeje2Bolig[aTot,t]) * vLand[t-1]/fv;
 
     $(d1K['iM',s,t]).. vtVirkVaegt[s,t] =E= tVirkVaegt[s,t] * pnCPI[cTot,t-1]/fp * qK['iM',s,t-1]/fq;
     
@@ -259,8 +258,6 @@ $IF %stage% == "equations":
     .. vtY[s,t] =E= vtGrund[s,t] + vtVirkVaegt[s,t] + vtCO2[s,t] + vtVirkAM[s,t] + vtAUB[s,t] + vtYRest[s,t];
 
     # PRODUCTION TAXES - aggregater
-    tGrund[sTot,t]..  vtGrund[sTot,t] =E= tGrund[sTot,t] * sum(s, vtGrund[s,t]/tGrund[s,t]);
-
     tK['iM',sTot,t].. vtVirkVaegt[sTot,t] =E= tK['iM',sTot,t] * pnCPI[cTot,t-1]/fp * qK['iM',sTot,t-1]/fq;
 
     tK['iB',sTot,t].. vtGrund[sTot,t] =E= tK['iB',sTot,t] * pKI['iB',sTot,t] * qK['iB',sTot,t-1]/fq;
@@ -513,7 +510,7 @@ $IF %stage% == "static_calibration":
 
     tE[s,t], -vtCO2[s,t]
     tYRest[s,t], -vtYRest[s,t]
-    tGrund[s,t], -vtGrund[s,t]
+    tGrund[s,t]$(not (bol[s] and t.val = %cal_start%)), -vtGrund[s,t]$(not (bol[s] and t.val = %cal_start%))
     tVirkVaegt[s,t], -vtVirkVaegt[s,t]
     rSubLoen[s,t], -vSubLoen[s,t]
   ;

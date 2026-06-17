@@ -36,7 +36,7 @@ PROCEDURE fold;
 	global:#default.#s_ = ('tot',);
 	global:#default.#sp = ('tje', 'fre', 'byg', 'soe', 'bol', 'lan', 'ene', 'udv');
 	global:#default.#s  = ('tje', 'fre', 'byg', 'soe', 'bol', 'lan', 'ene', 'udv', 'off');
-	global:#default.#r_ = ('rTot',);
+	global:#default.#r_ = ('tot',);
 	global:#default.#r  = global:#default.#s;
 
 	global:#default.#i_ = ('iTot',);

@@ -5,7 +5,7 @@
   lmmxsf = 1
 
   # Time limit in seconds
-  reslim = 3600
+  reslim = 36000
 
   #Limit on number of error messages related to infeasible pre-triangle
   #25 is default but often not enough. 

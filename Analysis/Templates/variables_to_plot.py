@@ -274,7 +274,7 @@ government_Expenditures = [
     ("", "", lambda s: s.qBNP*0, ""),   
 ]
 
-HHIncome_figures = [
+HhIncome_figures = [
     ("Husholdningers aggrerede indkomst (vHhInd[aTot])", "Household aggregate income (vHhInd[aTot])", lambda s: s.vHhInd["tot"], "pq"),
     ("Afkast på husholdningernes <br> aggrerede formue (vHhxAfk[aTot])", "Return on households <br> aggregate wealth (vHhxAfk[aTot])", lambda s: s.vHhxAfk["tot"], "pq"),
     ("Aggregerede pensions indbetalinger<br> (vHhPensIndb[pensTot,aTot])", "Aggregate pension deposits (vHhPensIndb[pensTot,aTot])", lambda s: s.vHhPensIndb["pensTot","tot"], "pq"),

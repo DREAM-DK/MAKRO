@@ -9,88 +9,6 @@
 # ======================================================================================================================
 $IF %stage% == "variables":
 
-  # Variable der skal udregnes nutidsværdi af
-  $GROUP G_government_nv_variables
-    vPrimSaldo[t] "Den offentlige sektors primære saldo, Kilde: ADAM[Tfn_o]-ADAM[Tion2]"
-    vOffPrimInd
-    vtDirekte
-    vtKilde
-    vtDoedsbo['tot']
-    vtKommune['tot']
-    vtBund['tot']
-    vtEjd['tot']
-    vtAktie
-    vtVirksomhed['tot']
-    vtKildeRest "Rest af kildeskatter, dækker bl.a. sømandsskat, formueskat, særlige indkomstskatter mm. signifikant frem til 1999 hvorefter data bliver bedre for underkomponenter og forsvinder helt i 2012 og frem"
-    vtHhVaegt['tot']
-    vtHhAM['tot']
-    vtPersRest['tot']
-    vtSelskab['tot']
-    vtPAL
-    vtIndirekte
-    vtAfg['dTot','tot']
-    vtMoms['dTot','tot']
-    vtReg['dTot','tot']
-    vtY['tot']
-    vtGrund['tot']
-    vtVirkVaegt['tot']
-    vtAUB['tot']
-    vtVirkAM['tot']
-    vtYRest['tot']
-    vOffIndRest
-    vBidrag['tot']
-    vBidragObl
-    vBidragAK
-    vBidragEL
-    vBidragFri
-    vBidragTjmp
-    vtArv['tot']
-    vOffAfskr['iTot']
-    vJordrente
-    vtKulbrinte
-    vJordrenteRest
-    vOffVirk
-    vtKirke['tot']
-    vOffFraUdlKap
-    vOffFraUdlEU
-    vOffFraUdlRest
-    vOffFraVirk
-    vOffFraHh
-    vOffPrimUd
-    vG['gTot']
-    vGInd
-    vGKol
-    vOffInv
-    vOvf['tot']
-    vOvf['pension']
-    vOvf['fortid']
-    vOvf['efterl']
-    vOvf['tjmand']
-    vOvf['barsel']
-    vOvf['syge']
-    vOvf['uddsu']
-    vOvf['boernyd']
-    vOvf['boligst']
-    vOvf['boligyd']
-    vOffSub
-    vSub['dTot','tot']
-    vSubY
-    vOffUdRest
-    vOffOmv[t] "Samlede omvurderinger af den offentlige sektors nettoformue, Kilde: ADAM[Own_o]"
-    vSaldo[t] "Den offentlige sektors faktiske saldo, Kilde: ADAM[Tfn_o]"
-    vBNP
-    vOffUdbytte[t] "Statens udbytter af aktier og ejerandelsbeviser, Kilde: ADAM[Tiu_z_os]"
-    vOffInd[t] "Offentlige indtægter (renter + primære)"
-    vOffUd[t]  "Offentlige udgifter (renter + primære)"
-    vRenteMarginal[t] "Værdien af rentemarginal"
-  ;
-
-  $GROUP G_government_nv
-    $LOOP G_government_nv_variables:
-      n{name}{sets} "Present value of {name}"
-    $ENDLOOP
-  ;
-  
   $GROUP G_government_exogenous
     vOffPasRest[t] "Forskel på offentlig finansielle passiver fra FM og OEMUgaeld"
     vOEMUgaeldRest[t] "Forskel på ØMU-gæld og statsgæld"
@@ -142,7 +60,12 @@ $IF %stage% == "variables":
     vPrisIndeks[t] "Indeks til pristalsregulering af overførselsindkomster, Kilde: ADAM[pttyp]"
     vSatsIndeksx[t] "Indeks til regulering af overførselsindkomster ekskl. bidrag til obligatorisk opsparing for modtagere af indkomstoverførsler (fra 2020), Kilde: ADAM[pttyo]"
     vProgIndeks[t] "Indeks til regulering af progressionsgrænser, Kilde: ADAM[pcrs]" 
-  # Renter, formuer og saldo
+    vPrimSaldo[t] "Den offentlige sektors primære saldo, Kilde: ADAM[Tfn_o]-ADAM[Tion2]"
+    vSaldo[t] "Den offentlige sektors faktiske saldo, Kilde: ADAM[Tfn_o]"
+    vOffOmv[t] "Samlede omvurderinger af den offentlige sektors nettoformue, Kilde: ADAM[Own_o]"
+    vOffUdbytte[t] "Statens udbytter af aktier og ejerandelsbeviser, Kilde: ADAM[Tiu_z_os]"
+    vOffInd[t] "Offentlige indtægter (renter + primære)"
+    vOffUd[t] "Offentlige udgifter (renter + primære)"
     vOffNet[t]"Nettoværdien af den offentlige sektors finansielle portefølje."
     vOffAktRenter[portf_,t] "Samlet formueindkomst fra aktiver for den offentlige sektor"
     vOffPasRenter[portf_,t] "Samlet rente- og dividendeudskrivninger for den offentlige sektor"
@@ -162,6 +85,7 @@ $IF %stage% == "variables":
     vOff13Net[t] "Nettoværdien af den offentlige sektors finansielle portefølje baseret på OFF13."
     vOff13Pas[t] "Den offentlige sektors finansielle passiver baseret på OFF13."
     mrOffRente[t]"Offentlig marginalrente"
+    vRenteMarginal[t] "Værdien af rentemarginal"
     vOffRenterxInd[t] "Den offentlige sektors renteindtægter ekskl. dividender"
     vOffDividender[t] "Den offentlige sektors dividendeindtægter"
     rOffRenterxInd[t] "Implicit rente på offentlige rentebærende aktiver (dvs. ekskl. aktier) baseret på OFF13"
@@ -170,11 +94,6 @@ $IF %stage% == "variables":
     vOEMUgaeld[t] "ØMU-gæld (eksklusive ATP og eksklusive genudlån), Kilde: ADAM[Wzzomuxa]"
     vStatsgaeld[t] "Statsgæld, Kilde: ADAM[SG]"
     rvSaldo_konjunkturrenset_alm_poster[t] "Offentlig saldo korrigeret for konjunkturpåvirkning på almindelige poster"
-  # Endogenous variables outside tx0 - we can calculate fiscal sustainability prior to first endogenous year
-    G_government_nv "Nutidsværdi af offentlige finanser."
-    vRenteMarginal
-    rHBI[t] "Holdbarhedsindikator før korrektion ved beregningsmæssig skat til lukning, korrigeret HBI."
-    rHBIxMerafkast[t] "Holdbarhedsindikator eksklusiv merafkast."
     vOffIndNyDef[t]$(t.val > %NettoFin_t1%) "Offentlige indtægter (ny definition fra 2005)"
     vOffUdNyDef[t]$(t.val > %NettoFin_t1%)  "Offentlige udgifter (ny definition fra 2005)"
   ;
@@ -316,39 +235,13 @@ $IF %stage% == "equations":
                                              - budgetfaktor[t] * (0.6 * rBeskGab[t] + 0.4 * rBVTGab[t]);
   $ENDBLOCK
 
-  $BLOCK B_government_forwardlooking G_government_forwardlooking_endo $(tHBI.val <= t.val)
-  # ----------------------------------------------------------------------------------------------------------------------
-  # Holdbarheds-indikator
-  # ---------------------------------------------------------------------------------------------------------------------  
-    $(t.val < tEnd.val)..
-      rHBI[t] =E= (nvPrimSaldo[t] + nvOffOmv[t] - nvRenteMarginal[t] + vOff13Net[t-1]/fv * (1+mrOffRente[t+1])) / nvBNP[t];
-
-    $(t.val < tEnd.val).. rHBIxMerafkast[t] =E= (nvPrimSaldo[t+1]*fv / (1+mrOffRente[t+1]) + vOff13Net[t]) / nvBNP[t];
-
-    # Nutidsværdier til beregning og dekomponering af HBI.
-    # Som terminalbetingelse anvendes gennemsnit af de 5 sidste år.
-    $LOOP G_government_nv_variables:
-      $({conditions} and t.val < tEnd.val)..
-        n{name}{sets} =E= {name}{sets} + n{name}{sets}{$}[<t>t+1] * fv / (1+mrOffRente[t+1]);
-      n{name}&_tEnd{sets}$({conditions} and tEnd[t])..
-        n{name}{sets} =E= {name}{sets}
-          + @mean(tt$[t.val-5 < tt.val and tt.val <= t.val], {name}{sets}{$}[<t>tt]) / (1 - fv / (1+mrOffRente[t]));
-    $ENDLOOP
-
-    $(t.val <= tEnd.val)..
-      vRenteMarginal[t] =E= mrOffRente[t] * (vOff13Aktx[t-1]/fv + vOff13Aktier[t-1]/fv) - vOffRenteInd[t]
-                             - (mrOffRente[t] * vOff13pas[t-1]/fv - vOffRenteUd[t]);
-  $ENDBLOCK
-
   $GROUP G_government_endo 
     G_government_static
-    G_government_forwardlooking_endo
   ;
   $GROUP+ G_Endo G_government_endo;
 
   Model M_government /
     B_government_static
-    B_government_forwardlooking
   /;  
   model M_base / M_government /;
 
@@ -390,10 +283,6 @@ $IF %stage% == "exogenous_values":
 # Exogenous variables
 # ======================================================================================================================
   budgetfaktor.l[t] = 0.71; # Pt. sat konstant svarende til 2030-niveau selvom den varierer lidt historisk i Finansministeriets beregning af strukturel saldo. 
-  parameter HBI_lukning_profil[t];
-  HBI_lukning_profil[t]$(%HBI_lukning_start% < t.val and t.val < %HBI_lukning_slut%)
-    = 1-1/(1+((%HBI_lukning_slut%-%HBI_lukning_start%)/(t.val - %HBI_lukning_start%) - 1)**(-2));
-  HBI_lukning_profil[t]$(t.val >= %HBI_lukning_slut%) = 1;
 
 # ======================================================================================================================
 # Data assignment
@@ -482,9 +371,6 @@ $IF %stage% == "deep_dynamic_calibration":
 
     vOff13AktxRest[tx1] # E_vOff13AktxRest
     vOff13AktierRest[tx1] # E_vOff13AktierRest
-
-    #  vtLukning[a_,t]$(aTot[a_] and t.val >= %HBI_lukning_start%) # E_vtLukning_aTot_deep, E_vtLukning_aTot_tEnd_deep
-    #  rGLukning[t]$(t.val >= %HBI_lukning_start%) # E_rGLukning, E_vtLukning_aTot_tEnd
   ;
   $GROUP G_government_deep G_government_deep$(tx0[t]);
   $BLOCK B_government_deep
@@ -494,10 +380,6 @@ $IF %stage% == "deep_dynamic_calibration":
       rRente[portf,t] + jrOffAktRenter[portf,t] =E= rRente['Obl',t];
     E_vOff13AktxRest[t]$(tx1[t]).. vOff13AktxRest[t] =E= vOff13AktxRest[t-1]/fv;
     E_vOff13AktierRest[t]$(tx1[t]).. vOff13AktierRest[t] =E= vOff13AktierRest[t-1]/fv;
-
-  #    E_vtLukning_aTot_tEnd_deep[t]$(tEnd[t]).. vOffNet[t] / vBNP[t] =E= vOffNet[t-1] / vBNP[t-1];
-  #    E_vtLukning_aTot_deep[t]$(tx0E[t] and t.val >= %HBI_lukning_start%).. tLukning[t] =E= HBI_lukning_profil[t] * tLukning[tEnd];
-  #    #  E_rGLukning[t]$(tx0E[t] and t.val >= 2050).. rGLukning[t] =E= HBI_lukning_profil[t] * rGLukning[tEnd];
   $ENDBLOCK
   MODEL M_government_deep /
     M_government
@@ -522,15 +404,11 @@ $IF %stage% == "dynamic_calibration_newdata":
     vOffPasRest[tx1], -rOffPasRest2BNP[tx1]
     vOff13AktxRest[tx1] # E_vOff13AktxRest
     vOff13AktierRest[tx1] # E_vOff13AktierRest
-
-    #  vtLukning[a_,t]$(aTot[a_] and t.val >= %HBI_lukning_start%) # E_vtLukning_aTot, E_vtLukning_aTot_tEnd
   ;
 
   $BLOCK B_government_dynamic_calibration
     E_vOff13AktxRest[t]$(tx1[t]).. vOff13AktxRest[t] =E= vOff13AktxRest[t-1]/fv;
     E_vOff13AktierRest[t]$(tx1[t]).. vOff13AktierRest[t] =E= vOff13AktierRest[t-1]/fv;
-  #    E_vtLukning_aTot_tEnd[t]$(tEnd[t]).. vOffNet[t] / vBNP[t] =E= vOffNet[t-1] / vBNP[t-1];
-  #    E_vtLukning_aTot[t]$(tx0E[t] and t.val >= %HBI_lukning_start%).. tLukning[t] =E= HBI_lukning_profil[t] * tLukning[tEnd];
   $ENDBLOCK
 
   MODEL M_government_dynamic_calibration /

@@ -12,7 +12,7 @@ $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
   pBVT
   
   qBolig
-  qCx[a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%) # Negative aldersfordelte tal kan forekomme i statisk kalibrering, uden for år med aldersfordelt data
+  qCx[a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%), qC_NR[a,t]$(%AgeData_t1% < t.val and t.val <= %cal_end%) # Negative aldersfordelte tal kan forekomme i statisk kalibrering, uden for år med aldersfordelt data
   qI, qI_s, qIBolig, qILager, qIStam, qIVaerdi
   qOffIndirInv, pOffIndirInv, qOffNyInvx, pOffNyInvx,
   qIO$(i_[d_]), qIOy$(i_[d_]), qIOm$(i_[d_])
@@ -20,11 +20,7 @@ $GROUP G_negative_allowed  # Prices or quantities variables that can be negative
   qIO$(udv[s_] and t.val < 2001), qIOy$(udv[s_] and t.val < 2001), qIOm$(udv[s_] and t.val < 1991)
   qHandelsbalance
   qProdxDK$(t.val < 2000) # Der er negativ aflønninger af grænsearbejdere i "data" før 2000 - dette bør rettes
-  dqL2dnL, dqL2dnLlag
-  sdqL2dnL, sdqL2dnLlag
   qIO$(sameas('bol',d_) and sameas('byg',s_) and t.val = 1973) # Negativ IO-celle
-  dvVirk2dpW
-  sdvVirk2dpW
   ptNetYOff, qtNetYOff
 
   $LOOP G_forecast_as_zero: # Typisk j-led som gerne må være negative
@@ -60,7 +56,7 @@ $GROUP G_zero_bound  # Variables with a lower bound very close to zero
   -qIO$(sameas('cBol',d_) and sameas('lan',s_)) # Hvis denne ikke er slået fra bliver qIO['cBol','lan',t] = 0 i et par år, hvor den er meget lille mindre end 1e-9. Dette giver pivot-fejl i static-modellen. Den har åbenbart her brug for at lede i det negative område for ikke at sætte den til 0. Ved ikke helt hvorfor. 
 ;
 $GROUP G_default_bounds
-  All, -G_well_scaled, -G_lower_bound, -G_zero_bound, -G_government_nv
+  All, -G_well_scaled, -G_lower_bound, -G_zero_bound, -G_HBI_nv
 ;
 
 # Set bounds on three groups, G_lower_bound, G_zero_bound, and G_well_scaled

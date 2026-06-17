@@ -103,7 +103,7 @@ $IF %stage% == "variables":
 
     # Satser, korrektioner, j-led og tekniske variable
     uRestFradrag[t] "Restfradragssats relativ til sats-reguleringen."
-    mtVirk[s_,t] "Branchefordelt marginal indkomstskat hos virksomheder."
+    mtVirk[t] "Marginal indkomstskat hos virksomheder."
     tLukning[t] "Beregningsteknisk skatteskat til lukning af offentlig budgetrestriktion på lang sigt (HBI=0)."
     fvHhAktieInd[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
 
@@ -152,7 +152,7 @@ $IF %stage% == "variables":
 
     vtJordrenteNordsoe[t] "Off. indtægter af jord og rettigheder, jordrente fra Nordsøen (produktionsafgift), Afgiften blev ophævet i 2014, (indgår i vtJordrenteRest) Kilde: ADAM[Tire_o]"
     vtJordrenteRoer[t] "Olierørledningsafgift, (indgår i vtJordrenteRest) Kilde: ADAM[Tiro]"
-    jmtVirk[sp,t] "J-led - der sikrer, at mtVirk ikke svinger med ftSelskab historisk."
+    jmtVirk[t] "J-led - der sikrer, at mtVirk ikke svinger med ftSelskab historisk."
 
     ftSelskab_smooth[t] "Kalibrerings-variabel"
   ;
@@ -503,7 +503,7 @@ $IF %stage% == "equations":
 # ----------------------------------------------------------------------------------------------------------------------
 #   Marginalskatter
 # ----------------------------------------------------------------------------------------------------------------------    
-    .. mtVirk[sp,t] =E= ftSelskab[t] * tSelskab[t] + jmtVirk[sp,t];
+    .. mtVirk[t] =E= ftSelskab[t] * tSelskab[t] + jmtVirk[t];
 
     $((Bank[portf] or Obl[portf]) and t.val > %Tax_t1%).. 
       mtHhAktAfk[portf,t] =E= tKommune[t] + rtKirke[t] * tKirke[t]
@@ -828,18 +828,13 @@ $IF %stage% == "exogenous_values":
     vNetKapIndPos$(a[a_]), vPersFradrag$(a[a_] or aTot[a_])
     vtAktieHh$(a[a_])
     vHhAktieInd
+    mtInd
   ;
   $GROUP G_GovRevenues_aldersprofiler
     G_GovRevenues_aldersprofiler$(t.val >= %AgeData_t1%)
     vNetKapIndPos$(aTot[a_]) # Læses midlertdigt ind herfra
   ;
   @load(G_GovRevenues_aldersprofiler, "../Data/Aldersprofiler/aldersprofiler.gdx" )
-
-  # Aldersfordelt data fra BFR indlæses
-  $GROUP G_GovRevenues_BFR
-    mtInd
-  ;
-  @load(G_GovRevenues_BFR, "../Data/Befolkningsregnskab/BFR.gdx" )
 
   # Variable som er datadækket og ikke må ændres af kalibrering
   $GROUP G_GovRevenues_data
@@ -986,7 +981,7 @@ $IF %stage% == "static_calibration":
     rRealiseringAktieOmv[t], -jrHhAktieInd_t[t]$(t.val > %AgeData_t1%)
     ftAktieHh_a$(t.val > %AgeData_t1% and a15t100[a]), -vtAktieHh$(t.val > %AgeData_t1% and a15t100[a_])
     vUrealiseretAktieOmv[a_,t]$(t.val = %AgeData_t1% and (a0t100[a_] or aTot[a_])) # E_vUrealiseretAktieOmv_t1
-    jmtVirk[sp,t]$(t.val <= %cal_end%) # E_jmtVirk
+    jmtVirk[t]$(t.val <= %cal_end%) # E_jmtVirk
     ftSelskab_smooth[t]$(t.val > %NettoFin_t1%) # E_ftSelskab_smooth
   ;
   $GROUP G_GovRevenues_static_calibration
@@ -1004,7 +999,7 @@ $IF %stage% == "static_calibration":
       vUrealiseretAktieOmv[a_,t] =E= 0.45 * (vHhAkt['IndlAktier',a_,t] + vHhAkt['UdlAktier',a_,t]);
 
     # Vi smooth'er den implicitte skattesats, da den ellers hopper ekstremt meget - og det påvirker user cost historisk
-    E_jmtVirk[sp,t]$(t.val <= %cal_end%).. mtVirk[sp,t] =E= ftSelskab_smooth[t] * tSelskab[t];
+    E_jmtVirk[t]$(t.val <= %cal_end%).. mtVirk[t] =E= ftSelskab_smooth[t] * tSelskab[t];
     E_ftSelskab_smooth[t]$(t.val > %NettoFin_t1%).. ftSelskab_smooth[t] =E= 0.8*ftSelskab_smooth[t-1] + 0.2*ftSelskab[t];
   $ENDBLOCK
 
