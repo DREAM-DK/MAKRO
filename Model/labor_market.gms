@@ -98,6 +98,7 @@ $IF %stage% == "variables":
     nSoegBasexDK[t] "Sum af grænsearbejdere og jobsøgende potentielle grænsearbejdere."
     uDeltag[a,t] "Præferenceparameter for arbejdsstyrke-deltagelse."
     uh[a,t] "Præferenceparameter for timer."
+    rUddannelsesBidrag[t] "Udannelsesbidrag til produktivitetsvækst. Kilde: Finansministeriet."
   ;
   $GROUP+ G_exogenous_forecast G_labor_market_exogenous_forecast$(tx1[t]);
 
@@ -355,7 +356,7 @@ $BLOCK B_labor_market_forwardlooking G_labor_market_forwardlooking_endo $(tx0[t]
     $(tx0E[t])..
       pW[t] =E= (1-rLoenNash[t]) * pL[spTot,t] / (1-rOpslagOmk[spTot,t]) / (1 + tL[spTot,t])
               + rLoenNash[t] * vFFOutsideOption[t] / dFF2dLoen[t]
-              - dWTraeghed[t] + 2 * dWTraeghed[t+1] / fVirkDisk[spTot,t+1]
+              - dWTraeghed[t] + 2 * dWTraeghed[t+1] * fVirkDisk[spTot,t+1]
               + jpW[t];
 
     &_tEnd[t]$(tEnd[t])..
@@ -543,7 +544,9 @@ $IF %stage% == "exogenous_values":
   # --------------------------------------------------------------------------------------------------------------------
   # Wages and productivity
   # --------------------------------------------------------------------------------------------------------------------
-  rProdVaekst.l[t] = gq;
+  @load(rUddannelsesBidrag, "..\Data\FM_exogenous_forecast.gdx");
+  rUddannelsesBidrag.l[t]$(t.val < 1998) = rUddannelsesBidrag.l['1998'];
+  rProdVaekst.l[t] = gq + rUddannelsesBidrag.l[t]$(%FM_baseline%);
   qProdHh_t.l[t] = 1; # Beregningere kan rykkes til kalibrering, men kræver særbehandling af pW[t1-2] mv.
   loop(t$(qProdHh_t.l[t-1] <> 0),
     qProdHh_t.l[t] = qProdHh_t.l[t-1] * (1 + rProdVaekst.l[t]);
@@ -704,6 +707,11 @@ $IF %stage% == "dynamic_calibration_newdata":
       -vhW[t1], jpW[t1]
     $ENDIF2
 
+    $IF2 %DORS_baseline%:
+      -vhW[t1], rLoenNash[t1]
+      rLoenNash[tx1] # E_rLoenNash_forecast
+    $ENDIF2
+
     $IF2 %DREAM_baseline%:# Endogent beskæftigelsesgab gør at en række størrelser skal rekalibreres 
       -nSoc[soc,t1]$(not boern[soc]), snSoc[soc,t1]$(not boern[soc])
       -vhW[t1], rLoenNash[t1]
@@ -721,7 +729,8 @@ $IF %stage% == "dynamic_calibration_newdata":
 
     E_jpW_forecast[t]$(tx1[t]).. jpW[t] =E= 0.85**(dt[t]**1.5) * jpW[t1];
 
-    E_rLoenNash_forecast[t]$(tx1[t] and %DREAM_baseline%).. @gradual_return_to_baseline(rLoenNash);
+    E_rLoenNash_forecast[t]$(tx1[t] and (%DREAM_baseline% or %DORS_baseline%))..
+      @gradual_return_to_baseline(rLoenNash);
   $ENDBLOCK
   MODEL M_labor_market_dynamic_calibration /
     M_labor_market

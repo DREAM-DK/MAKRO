@@ -130,7 +130,7 @@ $IF %stage% == "equations":
 
     # The price ratio for imports-to-exports only varies due to tariffs
     $(d1Xm[x,t] and t.val >= %EksportData_t1%)..
-      qXm[x,t] =E= uXm[x,t] * qXTraek[t] * qXSkala[t] * (1 + tXm[x,t])**(-eXUdl[x]);
+      qXm[x,t] * (1 + tXm[x,t])**eXUdl[x] =E= uXm[x,t] * qXTraek[t] * qXSkala[t];
 
     $(d1Xm[x,t])..
       tXm[x,t] =E= sum(s$(d1IOm[x,s,t]), (1 + tIOm[x,s,t]) * vIOm[x,s,t])

@@ -153,5 +153,3 @@ $IMPORT functions.gms
 # Should aggregation and other tests be run after calibration? Is set to 0 when running matching algorithm
 # ======================================================================================================================
 $SETGLOBAL run_tests 1
-
-$SETGLOBAL smooth_age_profiles 1 # Should age profiles be smoothed in deep_dynamic_calibration? 1 = yes, 0 = no

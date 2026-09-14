@@ -51,6 +51,7 @@ $IF %stage% == "variables":
     vXvarer[t] "Samlet vareeksport inkl. energi"
     vXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
     vBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
+    vBVTxudv[t] "BVT ekskl. udvinding"
 
     # Quantities
     qY[s_,t] "Produktion fordelt på brancher, Kilde: ADAM[fX]"
@@ -89,6 +90,7 @@ $IF %stage% == "variables":
     qXvarer[t] "Samlet vareeksport inkl. energi"
     qXtjenester[t] "Samlet tjenesteeksport inkl. søfart og turisme"
     qBVTspxudv[t] "BVT i private brancher ekskl. udvinding"
+    qBVTxudv[t] "BVT ekskl. udvinding"
     
     # Prices
     pY[s_,t] "Produktionsdeflator fordelt på brancher, Kilde: ADAM[pX] eller ADAM[pX<i>]"
@@ -134,6 +136,7 @@ $IF %stage% == "variables":
     pXvarer[t] "Deflator for samlet vareeksport inkl. energi"
     pXtjenester[t] "Deflator for samlet tjenesteeksport inkl. søfart og turisme"
     pBVTspxudv[t] "Deflator for BVT i private brancher ekskl. udvinding"
+    pBVTxudv[t] "Deflator for BVT ekskl. udvinding"
 
     jfpIOy_s[s_,t] "J-led."
     jfpIOm_s[s_,t]$(m[s_]) "J-led."
@@ -176,7 +179,8 @@ $IF %stage% == "variables":
     rpMenergi[t] "Relative laggede energiimport-priser vægtet med nutidige mængder."
     rpMtjenester[t] "Relative laggede tjenesteimport-priser vægtet med nutidige mængder."
     rpMx[t] "Relative laggede priser på import af fremstilling og tjenester ekskl. søfart vægtet med nutidige mængder."
-    rpBVTspxudv[t] "Relative laggede priser i BVT ekskl. udvinding vægtet med nutidige mængder."
+    rpBVTspxudv[t] "Relative laggede priser i privat BVT ekskl. udvinding vægtet med nutidige mængder."
+    rpBVTxudv[t] "Relative laggede priser i BVT ekskl. udvinding vægtet med nutidige mængder."
     rpIVaerdi[t] "Relative laggede priser i værdigenstande vægtet med nutidige mængder."
     rpIErhverv[t] "Relative laggede priser for erhvervsinvesteringer vægtet med nutidige mængder."
   ;
@@ -457,9 +461,11 @@ $IF %stage% == "equations":
 
     # Equations in cases where there are no imports or only imports
     &_NoY$(d1IOm[dux,s,t] and not d1IOy[dux,s,t] and eIO.l[dux,s] > 0)..
-      qIOm[dux,s,t] =E= uIOm[dux,s,t] * qIO[dux,s,t] * (pIOm[dux,s,t] / pIO[dux,s,t])**(-eIO[dux,s]);
+      qIOm[dux,s,t] * pIOm[dux,s,t]**eIO[dux,s] =E=
+        uIOm[dux,s,t] * qIO[dux,s,t] * pIO[dux,s,t]**eIO[dux,s];
     &_NoM$(d1IOy[dux,s,t] and not d1IOm[dux,s,t] and eIO.l[dux,s] > 0)..
-      qIOy[dux,s,t] =E= uIOy[dux,s,t] * qIO[dux,s,t] * (pIOy[dux,s,t] / pIO[dux,s,t])**(-eIO[dux,s]);
+      qIOy[dux,s,t] * pIOy[dux,s,t]**eIO[dux,s] =E=
+        uIOy[dux,s,t] * qIO[dux,s,t] * pIO[dux,s,t]**eIO[dux,s];
 
     # Equations in cases of zero substitutability
     &_e0$(d1IOy[dux,s,t] and eIO.l[dux,s] = 0)..
@@ -756,6 +762,12 @@ $IF %stage% == "equations":
                                             - pBVT['udv',t-1]/fp * qBVT['udv',t];
     .. pBVTspxudv[t] * qBVTspxudv[t] =E= vBVTspxudv[t];
 
+    .. vBVTxudv[t] =E= vBVT['tot',t] - vBVT['udv',t];
+    rpBVTxudv[t].. qBVTxudv[t] =E= rpBVTxudv[t] * (qBVT['tot',t] - qBVT['udv',t]);
+    .. qBVTxudv[t] * pBVTxudv[t-1]/fp =E= pBVT['tot',t-1]/fp * qBVT['tot',t]
+                                            - pBVT['udv',t-1]/fp * qBVT['udv',t];
+    .. pBVTxudv[t] * qBVTxudv[t] =E= vBVTxudv[t];
+
     # Lagerinvesteringer fordelt på rene lagerinvesteringer, stambesætninger og værdigenstande
     .. vILager[t] =E= rvILager2iL[t] * vI['iL',t];
     .. pILager[t] =E= pI['iL',t] + jpILager[t];
@@ -956,11 +968,14 @@ $IF %stage% == "exogenous_values":
   pI_s.l[i_,s_,tBase]$(iTot[i_]) = 1;
   pBruttoHandel.l[tBase] = 1;
   pMx.l[tBase] = 1;
+  pBVTxudv.l[tBase] = 1;
 
   # Create dummies base on IO data
-  # IO cells are exogenized if their value is very close to zero
-  d1IOy[d,s,t] = vIOy.l[d,s,t] > 1e-4*fvt[t];
-  d1IOm[d,s,t] = vIOm.l[d,s,t] > 1e-4*fvt[t];
+  # IO cells are endogenized if their value is not very close to zero
+  d1IOy[d_,s,t]$(d[d_] and not i_[d_]) = vIOy.l[d_,s,t] > 1e-4*fvt[t];
+  d1IOm[d_,s,t]$(d[d_] and not i_[d_]) = vIOm.l[d_,s,t] > 1e-4*fvt[t];
+  d1IOy[i,s,t] = abs(vIOy.l[i,s,t]) > 1e-4*fvt[t];
+  d1IOm[i,s,t] = abs(vIOm.l[i,s,t]) > 1e-4*fvt[t];
   d1IOy[d,s,t]$(mapVal(vIOy.l[d,s,t]) = 5) = 0;
   d1IOm[d,s,t]$(mapVal(vIOm.l[d,s,t]) = 5) = 0;
   # I foreløbige år tillader vi ikke nye celler at opstå (men de må gerne udgå).
@@ -1037,6 +1052,7 @@ $IF %stage% == "static_calibration":
     pBVT[spTot,t0], -pBVT[spTot,tBase], pBVT[sByTot,t0], -pBVT[sByTot,tBase]
     pBruttoHandel[t0], -pBruttoHandel[tBase]
     pMx[t0], -pMx[tBase]
+    pBVTxudv[t0], -pBVTxudv[tBase]
   ;
 
   $BLOCK B_IO_static_calibration   

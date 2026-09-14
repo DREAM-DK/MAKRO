@@ -71,7 +71,8 @@ $FIX(0) G_set_to_zero$(tx1[t]);
 # ----------------------------------------------------------------------------------------------------------------------
 # Produktivitet
 # ----------------------------------------------------------------------------------------------------------------------
-rProdVaekst.l[t]$(tx1[t]) = gq;
+@load(rUddannelsesBidrag, "..\Data\FM_exogenous_forecast.gdx");
+rProdVaekst.l[t]$(tx1[t]) = gq + rUddannelsesBidrag.l[t]$(%FM_baseline%);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Load ARIMA forecasts
@@ -484,22 +485,6 @@ $GROUP G_exogenous_forecast_aldersprofiler G_exogenous_forecast_aldersprofiler$(
 # ----------------------------------------------------------------------------------------------------------------------
 # Filtrering af aldersafhængige parametre
 # ----------------------------------------------------------------------------------------------------------------------
-$GROUP G_smooth_profiles
-  ftBund_a
-  ftAktieHh_a
-  ftKommune_a
-  rTopSkatInd_a
-  uPersIndRest_a$(a[a_])
-  cHh_a
-  rRealKred2Bolig_a
-  rKLeje2Bolig_a
-  uBoernFraHh_a$(a0t17[a])
-  mtIndRest
-  mrKomp
-  vHhx
-  jrHhAktieInd_a
-;
-
 # Create orthogonal basis for "vandermonde-space" using arnoldi orthogonalization for numerical stability 
 # Vandermonde with Arnoldi
 # https://people.maths.ox.ac.uk/trefethen/vandermonde.pdf
@@ -533,252 +518,171 @@ $BLOCK B_smooth_aggregation$(t1[t])
 E_vHhx_smooth_aTot$(t1[t]).. vHhx[aTot,t] =E= sum(a, vHhx[a,t] * nPop[a,t]);
 $ENDBLOCK
 
+$GROUP G_smooth_empty ;
+$MODEL M_smooth_empty ;
+
 # Smooth variables 
-
+# Smooth variables 
 # ---- ftBund_a ----
-@smooth_setup(ftBund_a, a15t100, 5)
-
-$GROUP+ G_smooth_ftBund_a_endo
+$GROUP G_extra_endo_ftBund_a
   vtBund$(a15t100[a_])
   ftBund$(a15t100[a_])
 ;
-$MODEL M_smooth_ftBund_a
-  B_smooth_ftBund_a
+$MODEL M_constraints_ftBund_a
   E_vtBund_a
   E_vtBund_aTot
   E_ftBund_a
 ;
-
-@smooth_solve(ftBund_a)
+@smooth(ftBund_a, a15t100, 5, G_extra_endo_ftBund_a, M_constraints_ftBund_a);
 
 # ---- ftAktieHh_a ----
-@smooth_setup(ftAktieHh_a, a15t100, 4)
-
-$GROUP+ G_smooth_ftAktieHh_a_endo
+$GROUP G_extra_endo_ftAktieHh_a
   vtAktieHh$(a15t100[a_])
   ftAktieHh$(a15t100[a_])
 ;
-$MODEL M_smooth_ftAktieHh_a
-  B_smooth_ftAktieHh_a
+$MODEL M_constraints_ftAktieHh_a
   E_vtAktieHh_a
   E_vtAktieHh_aTot
   E_ftAktieHh_a
 ;
-
-@smooth_solve(ftAktieHh_a)
+@smooth(ftAktieHh_a, a15t100, 4, G_extra_endo_ftAktieHh_a, M_constraints_ftAktieHh_a);
 
 # ---- ftKommune_a ----
-@smooth_setup(ftKommune_a, a15t100, 5)
-
-$GROUP+ G_smooth_ftKommune_a_endo
+$GROUP G_extra_endo_ftKommune_a
   vtKommune$(a15t100[a_])
   ftKommune$(a15t100[a_])
 ;
-$MODEL M_smooth_ftKommune_a
-  B_smooth_ftKommune_a
+$MODEL M_constraints_ftKommune_a
   E_vtKommune_a
   E_vtKommune_aTot
   E_ftKommune_a
 ;
-
-@smooth_solve(ftKommune_a)
+@smooth(ftKommune_a, a15t100, 5, G_extra_endo_ftKommune_a, M_constraints_ftKommune_a);
 
 # ---- rTopSkatInd_a ----
-@smooth_setup(rTopSkatInd_a, a15t100, 3)
-
-$GROUP+ G_smooth_rTopSkatInd_a_endo
+$GROUP G_extra_endo_rTopSkatInd_a
   vtTop$(a15t100[a_])
   rTopSkatInd$(a15t100[a_])
 ;
-$MODEL M_smooth_rTopSkatInd_a
-  B_smooth_rTopSkatInd_a
+$MODEL M_constraints_rTopSkatInd_a
   E_vtTop_a
   E_vtTop_aTot
   E_rTopSkatInd_a
 ;
-
-@smooth_solve(rTopSkatInd_a)
+@smooth(rTopSkatInd_a, a15t100, 3, G_extra_endo_rTopSkatInd_a, M_constraints_rTopSkatInd_a);
 
 # ---- uPersIndRest_a ----
-@smooth_setup(uPersIndRest_a, a15t100, 5)
-
-$GROUP+ G_smooth_uPersIndRest_a_endo
+$GROUP G_extra_endo_uPersIndRest_a
   vPersIndRest$(a15t100[a_])
   vPersIndx$(a15t100[a_])
   vPersInd$(a15t100[a_])
 ;
-$MODEL M_smooth_uPersIndRest_a
-  B_smooth_uPersIndRest_a
+$MODEL M_constraints_uPersIndRest_a
   E_vPersIndRest_a
   E_vPersIndx_a
   E_vPersInd_a
   E_vPersInd_aTot
 ;
-
-@smooth_solve(uPersIndRest_a)
+@smooth(uPersIndRest_a, a15t100, 5, G_extra_endo_uPersIndRest_a, M_constraints_uPersIndRest_a);
 
 # ---- rRealKred2Bolig_a ----
-@smooth_setup(rRealKred2Bolig_a, a18t100, 4)
-
-$GROUP+ G_smooth_rRealKred2Bolig_a_endo
+$GROUP G_extra_endo_rRealKred2Bolig_a
   rRealKred2Bolig$(a18t100[a_])
   vHhPas$(RealKred[portf_] and a18t100[a_])
 ;
-$MODEL M_smooth_rRealKred2Bolig_a
-  B_smooth_rRealKred2Bolig_a
+$MODEL M_constraints_rRealKred2Bolig_a
   E_rRealKred2Bolig
   E_vHhPas_RealKred
   E_vHhPas_RealKred_aTot
 ;
-
-@smooth_solve(rRealKred2Bolig_a)
-
+@smooth(rRealKred2Bolig_a, a18t100, 4, G_extra_endo_rRealKred2Bolig_a, M_constraints_rRealKred2Bolig_a);
 # ---- rKLeje2Bolig_a ----
-@smooth_setup(rKLeje2Bolig_a, a18t100, 6)
-
-$GROUP+ G_smooth_rKLeje2Bolig_a_endo
+$GROUP G_extra_endo_rKLeje2Bolig_a
   qKLejeBolig[a18t100,t]
   rKLeje2Bolig[a18t100,t]
 ;
-$MODEL M_smooth_rKLeje2Bolig_a
-  B_smooth_rKLeje2Bolig_a
+$MODEL M_constraints_rKLeje2Bolig_a
   E_rKLeje2Bolig_a
   E_rKLeje2Bolig_a_a
   E_qKLejeBolig_aTot
 ;
-
-@smooth_solve(rKLeje2Bolig_a)
-
+@smooth(rKLeje2Bolig_a, a18t100, 6, G_extra_endo_rKLeje2Bolig_a, M_constraints_rKLeje2Bolig_a);
 # ---- uBoernFraHh_a ----
-@smooth_setup(uBoernFraHh_a, a0t17, 3)
-
-$GROUP+ G_smooth_uBoernFraHh_a_endo
+$GROUP G_extra_endo_uBoernFraHh_a
   uBoernFraHh$(a0t17[a])
   vHhx$(a0t17[a_])
 ;
-$MODEL M_smooth_uBoernFraHh_a
-  B_smooth_uBoernFraHh_a
+$MODEL M_constraints_uBoernFraHh_a
   E_uBoernFraHh_a
   E_vBoernFraHh_a
   E_vHhx_smooth_aTot
 ;
-
-@smooth_solve(uBoernFraHh_a)
-
+@smooth(uBoernFraHh_a, a0t17, 3, G_extra_endo_uBoernFraHh_a, M_constraints_uBoernFraHh_a);
 # ---- mtIndRest ----
-@smooth_setup(mtIndRest, a15t100, 5)
-
-$MODEL M_smooth_mtIndRest
-  B_smooth_mtIndRest
-;
-
-@smooth_solve(mtIndRest)
-
+@smooth(mtIndRest, a15t100, 5, G_smooth_empty, M_smooth_empty);
 # ---- mrKomp ----
-@smooth_setup(mrKomp, a15t100, 5)
-
-$MODEL M_smooth_mrKomp
-  B_smooth_mrKomp
-;
-
-@smooth_solve(mrKomp)
-
+@smooth(mrKomp, a15t100, 5, G_smooth_empty, M_smooth_empty);
 # ---- vHhx ----
-@smooth_setup(vHhx, a0t100, 4)
-
-$MODEL M_smooth_vHhx
-  B_smooth_vHhx
+$MODEL M_constraints_vHhx
   E_vHhx_smooth_aTot
 ;
-
-@smooth_solve(vHhx)
-
+@smooth(vHhx, a0t100, 4, G_smooth_empty, M_constraints_vHhx);
 # ---- jrHhAktieInd_a ----
-@smooth_setup(jrHhAktieInd_a, a15t100, 3)
-
-$GROUP+ G_smooth_jrHhAktieInd_a_endo
+$GROUP G_extra_endo_jrHhAktieInd_a
   jrHhAktieInd$(a15t100[a_])
   vHhAktieInd$(a15t100[a_])
 ;
-$MODEL M_smooth_jrHhAktieInd_a
-  B_smooth_jrHhAktieInd_a
+$MODEL M_constraints_jrHhAktieInd_a
   E_jrHhAktieInd_a
   E_vHhAktieInd_a
   E_vHhAktieInd_aTot
 ;
-
-@smooth_solve(jrHhAktieInd_a)
-
+@smooth(jrHhAktieInd_a, a15t100, 3, G_extra_endo_jrHhAktieInd_a, M_constraints_jrHhAktieInd_a);
 # ---- cHh_a (Obl) ----
-@smooth_setup_with_set(cHh_a, Obl, a0t100, 4)
-
-$GROUP+ G_smooth_cHh_a_Obl_endo
+$GROUP G_extra_endo_cHh_a_Obl
   vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
 ;
-$MODEL M_smooth_cHh_a_Obl
-  B_smooth_cHh_a_Obl
+$MODEL M_constraints_cHh_a_Obl
   E_vHhAkt
   E_cHh_a_aTot
 ;
-
-@smooth_solve_with_set(cHh_a, Obl)
-
+@smooth_with_set(cHh_a, Obl, a0t100, 4, G_extra_endo_cHh_a_Obl, M_constraints_cHh_a_Obl);
 # ---- cHh_a (RealKred) ----
-@smooth_setup_with_set(cHh_a, RealKred, a0t100, 4)
-
-$GROUP+ G_smooth_cHh_a_RealKred_endo
+$GROUP G_extra_endo_cHh_a_RealKred
   vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
 ;
-$MODEL M_smooth_cHh_a_RealKred
-  B_smooth_cHh_a_RealKred
+$MODEL M_constraints_cHh_a_RealKred
   E_vHhAkt
   E_cHh_a_aTot
 ;
-
-@smooth_solve_with_set(cHh_a, RealKred)
-
+@smooth_with_set(cHh_a, RealKred, a0t100, 4, G_extra_endo_cHh_a_RealKred, M_constraints_cHh_a_RealKred);
 # ---- cHh_a (IndlAktier) ----
-@smooth_setup_with_set(cHh_a, IndlAktier, a0t100, 2)
-
-$GROUP+ G_smooth_cHh_a_IndlAktier_endo
+$GROUP G_extra_endo_cHh_a_IndlAktier
   vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
 ;
-
-$MODEL M_smooth_cHh_a_IndlAktier
-  B_smooth_cHh_a_IndlAktier
+$MODEL M_constraints_cHh_a_IndlAktier
   E_vHhAkt
   E_cHh_a_aTot
 ;
-
-@smooth_solve_with_set(cHh_a, IndlAktier)
-
+@smooth_with_set(cHh_a, IndlAktier, a0t100, 2, G_extra_endo_cHh_a_IndlAktier, M_constraints_cHh_a_IndlAktier);
 # ---- cHh_a (UdlAktier) ----
-@smooth_setup_with_set(cHh_a, UdlAktier, a0t100, 3)
-
-$GROUP+ G_smooth_cHh_a_UdlAktier_endo
+$GROUP G_extra_endo_cHh_a_UdlAktier
   vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
 ;
-$MODEL M_smooth_cHh_a_UdlAktier
-  B_smooth_cHh_a_UdlAktier
+$MODEL M_constraints_cHh_a_UdlAktier
   E_vHhAkt
   E_cHh_a_aTot
 ;
-
-@smooth_solve_with_set(cHh_a, UdlAktier)
-
+@smooth_with_set(cHh_a, UdlAktier, a0t100, 3, G_extra_endo_cHh_a_UdlAktier, M_constraints_cHh_a_UdlAktier);
 # ---- cHh_a (Bank) ----
-@smooth_setup_with_set(cHh_a, Bank, a0t100, 4)
-
-$GROUP+ G_smooth_cHh_a_Bank_endo
+$GROUP G_extra_endo_cHh_a_Bank
   vHhAkt$(fin_akt[portf_] and d1vHhAkt[portf_,t] and a[a_])
 ;
-$MODEL M_smooth_cHh_a_Bank
-  B_smooth_cHh_a_Bank
+$MODEL M_constraints_cHh_a_Bank
   E_vHhAkt
   E_cHh_a_aTot
 ;
-
-@smooth_solve_with_set(cHh_a, Bank)
+@smooth_with_set(cHh_a, Bank, a0t100, 4, G_extra_endo_cHh_a_Bank, M_constraints_cHh_a_Bank);
 
 jvFormueBase.l[a,t1] = vHhx.l[a,t2] - vHhx_presmooth[a,t1];
 

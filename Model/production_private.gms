@@ -178,21 +178,24 @@ $IF %stage% == "equations":
 		# ------------------------------------------------------------------------------------------------------------------
     # CES Demand for capital-labor aggregate
     $(eKELBR.l[sp] <> 1)..
-      qKELB[sp,t] =E= (1-rR2KELBR[sp,t]) * qKELBR[sp,t] * (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp];
+      qKELB[sp,t] * pKELB[sp,t]**eKELBR[sp] =E=
+        (1-rR2KELBR[sp,t]) * qKELBR[sp,t] * pKELBR[sp,t]**eKELBR[sp];
     qKELB&_e1[sp,t]$(eKELBR.l[sp] = 1)..
       qKELBR[sp,t] =E= uKELBR[sp,t] * qKELB[sp,t]**(1-rR2KELBR[sp,t]) * qR[sp,t]**rR2KELBR[sp,t];
     uKELBR[sp,t].. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
       1 =E= uKELBR[sp,t] * (1-rR2KELBR[sp,t])**(1-rR2KELBR[sp,t]) * rR2KELBR[sp,t]**rR2KELBR[sp,t];
 
     # CES Demand for material/intermediate inputs
-    .. qR[sp,t] =E= rR2KELBR[sp,t] * qKELBR[sp,t] * (pKELBR[sp,t] / pR[sp,t])**eKELBR[sp];
+    .. qR[sp,t] * pR[sp,t]**eKELBR[sp] =E=
+      rR2KELBR[sp,t] * qKELBR[sp,t] * pKELBR[sp,t]**eKELBR[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
     # 2) Next level of CES tree: KELB-aggregate(KEL-aggregate and structures capital)
     # ------------------------------------------------------------------------------------------------------------------
     # CES demand: KEL-aggregate as function of the KELB aggregate
     $(eKELB.l[sp] <> 1)..
-      qKEL[sp,t] =E= (1-rB2KELB[sp,t]) * qKELB[sp,t] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp];
+      qKEL[sp,t] * pKEL[sp,t]**eKELB[sp] =E=
+        (1-rB2KELB[sp,t]) * qKELB[sp,t] * pKELB[sp,t]**eKELB[sp];
     qKEL&_e1[sp,t]$(eKELB.l[sp] = 1)..
       qKELB[sp,t] =E= uKELB[sp,t] * qKEL[sp,t]**(1-rB2KELB[sp,t]) * qKUdn['iB',sp,t]**rB2KELB[sp,t];
     uKELB[sp,t].. # konstanten gør at Cobb-Douglas-tilfældet er konsistent med CES-funktionen i grænsen, når elasticiteten nærmer sig 1. Udtrykket udledes ved at tage log, tage grænseværdien ved e->1, bruge L'Hôpitals regel og omskrive.
@@ -201,14 +204,16 @@ $IF %stage% == "equations":
     # CES demand: structures capital aggregate as function of the KELB aggregate
     # For bolig-branchen bestemmer denne pK
     $(d1K['iB',sp,t])..
-      qKUdn['iB',sp,t] =E= rB2KELB[sp,t] * qKELB[sp,t] * (pKELB[sp,t] / pKUdn['iB',sp,t])**eKELB[sp];
+      qKUdn['iB',sp,t] * pKUdn['iB',sp,t]**eKELB[sp] =E=
+        rB2KELB[sp,t] * qKELB[sp,t] * pKELB[sp,t]**eKELB[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
     # 3) Next level of CES tree: KEL-aggregate (labor and KE-aggregate)
     # ------------------------------------------------------------------------------------------------------------------
     # CES demand: KE aggregate as a function of the KEL aggregate
     E_qKE[sp,t]$(eKEL.l[sp] <> 1) ..
-      qKE[sp,t] =E= (1-rL2KEL[sp,t]) *  qKEL[sp,t] * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp];
+      qKE[sp,t] * pKE[sp,t]**eKEL[sp] =E=
+        (1-rL2KEL[sp,t]) * qKEL[sp,t] * pKEL[sp,t]**eKEL[sp];
 
     E_qKE_e1[sp,t]$(eKEL.l[sp] = 1)..
       qKEL[sp,t] =E= uKEL[sp,t] * qKE[sp,t]**(1-rL2KEL[sp,t]) * qLUdn[sp,t]**rL2KEL[sp,t];
@@ -216,7 +221,8 @@ $IF %stage% == "equations":
       1 =E= uKEL[sp,t] * (1-rL2KEL[sp,t])**(1-rL2KEL[sp,t]) * rL2KEL[sp,t]**rL2KEL[sp,t];
 
     # CES demand: labor as function of the KEL aggregate
-    .. qLUdn[sp,t] =E= rL2KEL[sp,t] * qKEL[sp,t] * (pKEL[sp,t] / pLUdn[sp,t])**eKEL[sp];
+    .. qLUdn[sp,t] * pLUdn[sp,t]**eKEL[sp] =E=
+      rL2KEL[sp,t] * qKEL[sp,t] * pKEL[sp,t]**eKEL[sp];
 
     # Labor input in productivity units net of hiring costs, before factor utilization 
     # E_qL[sp,t].. qLUdn[sp,t] =E= qL[sp,t] * (uL[sp,t] * rLUdn[sp,t] * pL[sp,tBase] / rLUdn[sp,tBase]);
@@ -244,7 +250,8 @@ $IF %stage% == "equations":
     # ------------------------------------------------------------------------------------------------------------------  
     # CES demand for energy as a function of the KE-aggregate
     $(d1K['iM',sp,t] and eKE.l[sp] <> 1) ..
-      qE[sp,t] =E= rE2KE[sp,t] * qKE[sp,t] * (pKE[sp,t] / ((1+tE[sp,t]) * pE[sp,t]))**eKE[sp];
+      qE[sp,t] * ((1+tE[sp,t]) * pE[sp,t])**eKE[sp] =E=
+        rE2KE[sp,t] * qKE[sp,t] * pKE[sp,t]**eKE[sp];
 
     qE&_xim[sp,t]$(not d1K['iM',sp,t]) ..
       qE[sp,t] =E= rE2KE[sp,t] * qKE[sp,t];
@@ -256,7 +263,8 @@ $IF %stage% == "equations":
 
     # CES demand for equipment capital aggregate as function of the KE aggregate
     $(d1K['iM',sp,t])..
-      qKUdn['iM',sp,t] =E= (1-rE2KE[sp,t]) * qKE[sp,t] * (pKE[sp,t] / pKUdn['iM',sp,t])**eKE[sp];
+      qKUdn['iM',sp,t] * pKUdn['iM',sp,t]**eKE[sp] =E=
+        (1-rE2KE[sp,t]) * qKE[sp,t] * pKE[sp,t]**eKE[sp];
 
     # Effective capital
     qK[k,sp,t]$(d1K[k,sp,t])..
@@ -361,7 +369,7 @@ $IF %stage% == "equations":
     # fR[sp,t] skal være 1
     fR[sp,t]..  qR[sp,t]  =E= fR[sp,t] * rR2KELBR[sp,t] * qKELBR[sp,t] * rPrisEffekt_R[sp,t];
 
-    .. rPrisEffekt_R[sp,t] =E= (pKELBR[sp,t] / pR[sp,t])**eKELBR[sp];
+    .. rPrisEffekt_R[sp,t] * pR[sp,t]**eKELBR[sp] =E= pKELBR[sp,t]**eKELBR[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Demand: structures capital aggregate in effective units - qKUdn_iB
@@ -371,8 +379,8 @@ $IF %stage% == "equations":
 
     .. rB2KELBR[sp,t] =E= rB2KELB[sp,t] * (1-rR2KELBR[sp,t]);
 
-    .. rPrisEffekt_B[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] 
-         * (pKELB[sp,t] / pKUdn['iB',sp,t])**eKELB[sp];
+    .. rPrisEffekt_B[sp,t] * pKELB[sp,t]**eKELBR[sp] * pKUdn['iB',sp,t]**eKELB[sp] =E=
+         pKELBR[sp,t]**eKELBR[sp] * pKELB[sp,t]**eKELB[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Labor input in productivity units net of hiring costs, before factor utilization - qLUdn
@@ -382,8 +390,8 @@ $IF %stage% == "equations":
 
     rL2KELBR[sp,t].. rL2KELBR[sp,t] =E= rL2KEL[sp,t] * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
 
-    ..  rPrisEffekt_L[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
-                                                                       * (pKEL[sp,t] / pLUdn[sp,t])**eKEL[sp] ;
+    ..  rPrisEffekt_L[sp,t] * pKELB[sp,t]**eKELBR[sp] * pKEL[sp,t]**eKELB[sp] * pLUdn[sp,t]**eKEL[sp] =E=
+         pKELBR[sp,t]**eKELBR[sp] * pKELB[sp,t]**eKELB[sp] * pKEL[sp,t]**eKEL[sp];
     # ------------------------------------------------------------------------------------------------------------------
     # Demand for energy - E
     # ------------------------------------------------------------------------------------------------------------------
@@ -393,8 +401,10 @@ $IF %stage% == "equations":
 
     .. rE2KELBR[sp,t] =E= rE2KE[sp,t] * (1-rL2KEL[sp,t]) * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
 
-    .. rPrisEffekt_E[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
-                              * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp]     * (pKE[sp,t] / ((1+tE[sp,t]) * pE[sp,t]))**eKE[sp];
+    .. rPrisEffekt_E[sp,t] * pKELB[sp,t]**eKELBR[sp] * pKEL[sp,t]**eKELB[sp]
+         * pKE[sp,t]**eKEL[sp] * ((1+tE[sp,t]) * pE[sp,t])**eKE[sp] =E=
+         pKELBR[sp,t]**eKELBR[sp] * pKELB[sp,t]**eKELB[sp]
+         * pKEL[sp,t]**eKEL[sp] * pKE[sp,t]**eKE[sp];
 
     # ------------------------------------------------------------------------------------------------------------------
     # Demand for equipment capital aggregate in effective uinits - qKUdn_iM
@@ -405,8 +415,10 @@ $IF %stage% == "equations":
     .. rK2KELBR[sp,t] =E= (1-rE2KE[sp,t]) * (1-rL2KEL[sp,t]) * (1-rB2KELB[sp,t]) * (1-rR2KELBR[sp,t]);
 
     $(d1K['iM',sp,t])..
-      rPrisEffekt_K[sp,t] =E= (pKELBR[sp,t] / pKELB[sp,t])**eKELBR[sp] * (pKELB[sp,t] / pKEL[sp,t])**eKELB[sp]
-                              * (pKEL[sp,t] / pKE[sp,t])**eKEL[sp]     * (pKE[sp,t] / pKUdn['iM',sp,t])**eKE[sp];
+      rPrisEffekt_K[sp,t] * pKELB[sp,t]**eKELBR[sp] * pKEL[sp,t]**eKELB[sp]
+        * pKE[sp,t]**eKEL[sp] * pKUdn['iM',sp,t]**eKE[sp] =E=
+        pKELBR[sp,t]**eKELBR[sp] * pKELB[sp,t]**eKELB[sp]
+        * pKEL[sp,t]**eKEL[sp] * pKE[sp,t]**eKE[sp];
 
 
     # ------------------------------------------------------------------------------------------------------------------

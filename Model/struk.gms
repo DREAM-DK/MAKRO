@@ -11,6 +11,8 @@ $IF %stage% == "variables":
   $GROUP G_struk_variables
     spBVT[s_,t] "Deflator for strukturel BVT."
     sqBVT[s_,t] "Strukturel BVT."
+    spBVTxudv[t] "Deflator for strukturel BVT ekskl. udvinding."
+    sqBVTxudv[t] "Strukturel BVT ekskl. udvinding."
     sqL[s_,t] "Strukturel arbejdskraft i effektive enheder."
     sqProd[s_,t] "Strukturelt produktivitetsindeks for arbejdskraft (kun aggregater - ingen branchefordeling)."
     spL2pW[t] "Strukturelt forhold mellem user cost på arbejdskraft og lønnen for det private erhverv samlet."
@@ -26,7 +28,7 @@ $IF %stage% == "variables":
     snOpslag[t] "Strukturelt antal jobopslag."
     srSoeg2Opslag[t] "Strukturel labor market tightness (snSoeg / snOpslag)."
     snLxDK[t] "Strukturelle grænsearbejdere i antal hoveder - inkluderer pt. sort arbejde."
-    shLxDK[t] "Strukturel arbejdstid for grænsearbejdere."
+    shLxDK[t] "Strukturelt erlagte timer for grænsearbejdere."
     snL[s_,t] "Strukturel beskæftigede inklusiv grænsearbejdere."
     snSoegxDK[t] "Strukturel jobsøgende potentielle grænsearbejdere."
     snSoc[soc,t] "Strukturelle værdier for socio-grupper og aggregater, antal 1.000 personer, Kilde: BFR."
@@ -45,6 +47,7 @@ $IF %stage% == "variables":
     fhLHh[a,t] "Korrektionsfaktor til at slå effekter af marginal skat på arbejdsudbud til og fra på intensiv margin."
     srSoegBaseHh[a_,t] "Strukturel arbejdsstyrke som andel af befolkning."
     snSoegHh[a_,t] "Strukturel jobsøgende."
+    sfVirkDisk[t] "Strukturel diskonteringsrate for selskaber."
   ;
 
   $GROUP G_struk_exogenous_forecast
@@ -79,7 +82,7 @@ $ENDIF
 $IF %stage% == "equations":
   $BLOCK B_struk_static G_struk_static$(tx0[t])
       # Key gaps between structural and actual levels
-    .. rBVTGab[t] =E= (qBVT[sTot,t] - qBVT['udv',t]) / (sqBVT[sTot,t] - qBVT['udv',t]) - 1;
+    .. rBVTGab[t] =E= qBVTxudv[t] / sqBVTxudv[t] - 1;
 
     .. rBeskGab[t] =E= nL[sTot,t] / snL[sTot,t] - 1;
 
@@ -100,6 +103,10 @@ $IF %stage% == "equations":
     .. spBVT[sTot,t] * sqBVT[sTot,t] =E= pBVT[spTot,t] * sqBVT[spTot,t] + vBVT['off',t];
     sqBVT[sTot,t]..
       spBVT[sTot,t-1]/fp * sqBVT[sTot,t] =E= pBVT[spTot,t-1]/fp * sqBVT[spTot,t] + pBVT['off',t-1]/fp * qBVT['off',t];
+
+    .. spBVTxudv[t] * sqBVTxudv[t] =E= spBVT[sTot,t] * sqBVT[sTot,t] - vBVT['udv',t];
+    sqBVTxudv[t]..
+      spBVTxudv[t-1]/fp * sqBVTxudv[t] =E= spBVT[sTot,t-1]/fp * sqBVT[sTot,t] - pBVT['udv',t-1]/fp * qBVT['udv',t];
  
     # ======================================================================================================================
     # Strukturel beskæftigelse i hoveder og timer
@@ -137,6 +144,8 @@ $IF %stage% == "equations":
     .. srMatch[t] =E= srJobFinding[aTot,t] * srSoeg2Opslag[t];
 
     srSoeg2Opslag[t].. srJobFinding[aTot,t] =E= (1 + srSoeg2Opslag[t]**(1/eMatching))**(-eMatching) + jsrJobFinding[aTot,t];
+
+    $(tx1[t]).. sfVirkDisk[t] =E= 1 / (1 + rRenteECB[t] + rVirkDiskPrem[spTot,t]);
 
     # ------------------------------------------------------------------------------------------------------------------
     # Arbejdsudbud for grænsearbejdere
@@ -199,7 +208,7 @@ $IF %stage% == "equations":
     $(tx0E[t])..
       spL2pW[t] =E= (1 + tL[spTot,t])
                   / ( (1 - sdOpslagOmk2dnL[t])
-                     - fVirkDisk[spTot,t+1] * fp * fq * shL[spTot,t+1]/shL[spTot,t]
+                     - sfVirkDisk[t+1] * fp * fq * shL[spTot,t+1]/shL[spTot,t]
                      * sdOpslagOmk2dnLlag[t+1]
                     );
 
@@ -348,9 +357,9 @@ $IF %stage% == "exogenous_values":
   # Outside BFR years, use employment gap from FM to calculate structural employment
   shL.l[sTot,t] = shLHh.l[aTot,t] + shLxDK.l[t];
   snL.l[sTot,t] = snLHh.l[aTot,t] + snLxDK.l[t];
-  snL.l[sTot,t]$(t.val < %BFR_t1%) = (1 - rBeskGab.l[t]) * nL.l[sTot,t];
+  snL.l[sTot,t]$(t.val < %BFR_t1%) = nL.l[sTot,t] / (1 + rBeskGab.l[t]);
   shL.l[sTot,t]$(t.val < %BFR_t1%) = hL.l[sTot,t];
-  snNettoArbsty.l[t]$(t.val < %BFR_t1%) = (1 - rNettoArbstyGab.l[t]) * nNettoArbsty.l[t];
+  snNettoArbsty.l[t]$(t.val < %BFR_t1%) = nNettoArbsty.l[t] / (1 + rNettoArbstyGab.l[t]);
   snSoegBaseHh.l[aTot,t] = snNettoArbsty.l[t] - snLxDK.l[t];
 
   snLHh.l[aTot,t]$(t.val < %BFR_t1%) = snL.l[sTot,t] / snL.l[sTot,'%BFR_t1%'] * snLHh.l[aTot,'%BFR_t1%'];
@@ -369,6 +378,7 @@ $IF %stage% == "exogenous_values":
   snLxDK.l[t] = snL.l[sTot,t] - snLHh.l[aTot,t];
   shLxDK.l[t] = shL.l[sTot,t] - shLHh.l[aTot,t];
   spBVT.l[s_,t]$(tBase[t]) = 1;
+  spBVTxudv.l[t]$(tBase[t]) = 1;
 
   # Asymptotisk maksimum for arbejdsmarkedsdeltagelse sættes til 3 gange strukturel beskæftigelse
   # Sættes for at undgå ekstreme konjunktur-gab i beskæftigelse for meget gamle husholdninger
@@ -394,13 +404,14 @@ $IF %stage% == "static_calibration":
   $GROUP G_struk_static_calibration
     G_struk_static_calibration$(tx0[t])
     spBVT[s_,t0], -spBVT[s_,tBase]
+    spBVTxudv[t0], -spBVTxudv[tBase]
   ;
 
   $BLOCK B_struk_static_calibration$(tx0[t])
     # Statisk variant af FOC for stillingsopslag
     E_spL2pW_static[t]..
       spL2pW[t] =E= (1 + tL[spTot,t])
-                  / ( (1 - sdOpslagOmk2dnL[t]) - fVirkDisk[spTot,t] * fp * fq * sdOpslagOmk2dnLlag[t]);
+                  / ( (1 - sdOpslagOmk2dnL[t]) - sfVirkDisk[t] * fp * fq * sdOpslagOmk2dnLlag[t]);
   $ENDBLOCK
   MODEL M_struk_static_calibration /
     M_struk
@@ -480,6 +491,11 @@ $IF %stage% == "dynamic_calibration_newdata":
       -snLHh[a15t100,t1], jnSoegBaseHh[a15t100,t1]
       -snSoegBaseHh[aTot,t], rLoenNash[t]
       -rBVTGab[t1], jfrLUdn_t[t1]
+      -snLHh[a15t100,tx1], uDeltag[a15t100,tx1]
+    $ENDIF2
+
+    $IF2 %DORS_baseline%:
+      -snLHh[a15t100,t1], jnSoegBaseHh[a15t100,t1]
       -snLHh[a15t100,tx1], uDeltag[a15t100,tx1]
     $ENDIF2
 

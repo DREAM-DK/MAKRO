@@ -176,7 +176,7 @@ $IF %stage% == "equations":
       rFinAccelPrem[sp,t] =E= (1 + rRenteECB[t] + rVirkDiskPrem[sp,t]) * ((1 - dFinFriktion[sp,t-1]) / (1 - dFinFriktion[sp,t]) - 1);
 
     $(tx1[t] and t.val > %AgeData_t1%)..
-      dFinFriktion[sp,t] =E= rFinAccel[sp] * tanh(uFinAccel[sp,t] * vFCFExRef[sp,t]);
+      dFinFriktion[sp,t] =E= rFinAccel[sp] * (uFinAccel[sp,t] * vFCFExRef[sp,t]);
 
     $(tx1[t] and t.val > %AgeData_t1% + 1)..
       rFinAccelPrem[spTot,t] * vVirkK[kTot,sTot,t] =E= sum(sp, rFinAccelPrem[sp,t] * vVirkK[kTot,sp,t]);

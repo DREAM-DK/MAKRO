@@ -1928,29 +1928,20 @@ We specify the financial friction function
 \begin_inset Formula $\xi$
 \end_inset
 
- as a differentiable symmetric function with derivative given by the hyperbolic tangent function
+ as a quadratic function with derivative given by
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 The function 
-\begin_inset Formula $tanh(x)=$
+\begin_inset Formula $\xi(x)=$
 \end_inset
 
  
-\begin_inset Formula $\left(e^{x}-e^{-x}\right)/\left(e^{x}+e^{-x}\right)$
+\begin_inset Formula $\frac{\mu\kappa}{2}x^{2}$
 \end_inset
 
- is well defined for the entire support of 
-\begin_inset Formula $x$
-\end_inset
-
-.
- This makes the primitive function 
-\begin_inset Formula $\xi$
-\end_inset
-
- a two-sided penalty function for missing profit targets and can be viewed as the cost of issuing 
+ is a two-sided penalty function for missing profit targets and can be viewed as the cost of issuing 
 \begin_inset Formula $\left(m_{t}<\overline{m}_{t}\right)$
 \end_inset
 
@@ -1969,41 +1960,12 @@ The function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{\partial\xi_{t}}{\partial m_{t}}\equiv\mu\tanh\left(\kappa\left[m_{t}-\overline{m}_{t}\right]\right)
+\frac{\partial\xi_{t}}{\partial m_{t}}\equiv\mu\times\kappa\left[m_{t}-\overline{m}_{t}\right]
 \]
 
 \end_inset
 
-where 
-\begin_inset Formula $\lim_{m_{t}\rightarrow\infty}\partial\xi_{t}/\partial m_{t}=\mu$
-\end_inset
 
- and 
-\begin_inset Formula $\lim_{m_{t}\rightarrow-\infty}\partial\xi_{t}/\partial m_{t}=-\mu$
-\end_inset
-
-.
- Numerically,
- with 
-\begin_inset Formula $\mu=2\%$
-\end_inset
-
- the firm pays a 2 pct.
- fee for outside finance (
-\begin_inset Formula $m_{t}<\overline{m}_{t}$
-\end_inset
-
-).
- The parameter 
-\begin_inset Formula $\kappa>0$
-\end_inset
-
- controls the slope of the derivative around 
-\begin_inset Formula $m_{t}-\overline{m}_{t}=0$
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Subsubsection
@@ -2022,10 +1984,6 @@ The function
 ,
  and is approximately homogeneous if 
 \begin_inset Formula $\overline{m}_{s,t}=0$
-\end_inset
-
- and with high enough 
-\begin_inset Formula $\kappa$
 \end_inset
 
 .
@@ -2098,7 +2056,7 @@ Rearranging the augmented discount factor we get an expression for the discount 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-r^{\xi}_{s,t+1}=\left[1+r_{t+1}+r^{p}_{t+1}\right]\left[\frac{1-\mu_{s}\tanh\left(\kappa_{s}\hat{m}_{s,t}\right)}{1-\mu_{s}\tanh\left(\kappa_{s}\hat{m}_{s,t+1}\right)}-1\right]
+r^{\xi}_{s,t+1}=\left[1+r_{t+1}+r^{p}_{t+1}\right]\left[\frac{1-\mu_{s}\kappa_{s}\hat{m}_{s,t}}{1-\mu_{s}\kappa_{s}\hat{m}_{s,t+1}}-1\right]
 \]
 
 \end_inset

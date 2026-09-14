@@ -174,7 +174,8 @@ $IF %stage% == "equations":
 
     # CES demand
     # there is currently only one type of government consumption, i.e. qG['gTot'] = qG['g'] 
-    $(not gTot[g_])..  qG[g_,t] =E= uG[g_,t] * qG[gTot,t] * (pG[gTot,t] / pG[g_,t])**eG(gTot);
+    $(not gTot[g_])..  qG[g_,t] * pG[g_,t]**eG(gTot) =E=
+      uG[g_,t] * qG[gTot,t] * pG[gTot,t]**eG(gTot);
 
     # A technical adjustment to government spending can be used to close the government intertemporal budget constraint
     .. vGLukning[t] =E= rGLukning[t] / (1+rGLukning[t]) * vGxAfskr[t];
@@ -373,9 +374,8 @@ $IF %stage% == "exogenous_values":
   ;
   @load(G_GovExpenses_makrobk, "../Data/Makrobk/makrobk.gdx" )
 
-  execute_load "../Data/FM_exogenous_forecast.gdx" vOffTilVirkInvesttilskud.l=vOffTilVirk_investeringstilskud.l
-  execute_load "../Data/FM_exogenous_forecast.gdx" vOffTilHhKapPraemie.l=vOffTilHhKap_praemie.l
   $GROUP G_GovExpenses_FM vOffTilVirkInvesttilskud, vOffTilHhKapPraemie;
+  @load(G_GovExpenses_FM, "../Data/FM_exogenous_forecast.gdx" )
 
   # Demografisk træk
   $GROUP G_GovExpenses_DemoTraek

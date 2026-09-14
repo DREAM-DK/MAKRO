@@ -133,6 +133,7 @@ $GROUP G_set_initial_levels_to_nonzero G_IO_static_calibration, -G_data;
 # Write GDX file
 $UNFIX All; # Greatly reduces size of the GDX file
 @unload_all(Gdx/static_calibration);
+@unload_nominal(Gdx/static_calibration_nominal);
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Print significant residuals

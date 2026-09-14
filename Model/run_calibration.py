@@ -69,7 +69,7 @@ run(
     # calibration_steps=1,                         
 	# previous_terminal_year=2060,
     previous_solution="previous_deep_calibration",
-	# terminal_year="2060",
+	terminal_year="2060",
 )
 
 # Import baseline plot function - currently requires dt.REFERENCE_DATABASE to be set, as variables_to_plot.py references a number of sets
@@ -92,11 +92,11 @@ plot_baseline(
 
 ## Calibration to new national data and no data for age profiles
 run("dynamic_calibration_newdata.gms", r="static_calibration", data_year="2023", last_calibration="deep_calibration",
-    previous_solution="previous_calibration_2023", calibration_steps=1, stepwise_new_dummies=0)
+    previous_solution="previous_calibration_2023", calibration_steps=1, stepwise_new_dummies=0, terminal_year="2060")
 run("dynamic_calibration_newdata.gms", r="static_calibration", data_year="2024", last_calibration="calibration_2023",
-    previous_solution="previous_calibration_2024", calibration_steps=1, stepwise_new_dummies=0)
+    previous_solution="previous_calibration_2024", calibration_steps=1, stepwise_new_dummies=0, terminal_year="2060")
 run("dynamic_calibration_newdata.gms", r="static_calibration", data_year="2025", last_calibration="calibration_2024",
-    previous_solution="previous_calibration_2025", calibration_steps=1, stepwise_new_dummies=0)
+    previous_solution="previous_calibration_2025", calibration_steps=1, stepwise_new_dummies=0, terminal_year="2060")
 
 plot_baseline(
     database_dict=dict(

@@ -611,7 +611,7 @@ $ENDFUNCTION
 # ----------------------------------------------------------------------------------------------------------------------
 # Smoothing-functions - uses preexisting Arnoldi-orthogonalization to create best fit using rational expression
 # ----------------------------------------------------------------------------------------------------------------------
-$FUNCTION Smooth_Setup({variable}, {age_set}, {degree})
+$FUNCTION smooth_setup({variable}, {age_set}, {degree})
   # Smoothing using deep calibration year
   set_time_periods(%cal_deep%-1, %cal_deep%)
 
@@ -652,7 +652,7 @@ $FUNCTION Smooth_Setup({variable}, {age_set}, {degree})
   u_{variable}_smoothN.l['0'] = 1;
 $ENDFUNCTION
 
-$FUNCTION Smooth_Setup_With_Set({variable}, {set}, {age_set}, {degree})
+$FUNCTION smooth_setup_with_set({variable}, {set}, {age_set}, {degree})
   # Smoothing one element of an extra set dimension (e.g. one portf_ element of cHh_a)
   set_time_periods(%cal_deep%-1, %cal_deep%)
 
@@ -731,3 +731,31 @@ $FUNCTION smooth_solve_with_set({variable}, {set})
   # Restore all endogenous variables to pre-smooth values
   @set(G_smooth_{variable}_{set}_endo, .l, _presmooth)
 $ENDFUNCTION
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Smoothing functions - uses the functions above to create one function for each variable
+# ----------------------------------------------------------------------------------------------------------------------
+$FUNCTION smooth({variable}, {age_set}, {degree}, {free_variables}, {constraints})
+  @smooth_setup({variable}, {age_set}, {degree})
+  $GROUP+ G_smooth_{variable}_endo
+    {free_variables}
+  ;
+  $MODEL M_smooth_{variable}
+    B_smooth_{variable}
+    {constraints}
+  ;
+  @smooth_solve({variable})
+$ENDFUNCTION
+
+$FUNCTION smooth_with_set({variable}, {set}, {age_set}, {degree}, {free_variables}, {constraints})
+  @smooth_setup_with_set({variable}, {set}, {age_set}, {degree})
+  $GROUP+ G_smooth_{variable}_{set}_endo
+    {free_variables}
+  ;
+  $MODEL M_smooth_{variable}_{set}
+    B_smooth_{variable}_{set}
+    {constraints}
+  ;
+  @smooth_solve_with_set({variable}, {set})
+$ENDFUNCTION
+# ----------------------------------------------------------------------------------------------------------------------

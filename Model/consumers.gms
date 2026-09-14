@@ -262,25 +262,29 @@ $IF %stage% == "equations":
     .. vCx[aTot,t] =E= pC['Cx',t] * qC['Cx',t];
 
     # FOC
-    .. qC['cTurTjexVarEne',t] =E= (1 - uC['cBil',t]) * qC['Cx',t] * (pC['Cx',t] / pC['cTurTjexVarEne',t])**eC('Cx');
+    .. qC['cTurTjexVarEne',t] * pC['cTurTjexVarEne',t]**eC('Cx') =E=
+            (1 - uC['cBil',t]) * qC['Cx',t] * pC['Cx',t]**eC('Cx');
 
-    .. qC['cTurTjexVar',t] =E= (1 - uC['cEne',t]) * 
-            qC['cTurTjexVarEne',t] * (pC['cTurTjexVarEne',t] / pC['cTurTjexVar',t])**eC('cTurTjexVarEne');
+    .. qC['cTurTjexVar',t] * pC['cTurTjexVar',t]**eC('cTurTjexVarEne') =E=
+            (1 - uC['cEne',t]) * qC['cTurTjexVarEne',t] * pC['cTurTjexVarEne',t]**eC('cTurTjexVarEne');
 
-    .. qC['cTurTjex',t] =E= (1 - uC['cVar',t]) * 
-            qC['cTurTjexVar',t] * (pC['cTurTjexVar',t] / pC['cTurTjex',t])**eC('cTurTjexVar');
+    .. qC['cTurTjex',t] * pC['cTurTjex',t]**eC('cTurTjexVar') =E=
+            (1 - uC['cVar',t]) * qC['cTurTjexVar',t] * pC['cTurTjexVar',t]**eC('cTurTjexVar');
 
-    .. qC['cBil',t] =E= uC['cBil',t] * qC['Cx',t] * (pC['Cx',t] / pC['cBil',t])**eC('Cx');
+    .. qC['cBil',t] * pC['cBil',t]**eC('Cx') =E= uC['cBil',t] * qC['Cx',t] * pC['Cx',t]**eC('Cx');
 
-    .. qC['cEne',t] =E= uC['cEne',t] * qC['cTurTjexVarEne',t] * 
-           (pC['cTurTjexVarEne',t] / pC['cEne',t])**eC('cTurTjexVarEne');
+    .. qC['cEne',t] * pC['cEne',t]**eC('cTurTjexVarEne') =E=
+            uC['cEne',t] * qC['cTurTjexVarEne',t] * pC['cTurTjexVarEne',t]**eC('cTurTjexVarEne');
 
-    .. qC['cVar',t] =E= uC['cVar',t] * qC['cTurTjexVar',t] * (pC['cTurTjexVar',t] / pC['cVar',t])**eC('cTurTjexVar');
+    .. qC['cVar',t] * pC['cVar',t]**eC('cTurTjexVar') =E=
+            uC['cVar',t] * qC['cTurTjexVar',t] * pC['cTurTjexVar',t]**eC('cTurTjexVar');
 
-    .. qC['cTje',t] =E= uC['cTje',t] * qC['cTurTjex',t] * (pC['cTurTjex',t] / pC['cTje',t])**eC('cTurTjex')
-                       + (vHhAktOmk['Tot',t] + vHhPasOmk['Tot',t]) / pC['cTje',t]; # Finansieringsomkostninger er forbrug af tjenester, som kommer ud over de tjenester, der giver nytte
+    .. qC['cTje',t] * pC['cTje',t]**eC('cTurTjex') =E=
+            uC['cTje',t] * qC['cTurTjex',t] * pC['cTurTjex',t]**eC('cTurTjex')
+          + (vHhAktOmk['Tot',t] + vHhPasOmk['Tot',t]) * pC['cTje',t]**(eC('cTurTjex') - 1); # Finansieringsomkostninger er forbrug af tjenester, som kommer ud over de tjenester, der giver nytte
 
-    .. qC['cTur',t] =E= (1 - uC['cTje',t]) * qC['cTurTjex',t] * (pC['cTurTjex',t] / pC['cTur',t])**eC('cTurTjex');
+    .. qC['cTur',t] * pC['cTur',t]**eC('cTurTjex') =E=
+            (1 - uC['cTje',t]) * qC['cTurTjex',t] * pC['cTurTjex',t]**eC('cTurTjex');
 
     # ------------------------------------------------------------------------------------------------------------------
     # Bolig-efterspørgsel for fremadskuende husholdninger
@@ -298,7 +302,8 @@ $IF %stage% == "equations":
     .. dIBoligInstOmk2dI[t] =E= uIBoligInstOmk * (qIBolig[t] / qIBolig[t-1]*fq - fIBoligInstOmk[t]) * 
             qIBolig[t] / qIBolig[t-1]*fq + uIBoligInstOmk/2 * sqr(qIBolig[t] / qIBolig[t-1]*fq - fIBoligInstOmk[t]);
 
-    mpLand[t].. qLandSalg[t] =E= uYBolig[t] * rLand2YBolig[t] * qYBolig[t] * (pBolig[t] / mpLand[t])**eBolig;
+    mpLand[t].. qLandSalg[t] * mpLand[t]**eBolig =E=
+            uYBolig[t] * rLand2YBolig[t] * qYBolig[t] * pBolig[t]**eBolig;
 
     .. vIBolig[t] =E= pI_s['iB','bol',t] * qIBolig[t];
 
@@ -354,7 +359,8 @@ $IF %stage% == "equations":
 
     pIBoligUC&_tEnd[t]$(tEnd[t]).. pIBoligUC[t] =E= pI_s['iB','bol',t] + pBolig[t] * dIBoligInstOmk2dI[t];
 
-    .. qIBolig[t] =E= uYBolig[t] * (1-rLand2YBolig[t]) * qYBolig[t] * (pBolig[t] / pIBoligUC[t])**eBolig;
+    .. qIBolig[t] * pIBoligUC[t]**eBolig =E=
+            uYBolig[t] * (1-rLand2YBolig[t]) * qYBolig[t] * pBolig[t]**eBolig;
 
     # Bolig-produktionspris er CES pris af usercost på land og investeringer
     .. pBolig[t] * qYBolig[t] =E= mpLand[t] * qLandSalg[t] + pIBoligUC[t] * qIBolig[t]; # Mangler qYBolig
