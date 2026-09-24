@@ -23,7 +23,7 @@ mklink /J "%GAMSDIR%\GMSPython\DLLs\." "%GAMSDIR%\GMSPython"
 %pip% install xhtml2pdf
 
 :: :: Set path to R
-:: set R_HOME=C:/Program" "Files/R/R-4.5.1
+:: set R_HOME=C:/Program" "Files/R/R-4.6.1
 :: cd model/R
 :: :: Install R packages - run cmd as administrator to avoid permission issues
 :: %R_HOME%/bin/Rscript.exe --no-save --no-restore --vanilla "install_packages.R"

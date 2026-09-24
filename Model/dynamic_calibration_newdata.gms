@@ -66,6 +66,7 @@ $GROUP G_gradual_return
   -pM # Særbehandles i pricing.gms
   -rPensionAkt # Skal summere til 1, hvilket ikke sikres ved afbøjning
   jmtVirk # jmtVirk og ftSelskab bør behandles ens. jmtVirk udglatter effekt af jftSelskab på mtVirk
+  -rAfskr
 ;
 
 # Baseline forskydes med permanent andel af stød fra sidste foreløbige data-år
@@ -229,21 +230,21 @@ $IF %calibration_steps% > 1:
   @set(All, _saved, .l) # Save all values prior to trouble-shooting
   $GROUP G_homotopy All$(tx0[t]), -G_dynamic_calibration_newdata, -G_constants, -rPensIndb_a, -res_, -G_do_not_load;
   @load_as(G_homotopy, "Gdx/%previous_solution%.gdx", _previous_solution);
-  @set(G_homotopy, _previous_combination, _previous_solution);
+  @set(G_homotopy, _prev_combi, _previous_solution);
   $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
   ]:
     @set_linear_combination(G_homotopy, {share_of_previous}, _previous_solution, _saved)
     # Any exogenous variable that gets close to zero from the linear combiation is set to the latest combination that worked
     $LOOP G_homotopy:
-      {name}.l{sets}$({conditions} and abs({name}.l{sets}) < 1e-6) = {name}_previous_combination{sets};  
+      {name}.l{sets}$({conditions} and abs({name}.l{sets}) < 1e-6) = {name}_prev_combi{sets};  
     $ENDLOOP
     $FIX All; $UNFIX G_dynamic_calibration_newdata;
     @print("---------------------------------------- Share = {share_of_previous} ----------------------------------------")
     @set_bounds();
     @solve(M_dynamic_calibration_newdata); 
     @unload(Gdx/dynamic_calibration_{share_of_previous}.gdx)
-    @set(G_homotopy, _previous_combination, .l);
+    @set(G_homotopy, _prev_combi, .l);
   $ENDFOR
 
   # Reset data

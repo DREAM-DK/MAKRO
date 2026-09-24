@@ -61,10 +61,10 @@ $IF %stage% == "variables":
     rArbProd[t] "Timeproduktivitet."
     rpCInflSnit[t] "Glidende gennemsnit af forbrugerprisstigninger"
     vVirkBVT5aarSnit[t] "Centreret 5-års glidende gennemsnit af privat BVT."
-    jrUdlAktRenter[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige rente på aktivet/passivet."
-    jrUdlPasRenter[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige rente på aktivet/passivet."
-    jrUdlAktOmv[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige omvurdering på aktivet/passivet."
-    jrUdlPasOmv[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige omvurdering på aktivet/passivet."
+    jvUdlAktRenter[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige rente på aktivet/passivet."
+    jvUdlPasRenter[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige rente på aktivet/passivet."
+    jvUdlAktOmv[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige omvurdering på aktivet/passivet."
+    jvUdlPasOmv[portf_,t] "J-led som dækker forskel mellem selskabernes og den gennemsnitlige omvurdering på aktivet/passivet."
     jvUdlNFE[t] "J-led"
   ;
 $ENDIF
@@ -175,20 +175,20 @@ $IF %stage% == "equations":
       vUdlNet[t] =E= vUdlAkt['tot',t] - vUdlPas['tot',t];
 
     # Renter og omvurderinger for udlandet
-    jrUdlAktRenter[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
-      vUdlAktRenter[portf,t] =E= (rRente[portf,t] + jrUdlAktRenter[portf,t]) * vUdlAkt[portf,t-1]/fv;
+    jvUdlAktRenter[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
+      vUdlAktRenter[portf,t] =E= rRente[portf,t] * vUdlAkt[portf,t-1]/fv + jvUdlAktRenter[portf,t];
 
-    jrUdlPasRenter[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
-      vUdlPasRenter[portf,t] =E= (rRente[portf,t] + jrUdlPasRenter[portf,t]) * vUdlPas[portf,t-1]/fv;
+    jvUdlPasRenter[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
+      vUdlPasRenter[portf,t] =E= rRente[portf,t] * vUdlPas[portf,t-1]/fv + jvUdlPasRenter[portf,t];
 
     $(t.val > %NettoFin_t1%)..
       vUdlNetRenter[t] =E= sum(portf, vUdlAktRenter[portf,t]) - sum(portf, vUdlPasRenter[portf,t]);
 
-    jrUdlAktOmv[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
-      vUdlAktOmv[portf,t] =E= (rOmv[portf,t] + jrUdlAktOmv[portf,t]) * vUdlAkt[portf,t-1]/fv;
+    jvUdlAktOmv[portf,t]$(d1vUdlAkt[portf,t] and t.val > %NettoFin_t1%)..
+      vUdlAktOmv[portf,t] =E= rOmv[portf,t] * vUdlAkt[portf,t-1]/fv + jvUdlAktOmv[portf,t];
 
-    jrUdlPasOmv[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
-      vUdlPasOmv[portf,t] =E= (rOmv[portf,t] + jrUdlPasOmv[portf,t]) * vUdlPas[portf,t-1]/fv;
+    jvUdlPasOmv[portf,t]$(d1vUdlPas[portf,t] and t.val > %NettoFin_t1%)..
+      vUdlPasOmv[portf,t] =E= rOmv[portf,t] * vUdlPas[portf,t-1]/fv + jvUdlPasOmv[portf,t];
 
     $(t.val > %NettoFin_t1%)..
       vUdlOmv[t] =E= sum(portf, vUdlAktOmv[portf,t]) - sum(portf, vUdlPasOmv[portf,t]);
@@ -320,8 +320,8 @@ $IF %stage% == "static_calibration":
     -vUdlPas[RealKred,t], rUdlRealkred$(t.val >= %NettoFin_t1%)
     -vUdlAkt[Obl,t]$(t.val >= %NettoFin_t1%), rUdlAkt2IndlPas[Obl,t]$(t.val >= %NettoFin_t1%)
     -vUdlAkt[Bank,t]$(t.val >= %NettoFin_t1%), rUdlAkt2IndlPas[Bank,t]$(t.val >= %NettoFin_t1%)
-    -vUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jrUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
-    -vUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jrUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
+    -vUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jvUdlPasRenter[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
+    -vUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t]), jvUdlPasOmv[portf,t]$(t.val > %NettoFin_t1% and d1vUdlPas[portf,t] and d1vUdlAkt[portf,t])
     -vBetalingsbalance$(t.val >= %NettoFin_t1%), vBetalingsbalanceRest$(t.val >= %NettoFin_t1%)
     -vUdlPensIndb$(t.val > %NettoFin_t1%), rUdlPensIndb$(t.val > %NettoFin_t1%)
     -vUdlPensUdb$(t.val > %NettoFin_t1%), jrUdlPensUdb$(t.val > %NettoFin_t1%)

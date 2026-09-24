@@ -75,6 +75,7 @@ uIOm0_horizon[dux,s] = %horizon_long%; # Importandel i efterspørgselskomponent.
 
 #G_production_private_ARIMA_forecast
 rAfskr_horizon[k,s_] = %default_horizon%; # Afskrivningsrate for kapital.
+rAfskr_ARIMA_start['iB',soe] = 2015;
 uL_horizon[s_] = %horizon_very_long%; # Arbejdskraft-besparende produktivitet.
 rE2KE_horizon[sp] = %horizon_very_long%; # Energi-andel i KE-nest.
 rL2KEL_horizon[sp] = %horizon_very_long%; # L-andel i KEL-nest.

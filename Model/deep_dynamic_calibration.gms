@@ -134,7 +134,7 @@ $IF %calibration_steps% > 1:
 
   $GROUP G_homotopy All, -G_deep_dynamic_calibration, -G_do_not_load, G_ARIMA_forecast;
   @set(G_homotopy, _new_data, .l) # Save all values prior to trouble-shooting
-  @set(G_homotopy, _previous_combination, .l);
+  @set(G_homotopy, _prev_combi, .l);
   @load_as(G_homotopy, "Gdx/%previous_solution%.gdx", _previous_solution);
   $FOR {share_of_previous} in [0.99]+[
     round(1 - i/%calibration_steps%, 2) for i in range(1, %calibration_steps%)
@@ -142,7 +142,7 @@ $IF %calibration_steps% > 1:
     @set_linear_combination(G_homotopy, {share_of_previous}, _previous_solution, _new_data)
     # Any exogenous variable that gets close to zero from the linear combiation is set to the latest combination that worked
     $LOOP G_homotopy:
-      {name}.l{sets}$({conditions} and abs({name}.l{sets}) < 1e-6) = {name}_previous_combination{sets};  
+      {name}.l{sets}$({conditions} and abs({name}.l{sets}) < 1e-6) = {name}_prev_combi{sets};  
     $ENDLOOP
     @set(G_ARIMA_forecast, _ARIMA, .l)
     $FIX All; $UNFIX G_deep_dynamic_calibration;
@@ -151,7 +151,7 @@ $IF %calibration_steps% > 1:
     @unload_all(Gdx/deep_calibration_presolve); # Output gdx file with the state before solving to help with debugging
     @solve(M_deep_dynamic_calibration); 
     @unload(Gdx/deep_calibration_{share_of_previous}.gdx)
-    @set(G_homotopy, _previous_combination, .l);
+    @set(G_homotopy, _prev_combi, .l);
   $ENDFOR
 
   # Reset exogenous values

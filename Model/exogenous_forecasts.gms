@@ -8,6 +8,7 @@ set_data_periods(%cal_start%, %cal_deep%);
 d1IO[d_,s_,t]$(t.val > %cal_end%) = d1IO[d_,s_,'%cal_end%'];
 d1IOy[d_,s_,t]$(t.val > %cal_end%) = d1IOy[d_,s_,'%cal_end%'];
 d1IOm[d_,s_,t]$(t.val > %cal_end%) = d1IOm[d_,s_,'%cal_end%'];
+d1IOm[iL,udv,t]$(t.val > 2022) = 0;
 d1Xm[x_,t]$(t.val > %cal_end%) = d1Xm[x_,'%cal_end%'];
 d1Xy[x_,t]$(t.val > %cal_end%) = d1Xy[x_,'%cal_end%'];
 d1CTurist[c,t]$(t.val > %cal_end%) = d1CTurist[c,'%cal_end%'];
@@ -194,9 +195,10 @@ uHhOvfPop.l[a,t]$(a15t100[a] and t.val > %cal_end%) =
 uOvfUbeskat.l[a,t]$(vOvfUbeskat.l[a,t] <> 0 and t.val > %cal_end%)
   = vOvfUbeskat.l[a,t]  / (vOvfUbeskat.l[aTot,t] / sum(aa, nPop.l[aa,t]));
 
-uPensIndbOP.l[a,t]$(tx1[t] and nPop.l[a,t] <> 0)
+# I pensionsmodellen er det kun personer over 16 år som har en ATP-formue - hermed giver det problemer hvis de 15-16-årige har OP-indbetalinger
+uPensIndbOP.l[a,t]$(tx1[t] and nPop.l[a,t] <> 0 and a18t100[a])
   = sum(oblpens, vOvfSats.l[oblpens,t] * nOvf_a[oblpens,a,t]) / nPop.l[a,t]
-  / sum(oblpens, vOvfSats.l[oblpens,t] * nOvf_a[oblpens,aTot,t]);
+  / sum(a18t100, sum(oblpens, vOvfSats.l[oblpens,t] * nOvf_a[oblpens,a18t100,t]));
 
 nArvinger.l[a,t]$(tx1[t]) = sum(aa, rArv_a.l[a-1,aa] * nPop.l[aa,t]);
 

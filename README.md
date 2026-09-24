@@ -1,4 +1,4 @@
-# MAKRO 2026-June
+# MAKRO 2026-September
 MAKRO is an economic model built to provide a good description of the Danish economy in both the short and the long run.
 In addition, the model is used to analyze how economic policy initiatives affect the economy, including the gradual transition to a long-run path.
 
@@ -8,59 +8,34 @@ The model parameters, equations, and data have been selected so that the short- 
 
 The model comes with batteries included in the form of a stylized baseline, so users can simulate marginal policy experiments without calibrating the model. Note that the stylized baseline is based on several simplified projection assumptions. As such, the baseline should only be used for marginal experiments rather than as a forecast in its own right. In particular, the baseline generally does not account for the effects of policy changes that have been passed but are not in effect in the last data year, such as planned tax changes or planned government expenditure. The baseline also does not account for overhang from higher-frequency data from last year or indicators within the current year.
 
-## 2026-June version
+## 2026-September version
 
-# Major changes since May 2026 version
+# Major changes since June 2026 version
 
 ## Modeling
-- Simplified industry aggregation in wage bargaining, labor demand, and structural employment/productivity (private sector modeled at aggregate level in `struk.gms`; branch-specific `qProd` held exogenous in `labor_market.gms`)
 
 ## Data updates
-Revised Input Output Matrix: A fully specified Input Output Matrix with the public sector as a production sector is now calculated based on data from the National Accounts, rather than being imputed for the years 2014 to the last final data year, which will be 2023 in the June revision. The IO matrix for the preliminary years and the years before 2014 is imputed based on the data-covered years and on ADAM's Input Output matrices for these years. The main difference in the Input Output structure is that the private construction sector is smaller, as some of it is now included in the public sector. On the other hand, the private service sector is a bit larger, as less of this sector is included in the public sector. The public sector has relatively large inputs to production from and to itself, and the matrix of inputs to production is revised accordingly.
 
 ## Technicalities, Refactoring, and Cleanup
-- Extracted fiscal sustainability indicator (HBI) calculations into dedicated module [`HBI.gms`](Model/HBI.gms)
-- Renamed multiple files named "run.py" to more descriptive names such as "run_shocks.py"
-- Added simple [shock template file](Analysis/Standard_shocks/shock_template.gms)
-- The [standard shocks file](Analysis/Standard_shocks/standard_shocks.gms) is more robust. Previously, the solver had trouble converging on some shocks with the full 2129 time horizon.
+- Only adults have obligatory pension payments - helps a lot in solving the model
+- Add-terms for foreign interests and reevaluation are additive - also helps a lot in solving the model 
 
-## New, Removed, or Redefined Variables Since May 2026
+## New, Removed, or Redefined Variables Since June 2026
 **New variables**
-- `fqProd[s_,t]` — Sector-specific wage/productivity scaling parameter; replaces `uProd[s_,t]`. A separate aggregate balancing equation applies to `fqProd[spTot,t]`.
-
-- `fhL[t]` — Balancing factor ensuring hours (`hL`) match from the sector side and the age-distributed labor-supply side (including cross-border workers).
-- `juhLxDK[t]` — Multiplicative adjustment to cross-border hours scale parameter `uhLxDK` (replaces `jhL2nLxDK`, which was an additive adjustment on hours per cross-border worker).
-- `jfnOrlov[s_,t]` — Multiplicative adjustment for parental leave distribution across private sectors (replaces additive `jnOrlov`).
+jvUdlAktRenter
+jvUdlPasRenter
+jvUdlAktOmv
+jvUdlPasOmv
+jrBVTGabError
 
 **Removed variables**
-- `hL2nLxDK[t]` — Hours per cross-border worker.
-- `shL2nL[s_,t]` — Structural hours per employed person.
-- `shL2nLxDK[t]` — Structural hours per cross-border worker.
-- `vVirkLoenPos[t]` — Auxiliary variable in wage bargaining: positive part of firms' value function in wage negotiation.
-- `dvVirk2dpW[t]` — Auxiliary variable in wage bargaining: derivative of firms' value function with respect to wages.
-- `svVirkLoenPos2w[t]` — Structural counterpart to `vVirkLoenPos[t]`.
-- `sdvVirk2dpW[t]` — Structural counterpart to `dvVirk2dpW[t]`.
-- `dqL2dnL[s_,t]` — Auxiliary variable: derivative of effective labor (`qL`) with respect to employment (`nL`); used in the user-cost FOC for labor demand.
-- `dqL2dnLlag[sp,t]` — Auxiliary variable: derivative of `qL[t]` with respect to `nL[t-1]`.
-- `fpL_spTot[t]` — Correction factor capturing composition effects and hiring-cost effects in the aggregate user cost of labor.
-- `fDiskpL[sp,t]` — Exogenous discount factor in forward-looking labor demand (user-cost FOC).
-- `uProd[s_,t]` — Parameter controlling branch-specific labor productivity (replaced by `fqProd[s_,t]`).
-- `svFFOutsideOption2w[t]` — Structural counterpart to the union outside option in wage bargaining.
-- `sdFF2dLoen[t]` — Structural derivative of the union value function with respect to wages.
-- `sdqL2dnL[s_,t]` — Auxiliary variable: derivative of structural effective labor (`sqL`) with respect to structural employment (`snL`).
-- `sdqL2dnLlag[sp,t]` — Auxiliary variable: derivative of `sqL[t]` with respect to `snL[t-1]`.
-- `fsqProd[t]` — Balancing factor for structural sector productivity (`sqProd`); removed with the structural sector-aggregation simplification.
-- `nSoegBase[t]` — Aggregate pool of domestic and cross-border searchers plus employed; dropped in favor of `nSoegBaseHh` and `nSoegBasexDK`.
-- `rAMDisk[t]` — Exogenous discount rate in wage bargaining; the forward wage-stickiness term in `pW` now uses `fVirkDisk[spTot,t]`.
+jrUdlAktRenter
+jrUdlPasRenter
+jrUdlAktOmv
+jrUdlPasOmv
 
-**Changed definitions**
-- `mtVirk[t]` — Marginal corporate income tax rate (no longer sector-distributed; was `mtVirk[s_,t]`).
-- `spL2pW[t]` — Structural user-cost-to-wage ratio; aggregated to total private sector (was `spL2pW[sp,t]`).
-
-## Variable Name Changes Since May 2026
+## Variable Name Changes Since June 2026
   ("New name",                  "Old name"),
-  ("fqProd[s_,t]",              "uProd[s_,t]"),
-  ("spL2pW[t]",                 "spL2pW[sp,t]"),
 
 ## Documentation
 The model documentation in English is included in this repository under [Documentation/Documentation.pdf](Documentation/Documentation.pdf).

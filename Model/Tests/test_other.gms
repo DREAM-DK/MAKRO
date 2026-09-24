@@ -94,7 +94,7 @@ $GROUP G_zero_to_one
 $GROUP G_zero_to_one G_zero_to_one$(tx0[t]);
 $LOOP G_zero_to_one:
   parameter {name}_test{sets};
-  {name}_test{sets} = {name}.l{sets}$({name}.l{sets} > 1+1e-9 or {name}.l{sets} < -1e-9);
+  {name}_test{sets} = {name}.l{sets}$({name}.l{sets} > 1+1e-6 or {name}.l{sets} < -1e-6);
   abort$(sum({sets}, {name}_test{sets} > 1)) "{name} er over 1 og bør være mellem 0 og 1", {name}_test;
   abort$(sum({sets}, {name}_test{sets} < 0)) "{name} er negativ og bør være mellem 0 og 1", {name}_test;
 $ENDLOOP

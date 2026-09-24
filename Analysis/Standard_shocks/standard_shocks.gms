@@ -3,12 +3,20 @@
 # ======================================================================================================================
 $onDotL # Allow implicit .l suffix
 $SETLOCAL shock_year 2030;
+$SETLOCAL baseline_end 2129;
 
-set_time_periods(%shock_year%-1, %terminal_year%);
+set_time_periods(%shock_year%-1, %baseline_end%);
 @load_as(All, "Gdx/baseline.gdx", _baseline)
 $GROUP All_ All; # to avoid foreign variables 
 @unload(Gdx/shock_year.gdx); # to load in shock year for foreign model
 @load_dummies(t, "Gdx/baseline.gdx")
+
+# Solve M_base with %baseline_end% as terminal year and use that solution as baseline for all shocks
+@set(All_, .l, _baseline);
+$FIX All; $UNFIX G_endo;
+@solve(M_base);
+@set(All_, _baseline, .l);
+$UNFIX All;
 
 OPTION SOLVELINK=0, NLP=CONOPT4;
 
@@ -82,10 +90,10 @@ $FOR1 {shock} in [
   # "Ejendomsvaerdiskat",
   # "Vaegtafgift",
   # "Selskabsskat",
-  # "Aktieskat",
+  "Aktieskat",
   # "Moms",
   # "Registreringsafgift",
-  # "Energiafgift",
+  "Energiafgift",
   # "Forbrugsafgift",
   # "Afgift_erhverv",
   # "Overforsel_privat", # Lump sum skat
@@ -325,7 +333,7 @@ $FOR1 {shock} in [
   # Selskabsskat - 1 pct. af BNP
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Selskabsskat":
-    tSelskab[t]$(tx0[t]) = tSelskab[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / vtSelskabx['Tot',t]);
+    tSelskab[t]$(tx0[t]) = tSelskab[t] * (1 - shock_size * {shock_profile}[t] * vBNP[t] / (ftSelskab[t] * vEBT[sTot,t]));
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -456,20 +464,20 @@ $FOR1 {shock} in [
   $IF "{shock}" == "Arbejdsudbud_timer_kohort_30":
       parameter target_birth_year;
       target_birth_year = %shock_year% - 30;
-      shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70) 
+      shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - aVal[a]) = target_birth_year and aVal[a] < 70) 
           = shLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
       $GROUP+ G_shock_endo
-        -shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70), uh[a,t]$(tx0[t] and a15t100[a] and (t.val - a.val) = target_birth_year and a.val < 70);
+        -shLHh[a,t]$(tx0[t] and a15t100[a] and (t.val - aVal[a]) = target_birth_year and aVal[a] < 70), uh[a,t]$(tx0[t] and a15t100[a] and (t.val - aVal[a]) = target_birth_year and aVal[a] < 70);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
   # Arbejdsudbud,timer - alder 30 - 1 pct.
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "Arbejdsudbud_timer_alder_30":
-      shLHh[a,t]$(tx0[t] and a.val = 30) 
+      shLHh[a,t]$(tx0[t] and aVal[a] = 30) 
           = shLHh[a,t] * (1 + 0.01 * {shock_profile}[t]);
       $GROUP+ G_shock_endo
-        -shLHh[a,t]$(tx0[t] and a.val = 30), uh[a,t]$(tx0[t] and a.val = 30);
+        -shLHh[a,t]$(tx0[t] and aVal[a] = 30), uh[a,t]$(tx0[t] and aVal[a] = 30);
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
@@ -481,7 +489,7 @@ $FOR1 {shock} in [
     qG[gTot,t]$(tx0[t]) = qG[gTot,t] * (1 + 0.01 * {shock_profile}[t]);
     $GROUP+ G_shock_endo
       -uvGInd$(tx0[t]), hL$(off[s_] and tx0[t])
-      -rOffK2Y, qI_s$(off[s_] and tx0[t])
+      -rOffK2Y, qI_s$(k[i_] and off[s_] and tx0[t])
       -rOffLoensum2R, qR$(off[r_] and tx0[t])
       -rOffLoensum2E, qE$(off[r_] and tx0[t])
     ;

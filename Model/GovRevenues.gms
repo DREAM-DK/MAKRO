@@ -159,8 +159,8 @@ $IF %stage% == "variables":
   $GROUP+ G_forecast_as_zero G_GovRevenues_forecast_as_zero$(tx1[t]);
 
   $GROUP G_GovRevenues_ARIMA_forecast
-    ftAMBidrag[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
-    ftKirke[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftAMBidrag[t]$(%DORS_baseline% or %DREAM_baseline%) "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftKirke[t]$(%DORS_baseline% or %DREAM_baseline%) "Korrektionsfaktor fra faktisk til implicit skattesats."
     ftSelskab[t] "Korrektionsfaktor fra faktisk til implicit skattesats."
 
     # Endogene i stødforløb:
@@ -258,6 +258,9 @@ $IF %stage% == "variables":
     rOffVirk2BNP
 
     rRealiseringAktieOmv[t] "Andel af akkumulerede omvurderinger på aktier som realiseres hvert år."
+
+    ftAMBidrag[t]$(%FM_baseline%) "Korrektionsfaktor fra faktisk til implicit skattesats."
+    ftKirke[t]$(%FM_baseline%) "Korrektionsfaktor fra faktisk til implicit skattesats."
   ;
   $GROUP+ G_fixed_forecast G_GovRevenues_fixed_forecast;
 $ENDIF
@@ -1080,13 +1083,17 @@ $GROUP G_GovRevenues_dynamic_calibration
   tDoedsbo[t1], -vtDoedsbo[aTot,t1] # Skal genkalibreres med arv
 ;
 $BLOCK B_GovRevenues_dynamic_calibration
-  E_ftBund_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(ftBund_t);
+    E_ftBund_t_forecast[t]$(tx1[t] and (%DORS_baseline% or %DREAM_baseline%)).. @gradual_return_to_baseline(ftBund_t);
+    E_ftBund_t_forecast_FM[t]$(tx1[t] and %FM_baseline%).. ftBund_t[t] =E= ftBund_t[t1];
 
-  E_ftKommune_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(ftKommune_t);
+    E_ftKommune_t_forecast[t]$(tx1[t] and (%DORS_baseline% or %DREAM_baseline%)).. @gradual_return_to_baseline(ftKommune_t);
+    E_ftKommune_t_forecast_FM[t]$(tx1[t] and %FM_baseline%).. ftKommune_t[t] =E= ftKommune_t[t1];
 
-  E_rTopSkatInd_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(rTopSkatInd_t);
+    E_rTopSkatInd_t_forecast[t]$(tx1[t] and (%DORS_baseline% or %DREAM_baseline%)).. @gradual_return_to_baseline(rTopSkatInd_t);
+    E_rTopSkatInd_t_forecast_FM[t]$(tx1[t] and %FM_baseline%).. rTopSkatInd_t[t] =E= rTopSkatInd_t[t1];
 
-  E_uPersIndRest_t_forecast[t]$(tx1[t]).. @gradual_return_to_baseline(uPersIndRest_t);
+    E_uPersIndRest_t_forecast[t]$(tx1[t] and (%DORS_baseline% or %DREAM_baseline%)).. @gradual_return_to_baseline(uPersIndRest_t);
+    E_uPersIndRest_t_forecast_FM[t]$(tx1[t] and %FM_baseline%).. uPersIndRest_t[t] =E= uPersIndRest_t[t1];
 $ENDBLOCK
 MODEL M_GovRevenues_dynamic_calibration /
   M_GovRevenues

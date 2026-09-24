@@ -28,8 +28,9 @@ run(r"../../Model/bounds.gms", r=r"Savepoints/growth_inflation_adjustment", s=r"
 run(r"../../Model/equations.gms",  r=r"Savepoints/bounds", s=r"Savepoints/equations")
 
 ## Her køres stødene
-run("standard_shocks.gms", r="../../Model/Savepoints/equations", terminal_year="2060")
+run("standard_shocks.gms", r="../../Model/Savepoints/equations")
 
 # ## Lav figurer og åben html-rapport med standard output
 # subprocess.run(["python", "plot_standard_shocks.py"], check=True) 
 # webbrowser.get().open(r"Output/standard_shocks.html")
+

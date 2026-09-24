@@ -1,5 +1,5 @@
 # Change the paths to the R and GAMS installations on your system
-r_path = r"C:/Program Files/R/R-4.5.1"
+r_path = r"C:/Program Files/R/R-4.6.1"
 gams_path = r"C:/GAMS/53"
 
 

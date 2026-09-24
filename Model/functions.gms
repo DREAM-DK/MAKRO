@@ -660,7 +660,7 @@ $FUNCTION smooth_setup_with_set({variable}, {set}, {age_set}, {degree})
   $GROUP G_{variable}_presmooth_decl {variable};
   @set(G_{variable}_presmooth_decl, _presmooth, .l)
 
-  # Setting standard endogeneous variables ## # ## (Endo?)
+  # Setting standard endogeneous variables
   $GROUP G_smooth_{variable}_{set}
     j_{variable}_{set}_smooth[a, t]    "Udglatningsfejl"
     u_{variable}_{set}_smoothT[grader] "Tæller parametre"
