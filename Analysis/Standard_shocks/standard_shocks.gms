@@ -68,11 +68,11 @@ $FOR1 {shock} in [
   "Nulstoed",
 
   # # Offentligt forbrug
-  "Offentligt_forbrug",
+  # "Offentligt_forbrug",
   "Offentlig_varekoeb",
-  # "Offentlig_Beskaeftigelse",
+  "Offentlig_Beskaeftigelse",
   # "Offentlig_loen",
-  # "Offentlige_investeringer",
+  "Offentlige_investeringer",
 
   # # Offentlige overførsler
   # "Skattepligtig_indkomstoverforsel",
@@ -84,26 +84,26 @@ $FOR1 {shock} in [
   # "Produktionssubsidier",
 
   # Skatter
-  "Bundskat",
+  # "Bundskat",
   # "AM_bidrag",
   # "Grundskyld",
   # "Ejendomsvaerdiskat",
   # "Vaegtafgift",
   # "Selskabsskat",
-  "Aktieskat",
+  # "Aktieskat",
   # "Moms",
   # "Registreringsafgift",
-  "Energiafgift",
+  # "Energiafgift",
   # "Forbrugsafgift",
   # "Afgift_erhverv",
-  # "Overforsel_privat", # Lump sum skat
+  "Overforsel_privat", # Lump sum skat
 
   # Udland
   "Eksportmarkedsvaekst",
-  # "Importpris",
+  "Importpris",
   # "Eksportkonkurrerende_priser",
   # "Oliepris",
-  # "Udenlandske_priser",
+  "Udenlandske_priser",
   "Rente",
 
   # Øvrige udbudsstød
@@ -112,8 +112,8 @@ $FOR1 {shock} in [
   # "Arbejdsudbud_timer_kohort_30",
   # "Arbejdsudbud_timer_alder_30",
   # "Befolkning",
-  # "KapitalProd",
-  # "ArbejdsProd",
+  "KapitalProd",
+  "ArbejdsProd",
 
   # # Risiko-præmier
   # "VirkDisk",
@@ -163,7 +163,7 @@ $FOR1 {shock} in [
   # --------------------------------------------------------------------------------------------------------------------
   $FOR2 {variation_label}, {shock_profile}, {tax_reaction} in [
     # ("midl", "AR_profile", 1), # Midlertidige stød aftrappet lineært over 4 år
-    ("perm", "permanent_profile", 1), # Permanente skatte-finansierede stød
+    # ("perm", "permanent_profile", 1), # Permanente skatte-finansierede stød
     ("ufin", "permanent_profile", 0), # Permanente ufinansierede stød
     # ("blip", "blip_profile", 1), # 1-periode stød
   ]:
@@ -504,11 +504,11 @@ $FOR1 {shock} in [
   $ENDIF
 
   # --------------------------------------------------------------------------------------------------------------------
-  # Kapitalproduktivitet - 1 pct. arbejdskraftbesparende teknologiske fremskridt
+  # Kapitalproduktivitet - 1 pct. kapitalbesparende teknologiske fremskridt
   # --------------------------------------------------------------------------------------------------------------------
   $IF "{shock}" == "KapitalProd":
-    uK['iM',sp,t]$(tx0[t]) = uK['iM',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKEL[sp]-1);
-    uK['iB',sp,t]$(tx0[t]) = uK['iB',sp,t] * (1 + 0.01 * {shock_profile}[t])**(eKELB[sp]-1);
+    uK['iM',sp,t]$(tx0[t]) = uK['iM',sp,t] * (1 + 0.01 * {shock_profile}[t]);
+    uK['iB',sp,t]$(tx0[t]) = uK['iB',sp,t] * (1 + 0.01 * {shock_profile}[t]);
   $ENDIF
 
   # ====================================================================================================================
